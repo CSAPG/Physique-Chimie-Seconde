@@ -815,9 +815,160 @@
 </div><!-- /tab-panel t3 -->
     <!-- FIN T3 -->
 
-    <!-- ── T4 : colle ici tout le contenu de seq09_t4_lentilles.html ── -->
     <!-- DÉBUT T4 -->
+<div class="tab-panel" id="t4">
+<section class="section" id="partie4">
+  <div class="section-head">
+    <div class="sect-num">04</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-4">Partie 4</span>
+      <h2 class="sect-title">Réception de la lumière — Lentilles &amp; modèle de l'œil</h2>
+    </div>
+  </div>
 
+  <div class="cap-block c4">
+    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
+    <ul>
+      <li>Caractériser les foyers d'une lentille mince convergente à l'aide du modèle du rayon lumineux.</li>
+      <li>Utiliser le modèle du rayon lumineux pour déterminer graphiquement position, taille et sens de l'image réelle.</li>
+      <li>Définir et déterminer géométriquement un grandissement.</li>
+      <li>Modéliser l'œil.</li>
+      <li>Produire et caractériser l'image réelle d'un objet-plan réel formée par une lentille mince convergente.</li>
+      <li>Capacité mathématique : utiliser le théorème de Thalès.</li>
+    </ul>
+  </div>
+
+  <!-- ══ ANIMATION INTERACTIVE LENTILLE ══ -->
+  <div class="card" style="padding:18px 20px 14px;">
+
+    <!-- Contrôles sliders -->
+    <div class="fctrl4" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;background:#f0f4ff;border:1px solid #c8d4ee;border-radius:8px;padding:10px 16px;margin-bottom:12px;">
+      <label style="font-size:12px;font-weight:700;color:#334;min-width:80px;">Distance f'</label>
+      <input type="range" id="p4f" min="60" max="160" value="100" step="5" oninput="p4Draw()">
+      <span id="p4vf" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:30px;">100</span>
+      <span style="font-size:11px;color:#667">unités</span>
+      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
+      <label style="font-size:12px;font-weight:700;color:#334;min-width:90px;">Position objet</label>
+      <input type="range" id="p4oa" min="-320" max="-70" value="-200" step="5" oninput="p4Draw()">
+      <span id="p4voa" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:35px;">-200</span>
+      <span style="font-size:11px;color:#667">unités (OA)</span>
+      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
+      <span id="p4gval" style="font-size:13px;font-weight:700;color:#1a6a2a;"></span>
+    </div>
+
+    <!-- Canvas -->
+    <div style="position:relative;border-radius:8px;overflow:hidden;margin-bottom:10px;">
+      <div style="position:absolute;top:8px;left:12px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(40,40,100,0.4);text-transform:uppercase;">Construction des rayons caractéristiques</div>
+      <canvas id="lensCanvas" height="280" style="display:block;width:100%;border:1px solid #dde4ec;border-radius:8px;background:#f8f7fc;"></canvas>
+    </div>
+
+    <!-- Boutons rayons -->
+    <div class="rbtns" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;">
+      <button class="rbtn r1" id="p4btn1" onclick="p4ToggleRay(1)">● R₁ bleu — par O</button>
+      <button class="rbtn r2" id="p4btn2" onclick="p4ToggleRay(2)">● R₂ rouge — par F</button>
+      <button class="rbtn r3" id="p4btn3" onclick="p4ToggleRay(3)">● R₃ vert — ∥ axe</button>
+      <button class="rbtn all" id="p4btnAll" onclick="p4LaunchAll()">▶ Tout afficher</button>
+      <button class="rbtn rst" onclick="p4ResetRays()">↺ Réinitialiser</button>
+    </div>
+
+    <!-- Info rayon -->
+    <div style="font-size:12px;color:#445;margin:2px 0 4px;min-height:14px;" id="p4slbl">Choisissez un rayon ou cliquez sur ▶ Tout afficher</div>
+    <div class="ibox" id="p4inf">Sélectionnez un rayon pour afficher sa description.</div>
+
+    <!-- Légende -->
+    <div class="legend" style="margin-top:8px;">
+      <div class="li"><div class="ll" style="background:#1a7ad4"></div>R₁ — rayon par O (non dévié)</div>
+      <div class="li"><div class="ll" style="background:#d42020"></div>R₂ — rayon par F objet (sort ∥ axe)</div>
+      <div class="li"><div class="ll" style="background:#1a9a40"></div>R₃ — rayon ∥ axe (passe par F')</div>
+      <div class="li"><div class="ll" style="background:#cc7700"></div>Image A'B'</div>
+    </div>
+  </div>
+
+  <!-- Cours : définition, rayons, grandissement -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">⊙</span>
+      Définition et points caractéristiques
+    </div>
+    <p>Une lentille mince convergente est transparente, avec les <strong>bords plus fins que le centre</strong>.</p>
+    <ul>
+      <li><strong>Centre optique O :</strong> tout rayon passant par O n'est pas dévié.</li>
+      <li><strong>Foyer image F' :</strong> point où convergent les rayons incidents parallèles à l'axe.</li>
+      <li><strong>Foyer objet F :</strong> symétrique de F' par rapport à O → OF = OF' = f'.</li>
+    </ul>
+    <!-- Vergence : hors programme Seconde, non affiché -->
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">①②③</span>
+      Les 3 rayons caractéristiques
+    </div>
+    <div class="rayon-list">
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(26,122,212,0.1);border-color:rgba(26,122,212,0.3);color:#1a7ad4;">①</div>
+        <div class="rayon-txt"><strong>Rayon par O :</strong> Tout rayon passant par le centre optique O traverse la lentille <strong>sans déviation</strong>.</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(212,32,32,0.1);border-color:rgba(212,32,32,0.3);color:#d42020;">②</div>
+        <div class="rayon-txt"><strong>Rayon par F :</strong> Tout rayon passant par le foyer objet F ressort de la lentille <strong>parallèlement à l'axe optique</strong>.</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(26,154,64,0.1);border-color:rgba(26,154,64,0.3);color:#1a9a40;">③</div>
+        <div class="rayon-txt"><strong>Rayon ∥ axe :</strong> Tout rayon incident parallèle à l'axe optique émerge en passant par le <strong>foyer image F'</strong>.</div>
+      </div>
+    </div>
+    <div class="hl hl4">
+      <strong>Propriétés de l'image (objet réel) :</strong><br>
+      A en avant de F → image <strong>réelle, renversée</strong>, de l'autre côté de la lentille<br>
+      A entre F et O → image <strong>virtuelle, droite, agrandie</strong> (effet loupe)<br>
+      A = F → image à l'<strong>infini</strong>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">γ</span>
+        Grandissement
+      </div>
+      <div class="formula f4" style="font-size:0.9rem">γ = A'B' / AB = OA' / OA</div>
+      <ul>
+        <li>|γ| &lt; 1 → image plus petite que l'objet</li>
+        <li>|γ| &gt; 1 → image plus grande</li>
+        <li>|γ| = 1 → même taille</li>
+        <li>γ &lt; 0 → image renversée</li>
+      </ul>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:10px">Démonstration par le théorème de Thalès.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">👁</span>
+        Modèle réduit de l'œil
+      </div>
+      <p>L'œil est modélisé par :</p>
+      <div class="eye-grid">
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#e05c7a"></div>
+          <div><strong>Diaphragme</strong><span>rôle de l'iris — pupille</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#4fc3f7"></div>
+          <div><strong>Lentille convergente</strong><span>cornée + cristallin, f' variable</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#f5c842"></div>
+          <div><strong>Écran</strong><span>rôle de la rétine</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#0f9b8e\"></div>
+          <div><strong>Distance constante</strong><span>f' varie → accommodation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /tab-panel t4 -->
     <!-- FIN T4 -->
 
     <!-- ── QUIZ : colle ici tout le contenu de seq09_tq_quiz.html ── -->

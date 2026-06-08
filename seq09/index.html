@@ -11,8 +11,94 @@
 
   <!-- CSS partagé -->
   <link rel="stylesheet" href="seq09_shared.css">
+
+  <style>
+    #accessScreen {
+      position: fixed; inset: 0;
+      background: #fafaf7;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #accessScreen h2 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 1.4rem;
+      color: #1a6b5a;
+      margin-bottom: 8px;
+    }
+    #accessScreen p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 28px;
+    }
+    #accessInput {
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-family: 'DM Mono', monospace;
+      border: 1.5px solid #c0d4c8;
+      border-radius: 8px;
+      outline: none;
+      width: 220px;
+      text-align: center;
+      letter-spacing: 0.15em;
+      margin-bottom: 12px;
+    }
+    #accessInput:focus { border-color: #1a6b5a; }
+    #accessBtn {
+      padding: 10px 28px;
+      background: #1a6b5a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    #accessBtn:hover { background: #145a4a; }
+    #accessError {
+      margin-top: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: #c0392b;
+      display: none;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ═══════════════════════════════════════
+       ÉCRAN D'ACCÈS
+  ═══════════════════════════════════════ -->
+  <div id="accessScreen">
+    <h2>Physique-Chimie · Seconde</h2>
+    <p>Séquence 09 — Vision et Images</p>
+    <input type="password" id="accessInput" placeholder="Code d'accès"
+      onkeydown="if(event.key==='Enter') checkAccess()">
+    <br>
+    <button id="accessBtn" onclick="checkAccess()">Accéder →</button>
+    <div id="accessError">Code incorrect. Réessayez.</div>
+  </div>
+
+  <script>
+    function checkAccess() {
+      const code = document.getElementById('accessInput').value;
+      if (code === 'seconde2027') {
+        document.getElementById('accessScreen').style.display = 'none';
+        sessionStorage.setItem('access_seq09', '1');
+      } else {
+        document.getElementById('accessError').style.display = 'block';
+        document.getElementById('accessInput').value = '';
+      }
+    }
+    // Si déjà authentifié dans la session
+    if (sessionStorage.getItem('access_seq09') === '1') {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('accessScreen').style.display = 'none';
+      });
+    }
+  </script>
 
   <!-- ═══════════════════════════════════════
        HERO
@@ -40,861 +126,29 @@
   ═══════════════════════════════════════ -->
   <main class="tab-container">
 
+    <!-- ── T1 : colle ici tout le contenu de seq09-t1-propagation.html ── -->
     <!-- DÉBUT T1 -->
-<div class="tab-panel active" id="t1">
-<section class="section" id="partie1">
-  <div class="section-head">
-    <div class="sect-num">01</div>
-    <div class="sect-info">
-      <span class="sect-tag tag-1">Partie 1</span>
-      <h2 class="sect-title">Propagation de la lumière</h2>
-    </div>
-  </div>
 
-  <div class="cap-block c1">
-    <div class="cap-label">⚑ Capacité exigible du B.O.</div>
-    <ul>
-      <li>Citer la valeur de la vitesse de la lumière dans le vide ou dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
-    </ul>
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">→</span>
-        Modèle du rayon lumineux
-      </div>
-      <p>Dans un milieu <strong>transparent et homogène</strong>, la lumière se propage en ligne droite.<br>
-      Un rayon lumineux est une droite orientée (flèche = sens de propagation).</p>
-      <svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg"
-           style="display:block;width:100%;height:auto;margin-top:14px;border-radius:8px;background:#f7faf9;">
-        <defs>
-          <marker id="arr-rl" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-            <polygon points="0 0,8 3,0 6" fill="#1a7ad4"/>
-          </marker>
-          <radialGradient id="srcGlowRL" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#ffe566" stop-opacity="1"/>
-            <stop offset="60%"  stop-color="#ffbb00" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#ff8800" stop-opacity="0.4"/>
-          </radialGradient>
-        </defs>
-        <!-- Source lumineuse -->
-        <circle cx="28" cy="55" r="13" fill="url(#srcGlowRL)"/>
-        <circle cx="28" cy="55" r="7"  fill="#ffe566"/>
-        <text x="28" y="59" text-anchor="middle" font-size="9" fill="#886600" font-weight="700" font-family="'Outfit',sans-serif">S</text>
-        <!-- Rayon -->
-        <line x1="41" y1="55" x2="200" y2="55" stroke="#1a7ad4" stroke-width="2.5" marker-end="url(#arr-rl)"/>
-        <!-- Flèche indicatrice milieu -->
-        <polygon points="118,50 126,55 118,60" fill="#1a7ad4" opacity="0.45"/>
-        <!-- Labels -->
-        <text x="120" y="46" text-anchor="middle" font-size="9.5" fill="#1a7ad4" font-style="italic" font-family="'Outfit',sans-serif">rayon lumineux</text>
-        <text x="120" y="76" text-anchor="middle" font-size="8.5" fill="rgba(60,60,80,0.5)" font-family="'DM Mono',monospace">→ sens de propagation</text>
-        <!-- Note -->
-        <text x="110" y="96" text-anchor="middle" font-size="8" fill="rgba(26,107,90,0.65)" font-family="'Outfit',sans-serif">droite orientée — milieu homogène</text>
-      </svg>
-    </div>
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">c</span>
-        Célérité : Vitesse de la lumière dans le vide
-      </div>
-      <div class="formula f1">c = 3,00 × 10⁸ m·s⁻¹</div>
-      <p>La vitesse dépend du milieu. Dans le vide, la célérité est maximale.</p>
-    </div>
-  </div>
-
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">n</span>
-      Indice de réfraction d'un milieu
-    </div>
-    <p>L'indice <em>n</em> est le rapport entre la vitesse de la lumière dans le vide et sa vitesse dans le milieu :</p>
-    <div class="formula f1">n = c / v &nbsp;&nbsp;&nbsp; (n ≥ 1 toujours)</div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Milieu</th><th>Indice n</th><th>v = c/n (m·s⁻¹)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Air</td><td>≈ 1,00</td><td>≈ 3,00 × 10⁸</td></tr>
-          <tr><td>Eau</td><td>1,33</td><td>≈ 2,26 × 10⁸</td></tr>
-          <tr><td>Plexiglas</td><td>1,49</td><td>≈ 2,01 × 10⁸</td></tr>
-          <tr><td>Verre ordinaire</td><td>≈ 1,50</td><td>≈ 2,00 × 10⁸</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="hl hl1">
-      <strong>📌 Règle :</strong> plus l'indice est grand, plus la lumière est ralentie dans ce milieu.
-      L'eau (n=1,33) ralentit moins la lumière que le plexiglas (n=1,49).
-    </div>
-  </div>
-
-  <!-- ── Animation A : Propagation rectiligne — source, objet, ombre ── -->
-  <div class="anim-block">
-    <div class="anim-label">Animation · Propagation rectiligne de la lumière — source, objet, ombre portée</div>
-    <canvas id="propCanvas" class="anim-canvas" width="860" height="220"></canvas>
-    <div class="milieu-btns">
-      <span style="font-family:var(--ff-mono);font-size:0.68rem;color:var(--muted);align-self:center;margin-right:6px;">Objet :</span>
-      <button class="milieu-btn active" id="btnOpaque"      onclick="propSetObjet('opaque',this)">Opaque</button>
-      <button class="milieu-btn"        id="btnTranslucide" onclick="propSetObjet('translucide',this)">Translucide</button>
-      <button class="milieu-btn"        id="btnTransparent" onclick="propSetObjet('transparent',this)">Transparent</button>
-    </div>
-  </div>
-
-  <!-- ── Animation B : Éclair et tonnerre – vitesse lumière vs son ── -->
-  <div class="anim-block" id="orageBlock" style="padding:0;overflow:hidden;border-radius:12px;background:#0b1220;position:relative;">
-    <div class="anim-label" style="background:rgba(255,255,255,0.07);color:#c8d8f0;border-bottom:1px solid rgba(255,255,255,0.08);">
-      ⚡ Animation interactive · Éclair et tonnerre — vitesse de la lumière et du son
-    </div>
-
-    <!-- SCÈNE CANVAS -->
-    <canvas id="orageCanvas" style="display:block;width:100%;height:260px;cursor:pointer;" height="260"></canvas>
-
-    <!-- PANNEAU DE CONTRÔLE -->
-    <div id="orageControls" style="background:rgba(255,255,255,0.05);border-top:1px solid rgba(255,255,255,0.08);padding:12px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <label style="color:#a0b8d8;font-size:0.82rem;font-family:'DM Mono',monospace;">Distance orage :</label>
-        <input id="orageDistInput" type="range" min="500" max="10000" value="3000" step="100"
-          style="width:120px;accent-color:#f5c842;" oninput="orageUpdateDist()">
-        <span id="orageDistLabel" style="color:#f5c842;font-family:'DM Mono',monospace;font-size:0.85rem;min-width:60px;">3,0 km</span>
-      </div>
-      <div style="flex:1;display:flex;justify-content:flex-end;gap:8px;">
-        <button class="milieu-btn" id="orageBtn" onclick="orageDeclench()" style="background:rgba(245,200,66,0.18);color:#f5c842;border-color:rgba(245,200,66,0.4);">⚡ Déclencher l'éclair</button>
-        <button class="milieu-btn" onclick="orageReset()" style="color:#a0b8d8;">↺ Réinitialiser</button>
-      </div>
-    </div>
-
-    <!-- PANNEAU RÉSULTAT -->
-    <div id="orageResultat" style="display:none;background:rgba(26,107,90,0.15);border-top:1px solid rgba(26,107,90,0.3);padding:10px 18px;">
-      <p id="orageResultText" style="margin:0;font-family:'DM Mono',monospace;font-size:0.83rem;color:#8de0c0;line-height:1.8;"></p>
-    </div>
-  </div>
-
-</section>
-</div><!-- /tab-panel t1 -->
     <!-- FIN T1 -->
 
+    <!-- ── T2 : colle ici tout le contenu de seq09_t2_snell.html ── -->
     <!-- DÉBUT T2 -->
-<div class="tab-panel" id="t2">
-<section class="section" id="partie2">
-  <div class="section-head">
-    <div class="sect-num">02</div>
-    <div class="sect-info">
-      <span class="sect-tag tag-2">Partie 2</span>
-      <h2 class="sect-title">Les lois de Snell-Descartes</h2>
-    </div>
-  </div>
 
-  <div class="cap-block c2">
-    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
-    <ul>
-      <li>Exploiter les lois de Snell-Descartes pour la réflexion et la réfraction.</li>
-      <li>Tester les lois de Snell-Descartes à partir d'une série de mesures et déterminer l'indice de réfraction d'un milieu.</li>
-    </ul>
-  </div>
-
-  <!-- ══ LOIS DE SNELL-DESCARTES ══ -->
-
-  <!-- LOI 1 -->
-  <div class="card" style="border-left:4px solid var(--accent2);">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">①</span>
-      <span style="color:var(--accent2);">Loi 1 — Coplanairité</span>
-    </div>
-    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
-      <p style="margin:0;font-size:0.92rem;line-height:1.7;">
-        Le rayon incident, la <strong>normale</strong> au dioptre au point d'incidence I, le rayon réfléchi et le rayon réfracté sont tous dans le même plan, appelé <strong>plan d'incidence</strong>.
-      </p>
-    </div>
-    <p style="font-size:0.83rem;color:var(--muted);margin:0 0 14px;">La <em>normale</em> est la droite perpendiculaire à la surface séparatrice (dioptre) au point d'incidence I.</p>
-
-    <!-- Illustration plan d'incidence — SVG isométrique -->
-    <div style="background:#f7f9ff;border:1.5px solid #c8d4f0;border-radius:12px;padding:14px 10px 10px;margin-top:4px;">
-      <p style="text-align:center;font-size:0.78rem;color:#5560a0;font-family:'DM Mono',monospace;margin:0 0 10px;letter-spacing:0.05em;">ILLUSTRATION · Le plan d'incidence — vue en perspective</p>
-      <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
-        <defs>
-          <marker id="arr-inc" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a6b5a"/></marker>
-          <marker id="arr-ref" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b85c00"/></marker>
-          <marker id="arr-rfr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3a4db5"/></marker>
-          <marker id="arr-nor" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7788bb"/></marker>
-        </defs>
-
-        <!-- ── Milieu 2 (bleu clair, bas) ── -->
-        <!-- Face avant -->
-        <polygon points="120,240 580,240 580,390 120,390" fill="rgba(180,210,245,0.65)" stroke="#8aabcc" stroke-width="1"/>
-        <!-- Face dessus dioptre -->
-        <polygon points="120,240 580,240 640,190 60,190" fill="rgba(155,190,230,0.5)" stroke="#7799bb" stroke-width="1"/>
-        <!-- Face droite -->
-        <polygon points="580,240 640,190 640,340 580,390" fill="rgba(140,178,220,0.45)" stroke="#7799bb" stroke-width="1"/>
-        <!-- Label Milieu 2 -->
-        <text x="130" y="310" font-size="14" fill="#2a3fa0" font-family="DM Mono,monospace" font-weight="bold">Milieu 2  (n₂)</text>
-        <text x="130" y="328" font-size="11" fill="#4455aa" font-family="DM Mono,monospace" font-style="italic">ex : eau, verre…</text>
-
-        <!-- ── Milieu 1 (vert clair, haut) ── -->
-        <!-- Face avant -->
-        <polygon points="120,80 580,80 580,240 120,240" fill="rgba(180,235,205,0.65)" stroke="#5aaa80" stroke-width="1"/>
-        <!-- Face dessus -->
-        <polygon points="120,80 580,80 640,30 60,30" fill="rgba(155,220,185,0.5)" stroke="#5aaa80" stroke-width="1"/>
-        <!-- Face droite -->
-        <polygon points="580,80 640,30 640,190 580,240" fill="rgba(140,210,175,0.45)" stroke="#5aaa80" stroke-width="1"/>
-        <!-- Label Milieu 1 -->
-        <text x="130" y="120" font-size="14" fill="#1a5a3a" font-family="DM Mono,monospace" font-weight="bold">Milieu 1  (n₁)</text>
-        <text x="130" y="138" font-size="11" fill="#2a7050" font-family="DM Mono,monospace" font-style="italic">ex : air, verre…</text>
-
-        <!-- ── Interface dioptre (ligne de séparation, noir) ── -->
-        <line x1="120" y1="240" x2="580" y2="240" stroke="#111" stroke-width="3"/>
-        <line x1="580" y1="240" x2="640" y2="190" stroke="#111" stroke-width="3"/>
-        <text x="595" y="220" font-size="12" fill="#111" font-family="DM Mono,monospace" font-weight="bold">dioptre</text>
-        <text x="595" y="235" font-size="10" fill="#333" font-family="DM Mono,monospace">(surface de séparation)</text>
-
-        <!-- ── Point I ── -->
-        <circle cx="350" cy="240" r="6" fill="#b85c00" stroke="white" stroke-width="2"/>
-        <text x="360" y="236" font-size="13" fill="#b85c00" font-family="DM Mono,monospace" font-weight="bold">I</text>
-
-        <!-- ── Plan d'incidence (plan vertical jaune, coupe la scène en son milieu) ── -->
-        <polygon points="350,40 350,390 410,340 410,0" fill="rgba(255,200,60,0.15)" stroke="rgba(170,120,0,0.55)" stroke-width="1.5" stroke-dasharray="8,5"/>
-        <text x="415" y="22" font-size="11" fill="rgba(130,85,0,0.9)" font-family="DM Mono,monospace" font-weight="bold">plan d'incidence</text>
-        <text x="415" y="36" font-size="10" fill="rgba(130,85,0,0.7)" font-family="DM Mono,monospace">(plan vertical qui contient</text>
-        <text x="415" y="49" font-size="10" fill="rgba(130,85,0,0.7)" font-family="DM Mono,monospace"> la normale et les rayons)</text>
-
-        <!-- ── Normale (pointillée verticale, dans le plan d'incidence) ── -->
-        <line x1="350" y1="80" x2="350" y2="238" stroke="#7788bb" stroke-width="2" stroke-dasharray="7,5" marker-end="url(#arr-nor)"/>
-        <line x1="350" y1="242" x2="350" y2="330" stroke="#7788bb" stroke-width="1.5" stroke-dasharray="7,5"/>
-        <text x="356" y="100" font-size="11" fill="#5566aa" font-family="DM Mono,monospace" font-style="italic">normale</text>
-
-        <!-- ── Rayon incident : vient de haut-gauche → I ── -->
-        <line x1="175" y1="100" x2="344" y2="236" stroke="#1a6b5a" stroke-width="2.8" marker-end="url(#arr-inc)"/>
-        <text x="108" y="95" font-size="12" fill="#1a6b5a" font-family="DM Mono,monospace" font-weight="bold">rayon incident</text>
-
-        <!-- ── Rayon réfléchi : I → haut-droite ── -->
-        <line x1="356" y1="236" x2="520" y2="100" stroke="#b85c00" stroke-width="2.5" stroke-dasharray="9,5" marker-end="url(#arr-ref)"/>
-        <text x="524" y="95" font-size="12" fill="#b85c00" font-family="DM Mono,monospace" font-weight="bold">rayon réfléchi</text>
-
-        <!-- ── Rayon réfracté : I → bas-droite ── -->
-        <line x1="356" y1="244" x2="500" y2="360" stroke="#3a4db5" stroke-width="2.8" marker-end="url(#arr-rfr)"/>
-        <text x="503" y="370" font-size="12" fill="#3a4db5" font-family="DM Mono,monospace" font-weight="bold">rayon réfracté</text>
-
-        <!-- ── Légende basse ── -->
-        <rect x="30" y="355" width="290" height="38" rx="7" fill="white" stroke="#dde" stroke-width="1"/>
-        <text x="40" y="370" font-size="10.5" fill="#333" font-family="DM Mono,monospace" font-weight="bold">Les 4 éléments sont dans le même plan :</text>
-        <text x="40" y="385" font-size="10" fill="#555" font-family="DM Mono,monospace">normale · rayon incident · réfléchi · réfracté</text>
-      </svg>
-    </div>
-  </div>
-
-  <!-- LOI 2 -->
-  <div class="card" style="border-left:4px solid var(--accent2);">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">②</span>
-      <span style="color:var(--accent2);">Loi 2 — Réflexion</span>
-    </div>
-    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
-      <p style="margin:0 0 8px;font-size:0.92rem;line-height:1.7;">
-        Le rayon réfléchi reste dans le <strong>milieu incident</strong>. L'angle de réflexion est égal à l'angle d'incidence (tous deux mesurés par rapport à la normale) :
-      </p>
-      <div class="formula f2" style="margin:0;">i<sub>r</sub> = i<sub>1</sub></div>
-      <p style="margin:8px 0 0;font-size:0.82rem;color:var(--muted);">Le rayon réfléchi et le rayon incident sont de <strong>part et d'autre de la normale</strong>, dans le plan d'incidence.</p>
-    </div>
-
-    <!-- Illustration Loi 2 interactive -->
-    <div style="background:#fff8f0;border:1.5px solid #e0c090;border-radius:12px;padding:14px 10px 10px;margin-top:4px;">
-      <p style="text-align:center;font-size:0.78rem;color:#8a5500;font-family:'DM Mono',monospace;margin:0 0 8px;letter-spacing:0.05em;">ILLUSTRATION interactive · Loi de réflexion : i<sub>r</sub> = i<sub>1</sub></p>
-      <canvas id="loi2Canvas" width="600" height="300" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;"></canvas>
-      <div style="max-width:600px;margin:10px auto 0;padding:0 10px;">
-        <div style="background:#f4f3ec;border:1.5px solid #d4b882;border-radius:10px;padding:10px 14px;">
-          <label style="font-size:0.82rem;font-weight:600;color:#8a5500;display:flex;justify-content:space-between;margin-bottom:6px;">
-            <span>Angle d'incidence i<sub>1</sub></span>
-            <span id="loi2-i1-val" style="font-family:'DM Mono',monospace;">30°</span>
-          </label>
-          <input type="range" id="loi2-i1" min="0" max="89" value="30" step="1" style="width:100%;accent-color:#b85c00;">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LOI 3 -->
-  <div class="card" style="border-left:4px solid var(--accent2);">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">③</span>
-      <span style="color:var(--accent2);">Loi 3 — Réfraction (loi de Snell-Descartes)</span>
-    </div>
-    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
-      <p style="margin:0 0 8px;font-size:0.92rem;line-height:1.7;">
-        Le rayon réfracté passe dans le <strong>second milieu</strong>. Les angles d'incidence i<sub>1</sub> et de réfraction i<sub>2</sub>, mesurés par rapport à la normale, vérifient :
-      </p>
-      <div class="formula f2" style="margin:0;">n<sub>1</sub> · sin i<sub>1</sub> = n<sub>2</sub> · sin i<sub>2</sub></div>
-      <p style="margin:10px 0 0;font-size:0.82rem;color:var(--muted);">Le rayon réfracté et le rayon incident sont de <strong>part et d'autre de la normale</strong>, dans le plan d'incidence.</p>
-    </div>
-    <div class="hl hl2" style="margin-top:10px;">
-      <strong>Conséquences :</strong><br>
-      Si n<sub>1</sub> &lt; n<sub>2</sub> → i<sub>1</sub> &gt; i<sub>2</sub> : le rayon <strong>se rapproche</strong> de la normale (milieu plus réfringent)<br>
-      Si n<sub>1</sub> &gt; n<sub>2</sub> → i<sub>1</sub> &lt; i<sub>2</sub> : le rayon <strong>s'éloigne</strong> de la normale (milieu moins réfringent)
-    </div>
-  </div>
-
-  <!-- Animation Snell-Descartes interactive (après la loi 3) -->
-  <div class="canvas-container" style="padding-bottom:18px;">
-    <div class="canvas-label">Animation interactive · Réfraction — variation des indices et de l'angle</div>
-    <canvas id="snellCanvas" width="860" height="300"></canvas>
-
-    <!-- Contrôles sliders -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;padding:0 10px;">
-
-      <!-- Slider i1 -->
-      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
-        <label style="font-size:0.82rem;font-weight:600;color:#1a6b5a;display:flex;justify-content:space-between;margin-bottom:6px;">
-          <span>Angle d'incidence i<sub>1</sub></span>
-          <span id="snell-i1-val" style="font-family:'DM Mono',monospace;color:#1a4a3a;">30°</span>
-        </label>
-        <input type="range" id="snell-i1" min="0" max="89" value="30" step="1"
-               style="width:100%;accent-color:#1a6b5a;">
-      </div>
-
-      <!-- Slider n1 -->
-      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
-        <label style="font-size:0.82rem;font-weight:600;color:#1a6b5a;display:flex;justify-content:space-between;margin-bottom:6px;">
-          <span>Indice milieu 1 n<sub>1</sub></span>
-          <span id="snell-n1-val" style="font-family:'DM Mono',monospace;color:#1a4a3a;">1,00</span>
-        </label>
-        <input type="range" id="snell-n1" min="1.00" max="2.50" value="1.00" step="0.01"
-               style="width:100%;accent-color:#1a6b5a;">
-        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#999;margin-top:3px;">
-          <span>air (1,00)</span><span>verre dense (2,50)</span>
-        </div>
-      </div>
-
-      <!-- Slider n2 -->
-      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
-        <label style="font-size:0.82rem;font-weight:600;color:#3a4db5;display:flex;justify-content:space-between;margin-bottom:6px;">
-          <span>Indice milieu 2 n<sub>2</sub></span>
-          <span id="snell-n2-val" style="font-family:'DM Mono',monospace;color:#1a2060;">1,33</span>
-        </label>
-        <input type="range" id="snell-n2" min="1.00" max="2.50" value="1.33" step="0.01"
-               style="width:100%;accent-color:#3a4db5;">
-        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#999;margin-top:3px;">
-          <span>air (1,00)</span><span>verre dense (2,50)</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Vérification numérique -->
-    <div id="snell-check" style="margin:12px 10px 0;background:#fff;border:1.5px solid #d0e8e2;border-radius:10px;padding:11px 16px;font-size:0.87rem;font-family:'DM Mono',monospace;color:#1a3a30;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(184,92,0,0.1); color:var(--accent2)">✏️</span>
-      Exercice d'application
-    </div>
-
-    <!-- Énoncé -->
-    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
-      <p style="margin:0 0 6px;font-size:0.92rem;font-weight:600;color:#7a3800;">Énoncé</p>
-      <p style="margin:0;font-size:0.92rem;line-height:1.7;">
-        Un rayon lumineux passe de l'air (n<sub>1</sub> = 1,00) dans l'eau (n<sub>2</sub> = 1,33) avec un angle d'incidence i<sub>1</sub> = 35°.
-      </p>
-      <ol style="margin:8px 0 0;padding-left:20px;font-size:0.9rem;line-height:1.8;">
-        <li>Écrire la relation de Snell-Descartes applicable.</li>
-        <li>Calculer l'angle de réfraction i<sub>2</sub>. Le rayon se rapproche-t-il ou s'éloigne-t-il de la normale ?</li>
-        <li>Même question si le rayon passe cette fois de l'eau vers l'air.</li>
-      </ol>
-    </div>
-
-    <!-- Données -->
-    <div style="background:#f4f8f6;border:1.5px solid #b0d4c8;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.85rem;font-family:'DM Mono',monospace;">
-      <strong style="color:#1a6b5a;">Données :</strong> n<sub>air</sub> = 1,00 · n<sub>eau</sub> = 1,33 · i<sub>1</sub> = 35° · sin 35° ≈ 0,574
-    </div>
-
-    <!-- Bouton correction -->
-    <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent.includes('Afficher')?'▲ Masquer la correction':'▼ Afficher la correction';"
-      style="background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Mono',monospace;">
-      ▼ Afficher la correction
-    </button>
-
-    <!-- Correction masquée -->
-    <div style="display:none;margin-top:12px;border-top:2px dashed var(--accent2);padding-top:12px;">
-      <p style="font-size:0.85rem;font-weight:700;color:#7a3800;margin:0 0 10px;">✔ Correction</p>
-
-      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">1. Relation de Snell-Descartes :</p>
-      <div class="formula f2" style="margin:4px 0 10px;">n<sub>1</sub> · sin i<sub>1</sub> = n<sub>2</sub> · sin i<sub>2</sub></div>
-
-      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">2. Air → Eau (n<sub>1</sub> &lt; n<sub>2</sub>) :</p>
-      <div style="background:#f9f9f9;border-radius:8px;padding:10px 14px;font-size:0.87rem;line-height:1.9;font-family:'DM Mono',monospace;margin-bottom:8px;">
-        sin i<sub>2</sub> = (n<sub>1</sub> / n<sub>2</sub>) × sin i<sub>1</sub> = (1,00 / 1,33) × sin 35°<br>
-        sin i<sub>2</sub> = 0,752 × 0,574 ≈ <strong>0,431</strong><br>
-        <strong style="color:var(--accent2);">i<sub>2</sub> ≈ 25,5°</strong>
-      </div>
-      <div class="hl hl2" style="margin-bottom:10px;font-size:0.87rem;">
-        i<sub>2</sub> &lt; i<sub>1</sub> (25,5° &lt; 35°) car n<sub>2</sub> &gt; n<sub>1</sub> → le rayon <strong>se rapproche</strong> de la normale.
-      </div>
-
-      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">3. Eau → Air (n<sub>1</sub> &gt; n<sub>2</sub>) :</p>
-      <div style="background:#f9f9f9;border-radius:8px;padding:10px 14px;font-size:0.87rem;line-height:1.9;font-family:'DM Mono',monospace;margin-bottom:8px;">
-        sin i<sub>2</sub> = (1,33 / 1,00) × sin 35° = 1,33 × 0,574 ≈ <strong>0,763</strong><br>
-        <strong style="color:var(--accent2);">i<sub>2</sub> ≈ 49,7°</strong>
-      </div>
-      <div class="hl hl2" style="font-size:0.87rem;">
-        i<sub>2</sub> &gt; i<sub>1</sub> (49,7° &gt; 35°) car n<sub>2</sub> &lt; n<sub>1</sub> → le rayon <strong>s'éloigne</strong> de la normale.
-      </div>
-    </div>
-    </div>
-
-  <!-- ══ ANIMATIONS RECOMMANDÉES ══ -->
-  <div class="card" style="border-left:4px solid var(--accent1,#1a6b5a);">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(26,107,90,0.12); color:var(--accent1,#1a6b5a)">▶</span>
-      <span style="color:var(--accent1,#1a6b5a);">Animations recommandées</span>
-    </div>
-    <p style="font-size:0.88rem;color:var(--muted,#666);margin:0 0 14px;">
-      Ces simulations interactives permettent de visualiser et d'explorer les lois de Snell-Descartes en faisant varier les paramètres.
-    </p>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-
-      <!-- Lien 1 — PCCL -->
-      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/refraction_loi_descartes_optique_seconde_lycee_flash.htm"
-         target="_blank" rel="noopener"
-         style="display:flex;align-items:flex-start;gap:12px;background:#f4faf7;border:1.5px solid #b0d4c8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 4px 16px rgba(26,107,90,0.15)'"
-         onmouseout="this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🔬</span>
-        <div>
-          <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#1a6b5a;font-family:'DM Mono',monospace;">PCCL — Réfraction &amp; lois de Descartes</p>
-          <p style="margin:0;font-size:0.8rem;color:#4a7a6a;line-height:1.5;">
-            Simulation Flash/HTML5 dédiée à la réfraction en Seconde. Permet de faire varier l'angle d'incidence et les milieux pour observer le rayon réfracté.
-          </p>
-          <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#1a6b5a;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
-        </div>
-      </a>
-
-      <!-- Lien 2 — Ostralo -->
-      <a href="https://physique.ostralo.net/descartes/"
-         target="_blank" rel="noopener"
-         style="display:flex;align-items:flex-start;gap:12px;background:#f4f6fc;border:1.5px solid #b8c4e8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
-         onmouseover="this.style.boxShadow='0 4px 16px rgba(58,77,181,0.15)'"
-         onmouseout="this.style.boxShadow='none'">
-        <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌐</span>
-        <div>
-          <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#3a4db5;font-family:'DM Mono',monospace;">Ostralo — Lois de Descartes</p>
-          <p style="margin:0;font-size:0.8rem;color:#4a5a9a;line-height:1.5;">
-            Animation interactive permettant de visualiser la réflexion et la réfraction, avec affichage des angles et vérification numérique de la loi de Snell-Descartes.
-          </p>
-          <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#3a4db5;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-
-</section>
-</div><!-- /tab-panel t2 -->
     <!-- FIN T2 -->
 
+    <!-- ── T3 : colle ici tout le contenu de seq09_t3_spectres.html ── -->
     <!-- DÉBUT T3 -->
-<div class="tab-panel" id="t3">
-<section class="section" id="partie3">
-  <div class="section-head">
-    <div class="sect-num">03</div>
-    <div class="sect-info">
-      <span class="sect-tag tag-3">Partie 3</span>
-      <h2 class="sect-title">Dispersion de la lumière et spectres lumineux</h2>
-    </div>
-  </div>
 
-  <div class="cap-block c3">
-    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
-    <ul>
-      <li>Caractériser le spectre du rayonnement émis par un corps chaud.</li>
-      <li>Caractériser un rayonnement monochromatique par sa longueur d'onde dans le vide ou dans l'air.</li>
-      <li>Exploiter un spectre de raies.</li>
-      <li>Décrire et expliquer qualitativement le phénomène de dispersion par un prisme.</li>
-      <li>Produire et exploiter des spectres d'émission obtenus à l'aide d'un système dispersif.</li>
-    </ul>
-  </div>
-
-  <!-- Spectre complet IR + Visible + UV -->
-  <div class="spectre-wrapper">
-    <p style="color:rgba(20,60,50,0.55); font-family:var(--ff-mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:10px;">Spectre électromagnétique — IR · Visible · UV</p>
-
-    <!-- Barre spectrale complète -->
-    <div class="spectre-full-row">
-      <div class="spectre-ir-zone"><span>IR</span></div>
-      <div class="spectre-bar-anim"></div>
-      <div class="spectre-uv-zone"><span>UV</span></div>
-    </div>
-
-    <!-- Étiquettes des domaines -->
-    <div class="spectre-labels-row">
-      <div class="spectre-label-ir">
-        <p>≫ 750 nm</p>
-      </div>
-      <div class="spectre-label-vis">
-        <div class="spectre-ticks">
-          <span>400 nm</span><span>450 nm</span><span>500 nm</span>
-          <span>550 nm</span><span>600 nm</span><span>650 nm</span><span>700 nm</span>
-        </div>
-      </div>
-      <div class="spectre-label-uv">
-        <p>≪ 400 nm</p>
-      </div>
-    </div>
-
-    <!-- Couleurs du domaine visible -->
-    <div class="wl-grid">
-      <div class="wl-chip" style="background:rgba(110,0,220,0.3); border:1px solid rgba(150,50,255,0.5); color:#c070ff">
-        <strong>Violet</strong>400–420 nm
-      </div>
-      <div class="wl-chip" style="background:rgba(0,80,255,0.25); border:1px solid rgba(50,130,255,0.5); color:#80b0ff">
-        <strong>Bleu</strong>420–500 nm
-      </div>
-      <div class="wl-chip" style="background:rgba(0,170,60,0.25); border:1px solid rgba(0,200,80,0.5); color:#70e090">
-        <strong>Vert</strong>500–575 nm
-      </div>
-      <div class="wl-chip" style="background:rgba(240,220,0,0.2); border:1px solid rgba(255,220,0,0.5); color:#ffe060">
-        <strong>Jaune</strong>575–585 nm
-      </div>
-      <div class="wl-chip" style="background:rgba(255,130,0,0.2); border:1px solid rgba(255,140,0,0.5); color:#ffb070">
-        <strong>Orange</strong>585–620 nm
-      </div>
-      <div class="wl-chip" style="background:rgba(220,30,30,0.25); border:1px solid rgba(255,60,60,0.5); color:#ff8888">
-        <strong>Rouge</strong>620–750 nm
-      </div>
-    </div>
-
-    <!-- Cartes IR et UV -->
-    <div class="ir-uv-cards">
-      <div class="ir-card">
-        <span class="dom-label">Infrarouge (IR)</span>
-        <strong>λ &gt; 750 nm</strong> — invisible à l'œil humain.<br>
-        Rayonnement thermique : tout corps chaud émet de l'IR. Utilisé en thermographie, télécommandes, lunettes de vision nocturne et en spectroscopie moléculaire.
-      </div>
-      <div class="uv-card">
-        <span class="dom-label">Ultraviolet (UV)</span>
-        <strong>λ &lt; 400 nm</strong> — invisible à l'œil humain.<br>
-        Très énergétique (E = hc/λ). Provoque la fluorescence, stérilisation bactéricide, synthèse de vitamine D. Filtré en partie par l'ozone atmosphérique.
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── ANIMATION PRISME : DISPERSION ─── -->
-  <div class="prisme-anim-wrapper">
-    <div class="prisme-anim-header">Animation — Dispersion de la lumière par un prisme</div>
-    <canvas id="prismeCanvas" width="800" height="360"></canvas>
-
-    <div class="prisme-panel">
-      <!-- Colonne gauche : type de lumière -->
-      <div class="prisme-ctrl-group">
-        <div class="prisme-ctrl-label">Type de lumière</div>
-        <div class="prisme-toggle">
-          <button class="prisme-toggle-btn active" id="btnPoly" onclick="P.setMode('poly')">Blanche (poly)</button>
-          <button class="prisme-toggle-btn" id="btnMono" onclick="P.setMode('mono')">Monochromatique</button>
-        </div>
-        <div id="monoRow" style="display:none; flex-direction:column; gap:6px;">
-          <div class="prisme-ctrl-label" style="margin-top:2px;">Couleur du rayon</div>
-          <div class="mono-color-row" id="monoColors"></div>
-        </div>
-      </div>
-
-      <!-- Colonne droite : sliders -->
-      <div class="prisme-ctrl-group">
-        <div class="prisme-ctrl-label">Paramètres optiques</div>
-        <div class="prisme-slider-group">
-          <div class="slider-row">
-            <label>Angle sommet A</label>
-            <input type="range" id="sldPrism" min="30" max="80" value="60"
-                   oninput="P.setPrismAngle(this.value)">
-            <span class="slider-val" id="valPrism">60°</span>
-          </div>
-          <div class="slider-row">
-            <label>Angle d'incidence i₁</label>
-            <input type="range" id="sldInc" min="15" max="70" value="40"
-                   oninput="P.setInc(this.value)">
-            <span class="slider-val" id="valInc">40°</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="prisme-legend" id="prismeLegend">
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#8800ee"></span>Violet 410 nm</span>
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#2255ff"></span>Bleu 460 nm</span>
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#00bb44"></span>Vert 530 nm</span>
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#cccc00"></span>Jaune 580 nm</span>
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#ff6600"></span>Orange 610 nm</span>
-      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#dd0000"></span>Rouge 660 nm</span>
-    </div>
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">∿</span>
-        Lumière polychromatique
-      </div>
-      <p>Mélange de plusieurs radiations. La <strong>lumière blanche</strong> est polychromatique. Un prisme la décompose : c'est la <strong style="color:var(--gold)">dispersion</strong>. La figure obtenue est le <strong style="color:var(--gold)">spectre continu</strong>.</p>
-    </div>
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">λ</span>
-        Lumière monochromatique
-      </div>
-      <p>Une seule radiation (une seule longueur d'onde λ). Un prisme la <em>dévie</em> sans la décomposer. Exemple : un laser rouge.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">≡</span>
-      Types de spectres
-    </div>
-    <ul>
-      <li><strong>Spectre continu :</strong> émis par un corps chaud. Quand T augmente → spectre enrichi vers le bleu (courtes λ). Un corps émet d'autant plus de lumière qu'il est chaud.</li>
-      <li style="margin-top:8px"><strong>Spectre de raies :</strong> émis par un gaz d'atomes excités à basse pression. Raies caractéristiques = <em>signature spectrale</em> du gaz. Exemple : sodium → doublet jaune ~589 nm.</li>
-    </ul>
-    <div class="hl hl3">
-      <strong>Application – lithium :</strong> 3 raies caractéristiques ≈ 460 nm (bleu), 610 nm (orange-rouge), 670 nm (rouge).<br>
-      L'analyse spectrale permet d'identifier des ions métalliques en chimie.
-    </div>
-  </div>
-
-  <!-- ─── ANIMATIONS RECOMMANDÉES ─── -->
-<div class="card" style="margin-top:1.5rem; border-left:4px solid var(--accent1,#1a6b5a);">
-  <div class="card-title">
-    <span class="icon" style="background:rgba(26,107,90,0.12); color:var(--accent1,#1a6b5a)">▶</span>
-    <span style="color:var(--accent1,#1a6b5a);">Animations recommandées</span>
-  </div>
-  <p style="font-size:0.88rem;color:var(--muted,#666);margin:0 0 14px;">
-    Ces simulations interactives permettent de visualiser la dispersion, les spectres d'émission et d'absorption.
-  </p>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-
-    <!-- Lien 1 — PCCL -->
-    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/dispersion_prisme_spectre_emission_absorption_flash.htm"
-       target="_blank" rel="noopener"
-       style="display:flex;align-items:flex-start;gap:12px;background:#f4faf7;border:1.5px solid #b0d4c8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
-       onmouseover="this.style.boxShadow='0 4px 16px rgba(26,107,90,0.15)'"
-       onmouseout="this.style.boxShadow='none'">
-      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🔬</span>
-      <div>
-        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#1a6b5a;font-family:'DM Mono',monospace;">PCCL — Dispersion &amp; spectres</p>
-        <p style="margin:0;font-size:0.8rem;color:#4a7a6a;line-height:1.5;">
-          Simulation HTML5 : dispersion par un prisme, spectres d'émission et d'absorption. Idéal pour la Seconde.
-        </p>
-        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#1a6b5a;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
-      </div>
-    </a>
-
-    <!-- Lien 2 — web-labosims -->
-    <a href="https://web-labosims.org/animations/App_prisme/App_prisme.html"
-       target="_blank" rel="noopener"
-       style="display:flex;align-items:flex-start;gap:12px;background:#f4f6fc;border:1.5px solid #b8c4e8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
-       onmouseover="this.style.boxShadow='0 4px 16px rgba(58,77,181,0.15)'"
-       onmouseout="this.style.boxShadow='none'">
-      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌐</span>
-      <div>
-        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#3a4db5;font-family:'DM Mono',monospace;">Labosims — Prisme interactif</p>
-        <p style="margin:0;font-size:0.8rem;color:#4a5a9a;line-height:1.5;">
-          Application interactive : angle du prisme, angle d'incidence, observation de la dispersion en temps réel.
-        </p>
-        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#3a4db5;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
-      </div>
-    </a>
-
-    <!-- Lien 3 — Ostralo (centré sur toute la largeur) -->
-    <a href="https://physique.ostralo.net/spectre_em_abs/"
-       target="_blank" rel="noopener"
-       style="grid-column:1 / -1;display:flex;align-items:flex-start;gap:12px;background:#fdf8ee;border:1.5px solid #e0cc88;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
-       onmouseover="this.style.boxShadow='0 4px 16px rgba(180,140,0,0.15)'"
-       onmouseout="this.style.boxShadow='none'">
-      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">✨</span>
-      <div>
-        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#7a6000;font-family:'DM Mono',monospace;">Ostralo — Spectres d'émission et d'absorption</p>
-        <p style="margin:0;font-size:0.8rem;color:#7a6a30;line-height:1.5;">
-          Visualisation des spectres de raies d'émission et d'absorption de différents atomes. Parfait pour comprendre la signature spectrale.
-        </p>
-        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#7a6000;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
-      </div>
-    </a>
-
-  </div>
-</div>
-</section>
-</div><!-- /tab-panel t3 -->
     <!-- FIN T3 -->
 
+    <!-- ── T4 : colle ici tout le contenu de seq09_t4_lentilles.html ── -->
     <!-- DÉBUT T4 -->
-<div class="tab-panel" id="t4">
-<section class="section" id="partie4">
-  <div class="section-head">
-    <div class="sect-num">04</div>
-    <div class="sect-info">
-      <span class="sect-tag tag-4">Partie 4</span>
-      <h2 class="sect-title">Réception de la lumière — Lentilles &amp; modèle de l'œil</h2>
-    </div>
-  </div>
 
-  <div class="cap-block c4">
-    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
-    <ul>
-      <li>Caractériser les foyers d'une lentille mince convergente à l'aide du modèle du rayon lumineux.</li>
-      <li>Utiliser le modèle du rayon lumineux pour déterminer graphiquement position, taille et sens de l'image réelle.</li>
-      <li>Définir et déterminer géométriquement un grandissement.</li>
-      <li>Modéliser l'œil.</li>
-      <li>Produire et caractériser l'image réelle d'un objet-plan réel formée par une lentille mince convergente.</li>
-      <li>Capacité mathématique : utiliser le théorème de Thalès.</li>
-    </ul>
-  </div>
-
-  <!-- ══ ANIMATION INTERACTIVE LENTILLE ══ -->
-  <div class="card" style="padding:18px 20px 14px;">
-
-    <!-- Contrôles sliders -->
-    <div class="fctrl4" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;background:#f0f4ff;border:1px solid #c8d4ee;border-radius:8px;padding:10px 16px;margin-bottom:12px;">
-      <label style="font-size:12px;font-weight:700;color:#334;min-width:80px;">Distance f'</label>
-      <input type="range" id="p4f" min="60" max="160" value="100" step="5" oninput="p4Draw()">
-      <span id="p4vf" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:30px;">100</span>
-      <span style="font-size:11px;color:#667">unités</span>
-      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
-      <label style="font-size:12px;font-weight:700;color:#334;min-width:90px;">Position objet</label>
-      <input type="range" id="p4oa" min="-320" max="-70" value="-200" step="5" oninput="p4Draw()">
-      <span id="p4voa" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:35px;">-200</span>
-      <span style="font-size:11px;color:#667">unités (OA)</span>
-      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
-      <span id="p4gval" style="font-size:13px;font-weight:700;color:#1a6a2a;"></span>
-    </div>
-
-    <!-- Canvas -->
-    <div style="position:relative;border-radius:8px;overflow:hidden;margin-bottom:10px;">
-      <div style="position:absolute;top:8px;left:12px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(40,40,100,0.4);text-transform:uppercase;">Construction des rayons caractéristiques</div>
-      <canvas id="lensCanvas" height="280" style="display:block;width:100%;border:1px solid #dde4ec;border-radius:8px;background:#f8f7fc;"></canvas>
-    </div>
-
-    <!-- Boutons rayons -->
-    <div class="rbtns" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;">
-      <button class="rbtn r1" id="p4btn1" onclick="p4ToggleRay(1)">● R₁ bleu — par O</button>
-      <button class="rbtn r2" id="p4btn2" onclick="p4ToggleRay(2)">● R₂ rouge — par F</button>
-      <button class="rbtn r3" id="p4btn3" onclick="p4ToggleRay(3)">● R₃ vert — ∥ axe</button>
-      <button class="rbtn all" id="p4btnAll" onclick="p4LaunchAll()">▶ Tout afficher</button>
-      <button class="rbtn rst" onclick="p4ResetRays()">↺ Réinitialiser</button>
-    </div>
-
-    <!-- Info rayon -->
-    <div style="font-size:12px;color:#445;margin:2px 0 4px;min-height:14px;" id="p4slbl">Choisissez un rayon ou cliquez sur ▶ Tout afficher</div>
-    <div class="ibox" id="p4inf">Sélectionnez un rayon pour afficher sa description.</div>
-
-    <!-- Légende -->
-    <div class="legend" style="margin-top:8px;">
-      <div class="li"><div class="ll" style="background:#1a7ad4"></div>R₁ — rayon par O (non dévié)</div>
-      <div class="li"><div class="ll" style="background:#d42020"></div>R₂ — rayon par F objet (sort ∥ axe)</div>
-      <div class="li"><div class="ll" style="background:#1a9a40"></div>R₃ — rayon ∥ axe (passe par F')</div>
-      <div class="li"><div class="ll" style="background:#cc7700"></div>Image A'B'</div>
-    </div>
-  </div>
-
-  <!-- Cours : définition, rayons, grandissement -->
-  <div class="card">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">⊙</span>
-      Définition et points caractéristiques
-    </div>
-    <p>Une lentille mince convergente est transparente, avec les <strong>bords plus fins que le centre</strong>.</p>
-    <ul>
-      <li><strong>Centre optique O :</strong> tout rayon passant par O n'est pas dévié.</li>
-      <li><strong>Foyer image F' :</strong> point où convergent les rayons incidents parallèles à l'axe.</li>
-      <li><strong>Foyer objet F :</strong> symétrique de F' par rapport à O → OF = OF' = f'.</li>
-    </ul>
-    <!-- Vergence : hors programme Seconde, non affiché -->
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">①②③</span>
-      Les 3 rayons caractéristiques
-    </div>
-    <div class="rayon-list">
-      <div class="rayon-row">
-        <div class="rayon-num" style="background:rgba(26,122,212,0.1);border-color:rgba(26,122,212,0.3);color:#1a7ad4;">①</div>
-        <div class="rayon-txt"><strong>Rayon par O :</strong> Tout rayon passant par le centre optique O traverse la lentille <strong>sans déviation</strong>.</div>
-      </div>
-      <div class="rayon-row">
-        <div class="rayon-num" style="background:rgba(212,32,32,0.1);border-color:rgba(212,32,32,0.3);color:#d42020;">②</div>
-        <div class="rayon-txt"><strong>Rayon par F :</strong> Tout rayon passant par le foyer objet F ressort de la lentille <strong>parallèlement à l'axe optique</strong>.</div>
-      </div>
-      <div class="rayon-row">
-        <div class="rayon-num" style="background:rgba(26,154,64,0.1);border-color:rgba(26,154,64,0.3);color:#1a9a40;">③</div>
-        <div class="rayon-txt"><strong>Rayon ∥ axe :</strong> Tout rayon incident parallèle à l'axe optique émerge en passant par le <strong>foyer image F'</strong>.</div>
-      </div>
-    </div>
-    <div class="hl hl4">
-      <strong>Propriétés de l'image (objet réel) :</strong><br>
-      A en avant de F → image <strong>réelle, renversée</strong>, de l'autre côté de la lentille<br>
-      A entre F et O → image <strong>virtuelle, droite, agrandie</strong> (effet loupe)<br>
-      A = F → image à l'<strong>infini</strong>
-    </div>
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">γ</span>
-        Grandissement
-      </div>
-      <div class="formula f4" style="font-size:0.9rem">γ = A'B' / AB = OA' / OA</div>
-      <ul>
-        <li>|γ| &lt; 1 → image plus petite que l'objet</li>
-        <li>|γ| &gt; 1 → image plus grande</li>
-        <li>|γ| = 1 → même taille</li>
-        <li>γ &lt; 0 → image renversée</li>
-      </ul>
-      <p style="font-size:0.8rem; color:var(--muted); margin-top:10px">Démonstration par le théorème de Thalès.</p>
-    </div>
-    <div class="card">
-      <div class="card-title">
-        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">👁</span>
-        Modèle réduit de l'œil
-      </div>
-      <p>L'œil est modélisé par :</p>
-      <div class="eye-grid">
-        <div class="eye-item">
-          <div class="eye-dot" style="background:#e05c7a"></div>
-          <div><strong>Diaphragme</strong><span>rôle de l'iris — pupille</span></div>
-        </div>
-        <div class="eye-item">
-          <div class="eye-dot" style="background:#4fc3f7"></div>
-          <div><strong>Lentille convergente</strong><span>cornée + cristallin, f' variable</span></div>
-        </div>
-        <div class="eye-item">
-          <div class="eye-dot" style="background:#f5c842"></div>
-          <div><strong>Écran</strong><span>rôle de la rétine</span></div>
-        </div>
-        <div class="eye-item">
-          <div class="eye-dot" style="background:#0f9b8e\"></div>
-          <div><strong>Distance constante</strong><span>f' varie → accommodation</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-</div><!-- /tab-panel t4 -->
     <!-- FIN T4 -->
 
+    <!-- ── QUIZ : colle ici tout le contenu de seq09_tq_quiz.html ── -->
     <!-- DÉBUT QUIZ -->
-<div class="tab-panel" id="tq">
-<section class="section" id="quiz">
-  <div class="quiz-block">
-    <div class="quiz-title">✦ Auto-évaluation</div>
-    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizBar" style="width:0%"></div></div>
-    <div id="quizContent"></div>
-    <div class="quiz-nav">
-      <button class="quiz-btn" id="quizNext" disabled>Suivant →</button>
-      <span class="quiz-score" id="quizScore"></span>
-    </div>
-  </div>
-</section>
-</div><!-- /tab-panel tq -->
+
     <!-- FIN QUIZ -->
 
   </main>

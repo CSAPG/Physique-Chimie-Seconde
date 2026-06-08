@@ -1,0 +1,230 @@
+<div class="tab-panel" id="t3">
+<section class="section" id="partie3">
+  <div class="section-head">
+    <div class="sect-num">03</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-3">Partie 3</span>
+      <h2 class="sect-title">Dispersion de la lumière et spectres lumineux</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c3">
+    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
+    <ul>
+      <li>Caractériser le spectre du rayonnement émis par un corps chaud.</li>
+      <li>Caractériser un rayonnement monochromatique par sa longueur d'onde dans le vide ou dans l'air.</li>
+      <li>Exploiter un spectre de raies.</li>
+      <li>Décrire et expliquer qualitativement le phénomène de dispersion par un prisme.</li>
+      <li>Produire et exploiter des spectres d'émission obtenus à l'aide d'un système dispersif.</li>
+    </ul>
+  </div>
+
+  <!-- Spectre complet IR + Visible + UV -->
+  <div class="spectre-wrapper">
+    <p style="color:rgba(20,60,50,0.55); font-family:var(--ff-mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:10px;">Spectre électromagnétique — IR · Visible · UV</p>
+
+    <!-- Barre spectrale complète -->
+    <div class="spectre-full-row">
+      <div class="spectre-ir-zone"><span>IR</span></div>
+      <div class="spectre-bar-anim"></div>
+      <div class="spectre-uv-zone"><span>UV</span></div>
+    </div>
+
+    <!-- Étiquettes des domaines -->
+    <div class="spectre-labels-row">
+      <div class="spectre-label-ir">
+        <p>≫ 750 nm</p>
+      </div>
+      <div class="spectre-label-vis">
+        <div class="spectre-ticks">
+          <span>400 nm</span><span>450 nm</span><span>500 nm</span>
+          <span>550 nm</span><span>600 nm</span><span>650 nm</span><span>700 nm</span>
+        </div>
+      </div>
+      <div class="spectre-label-uv">
+        <p>≪ 400 nm</p>
+      </div>
+    </div>
+
+    <!-- Couleurs du domaine visible -->
+    <div class="wl-grid">
+      <div class="wl-chip" style="background:rgba(110,0,220,0.3); border:1px solid rgba(150,50,255,0.5); color:#c070ff">
+        <strong>Violet</strong>400–420 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(0,80,255,0.25); border:1px solid rgba(50,130,255,0.5); color:#80b0ff">
+        <strong>Bleu</strong>420–500 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(0,170,60,0.25); border:1px solid rgba(0,200,80,0.5); color:#70e090">
+        <strong>Vert</strong>500–575 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(240,220,0,0.2); border:1px solid rgba(255,220,0,0.5); color:#ffe060">
+        <strong>Jaune</strong>575–585 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(255,130,0,0.2); border:1px solid rgba(255,140,0,0.5); color:#ffb070">
+        <strong>Orange</strong>585–620 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(220,30,30,0.25); border:1px solid rgba(255,60,60,0.5); color:#ff8888">
+        <strong>Rouge</strong>620–750 nm
+      </div>
+    </div>
+
+    <!-- Cartes IR et UV -->
+    <div class="ir-uv-cards">
+      <div class="ir-card">
+        <span class="dom-label">Infrarouge (IR)</span>
+        <strong>λ &gt; 750 nm</strong> — invisible à l'œil humain.<br>
+        Rayonnement thermique : tout corps chaud émet de l'IR. Utilisé en thermographie, télécommandes, lunettes de vision nocturne et en spectroscopie moléculaire.
+      </div>
+      <div class="uv-card">
+        <span class="dom-label">Ultraviolet (UV)</span>
+        <strong>λ &lt; 400 nm</strong> — invisible à l'œil humain.<br>
+        Très énergétique (E = hc/λ). Provoque la fluorescence, stérilisation bactéricide, synthèse de vitamine D. Filtré en partie par l'ozone atmosphérique.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ANIMATION PRISME : DISPERSION ─── -->
+  <div class="prisme-anim-wrapper">
+    <div class="prisme-anim-header">Animation — Dispersion de la lumière par un prisme</div>
+    <canvas id="prismeCanvas" width="800" height="360"></canvas>
+
+    <div class="prisme-panel">
+      <!-- Colonne gauche : type de lumière -->
+      <div class="prisme-ctrl-group">
+        <div class="prisme-ctrl-label">Type de lumière</div>
+        <div class="prisme-toggle">
+          <button class="prisme-toggle-btn active" id="btnPoly" onclick="P.setMode('poly')">Blanche (poly)</button>
+          <button class="prisme-toggle-btn" id="btnMono" onclick="P.setMode('mono')">Monochromatique</button>
+        </div>
+        <div id="monoRow" style="display:none; flex-direction:column; gap:6px;">
+          <div class="prisme-ctrl-label" style="margin-top:2px;">Couleur du rayon</div>
+          <div class="mono-color-row" id="monoColors"></div>
+        </div>
+      </div>
+
+      <!-- Colonne droite : sliders -->
+      <div class="prisme-ctrl-group">
+        <div class="prisme-ctrl-label">Paramètres optiques</div>
+        <div class="prisme-slider-group">
+          <div class="slider-row">
+            <label>Angle sommet A</label>
+            <input type="range" id="sldPrism" min="30" max="80" value="60"
+                   oninput="P.setPrismAngle(this.value)">
+            <span class="slider-val" id="valPrism">60°</span>
+          </div>
+          <div class="slider-row">
+            <label>Angle d'incidence i₁</label>
+            <input type="range" id="sldInc" min="15" max="70" value="40"
+                   oninput="P.setInc(this.value)">
+            <span class="slider-val" id="valInc">40°</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prisme-legend" id="prismeLegend">
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#8800ee"></span>Violet 410 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#2255ff"></span>Bleu 460 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#00bb44"></span>Vert 530 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#cccc00"></span>Jaune 580 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#ff6600"></span>Orange 610 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#dd0000"></span>Rouge 660 nm</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">∿</span>
+        Lumière polychromatique
+      </div>
+      <p>Mélange de plusieurs radiations. La <strong>lumière blanche</strong> est polychromatique. Un prisme la décompose : c'est la <strong style="color:var(--gold)">dispersion</strong>. La figure obtenue est le <strong style="color:var(--gold)">spectre continu</strong>.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">λ</span>
+        Lumière monochromatique
+      </div>
+      <p>Une seule radiation (une seule longueur d'onde λ). Un prisme la <em>dévie</em> sans la décomposer. Exemple : un laser rouge.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">≡</span>
+      Types de spectres
+    </div>
+    <ul>
+      <li><strong>Spectre continu :</strong> émis par un corps chaud. Quand T augmente → spectre enrichi vers le bleu (courtes λ). Un corps émet d'autant plus de lumière qu'il est chaud.</li>
+      <li style="margin-top:8px"><strong>Spectre de raies :</strong> émis par un gaz d'atomes excités à basse pression. Raies caractéristiques = <em>signature spectrale</em> du gaz. Exemple : sodium → doublet jaune ~589 nm.</li>
+    </ul>
+    <div class="hl hl3">
+      <strong>Application – lithium :</strong> 3 raies caractéristiques ≈ 460 nm (bleu), 610 nm (orange-rouge), 670 nm (rouge).<br>
+      L'analyse spectrale permet d'identifier des ions métalliques en chimie.
+    </div>
+  </div>
+
+  <!-- ─── ANIMATIONS RECOMMANDÉES ─── -->
+<div class="card" style="margin-top:1.5rem; border-left:4px solid var(--accent1,#1a6b5a);">
+  <div class="card-title">
+    <span class="icon" style="background:rgba(26,107,90,0.12); color:var(--accent1,#1a6b5a)">▶</span>
+    <span style="color:var(--accent1,#1a6b5a);">Animations recommandées</span>
+  </div>
+  <p style="font-size:0.88rem;color:var(--muted,#666);margin:0 0 14px;">
+    Ces simulations interactives permettent de visualiser la dispersion, les spectres d'émission et d'absorption.
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+    <!-- Lien 1 — PCCL -->
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/dispersion_prisme_spectre_emission_absorption_flash.htm"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4faf7;border:1.5px solid #b0d4c8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(26,107,90,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🔬</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#1a6b5a;font-family:'DM Mono',monospace;">PCCL — Dispersion &amp; spectres</p>
+        <p style="margin:0;font-size:0.8rem;color:#4a7a6a;line-height:1.5;">
+          Simulation HTML5 : dispersion par un prisme, spectres d'émission et d'absorption. Idéal pour la Seconde.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#1a6b5a;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+    <!-- Lien 2 — web-labosims -->
+    <a href="https://web-labosims.org/animations/App_prisme/App_prisme.html"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4f6fc;border:1.5px solid #b8c4e8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(58,77,181,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌐</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#3a4db5;font-family:'DM Mono',monospace;">Labosims — Prisme interactif</p>
+        <p style="margin:0;font-size:0.8rem;color:#4a5a9a;line-height:1.5;">
+          Application interactive : angle du prisme, angle d'incidence, observation de la dispersion en temps réel.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#3a4db5;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+    <!-- Lien 3 — Ostralo (centré sur toute la largeur) -->
+    <a href="https://physique.ostralo.net/spectre_em_abs/"
+       target="_blank" rel="noopener"
+       style="grid-column:1 / -1;display:flex;align-items:flex-start;gap:12px;background:#fdf8ee;border:1.5px solid #e0cc88;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(180,140,0,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">✨</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#7a6000;font-family:'DM Mono',monospace;">Ostralo — Spectres d'émission et d'absorption</p>
+        <p style="margin:0;font-size:0.8rem;color:#7a6a30;line-height:1.5;">
+          Visualisation des spectres de raies d'émission et d'absorption de différents atomes. Parfait pour comprendre la signature spectrale.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#7a6000;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</section>
+</div><!-- /tab-panel t3 -->

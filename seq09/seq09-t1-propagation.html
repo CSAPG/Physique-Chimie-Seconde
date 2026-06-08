@@ -1,0 +1,132 @@
+<div class="tab-panel active" id="t1">
+<section class="section" id="partie1">
+  <div class="section-head">
+    <div class="sect-num">01</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-1">Partie 1</span>
+      <h2 class="sect-title">Propagation de la lumière</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c1">
+    <div class="cap-label">⚑ Capacité exigible du B.O.</div>
+    <ul>
+      <li>Citer la valeur de la vitesse de la lumière dans le vide ou dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">→</span>
+        Modèle du rayon lumineux
+      </div>
+      <p>Dans un milieu <strong>transparent et homogène</strong>, la lumière se propage en ligne droite.<br>
+      Un rayon lumineux est une droite orientée (flèche = sens de propagation).</p>
+      <svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg"
+           style="display:block;width:100%;height:auto;margin-top:14px;border-radius:8px;background:#f7faf9;">
+        <defs>
+          <marker id="arr-rl" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#1a7ad4"/>
+          </marker>
+          <radialGradient id="srcGlowRL" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#ffe566" stop-opacity="1"/>
+            <stop offset="60%"  stop-color="#ffbb00" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#ff8800" stop-opacity="0.4"/>
+          </radialGradient>
+        </defs>
+        <!-- Source lumineuse -->
+        <circle cx="28" cy="55" r="13" fill="url(#srcGlowRL)"/>
+        <circle cx="28" cy="55" r="7"  fill="#ffe566"/>
+        <text x="28" y="59" text-anchor="middle" font-size="9" fill="#886600" font-weight="700" font-family="'Outfit',sans-serif">S</text>
+        <!-- Rayon -->
+        <line x1="41" y1="55" x2="200" y2="55" stroke="#1a7ad4" stroke-width="2.5" marker-end="url(#arr-rl)"/>
+        <!-- Flèche indicatrice milieu -->
+        <polygon points="118,50 126,55 118,60" fill="#1a7ad4" opacity="0.45"/>
+        <!-- Labels -->
+        <text x="120" y="46" text-anchor="middle" font-size="9.5" fill="#1a7ad4" font-style="italic" font-family="'Outfit',sans-serif">rayon lumineux</text>
+        <text x="120" y="76" text-anchor="middle" font-size="8.5" fill="rgba(60,60,80,0.5)" font-family="'DM Mono',monospace">→ sens de propagation</text>
+        <!-- Note -->
+        <text x="110" y="96" text-anchor="middle" font-size="8" fill="rgba(26,107,90,0.65)" font-family="'Outfit',sans-serif">droite orientée — milieu homogène</text>
+      </svg>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">c</span>
+        Célérité : Vitesse de la lumière dans le vide
+      </div>
+      <div class="formula f1">c = 3,00 × 10⁸ m·s⁻¹</div>
+      <p>La vitesse dépend du milieu. Dans le vide, la célérité est maximale.</p>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">n</span>
+      Indice de réfraction d'un milieu
+    </div>
+    <p>L'indice <em>n</em> est le rapport entre la vitesse de la lumière dans le vide et sa vitesse dans le milieu :</p>
+    <div class="formula f1">n = c / v &nbsp;&nbsp;&nbsp; (n ≥ 1 toujours)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Milieu</th><th>Indice n</th><th>v = c/n (m·s⁻¹)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Air</td><td>≈ 1,00</td><td>≈ 3,00 × 10⁸</td></tr>
+          <tr><td>Eau</td><td>1,33</td><td>≈ 2,26 × 10⁸</td></tr>
+          <tr><td>Plexiglas</td><td>1,49</td><td>≈ 2,01 × 10⁸</td></tr>
+          <tr><td>Verre ordinaire</td><td>≈ 1,50</td><td>≈ 2,00 × 10⁸</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hl hl1">
+      <strong>📌 Règle :</strong> plus l'indice est grand, plus la lumière est ralentie dans ce milieu.
+      L'eau (n=1,33) ralentit moins la lumière que le plexiglas (n=1,49).
+    </div>
+  </div>
+
+  <!-- ── Animation A : Propagation rectiligne — source, objet, ombre ── -->
+  <div class="anim-block">
+    <div class="anim-label">Animation · Propagation rectiligne de la lumière — source, objet, ombre portée</div>
+    <canvas id="propCanvas" class="anim-canvas" width="860" height="220"></canvas>
+    <div class="milieu-btns">
+      <span style="font-family:var(--ff-mono);font-size:0.68rem;color:var(--muted);align-self:center;margin-right:6px;">Objet :</span>
+      <button class="milieu-btn active" id="btnOpaque"      onclick="propSetObjet('opaque',this)">Opaque</button>
+      <button class="milieu-btn"        id="btnTranslucide" onclick="propSetObjet('translucide',this)">Translucide</button>
+      <button class="milieu-btn"        id="btnTransparent" onclick="propSetObjet('transparent',this)">Transparent</button>
+    </div>
+  </div>
+
+  <!-- ── Animation B : Éclair et tonnerre – vitesse lumière vs son ── -->
+  <div class="anim-block" id="orageBlock" style="padding:0;overflow:hidden;border-radius:12px;background:#0b1220;position:relative;">
+    <div class="anim-label" style="background:rgba(255,255,255,0.07);color:#c8d8f0;border-bottom:1px solid rgba(255,255,255,0.08);">
+      ⚡ Animation interactive · Éclair et tonnerre — vitesse de la lumière et du son
+    </div>
+
+    <!-- SCÈNE CANVAS -->
+    <canvas id="orageCanvas" style="display:block;width:100%;height:260px;cursor:pointer;" height="260"></canvas>
+
+    <!-- PANNEAU DE CONTRÔLE -->
+    <div id="orageControls" style="background:rgba(255,255,255,0.05);border-top:1px solid rgba(255,255,255,0.08);padding:12px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="color:#a0b8d8;font-size:0.82rem;font-family:'DM Mono',monospace;">Distance orage :</label>
+        <input id="orageDistInput" type="range" min="500" max="10000" value="3000" step="100"
+          style="width:120px;accent-color:#f5c842;" oninput="orageUpdateDist()">
+        <span id="orageDistLabel" style="color:#f5c842;font-family:'DM Mono',monospace;font-size:0.85rem;min-width:60px;">3,0 km</span>
+      </div>
+      <div style="flex:1;display:flex;justify-content:flex-end;gap:8px;">
+        <button class="milieu-btn" id="orageBtn" onclick="orageDeclench()" style="background:rgba(245,200,66,0.18);color:#f5c842;border-color:rgba(245,200,66,0.4);">⚡ Déclencher l'éclair</button>
+        <button class="milieu-btn" onclick="orageReset()" style="color:#a0b8d8;">↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <!-- PANNEAU RÉSULTAT -->
+    <div id="orageResultat" style="display:none;background:rgba(26,107,90,0.15);border-top:1px solid rgba(26,107,90,0.3);padding:10px 18px;">
+      <p id="orageResultText" style="margin:0;font-family:'DM Mono',monospace;font-size:0.83rem;color:#8de0c0;line-height:1.8;"></p>
+    </div>
+  </div>
+
+</section>
+</div><!-- /tab-panel t1 -->

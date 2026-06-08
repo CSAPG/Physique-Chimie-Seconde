@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séquence 09 – Vision et Images · Physique-Chimie Seconde</title>
+
+  <!-- Polices -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,600;1,300&family=Outfit:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS partagé -->
+  <link rel="stylesheet" href="seq09_shared.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <header class="hero">
+    <div class="hero-tag">Physique-Chimie · Seconde</div>
+    <h1 class="hero-title">Vision et Images</h1>
+    <p class="hero-sub">Séquence 09</p>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       BARRE D'ONGLETS
+  ═══════════════════════════════════════ -->
+  <nav class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="showTab('t1', this)">T1 · Propagation</button>
+    <button class="tab-btn"        onclick="showTab('t2', this)">T2 · Snell-Descartes</button>
+    <button class="tab-btn"        onclick="showTab('t3', this)">T3 · Spectres</button>
+    <button class="tab-btn"        onclick="showTab('t4', this)">T4 · Lentilles</button>
+    <button class="tab-btn"        onclick="showTab('tq', this)">✦ Quiz</button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       CONTENU DES ONGLETS
+       → Colle ici le contenu de chaque fichier
+  ═══════════════════════════════════════ -->
+  <main class="tab-container">
+
+    <!-- ── T1 : colle ici tout le contenu de seq09-t1-propagation.html ── -->
+    <!-- DÉBUT T1 -->
+
+    <!-- FIN T1 -->
+
+    <!-- ── T2 : colle ici tout le contenu de seq09_t2_snell.html ── -->
+    <!-- DÉBUT T2 -->
+
+    <!-- FIN T2 -->
+
+    <!-- ── T3 : colle ici tout le contenu de seq09_t3_spectres.html ── -->
+    <!-- DÉBUT T3 -->
+
+    <!-- FIN T3 -->
+
+    <!-- ── T4 : colle ici tout le contenu de seq09_t4_lentilles.html ── -->
+    <!-- DÉBUT T4 -->
+
+    <!-- FIN T4 -->
+
+    <!-- ── QUIZ : colle ici tout le contenu de seq09_tq_quiz.html ── -->
+    <!-- DÉBUT QUIZ -->
+
+    <!-- FIN QUIZ -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    Mme Poirault-Gauvin · Physique-Chimie Seconde · Séquence 09
+  </footer>
+
+  <!-- ═══════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════ -->
+  <script src="seq09_js_canvas.js"></script>
+
+  <!-- Gestion des onglets -->
+  <script>
+    function showTab(id, btn) {
+      // Cacher tous les panneaux
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      // Désactiver tous les boutons
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      // Afficher le panneau cible
+      document.getElementById(id).classList.add('active');
+      // Activer le bouton cliqué
+      btn.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

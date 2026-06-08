@@ -85,7 +85,10 @@
     function checkAccess() {
       const code = document.getElementById('accessInput').value;
       if (code === 'seconde2027') {
-        document.getElementById('accessScreen').style.display = 'none';
+        const s = document.getElementById('accessScreen');
+        s.style.opacity = '0';
+        s.style.pointerEvents = 'none';
+        setTimeout(() => s.remove(), 300);
         sessionStorage.setItem('access_seq09', '1');
       } else {
         document.getElementById('accessError').style.display = 'block';
@@ -95,7 +98,8 @@
     // Si déjà authentifié dans la session
     if (sessionStorage.getItem('access_seq09') === '1') {
       document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('accessScreen').style.display = 'none';
+        const s = document.getElementById('accessScreen');
+        if (s) s.remove();
       });
     }
   </script>

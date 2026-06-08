@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physique-Chimie Seconde — Mme Poirault-Gauvin</title>
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3/dist/tailwind.min.js"></script>
+  <style>
+    body { background: #f0f7ff; }
+
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #0f3460 0%, #1a6b8a 50%, #0e7490 100%);
+      padding: 48px 24px 36px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-title { position:relative;z-index:1;font-size:2.2rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,0.3);margin-bottom:8px; }
+    .hero-sub   { position:relative;z-index:1;font-size:1.1rem;color:#bae6fd;margin-bottom:4px; }
+    .hero-badge { position:relative;z-index:1;display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 16px;font-size:0.85rem;color:#e0f2fe;margin-top:8px; }
+
+    .main-nav { background:white;box-shadow:0 2px 8px rgba(0,0,0,0.08);padding:12px 24px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:100; }
+
+    .dropdown-wrapper { position:relative;display:inline-block; }
+    .dropdown-btn { color:#0e7490;font-size:1.1rem;font-weight:700;background:none;border:2px solid #0e7490;border-radius:8px;cursor:pointer;padding:8px 18px;display:flex;align-items:center;gap:8px;transition:background 0.15s; }
+    .dropdown-btn:hover { background:#ecfeff; }
+    .dropdown-menu { display:none;position:absolute;top:calc(100% + 6px);left:0;background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,0.12);z-index:1000;min-width:340px;padding:6px 0;list-style:none; }
+    .dropdown-menu li button { width:100%;text-align:left;padding:10px 20px;background:none;border:none;cursor:pointer;color:#1e293b;font-size:0.92rem;font-weight:500;display:flex;align-items:center;gap:10px; }
+    .dropdown-menu li button:hover { background:#ecfeff;color:#0e7490; }
+    .seq-num { display:inline-block;background:#0e7490;color:white;border-radius:6px;padding:1px 7px;font-size:0.78rem;font-weight:700;min-width:28px;text-align:center;flex-shrink:0; }
+    .dropdown-menu li button.disabled-seq { color:#94a3b8;cursor:default; }
+    .dropdown-menu li button.disabled-seq:hover { background:none;color:#94a3b8; }
+    .dropdown-menu li button.disabled-seq .seq-num { background:#cbd5e1; }
+
+    .content-area { max-width:900px;margin:0 auto;padding:32px 16px; }
+
+    .welcome-block { background:white;border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(0,0,0,0.06);text-align:center;margin-bottom:24px; }
+    .welcome-block h2 { font-size:1.4rem;font-weight:700;color:#0e7490;margin-bottom:12px; }
+    .welcome-block p { color:#475569;line-height:1.7; }
+
+    .seq-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:24px; }
+    .seq-card { background:white;border-radius:12px;padding:20px 16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);border:1.5px solid #e0f2fe;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;text-decoration:none;color:inherit;display:block; }
+    .seq-card:hover { transform:translateY(-3px);box-shadow:0 6px 20px rgba(14,116,144,0.15);border-color:#0e7490; }
+    .seq-card.coming-soon { opacity:0.45;cursor:default;pointer-events:none; }
+    .seq-card .seq-icon { font-size:2rem;margin-bottom:8px; }
+    .seq-card .seq-num-badge { display:inline-block;background:#0e7490;color:white;border-radius:6px;padding:2px 8px;font-size:0.75rem;font-weight:700;margin-bottom:8px; }
+    .seq-card.coming-soon .seq-num-badge { background:#94a3b8; }
+    .seq-card .seq-title { font-size:0.88rem;font-weight:600;color:#1e293b;line-height:1.4; }
+    .seq-card.coming-soon .seq-title { color:#94a3b8; }
+
+    .seq-panel { display:none;background:white;border-radius:16px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+    .seq-panel.active { display:block; }
+    .seq-panel-header { display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #e0f2fe; }
+    .seq-panel-header .big-num { font-size:2.5rem;font-weight:800;color:#0e7490;line-height:1; }
+    .seq-panel-header h3 { font-size:1.3rem;font-weight:700;color:#0f3460; }
+    .seq-panel-header p { font-size:0.88rem;color:#64748b; }
+
+    .btn-back { background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;color:#475569;padding:6px 14px;transition:background 0.15s; }
+    .btn-back:hover { background:#e2e8f0; }
+
+    .resource-link { display:flex;align-items:center;gap:12px;padding:14px 18px;background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:10px;text-decoration:none;color:#0e7490;font-weight:600;transition:background 0.15s,border-color 0.15s;margin-bottom:10px; }
+    .resource-link:hover { background:#e0f2fe;border-color:#0e7490; }
+    .resource-link .icon { font-size:1.4rem; }
+    .resource-link .label { font-size:0.95rem; }
+    .resource-link .sub { font-size:0.78rem;color:#64748b;font-weight:400; }
+
+    footer { text-align:center;padding:24px;color:#94a3b8;font-size:0.82rem;margin-top:48px; }
+
+    #auth-overlay { position:fixed;inset:0;z-index:9999;background:rgba(15,52,96,0.88);backdrop-filter:blur(4px);display:flex;flex-direction:column;align-items:center;justify-content:center; }
+  </style>
+</head>
+<body>
+
+  <!-- PROTECTION -->
+  <div id="auth-overlay">
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:3rem;margin-bottom:10px;">🔬</div>
+      <h1 style="color:#fff;font-size:1.6rem;font-weight:700;margin:0 0 6px;">Physique-Chimie Seconde</h1>
+      <p style="color:#bae6fd;font-size:1rem;margin:0;">Mme Poirault-Gauvin</p>
+    </div>
+    <div style="background:white;border-radius:16px;padding:36px 40px;min-width:320px;text-align:center;">
+      <p style="color:#1e293b;margin:0 0 20px;font-size:0.95rem;">Entrez le code d'accès :</p>
+      <input id="auth-input" type="password" placeholder="••••••"
+        style="width:100%;box-sizing:border-box;padding:14px 18px;font-size:1.2rem;border-radius:10px;border:2px solid #e2e8f0;color:#0f172a;text-align:center;outline:none;letter-spacing:0.3em;margin-bottom:16px;"
+        onkeydown="if(event.key==='Enter') verifierCode()"
+        oninput="document.getElementById('auth-error').style.display='none'">
+      <button onclick="verifierCode()"
+        style="width:100%;padding:14px;background:#0e7490;color:white;font-size:1rem;font-weight:700;border:none;border-radius:10px;cursor:pointer;"
+        onmouseover="this.style.background='#0891b2'" onmouseout="this.style.background='#0e7490'">
+        Accéder au site →
+      </button>
+      <p id="auth-error" style="color:#f87171;margin:12px 0 0;font-size:0.9rem;display:none;">Code incorrect, réessayez.</p>
+    </div>
+    <p style="color:#93c5fd;font-size:0.8rem;margin-top:20px;">© 2026 Mme Poirault-Gauvin</p>
+  </div>
+  <script>
+    const CODE_ACCES = "seconde2027";
+    function verifierCode() {
+      const input = document.getElementById('auth-input').value.trim();
+      if (input === CODE_ACCES) {
+        document.getElementById('auth-overlay').style.display = 'none';
+        sessionStorage.setItem('auth_seconde', 'ok');
+      } else {
+        document.getElementById('auth-error').style.display = 'block';
+        document.getElementById('auth-input').value = '';
+        const inp = document.getElementById('auth-input');
+        inp.style.borderColor = '#f87171';
+        setTimeout(() => inp.style.borderColor = '#e2e8f0', 1000);
+      }
+    }
+    if (sessionStorage.getItem('auth_seconde') === 'ok') {
+      document.getElementById('auth-overlay').style.display = 'none';
+    }
+  </script>
+
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-title">🔬 Physique-Chimie Seconde</div>
+    <div class="hero-sub">Animations · Cours · Quiz · Exercices</div>
+    <div class="hero-badge">Mme Poirault-Gauvin · 2025–2026</div>
+  </header>
+
+
+  <!-- NAVIGATION -->
+  <nav class="main-nav">
+    <button id="btn-retour" class="btn-back" style="display:none;" onclick="afficherAccueil()">← Retour à l'accueil</button>
+
+    <div class="dropdown-wrapper" id="seq-wrapper">
+      <button class="dropdown-btn" onclick="toggleMenu()">
+        📋 Séquences de Seconde <span style="font-size:0.75rem;">▼</span>
+      </button>
+      <ul class="dropdown-menu" id="seq-menu">
+        <li>
+          <button onclick="afficherSeq(9)">
+            <span class="seq-num">09</span> Vision et Images
+          </button>
+        </li>
+        <li style="border-top:1px solid #f1f5f9;">
+          <button class="disabled-seq" disabled><span class="seq-num">01</span> Corps purs et mélanges <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button>
+        </li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">02</span> Modèle de l'atome <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">03</span> Réactions chimiques <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">04</span> Solutions aqueuses <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">05</span> Mouvements et interactions <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">06</span> Énergie et travail <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">07</span> Ondes <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">08</span> Signaux et capteurs <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">10</span> Structure de la matière <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">11</span> Chimie organique <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+        <li><button class="disabled-seq" disabled><span class="seq-num">12</span> Électricité <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- CONTENU -->
+  <main class="content-area">
+
+    <!-- Bienvenue -->
+    <div id="bloc-bienvenue" class="welcome-block">
+      <h2>👋 Bienvenue !</h2>
+      <p>Ce site regroupe des animations interactives, cours, quiz et exercices pour les élèves de <strong>Seconde</strong>.<br>Cliquez sur une séquence pour accéder aux ressources.</p>
+
+      <div class="seq-grid">
+        <a class="seq-card" onclick="afficherSeq(9); return false;" href="#">
+          <div class="seq-icon">👁️</div>
+          <div class="seq-num-badge">Séq. 09</div>
+          <div class="seq-title">Vision et Images</div>
+        </a>
+        <div class="seq-card coming-soon"><div class="seq-icon">⚗️</div><div class="seq-num-badge">Séq. 01</div><div class="seq-title">Corps purs et mélanges</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">⚛️</div><div class="seq-num-badge">Séq. 02</div><div class="seq-title">Modèle de l'atome</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🧪</div><div class="seq-num-badge">Séq. 03</div><div class="seq-title">Réactions chimiques</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">💧</div><div class="seq-num-badge">Séq. 04</div><div class="seq-title">Solutions aqueuses</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🏃</div><div class="seq-num-badge">Séq. 05</div><div class="seq-title">Mouvements et interactions</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">⚡</div><div class="seq-num-badge">Séq. 06</div><div class="seq-title">Énergie et travail</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🌊</div><div class="seq-num-badge">Séq. 07</div><div class="seq-title">Ondes</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">📡</div><div class="seq-num-badge">Séq. 08</div><div class="seq-title">Signaux et capteurs</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🔩</div><div class="seq-num-badge">Séq. 10</div><div class="seq-title">Structure de la matière</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🧬</div><div class="seq-num-badge">Séq. 11</div><div class="seq-title">Chimie organique</div></div>
+        <div class="seq-card coming-soon"><div class="seq-icon">🔌</div><div class="seq-num-badge">Séq. 12</div><div class="seq-title">Électricité</div></div>
+      </div>
+    </div>
+
+    <!-- Séquence 09 -->
+    <div id="seq-panel-9" class="seq-panel">
+      <div class="seq-panel-header">
+        <div class="big-num">09</div>
+        <div>
+          <h3>Vision et Images</h3>
+          <p>Propagation · Snell-Descartes · Spectres · Lentilles · Modèle de l'œil</p>
+        </div>
+      </div>
+      <a class="resource-link" href="seq09/index.html" target="_blank">
+        <span class="icon">🎓</span>
+        <div>
+          <div class="label">Cours interactif complet</div>
+          <div class="sub">Animations · Exercices · Quiz · 4 parties</div>
+        </div>
+        <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+      </a>
+    </div>
+
+  </main>
+
+  <footer>© 2026 Mme Poirault-Gauvin · Physique-Chimie Seconde</footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('seq-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+    document.addEventListener('click', function(e) {
+      const wrapper = document.getElementById('seq-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('seq-menu').style.display = 'none';
+      }
+    });
+    function afficherSeq(n) {
+      document.getElementById('bloc-bienvenue').style.display = 'none';
+      document.querySelectorAll('.seq-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('seq-panel-' + n);
+      if (panel) panel.classList.add('active');
+      document.getElementById('seq-menu').style.display = 'none';
+      document.getElementById('btn-retour').style.display = 'inline-block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function afficherAccueil() {
+      document.getElementById('bloc-bienvenue').style.display = 'block';
+      document.querySelectorAll('.seq-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('btn-retour').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

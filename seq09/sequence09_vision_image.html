@@ -4005,117 +4005,18 @@ window.P = (function() {
       /* Normale face sortie (AC) — utilise nAC */
       drawNormal(ctx, exitVisR.x, exitVisR.y, nAC.x, nAC.y);
 
-      /* Angles à l'entrée */
-      // i1 = angle entre rayon incident et normale extérieure nAB
-      const cosI1 = Math.abs(dirInc.x*nAB.x + dirInc.y*nAB.y);
-      const i1deg = (Math.acos(Math.min(1,cosI1))*180/Math.PI).toFixed(1);
-      // r1 = angle entre rayon interne et normale intérieure
-      const cosR1 = Math.abs(dirIn.x*nAB.x + dirIn.y*nAB.y);
-      const r1deg = (Math.acos(Math.min(1,cosR1))*180/Math.PI).toFixed(1);
-
-      /* Angles à la sortie */
-      const cosI2 = Math.abs(dirIn.x*nAC.x + dirIn.y*nAC.y);
-      const i2deg = (Math.acos(Math.min(1,cosI2))*180/Math.PI).toFixed(1);
-      const cosR2 = Math.abs(dirOut.x*nAC.x + dirOut.y*nAC.y);
-      const r2deg = (Math.acos(Math.min(1,cosR2))*180/Math.PI).toFixed(1);
-
-      /* ── Triangles grisés entre normale et rayon (définition physique des angles) ──
-         drawAngleTriangle : dessine le petit triangle entre :
-           - le point d'incidence (px, py)
-           - un point sur la normale (dirNorm * R depuis le point)
-           - un point sur le rayon (dirRay * R depuis le point)
-         + un disque au point d'incidence
-         + le label sur la bissectrice
-         dirNorm et dirRay sont des vecteurs unitaires (sens positif depuis le point).
-      ── */
-      function drawAngleTriangle(px, py, dirNorm, dirRay, R, label) {
-        // Les deux extrémités du triangle (à distance R du point)
-        const pN = { x: px + dirNorm.x * R, y: py + dirNorm.y * R };
-        const pR = { x: px + dirRay.x  * R, y: py + dirRay.y  * R };
-
-        // Triangle grisé
+      /* Points d'incidence */
+      [{ x: entry.x, y: entry.y }, { x: exitVisR.x, y: exitVisR.y }].forEach(pt => {
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(pN.x, pN.y);
-        ctx.lineTo(pR.x, pR.y);
-        ctx.closePath();
-        ctx.fillStyle = 'rgba(200,215,255,0.18)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(200,215,255,0.55)';
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-        ctx.restore();
-
-        // Petit arc entre les deux côtés (rayon R/2) pour matérialiser l'angle
-        const a1 = Math.atan2(dirNorm.y, dirNorm.x);
-        const a2 = Math.atan2(dirRay.y,  dirRay.x);
-        let da = a2 - a1;
-        if (da >  Math.PI) da -= 2*Math.PI;
-        if (da < -Math.PI) da += 2*Math.PI;
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(px, py, R * 0.5, a1, a1 + da, da < 0);
-        ctx.strokeStyle = 'rgba(200,215,255,0.80)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.restore();
-
-        // Point d'incidence (disque lumineux)
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(px, py, 4, 0, 2*Math.PI);
+        ctx.arc(pt.x, pt.y, 4, 0, 2*Math.PI);
         ctx.fillStyle = 'rgba(255,255,200,0.90)';
         ctx.fill();
         ctx.strokeStyle = 'rgba(255,255,200,0.50)';
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.restore();
-
-        // Label sur la bissectrice (à distance R + 14 du point)
-        const aMid = a1 + da * 0.5;
-        ctx.save();
-        ctx.font = "italic bold 11px 'Crimson Pro',Georgia,serif";
-        ctx.fillStyle = 'rgba(255,240,140,0.98)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(label, px + Math.cos(aMid)*(R + 16), py + Math.sin(aMid)*(R + 16));
-        ctx.restore();
-      }
-
-      const R_tri = 28;
-
-      // ── FACE AB (entrée) ──
-      // i₁ : entre la normale côté AIR (-nAB) et le rayon incident remontant (-dirInc)
-      drawAngleTriangle(
-        entry.x, entry.y,
-        { x: -nAB.x, y: -nAB.y },   // normale vers l'air (depuis le point vers la source)
-        { x: -dirInc.x, y: -dirInc.y }, // rayon incident remontant (depuis le point vers la source)
-        R_tri, 'i₁ = '+i1deg+'°'
-      );
-      // r₁ : entre la normale côté VERRE (nAB interne) et le rayon réfracté (dirIn)
-      drawAngleTriangle(
-        entry.x, entry.y,
-        { x: nAB.x, y: nAB.y },   // normale vers le verre (depuis le point vers l'intérieur)
-        dirIn,                     // rayon réfracté (depuis le point vers la face AC)
-        R_tri, 'r₁ = '+r1deg+'°'
-      );
-
-      // ── FACE AC (sortie) ──
-      // i₂ : entre la normale côté VERRE (-nAC côté interne) et le rayon interne remontant (-dirIn)
-      drawAngleTriangle(
-        exitVisR.x, exitVisR.y,
-        { x: -nAC.x, y: -nAC.y },   // normale vers l'intérieur du verre
-        { x: -dirIn.x, y: -dirIn.y }, // rayon interne remontant depuis le point
-        R_tri, 'i₂ = '+i2deg+'°'
-      );
-      // r₂ : entre la normale côté AIR (nAC) et le rayon émergent (dirOut)
-      drawAngleTriangle(
-        exitVisR.x, exitVisR.y,
-        { x: nAC.x, y: nAC.y },  // normale vers l'air
-        dirOut,                   // rayon émergent
-        R_tri, 'r₂ = '+r2deg+'°'
-      );
+      });
     }
 
     /* ── SOURCE (halo lumineux) ── */

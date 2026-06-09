@@ -1,0 +1,4385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séquence 09 – Vision et image | 2nde</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════════ */
+:root {
+  --bg:        #fafaf7;
+  --surface:   #ffffff;
+  --surface2:  #f4f3ee;
+  --border:    rgba(60,60,40,0.1);
+  --text:      #111111;
+  --muted:     #444444;
+  --accent1:   #1a6b5a;   /* teal science */
+  --accent2:   #b85c00;   /* amber */
+  --accent3:   #3a4db5;   /* bleu indigo */
+  --accent4:   #8b1a3a;   /* rose spectral */
+  --gold:      #c89a2e;
+  --radius:    10px;
+  --tr:        0.32s cubic-bezier(.4,0,.2,1);
+  --shadow:    0 2px 20px rgba(0,0,0,0.07);
+  --ff-serif:  'Crimson Pro', Georgia, serif;
+  --ff-sans:   'Outfit', sans-serif;
+  --ff-mono:   'DM Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px 16px;
+  overflow: hidden;
+  background-image: url('couche%20soleil.jpg');
+   background-size: cover;
+  background-position: center 30%;
+}
+
+/* Voile pour lisibilité du texte */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20,40,80,0.25) 0%,
+    rgba(10,20,50,0.15) 50%,
+    rgba(0,10,30,0.35) 100%
+  );
+  z-index: 1;
+}
+
+/* Canvas ciel — supprimé */
+#skyCanvas { display: none; }
+
+/* Rayons lumineux animés — supprimés */
+.light-rays { display: none; }
+
+/* Prisme SVG décoratif */
+.prism-deco {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  opacity: 0;
+  animation: fadeIn 1.2s 0.6s forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* Spectre arc-en-ciel sortant du prisme */
+.spectrum-fan {
+  position: absolute;
+  right: 18%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 120px;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeIn 1.4s 1s forwards;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 680px;
+}
+
+.hero-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.3s forwards;
+}
+
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0,60,120,0.45), 0 1px 4px rgba(0,0,0,0.3);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.5s forwards;
+}
+
+.hero-title em {
+  color: #ffe680;
+  font-style: italic;
+  text-shadow: 0 2px 12px rgba(200,140,0,0.5);
+}
+
+.hero-sub {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.88);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  letter-spacing: 0.06em;
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: slideUp 0.7s 0.7s forwards;
+}
+
+.hero-desc {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+  font-style: italic;
+  font-family: var(--ff-serif);
+  opacity: 0;
+  animation: slideUp 0.7s 0.9s forwards;
+}
+
+/* Nav pills hero */
+.hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  opacity: 0;
+  animation: slideUp 0.7s 1.1s forwards;
+}
+
+.hero-pill {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.92);
+  text-decoration: none;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  transition: var(--tr);
+  cursor: pointer;
+}
+
+.hero-pill:hover {
+  background: rgba(255,255,255,0.28);
+  border-color: rgba(255,255,255,0.7);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.hero-pill.p1 { border-color: rgba(150,230,255,0.5); }
+.hero-pill.p2 { border-color: rgba(150,255,200,0.5); }
+.hero-pill.p3 { border-color: rgba(255,230,100,0.5); }
+.hero-pill.p4 { border-color: rgba(255,160,160,0.5); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s 1.8s forwards;
+}
+
+.hero-scroll span {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: rgba(30,50,40,0.3);
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(30,50,40,0.4), transparent);
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+
+@keyframes scrollAnim {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50%       { transform: scaleY(0.6) translateY(8px); opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════
+   BARRE D'ONGLETS
+══════════════════════════════════════════ */
+.tab-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,250,247,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.tab-bar-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tab-bar-inner::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 14px 18px 11px;
+  cursor: pointer;
+  transition: var(--tr);
+  white-space: nowrap;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.tab-btn:hover { color: var(--accent1); background: rgba(26,107,90,0.04); }
+.tab-btn.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+
+.tab-btn.t2:hover { color: var(--accent2); background: rgba(184,92,0,0.04); }
+.tab-btn.t2.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+.tab-btn.t3:hover { color: var(--gold); background: rgba(200,154,46,0.04); }
+.tab-btn.t3.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+.tab-btn.t4:hover { color: var(--accent4); background: rgba(139,26,58,0.04); }
+.tab-btn.t4.active { color: var(--accent4); border-bottom-color: var(--accent4); }
+
+.tab-btn.tq:hover { color: #7a5800; background: rgba(160,110,0,0.04); }
+.tab-btn.tq.active { color: #7a5800; border-bottom-color: #c89a2e; }
+
+/* ══════════════════════════════════════════
+   PANNEAUX D'ONGLETS
+══════════════════════════════════════════ */
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: tabFadeIn 0.3s ease;
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════ */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 100px;
+}
+
+/* ══════════════════════════════════════════
+   SECTIONS
+══════════════════════════════════════════ */
+.section {
+  padding-top: 48px;
+  opacity: 1;
+  transform: none;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sect-num {
+  font-family: var(--ff-serif);
+  font-size: 5rem;
+  font-weight: 300;
+  line-height: 0.85;
+  color: var(--border);
+  flex-shrink: 0;
+  min-width: 60px;
+  letter-spacing: -0.03em;
+}
+
+.sect-info {}
+
+.sect-tag {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.tag-1 { background: rgba(26,107,90,0.1); color: var(--accent1); border: 1px solid rgba(26,107,90,0.25); }
+.tag-2 { background: rgba(184,92,0,0.1);  color: var(--accent2); border: 1px solid rgba(184,92,0,0.25); }
+.tag-3 { background: rgba(200,154,46,0.1); color: var(--gold);   border: 1px solid rgba(200,154,46,0.25); }
+.tag-4 { background: rgba(139,26,58,0.1); color: var(--accent4); border: 1px solid rgba(139,26,58,0.25); }
+
+.sect-title {
+  font-family: var(--ff-serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #e07000;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════════
+   CAPACITÉS
+══════════════════════════════════════════ */
+.cap-block {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.cap-block.c1 { background: rgba(26,107,90,0.05); border-left: 3px solid var(--accent1); }
+.cap-block.c2 { background: rgba(184,92,0,0.05);  border-left: 3px solid var(--accent2); }
+.cap-block.c3 { background: rgba(200,154,46,0.05); border-left: 3px solid var(--gold);   }
+.cap-block.c4 { background: rgba(139,26,58,0.05); border-left: 3px solid var(--accent4); }
+
+.cap-label {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.c1 .cap-label { color: var(--accent1); }
+.c2 .cap-label { color: var(--accent2); }
+.c3 .cap-label { color: var(--gold); }
+.c4 .cap-label { color: var(--accent4); }
+
+.cap-block ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+
+.cap-block li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.cap-block li::before {
+  content: '◆';
+  font-size: 0.5rem;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.c1 li::before { color: var(--accent1); }
+.c2 li::before { color: var(--accent2); }
+.c3 li::before { color: var(--gold); }
+.c4 li::before { color: var(--accent4); }
+
+/* ══════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--tr), transform var(--tr);
+}
+
+.card:hover {
+  box-shadow: 0 4px 32px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
+
+.card-title {
+  font-family: var(--ff-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title .icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.card p, .card li { font-size: 0.9rem; color: #111111; line-height: 1.65; }
+.card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.card ul li { padding-left: 16px; position: relative; }
+.card ul li::before { content: '–'; position: absolute; left: 0; color: var(--muted); }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 620px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* ══════════════════════════════════════════
+   FORMULES
+══════════════════════════════════════════ */
+.formula {
+  font-family: var(--ff-mono);
+  font-size: 1.05rem;
+  text-align: center;
+  padding: 14px 20px;
+  border-radius: 8px;
+  margin: 14px 0;
+  letter-spacing: 0.04em;
+  position: relative;
+  overflow: hidden;
+}
+
+.formula::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background: repeating-linear-gradient(
+    -55deg, currentColor 0, currentColor 1px, transparent 1px, transparent 10px
+  );
+}
+
+.f1 { background: rgba(26,107,90,0.08); color: var(--accent1); border: 1px solid rgba(26,107,90,0.2); }
+.f2 { background: rgba(184,92,0,0.08);  color: var(--accent2); border: 1px solid rgba(184,92,0,0.2); }
+.f3 { background: rgba(58,77,181,0.08); color: var(--accent3); border: 1px solid rgba(58,77,181,0.2); }
+.f4 { background: rgba(200,154,46,0.08); color: var(--gold);   border: 1px solid rgba(200,154,46,0.2); }
+
+/* ══════════════════════════════════════════
+   HIGHLIGHT BOX
+══════════════════════════════════════════ */
+.hl {
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.hl1 { background: rgba(26,107,90,0.07); border-left: 3px solid var(--accent1); color: #1a3a30; }
+.hl2 { background: rgba(184,92,0,0.07);  border-left: 3px solid var(--accent2); color: #3a2000; }
+.hl3 { background: rgba(200,154,46,0.08); border-left: 3px solid var(--gold);   color: #3a2800; }
+.hl4 { background: rgba(139,26,58,0.07); border-left: 3px solid var(--accent4); color: #2a0010; }
+
+.hl strong { font-weight: 600; }
+
+/* ══════════════════════════════════════════
+   TABLEAU
+══════════════════════════════════════════ */
+.table-wrap { overflow-x: auto; margin: 14px 0; border-radius: 8px; border: 1px solid var(--border); }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+
+thead tr { background: rgba(26,107,90,0.06); }
+
+th {
+  padding: 11px 16px;
+  text-align: left;
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent1);
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  color: #111111;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: rgba(0,0,0,0.02); }
+
+/* ══════════════════════════════════════════
+   CANVAS ANIMATIONS (Snell-Descartes)
+══════════════════════════════════════════ */
+.canvas-container {
+  background: #f0f6f4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.canvas-label {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: rgba(20,50,40,0.45);
+  text-transform: uppercase;
+}
+
+canvas { display: block; }
+
+/* ══════════════════════════════════════════
+   SPECTRE INTERACTIF
+══════════════════════════════════════════ */
+.spectre-wrapper {
+  background: #f0f6f4;
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+/* ─── BARRE SPECTRALE COMPLÈTE IR + Visible + UV ─── */
+.spectre-full-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.spectre-ir-zone {
+  flex: 0 0 15%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(180,30,0,0.18) 0px, rgba(180,30,0,0.04) 6px, rgba(180,30,0,0.18) 12px
+  );
+  border-right: 2px dashed rgba(200,60,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+}
+
+.spectre-uv-zone {
+  flex: 0 0 15%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(80,0,180,0.18) 0px, rgba(80,0,180,0.04) 6px, rgba(80,0,180,0.18) 12px
+  );
+  border-left: 2px dashed rgba(100,0,200,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+}
+
+.spectre-ir-zone span, .spectre-uv-zone span {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.spectre-ir-zone span { color: rgba(200,50,0,0.7); }
+.spectre-uv-zone span { color: rgba(100,0,200,0.7); }
+
+.spectre-bar-anim {
+  flex: 1;
+  height: 32px;
+  background: linear-gradient(to right,
+    #6600cc 0%, #4444ff 10%, #0055ff 18%, #0099ff 26%,
+    #00ddcc 35%, #00ee66 44%, #88ff00 52%,
+    #ffee00 60%, #ffaa00 68%, #ff5500 78%, #ff0000 100%
+  );
+  box-shadow: 0 0 30px rgba(100,200,255,0.25), 0 0 60px rgba(255,200,50,0.1);
+  animation: spectrePulse 4s ease-in-out infinite;
+}
+
+@keyframes spectrePulse {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; box-shadow: 0 0 40px rgba(100,200,255,0.35); }
+}
+
+/* Étiquettes sous la barre complète */
+.spectre-labels-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 4px;
+}
+.spectre-label-ir {
+  flex: 0 0 15%;
+  text-align: center;
+}
+.spectre-label-vis {
+  flex: 1;
+}
+.spectre-label-uv {
+  flex: 0 0 15%;
+  text-align: center;
+}
+
+.spectre-label-ir p, .spectre-label-uv p {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  margin: 4px 0 0;
+  opacity: 0.65;
+}
+.spectre-label-ir p { color: rgba(200,60,0,0.85); }
+.spectre-label-uv p { color: rgba(100,0,200,0.85); }
+
+.spectre-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.spectre-ticks span {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  color: rgba(20,50,40,0.45);
+}
+
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 16px;
+}
+
+@media (max-width: 560px) { .wl-grid { grid-template-columns: repeat(3,1fr); } }
+
+/* ─── BANDEAU IR / UV informatif ─── */
+.ir-uv-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+.ir-card, .uv-card {
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+.ir-card {
+  background: rgba(200,60,0,0.06);
+  border-left: 3px solid rgba(200,60,0,0.5);
+}
+.uv-card {
+  background: rgba(100,0,200,0.06);
+  border-left: 3px solid rgba(100,0,200,0.5);
+}
+.ir-card strong { color: rgba(200,60,0,0.9); }
+.uv-card strong { color: rgba(100,0,200,0.85); }
+.ir-card .dom-label, .uv-card .dom-label {
+  font-family: var(--ff-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+  opacity: 0.6;
+}
+
+@media (max-width: 560px) { .ir-uv-cards { grid-template-columns: 1fr; } }
+
+/* ─── ANIMATION PRISME ─── */
+.prisme-anim-wrapper {
+  background: #f4f5f8;
+  border-radius: var(--radius);
+  padding: 0;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.prisme-anim-header {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 14px 20px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.prisme-anim-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(200,154,46,0.25);
+}
+
+#prismeCanvas {
+  display: block;
+  width: 100%;
+  background: #ffffff;
+  cursor: crosshair;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* Panneau de contrôle */
+.prisme-panel {
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+@media (max-width: 580px) { .prisme-panel { grid-template-columns: 1fr; } }
+
+.prisme-ctrl-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prisme-ctrl-label {
+  font-family: var(--ff-mono);
+  font-size: 0.60rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(80,60,20,0.55);
+}
+
+/* Toggle lumière */
+.prisme-toggle {
+  display: flex;
+  gap: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(200,154,46,0.35);
+}
+.prisme-toggle-btn {
+  flex: 1;
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: rgba(80,60,10,0.65);
+  cursor: pointer;
+  transition: var(--tr);
+  border-right: 1px solid rgba(200,154,46,0.25);
+}
+.prisme-toggle-btn:last-child { border-right: none; }
+.prisme-toggle-btn:hover { background: rgba(200,154,46,0.10); }
+.prisme-toggle-btn.active {
+  background: rgba(200,154,46,0.22);
+  color: #6a3e00;
+  font-weight: 600;
+}
+
+/* Sélecteur couleur mono */
+.mono-color-row {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.mono-color-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: var(--tr);
+  position: relative;
+}
+.mono-color-btn:hover { transform: scale(1.12); }
+.mono-color-btn.active {
+  border-color: #333;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.18);
+}
+.mono-color-btn span {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--ff-mono);
+  font-size: 0.50rem;
+  white-space: nowrap;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mono-color-btn:hover span { opacity: 1; }
+
+/* Sliders */
+.prisme-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slider-row label {
+  font-family: var(--ff-mono);
+  font-size: 0.60rem;
+  color: var(--muted);
+  min-width: 110px;
+}
+.slider-row input[type=range] {
+  flex: 1;
+  accent-color: var(--gold);
+  height: 4px;
+}
+.slider-val {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  color: rgba(100,70,0,0.80);
+  min-width: 32px;
+  text-align: right;
+}
+
+.prisme-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  padding: 10px 20px 14px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  justify-content: center;
+}
+.prisme-legend-item {
+  font-family: var(--ff-mono);
+  font-size: 0.58rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+}
+.prisme-legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.wl-chip {
+  border-radius: 6px;
+  padding: 8px 4px;
+  text-align: center;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.wl-chip:hover { transform: scale(1.05); }
+
+.wl-chip strong { display: block; font-size: 0.75rem; margin-bottom: 2px; }
+
+/* ══════════════════════════════════════════
+   RAYON ROWS (Lentilles)
+══════════════════════════════════════════ */
+.rayon-list { display: flex; flex-direction: column; gap: 2px; }
+
+.rayon-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.rayon-row:last-child { border-bottom: none; }
+
+.rayon-num {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: rgba(58,77,181,0.1);
+  border: 1px solid rgba(58,77,181,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-mono);
+  font-size: 0.85rem;
+  color: var(--accent3);
+  flex-shrink: 0;
+}
+
+.rayon-txt { font-size: 0.9rem; color: #111111; line-height: 1.5; }
+
+/* ══════════════════════════════════════════
+   OEIL ANATOMIE
+══════════════════════════════════════════ */
+.eye-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+@media (max-width: 560px) { .eye-grid { grid-template-columns: 1fr; } }
+
+.eye-item {
+  background: var(--surface2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid var(--border);
+}
+
+.eye-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.eye-item strong { display: block; font-size: 0.88rem; margin-bottom: 2px; }
+.eye-item span { font-size: 0.8rem; color: #333333; line-height: 1.5; }
+
+/* ══════════════════════════════════════════
+   ANIMATIONS ONGLET 1
+══════════════════════════════════════════ */
+.anim-block {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 28px 0;
+  box-shadow: var(--shadow);
+}
+.anim-label {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 16px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.anim-canvas {
+  display: block;
+  width: 100%;
+  height: 180px;
+  background: #ffffff;
+}
+#propCanvas { height: 160px; }
+#vitCanvas  { height: 200px; }
+
+.milieu-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+}
+.milieu-btn {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(26,107,90,0.3);
+  background: transparent;
+  color: var(--accent1);
+  cursor: pointer;
+  transition: var(--tr);
+}
+.milieu-btn:hover, .milieu-btn.active {
+  background: var(--accent1);
+  color: #fff;
+  border-color: var(--accent1);
+}
+
+/* ══════════════════════════════════════════
+   QUIZ INTERACTIF
+══════════════════════════════════════════ */
+.quiz-block {
+  background: linear-gradient(135deg, #f0f7f4, #f4f0f8);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin: 32px 0;
+  color: #1a2a1e;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+}
+
+.quiz-title {
+  font-family: var(--ff-serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: #7a5800;
+}
+
+.quiz-question {
+  margin-bottom: 20px;
+}
+
+.quiz-q-text {
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: #111111;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quiz-opt {
+  background: rgba(20,80,50,0.06);
+  border: 1px solid rgba(20,80,50,0.2);
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--tr);
+  text-align: left;
+  color: rgba(20,40,20,0.85);
+  font-family: var(--ff-sans);
+}
+
+.quiz-opt:hover { background: rgba(20,80,50,0.1); border-color: rgba(20,80,50,0.35); }
+.quiz-opt.correct { background: rgba(0,120,60,0.12); border-color: rgba(0,120,60,0.5); color: #005a20; }
+.quiz-opt.wrong   { background: rgba(180,0,0,0.08);  border-color: rgba(180,0,0,0.4);  color: #7a0000; }
+.quiz-opt:disabled { cursor: default; }
+
+.quiz-feedback {
+  font-size: 0.82rem;
+  margin-top: 8px;
+  min-height: 20px;
+  font-style: italic;
+  color: rgba(30,50,40,0.55);
+  display: none;
+}
+
+.quiz-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.quiz-btn {
+  background: rgba(160,110,0,0.1);
+  border: 1px solid rgba(160,110,0,0.35);
+  color: #7a5800;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--tr);
+}
+
+.quiz-btn:hover { background: rgba(160,110,0,0.18); }
+.quiz-btn:disabled { opacity: 0.4; cursor: default; }
+
+.quiz-score {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  color: rgba(20,50,40,0.45);
+}
+
+.quiz-progress {
+  height: 3px;
+  background: rgba(20,60,40,0.12);
+  border-radius: 3px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background: #f5c842;
+  transition: width 0.4s ease;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  text-align: center;
+  padding: 48px 24px;
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  color: rgba(0,0,0,0.2);
+  letter-spacing: 0.08em;
+  border-top: 1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .section-head { flex-direction: column; gap: 12px; }
+  .sect-num { font-size: 3.5rem; }
+  .prism-deco, .spectrum-fan { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <canvas id="skyCanvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">2nde · Ondes et signaux · Séquence 09</div>
+    <h1 class="hero-title">Vision et <em>image</em></h1>
+    <p class="hero-sub">Propagation · Snell-Descartes · Spectres · Lentilles · Œil</p>
+    <p class="hero-desc">La lumière révèle le monde. Des lois de la réfraction aux images formées par l'œil, explorez les fondements de l'optique géométrique.</p>
+    <nav class="hero-nav">
+      <button class="hero-pill p1" onclick="showTab('t1', document.querySelectorAll('.tab-btn')[0])">01 · Propagation</button>
+      <button class="hero-pill p2" onclick="showTab('t2', document.querySelectorAll('.tab-btn')[1])">02 · Snell-Descartes</button>
+      <button class="hero-pill p3" onclick="showTab('t3', document.querySelectorAll('.tab-btn')[2])">03 · Spectres</button>
+      <button class="hero-pill p4" onclick="showTab('t4', document.querySelectorAll('.tab-btn')[3])">04 · Lentilles &amp; œil</button>
+    </nav>
+  </div>
+</section>
+
+<!-- ══════ BARRE D'ONGLETS ══════ -->
+<nav class="tab-bar">
+  <div class="tab-bar-inner">
+    <button class="tab-btn active" onclick="showTab('t1',this)">01 · Propagation</button>
+    <button class="tab-btn t2"     onclick="showTab('t2',this)">02 · Snell-Descartes</button>
+    <button class="tab-btn t3"     onclick="showTab('t3',this)">03 · Spectres</button>
+    <button class="tab-btn t4"     onclick="showTab('t4',this)">04 · Lentilles &amp; œil</button>
+    <button class="tab-btn tq"     onclick="showTab('tq',this)">✦ Quiz</button>
+  </div>
+</nav>
+
+<!-- ══════ CONTENU ══════ -->
+<main>
+
+<!-- ─── PANNEAU 1 ─── -->
+<div class="tab-panel active" id="t1">
+<section class="section" id="partie1">
+  <div class="section-head">
+    <div class="sect-num">01</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-1">Partie 1</span>
+      <h2 class="sect-title">Propagation de la lumière</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c1">
+    <div class="cap-label">⚑ Capacité exigible du B.O.</div>
+    <ul>
+      <li>Citer la valeur de la vitesse de la lumière dans le vide ou dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">→</span>
+        Modèle du rayon lumineux
+      </div>
+      <p>Dans un milieu <strong>transparent et homogène</strong>, la lumière se propage en ligne droite.<br>
+      Un rayon lumineux est une droite orientée (flèche = sens de propagation).</p>
+      <svg viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg"
+           style="display:block;width:100%;height:auto;margin-top:14px;border-radius:8px;background:#f7faf9;">
+        <defs>
+          <marker id="arr-rl" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#1a7ad4"/>
+          </marker>
+          <radialGradient id="srcGlowRL" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#ffe566" stop-opacity="1"/>
+            <stop offset="60%"  stop-color="#ffbb00" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#ff8800" stop-opacity="0.4"/>
+          </radialGradient>
+        </defs>
+        <!-- Source lumineuse -->
+        <circle cx="28" cy="55" r="13" fill="url(#srcGlowRL)"/>
+        <circle cx="28" cy="55" r="7"  fill="#ffe566"/>
+        <text x="28" y="59" text-anchor="middle" font-size="9" fill="#886600" font-weight="700" font-family="'Outfit',sans-serif">S</text>
+        <!-- Rayon -->
+        <line x1="41" y1="55" x2="200" y2="55" stroke="#1a7ad4" stroke-width="2.5" marker-end="url(#arr-rl)"/>
+        <!-- Flèche indicatrice milieu -->
+        <polygon points="118,50 126,55 118,60" fill="#1a7ad4" opacity="0.45"/>
+        <!-- Labels -->
+        <text x="120" y="46" text-anchor="middle" font-size="9.5" fill="#1a7ad4" font-style="italic" font-family="'Outfit',sans-serif">rayon lumineux</text>
+        <text x="120" y="76" text-anchor="middle" font-size="8.5" fill="rgba(60,60,80,0.5)" font-family="'DM Mono',monospace">→ sens de propagation</text>
+        <!-- Note -->
+        <text x="110" y="96" text-anchor="middle" font-size="8" fill="rgba(26,107,90,0.65)" font-family="'Outfit',sans-serif">droite orientée — milieu homogène</text>
+      </svg>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">c</span>
+        Célérité : Vitesse de la lumière dans le vide
+      </div>
+      <div class="formula f1">c = 3,00 × 10⁸ m·s⁻¹</div>
+      <p>La vitesse dépend du milieu. Dans le vide, la célérité est maximale.</p>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(26,107,90,0.1); color:var(--accent1)">n</span>
+      Indice de réfraction d'un milieu
+    </div>
+    <p>L'indice <em>n</em> est le rapport entre la vitesse de la lumière dans le vide et sa vitesse dans le milieu :</p>
+    <div class="formula f1">n = c / v &nbsp;&nbsp;&nbsp; (n ≥ 1 toujours)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Milieu</th><th>Indice n</th><th>v = c/n (m·s⁻¹)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Air</td><td>≈ 1,00</td><td>≈ 3,00 × 10⁸</td></tr>
+          <tr><td>Eau</td><td>1,33</td><td>≈ 2,26 × 10⁸</td></tr>
+          <tr><td>Plexiglas</td><td>1,49</td><td>≈ 2,01 × 10⁸</td></tr>
+          <tr><td>Verre ordinaire</td><td>≈ 1,50</td><td>≈ 2,00 × 10⁸</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="hl hl1">
+      <strong>📌 Règle :</strong> plus l'indice est grand, plus la lumière est ralentie dans ce milieu.
+      L'eau (n=1,33) ralentit moins la lumière que le plexiglas (n=1,49).
+    </div>
+  </div>
+
+  <!-- ── Animation A : Propagation rectiligne — source, objet, ombre ── -->
+  <div class="anim-block">
+    <div class="anim-label">Animation · Propagation rectiligne de la lumière — source, objet, ombre portée</div>
+    <canvas id="propCanvas" class="anim-canvas" width="860" height="220"></canvas>
+    <div class="milieu-btns">
+      <span style="font-family:var(--ff-mono);font-size:0.68rem;color:var(--muted);align-self:center;margin-right:6px;">Objet :</span>
+      <button class="milieu-btn active" id="btnOpaque"      onclick="propSetObjet('opaque',this)">Opaque</button>
+      <button class="milieu-btn"        id="btnTranslucide" onclick="propSetObjet('translucide',this)">Translucide</button>
+      <button class="milieu-btn"        id="btnTransparent" onclick="propSetObjet('transparent',this)">Transparent</button>
+    </div>
+  </div>
+
+  <!-- ── Animation B : Éclair et tonnerre – vitesse lumière vs son ── -->
+  <div class="anim-block" id="orageBlock" style="padding:0;overflow:hidden;border-radius:12px;background:#0b1220;position:relative;">
+    <div class="anim-label" style="background:rgba(255,255,255,0.07);color:#c8d8f0;border-bottom:1px solid rgba(255,255,255,0.08);">
+      ⚡ Animation interactive · Éclair et tonnerre — vitesse de la lumière et du son
+    </div>
+
+    <!-- SCÈNE CANVAS -->
+    <canvas id="orageCanvas" style="display:block;width:100%;height:260px;cursor:pointer;" height="260"></canvas>
+
+    <!-- PANNEAU DE CONTRÔLE -->
+    <div id="orageControls" style="background:rgba(255,255,255,0.05);border-top:1px solid rgba(255,255,255,0.08);padding:12px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <label style="color:#a0b8d8;font-size:0.82rem;font-family:'DM Mono',monospace;">Distance orage :</label>
+        <input id="orageDistInput" type="range" min="500" max="10000" value="3000" step="100"
+          style="width:120px;accent-color:#f5c842;" oninput="orageUpdateDist()">
+        <span id="orageDistLabel" style="color:#f5c842;font-family:'DM Mono',monospace;font-size:0.85rem;min-width:60px;">3,0 km</span>
+      </div>
+      <div style="flex:1;display:flex;justify-content:flex-end;gap:8px;">
+        <button class="milieu-btn" id="orageBtn" onclick="orageDeclench()" style="background:rgba(245,200,66,0.18);color:#f5c842;border-color:rgba(245,200,66,0.4);">⚡ Déclencher l'éclair</button>
+        <button class="milieu-btn" onclick="orageReset()" style="color:#a0b8d8;">↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <!-- PANNEAU RÉSULTAT -->
+    <div id="orageResultat" style="display:none;background:rgba(26,107,90,0.15);border-top:1px solid rgba(26,107,90,0.3);padding:10px 18px;">
+      <p id="orageResultText" style="margin:0;font-family:'DM Mono',monospace;font-size:0.83rem;color:#8de0c0;line-height:1.8;"></p>
+    </div>
+  </div>
+
+</section>
+</div><!-- /tab-panel t1 -->
+
+<!-- ─── PANNEAU 2 ─── -->
+<div class="tab-panel" id="t2">
+<section class="section" id="partie2">
+  <div class="section-head">
+    <div class="sect-num">02</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-2">Partie 2</span>
+      <h2 class="sect-title">Les lois de Snell-Descartes</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c2">
+    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
+    <ul>
+      <li>Exploiter les lois de Snell-Descartes pour la réflexion et la réfraction.</li>
+      <li>Tester les lois de Snell-Descartes à partir d'une série de mesures et déterminer l'indice de réfraction d'un milieu.</li>
+    </ul>
+  </div>
+
+  <!-- ══ LOIS DE SNELL-DESCARTES ══ -->
+
+  <!-- LOI 1 -->
+  <div class="card" style="border-left:4px solid var(--accent2);">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">①</span>
+      <span style="color:var(--accent2);">Loi 1 — Coplanairité</span>
+    </div>
+    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
+      <p style="margin:0;font-size:0.92rem;line-height:1.7;">
+        Le rayon incident, la <strong>normale</strong> au dioptre au point d'incidence I, le rayon réfléchi et le rayon réfracté sont tous dans le même plan, appelé <strong>plan d'incidence</strong>.
+      </p>
+    </div>
+    <p style="font-size:0.83rem;color:var(--muted);margin:0 0 14px;">La <em>normale</em> est la droite perpendiculaire à la surface séparatrice (dioptre) au point d'incidence I.</p>
+
+    <!-- Illustration plan d'incidence — SVG isométrique -->
+    <div style="background:#f7f9ff;border:1.5px solid #c8d4f0;border-radius:12px;padding:14px 10px 10px;margin-top:4px;">
+      <p style="text-align:center;font-size:0.78rem;color:#5560a0;font-family:'DM Mono',monospace;margin:0 0 10px;letter-spacing:0.05em;">ILLUSTRATION · Le plan d'incidence — vue en perspective</p>
+      <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arr-inc" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a6b5a"/></marker>
+          <marker id="arr-ref" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#b85c00"/></marker>
+          <marker id="arr-rfr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3a4db5"/></marker>
+          <marker id="arr-nor" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7788bb"/></marker>
+        </defs>
+
+        <!-- ── Milieu 2 (bleu clair, bas) ── -->
+        <!-- Face avant -->
+        <polygon points="120,240 580,240 580,390 120,390" fill="rgba(180,210,245,0.65)" stroke="#8aabcc" stroke-width="1"/>
+        <!-- Face dessus dioptre -->
+        <polygon points="120,240 580,240 640,190 60,190" fill="rgba(155,190,230,0.5)" stroke="#7799bb" stroke-width="1"/>
+        <!-- Face droite -->
+        <polygon points="580,240 640,190 640,340 580,390" fill="rgba(140,178,220,0.45)" stroke="#7799bb" stroke-width="1"/>
+        <!-- Label Milieu 2 -->
+        <text x="130" y="310" font-size="14" fill="#2a3fa0" font-family="DM Mono,monospace" font-weight="bold">Milieu 2  (n₂)</text>
+        <text x="130" y="328" font-size="11" fill="#4455aa" font-family="DM Mono,monospace" font-style="italic">ex : eau, verre…</text>
+
+        <!-- ── Milieu 1 (vert clair, haut) ── -->
+        <!-- Face avant -->
+        <polygon points="120,80 580,80 580,240 120,240" fill="rgba(180,235,205,0.65)" stroke="#5aaa80" stroke-width="1"/>
+        <!-- Face dessus -->
+        <polygon points="120,80 580,80 640,30 60,30" fill="rgba(155,220,185,0.5)" stroke="#5aaa80" stroke-width="1"/>
+        <!-- Face droite -->
+        <polygon points="580,80 640,30 640,190 580,240" fill="rgba(140,210,175,0.45)" stroke="#5aaa80" stroke-width="1"/>
+        <!-- Label Milieu 1 -->
+        <text x="130" y="120" font-size="14" fill="#1a5a3a" font-family="DM Mono,monospace" font-weight="bold">Milieu 1  (n₁)</text>
+        <text x="130" y="138" font-size="11" fill="#2a7050" font-family="DM Mono,monospace" font-style="italic">ex : air, verre…</text>
+
+        <!-- ── Interface dioptre (ligne de séparation, noir) ── -->
+        <line x1="120" y1="240" x2="580" y2="240" stroke="#111" stroke-width="3"/>
+        <line x1="580" y1="240" x2="640" y2="190" stroke="#111" stroke-width="3"/>
+        <text x="595" y="220" font-size="12" fill="#111" font-family="DM Mono,monospace" font-weight="bold">dioptre</text>
+        <text x="595" y="235" font-size="10" fill="#333" font-family="DM Mono,monospace">(surface de séparation)</text>
+
+        <!-- ── Point I ── -->
+        <circle cx="350" cy="240" r="6" fill="#b85c00" stroke="white" stroke-width="2"/>
+        <text x="360" y="236" font-size="13" fill="#b85c00" font-family="DM Mono,monospace" font-weight="bold">I</text>
+
+        <!-- ── Plan d'incidence (plan vertical jaune, coupe la scène en son milieu) ── -->
+        <polygon points="350,40 350,390 410,340 410,0" fill="rgba(255,200,60,0.15)" stroke="rgba(170,120,0,0.55)" stroke-width="1.5" stroke-dasharray="8,5"/>
+        <text x="415" y="22" font-size="11" fill="rgba(130,85,0,0.9)" font-family="DM Mono,monospace" font-weight="bold">plan d'incidence</text>
+        <text x="415" y="36" font-size="10" fill="rgba(130,85,0,0.7)" font-family="DM Mono,monospace">(plan vertical qui contient</text>
+        <text x="415" y="49" font-size="10" fill="rgba(130,85,0,0.7)" font-family="DM Mono,monospace"> la normale et les rayons)</text>
+
+        <!-- ── Normale (pointillée verticale, dans le plan d'incidence) ── -->
+        <line x1="350" y1="80" x2="350" y2="238" stroke="#7788bb" stroke-width="2" stroke-dasharray="7,5" marker-end="url(#arr-nor)"/>
+        <line x1="350" y1="242" x2="350" y2="330" stroke="#7788bb" stroke-width="1.5" stroke-dasharray="7,5"/>
+        <text x="356" y="100" font-size="11" fill="#5566aa" font-family="DM Mono,monospace" font-style="italic">normale</text>
+
+        <!-- ── Rayon incident : vient de haut-gauche → I ── -->
+        <line x1="175" y1="100" x2="344" y2="236" stroke="#1a6b5a" stroke-width="2.8" marker-end="url(#arr-inc)"/>
+        <text x="108" y="95" font-size="12" fill="#1a6b5a" font-family="DM Mono,monospace" font-weight="bold">rayon incident</text>
+
+        <!-- ── Rayon réfléchi : I → haut-droite ── -->
+        <line x1="356" y1="236" x2="520" y2="100" stroke="#b85c00" stroke-width="2.5" stroke-dasharray="9,5" marker-end="url(#arr-ref)"/>
+        <text x="524" y="95" font-size="12" fill="#b85c00" font-family="DM Mono,monospace" font-weight="bold">rayon réfléchi</text>
+
+        <!-- ── Rayon réfracté : I → bas-droite ── -->
+        <line x1="356" y1="244" x2="500" y2="360" stroke="#3a4db5" stroke-width="2.8" marker-end="url(#arr-rfr)"/>
+        <text x="503" y="370" font-size="12" fill="#3a4db5" font-family="DM Mono,monospace" font-weight="bold">rayon réfracté</text>
+
+        <!-- ── Légende basse ── -->
+        <rect x="30" y="355" width="290" height="38" rx="7" fill="white" stroke="#dde" stroke-width="1"/>
+        <text x="40" y="370" font-size="10.5" fill="#333" font-family="DM Mono,monospace" font-weight="bold">Les 4 éléments sont dans le même plan :</text>
+        <text x="40" y="385" font-size="10" fill="#555" font-family="DM Mono,monospace">normale · rayon incident · réfléchi · réfracté</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- LOI 2 -->
+  <div class="card" style="border-left:4px solid var(--accent2);">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">②</span>
+      <span style="color:var(--accent2);">Loi 2 — Réflexion</span>
+    </div>
+    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
+      <p style="margin:0 0 8px;font-size:0.92rem;line-height:1.7;">
+        Le rayon réfléchi reste dans le <strong>milieu incident</strong>. L'angle de réflexion est égal à l'angle d'incidence (tous deux mesurés par rapport à la normale) :
+      </p>
+      <div class="formula f2" style="margin:0;">i<sub>r</sub> = i<sub>1</sub></div>
+      <p style="margin:8px 0 0;font-size:0.82rem;color:var(--muted);">Le rayon réfléchi et le rayon incident sont de <strong>part et d'autre de la normale</strong>, dans le plan d'incidence.</p>
+    </div>
+
+    <!-- Illustration Loi 2 interactive -->
+    <div style="background:#fff8f0;border:1.5px solid #e0c090;border-radius:12px;padding:14px 10px 10px;margin-top:4px;">
+      <p style="text-align:center;font-size:0.78rem;color:#8a5500;font-family:'DM Mono',monospace;margin:0 0 8px;letter-spacing:0.05em;">ILLUSTRATION interactive · Loi de réflexion : i<sub>r</sub> = i<sub>1</sub></p>
+      <canvas id="loi2Canvas" width="600" height="300" style="width:100%;max-width:600px;display:block;margin:0 auto;border-radius:8px;"></canvas>
+      <div style="max-width:600px;margin:10px auto 0;padding:0 10px;">
+        <div style="background:#f4f3ec;border:1.5px solid #d4b882;border-radius:10px;padding:10px 14px;">
+          <label style="font-size:0.82rem;font-weight:600;color:#8a5500;display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span>Angle d'incidence i<sub>1</sub></span>
+            <span id="loi2-i1-val" style="font-family:'DM Mono',monospace;">30°</span>
+          </label>
+          <input type="range" id="loi2-i1" min="0" max="89" value="30" step="1" style="width:100%;accent-color:#b85c00;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOI 3 -->
+  <div class="card" style="border-left:4px solid var(--accent2);">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(184,92,0,0.15); color:var(--accent2)">③</span>
+      <span style="color:var(--accent2);">Loi 3 — Réfraction (loi de Snell-Descartes)</span>
+    </div>
+    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin:6px 0 10px;">
+      <p style="margin:0 0 8px;font-size:0.92rem;line-height:1.7;">
+        Le rayon réfracté passe dans le <strong>second milieu</strong>. Les angles d'incidence i<sub>1</sub> et de réfraction i<sub>2</sub>, mesurés par rapport à la normale, vérifient :
+      </p>
+      <div class="formula f2" style="margin:0;">n<sub>1</sub> · sin i<sub>1</sub> = n<sub>2</sub> · sin i<sub>2</sub></div>
+      <p style="margin:10px 0 0;font-size:0.82rem;color:var(--muted);">Le rayon réfracté et le rayon incident sont de <strong>part et d'autre de la normale</strong>, dans le plan d'incidence.</p>
+    </div>
+    <div class="hl hl2" style="margin-top:10px;">
+      <strong>Conséquences :</strong><br>
+      Si n<sub>1</sub> &lt; n<sub>2</sub> → i<sub>1</sub> &gt; i<sub>2</sub> : le rayon <strong>se rapproche</strong> de la normale (milieu plus réfringent)<br>
+      Si n<sub>1</sub> &gt; n<sub>2</sub> → i<sub>1</sub> &lt; i<sub>2</sub> : le rayon <strong>s'éloigne</strong> de la normale (milieu moins réfringent)
+    </div>
+  </div>
+
+  <!-- Animation Snell-Descartes interactive (après la loi 3) -->
+  <div class="canvas-container" style="padding-bottom:18px;">
+    <div class="canvas-label">Animation interactive · Réfraction — variation des indices et de l'angle</div>
+    <canvas id="snellCanvas" width="860" height="300"></canvas>
+
+    <!-- Contrôles sliders -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;padding:0 10px;">
+
+      <!-- Slider i1 -->
+      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
+        <label style="font-size:0.82rem;font-weight:600;color:#1a6b5a;display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span>Angle d'incidence i<sub>1</sub></span>
+          <span id="snell-i1-val" style="font-family:'DM Mono',monospace;color:#1a4a3a;">30°</span>
+        </label>
+        <input type="range" id="snell-i1" min="0" max="89" value="30" step="1"
+               style="width:100%;accent-color:#1a6b5a;">
+      </div>
+
+      <!-- Slider n1 -->
+      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
+        <label style="font-size:0.82rem;font-weight:600;color:#1a6b5a;display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span>Indice milieu 1 n<sub>1</sub></span>
+          <span id="snell-n1-val" style="font-family:'DM Mono',monospace;color:#1a4a3a;">1,00</span>
+        </label>
+        <input type="range" id="snell-n1" min="1.00" max="2.50" value="1.00" step="0.01"
+               style="width:100%;accent-color:#1a6b5a;">
+        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#999;margin-top:3px;">
+          <span>air (1,00)</span><span>verre dense (2,50)</span>
+        </div>
+      </div>
+
+      <!-- Slider n2 -->
+      <div style="background:#f4f8f6;border:1.5px solid #c5ddd7;border-radius:10px;padding:12px 14px;">
+        <label style="font-size:0.82rem;font-weight:600;color:#3a4db5;display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span>Indice milieu 2 n<sub>2</sub></span>
+          <span id="snell-n2-val" style="font-family:'DM Mono',monospace;color:#1a2060;">1,33</span>
+        </label>
+        <input type="range" id="snell-n2" min="1.00" max="2.50" value="1.33" step="0.01"
+               style="width:100%;accent-color:#3a4db5;">
+        <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:#999;margin-top:3px;">
+          <span>air (1,00)</span><span>verre dense (2,50)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vérification numérique -->
+    <div id="snell-check" style="margin:12px 10px 0;background:#fff;border:1.5px solid #d0e8e2;border-radius:10px;padding:11px 16px;font-size:0.87rem;font-family:'DM Mono',monospace;color:#1a3a30;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(184,92,0,0.1); color:var(--accent2)">✏️</span>
+      Exercice d'application
+    </div>
+
+    <!-- Énoncé -->
+    <div style="background:#fff8f0;border:2px solid var(--accent2);border-radius:10px;padding:14px 18px;margin-bottom:12px;">
+      <p style="margin:0 0 6px;font-size:0.92rem;font-weight:600;color:#7a3800;">Énoncé</p>
+      <p style="margin:0;font-size:0.92rem;line-height:1.7;">
+        Un rayon lumineux passe de l'air (n<sub>1</sub> = 1,00) dans l'eau (n<sub>2</sub> = 1,33) avec un angle d'incidence i<sub>1</sub> = 35°.
+      </p>
+      <ol style="margin:8px 0 0;padding-left:20px;font-size:0.9rem;line-height:1.8;">
+        <li>Écrire la relation de Snell-Descartes applicable.</li>
+        <li>Calculer l'angle de réfraction i<sub>2</sub>. Le rayon se rapproche-t-il ou s'éloigne-t-il de la normale ?</li>
+        <li>Même question si le rayon passe cette fois de l'eau vers l'air.</li>
+      </ol>
+    </div>
+
+    <!-- Données -->
+    <div style="background:#f4f8f6;border:1.5px solid #b0d4c8;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.85rem;font-family:'DM Mono',monospace;">
+      <strong style="color:#1a6b5a;">Données :</strong> n<sub>air</sub> = 1,00 · n<sub>eau</sub> = 1,33 · i<sub>1</sub> = 35° · sin 35° ≈ 0,574
+    </div>
+
+    <!-- Bouton correction -->
+    <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'; this.textContent=this.textContent.includes('Afficher')?'▲ Masquer la correction':'▼ Afficher la correction';"
+      style="background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Mono',monospace;">
+      ▼ Afficher la correction
+    </button>
+
+    <!-- Correction masquée -->
+    <div style="display:none;margin-top:12px;border-top:2px dashed var(--accent2);padding-top:12px;">
+      <p style="font-size:0.85rem;font-weight:700;color:#7a3800;margin:0 0 10px;">✔ Correction</p>
+
+      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">1. Relation de Snell-Descartes :</p>
+      <div class="formula f2" style="margin:4px 0 10px;">n<sub>1</sub> · sin i<sub>1</sub> = n<sub>2</sub> · sin i<sub>2</sub></div>
+
+      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">2. Air → Eau (n<sub>1</sub> &lt; n<sub>2</sub>) :</p>
+      <div style="background:#f9f9f9;border-radius:8px;padding:10px 14px;font-size:0.87rem;line-height:1.9;font-family:'DM Mono',monospace;margin-bottom:8px;">
+        sin i<sub>2</sub> = (n<sub>1</sub> / n<sub>2</sub>) × sin i<sub>1</sub> = (1,00 / 1,33) × sin 35°<br>
+        sin i<sub>2</sub> = 0,752 × 0,574 ≈ <strong>0,431</strong><br>
+        <strong style="color:var(--accent2);">i<sub>2</sub> ≈ 25,5°</strong>
+      </div>
+      <div class="hl hl2" style="margin-bottom:10px;font-size:0.87rem;">
+        i<sub>2</sub> &lt; i<sub>1</sub> (25,5° &lt; 35°) car n<sub>2</sub> &gt; n<sub>1</sub> → le rayon <strong>se rapproche</strong> de la normale.
+      </div>
+
+      <p style="font-size:0.88rem;font-weight:600;margin:0 0 4px;">3. Eau → Air (n<sub>1</sub> &gt; n<sub>2</sub>) :</p>
+      <div style="background:#f9f9f9;border-radius:8px;padding:10px 14px;font-size:0.87rem;line-height:1.9;font-family:'DM Mono',monospace;margin-bottom:8px;">
+        sin i<sub>2</sub> = (1,33 / 1,00) × sin 35° = 1,33 × 0,574 ≈ <strong>0,763</strong><br>
+        <strong style="color:var(--accent2);">i<sub>2</sub> ≈ 49,7°</strong>
+      </div>
+      <div class="hl hl2" style="font-size:0.87rem;">
+        i<sub>2</sub> &gt; i<sub>1</sub> (49,7° &gt; 35°) car n<sub>2</sub> &lt; n<sub>1</sub> → le rayon <strong>s'éloigne</strong> de la normale.
+      </div>
+    </div>
+  </div>
+  <!-- ══ ANIMATIONS RECOMMANDÉES ══ -->
+<div class="card" style="border-left:4px solid var(--accent1,#1a6b5a);">
+  <div class="card-title">
+    <span class="icon" style="background:rgba(26,107,90,0.12); color:var(--accent1,#1a6b5a)">▶</span>
+    <span style="color:var(--accent1,#1a6b5a);">Animations recommandées</span>
+  </div>
+  <p style="font-size:0.88rem;color:var(--muted,#666);margin:0 0 14px;">
+    Ces simulations interactives permettent de visualiser et d'explorer les lois de Snell-Descartes en faisant varier les paramètres.
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+    <!-- Lien 1 — PCCL -->
+    <a href="https://www.physics-chemistry-interactive-flash-animation.com/optics_interactive/refraction_Snell_Descartes_law_flash.htm"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4faf7;border:1.5px solid #b0d4c8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(26,107,90,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🔬</span>
+      <div>
+        <p style="...">PCCL — Réfraction & lois de Descartes</p>
+        <p style="...">Description...</p>
+        <span style="...">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+    <!-- Lien 2 — Ostralo -->
+    <a href="https://physique.ostralo.net/descartes/"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4f6fc;border:1.5px solid #b8c4e8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(58,77,181,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌐</span>
+      <div>
+        <p style="...">Ostralo — Lois de Descartes</p>
+        <p style="...">Description...</p>
+        <span style="...">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</section>
+</div><!-- /tab-panel t2 -->
+
+<!-- ─── PANNEAU 3 ─── -->
+<div class="tab-panel" id="t3">
+<section class="section" id="partie3">
+  <div class="section-head">
+    <div class="sect-num">03</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-3">Partie 3</span>
+      <h2 class="sect-title">Dispersion de la lumière et spectres lumineux</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c3">
+    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
+    <ul>
+      <li>Caractériser le spectre du rayonnement émis par un corps chaud.</li>
+      <li>Caractériser un rayonnement monochromatique par sa longueur d'onde dans le vide ou dans l'air.</li>
+      <li>Exploiter un spectre de raies.</li>
+      <li>Décrire et expliquer qualitativement le phénomène de dispersion par un prisme.</li>
+      <li>Produire et exploiter des spectres d'émission obtenus à l'aide d'un système dispersif.</li>
+    </ul>
+  </div>
+
+  <!-- Spectre complet IR + Visible + UV -->
+  <div class="spectre-wrapper">
+    <p style="color:rgba(20,60,50,0.55); font-family:var(--ff-mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:10px;">Spectre électromagnétique — IR · Visible · UV</p>
+
+    <!-- Barre spectrale complète -->
+    <div class="spectre-full-row">
+      <div class="spectre-ir-zone"><span>IR</span></div>
+      <div class="spectre-bar-anim"></div>
+      <div class="spectre-uv-zone"><span>UV</span></div>
+    </div>
+
+    <!-- Étiquettes des domaines -->
+    <div class="spectre-labels-row">
+      <div class="spectre-label-ir">
+        <p>≫ 750 nm</p>
+      </div>
+      <div class="spectre-label-vis">
+        <div class="spectre-ticks">
+          <span>400 nm</span><span>450 nm</span><span>500 nm</span>
+          <span>550 nm</span><span>600 nm</span><span>650 nm</span><span>700 nm</span>
+        </div>
+      </div>
+      <div class="spectre-label-uv">
+        <p>≪ 400 nm</p>
+      </div>
+    </div>
+
+    <!-- Couleurs du domaine visible -->
+    <div class="wl-grid">
+      <div class="wl-chip" style="background:rgba(110,0,220,0.3); border:1px solid rgba(150,50,255,0.5); color:#c070ff">
+        <strong>Violet</strong>400–420 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(0,80,255,0.25); border:1px solid rgba(50,130,255,0.5); color:#80b0ff">
+        <strong>Bleu</strong>420–500 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(0,170,60,0.25); border:1px solid rgba(0,200,80,0.5); color:#70e090">
+        <strong>Vert</strong>500–575 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(240,220,0,0.2); border:1px solid rgba(255,220,0,0.5); color:#ffe060">
+        <strong>Jaune</strong>575–585 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(255,130,0,0.2); border:1px solid rgba(255,140,0,0.5); color:#ffb070">
+        <strong>Orange</strong>585–620 nm
+      </div>
+      <div class="wl-chip" style="background:rgba(220,30,30,0.25); border:1px solid rgba(255,60,60,0.5); color:#ff8888">
+        <strong>Rouge</strong>620–750 nm
+      </div>
+    </div>
+
+    <!-- Cartes IR et UV -->
+    <div class="ir-uv-cards">
+      <div class="ir-card">
+        <span class="dom-label">Infrarouge (IR)</span>
+        <strong>λ &gt; 750 nm</strong> — invisible à l'œil humain.<br>
+        Rayonnement thermique : tout corps chaud émet de l'IR. Utilisé en thermographie, télécommandes, lunettes de vision nocturne et en spectroscopie moléculaire.
+      </div>
+      <div class="uv-card">
+        <span class="dom-label">Ultraviolet (UV)</span>
+        <strong>λ &lt; 400 nm</strong> — invisible à l'œil humain.<br>
+        Très énergétique (E = hc/λ). Provoque la fluorescence, stérilisation bactéricide, synthèse de vitamine D. Filtré en partie par l'ozone atmosphérique.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ANIMATION PRISME : DISPERSION ─── -->
+  <div class="prisme-anim-wrapper">
+    <div class="prisme-anim-header">Animation — Dispersion de la lumière par un prisme</div>
+    <canvas id="prismeCanvas" width="800" height="360"></canvas>
+
+    <div class="prisme-panel">
+      <!-- Colonne gauche : type de lumière -->
+      <div class="prisme-ctrl-group">
+        <div class="prisme-ctrl-label">Type de lumière</div>
+        <div class="prisme-toggle">
+          <button class="prisme-toggle-btn active" id="btnPoly" onclick="P.setMode('poly')">Blanche (poly)</button>
+          <button class="prisme-toggle-btn" id="btnMono" onclick="P.setMode('mono')">Monochromatique</button>
+        </div>
+        <div id="monoRow" style="display:none; flex-direction:column; gap:6px;">
+          <div class="prisme-ctrl-label" style="margin-top:2px;">Couleur du rayon</div>
+          <div class="mono-color-row" id="monoColors"></div>
+        </div>
+      </div>
+
+      <!-- Colonne droite : sliders + matériau -->
+      <div class="prisme-ctrl-group">
+        <div class="prisme-ctrl-label">Paramètres optiques</div>
+        <div class="prisme-slider-group">
+          <div class="slider-row">
+            <label>Angle sommet A</label>
+            <input type="range" id="sldPrism" min="30" max="80" value="60"
+                   oninput="P.setPrismAngle(this.value)">
+            <span class="slider-val" id="valPrism">60°</span>
+          </div>
+          <div class="slider-row">
+            <label>Angle d'incidence i₁</label>
+            <input type="range" id="sldInc" min="0" max="35" value="20"
+                   oninput="P.setInc(this.value)">
+            <span class="slider-val" id="valInc">20°</span>
+          </div>
+        </div>
+        <div class="prisme-ctrl-label" style="margin-top:10px;">Matériau du prisme</div>
+        <div class="prisme-toggle" id="matToggle">
+          <button class="prisme-toggle-btn active" onclick="P.setMat('crown')">Crown</button>
+          <button class="prisme-toggle-btn" onclick="P.setMat('flint')">Flint</button>
+          <button class="prisme-toggle-btn" onclick="P.setMat('bk7')">BK7</button>
+          <button class="prisme-toggle-btn" onclick="P.setMat('sf11')">SF11</button>
+        </div>
+        <div id="matLabel" style="font-family:var(--ff-mono);font-size:0.58rem;color:rgba(160,180,255,0.60);margin-top:4px;">
+          Verre crown — n(550 nm) ≈ 1.52
+        </div>
+      </div>
+    </div>
+
+    <div class="prisme-legend" id="prismeLegend">
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#8800ee"></span>Violet 410 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#2255ff"></span>Bleu 460 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#00bb44"></span>Vert 530 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#cccc00"></span>Jaune 580 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#ff6600"></span>Orange 610 nm</span>
+      <span class="prisme-legend-item"><span class="prisme-legend-dot" style="background:#dd0000"></span>Rouge 660 nm</span>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">∿</span>
+        Lumière polychromatique
+      </div>
+      <p>Mélange de plusieurs radiations. La <strong>lumière blanche</strong> est polychromatique. Un prisme la décompose : c'est la <strong style="color:var(--gold)">dispersion</strong>. La figure obtenue est le <strong style="color:var(--gold)">spectre continu</strong>.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">λ</span>
+        Lumière monochromatique
+      </div>
+      <p>Une seule radiation (une seule longueur d'onde λ). Un prisme la <em>dévie</em> sans la décomposer. Exemple : un laser rouge.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(200,154,46,0.1); color:var(--gold)">≡</span>
+      Types de spectres
+    </div>
+    <ul>
+      <li><strong>Spectre continu :</strong> émis par un corps chaud. Quand T augmente → spectre enrichi vers le bleu (courtes λ). Un corps émet d'autant plus de lumière qu'il est chaud.</li>
+      <li style="margin-top:8px"><strong>Spectre de raies :</strong> émis par un gaz d'atomes excités à basse pression. Raies caractéristiques = <em>signature spectrale</em> du gaz.</li>
+    </ul>
+
+    <!-- Photos des 3 spectres — grille 3 colonnes -->
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
+
+      <!-- Spectre continu -->
+      <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(200,154,46,0.30);">
+        <img src="spectre lumi&#232;re blanche.jpg"
+             alt="Spectre continu de la lumière blanche — photo de laboratoire"
+             style="display:block; width:100%; height:88px; object-fit:cover; object-position:center 40%;">
+        <div style="background:#1a1508; padding:5px 8px 6px;
+                    font-size:0.69rem; font-style:italic; color:rgba(255,230,150,0.90);
+                    font-family:var(--ff-serif); text-align:center; line-height:1.35;">
+          Lumière blanche<br><span style="font-style:normal; font-size:0.65rem; color:rgba(255,210,100,0.65);">spectre continu</span>
+        </div>
+      </div>
+
+      <!-- Spectre sodium -->
+      <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(255,170,30,0.35);">
+        <img src="spectre sodium.jpg"
+             alt="Spectre de raies du sodium — doublet jaune ~589 nm"
+             style="display:block; width:100%; height:88px; object-fit:cover; object-position:center 45%;">
+        <div style="background:#150e00; padding:5px 8px 6px;
+                    font-size:0.69rem; font-style:italic; color:rgba(255,210,80,0.92);
+                    font-family:var(--ff-serif); text-align:center; line-height:1.35;">
+          Sodium (Na)<br><span style="font-style:normal; font-size:0.65rem; color:rgba(255,190,60,0.65);">doublet jaune ≈ 589 nm</span>
+        </div>
+      </div>
+
+      <!-- Spectre mercure -->
+      <div style="border-radius:8px; overflow:hidden; border:1px solid rgba(120,180,255,0.35);">
+        <img src="spectre mercure.jpg"
+             alt="Spectre de raies du mercure — raies bleue, verte, jaune, violette"
+             style="display:block; width:100%; height:88px; object-fit:cover; object-position:center 40%;">
+        <div style="background:#050a10; padding:5px 8px 6px;
+                    font-size:0.69rem; font-style:italic; color:rgba(180,210,255,0.92);
+                    font-family:var(--ff-serif); text-align:center; line-height:1.35;">
+          Mercure (Hg)<br><span style="font-style:normal; font-size:0.65rem; color:rgba(150,190,255,0.65);">raies bleue, verte, jaune…</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="hl hl3" style="margin-top:12px;">
+      <strong>Application – lithium :</strong> 3 raies caractéristiques ≈ 460 nm (bleu), 610 nm (orange-rouge), 670 nm (rouge).<br>
+      L'analyse spectrale permet d'identifier des ions métalliques en chimie.
+    </div>
+  </div>
+  <!-- ─── ANIMATIONS RECOMMANDÉES ─── -->
+<div class="card" style="margin-top:1.5rem; border-left:4px solid var(--accent1,#1a6b5a);">
+  <div class="card-title">
+    <span class="icon" style="background:rgba(26,107,90,0.12); color:var(--accent1,#1a6b5a)">▶</span>
+    <span style="color:var(--accent1,#1a6b5a);">Animations recommandées</span>
+  </div>
+  <p style="font-size:0.88rem;color:var(--muted,#666);margin:0 0 14px;">
+    Ces simulations interactives permettent de visualiser la dispersion, les spectres d'émission et d'absorption.
+  </p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+    <!-- Lien 1 — PCCL -->
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/dispersion_prisme_spectre_emission_absorption_flash.htm"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4faf7;border:1.5px solid #b0d4c8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(26,107,90,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🔬</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#1a6b5a;font-family:'DM Mono',monospace;">PCCL — Dispersion &amp; spectres</p>
+        <p style="margin:0;font-size:0.8rem;color:#4a7a6a;line-height:1.5;">
+          Simulation HTML5 : dispersion par un prisme, spectres d'émission et d'absorption. Idéal pour la Seconde.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#1a6b5a;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+    <!-- Lien 2 — web-labosims -->
+    <a href="https://web-labosims.org/animations/App_prisme/App_prisme.html"
+       target="_blank" rel="noopener"
+       style="display:flex;align-items:flex-start;gap:12px;background:#f4f6fc;border:1.5px solid #b8c4e8;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(58,77,181,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">🌐</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#3a4db5;font-family:'DM Mono',monospace;">Labosims — Prisme interactif</p>
+        <p style="margin:0;font-size:0.8rem;color:#4a5a9a;line-height:1.5;">
+          Application interactive : angle du prisme, angle d'incidence, observation de la dispersion en temps réel.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#3a4db5;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+    <!-- Lien 3 — Ostralo (centré sur toute la largeur) -->
+    <a href="https://physique.ostralo.net/spectre_em_abs/"
+       target="_blank" rel="noopener"
+       style="grid-column:1 / -1;display:flex;align-items:flex-start;gap:12px;background:#fdf8ee;border:1.5px solid #e0cc88;border-radius:12px;padding:14px 16px;text-decoration:none;transition:box-shadow 0.2s;"
+       onmouseover="this.style.boxShadow='0 4px 16px rgba(180,140,0,0.15)'"
+       onmouseout="this.style.boxShadow='none'">
+      <span style="font-size:1.6rem;line-height:1;flex-shrink:0;">✨</span>
+      <div>
+        <p style="margin:0 0 3px;font-size:0.9rem;font-weight:700;color:#7a6000;font-family:'DM Mono',monospace;">Ostralo — Spectres d'émission et d'absorption</p>
+        <p style="margin:0;font-size:0.8rem;color:#7a6a30;line-height:1.5;">
+          Visualisation des spectres de raies d'émission et d'absorption de différents atomes. Parfait pour comprendre la signature spectrale.
+        </p>
+        <span style="display:inline-block;margin-top:7px;font-size:0.75rem;font-family:'DM Mono',monospace;color:#fff;background:#7a6000;padding:3px 9px;border-radius:5px;">Ouvrir l'animation →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+</section>
+</div><!-- /tab-panel t3 -->
+
+<!-- ─── PANNEAU 4 ─── -->
+<div class="tab-panel" id="t4">
+<section class="section" id="partie4">
+  <div class="section-head">
+    <div class="sect-num">04</div>
+    <div class="sect-info">
+      <span class="sect-tag tag-4">Partie 4</span>
+      <h2 class="sect-title">Réception de la lumière — Lentilles &amp; modèle de l'œil</h2>
+    </div>
+  </div>
+
+  <div class="cap-block c4">
+    <div class="cap-label">⚑ Capacités exigibles du B.O.</div>
+    <ul>
+      <li>Caractériser les foyers d'une lentille mince convergente à l'aide du modèle du rayon lumineux.</li>
+      <li>Utiliser le modèle du rayon lumineux pour déterminer graphiquement position, taille et sens de l'image réelle.</li>
+      <li>Définir et déterminer géométriquement un grandissement.</li>
+      <li>Modéliser l'œil.</li>
+      <li>Produire et caractériser l'image réelle d'un objet-plan réel formée par une lentille mince convergente.</li>
+      <li>Capacité mathématique : utiliser le théorème de Thalès.</li>
+    </ul>
+  </div>
+
+  <!-- ══ ANIMATION INTERACTIVE LENTILLE ══ -->
+  <div class="card" style="padding:18px 20px 14px;">
+
+    <!-- Contrôles sliders -->
+    <div class="fctrl4" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;background:#f0f4ff;border:1px solid #c8d4ee;border-radius:8px;padding:10px 16px;margin-bottom:12px;">
+      <label style="font-size:12px;font-weight:700;color:#334;min-width:80px;">Distance f'</label>
+      <input type="range" id="p4f" min="60" max="160" value="100" step="5" oninput="p4Draw()">
+      <span id="p4vf" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:30px;">100</span>
+      <span style="font-size:11px;color:#667">unités</span>
+      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
+      <label style="font-size:12px;font-weight:700;color:#334;min-width:90px;">Position objet</label>
+      <input type="range" id="p4oa" min="-320" max="-70" value="-200" step="5" oninput="p4Draw()">
+      <span id="p4voa" style="font-size:12px;font-weight:700;color:#1a4a9a;min-width:35px;">-200</span>
+      <span style="font-size:11px;color:#667">unités (OA)</span>
+      <div style="width:1px;background:#c0d4ee;align-self:stretch;margin:0 4px;"></div>
+      <span id="p4gval" style="font-size:13px;font-weight:700;color:#1a6a2a;"></span>
+    </div>
+
+    <!-- Canvas -->
+    <div style="position:relative;border-radius:8px;overflow:hidden;margin-bottom:10px;">
+      <div style="position:absolute;top:8px;left:12px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:rgba(40,40,100,0.4);text-transform:uppercase;">Construction des rayons caractéristiques</div>
+      <canvas id="lensCanvas" height="280" style="display:block;width:100%;border:1px solid #dde4ec;border-radius:8px;background:#f8f7fc;"></canvas>
+    </div>
+
+    <!-- Boutons rayons -->
+    <div class="rbtns" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;">
+      <button class="rbtn r1" id="p4btn1" onclick="p4ToggleRay(1)">● R₁ bleu — par O</button>
+      <button class="rbtn r2" id="p4btn2" onclick="p4ToggleRay(2)">● R₂ rouge — par F</button>
+      <button class="rbtn r3" id="p4btn3" onclick="p4ToggleRay(3)">● R₃ vert — ∥ axe</button>
+      <button class="rbtn all" id="p4btnAll" onclick="p4LaunchAll()">▶ Tout afficher</button>
+      <button class="rbtn rst" onclick="p4ResetRays()">↺ Réinitialiser</button>
+    </div>
+
+    <!-- Info rayon -->
+    <div style="font-size:12px;color:#445;margin:2px 0 4px;min-height:14px;" id="p4slbl">Choisissez un rayon ou cliquez sur ▶ Tout afficher</div>
+    <div class="ibox" id="p4inf">Sélectionnez un rayon pour afficher sa description.</div>
+
+    <!-- Légende -->
+    <div class="legend" style="margin-top:8px;">
+      <div class="li"><div class="ll" style="background:#1a7ad4"></div>R₁ — rayon par O (non dévié)</div>
+      <div class="li"><div class="ll" style="background:#d42020"></div>R₂ — rayon par F objet (sort ∥ axe)</div>
+      <div class="li"><div class="ll" style="background:#1a9a40"></div>R₃ — rayon ∥ axe (passe par F')</div>
+      <div class="li"><div class="ll" style="background:#cc7700"></div>Image A'B'</div>
+    </div>
+  </div>
+
+  <!-- Cours : définition, rayons, grandissement -->
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">⊙</span>
+      Définition et points caractéristiques
+    </div>
+    <p>Une lentille mince convergente est transparente, avec les <strong>bords plus fins que le centre</strong>.</p>
+    <ul>
+      <li><strong>Centre optique O :</strong> tout rayon passant par O n'est pas dévié.</li>
+      <li><strong>Foyer image F' :</strong> point où convergent les rayons incidents parallèles à l'axe.</li>
+      <li><strong>Foyer objet F :</strong> symétrique de F' par rapport à O → OF = OF' = f'.</li>
+    </ul>
+    <!-- Vergence : hors programme Seconde, non affiché -->
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">①②③</span>
+      Les 3 rayons caractéristiques
+    </div>
+    <div class="rayon-list">
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(26,122,212,0.1);border-color:rgba(26,122,212,0.3);color:#1a7ad4;">①</div>
+        <div class="rayon-txt"><strong>Rayon par O :</strong> Tout rayon passant par le centre optique O traverse la lentille <strong>sans déviation</strong>.</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(212,32,32,0.1);border-color:rgba(212,32,32,0.3);color:#d42020;">②</div>
+        <div class="rayon-txt"><strong>Rayon par F :</strong> Tout rayon passant par le foyer objet F ressort de la lentille <strong>parallèlement à l'axe optique</strong>.</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-num" style="background:rgba(26,154,64,0.1);border-color:rgba(26,154,64,0.3);color:#1a9a40;">③</div>
+        <div class="rayon-txt"><strong>Rayon ∥ axe :</strong> Tout rayon incident parallèle à l'axe optique émerge en passant par le <strong>foyer image F'</strong>.</div>
+      </div>
+    </div>
+    <div class="hl hl4">
+      <strong>Propriétés de l'image (objet réel) :</strong><br>
+      A en avant de F → image <strong>réelle, renversée</strong>, de l'autre côté de la lentille<br>
+      A entre F et O → image <strong>virtuelle, droite, agrandie</strong> (effet loupe)<br>
+      A = F → image à l'<strong>infini</strong>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">γ</span>
+        Grandissement
+      </div>
+      <div class="formula f4" style="font-size:0.9rem">γ = A'B' / AB = OA' / OA</div>
+      <ul>
+        <li>|γ| &lt; 1 → image plus petite que l'objet</li>
+        <li>|γ| &gt; 1 → image plus grande</li>
+        <li>|γ| = 1 → même taille</li>
+        <li>γ &lt; 0 → image renversée</li>
+      </ul>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:10px">Démonstration par le théorème de Thalès.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <span class="icon" style="background:rgba(139,26,58,0.1); color:var(--accent4)">👁</span>
+        Modèle réduit de l'œil
+      </div>
+      <p>L'œil est modélisé par :</p>
+      <div class="eye-grid">
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#e05c7a"></div>
+          <div><strong>Diaphragme</strong><span>rôle de l'iris — pupille</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#4fc3f7"></div>
+          <div><strong>Lentille convergente</strong><span>cornée + cristallin, f' variable</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#f5c842"></div>
+          <div><strong>Écran</strong><span>rôle de la rétine</span></div>
+        </div>
+        <div class="eye-item">
+          <div class="eye-dot" style="background:#0f9b8e\"></div>
+          <div><strong>Distance constante</strong><span>f' varie → accommodation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /tab-panel t4 -->
+
+<!-- ─── PANNEAU QUIZ ─── -->
+<div class="tab-panel" id="tq">
+<section class="section" id="quiz">
+  <div class="quiz-block">
+    <div class="quiz-title">✦ Auto-évaluation</div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizBar" style="width:0%"></div></div>
+    <div id="quizContent"></div>
+    <div class="quiz-nav">
+      <button class="quiz-btn" id="quizNext" disabled>Suivant →</button>
+      <span class="quiz-score" id="quizScore"></span>
+    </div>
+  </div>
+</section>
+</div><!-- /tab-panel tq -->
+
+</main>
+
+<footer>
+  Séquence 09 · Vision et image · 2<sup>nde</sup> · C. Poirault-Gauvin &nbsp;·&nbsp; Physique-Chimie
+</footer>
+
+<!-- ══════ SCRIPTS ══════ -->
+<script>
+/* ─── Gestion des onglets ─── */
+function showTab(id, btn) {
+  // Masquer tous les panneaux
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  // Désactiver tous les boutons
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  // Afficher le panneau sélectionné
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  // Remonter en haut
+  window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 2, behavior: 'smooth' });
+  // Forcer le redraw du canvas lentille si on arrive sur l'onglet 4
+  if(id === 't4') { setTimeout(function(){ if(window.p4Draw) p4Draw(); }, 80); }
+  // Redémarrer le quiz si on arrive sur tq et qu'il n'est pas démarré
+  if(id === 'tq') { if(typeof renderQuestion === 'function' && !document.querySelector('.quiz-question')) renderQuestion(); }
+}
+
+/* ─── Canvas ciel ─── */
+(function(){
+  const cv = document.getElementById('skyCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+  let t = 0;
+
+  const SUN = { xr: 0.93, yr: 0.08 };
+
+  // Grand nuage FIXE — positionné pour couvrir le soleil aux 3/4
+  // Le soleil dépasse sur le coin haut-droit du nuage
+  const MAIN_CLOUD = {
+    xr: 0.82, yr: 0.18,
+    puffs: [
+      {dx:-100, dy:22, rx:70, ry:38},
+      {dx: -40, dy: 6, rx:86, ry:50},
+      {dx:  32, dy:14, rx:72, ry:44},
+      {dx:  90, dy:24, rx:54, ry:34},
+      {dx: -60, dy:40, rx:60, ry:28},
+      {dx:  15, dy:44, rx:64, ry:26},
+    ]
+  };
+
+  // Petits nuages MOBILES — légers, semi-transparents
+  const SMALL_CLOUDS = [
+    { xr:0.08, yr:0.25, spd:0.28, alpha:0.36,
+      puffs:[{dx:0,dy:0,rx:42,ry:22},{dx:38,dy:6,rx:34,ry:18},{dx:-30,dy:8,rx:28,ry:15}] },
+    { xr:0.30, yr:0.62, spd:0.18, alpha:0.28,
+      puffs:[{dx:0,dy:0,rx:50,ry:26},{dx:44,dy:5,rx:38,ry:20},{dx:-32,dy:7,rx:30,ry:17}] },
+    { xr:0.50, yr:0.42, spd:0.22, alpha:0.32,
+      puffs:[{dx:0,dy:0,rx:36,ry:19},{dx:32,dy:4,rx:28,ry:15},{dx:-22,dy:6,rx:22,ry:13}] },
+  ];
+  const smallOff = SMALL_CLOUDS.map(() => 0);
+
+  // Rayons : faisceaux rectilignes depuis le soleil vers le bas-gauche
+  const RAYS = [
+    {a: Math.PI*0.54, w:26, op:0.20},
+    {a: Math.PI*0.60, w:40, op:0.15},
+    {a: Math.PI*0.65, w:20, op:0.19},
+    {a: Math.PI*0.70, w:52, op:0.12},
+    {a: Math.PI*0.76, w:30, op:0.17},
+    {a: Math.PI*0.82, w:18, op:0.14},
+    {a: Math.PI*0.88, w:36, op:0.11},
+    {a: Math.PI*0.95, w:22, op:0.13},
+  ];
+
+  // Ellipse nuage : blanc plein au centre, fondu sur les bords — sans halo circulaire
+  function ellipsePuff(cx, cy, rx, ry, alpha, opaque) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    // Clip sur l'ellipse exacte → le gradient ne déborde jamais en cercle
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    ctx.clip();
+    // Remplissage : blanc plein si opaque, semi si non
+    if(opaque) {
+      ctx.fillStyle = 'rgba(248,252,255,1)';
+      ctx.fill();
+      // Légère ombre interne bas pour donner du volume
+      const sh = ctx.createLinearGradient(cx, cy - ry, cx, cy + ry);
+      sh.addColorStop(0,   'rgba(255,255,255,0.5)');
+      sh.addColorStop(0.5, 'rgba(230,242,255,0)');
+      sh.addColorStop(1,   'rgba(180,210,235,0.25)');
+      ctx.fillStyle = sh;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+      g.addColorStop(0,   'rgba(255,255,255,0.92)');
+      g.addColorStop(0.6, 'rgba(235,246,255,0.65)');
+      g.addColorStop(1,   'rgba(215,234,252,0.20)');
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // Rayons rectilignes stricts : trapèze avec dégradé LINÉAIRE
+  function drawRays(sunX, sunY, W, H) {
+    const len = Math.sqrt(W*W + H*H) * 1.5;
+    RAYS.forEach(r => {
+      ctx.save();
+      const pulse = 0.82 + 0.18 * Math.sin(t * 0.38 + r.a * 3.1);
+      ctx.globalAlpha = r.op * pulse;
+      const dx = Math.cos(r.a), dy = Math.sin(r.a);  // direction rayon
+      const px = -dy, py = dx;                         // perpendiculaire
+      const x1 = sunX, y1 = sunY;
+      const x2 = sunX + dx*len, y2 = sunY + dy*len;
+      const hw  = r.w * 0.5;
+      const hwE = hw + len * 0.035;  // léger évasement en bout
+      // Dégradé linéaire le long du rayon → côtés parfaitement droits
+      const g = ctx.createLinearGradient(x1, y1, x2, y2);
+      g.addColorStop(0,    'rgba(255,248,190,0.88)');
+      g.addColorStop(0.08, 'rgba(255,244,175,0.52)');
+      g.addColorStop(0.30, 'rgba(255,240,158,0.20)');
+      g.addColorStop(0.70, 'rgba(255,238,148,0.05)');
+      g.addColorStop(1,    'rgba(255,235,140,0)');
+      // Trapèze rectiligne : 4 sommets
+      ctx.beginPath();
+      ctx.moveTo(x1 + px*hw,  y1 + py*hw);
+      ctx.lineTo(x2 + px*hwE, y2 + py*hwE);
+      ctx.lineTo(x2 - px*hwE, y2 - py*hwE);
+      ctx.lineTo(x1 - px*hw,  y1 - py*hw);
+      ctx.closePath();
+      ctx.fillStyle = g;
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function drawMainCloud(W, H) {
+    const bx = W * MAIN_CLOUD.xr, by = H * MAIN_CLOUD.yr;
+    MAIN_CLOUD.puffs.forEach(p => ellipsePuff(bx+p.dx, by+p.dy, p.rx, p.ry, 0.97, false));
+    // Liseré doré (contre-jour)
+    MAIN_CLOUD.puffs.slice(0, 4).forEach(p => {
+      ctx.save();
+      ctx.globalAlpha = 0.30;
+      const rim = ctx.createRadialGradient(
+        bx+p.dx, by+p.dy - p.ry*0.55, p.ry*0.2,
+        bx+p.dx, by+p.dy, Math.max(p.rx, p.ry)*1.06
+      );
+      rim.addColorStop(0,    'rgba(255,248,160,0)');
+      rim.addColorStop(0.85, 'rgba(255,248,160,0)');
+      rim.addColorStop(1,    'rgba(255,240,120,0.72)');
+      ctx.beginPath();
+      ctx.ellipse(bx+p.dx, by+p.dy, p.rx*1.06, p.ry*1.06, 0, 0, Math.PI*2);
+      ctx.fillStyle = rim;
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function draw() {
+    const W0 = cv.parentElement.clientWidth  || 900;
+    const H0 = cv.parentElement.clientHeight || 260;
+    if(cv.width  !== W0) cv.width  = W0;
+    if(cv.height !== H0) cv.height = H0;
+    const W = cv.width, H = cv.height;
+    const sunX = W * SUN.xr, sunY = H * SUN.yr;
+
+    // Ciel
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0,    '#3070c0');
+    sky.addColorStop(0.40, '#5298e0');
+    sky.addColorStop(0.82, '#88c4ec');
+    sky.addColorStop(1,    '#acd8f4');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    // Rayons rectilignes (AVANT le nuage)
+    drawRays(sunX, sunY, W, H);
+
+    // Grand nuage fixe — couvre le soleil aux 3/4
+    drawMainCloud(W, H);
+
+    // Disque solaire dessiné APRÈS le nuage : visible seulement sur le quart droit
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(sunX, sunY, 28, 0, Math.PI*2);
+    ctx.fillStyle = '#fff8c0';
+    ctx.fill();
+    ctx.fillStyle = '#ffe840';
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath();
+    ctx.arc(sunX, sunY, 20, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+
+    // Petits nuages mobiles
+    SMALL_CLOUDS.forEach((c, i) => {
+      smallOff[i] += c.spd;
+      const bx = (c.xr * W + smallOff[i]) % (W + 200) - 100;
+      const by = c.yr * H;
+      c.puffs.forEach(p => ellipsePuff(bx+p.dx, by+p.dy, p.rx, p.ry, c.alpha, false));
+    });
+
+    // Brume horizon
+    const mist = ctx.createLinearGradient(0, H*0.75, 0, H);
+    mist.addColorStop(0, 'rgba(175,215,244,0)');
+    mist.addColorStop(1, 'rgba(185,220,246,0.25)');
+    ctx.fillStyle = mist;
+    ctx.fillRect(0, H*0.75, W, H*0.25);
+
+    t += 0.016;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─── Animation A : source → objet → ombre (propagation rectiligne) ─── */
+(function(){
+  const cv = document.getElementById('propCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  let objetType = 'opaque'; // opaque | translucide | transparent
+  let t = 0;
+
+  window.propSetObjet = function(type, btn) {
+    objetType = type;
+    document.querySelectorAll('#btnOpaque,#btnTranslucide,#btnTransparent').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+
+  const LABELS = {
+    opaque:      'Corps opaque : la lumière ne passe pas — ombre nette',
+    translucide: 'Corps translucide : la lumière passe en partie — ombre atténuée (pénombre)',
+    transparent: 'Corps transparent : la lumière passe entièrement — pas d\'ombre',
+  };
+
+  function draw() {
+    cv.width = cv.parentElement.clientWidth || 860;
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = '#f8f9fb';
+    ctx.fillRect(0,0,W,H);
+
+    const srcX = 52, srcY = H/2;
+    const objX = W*0.42, objW = 14, objH = 70;
+    const wallX = W - 30;
+
+    // Transparence objet
+    const transAlpha = objetType==='opaque' ? 1 : (objetType==='translucide' ? 0.45 : 0);
+    const shadowAlpha = objetType==='opaque' ? 0.38 : (objetType==='translucide' ? 0.14 : 0);
+
+    // ─ Rayons tracés en LIGNES DROITES depuis la source ─
+    const rayCount = 9;
+    for(let i=0; i<rayCount; i++){
+      const angle = (-0.55 + 1.10*(i/(rayCount-1)));
+      const endY = srcY + Math.tan(angle)*(wallX - srcX);
+      const hitObjTop    = srcY + Math.tan(angle)*(objX - srcX);
+      const hitObjBottom = hitObjTop;
+
+      // Rayon touche-t-il l'objet ?
+      const hitY = srcY + Math.tan(angle)*(objX - objW/2 - srcX);
+      const blocked = (hitY > srcY - objH/2 - 4) && (hitY < srcY + objH/2 + 4) && transAlpha > 0.5;
+
+      // Couleur rayon
+      const rayAlpha = blocked ? 0 : 0.75;
+      if(rayAlpha > 0){
+        ctx.save();
+        ctx.strokeStyle = `rgba(255,210,60,${rayAlpha})`;
+        ctx.lineWidth = 1.8;
+        ctx.setLineDash([]);
+
+        // Rayon de la source jusqu'à l'objet ou au mur
+        const stopX = (hitY > srcY-objH/2-4 && hitY < srcY+objH/2+4) ? objX - objW/2 : wallX;
+        const stopY = srcY + Math.tan(angle)*(stopX - srcX);
+        ctx.beginPath();
+        ctx.moveTo(srcX, srcY);
+        ctx.lineTo(stopX, stopY);
+        ctx.stroke();
+
+        // Si translucide : rayon atténué après l'objet
+        if(objetType === 'translucide' && hitY > srcY-objH/2-4 && hitY < srcY+objH/2+4){
+          ctx.strokeStyle = `rgba(255,210,60,0.22)`;
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(objX + objW/2, stopY);
+          ctx.lineTo(wallX, srcY + Math.tan(angle)*(wallX-srcX));
+          ctx.stroke();
+        }
+
+        // Rayon qui passe (transparent ou hors objet)
+        if(objetType==='transparent' || (hitY < srcY-objH/2-4 || hitY > srcY+objH/2+4)){
+          ctx.strokeStyle = `rgba(255,210,60,0.75)`;
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(srcX, srcY);
+          ctx.lineTo(wallX, endY);
+          ctx.stroke();
+        }
+
+        // Flèche sens propagation sur le premier rayon horizontal
+        if(i === Math.floor(rayCount/2)){
+          const mx = (srcX + (blocked ? objX-objW/2 : wallX))*0.5;
+          const my = srcY + Math.tan(angle)*(mx - srcX);
+          ctx.fillStyle = 'rgba(200,150,0,0.8)';
+          ctx.beginPath();
+          ctx.moveTo(mx+6, my);
+          ctx.lineTo(mx-4, my-4);
+          ctx.lineTo(mx-4, my+4);
+          ctx.closePath(); ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    // ─ Ombre portée sur le mur ─
+    if(shadowAlpha > 0){
+      // Calcul ombre : rayons tangents haut/bas de l'objet
+      const tanTop    = (srcY - objH/2 - srcY) / (objX - objW/2 - srcX);
+      const tanBot    = (srcY + objH/2 - srcY) / (objX - objW/2 - srcX);
+      const shTop = srcY + tanTop*(wallX - srcX);
+      const shBot = srcY + tanBot*(wallX - srcX);
+      const shadowH = Math.abs(shBot - shTop);
+
+      // Ombre nette
+      ctx.save();
+      ctx.globalAlpha = shadowAlpha;
+      ctx.fillStyle = '#2a3a4a';
+      ctx.fillRect(wallX - 8, Math.min(shTop,shBot), 12, shadowH);
+      ctx.restore();
+
+      // Étiquette ombre
+      ctx.font = '11px "DM Mono", monospace';
+      ctx.fillStyle = '#666';
+      ctx.textAlign = 'left';
+      ctx.fillText('Ombre', wallX - 5, Math.min(shTop,shBot) - 6);
+    }
+
+    // ─ Mur écran ─
+    ctx.fillStyle = '#c8cdd5';
+    ctx.fillRect(wallX, 20, 8, H-40);
+    ctx.font = '10px "DM Mono", monospace';
+    ctx.fillStyle = '#999';
+    ctx.textAlign = 'center';
+    ctx.fillText('Écran', wallX+4, H-8);
+
+    // ─ Objet ─
+    ctx.save();
+    if(objetType === 'transparent'){
+      ctx.strokeStyle = '#3a4db5';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5,4]);
+      ctx.strokeRect(objX-objW/2, srcY-objH/2, objW, objH);
+      ctx.setLineDash([]);
+    } else {
+      const alpha = objetType==='translucide' ? 0.45 : 1;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = '#3a4db5';
+      ctx.fillRect(objX-objW/2, srcY-objH/2, objW, objH);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = '#2a3aaa';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(objX-objW/2, srcY-objH/2, objW, objH);
+    }
+    ctx.restore();
+    ctx.font = '10px "DM Mono", monospace';
+    ctx.fillStyle = '#3a4db5';
+    ctx.textAlign = 'center';
+    ctx.fillText('Objet', objX, srcY - objH/2 - 8);
+
+    // ─ Source lumineuse (ampoule simplifiée) ─
+    // Halo pulsé
+    const pulse = 0.5 + 0.5*Math.sin(t*1.8);
+    const halo = ctx.createRadialGradient(srcX, srcY, 0, srcX, srcY, 38+pulse*6);
+    halo.addColorStop(0, 'rgba(255,240,120,0.45)');
+    halo.addColorStop(1, 'rgba(255,240,120,0)');
+    ctx.beginPath(); ctx.arc(srcX, srcY, 38+pulse*6, 0, Math.PI*2);
+    ctx.fillStyle = halo; ctx.fill();
+    // Disque source
+    ctx.beginPath(); ctx.arc(srcX, srcY, 12, 0, Math.PI*2);
+    ctx.fillStyle = '#ffe066'; ctx.fill();
+    ctx.strokeStyle = '#e0a800'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.font = '10px "DM Mono", monospace';
+    ctx.fillStyle = '#7a5800';
+    ctx.textAlign = 'center';
+    ctx.fillText('Source', srcX, srcY + 22);
+
+    // ─ Légende bas ─
+    ctx.font = '11px "Outfit", sans-serif';
+    ctx.fillStyle = '#444';
+    ctx.textAlign = 'center';
+    ctx.fillText(LABELS[objetType], W/2, H - 10);
+
+    t += 0.025;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ─── Animation B : Éclair et tonnerre (v2) ─── */
+(function(){
+
+  const C_LUM = 3e8;   // m/s
+  const V_SON = 343;   // m/s
+
+  // ── État ──
+  let distM      = 3000;
+  // phases : 'idle' | 'flash' | 'counting' | 'thunder' | 'done'
+  let phase      = 'idle';
+  let flashT     = 0;
+  let nuageSegs  = [];
+  let flashAlpha = 0;  // opacité de l'éclair (décroît vite)
+  let bgPulse    = 0;  // flash blanc de tout le canvas
+  let starField  = [];
+  // Onde sonore : position x qui glisse de l'éclair vers l'observateur
+  let soundWaveX = -1;
+  let audioCtx   = null;
+
+  // ── Audio ──
+  function playThunder(distKm){
+    try {
+      if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const ac = audioCtx;
+      const dur = 3;
+      const buf = ac.createBuffer(1, ac.sampleRate*dur, ac.sampleRate);
+      const d = buf.getChannelData(0);
+      let b = 0;
+      for(let i=0;i<d.length;i++){ b=(b+(Math.random()*2-1)*0.06)*0.978; d[i]=b; }
+      const src = ac.createBufferSource(); src.buffer=buf;
+      const filt = ac.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=160+Math.random()*80;
+      const gain = ac.createGain();
+      const now = ac.currentTime;
+      const vol = Math.max(0.15, 1-distKm/14);
+      gain.gain.setValueAtTime(0,now);
+      gain.gain.linearRampToValueAtTime(vol, now+0.07);
+      gain.gain.exponentialRampToValueAtTime(0.001, now+2.8+distKm*0.08);
+      src.connect(filt); filt.connect(gain); gain.connect(ac.destination);
+      src.start(now);
+    } catch(e){}
+  }
+
+  // ── Canvas ──
+  const cv = document.getElementById('orageCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  function resize(){
+    cv.width  = cv.offsetWidth  || 800;
+    cv.height = cv.offsetHeight || 280;
+    buildStars();
+    buildLightning();
+  }
+
+  function buildStars(){
+    starField=[];
+    const W=cv.width,H=cv.height;
+    for(let i=0;i<55;i++)
+      starField.push({x:Math.random()*W, y:Math.random()*(H*0.58),
+                      r:Math.random()*1.1+0.3, ph:Math.random()*Math.PI*2});
+  }
+
+  function buildLightning(){
+    // L'éclair part du nuage (droite, ~60% de la largeur) et touche le sol
+    const W=cv.width, H=cv.height;
+    const sx = W*0.60 + (Math.random()-0.5)*W*0.08;
+    let cx=sx, cy=H*0.26;
+    nuageSegs=[];
+    const steps=9+Math.floor(Math.random()*4);
+    for(let i=0;i<steps;i++){
+      const nx=cx+(Math.random()-0.5)*W*0.06;
+      const ny=cy+H*0.52/steps;
+      nuageSegs.push({x1:cx,y1:cy,x2:nx,y2:ny});
+      cx=nx; cy=ny;
+    }
+    nuageSegs.push({x1:cx,y1:cy,x2:sx+(Math.random()-0.5)*W*0.05,y2:H*0.84});
+  }
+
+  // ── Dessin principal ──
+  function draw(ts){
+    const W=cv.width, H=cv.height;
+    if(!W||!H){ requestAnimationFrame(draw); return; }
+
+    // --- Fond nuit ---
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#08090e');
+    bg.addColorStop(0.6,'#101828');
+    bg.addColorStop(1,'#0a1208');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+    // --- Pulse blanc au flash ---
+    if(bgPulse>0){
+      ctx.fillStyle=`rgba(255,255,220,${bgPulse})`;
+      ctx.fillRect(0,0,W,H);
+      bgPulse=Math.max(0,bgPulse-0.055);
+    }
+
+    // --- Étoiles ---
+    starField.forEach(s=>{
+      const a=0.35+0.35*Math.sin(ts*0.0008+s.ph);
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(220,225,255,${a})`; ctx.fill();
+    });
+
+    // --- Nuages ---
+    drawClouds(W,H);
+
+    // --- Sol et observateur ---
+    drawGround(W,H);
+
+    // --- Éclair (disparaît rapidement) ---
+    if(flashAlpha>0 && nuageSegs.length){
+      ctx.save();
+      ctx.shadowBlur=28; ctx.shadowColor=`rgba(255,240,160,${flashAlpha})`;
+      // trait principal blanc
+      ctx.strokeStyle=`rgba(255,255,255,${flashAlpha})`;
+      ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath();
+      ctx.moveTo(nuageSegs[0].x1,nuageSegs[0].y1);
+      nuageSegs.forEach(s=>ctx.lineTo(s.x2,s.y2));
+      ctx.stroke();
+      // halo jaune-orange
+      ctx.strokeStyle=`rgba(255,200,60,${flashAlpha*0.6})`;
+      ctx.lineWidth=8; ctx.stroke();
+      ctx.restore();
+      flashAlpha=Math.max(0,flashAlpha-0.05);
+    }
+
+    // --- Onde sonore (front d'onde qui se déplace de droite à gauche) ---
+    // L'observateur (œil) est à gauche (x≈W*0.08), l'éclair à droite
+    if(phase==='counting'||phase==='thunder'||phase==='done'){
+      const elapsed=(performance.now()-flashT)/1000;
+      const tSon=distM/V_SON;
+      const prog=Math.min(elapsed/tSon,1);
+
+      const lightningX = nuageSegs.length ? nuageSegs[nuageSegs.length-1].x2 : W*0.6;
+      const obsX = W*0.10;
+      // Le son part de l'éclair et avance vers l'observateur
+      const waveX = lightningX - (lightningX - obsX)*prog;
+
+      // dessin de l'onde : arc de cercle côté gauche (comme une onde qui s'étend)
+      if(phase!=='done' || prog<1){
+        ctx.save();
+        const waveColor='rgba(230,160,40,'; // orange chaud
+        // plusieurs arcs concentriques légèrement décalés
+        for(let k=0;k<3;k++){
+          const r=18+k*22;
+          const al=Math.max(0,0.55-k*0.16-(1-Math.max(0,(prog>0.98?0:1)))*0);
+          ctx.beginPath();
+          ctx.arc(waveX, H*0.84, r, -Math.PI*0.75, Math.PI*0.75);
+          ctx.strokeStyle=waveColor+al+')';
+          ctx.lineWidth=2-k*0.3; ctx.stroke();
+        }
+        ctx.restore();
+      }
+    }
+
+    // --- HUD ---
+    drawHUD(W,H);
+
+    requestAnimationFrame(draw);
+  }
+
+  function drawClouds(W,H){
+    ctx.save();
+    // Nuage orageux (côté éclair, droite)
+    const cx=nuageSegs.length ? nuageSegs[0].x1 : W*0.6;
+    const cy=H*0.20;
+    const g=ctx.createRadialGradient(cx,cy,8,cx,cy,90);
+    g.addColorStop(0,'rgba(70,80,110,0.95)');
+    g.addColorStop(0.6,'rgba(45,55,90,0.80)');
+    g.addColorStop(1,'rgba(20,25,50,0)');
+    ctx.fillStyle=g;
+    [[-55,0,55],[0,-8,70],[55,6,52],[-18,16,42],[32,14,47]].forEach(([dx,dy,r])=>{
+      ctx.beginPath(); ctx.arc(cx+dx,cy+dy,r,0,Math.PI*2); ctx.fill();
+    });
+    // Lueur interne dans le nuage quand l'éclair est visible
+    if(flashAlpha>0){
+      const gl=ctx.createRadialGradient(cx,cy+20,5,cx,cy+20,60);
+      gl.addColorStop(0,`rgba(255,240,120,${flashAlpha*0.5})`);
+      gl.addColorStop(1,'rgba(255,200,80,0)');
+      ctx.fillStyle=gl;
+      ctx.beginPath(); ctx.arc(cx,cy+20,60,0,Math.PI*2); ctx.fill();
+    }
+    // Petit nuage décoratif gauche
+    const cx2=W*0.18, cy2=H*0.28;
+    const g2=ctx.createRadialGradient(cx2,cy2,3,cx2,cy2,40);
+    g2.addColorStop(0,'rgba(50,60,90,0.65)'); g2.addColorStop(1,'rgba(20,25,50,0)');
+    ctx.fillStyle=g2;
+    [[-15,0,25],[8,-4,30],[22,4,20]].forEach(([dx,dy,r])=>{
+      ctx.beginPath(); ctx.arc(cx2+dx,cy2+dy,r,0,Math.PI*2); ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  function drawGround(W,H){
+    // Bande sol
+    const g=ctx.createLinearGradient(0,H*0.84,0,H);
+    g.addColorStop(0,'#192616'); g.addColorStop(1,'#0d180a');
+    ctx.fillStyle=g; ctx.fillRect(0,H*0.84,W,H*0.16);
+
+    // --- Observateur (œil/bonhomme) à gauche ---
+    const ox=W*0.10, oy=H*0.84;
+    // Corps simple
+    ctx.fillStyle='#c8a060';
+    ctx.beginPath(); ctx.ellipse(ox,oy-28,5,10,0,0,Math.PI*2); ctx.fill(); // tronc
+    ctx.beginPath(); ctx.arc(ox,oy-42,8,0,Math.PI*2); ctx.fill();          // tête
+    // Bras pointant vers l'éclair
+    ctx.strokeStyle='#c8a060'; ctx.lineWidth=3; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(ox+4,oy-30); ctx.lineTo(ox+22,oy-20); ctx.stroke();
+    // Jambes
+    ctx.beginPath(); ctx.moveTo(ox,oy-18); ctx.lineTo(ox-6,oy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,oy-18); ctx.lineTo(ox+6,oy); ctx.stroke();
+    // Label "Vous"
+    ctx.font='bold 10px "Outfit",sans-serif';
+    ctx.fillStyle='rgba(220,200,130,0.8)'; ctx.textAlign='center';
+    ctx.fillText('👁 vous',ox,oy+12);
+
+    // Flèche double indiquant la distance
+    if(nuageSegs.length){
+      const lx=nuageSegs[nuageSegs.length-1].x2;
+      const ay=H*0.92;
+      ctx.strokeStyle='rgba(200,180,100,0.5)'; ctx.lineWidth=1.5;
+      ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(ox+12,ay); ctx.lineTo(lx-6,ay); ctx.stroke();
+      ctx.setLineDash([]);
+      // pointes
+      [[ox+12,-1],[lx-6,1]].forEach(([x,dir])=>{
+        ctx.fillStyle='rgba(200,180,100,0.6)';
+        ctx.beginPath();
+        ctx.moveTo(x+dir*10,ay);
+        ctx.lineTo(x,ay-4); ctx.lineTo(x,ay+4);
+        ctx.closePath(); ctx.fill();
+      });
+      ctx.font='11px "DM Mono",monospace';
+      ctx.fillStyle='rgba(220,200,120,0.75)'; ctx.textAlign='center';
+      ctx.fillText(`d = ${(distM/1000).toFixed(1)} km`,(ox+lx)/2,ay-7);
+    }
+  }
+
+  function drawHUD(W,H){
+    // ── Zone en bas : chrono + état ──
+    const panelH=44, panelY=H-panelH;
+    ctx.fillStyle='rgba(0,0,0,0.45)';
+    ctx.fillRect(0,panelY,W,panelH);
+
+    if(phase==='idle'){
+      ctx.font='bold 13px "Outfit",sans-serif';
+      ctx.fillStyle='rgba(245,200,60,0.9)';
+      ctx.textAlign='center';
+      ctx.fillText('⚡ Appuyez sur le bouton pour déclencher l\'éclair',W/2,panelY+27);
+      return;
+    }
+
+    const elapsed=(performance.now()-flashT)/1000;
+    const tSon=(distM/V_SON);
+
+    // Chronomètre (s'arrête quand le tonnerre arrive)
+    const chrono = phase==='done' ? tSon : (phase==='thunder' ? tSon : elapsed);
+    const chronoStr = chrono.toFixed(1)+' s';
+
+    // Côté gauche : lumière
+    ctx.font='bold 12px "DM Mono",monospace';
+    ctx.fillStyle='#f5c842'; ctx.textAlign='left';
+    ctx.fillText('⚡ Lumière : instantané ✓', 16, panelY+18);
+
+    // Côté droit : son
+    ctx.fillStyle= phase==='done' ? '#f0a040' : '#e07820';
+    ctx.textAlign='right';
+    if(phase==='done'){
+      ctx.fillText(`🔊 Tonnerre : ${tSon.toFixed(1)} s`, W-16, panelY+18);
+    } else {
+      ctx.fillText(`🔊 Son en route… ${elapsed.toFixed(1)} s`, W-16, panelY+18);
+    }
+
+    // Barre de progression sonore (orange)
+    const barX=16, barY=panelY+26, barW=W-32, barH=8;
+    const prog=Math.min((phase==='done'?tSon:elapsed)/tSon,1);
+    ctx.fillStyle='rgba(255,255,255,0.07)'; ctx.fillRect(barX,barY,barW,barH);
+    const og=ctx.createLinearGradient(barX,0,barX+barW,0);
+    og.addColorStop(0,'#c85a00'); og.addColorStop(1,'#f5a020');
+    ctx.fillStyle=og; ctx.fillRect(barX,barY,barW*prog,barH);
+    ctx.strokeStyle='rgba(240,140,30,0.35)'; ctx.lineWidth=1;
+    ctx.strokeRect(barX,barY,barW,barH);
+
+    // Message final
+    if(phase==='done'){
+      ctx.font='bold 14px "Outfit",sans-serif';
+      ctx.fillStyle='rgba(255,220,100,0.97)';
+      ctx.textAlign='center';
+      ctx.fillText(`💡 Δt = d / v_son = ${distM} / 343 = ${tSon.toFixed(1)} s`, W/2, panelY-10);
+    }
+  }
+
+  // ── Actions ──
+  window.orageUpdateDist=function(){
+    const inp=document.getElementById('orageDistInput');
+    const lbl=document.getElementById('orageDistLabel');
+    distM=parseInt(inp.value);
+    lbl.textContent=(distM/1000).toFixed(1)+' km';
+    if(phase==='idle'||phase==='done') orageReset();
+  };
+
+  window.orageDeclench=function(){
+    if(phase==='flash'||phase==='counting') return;
+    buildLightning();
+    flashAlpha=1; bgPulse=0.9;
+    phase='flash';
+    flashT=performance.now();
+    const tSonMs=(distM/V_SON)*1000;
+
+    // Montrer le résultat pédagogique immédiatement
+    const tSon=(distM/V_SON);
+    document.getElementById('orageResultat').style.display='block';
+    document.getElementById('orageResultText').innerHTML=
+      `⚡ <strong>Lumière</strong> : perçue instantanément — Δt = ${distM} / (3×10⁸) ≈ <strong>${(distM/C_LUM*1e6).toFixed(2)} μs</strong> (négligeable)<br>`+
+      `🔊 <strong>Tonnerre</strong> : Δt = d / v<sub>son</sub> = ${distM} m / 343 m·s⁻¹ = <strong>${tSon.toFixed(1)} s</strong><br>`+
+      `📏 Règle pratique : compter les secondes entre éclair et tonnerre → <strong>1 s ≈ 340 m</strong>`;
+
+    setTimeout(()=>{ phase='counting'; },150);
+
+    setTimeout(()=>{
+      phase='thunder';
+      playThunder(distM/1000);
+      setTimeout(()=>{ phase='done'; },1200);
+    }, tSonMs);
+  };
+
+  window.orageReset=function(){
+    phase='idle';
+    flashAlpha=0; bgPulse=0;
+    document.getElementById('orageResultat').style.display='none';
+  };
+
+  cv.addEventListener('click',()=>{ if(phase==='idle'||phase==='done') window.orageDeclench(); });
+
+  resize();
+  new ResizeObserver(resize).observe(cv.parentElement||cv);
+  requestAnimationFrame(draw);
+
+  if(!window.vitRelance) window.vitRelance=function(){};
+  const _vc=document.getElementById('vitCanvas');
+  if(_vc) _vc.style.display='none';
+
+})();
+
+/* ─── (ancien bloc vitCanvas supprimé) ─── */
+(function(){
+  const cv = document.getElementById('vitCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  const ANIM_DUR_LUM = 200; // frames pour que la lumière traverse
+  let frameLum = 0;
+  let done = false;
+  let rafId = null;
+
+  window.vitRelance = function(){
+    frameLum = 0;
+    done = false;
+    if(!rafId) rafId = requestAnimationFrame(draw); // relance la boucle si elle était arrêtée
+  };
+
+  function draw() {
+    rafId = null;
+    // Largeur : ne pas réécrire cv.width à chaque frame (remet le canvas à blanc + peut être 0)
+    const W = cv.parentElement.clientWidth || 860;
+    if(cv.width !== W) cv.width = W;
+    const H = cv.height;
+
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = '#f8f9fb';
+    ctx.fillRect(0,0,W,H);
+
+    if(!done) frameLum++;
+    if(frameLum >= ANIM_DUR_LUM) done = true;
+
+    const progLum = Math.min(frameLum / ANIM_DUR_LUM, 1);
+    // Le son : rapport vitesses = 3e8/343 ≈ 874 635 → son avance 874 635 fois moins vite
+    const progSon = progLum / 874635;
+
+    const startX = 70, endX = W - 60;
+    const trackW = endX - startX;
+    const rowLum = H * 0.32, rowSon = H * 0.70;
+
+    // ─ Emojis Terre / Lune ─
+    ctx.font = '20px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('🌍', startX - 24, rowLum + 7);
+    ctx.fillText('🌕', endX + 22,   rowLum + 7);
+    ctx.fillText('🌍', startX - 24, rowSon  + 7);
+    ctx.fillText('🌕', endX + 22,   rowSon  + 7);
+
+    // ─ Piste lumière ─
+    ctx.fillStyle = '#fffbe0';
+    ctx.fillRect(startX, rowLum - 10, trackW, 20);
+    ctx.strokeStyle = '#e0c800'; ctx.lineWidth = 1;
+    ctx.strokeRect(startX, rowLum - 10, trackW, 20);
+
+    const lumX = startX + trackW * progLum;
+
+    // Trait parcouru
+    ctx.strokeStyle = '#f5c842'; ctx.lineWidth = 2.5;
+    ctx.setLineDash([10, 5]);
+    ctx.beginPath(); ctx.moveTo(startX, rowLum); ctx.lineTo(lumX, rowLum); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Front lumineux (seulement si lumX a une taille valide)
+    if(lumX > startX + 2){
+      const lumGrad = ctx.createRadialGradient(lumX, rowLum, 0, lumX, rowLum, 13);
+      lumGrad.addColorStop(0,   '#ffffff');
+      lumGrad.addColorStop(0.4, '#f5c842');
+      lumGrad.addColorStop(1,   'rgba(245,200,66,0)');
+      ctx.beginPath(); ctx.arc(lumX, rowLum, 13, 0, Math.PI*2);
+      ctx.fillStyle = lumGrad; ctx.fill();
+    }
+
+    // Labels lumière
+    ctx.font = 'bold 12px "DM Mono", monospace';
+    ctx.fillStyle = '#8a6800'; ctx.textAlign = 'left';
+    ctx.fillText('Lumière — c = 3,00 × 10⁸ m·s⁻¹', startX, rowLum - 16);
+    if(done){
+      ctx.fillStyle = '#1a6b5a';
+      ctx.textAlign = 'right';
+      ctx.fillText('⏱ arrivée en ≈ 1,28 s', endX, rowLum - 16);
+    } else {
+      const tLum = (progLum * 1.28).toFixed(2);
+      ctx.fillStyle = '#999'; ctx.textAlign = 'left';
+      ctx.fillText('t = ' + tLum + ' s', Math.min(lumX + 6, W - 80), rowLum - 16);
+    }
+
+    // ─ Piste son ─
+    ctx.fillStyle = '#e8f4f8';
+    ctx.fillRect(startX, rowSon - 10, trackW, 20);
+    ctx.strokeStyle = '#88bbcc'; ctx.lineWidth = 1;
+    ctx.strokeRect(startX, rowSon - 10, trackW, 20);
+
+    const sonPx = startX + trackW * progSon;
+    // Trait son (infime mais visible au départ)
+    ctx.strokeStyle = '#4499bb'; ctx.lineWidth = 2;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(startX, rowSon); ctx.lineTo(Math.max(sonPx, startX + 1), rowSon); ctx.stroke();
+    ctx.setLineDash([]);
+    // Point sonore
+    ctx.beginPath(); ctx.arc(startX + 3, rowSon, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#4499bb'; ctx.fill();
+
+    ctx.font = 'bold 12px "DM Mono", monospace';
+    ctx.fillStyle = '#336688'; ctx.textAlign = 'left';
+    ctx.fillText('Son — v = 343 m·s⁻¹', startX, rowSon - 16);
+    ctx.fillStyle = '#cc4400'; ctx.textAlign = 'right';
+    ctx.fillText('→ mettrait ≈ 13 jours !', endX, rowSon - 16);
+
+    // Message final
+    if(done){
+      ctx.font = 'bold 13px "Outfit", sans-serif';
+      ctx.fillStyle = '#1a6b5a'; ctx.textAlign = 'center';
+      ctx.fillText('La lumière est environ 875 000 fois plus rapide que le son.', W/2, H - 12);
+    }
+
+    if(!done) rafId = requestAnimationFrame(draw);
+  }
+
+  // Démarrage différé pour que le DOM soit rendu et parentElement.clientWidth valide
+  setTimeout(function(){ rafId = requestAnimationFrame(draw); }, 200);
+})();
+
+/* ─── Canvas Snell-Descartes interactif ─── */
+(function(){
+  const cv = document.getElementById('snellCanvas');
+  if(!cv) return;
+  const ctx = cv.getContext('2d');
+
+  const slI1 = document.getElementById('snell-i1');
+  const slN1 = document.getElementById('snell-n1');
+  const slN2 = document.getElementById('snell-n2');
+  const lblI1 = document.getElementById('snell-i1-val');
+  const lblN1 = document.getElementById('snell-n1-val');
+  const lblN2 = document.getElementById('snell-n2-val');
+  const checkDiv = document.getElementById('snell-check');
+
+  function getMilieu(n) {
+    n = parseFloat(n);
+    if(n < 1.05) return 'air';
+    if(n < 1.15) return 'gaz';
+    if(n < 1.40) return 'eau (~1,33)';
+    if(n < 1.55) return 'verre (crown)';
+    if(n < 1.70) return 'verre (flint)';
+    if(n < 1.90) return 'saphir (~1,77)';
+    return 'diamant (~2,42)';
+  }
+
+  function drawArrow(x1, y1, x2, y2, color) {
+    const a = Math.atan2(y2-y1, x2-x1);
+    const al = 9;
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x2 - Math.cos(a-0.4)*al, y2 - Math.sin(a-0.4)*al);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 - Math.cos(a+0.4)*al, y2 - Math.sin(a+0.4)*al);
+    ctx.stroke();
+  }
+
+  function redraw() {
+    const W = cv.parentElement.clientWidth || 860;
+    if(cv.width !== W) cv.width = W;
+    const H = cv.height;
+    const i1deg = parseInt(slI1.value);
+    const n1 = parseFloat(slN1.value);
+    const n2 = parseFloat(slN2.value);
+
+    lblI1.textContent = i1deg + '°';
+    lblN1.textContent = n1.toFixed(2).replace('.',',');
+    lblN2.textContent = n2.toFixed(2).replace('.',',');
+
+    ctx.clearRect(0,0,W,H);
+
+    const midY = H / 2;
+    const midX = W / 2;
+    const len = Math.min(midY - 20, midX - 60, 120);
+
+    // Fond milieu 1 (haut)
+    ctx.fillStyle = '#f0f8ff';
+    ctx.fillRect(0, 0, W, midY);
+    // Fond milieu 2 (bas)
+    ctx.fillStyle = '#e8f5f0';
+    ctx.fillRect(0, midY, W, H - midY);
+
+    // Dioptre
+    ctx.strokeStyle = 'rgba(26,107,90,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(W, midY); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Labels milieux
+    ctx.font = 'italic 12px "DM Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(20,80,60,0.6)';
+    ctx.fillText('Milieu 1 — n₁ = ' + n1.toFixed(2).replace('.',',') + '  (' + getMilieu(n1) + ')', 14, midY - 14);
+    ctx.fillText('Milieu 2 — n₂ = ' + n2.toFixed(2).replace('.',',') + '  (' + getMilieu(n2) + ')', 14, midY + 26);
+
+    // Normale
+    ctx.strokeStyle = 'rgba(120,120,120,0.35)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4,5]);
+    ctx.beginPath(); ctx.moveTo(midX, midY - len - 10); ctx.lineTo(midX, midY + len + 10); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = '10px "DM Mono"'; ctx.fillStyle = 'rgba(100,100,100,0.5)';
+    ctx.textAlign = 'center';
+    ctx.fillText('normale', midX, midY - len - 14);
+
+    const i1 = i1deg * Math.PI / 180;
+    const sinI2 = n1 * Math.sin(i1) / n2;
+    const reflexionTotale = sinI2 > 1;
+    const i2 = reflexionTotale ? null : Math.asin(sinI2);
+
+    // ── Rayon incident ──
+    const incX = midX - Math.sin(i1)*len;
+    const incY = midY - Math.cos(i1)*len;
+    ctx.strokeStyle = '#1a6b5a'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(incX, incY); ctx.lineTo(midX, midY); ctx.stroke();
+    drawArrow(incX + (midX-incX)*0.5, incY + (midY-incY)*0.5, midX, midY, '#1a6b5a');
+
+    // ── Rayon réfléchi ──
+    const refX = midX + Math.sin(i1)*len;
+    const refY = midY - Math.cos(i1)*len;
+    ctx.strokeStyle = 'rgba(184,92,0,0.8)'; ctx.lineWidth = 2;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(midX, midY); ctx.lineTo(refX, refY); ctx.stroke();
+    ctx.setLineDash([]);
+    drawArrow(midX + (refX-midX)*0.45, midY + (refY-midY)*0.45, refX, refY, 'rgba(184,92,0,0.8)');
+
+    // ── Rayon réfracté ou RT ──
+    if(!reflexionTotale) {
+      const ref2X = midX + Math.sin(i2)*len;
+      const ref2Y = midY + Math.cos(i2)*len;
+      ctx.strokeStyle = '#3a4db5'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(midX, midY); ctx.lineTo(ref2X, ref2Y); ctx.stroke();
+      drawArrow(midX + (ref2X-midX)*0.45, midY + (ref2Y-midY)*0.45, ref2X, ref2Y, '#3a4db5');
+
+      // ── Cônes grisés pour les angles ──
+      // Dessin par remplissage de triangle entre : point d'incidence, bout de normale, bout du rayon
+      // Cône i1 : triangle (midX,midY) → bout normale haut → bout rayon incident (direction source)
+      // Cône i2 : triangle (midX,midY) → bout normale bas  → bout rayon réfracté
+
+      const coneR = 55;
+
+      // Points extremités dans chaque direction
+      const normHautX = midX;
+      const normHautY = midY - coneR;
+      const normBasX  = midX;
+      const normBasY  = midY + coneR;
+      // Direction du rayon incident : de midX,midY vers incX,incY (remonte vers la source)
+      const dIncX = incX - midX, dIncY = incY - midY;
+      const dIncLen = Math.sqrt(dIncX*dIncX + dIncY*dIncY);
+      const incEndX = midX + (dIncX/dIncLen)*coneR;
+      const incEndY = midY + (dIncY/dIncLen)*coneR;
+      // Direction du rayon réfracté : de midX,midY vers ref2X,ref2Y
+      const dRef2X = ref2X - midX, dRef2Y = ref2Y - midY;
+      const dRef2Len = Math.sqrt(dRef2X*dRef2X + dRef2Y*dRef2Y);
+      const ref2EndX = midX + (dRef2X/dRef2Len)*coneR;
+      const ref2EndY = midY + (dRef2Y/dRef2Len)*coneR;
+
+      // Cône i1 (vert) : entre normale↑ et rayon incident (tous deux dans le milieu 1, haut)
+      if(i1 > 0.01) {
+        ctx.beginPath();
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(normHautX, normHautY);
+        ctx.lineTo(incEndX, incEndY);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(26,107,90,0.18)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(26,107,90,0.5)'; ctx.lineWidth = 1;
+        ctx.stroke();
+        // Label au centre du triangle
+        ctx.font = 'bold 12px "DM Mono", monospace';
+        ctx.fillStyle = '#1a6b5a'; ctx.textAlign = 'center';
+        const lx1 = midX + (coneR+20)*Math.cos(-Math.PI/2 - i1/2);
+        const ly1 = midY + (coneR+20)*Math.sin(-Math.PI/2 - i1/2);
+        ctx.fillText('i₁ = '+i1deg+'°', lx1, ly1);
+      }
+
+      // Cône i2 (bleu) : entre normale↓ et rayon réfracté (tous deux dans le milieu 2, bas)
+      if(i2 > 0.01) {
+        const i2deg = (i2 * 180 / Math.PI).toFixed(1);
+        ctx.beginPath();
+        ctx.moveTo(midX, midY);
+        ctx.lineTo(normBasX, normBasY);
+        ctx.lineTo(ref2EndX, ref2EndY);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(58,77,181,0.18)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(58,77,181,0.5)'; ctx.lineWidth = 1;
+        ctx.stroke();
+        // Label
+        ctx.font = 'bold 12px "DM Mono", monospace';
+        ctx.fillStyle = '#3a4db5'; ctx.textAlign = 'center';
+        const lx2 = midX + (coneR+20)*Math.cos(Math.PI/2 + i2/2);
+        const ly2 = midY + (coneR+20)*Math.sin(Math.PI/2 + i2/2);
+        ctx.fillText('i₂ = '+i2deg+'°', lx2, ly2);
+      }
+
+      // Légendes rayons
+      ctx.font = '11px "DM Mono"'; ctx.textAlign = 'right';
+      ctx.fillStyle = '#1a6b5a';
+      ctx.fillText('rayon incident', incX - 4, incY + 12);
+      ctx.fillStyle = '#3a4db5'; ctx.textAlign = 'left';
+      ctx.fillText('rayon réfracté', ref2X + 6, ref2Y - 6);
+      ctx.fillStyle = 'rgba(184,92,0,0.85)'; ctx.textAlign = 'left';
+      ctx.fillText('rayon réfléchi', refX + 6, refY + 12);
+
+      // Vérification numérique
+      const n1s1 = (n1 * Math.sin(i1)).toFixed(3);
+      const n2s2 = (n2 * Math.sin(i2)).toFixed(3);
+      checkDiv.innerHTML =
+        '<span style="color:#1a6b5a;font-weight:600;">n₁ · sin i₁ = ' + n1.toFixed(2).replace('.',',') + ' × sin(' + i1deg + '°) = <strong>' + n1s1 + '</strong></span>' +
+        '<span style="color:#888;font-size:1.1em;">≈</span>' +
+        '<span style="color:#3a4db5;font-weight:600;">n₂ · sin i₂ = ' + n2.toFixed(2).replace('.',',') + ' × sin(' + (i2*180/Math.PI).toFixed(1) + '°) = <strong>' + n2s2 + '</strong></span>' +
+        '<span style="margin-left:auto;background:#e8f5f0;border-radius:6px;padding:3px 10px;color:#1a6b5a;font-size:0.78rem;">✓ loi vérifiée</span>';
+
+    } else {
+      // Réflexion totale
+      ctx.font = 'bold 13px "DM Mono"';
+      ctx.fillStyle = '#c0392b'; ctx.textAlign = 'center';
+      ctx.fillText('⚠ Réflexion totale interne — aucun rayon réfracté', midX, midY + 30);
+      ctx.font = '11px "DM Mono"'; ctx.fillStyle = 'rgba(180,50,30,0.7)';
+      ctx.fillText('(n₁ sin i₁ > n₂  →  sin i₂ > 1, impossible)', midX, midY + 48);
+
+      // Angle limite
+      const ilim = (Math.asin(n2/n1) * 180/Math.PI).toFixed(1);
+      checkDiv.innerHTML =
+        '<span style="color:#c0392b;font-weight:600;">Réflexion totale interne</span>' +
+        '<span style="color:#888;">·</span>' +
+        '<span>Angle limite : i<sub>lim</sub> = arcsin(n₂/n₁) = arcsin(' + (n2/n1).toFixed(3) + ') = <strong>' + ilim + '°</strong></span>' +
+        '<span style="margin-left:auto;background:#fdecea;border-radius:6px;padding:3px 10px;color:#c0392b;font-size:0.78rem;">pas de rayon réfracté</span>';
+    }
+    ctx.textAlign = 'left';
+  }
+
+  slI1.addEventListener('input', redraw);
+  slN1.addEventListener('input', redraw);
+  slN2.addEventListener('input', redraw);
+  window.addEventListener('resize', redraw);
+  redraw();
+})();
+
+/* ─── Illustration Loi 2 — Réflexion interactive (canvas, calqué sur loi 3) ─── */
+(function(){
+  const cv=document.getElementById('loi2Canvas');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const sl=document.getElementById('loi2-i1');
+  const lbl=document.getElementById('loi2-i1-val');
+  if(!sl||!lbl) return;
+
+  function drawArrow(x1,y1,x2,y2,color){
+    const a=Math.atan2(y2-y1,x2-x1),al=11;
+    ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(x2-al*Math.cos(a-0.38),y2-al*Math.sin(a-0.38));
+    ctx.lineTo(x2,y2);
+    ctx.lineTo(x2-al*Math.cos(a+0.38),y2-al*Math.sin(a+0.38));
+    ctx.stroke();
+  }
+
+  function redraw(){
+    const W=cv.parentElement.clientWidth||600;
+    if(cv.width!==W) cv.width=W;
+    const H=cv.height;
+    const i1deg=parseInt(sl.value);
+    lbl.textContent=i1deg+'°';
+
+    ctx.clearRect(0,0,W,H);
+
+    const midY=Math.round(H*0.58), midX=W/2;
+    const len=Math.min(midY-30,midX-70,110);
+
+    // Fond milieu 1 (vert pâle, haut) — réflexion reste dans milieu 1
+    ctx.fillStyle='#edf7f2'; ctx.fillRect(0,0,W,midY);
+    // Fond milieu 2 (gris très pâle, bas — juste pour montrer qu'il n'y a pas de rayon ici)
+    ctx.fillStyle='#f4f4f4'; ctx.fillRect(0,midY,W,H-midY);
+
+    // Dioptre
+    ctx.strokeStyle='rgba(26,107,90,0.5)'; ctx.lineWidth=1.8;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath();ctx.moveTo(0,midY);ctx.lineTo(W,midY);ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Labels milieux
+    ctx.font='italic 12px "DM Mono",monospace'; ctx.textAlign='left';
+    ctx.fillStyle='rgba(20,80,60,0.6)';
+    ctx.fillText('Milieu 1  (réflexion dans ce milieu)',14,midY-14);
+    ctx.fillStyle='rgba(120,120,120,0.5)';
+    ctx.fillText('Milieu 2',14,midY+26);
+
+    // Normale (pointillée, toute la hauteur)
+    ctx.strokeStyle='rgba(100,110,180,0.4)'; ctx.lineWidth=1.2; ctx.setLineDash([5,5]);
+    ctx.beginPath();ctx.moveTo(midX,midY-len-15);ctx.lineTo(midX,midY+len/2);ctx.stroke();
+    ctx.setLineDash([]);
+    // Flèche de la normale vers le haut
+    ctx.fillStyle='#7788bb';
+    ctx.beginPath();ctx.moveTo(midX,midY-len-15);ctx.lineTo(midX-5,midY-len);ctx.lineTo(midX+5,midY-len);ctx.closePath();ctx.fill();
+    ctx.font='11px "DM Mono",monospace';ctx.fillStyle='#5566aa';ctx.textAlign='center';
+    ctx.fillText('normale',midX,midY-len-18);
+
+    const i1=i1deg*Math.PI/180;
+
+    // Coordonnées des rayons
+    // Rayon incident : vient de haut-gauche → I (flèche pointant vers midX,midY)
+    const incX=midX-Math.sin(i1)*len;
+    const incY=midY-Math.cos(i1)*len;
+    // Rayon réfléchi : part de I vers haut-droite (flèche pointant vers refX,refY)
+    const refX=midX+Math.sin(i1)*len;
+    const refY=midY-Math.cos(i1)*len;
+
+    // Cônes grisés (triangles)
+    const coneR=52;
+    const normHautX=midX, normHautY=midY-coneR;
+    // Direction rayon incident depuis I (vers la source)
+    const dIncLen=Math.sqrt((incX-midX)**2+(incY-midY)**2);
+    const incEndX=midX+(incX-midX)/dIncLen*coneR;
+    const incEndY=midY+(incY-midY)/dIncLen*coneR;
+    // Direction rayon réfléchi depuis I
+    const dRefLen=Math.sqrt((refX-midX)**2+(refY-midY)**2);
+    const refEndX=midX+(refX-midX)/dRefLen*coneR;
+    const refEndY=midY+(refY-midY)/dRefLen*coneR;
+
+    if(i1>0.01){
+      // Cône i1 (vert) entre normale↑ et direction source
+      ctx.beginPath();ctx.moveTo(midX,midY);ctx.lineTo(normHautX,normHautY);ctx.lineTo(incEndX,incEndY);ctx.closePath();
+      ctx.fillStyle='rgba(26,107,90,0.15)';ctx.fill();
+      ctx.strokeStyle='rgba(26,107,90,0.4)';ctx.lineWidth=1;ctx.stroke();
+      // Label i1
+      const lx1=midX+(coneR+20)*Math.cos(-Math.PI/2-i1/2);
+      const ly1=midY+(coneR+20)*Math.sin(-Math.PI/2-i1/2);
+      ctx.font='bold 13px "DM Mono",monospace';ctx.fillStyle='#1a6b5a';ctx.textAlign='center';
+      ctx.fillText('i₁ = '+i1deg+'°',lx1,ly1);
+
+      // Cône ir (orange) entre normale↑ et rayon réfléchi (symétrique)
+      ctx.beginPath();ctx.moveTo(midX,midY);ctx.lineTo(normHautX,normHautY);ctx.lineTo(refEndX,refEndY);ctx.closePath();
+      ctx.fillStyle='rgba(184,92,0,0.15)';ctx.fill();
+      ctx.strokeStyle='rgba(184,92,0,0.4)';ctx.lineWidth=1;ctx.stroke();
+      // Label ir
+      const lx2=midX+(coneR+20)*Math.cos(-Math.PI/2+i1/2);
+      const ly2=midY+(coneR+20)*Math.sin(-Math.PI/2+i1/2);
+      ctx.font='bold 13px "DM Mono",monospace';ctx.fillStyle='#b85c00';ctx.textAlign='center';
+      ctx.fillText('iᵣ = '+i1deg+'°',lx2,ly2);
+    }
+
+    // Rayon incident : flèche à 70% du trajet (vers I)
+    ctx.strokeStyle='#1a6b5a';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(incX,incY);ctx.lineTo(midX,midY);ctx.stroke();
+    drawArrow(incX,incY, incX+(midX-incX)*0.7, incY+(midY-incY)*0.7, '#1a6b5a');
+    ctx.font='11px "DM Mono",monospace';ctx.fillStyle='#1a6b5a';ctx.textAlign='right';
+    ctx.fillText('rayon incident',incX-6,incY+12);
+
+    // Rayon réfléchi : flèche à 70% depuis I
+    ctx.strokeStyle='#b85c00';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(midX,midY);ctx.lineTo(refX,refY);ctx.stroke();
+    drawArrow(midX,midY, midX+(refX-midX)*0.7, midY+(refY-midY)*0.7, '#b85c00');
+    ctx.font='11px "DM Mono",monospace';ctx.fillStyle='#b85c00';ctx.textAlign='left';
+    ctx.fillText('rayon réfléchi',refX+6,refY+12);
+
+    // Point I
+    ctx.beginPath();ctx.arc(midX,midY,5,0,Math.PI*2);
+    ctx.fillStyle='#b85c00';ctx.fill();ctx.strokeStyle='white';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.font='bold 12px "DM Mono",monospace';ctx.fillStyle='#b85c00';ctx.textAlign='left';
+    ctx.fillText('I',midX+7,midY-4);
+
+    // Formule en bas
+    ctx.font='bold 14px "DM Mono",monospace';ctx.fillStyle='#b85c00';ctx.textAlign='center';
+    ctx.fillText('i₁ = iᵣ  (' +i1deg+'° = '+i1deg+'°)',midX,H-16);
+
+    ctx.textAlign='left';
+  }
+
+  sl.addEventListener('input',redraw);
+  window.addEventListener('resize',redraw);
+  document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>setTimeout(redraw,50)));
+  setTimeout(redraw,120);
+})();
+
+
+
+/* ─── Lentille interactive Partie 4 ─── */
+(function(){
+  var p4Rays = {1:false, 2:false, 3:false};
+
+  var P4_INFOS = {
+    1: "<b>Rayon R₁ (bleu) — par le centre optique O :</b> Tout rayon passant par le centre optique O <b>n'est pas dévié</b> : il poursuit sa trajectoire en ligne droite. On trace ce rayon de B vers O, puis on le prolonge sans changer de direction jusqu'en B'.",
+    2: "<b>Rayon R₂ (rouge) — par le foyer objet F :</b> Tout rayon incident qui passe par le foyer objet F <b>ressort de la lentille parallèlement à l'axe optique</b>. On trace ce rayon de B vers F, on prolonge jusqu'à la lentille, puis il repart horizontalement vers la droite.",
+    3: "<b>Rayon R₃ (vert) — parallèle à l'axe optique :</b> Tout rayon incident parallèle à l'axe optique <b>passe par le foyer image F' après la lentille</b>. C'est la définition même de F'. On trace ce rayon horizontalement de B jusqu'à la lentille, puis il est dévié vers F'."
+  };
+
+  window.p4ToggleRay = function(n){
+    p4Rays[n] = !p4Rays[n];
+    document.getElementById('p4btn'+n).classList.toggle('on', p4Rays[n]);
+    document.getElementById('p4btnAll').classList.remove('on');
+    if(p4Rays[n]){
+      document.getElementById('p4slbl').textContent = 'Rayon R'+n+' affiché';
+      document.getElementById('p4inf').innerHTML = P4_INFOS[n];
+    } else {
+      var any = p4Rays[1]||p4Rays[2]||p4Rays[3];
+      if(!any){ document.getElementById('p4slbl').textContent='Choisissez un rayon ou cliquez sur ▶ Tout afficher'; document.getElementById('p4inf').innerHTML='Sélectionnez un rayon pour afficher sa description.'; }
+    }
+    p4Draw();
+  };
+
+  window.p4LaunchAll = function(){
+    p4Rays = {1:true,2:true,3:true};
+    [1,2,3].forEach(function(n){ document.getElementById('p4btn'+n).classList.add('on'); });
+    document.getElementById('p4btnAll').classList.add('on');
+    document.getElementById('p4slbl').textContent = 'Les 3 rayons caractéristiques sont affichés';
+    document.getElementById('p4inf').innerHTML = "L'intersection des 3 rayons donne le point <b>B'</b>, extrémité de l'image. <b>A'</b> est le pied de la perpendiculaire depuis B' sur l'axe.";
+    p4Draw();
+  };
+
+  window.p4ResetRays = function(){
+    p4Rays = {1:false,2:false,3:false};
+    [1,2,3].forEach(function(n){ document.getElementById('p4btn'+n).classList.remove('on'); });
+    document.getElementById('p4btnAll').classList.remove('on');
+    document.getElementById('p4slbl').textContent='Choisissez un rayon ou cliquez sur ▶ Tout afficher';
+    document.getElementById('p4inf').innerHTML='Sélectionnez un rayon pour afficher sa description.';
+    p4Draw();
+  };
+
+  window.p4Draw = function(){
+    var cv = document.getElementById('lensCanvas');
+    if(!cv) return;
+    // Redimensionner si besoin
+    var W2 = cv.parentElement.clientWidth || 860;
+    if(cv.width !== W2) cv.width = W2;
+    var ctx = cv.getContext('2d');
+    var W = cv.width, H = cv.height;
+
+    var fp = parseInt(document.getElementById('p4f').value);
+    var oa = parseInt(document.getElementById('p4oa').value);
+    document.getElementById('p4vf').textContent = fp;
+    document.getElementById('p4voa').textContent = oa;
+
+    // Calcul image — convention algébrique (OA négatif pour objet réel)
+    // 1/OA' = 1/f' + 1/OA  avec OA < 0
+    var oap = 1 / (1/fp + 1/oa);
+    var gamma = oap / oa;
+
+    // Affichage grandissement uniquement (relation de conjugaison hors programme Seconde)
+    if(isFinite(gamma)){
+      var signG = gamma < 0 ? '' : '+';
+      var desc = gamma < 0 ? 'renversée' : 'droite';
+      var size = Math.abs(gamma) > 1 ? 'agrandie' : (Math.abs(gamma) < 1 ? 'réduite' : 'même taille');
+      var imgNat = oap > 0 ? 'réelle' : 'virtuelle';
+      document.getElementById('p4gval').innerHTML =
+        'γ = ' + signG + gamma.toFixed(2) +
+        ' &nbsp;|&nbsp; image ' + imgNat + ', ' + size + ', ' + desc;
+    }
+
+    // Fond
+    ctx.fillStyle = '#f8f7fc';
+    ctx.fillRect(0,0,W,H);
+
+    var ox = W/2, oy = H/2;
+    // Échelle : f' = fp * scale pixels
+    var scale = Math.min(W * 0.20 / fp, 1.8);
+    var fpx = fp * scale;
+    var oax = oa * scale;
+    var oapx = oap * scale;
+
+    // Axe optique
+    ctx.strokeStyle = 'rgba(80,80,120,0.22)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0,oy); ctx.lineTo(W,oy); ctx.stroke();
+
+    // Lentille convergente : ligne + flèches vers l'EXTÉRIEUR
+    ctx.strokeStyle = 'rgba(58,77,181,0.85)';
+    ctx.fillStyle   = 'rgba(58,77,181,0.85)';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(ox, oy-105); ctx.lineTo(ox, oy+105); ctx.stroke();
+    // Flèches vers l'extérieur : pointe EN HAUT pour la flèche du haut, EN BAS pour celle du bas
+    function lArrow(x,y,dir){
+      var d = dir==='up' ? -1 : 1; // d=-1 → pointe vers le haut
+      ctx.beginPath();
+      ctx.moveTo(x, y);           // pointe de la flèche
+      ctx.lineTo(x-8, y-d*16);   // aile gauche (vers l'intérieur)
+      ctx.lineTo(x+8, y-d*16);   // aile droite (vers l'intérieur)
+      ctx.closePath(); ctx.fill();
+    }
+    lArrow(ox, oy-105, 'up');   // flèche du haut pointe VERS LE HAUT
+    lArrow(ox, oy+105, 'down'); // flèche du bas pointe VERS LE BAS
+
+    // Foyers
+    var fobj = ox + oax/Math.abs(oax)*fpx*(-1);  // F à gauche
+    fobj = ox - fpx;
+    var fimg = ox + fpx;
+
+    function cross(x,y,c){
+      ctx.strokeStyle=c; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.moveTo(x-8,y); ctx.lineTo(x+8,y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x,y-8); ctx.lineTo(x,y+8); ctx.stroke();
+    }
+    cross(fobj, oy, 'rgba(180,0,0,0.7)');
+    cross(fimg, oy, 'rgba(180,0,0,0.7)');
+    ctx.fillStyle = 'rgba(180,0,0,0.9)';
+    ctx.font = 'bold 13px "DM Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('F',  fobj, oy+22);
+    ctx.fillText("F'", fimg, oy+22);
+    ctx.fillStyle = 'rgba(58,77,181,0.9)';
+    ctx.fillText('O', ox, oy+22);
+
+    // Objet AB
+    var ax2 = ox + oax;
+    var objH = 58;
+    ctx.strokeStyle = '#1a7a40';
+    ctx.fillStyle   = '#1a7a40';
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(ax2, oy); ctx.lineTo(ax2, oy-objH); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ax2-5,oy-objH+9); ctx.lineTo(ax2,oy-objH); ctx.lineTo(ax2+5,oy-objH+9); ctx.closePath(); ctx.fill();
+    ctx.font = 'bold 12px "DM Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('A', ax2+4, oy+16);
+    ctx.fillText('B', ax2+4, oy-objH-5);
+
+    var bx = ax2, by = oy - objH;
+
+    // Point image B' (pour arrêter les rayons dessus si image dans le canvas)
+    var imgBx = ox + oapx;
+    var imgBy = oy - objH * gamma;
+
+    // ── Rayon R₁ : par O (non dévié) — de B à O puis jusqu'au bord ──
+    if(p4Rays[1]){
+      ctx.strokeStyle = '#1a7ad4';
+      ctx.lineWidth = 2;
+      var s1 = (oy - by)/(ox - bx);
+      // Incident : B → O
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(ox, oy); ctx.stroke();
+      arrowMid(ctx, bx, by, ox, oy, '#1a7ad4');
+      // Émergent : O → bord droit (toujours jusqu'au bord, B' est un point de passage)
+      var ey1 = oy + s1*(W - ox);
+      ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(W, ey1); ctx.stroke();
+      arrowMid(ctx, ox, oy, Math.min(ox + (W-ox)*0.55, W-10), oy + s1*((W-ox)*0.55), '#1a7ad4');
+    }
+
+    // ── Rayon R₂ : passe par F objet → sort parallèle à l'axe ──
+    if(p4Rays[2]){
+      ctx.strokeStyle = '#d42020';
+      ctx.lineWidth = 2;
+      // Pente de B vers F objet
+      var s2 = (oy - by)/(fobj - bx);
+      var yL2 = by + s2*(ox - bx);   // hauteur à la lentille
+      // Incident : de B jusqu'à la lentille
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(ox, yL2); ctx.stroke();
+      arrowMid(ctx, bx, by, ox, yL2, '#d42020');
+      // Émergent : parallèle à l'axe
+      ctx.beginPath(); ctx.moveTo(ox, yL2); ctx.lineTo(W, yL2); ctx.stroke();
+      arrowMid(ctx, ox, yL2, W, yL2, '#d42020');
+    }
+
+    // ── Rayon R₃ : parallèle à l'axe → converge vers F' ──
+    if(p4Rays[3]){
+      ctx.strokeStyle = '#1a9a40';
+      ctx.lineWidth = 2;
+      // Incident : de B horizontalement jusqu'à la lentille
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(ox, by); ctx.stroke();
+      arrowMid(ctx, bx, by, ox, by, '#1a9a40');
+      // Émergent : de la lentille vers F' et au-delà jusqu'au bord (B' est un point de passage)
+      var s3 = (oy - by)/(fimg - ox);
+      var ey3 = by + s3*(W - ox);
+      ctx.beginPath(); ctx.moveTo(ox, by); ctx.lineTo(W, ey3); ctx.stroke();
+      var mx3 = ox + (W - ox)*0.45;
+      arrowMid(ctx, ox, by, mx3, by + s3*(mx3-ox), '#1a9a40');
+    }
+
+    // ── Image A'B' ──
+    if(isFinite(oap) && isFinite(gamma)){
+      var imgX = ox + oapx;
+      var imgH = objH * gamma;   // gamma<0 → image renversée (imgH<0 → oy-imgH > oy, vers le bas)
+      var isVirt = oap < 0;
+      ctx.strokeStyle = '#cc7700';
+      ctx.fillStyle   = '#cc7700';
+      ctx.lineWidth = isVirt ? 1.5 : 2;
+      if(isVirt) ctx.setLineDash([5,4]);
+      if(imgX > 5 && imgX < W-5){
+        ctx.beginPath(); ctx.moveTo(imgX, oy); ctx.lineTo(imgX, oy-imgH); ctx.stroke();
+        ctx.setLineDash([]);
+        if(!isVirt && imgH !== 0){
+          // imgH<0 → B' en dessous de l'axe (image renversée) → pointe vers le bas
+          var d2 = imgH < 0 ? 1 : -1;
+          ctx.beginPath(); ctx.moveTo(imgX-5, oy-imgH+d2*10); ctx.lineTo(imgX, oy-imgH); ctx.lineTo(imgX+5, oy-imgH+d2*10); ctx.closePath(); ctx.fill();
+        }
+        ctx.font = 'bold 12px "DM Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText("A'", imgX+4, oy+16);
+        ctx.fillText("B'", imgX+4, oy-imgH+(imgH>0?-7:16));
+        if(isVirt){ ctx.font='11px "DM Mono"'; ctx.fillText('(virtuelle)', imgX+4, oy-imgH+(imgH>0?-20:30)); }
+      }
+      ctx.setLineDash([]);
+    }
+
+    // Ré-écrire les étiquettes et les croix par-dessus les rayons
+    cross(fobj, oy, 'rgba(180,0,0,0.85)');
+    cross(fimg, oy, 'rgba(180,0,0,0.85)');
+    ctx.fillStyle = 'rgba(180,0,0,0.9)';
+    ctx.font = 'bold 13px "DM Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('F',  fobj, oy+22);
+    ctx.fillText("F'", fimg, oy+22);
+    ctx.fillStyle = 'rgba(58,77,181,0.9)';
+    ctx.fillText('O', ox, oy+22);
+  };
+
+  function arrowMid(ctx, x1,y1, x2,y2, color){
+    var mx=(x1+x2)/2, my=(y1+y2)/2;
+    var a=Math.atan2(y2-y1,x2-x1), len=9;
+    ctx.strokeStyle=color; ctx.fillStyle=color; ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(mx-Math.cos(a-0.42)*len, my-Math.sin(a-0.42)*len);
+    ctx.lineTo(mx, my);
+    ctx.lineTo(mx-Math.cos(a+0.42)*len, my-Math.sin(a+0.42)*len);
+    ctx.stroke();
+  }
+
+  // Dessin initial + resize
+  setTimeout(function(){ p4Draw(); }, 100);
+  window.addEventListener('resize', function(){ p4Draw(); });
+})();
+
+/* ─── Quiz ─── */
+const questions = [
+  {
+    q: "Quelle est la valeur de la vitesse de la lumière dans le vide ?",
+    opts: ["3,00 × 10⁶ m·s⁻¹", "3,00 × 10⁸ m·s⁻¹", "3,00 × 10¹⁰ m·s⁻¹", "300 m·s⁻¹"],
+    ans: 1,
+    expl: "c = 3,00 × 10⁸ m·s⁻¹ dans le vide. C'est la vitesse maximale possible."
+  },
+  {
+    q: "L'indice de réfraction de l'eau est n = 1,33. Quelle est la vitesse de la lumière dans l'eau ?",
+    opts: ["3,00 × 10⁸ m·s⁻¹", "4,00 × 10⁸ m·s⁻¹", "≈ 2,26 × 10⁸ m·s⁻¹", "1,33 × 10⁸ m·s⁻¹"],
+    ans: 2,
+    expl: "v = c/n = 3,00×10⁸ / 1,33 ≈ 2,26×10⁸ m·s⁻¹"
+  },
+  {
+    q: "Un rayon passe de l'air (n=1) dans l'eau (n=1,33) avec i₁=30°. Quel est l'angle de réfraction i₂ ?",
+    opts: ["30°", "≈ 22°", "≈ 41°", "90°"],
+    ans: 1,
+    expl: "sin i₂ = (n₁/n₂)×sin i₁ = (1/1,33)×0,5 ≈ 0,376 → i₂ ≈ 22°. Le rayon se rapproche de la normale en passant dans un milieu plus dense."
+  },
+  {
+    q: "Quelle propriété est vraie pour un spectre de raies ?",
+    opts: ["Il est produit par un corps chaud solide", "Il est continu sur toutes les longueurs d'onde", "Il est caractéristique du gaz émetteur", "Il ne peut pas être observé en laboratoire"],
+    ans: 2,
+    expl: "Un spectre de raies est la signature spectrale du gaz. Chaque gaz a ses propres raies caractéristiques."
+  },
+  {
+    q: "Pour une lentille mince convergente, le rayon passant par le foyer objet F ressort de la lentille :",
+    opts: ["En passant par le foyer image F'", "Parallèlement à l'axe optique", "Dévié vers le haut", "En sens inverse"],
+    ans: 1,
+    expl: "C'est le 3ème rayon caractéristique : tout rayon passant par F sort parallèlement à l'axe optique."
+  },
+  {
+    q: "Dans le modèle réduit de l'œil, quel élément joue le rôle de la rétine ?",
+    opts: ["La lentille convergente", "Le diaphragme", "L'écran", "Le foyer image"],
+    ans: 2,
+    expl: "L'écran situé dans le plan focal image joue le rôle de la rétine, sur laquelle se forme l'image."
+  }
+];
+
+let current = 0, score = 0, answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  const pct = (current/questions.length*100).toFixed(0);
+  document.getElementById('quizBar').style.width = pct+'%';
+  document.getElementById('quizScore').textContent = current > 0 ? `Score : ${score}/${current}` : '';
+
+  let html = `<div class="quiz-question">
+    <div class="quiz-q-text"><strong>Q${current+1}/${questions.length}</strong> · ${q.q}</div>
+    <div class="quiz-options">`;
+  q.opts.forEach((opt,i) => {
+    html += `<button class="quiz-opt" onclick="answer(${i})">${opt}</button>`;
+  });
+  html += `</div><div class="quiz-feedback" id="qfb"></div></div>`;
+  document.getElementById('quizContent').innerHTML = html;
+  document.getElementById('quizNext').disabled = true;
+  answered = false;
+}
+
+function answer(i) {
+  if(answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o,j) => {
+    o.disabled = true;
+    if(j === q.ans) o.classList.add('correct');
+    else if(j === i && i !== q.ans) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('qfb');
+  fb.style.display = 'block';
+  if(i === q.ans) {
+    score++;
+    fb.textContent = '✓ Correct ! ' + q.expl;
+    fb.style.color = '#90ffb0';
+  } else {
+    fb.textContent = '✗ ' + q.expl;
+    fb.style.color = '#ffa0a0';
+  }
+  document.getElementById('quizNext').disabled = false;
+}
+
+document.getElementById('quizNext').addEventListener('click', () => {
+  current++;
+  if(current < questions.length) {
+    renderQuestion();
+  } else {
+    document.getElementById('quizBar').style.width = '100%';
+    document.getElementById('quizContent').innerHTML = `
+      <div style="text-align:center; padding:20px 0">
+        <div style="font-family:var(--ff-serif); font-size:2.5rem; color:#f5c842; margin-bottom:8px">${score} / ${questions.length}</div>
+        <div style="color:rgba(255,255,255,0.6); font-size:0.9rem">${score===questions.length ? '🎉 Parfait ! Toutes les réponses sont correctes.' : score >= questions.length/2 ? '👍 Bien joué ! Quelques points à revoir.' : '📖 Relisez le cours et retentez le quiz.'}</div>
+        <button class="quiz-btn" style="margin-top:20px" onclick="current=0;score=0;renderQuestion()">Recommencer</button>
+      </div>`;
+    document.getElementById('quizNext').disabled = true;
+    document.getElementById('quizScore').textContent = '';
+  }
+});
+
+renderQuestion();
+/* ════════════════════════════════════════════
+   PRISME — Animation dynamique v3
+   • Snell-Descartes vectoriel exact
+   • Indice de Cauchy n(λ)
+   • Angle sommet réglable 30–80°
+   • Angle incidence réglable 15–70°
+   • Mode poly (6 rayons) / mono (couleur choisie)
+   • Rayons animés (dash offset)
+   • Écran avec taches et spectre
+   • Normales + angles affichés en mode mono
+════════════════════════════════════════════ */
+window.P = (function() {
+  const cv = document.getElementById('prismeCanvas');
+  if (!cv) return {};
+  const ctx = cv.getContext('2d');
+
+  /* ══════════════════════════════════════════
+     OPTION A — Éventail spectral large + glow
+     Fond canvas sombre (canvas uniquement),
+     faisceaux épais, éventail amplifié ×2,5,
+     labels λ colorés, sans surcharge formules.
+  ══════════════════════════════════════════ */
+
+  const RAYS = [
+    { nm:410, hex:'#9b30ff', rgb:[155,48,255],  label:'Violet' },
+    { nm:450, hex:'#1a5fff', rgb:[26,95,255],   label:'Bleu'   },
+    { nm:520, hex:'#00d45a', rgb:[0,212,90],    label:'Vert'   },
+    { nm:575, hex:'#ffe000', rgb:[255,224,0],   label:'Jaune'  },
+    { nm:610, hex:'#ff7000', rgb:[255,112,0],   label:'Orange' },
+    { nm:660, hex:'#ff1a1a', rgb:[255,26,26],   label:'Rouge'  },
+  ];
+
+  // Indice de Cauchy selon le matériau courant
+  function nLambda(nm) {
+    const m = MATS[matKey];
+    return m.A + m.B/(nm*nm);
+  }
+
+  let mode     = 'poly';
+  let monoIdx  = 2;
+  let prismDeg = 60;
+  let incDeg   = 20;     // angle d'incidence i1 (degrés, max ~35° pour ce prisme)
+  let matKey   = 'crown';
+
+  // Coefficients de Cauchy : [A, B(nm²)] — n(λ) = A + B/λ²
+  const MATS = {
+    crown: { label:'Verre crown',  n0:'1.52', A:1.500, B:5200  },
+    flint: { label:'Verre flint',  n0:'1.62', A:1.590, B:9800  },
+    bk7:   { label:'Schott BK7',   n0:'1.52', A:1.501, B:5320  },
+    sf11:  { label:'Schott SF11',  n0:'1.78', A:1.740, B:22000 },
+  };
+  let phase    = 0;   // animation phase
+  let mouseX = -1, mouseY = -1;  // position souris canvas (px)
+  let raf = null, active = false;
+  const entryPos = 0.52;  // position du point d'entrée sur AB (même valeur que t0 dans tracePhysics)
+
+  /* ── Géométrie du prisme ── */
+  function getPrism(W, H) {
+    const A_rad = (prismDeg / 2) * Math.PI / 180;
+    const cx = W * 0.38, cy = H * 0.50;
+    const halfH = H * 0.32;
+    const halfBase = halfH * Math.tan(A_rad);
+    return {
+      A: { x: cx,            y: cy - halfH },
+      B: { x: cx - halfBase, y: cy + halfH },
+      C: { x: cx + halfBase, y: cy + halfH },
+    };
+  }
+
+  function extNormal(p1, p2, hint) {
+    const dx=p2.x-p1.x, dy=p2.y-p1.y, l=Math.hypot(dx,dy);
+    let nx=-dy/l, ny=dx/l;
+    if (nx*hint.x+ny*hint.y<0){nx=-nx;ny=-ny;}
+    return {x:nx,y:ny};
+  }
+
+  function hitSeg(ox,oy,dx,dy,p1,p2) {
+    const ex=p2.x-p1.x, ey=p2.y-p1.y;
+    const d=dx*ey-dy*ex;
+    if (Math.abs(d)<1e-9) return null;
+    const t=((p1.x-ox)*ey-(p1.y-oy)*ex)/d;
+    const u=((p1.x-ox)*dy-(p1.y-oy)*dx)/d;
+    if (t<1e-6||u<-1e-6||u>1+1e-6) return null;
+    return {t, x:ox+t*dx, y:oy+t*dy};
+  }
+
+  function refract(d, n_hat, n1, n2) {
+    const cosI=-(d.x*n_hat.x+d.y*n_hat.y);
+    const sinT2=(n1/n2)*(n1/n2)*(1-cosI*cosI);
+    if (sinT2>1) return null;
+    const cosT=Math.sqrt(1-sinT2), r=n1/n2;
+    return {
+      x: r*d.x+(r*cosI-cosT)*(-n_hat.x),
+      y: r*d.y+(r*cosI-cosT)*(-n_hat.y),
+    };
+  }
+
+  /* ── Trace physique d'un rayon pour λ donné ──
+     Rayon incident à angle incDeg par rapport à la normale extérieure de AB.
+  ── */
+  function tracePhysics(W, H, nm) {
+    const n=nLambda(nm);
+    const {A,B,C}=getPrism(W,H);
+    const nAB=extNormal(A,B,{x:-1,y:0});
+    const nAC=extNormal(A,C,{x:1,y:0});
+    const t0=0.52;
+    const entry={x:A.x+(B.x-A.x)*t0, y:A.y+(B.y-A.y)*t0};
+    // Direction incidente : angle incDeg par rapport à la normale extérieure nAB
+    const a=incDeg*Math.PI/180;
+    const abLen=Math.hypot(B.x-A.x,B.y-A.y);
+    // Tangente B→A (vers le haut) : oriente le rayon vers la face de sortie AC
+    const tang={x:-(B.x-A.x)/abLen, y:-(B.y-A.y)/abLen};
+    const ni={x:-nAB.x, y:-nAB.y};
+    const dxI=ni.x*Math.cos(a)+tang.x*Math.sin(a);
+    const dyI=ni.y*Math.cos(a)+tang.y*Math.sin(a);
+    const liInc=Math.hypot(dxI,dyI);
+    const dInc={x:dxI/liInc, y:dyI/liInc};
+    const src={x:entry.x-dInc.x*W*0.34, y:entry.y-dInc.y*W*0.34};
+    // Réfraction entrée air→verre
+    const r1=refract(dInc,nAB,1.0,n); if (!r1) return null;
+    const l1=Math.hypot(r1.x,r1.y); const dirIn={x:r1.x/l1, y:r1.y/l1};
+    // Intersection avec face AC
+    const hit2=hitSeg(entry.x,entry.y,dirIn.x,dirIn.y,A,C); if (!hit2) return null;
+    const exit={x:hit2.x, y:hit2.y};
+    // Réfraction sortie verre→air
+    const r2=refract(dirIn,{x:-nAC.x,y:-nAC.y},n,1.0); if (!r2) return null;
+    const l2=Math.hypot(r2.x,r2.y); const dirOutPhys={x:r2.x/l2, y:r2.y/l2};
+    return {src, entry, exit, dirInc:dInc, dirIn, dirOutPhys, nAB, nAC};
+  }
+
+  /* ── Amplification visuelle de l'éventail en sortie ──
+     On garde le point de sortie réel, mais on "ouvre" l'angle
+     de dispersion autour d'un rayon central (nm=535) par un facteur AMP.
+     Ceci est VISUEL uniquement ; le rayon incident et interne restent physiques.
+  ── */
+  const AMP = 2.6;  // facteur d'amplification de l'éventail
+
+  function traceAmpOut(W, H, nm) {
+    const res = tracePhysics(W, H, nm);
+    if (!res) return null;
+    const ref = tracePhysics(W, H, 535);   // rayon central de référence
+    if (!ref) return null;
+
+    // Angle physique du rayon nm par rapport au central
+    const angNm  = Math.atan2(res.dirOutPhys.y, res.dirOutPhys.x);
+    const angRef = Math.atan2(ref.dirOutPhys.y, ref.dirOutPhys.x);
+    const delta  = angNm - angRef;                // déviation relative
+    const angAmp = angRef + delta * AMP;          // amplifiée
+    const dirOut = {x: Math.cos(angAmp), y: Math.sin(angAmp)};
+
+    return { ...res, dirOut };
+  }
+
+  /* ── Dessin principal ── */
+  /* ── Helpers dessin normales ── */
+  const NL = 52; // longueur des normales en px
+
+  function drawNormal(ctx, px, py, nx, ny) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(200,215,255,0.60)';
+    ctx.lineWidth = 1; ctx.lineCap = 'round';
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(px - nx*NL, py - ny*NL);
+    ctx.lineTo(px + nx*NL, py + ny*NL);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function angleLabelPos(px, py, dir, norm, side) {
+    const D = 38;
+    let nx, ny;
+    if (side === 'inc') {
+      nx = (-dir.x) + (-norm.x); ny = (-dir.y) + (-norm.y);
+    } else {
+      nx = dir.x + (-norm.x); ny = dir.y + (-norm.y);
+    }
+    const l = Math.hypot(nx, ny);
+    if (l < 1e-6) return { x: px + (-norm.x)*D, y: py + (-norm.y)*D };
+    return { x: px + (nx/l)*D, y: py + (ny/l)*D };
+  }
+
+  function draw() {
+    const Wpar = cv.parentElement ? cv.parentElement.clientWidth : 800;
+    if (Wpar > 0 && cv.width !== Wpar) cv.width = Wpar;
+    const W = cv.width, H = cv.height;
+    ctx.clearRect(0,0,W,H);
+
+    /* ── Fond dégradé sombre (canvas uniquement) ── */
+    const bg = ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,   '#12132a');
+    bg.addColorStop(0.5, '#1a1c35');
+    bg.addColorStop(1,   '#0e1020');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0,0,W,H);
+
+    /* Légère grille de fond */
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.035)';
+    ctx.lineWidth = 1;
+    for (let x=0; x<W; x+=40){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y=0; y<H; y+=40){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.restore();
+
+    const {A,B,C} = getPrism(W,H);
+    const scX = W * 0.90;
+
+    /* ── ÉCRAN ── */
+    ctx.save();
+    // Fond écran blanc mat
+    ctx.fillStyle = 'rgba(240,242,255,0.12)';
+    ctx.fillRect(scX, H*0.04, 8, H*0.92);
+    ctx.strokeStyle = 'rgba(200,205,255,0.70)';
+    ctx.lineWidth = 3; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(scX, H*0.04); ctx.lineTo(scX, H*0.96); ctx.stroke();
+    // Hachures subtiles
+    ctx.lineWidth = 1;
+    for (let y=H*0.05; y<H*0.95; y+=8) {
+      ctx.strokeStyle = 'rgba(180,185,255,0.12)';
+      ctx.beginPath(); ctx.moveTo(scX,y); ctx.lineTo(scX+8,y+5); ctx.stroke();
+    }
+    ctx.font = "bold 11px 'Outfit',sans-serif";
+    ctx.fillStyle = 'rgba(200,205,255,0.55)';
+    ctx.textAlign = 'left';
+    ctx.fillText('Écran', scX+14, H*0.04+4);
+    ctx.restore();
+
+    /* ── PRISME ── */
+    // Corps semi-transparent avec reflet
+    const pg = ctx.createLinearGradient(B.x,A.y,C.x,B.y);
+    pg.addColorStop(0,   'rgba(150,190,255,0.22)');
+    pg.addColorStop(0.45,'rgba(200,235,255,0.30)');
+    pg.addColorStop(1,   'rgba(140,180,255,0.20)');
+    ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+    ctx.fillStyle = pg; ctx.fill();
+    // Contour lumineux
+    ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+    ctx.strokeStyle = 'rgba(160,200,255,0.70)'; ctx.lineWidth = 1.8;
+    ctx.shadowColor = 'rgba(160,200,255,0.5)'; ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    // Reflet diagonal
+    const gl = ctx.createLinearGradient(A.x,A.y,(B.x+C.x)/2,B.y);
+    gl.addColorStop(0,'rgba(255,255,255,0.14)'); gl.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath(); ctx.moveTo(A.x,A.y); ctx.lineTo(B.x,B.y); ctx.lineTo(C.x,C.y); ctx.closePath();
+    ctx.fillStyle = gl; ctx.fill();
+    // Label angle
+    ctx.save();
+    ctx.font = "italic 12px 'Crimson Pro',Georgia,serif";
+    ctx.fillStyle = 'rgba(180,210,255,0.70)';
+    ctx.textAlign = 'center';
+    ctx.fillText(`A = ${prismDeg}°`, A.x, A.y-13);
+    const cx3=(A.x+B.x+C.x)/3, cy3=(A.y+B.y+C.y)/3+4;
+    ctx.font = "11px 'Outfit',sans-serif";
+    ctx.fillStyle = 'rgba(160,200,255,0.45)';
+    ctx.fillText('verre (n > 1)', cx3, cy3);
+    ctx.restore();
+
+    /* ── RAYONS ── */
+    const raysToTrace = mode==='poly' ? RAYS : [RAYS[monoIdx]];
+    const impacts = [];
+
+    raysToTrace.forEach((r) => {
+      const res = traceAmpOut(W, H, r.nm);
+      if (!res) return;
+      const {src, entry, exit, dirInc, dirIn, dirOut} = res;
+
+      const tScr = (scX - exit.x) / (dirOut.x || 0.001);
+      if (tScr < 0) return;
+      const impY = exit.y + tScr * dirOut.y;
+      if (impY < -20 || impY > H+20) return;
+      impacts.push({y:impY, r, entry, exit, dirOut, dirInc, dirIn, res});
+
+      const [rr,gg,bb] = r.rgb;
+      const col = `rgb(${rr},${gg},${bb})`;
+
+      // Point de sortie légèrement décalé pour rendre la cassure visible
+      const exitVis = { x: exit.x, y: exit.y + (impY - exit.y) * 0.12 };
+
+      /* Rayon incident : 1.5px blanc (poly) ou coloré (mono) */
+      ctx.save();
+      ctx.strokeStyle = mode==='poly' ? 'rgba(255,255,255,0.75)' : col;
+      ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(src.x,src.y); ctx.lineTo(entry.x,entry.y); ctx.stroke();
+      ctx.restore();
+
+      /* Rayon interne : 1.5px légèrement atténué */
+      ctx.save();
+      ctx.strokeStyle = mode==='poly' ? 'rgba(255,255,255,0.50)' : col;
+      ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(entry.x,entry.y); ctx.lineTo(exitVis.x,exitVis.y); ctx.stroke();
+      ctx.restore();
+
+      /* Halo coloré sur le rayon émergent */
+      ctx.save();
+      ctx.strokeStyle = `rgba(${rr},${gg},${bb},0.20)`; ctx.lineWidth = 12; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(exitVis.x,exitVis.y); ctx.lineTo(scX,impY); ctx.stroke();
+      ctx.restore();
+
+      /* Rayon émergent : 2.5px coloré plein */
+      ctx.save();
+      ctx.strokeStyle = col; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(exitVis.x,exitVis.y); ctx.lineTo(scX,impY); ctx.stroke();
+      ctx.restore();
+    });
+
+    /* ── NORMALES + ANGLES (rayon de référence) ── */
+    const nmRef = mode==='poly' ? 535 : RAYS[monoIdx].nm;
+    const colRef = mode==='poly' ? 'rgba(180,200,255,0.75)' : (() => { const c=RAYS[monoIdx]; return `rgba(${c.rgb[0]},${c.rgb[1]},${c.rgb[2]},0.85)`; })();
+    const resRef = traceAmpOut(W, H, nmRef);
+    if (resRef) {
+      const {entry, exit, dirInc, dirIn, dirOut, nAB, nAC} = resRef;
+      const tScrR = (scX - exit.x) / (dirOut.x || 0.001);
+      const impYR = exit.y + tScrR * dirOut.y;
+      const exitVisR = { x: exit.x, y: exit.y + (impYR - exit.y) * 0.12 };
+      /* Normale face entrée (AB) */
+      drawNormal(ctx, entry.x, entry.y, nAB.x, nAB.y);
+
+      /* Normale face sortie (AC) — utilise nAC */
+      drawNormal(ctx, exitVisR.x, exitVisR.y, nAC.x, nAC.y);
+
+      /* Angles à l'entrée */
+      // i1 = angle entre rayon incident et normale extérieure nAB
+      const cosI1 = Math.abs(dirInc.x*nAB.x + dirInc.y*nAB.y);
+      const i1deg = (Math.acos(Math.min(1,cosI1))*180/Math.PI).toFixed(1);
+      // r1 = angle entre rayon interne et normale intérieure
+      const cosR1 = Math.abs(dirIn.x*nAB.x + dirIn.y*nAB.y);
+      const r1deg = (Math.acos(Math.min(1,cosR1))*180/Math.PI).toFixed(1);
+
+      /* Angles à la sortie */
+      const cosI2 = Math.abs(dirIn.x*nAC.x + dirIn.y*nAC.y);
+      const i2deg = (Math.acos(Math.min(1,cosI2))*180/Math.PI).toFixed(1);
+      const cosR2 = Math.abs(dirOut.x*nAC.x + dirOut.y*nAC.y);
+      const r2deg = (Math.acos(Math.min(1,cosR2))*180/Math.PI).toFixed(1);
+
+      /* ── Triangles grisés entre normale et rayon (définition physique des angles) ──
+         drawAngleTriangle : dessine le petit triangle entre :
+           - le point d'incidence (px, py)
+           - un point sur la normale (dirNorm * R depuis le point)
+           - un point sur le rayon (dirRay * R depuis le point)
+         + un disque au point d'incidence
+         + le label sur la bissectrice
+         dirNorm et dirRay sont des vecteurs unitaires (sens positif depuis le point).
+      ── */
+      function drawAngleTriangle(px, py, dirNorm, dirRay, R, label) {
+        // Les deux extrémités du triangle (à distance R du point)
+        const pN = { x: px + dirNorm.x * R, y: py + dirNorm.y * R };
+        const pR = { x: px + dirRay.x  * R, y: py + dirRay.y  * R };
+
+        // Triangle grisé
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(pN.x, pN.y);
+        ctx.lineTo(pR.x, pR.y);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(200,215,255,0.18)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(200,215,255,0.55)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        ctx.restore();
+
+        // Petit arc entre les deux côtés (rayon R/2) pour matérialiser l'angle
+        const a1 = Math.atan2(dirNorm.y, dirNorm.x);
+        const a2 = Math.atan2(dirRay.y,  dirRay.x);
+        let da = a2 - a1;
+        if (da >  Math.PI) da -= 2*Math.PI;
+        if (da < -Math.PI) da += 2*Math.PI;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, R * 0.5, a1, a1 + da, da < 0);
+        ctx.strokeStyle = 'rgba(200,215,255,0.80)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        // Point d'incidence (disque lumineux)
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, 4, 0, 2*Math.PI);
+        ctx.fillStyle = 'rgba(255,255,200,0.90)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,200,0.50)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        // Label sur la bissectrice (à distance R + 14 du point)
+        const aMid = a1 + da * 0.5;
+        ctx.save();
+        ctx.font = "italic bold 11px 'Crimson Pro',Georgia,serif";
+        ctx.fillStyle = 'rgba(255,240,140,0.98)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(label, px + Math.cos(aMid)*(R + 16), py + Math.sin(aMid)*(R + 16));
+        ctx.restore();
+      }
+
+      const R_tri = 28;
+
+      // ── FACE AB (entrée) ──
+      // i₁ : entre la normale côté AIR (-nAB) et le rayon incident remontant (-dirInc)
+      drawAngleTriangle(
+        entry.x, entry.y,
+        { x: -nAB.x, y: -nAB.y },   // normale vers l'air (depuis le point vers la source)
+        { x: -dirInc.x, y: -dirInc.y }, // rayon incident remontant (depuis le point vers la source)
+        R_tri, 'i₁ = '+i1deg+'°'
+      );
+      // r₁ : entre la normale côté VERRE (nAB interne) et le rayon réfracté (dirIn)
+      drawAngleTriangle(
+        entry.x, entry.y,
+        { x: nAB.x, y: nAB.y },   // normale vers le verre (depuis le point vers l'intérieur)
+        dirIn,                     // rayon réfracté (depuis le point vers la face AC)
+        R_tri, 'r₁ = '+r1deg+'°'
+      );
+
+      // ── FACE AC (sortie) ──
+      // i₂ : entre la normale côté VERRE (-nAC côté interne) et le rayon interne remontant (-dirIn)
+      drawAngleTriangle(
+        exitVisR.x, exitVisR.y,
+        { x: -nAC.x, y: -nAC.y },   // normale vers l'intérieur du verre
+        { x: -dirIn.x, y: -dirIn.y }, // rayon interne remontant depuis le point
+        R_tri, 'i₂ = '+i2deg+'°'
+      );
+      // r₂ : entre la normale côté AIR (nAC) et le rayon émergent (dirOut)
+      drawAngleTriangle(
+        exitVisR.x, exitVisR.y,
+        { x: nAC.x, y: nAC.y },  // normale vers l'air
+        dirOut,                   // rayon émergent
+        R_tri, 'r₂ = '+r2deg+'°'
+      );
+    }
+
+    /* ── SOURCE (halo lumineux) ── */
+    const refRes = tracePhysics(W, H, mode==='poly' ? 535 : RAYS[monoIdx].nm);
+    if (refRes) {
+      const sx = refRes.src.x - 14, sy = refRes.src.y;
+      if (mode==='poly') {
+        const pulse = 0.80 + 0.20*Math.sin(phase*0.06);
+        const sg = ctx.createRadialGradient(sx,sy,0,sx,sy,18);
+        sg.addColorStop(0,`rgba(255,255,255,${0.95*pulse})`);
+        sg.addColorStop(0.5,`rgba(220,235,255,${0.40*pulse})`);
+        sg.addColorStop(1,'rgba(200,220,255,0)');
+        ctx.beginPath(); ctx.arc(sx,sy,18,0,2*Math.PI);
+        ctx.fillStyle=sg; ctx.fill();
+        ctx.save();
+        ctx.font="bold 12px 'Outfit',sans-serif";
+        ctx.fillStyle='rgba(255,255,255,0.90)';
+        ctx.textAlign='right';
+        ctx.fillText('Lumière blanche', sx-10, sy-22);
+        ctx.font="10px 'Outfit',sans-serif";
+        ctx.fillStyle='rgba(200,200,180,0.55)';
+        ctx.fillText('(polychromatique)', sx-10, sy-8);
+        ctx.restore();
+      } else {
+        const col = RAYS[monoIdx];
+        const [rr,gg,bb] = col.rgb;
+        const pulse = 0.80 + 0.20*Math.sin(phase*0.06);
+        const sg = ctx.createRadialGradient(sx,sy,0,sx,sy,22);
+        sg.addColorStop(0,`rgba(${rr},${gg},${bb},${0.95*pulse})`);
+        sg.addColorStop(1,`rgba(${rr},${gg},${bb},0)`);
+        ctx.beginPath(); ctx.arc(sx,sy,22,0,2*Math.PI);
+        ctx.fillStyle=sg; ctx.fill();
+        ctx.save();
+        ctx.font="bold 12px 'Outfit',sans-serif";
+        ctx.fillStyle=col.hex;
+        ctx.textAlign='right';
+        ctx.fillText(`λ = ${col.nm} nm`, sx-10, sy-18);
+        ctx.font="10px 'Outfit',sans-serif";
+        ctx.fillStyle='rgba(200,200,200,0.60)';
+        ctx.fillText(`(${col.label})`, sx-10, sy-4);
+        ctx.restore();
+      }
+    }
+
+    /* ── IMPACTS ÉCRAN : spectre visible, pas de halo ── */
+    if (mode==='poly' && impacts.length>=2) {
+      const ys = impacts.map(i=>i.y).sort((a,b)=>a-b);
+      // Bande spectre pleine, nette, sans shadowBlur
+      const sg = ctx.createLinearGradient(scX, ys[0], scX, ys[ys.length-1]);
+      sg.addColorStop(0,   'rgba(155,48,255,0.95)');
+      sg.addColorStop(0.18,'rgba(26,95,255,0.95)');
+      sg.addColorStop(0.38,'rgba(0,212,90,0.95)');
+      sg.addColorStop(0.56,'rgba(255,224,0,0.95)');
+      sg.addColorStop(0.76,'rgba(255,112,0,0.95)');
+      sg.addColorStop(1,   'rgba(255,26,26,0.95)');
+      ctx.fillStyle = sg;
+      ctx.fillRect(scX-5, ys[0], 7, ys[ys.length-1]-ys[0]);
+    }
+
+    // Labels λ : colorés, sans halo/shadow
+    impacts.forEach(({y, r}) => {
+      if (mode==='poly') {
+        ctx.save();
+        ctx.font = "bold 10px 'DM Mono',monospace";
+        ctx.fillStyle = r.hex;
+        ctx.textAlign = 'left';
+        ctx.fillText(`${r.nm} nm`, scX+14, y+4);
+        ctx.restore();
+      }
+    });
+
+    /* ── Hint souris (coin haut-gauche) ── */
+    ctx.save();
+    ctx.font = "11px 'Outfit',sans-serif";
+    ctx.textAlign = 'left';
+    if (trackingActive) {
+      ctx.fillStyle = 'rgba(255,220,100,0.75)';
+      ctx.fillText('🔴 Cliquer pour arrêter · déplacer la souris pour changer i₁', 10, 18);
+    } else {
+      ctx.fillStyle = 'rgba(180,200,255,0.50)';
+      ctx.fillText('🖱 Cliquer sur le canvas pour déplacer la source lumineuse', 10, 18);
+    }
+    ctx.restore();
+
+    /* ── Curseur source : point lumineux qui suit la souris ── */
+    if (mouseX >= 0 && mouseY >= 0) {
+      // Récupérer le point d'entrée pour tracer le trait virtuel
+      const {A:_A, B:_B} = getPrism(W, H);
+      const _entry = { x: _A.x+(_B.x-_A.x)*entryPos, y: _A.y+(_B.y-_A.y)*entryPos };
+      // Trait pointillé fin entre la souris et le point d'entrée
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.lineWidth = 1; ctx.lineCap = 'round';
+      ctx.setLineDash([6, 5]);
+      ctx.beginPath(); ctx.moveTo(mouseX, mouseY); ctx.lineTo(_entry.x, _entry.y);
+      ctx.stroke(); ctx.setLineDash([]);
+      ctx.restore();
+      // Petit cercle lumineux à la position souris
+      const sg = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 12);
+      sg.addColorStop(0, 'rgba(255,255,230,0.90)');
+      sg.addColorStop(1, 'rgba(255,255,200,0)');
+      ctx.beginPath(); ctx.arc(mouseX, mouseY, 12, 0, 2*Math.PI);
+      ctx.fillStyle = sg; ctx.fill();
+      // Label "source"
+      ctx.save();
+      ctx.font = "10px 'Outfit',sans-serif";
+      ctx.fillStyle = 'rgba(255,255,200,0.75)';
+      ctx.textAlign = mouseX > W*0.3 ? 'right' : 'left';
+      const lx = mouseX > W*0.3 ? mouseX - 15 : mouseX + 15;
+      ctx.fillText('source', lx, mouseY - 10);
+      ctx.restore();
+    }
+
+    /* ── Note pédagogique (bas du canvas) ── */
+    ctx.save();
+    ctx.font="italic 10.5px 'Crimson Pro',Georgia,serif";
+    ctx.textAlign='center';
+    if (mode==='poly') {
+      ctx.fillStyle='rgba(200,210,255,0.45)';
+      ctx.fillText('Violet → plus dévié · Rouge → moins dévié · car n(λ) diminue quand λ augmente', W/2, H-10);
+    } else {
+      ctx.fillStyle='rgba(200,210,255,0.38)';
+      ctx.fillText('Lumière monochromatique : déviation sans dispersion', W/2, H-10);
+    }
+    ctx.restore();
+  }
+
+  /* ── Boucle d'animation ── */
+  function loop() {
+    phase++;
+    draw();
+    raf = requestAnimationFrame(loop);
+  }
+  function start() { if (!active) { active=true; loop(); } }
+  function stop()  { if (raf) { cancelAnimationFrame(raf); raf=null; active=false; } }
+
+  /* ── Init boutons couleur ── */
+  function initColorBtns() {
+    const row = document.getElementById('monoColors');
+    if (!row) return;
+    RAYS.forEach((r,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'mono-color-btn' + (i===monoIdx?' active':'');
+      btn.style.background = r.hex;
+      btn.title = `${r.label} — ${r.nm} nm`;
+      btn.innerHTML = `<span>${r.label}<br>${r.nm} nm</span>`;
+      btn.onclick = () => {
+        monoIdx = i;
+        document.querySelectorAll('.mono-color-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+        draw();
+      };
+      row.appendChild(btn);
+    });
+  }
+
+  /* ── API publique (inchangée) ── */
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btnPoly').classList.toggle('active', m==='poly');
+    document.getElementById('btnMono').classList.toggle('active', m==='mono');
+    const mr = document.getElementById('monoRow');
+    if (mr) mr.style.display = m==='mono' ? 'flex' : 'none';
+    const leg = document.getElementById('prismeLegend');
+    if (leg) leg.style.display = m==='poly' ? 'flex' : 'none';
+    draw();
+  }
+  function setPrismAngle(v) {
+    prismDeg = parseInt(v);
+    const el = document.getElementById('valPrism'); if (el) el.textContent=prismDeg+'°';
+    draw();
+  }
+  function setInc(v) {
+    incDeg = parseInt(v);
+    const el = document.getElementById('valInc'); if (el) el.textContent=v+'°';
+    draw();
+  }
+  function setMat(key) {
+    matKey = key;
+    // Activer le bon bouton
+    document.querySelectorAll('#matToggle .prisme-toggle-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.toLowerCase().replace(' ','') === key ||
+        (key==='crown'&&btn.textContent==='Crown') ||
+        (key==='flint'&&btn.textContent==='Flint') ||
+        (key==='bk7'&&btn.textContent==='BK7') ||
+        (key==='sf11'&&btn.textContent==='SF11'));
+    });
+    const m = MATS[key];
+    const lbl = document.getElementById('matLabel');
+    if (lbl) lbl.textContent = m.label + ' — n(550 nm) ≈ ' + m.n0;
+    draw();
+  }
+
+  /* ── Interaction souris : ajuster l'angle d'incidence ── */
+  function updateIncFromMouse(e) {
+    const rect = cv.getBoundingClientRect();
+    const scaleX = cv.width / rect.width;
+    const scaleY = cv.height / rect.height;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top)  * scaleY;
+    mouseX = mx; mouseY = my;   // mémoriser pour draw()
+    const W = cv.width, H = cv.height;
+
+    // Point d'entrée courant sur AB
+    const {A,B} = getPrism(W, H);
+    const nAB = extNormal(A, B, {x:-1,y:0});
+    const entry = { x: A.x+(B.x-A.x)*entryPos, y: A.y+(B.y-A.y)*entryPos };
+
+    // Mapper la position Y de la souris → angle i1 (0° en bas du canvas, 35° en haut)
+    // Zone active : toute la hauteur du canvas
+    const tY = 1 - Math.max(0, Math.min(1, my / H));  // 0 en bas, 1 en haut
+    let ang = tY * 35;  // 0° à 35°
+    ang = Math.max(0, Math.min(35, ang));
+
+    incDeg = ang;
+    // Mettre à jour le slider et le label
+    const sld = document.getElementById('sldInc');
+    const val = document.getElementById('valInc');
+    if (sld) sld.value = Math.round(ang);
+    if (val) val.textContent = Math.round(ang) + '°';
+    // draw() est appelé par loop() à 60fps — pas besoin ici
+  }
+
+  // Clic pour activer/désactiver le suivi de la souris
+  let trackingActive = false;
+  cv.addEventListener('click', e => {
+    trackingActive = !trackingActive;
+    if (!trackingActive) {
+      mouseX = -1; mouseY = -1;
+    } else {
+      updateIncFromMouse(e);
+    }
+    cv.style.cursor = trackingActive ? 'none' : 'crosshair';
+  });
+  cv.addEventListener('mousemove', e => {
+    if (trackingActive) updateIncFromMouse(e);
+  });
+
+  // Support tactile : tap pour activer, tap pour désactiver
+  cv.addEventListener('touchstart', e => {
+    e.preventDefault();
+    trackingActive = !trackingActive;
+    if (!trackingActive) { mouseX = -1; mouseY = -1; }
+    else { updateIncFromMouse(e.touches[0]); }
+  }, {passive:false});
+  cv.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (trackingActive) updateIncFromMouse(e.touches[0]);
+  }, {passive:false});
+
+  /* ── Démarrage selon onglet actif ── */
+  initColorBtns();
+  // Démarrer immédiatement (l'animation sera stoppée si on quitte l'onglet)
+  start();
+  const t3 = document.getElementById('t3');
+  if (t3) {
+    new MutationObserver(()=>{
+      t3.classList.contains('active') ? start() : stop();
+    }).observe(t3, {attributes:true, attributeFilter:['class']});
+  }
+  draw();
+
+  return { setMode, setPrismAngle, setInc, setMat };
+})();
+
+</script>
+</body>
+</html>

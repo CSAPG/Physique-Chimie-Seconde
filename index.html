@@ -216,6 +216,7 @@
       menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
     document.addEventListener('click', function(e) {
+      if (e.target.closest('a[href]')) return;
       const wrapper = document.getElementById('seq-wrapper');
       if (wrapper && !wrapper.contains(e.target)) {
         document.getElementById('seq-menu').style.display = 'none';

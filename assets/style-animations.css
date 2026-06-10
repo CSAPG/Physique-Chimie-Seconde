@@ -1,0 +1,186 @@
+/* ============================================================
+   style-animations.css — Animations décoratives
+   Physique-Chimie Seconde · Mme Poirault-Gauvin
+   À inclure dans index.html :
+   <link rel="stylesheet" href="assets/style-animations.css">
+   ============================================================ */
+
+/* ---------- HERO : canvas particules ---------- */
+#particles-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- HERO : texte fade-in ---------- */
+.hero-title, .hero-sub, .hero-badge {
+  animation: heroFadeUp 0.7s cubic-bezier(.22,1,.36,1) both;
+}
+.hero-sub   { animation-delay: 0.12s; }
+.hero-badge { animation-delay: 0.22s; }
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- PROGRESS BAR ---------- */
+.progress-track {
+  background: rgba(255,255,255,0.18);
+  border-radius: 99px;
+  height: 7px;
+  width: 220px;
+  margin: 14px auto 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #7dd3fc);
+  border-radius: 99px;
+  animation: progressGrow 1.1s cubic-bezier(.22,1,.36,1) 0.4s both;
+}
+@keyframes progressGrow {
+  from { width: 0; }
+}
+.progress-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.75rem;
+  color: #bae6fd;
+  margin-top: 6px;
+}
+
+/* ---------- BADGE "Disponible" pulsant ---------- */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  70%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.badge-dispo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #16a34a;
+  background: #dcfce7;
+  border-radius: 99px;
+  padding: 2px 8px 2px 6px;
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.badge-dispo .dot-wrap {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+.badge-dispo .dot {
+  position: absolute;
+  inset: 0;
+  background: #22c55e;
+  border-radius: 50%;
+}
+.badge-dispo .ring {
+  position: absolute;
+  inset: 0;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* ---------- CARDS : hover accent coloré ---------- */
+.seq-card {
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.seq-card:not(.coming-soon):hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 28px var(--card-accent-shadow, rgba(14,116,144,0.18));
+}
+
+/* Couleurs par thème */
+.seq-card[data-theme="chimie"]      { --card-accent-shadow: rgba(234,88,12,0.18); }
+.seq-card[data-theme="chimie"]:hover { border-color: #ea580c; }
+.seq-card[data-theme="chimie"] .seq-num-badge { background: #ea580c; }
+
+.seq-card[data-theme="atome"]       { --card-accent-shadow: rgba(124,58,237,0.18); }
+.seq-card[data-theme="atome"]:hover  { border-color: #7c3aed; }
+.seq-card[data-theme="atome"] .seq-num-badge { background: #7c3aed; }
+
+.seq-card[data-theme="solution"]    { --card-accent-shadow: rgba(6,182,212,0.18); }
+.seq-card[data-theme="solution"]:hover { border-color: #06b6d4; }
+.seq-card[data-theme="solution"] .seq-num-badge { background: #06b6d4; }
+
+.seq-card[data-theme="mecanique"]   { --card-accent-shadow: rgba(22,163,74,0.18); }
+.seq-card[data-theme="mecanique"]:hover { border-color: #16a34a; }
+.seq-card[data-theme="mecanique"] .seq-num-badge { background: #16a34a; }
+
+.seq-card[data-theme="electro"]     { --card-accent-shadow: rgba(234,179,8,0.18); }
+.seq-card[data-theme="electro"]:hover { border-color: #ca8a04; }
+.seq-card[data-theme="electro"] .seq-num-badge { background: #ca8a04; }
+
+.seq-card[data-theme="ondes"]       { --card-accent-shadow: rgba(59,130,246,0.18); }
+.seq-card[data-theme="ondes"]:hover  { border-color: #3b82f6; }
+.seq-card[data-theme="ondes"] .seq-num-badge { background: #3b82f6; }
+
+.seq-card[data-theme="optique"]     { --card-accent-shadow: rgba(168,85,247,0.18); }
+.seq-card[data-theme="optique"]:hover { border-color: #a855f7; }
+.seq-card[data-theme="optique"] .seq-num-badge { background: #a855f7; }
+
+/* ---------- RESOURCE LINKS : couleur par type ---------- */
+.resource-link[data-type="pdf"] {
+  border-color: #fca5a5;
+  background: #fff7f7;
+}
+.resource-link[data-type="pdf"] .type-dot { background: #ef4444; }
+.resource-link[data-type="pdf"]:hover { background: #fee2e2; border-color: #ef4444; }
+
+.resource-link[data-type="jeu"] {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+.resource-link[data-type="jeu"] .type-dot { background: #f59e0b; }
+.resource-link[data-type="jeu"]:hover { background: #fef3c7; border-color: #f59e0b; }
+
+.resource-link[data-type="cours"] {
+  border-color: #bae6fd;
+  background: #f0f9ff;
+}
+.resource-link[data-type="cours"] .type-dot { background: #0e7490; }
+.resource-link[data-type="cours"]:hover { background: #e0f2fe; border-color: #0e7490; }
+
+.type-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ---------- ÉCRAN AUTH : animation d'entrée ---------- */
+#auth-card {
+  animation: authPop 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes authPop {
+  from { opacity: 0; transform: translateY(28px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- PANELS : fade-in à l'ouverture ---------- */
+.seq-panel.active {
+  animation: panelFadeIn 0.3s ease both;
+}
+@keyframes panelFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

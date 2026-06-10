@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sequence 01 - Tests identification especes chimiques</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f8f9fa;color:#222;font-size:14px}
+h1{font-size:19px;font-weight:700;color:#1a3a5c;text-align:center;padding:16px 0 4px}
+.sub{text-align:center;font-size:12px;color:#777;margin-bottom:16px}
+.nav{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+.nav-btn{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #ccc;background:#fff;color:#555}
+.nav-btn.a1{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
+.nav-btn.a2{background:#eeedf8;color:#3c3489;border-color:#afa9ec}
+.hidden{display:none!important}
+.wrap{max-width:860px;margin:0 auto;padding:0 12px 40px}
+.intro{background:#fff;border:1px solid #dde;border-radius:10px;padding:13px 16px;margin-bottom:14px}
+.intro h3{font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:5px}
+.intro p{font-size:12px;color:#555;line-height:1.6;margin-bottom:4px}
+.intro p:last-child{margin-bottom:0}
+.bdg{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:6px}
+.b1{background:#ddeeff;color:#1a3a5c}
+.b2{background:#eeedf8;color:#3c3489}
+.topbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.sc{background:#fff;border:1px solid #dde;border-radius:20px;padding:3px 12px;font-size:12px;color:#555}
+.sc b{color:#222}
+.btn{padding:5px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid #ccc;background:#fff}
+.btn-v{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
+.btn-r{margin-left:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.card{background:#fff;border:1px solid #dde;border-radius:10px;padding:10px 12px}
+.full{grid-column:1/-1}
+.cbody{display:flex;gap:10px;align-items:flex-start}
+.ct{font-size:13px;font-weight:700;color:#1a3a5c;margin-bottom:2px}
+.dl{font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:6px;margin-bottom:2px}
+.dz{min-height:30px;border:2px dashed #bcc;border-radius:7px;padding:4px 8px;font-size:11px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;transition:background .12s;background:#fafafa}
+.dz.over{background:#ddeeff;border-color:#7ab8e8}
+.dz.ok{border:2px solid #2e9e60;background:#e6f7ee}
+.dz.ko{border:2px solid #e24b4a;background:#fceaea}
+.dz.partial{border:2px solid #e8a000;background:#fff3dc}
+.ph{color:#bbb;font-size:10px;font-style:italic}
+.tag{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.tag .x{cursor:pointer;opacity:.5;font-size:12px;line-height:1}.tag .x:hover{opacity:1}
+.tag.r{background:#ddeeff;color:#1a3a5c}
+.tag.o{background:#e8f5e0;color:#275010}
+.tag.i{background:#fff3dc;color:#7a4a00}
+.tag.s{background:#eeedf8;color:#3c3489}
+.pool-wrap{background:#f0f0f8;border:1px solid #dde;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.pool-title{font-size:11px;font-weight:700;color:#666;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.pool{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+.etiq{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:grab;border:1.5px solid #bcc;background:#fff;color:#222;user-select:none;transition:opacity .15s,transform .1s;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.etiq:active{cursor:grabbing;transform:scale(1.05)}
+.etiq.drag{opacity:.3}
+.etiq.used{opacity:.35;cursor:default;pointer-events:none}
+.etiq.r{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
+.etiq.o{background:#e8f5e0;color:#275010;border-color:#8acc70}
+.etiq.i{background:#fff3dc;color:#7a4a00;border-color:#e8c060}
+.etiq.s{background:#eeedf8;color:#3c3489;border-color:#afa9ec}
+.tsvg{width:48px;height:105px;flex-shrink:0}
+.tphoto{width:54px;height:110px;object-fit:cover;border-radius:6px;border:1px solid #dde;flex-shrink:0}
+.tphoto-sm{width:48px;height:100px;object-fit:cover;border-radius:5px;border:1px solid #dde;flex-shrink:0}
+.fb{margin-top:8px;padding:9px 13px;border-radius:9px;font-size:12px;display:none;font-weight:500}
+.fb.show{display:block}
+.fb.win{background:#e6f7ee;color:#1a5c36;border:1px solid #2e9e60}
+.fb.info{background:#ddeeff;color:#1a3a5c;border:1px solid #7ab8e8}
+.mcol{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.mlbl{font-size:15px;font-weight:700;color:#1a3a5c}
+.photos-row{display:flex;gap:4px;justify-content:center}
+.photo-label{font-size:9px;color:#888;text-align:center;margin-top:2px}
+.win-box{text-align:center;padding:22px 16px;background:#fff;border:1px solid #dde;border-radius:12px}
+.win-box h2{font-size:21px;font-weight:700;color:#1a3a5c;margin:10px 0 6px}
+.win-box p{font-size:13px;color:#555;margin-bottom:12px;line-height:1.6}
+canvas{border-radius:8px}
+@media(max-width:580px){.grid2{grid-template-columns:1fr}.cbody{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Tests d'identification des especes chimiques</h1>
+<p class="sub">Seconde - Sequence 01 - C. Poirault-Gauvin</p>
+
+<div class="nav">
+  <button class="nav-btn a1" id="nb1" onclick="sw(1)">Partie 1 - Gaz et eau</button>
+  <button class="nav-btn" id="nb2" onclick="sw(2)">Partie 2 - Enquete au labo</button>
+</div>
+
+<!-- PARTIE 1 -->
+<div id="vp1">
+<div class="intro">
+  <div class="bdg b1">Partie 1 sur 2 - Tests des gaz et de l'eau</div>
+  <h3>Comment jouer ?</h3>
+  <p>Pour chaque espece chimique, trouve <strong>le reactif utilise</strong> et <strong>ce qu'on observe</strong>.</p>
+  <p>Glisse les etiquettes depuis la zone du bas vers la bonne case. Etiquettes <span style="background:#ddeeff;color:#1a3a5c;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700">bleues</span> = reactifs, <span style="background:#e8f5e0;color:#275010;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:700">vertes</span> = observations. Clique x pour retirer. Clique <strong>Verifier</strong> pour corriger.</p>
+</div>
+
+<div class="topbar">
+  <div class="sc">Score : <b id="s1">-</b></div>
+  <div class="sc">Zones : <b id="v1">-</b>/<b id="t1">-</b></div>
+  <button class="btn btn-v" onclick="chk(1)">Verifier</button>
+  <button class="btn btn-r" onclick="rst(1)">Recommencer</button>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <div class="cbody">
+      <svg class="tsvg" viewBox="0 0 48 105">
+        <rect x="6" y="6" width="36" height="86" rx="18" fill="#f5f5f0" stroke="#c8c0a8" stroke-width="1.5"/>
+        <rect x="6" y="6" width="36" height="22" rx="0" fill="#f5f5f0"/>
+        <rect x="7" y="28" width="34" height="62" rx="0" fill="#ede8d8" opacity="0.9"/>
+        <ellipse cx="24" cy="90" rx="17" ry="7" fill="#d8d0b8" opacity="0.8"/>
+        <rect x="10" y="1" width="28" height="7" rx="3" fill="#b8b0a0"/>
+        <line x1="12" y1="26" x2="12" y2="68" stroke="white" stroke-width="1.5" opacity="0.4"/>
+        <path d="M43 14 Q45 10 47 14 Q47 18 43 18 Z" fill="#7ab8e8" opacity="0.7"/>
+        <path d="M41 7 Q43 3 45 7 Q45 11 41 11 Z" fill="#7ab8e8" opacity="0.5"/>
+      </svg>
+      <div style="flex:1">
+        <div class="ct">Eau - H2O</div>
+        <div class="dl">Reactif</div>
+        <div class="dz" id="p1-dz-er" data-z="er" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+        <div class="dl">Observation</div>
+        <div class="dz" id="p1-dz-eo" data-z="eo" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="cbody">
+      <svg class="tsvg" viewBox="0 0 48 105">
+        <rect x="6" y="6" width="36" height="86" rx="18" fill="#eef4fa" stroke="#aac4e0" stroke-width="1.5"/>
+        <rect x="6" y="6" width="36" height="22" rx="0" fill="#eef4fa"/>
+        <rect x="7" y="28" width="34" height="62" rx="0" fill="#e4eff8" opacity="0.3"/>
+        <circle cx="20" cy="60" r="2.5" fill="none" stroke="#aac4e0" stroke-width="1"/>
+        <circle cx="28" cy="50" r="2" fill="none" stroke="#aac4e0" stroke-width="0.9"/>
+        <circle cx="23" cy="42" r="1.5" fill="none" stroke="#aac4e0" stroke-width="0.8"/>
+        <rect x="10" y="1" width="28" height="7" rx="3" fill="#b0c8e0"/>
+        <rect x="40" y="58" width="3" height="20" rx="1" fill="#8B6914"/>
+        <path d="M41.5 58 Q39 54 41 50 Q43 46 42 43 Q46 47 45 52 Q47 48 48 50 Q47 54 44.5 58 Z" fill="#FF8C00" opacity="0.9"/>
+        <path d="M41.5 58 Q40 55 41.5 52 Q43 49 42.5 46 Q44.5 49 44 52 Q45.5 49 46.5 51 Q46 54 43.5 58 Z" fill="#FFD700" opacity="0.8"/>
+      </svg>
+      <div style="flex:1">
+        <div class="ct">Dihydrogene - H2</div>
+        <div class="dl">Reactif</div>
+        <div class="dz" id="p1-dz-hr" data-z="hr" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+        <div class="dl">Observation</div>
+        <div class="dz" id="p1-dz-ho" data-z="ho" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="cbody">
+      <svg class="tsvg" viewBox="0 0 48 105">
+        <rect x="6" y="6" width="36" height="86" rx="18" fill="#eef4fa" stroke="#aac4e0" stroke-width="1.5"/>
+        <rect x="6" y="6" width="36" height="22" rx="0" fill="#eef4fa"/>
+        <rect x="7" y="28" width="34" height="62" rx="0" fill="#e4eff8" opacity="0.2"/>
+        <rect x="10" y="1" width="28" height="7" rx="3" fill="#b0c8e0"/>
+        <rect x="40" y="42" width="3" height="26" rx="1" fill="#6B3A2A"/>
+        <ellipse cx="41.5" cy="42" rx="6" ry="5" fill="#FF4500" opacity="0.85"/>
+        <ellipse cx="41.5" cy="42" rx="3.5" ry="3" fill="#FFD700" opacity="0.75"/>
+        <line x1="41.5" y1="34" x2="41.5" y2="31" stroke="#FF8C00" stroke-width="1.5" opacity="0.6"/>
+        <line x1="46" y1="36" x2="48" y2="34" stroke="#FF8C00" stroke-width="1.2" opacity="0.5"/>
+        <line x1="37" y1="36" x2="35" y2="34" stroke="#FF8C00" stroke-width="1.2" opacity="0.5"/>
+      </svg>
+      <div style="flex:1">
+        <div class="ct">Dioxygene - O2</div>
+        <div class="dl">Reactif</div>
+        <div class="dz" id="p1-dz-or" data-z="or" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+        <div class="dl">Observation</div>
+        <div class="dz" id="p1-dz-oo" data-z="oo" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="cbody">
+      <svg class="tsvg" viewBox="0 0 48 105">
+        <rect x="6" y="6" width="36" height="86" rx="18" fill="#f0f4f8" stroke="#aac4e0" stroke-width="1.5"/>
+        <rect x="6" y="6" width="36" height="22" rx="0" fill="#f0f4f8"/>
+        <rect x="7" y="28" width="34" height="62" rx="0" fill="#e8ecf0" opacity="0.9"/>
+        <ellipse cx="24" cy="90" rx="17" ry="7" fill="#d0d8e0" opacity="0.8"/>
+        <rect x="10" y="1" width="28" height="7" rx="3" fill="#b0c0d0"/>
+        <line x1="12" y1="26" x2="12" y2="68" stroke="white" stroke-width="1.5" opacity="0.4"/>
+        <circle cx="20" cy="50" r="2.5" fill="none" stroke="#aaa" stroke-width="0.8"/>
+        <circle cx="28" cy="42" r="2" fill="none" stroke="#aaa" stroke-width="0.7"/>
+      </svg>
+      <div style="flex:1">
+        <div class="ct">Dioxyde de carbone - CO2</div>
+        <div class="dl">Reactif</div>
+        <div class="dz" id="p1-dz-cr" data-z="cr" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+        <div class="dl">Observation</div>
+        <div class="dz" id="p1-dz-co" data-z="co" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pool-wrap">
+  <div class="pool-title">Etiquettes - glisse vers la bonne zone</div>
+  <div class="pool" id="pool1"></div>
+</div>
+<div class="fb" id="fb1"></div>
+</div>
+
+<!-- PARTIE 2 -->
+<div id="vp2" class="hidden">
+<div class="intro">
+  <div class="bdg b2">Partie 2 sur 2 - Enquete au labo</div>
+  <h3>Ta mission : identifier les solutions inconnues</h3>
+  <p>Des solutions de <strong>chlorure de cuivre(II)</strong>, <strong>chlorure de fer(II)</strong>, <strong>chlorure de fer(III)</strong>, <strong>chlorure d'aluminium</strong> et <strong>sulfate de zinc</strong> ont ete versees dans les tubes A, B, C, D, E.</p>
+  <p>Pour chaque tube, deux tests ont ete realises. Les photos montrent les resultats. A toi de :</p>
+  <p><strong>1)</strong> Glisser le <strong>reactif 1</strong> utilise (NaOH pour tous) &nbsp; <strong>2)</strong> Glisser le <strong>reactif 2</strong> utilise (AgNO3 ou BaCl2) &nbsp; <strong>3)</strong> Glisser la <strong>solution identifiee</strong></p>
+</div>
+
+<div class="topbar">
+  <div class="sc">Score : <b id="s2">-</b></div>
+  <div class="sc">Zones : <b id="v2">-</b>/<b id="t2">-</b></div>
+  <button class="btn btn-v" onclick="chk(2)">Verifier</button>
+  <button class="btn btn-r" onclick="rst(2)">Recommencer</button>
+</div>
+
+<div class="card full" style="margin-bottom:12px">
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+
+    <!-- TUBE A : CuCl2 - NaOH=cu.png, AgNO3=presence de cl dans chlorure de cuivre.png -->
+    <div class="mcol">
+      <div class="mlbl">A</div>
+      <div class="photos-row">
+        <div>
+          <img class="tphoto-sm" src="cu.png" alt="A apres NaOH"/>
+          <div class="photo-label">Résultat test 1- précipité bleu roi</div>
+        </div>
+        <div>
+          <img class="tphoto-sm" src="presence de cl dans chlorure de cuivre.png" alt="A apres AgNO3"/>
+          <div class="photo-label">Résultat test 2</div>
+        </div>
+      </div>
+      <div class="dl" style="width:100%">Reactif 1</div>
+      <div class="dz" id="p2-dz-Ar1" data-z="Ar1" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Reactif 2</div>
+      <div class="dz" id="p2-dz-Ar2" data-z="Ar2" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Solution</div>
+      <div class="dz" id="p2-dz-As" data-z="As" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">solution ?</span></div>
+    </div>
+
+    <!-- TUBE B : FeCl2 - NaOH=fer2.png, AgNO3=cl dans chlorure de fer2.png -->
+    <div class="mcol">
+      <div class="mlbl">B</div>
+      <div class="photos-row">
+        <div>
+          <img class="tphoto-sm" src="fer2.png" alt="B apres NaOH"/>
+          <div class="photo-label">Resultat test 1- précipité vert</div>
+        </div>
+        <div>
+          <img class="tphoto-sm" src="cl dans chlorure de fer2.png" alt="B apres AgNO3"/>
+          <div class="photo-label">Resultat test 2- précipité blanc</div>
+        </div>
+      </div>
+      <div class="dl" style="width:100%">Reactif 1</div>
+      <div class="dz" id="p2-dz-Br1" data-z="Br1" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Reactif 2</div>
+      <div class="dz" id="p2-dz-Br2" data-z="Br2" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Solution</div>
+      <div class="dz" id="p2-dz-Bs" data-z="Bs" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">solution ?</span></div>
+    </div>
+
+    <!-- TUBE C : FeCl3 - NaOH=fer3.png, AgNO3=cl dans chlorure de fer3.png -->
+    <div class="mcol">
+      <div class="mlbl">C</div>
+      <div class="photos-row">
+        <div>
+          <img class="tphoto-sm" src="fer3.png" alt="C apres NaOH"/>
+          <div class="photo-label">Résultat test 1- précipité rouge orangé</div>
+        </div>
+        <div>
+          <img class="tphoto-sm" src="cl dans chlorure de fer3.png" alt="C apres AgNO3"/>
+          <div class="photo-label">Résultat test 2- précipité blanc</div>
+        </div>
+      </div>
+      <div class="dl" style="width:100%">Reactif 1</div>
+      <div class="dz" id="p2-dz-Cr1" data-z="Cr1" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Reactif 2</div>
+      <div class="dz" id="p2-dz-Cr2" data-z="Cr2" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Solution</div>
+      <div class="dz" id="p2-dz-Cs" data-z="Cs" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">solution ?</span></div>
+    </div>
+
+    <!-- TUBE D : AlCl3 - NaOH=al.png, AgNO3=cldans chlorure aluminium.png -->
+    <div class="mcol">
+      <div class="mlbl">D</div>
+      <div class="photos-row">
+        <div>
+          <img class="tphoto-sm" src="al.png" alt="D apres NaOH"/>
+          <div class="photo-label">Résultat test 1- précipité blanc</div>
+        </div>
+        <div>
+          <img class="tphoto-sm" src="cl dans chlorure aluminium.png" alt="D apres AgNO3"/>
+          <div class="photo-label">Résultat test 2- précipité blanc</div>
+        </div>
+      </div>
+      <div class="dl" style="width:100%">Reactif 1</div>
+      <div class="dz" id="p2-dz-Dr1" data-z="Dr1" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Reactif 2</div>
+      <div class="dz" id="p2-dz-Dr2" data-z="Dr2" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Solution</div>
+      <div class="dz" id="p2-dz-Ds" data-z="Ds" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">solution ?</span></div>
+    </div>
+
+    <!-- TUBE E : ZnSO4 - NaOH=zn.png, BaCl2=so42-dans sulfate de zinc.png -->
+    <div class="mcol">
+      <div class="mlbl">E</div>
+      <div class="photos-row">
+        <div>
+          <img class="tphoto-sm" src="zn.png" alt="E apres NaOH"/>
+          <div class="photo-label">Résultat test 1- précipité blanc</div>
+        </div>
+        <div>
+          <img class="tphoto-sm" src="so42- dans sulfate de zinc.png" alt="E apres BaCl2"/>
+          <div class="photo-label">Résultat test 2- précipité blanc</div>
+        </div>
+      </div>
+      <div class="dl" style="width:100%">Reactif 1</div>
+      <div class="dz" id="p2-dz-Er1" data-z="Er1" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Reactif 2</div>
+      <div class="dz" id="p2-dz-Er2" data-z="Er2" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">reactif ?</span></div>
+      <div class="dl" style="width:100%">Solution</div>
+      <div class="dz" id="p2-dz-Es" data-z="Es" data-p="2" style="width:100%;min-height:26px" ondragover="ov(event)" ondrop="dp(event)"><span class="ph" style="font-size:9px">solution ?</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="pool-wrap">
+  <div class="pool-title">Etiquettes - glisse vers la bonne zone</div>
+  <div class="pool" id="pool2"></div>
+</div>
+<div class="fb" id="fb2"></div>
+</div>
+
+<!-- FELICITATIONS -->
+<div id="vwin" class="hidden">
+  <div class="win-box">
+    <canvas id="fwc" width="700" height="190" style="display:block;margin:0 auto;max-width:100%"></canvas>
+    <h2>Bravo, tu es un futur chimiste !</h2>
+    <p>Tu as reussi les deux parties et identifie toutes les solutions correctement.<br>Tu maitrises les tests d'identification des especes chimiques !</p>
+    <button class="btn" onclick="fullRestart()">Recommencer depuis le debut</button>
+  </div>
+</div>
+
+</div>
+<script>
+var L1=[
+  {id:'a1',txt:'CuSO4 anhydre ',cat:'r',zones:['er']},
+  {id:'a2',txt:'La poudre blanche devient bleue',cat:'o',zones:['eo']},
+  {id:'a3',txt:'Allumette enflammee',cat:'r',zones:['hr']},
+  {id:'a4',txt:'Detonation pop',cat:'o',zones:['ho']},
+  {id:'a5',txt:'Buchette incandescente',cat:'r',zones:['or']},
+  {id:'a6',txt:'La braise se rallume vivement',cat:'o',zones:['oo']},
+  {id:'a7',txt:'Eau de chaux',cat:'r',zones:['cr']},
+  {id:'a8',txt:'Solution se trouble (blanc laiteux)',cat:'o',zones:['co']}
+];
+
+var L2=[
+  {id:'b1',txt:'NaOH',cat:'r',zones:['Ar1','Br1','Cr1','Dr1','Er1']},
+  {id:'b2',txt:'AgNO3',cat:'r',zones:['Ar2','Br2','Cr2','Dr2']},
+  {id:'b3',txt:'BaCl2',cat:'r',zones:['Er2']},
+  {id:'b4',txt:'CuCl2 - chlorure de cuivre(II)',cat:'s',zones:['As']},
+  {id:'b5',txt:'FeCl2 - chlorure de fer(II)',cat:'s',zones:['Bs']},
+  {id:'b6',txt:'FeCl3 - chlorure de fer(III)',cat:'s',zones:['Cs']},
+  {id:'b7',txt:'AlCl3 - chlorure d aluminium',cat:'s',zones:['Ds','Es']},
+  {id:'b8',txt:'ZnSO4 - sulfate de zinc',cat:'s',zones:['Ds','Es']}
+];
+// Zones interchangeables : pour Ds et Es, une seule des deux solutions suffit
+// mais les deux solutions ne peuvent pas etre dans la meme zone
+var INTERCHANGEABLE_GROUPS=[['Ds','Es']];
+
+var HINTS={
+  er:'Reactif...',eo:'Observation...',hr:'Reactif...',ho:'Observation...',
+  or:'Reactif...',oo:'Observation...',cr:'Reactif...',co:'Observation...',
+  Ar1:'reactif 1 ?',Ar2:'reactif 2 ?',As:'solution ?',
+  Br1:'reactif 1 ?',Br2:'reactif 2 ?',Bs:'solution ?',
+  Cr1:'reactif 1 ?',Cr2:'reactif 2 ?',Cs:'solution ?',
+  Dr1:'reactif 1 ?',Dr2:'reactif 2 ?',Ds:'solution ?',
+  Er1:'reactif 1 ?',Er2:'reactif 2 ?',Es:'solution ?'
+};
+
+var ST={1:{},2:{}},dragging=null,DONE={1:false,2:false};
+
+function shuf(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function ph(z){return '<span class="ph" style="font-size:9px">'+(HINTS[z]||'...')+'</span>';}
+function lbs(p){return p===1?L1:L2;}
+
+function rdz(p,z){
+  var el=document.getElementById('p'+p+'-dz-'+z);
+  if(!el)return;
+  var items=ST[p][z]||[];
+  el.innerHTML=items.length?'':ph(z);
+  for(var i=0;i<items.length;i++){
+    var lid=items[i];
+    var ll=lbs(p),lb=null;
+    for(var j=0;j<ll.length;j++){if(ll[j].id===lid){lb=ll[j];break;}}
+    if(!lb)continue;
+    var t=document.createElement('span');
+    t.className='tag '+lb.cat;
+    t.innerHTML=lb.txt+' <span class="x" onclick="rm('+p+',\''+z+'\',\''+lid+'\')">x</span>';
+    el.appendChild(t);
+  }
+}
+
+function rm(p,z,lid){
+  var a=ST[p][z]||[],b=[];
+  for(var i=0;i<a.length;i++){if(a[i]!==lid)b.push(a[i]);}
+  ST[p][z]=b;rdz(p,z);
+  // pas besoin de restaurer 'used' puisqu'on ne le marque plus
+  document.getElementById('fb'+p).className='fb';
+}
+
+function ov(e){e.preventDefault();e.currentTarget.classList.add('over');}
+document.addEventListener('dragleave',function(e){if(e.target.classList&&e.target.classList.contains('dz'))e.target.classList.remove('over');});
+
+function dp(e){
+  e.preventDefault();
+  var zone=e.currentTarget;zone.classList.remove('over');
+  if(!dragging)return;
+  var z=zone.getAttribute('data-z'),p=parseInt(zone.getAttribute('data-p'));
+  if(!ST[p][z])ST[p][z]=[];
+  for(var i=0;i<ST[p][z].length;i++){if(ST[p][z][i]===dragging)return;}
+  ST[p][z].push(dragging);rdz(p,z);
+  // etiquettes reutilisables : pas de marquage 'used'
+  dragging=null;document.getElementById('fb'+p).className='fb';
+}
+
+function sw(p){
+  document.getElementById('vp1').classList.toggle('hidden',p!==1);
+  document.getElementById('vp2').classList.toggle('hidden',p!==2);
+  document.getElementById('vwin').classList.add('hidden');
+  document.getElementById('nb1').className='nav-btn'+(p===1?' a1':'');
+  document.getElementById('nb2').className='nav-btn'+(p===2?' a2':'');
+}
+
+function evalZone(p,z){
+  var ll=lbs(p);
+  var exp=[];for(var i=0;i<ll.length;i++){if(ll[i].zones.indexOf(z)>=0)exp.push(ll[i]);}
+  var placed=ST[p][z]||[];
+  var ok=0,bad=0;
+  for(var i=0;i<exp.length;i++){if(placed.indexOf(exp[i].id)>=0)ok++;}
+  for(var i=0;i<placed.length;i++){
+    var f=false;
+    for(var j=0;j<ll.length;j++){if(ll[j].id===placed[i]&&ll[j].zones.indexOf(z)>=0){f=true;break;}}
+    if(!f)bad++;
+  }
+  return{ok:ok,bad:bad,exp:exp.length,placed:placed.length};
+}
+
+// Verifie si un groupe de zones interchangeables est valide globalement
+// Ex: Ds et Es acceptent AlCl3 ou ZnSO4 dans n'importe quel ordre, mais pas la meme dans les deux
+function evalInterchangeableGroup(p,zoneList){
+  // Collect les ids places dans chaque zone du groupe
+  var placedByZone={};
+  for(var i=0;i<zoneList.length;i++) placedByZone[zoneList[i]]=ST[p][zoneList[i]]||[];
+  // Verifier que chaque zone a exactement 1 solution valide du groupe, sans doublon entre zones
+  var ll=lbs(p);
+  // Solutions candidates pour ce groupe (celles qui ont toutes les zones du groupe dans leur .zones)
+  var candidates=[];
+  for(var i=0;i<ll.length;i++){
+    var ok=true;
+    for(var j=0;j<zoneList.length;j++){if(ll[i].zones.indexOf(zoneList[j])<0){ok=false;break;}}
+    if(ok)candidates.push(ll[i].id);
+  }
+  var usedCandidates=[];
+  var zoneStatus={};
+  for(var i=0;i<zoneList.length;i++){
+    var z=zoneList[i];
+    var placed=placedByZone[z];
+    var foundCandidate=null,hasBad=false;
+    for(var j=0;j<placed.length;j++){
+      if(candidates.indexOf(placed[j])>=0) foundCandidate=placed[j];
+      else hasBad=true;
+    }
+    zoneStatus[z]={found:foundCandidate,bad:hasBad,placed:placed.length};
+    if(foundCandidate) usedCandidates.push(foundCandidate);
+  }
+  // Verifier qu'il n'y a pas deux fois le meme candidat
+  var uniqueCandidates=[];
+  for(var i=0;i<usedCandidates.length;i++){if(uniqueCandidates.indexOf(usedCandidates[i])<0)uniqueCandidates.push(usedCandidates[i]);}
+  var dupDetected=(uniqueCandidates.length<usedCandidates.length);
+  // Resultat par zone
+  var results={};
+  for(var i=0;i<zoneList.length;i++){
+    var z=zoneList[i];
+    var st=zoneStatus[z];
+    var isOk=st.found && !st.bad && !dupDetected && st.placed===1;
+    results[z]=isOk?'ok':(st.placed===0?'empty':(st.bad||dupDetected?'ko':'partial'));
+  }
+  return results;
+}
+
+function chk(p){
+  var zl=p===1?['er','eo','hr','ho','or','oo','cr','co']:
+    ['Ar1','Ar2','As','Br1','Br2','Bs','Cr1','Cr2','Cs','Dr1','Dr2','Ds','Er1','Er2','Es'];
+  var total=0,correct=0,zok=0;
+
+  // Zones interchangeables a traiter separement
+  var interGroups=p===2?INTERCHANGEABLE_GROUPS:[];
+  var interZones=[];
+  for(var g=0;g<interGroups.length;g++) for(var k=0;k<interGroups[g].length;k++) interZones.push(interGroups[g][k]);
+
+  // D'abord traiter les zones interchangeables
+  for(var g=0;g<interGroups.length;g++){
+    var grp=interGroups[g];
+    var res=evalInterchangeableGroup(p,grp);
+    total+=grp.length;
+    for(var k=0;k<grp.length;k++){
+      var z=grp[k];
+      var dz=document.getElementById('p'+p+'-dz-'+z);if(!dz)continue;
+      dz.classList.remove('ok','ko','partial');
+      var st=res[z];
+      if(st==='ok'){dz.classList.add('ok');zok++;correct++;}
+      else if(st==='ko'&&(ST[p][z]||[]).length>0)dz.classList.add('ko');
+      else if(st==='partial'&&(ST[p][z]||[]).length>0)dz.classList.add('partial');
+    }
+  }
+
+  // Zones normales
+  for(var zi=0;zi<zl.length;zi++){
+    var z=zl[zi];
+    if(interZones.indexOf(z)>=0)continue;
+    var dz=document.getElementById('p'+p+'-dz-'+z);if(!dz)continue;
+    var r=evalZone(p,z);
+    total+=r.exp;correct+=r.ok;
+    dz.classList.remove('ok','ko','partial');
+    if(!r.placed)continue;
+    if(r.bad===0&&r.ok===r.exp){dz.classList.add('ok');zok++;}
+    else if(r.bad>0)dz.classList.add('ko');
+    else dz.classList.add('partial');
+  }
+
+  document.getElementById('s'+p).textContent=correct+'/'+total;
+  document.getElementById('v'+p).textContent=zok;
+  document.getElementById('t'+p).textContent=zl.length;
+  var fb=document.getElementById('fb'+p);
+  if(correct===total&&zok===zl.length){
+    DONE[p]=true;
+    if(DONE[1]&&DONE[2]){showWin();}
+    else if(p===1){fb.className='fb show win';fb.innerHTML='<strong>Excellent !</strong> Partie 1 reussie ! '+(DONE[2]?'':'Passe a la partie 2.');}
+    else{fb.className='fb show win';fb.innerHTML='<strong>Excellent !</strong> Partie 2 reussie ! '+(DONE[1]?'':'Pense a completer la partie 1 aussi.');}
+  } else if(p===2&&correct>=total-3){
+    fb.className='fb show info';fb.innerHTML='<strong>Tu y es presque !</strong> '+correct+'/'+total+' correctes. Verifie les zones en rouge.';
+  } else {
+    fb.className='fb show info';fb.innerHTML='<strong>'+correct+'/'+total+' correctes.</strong> Vert = juste, rouge = erreur, orange = incomplet.';
+  }
+}
+
+function rst(p){
+  ST[p]={};DONE[p]=false;
+  document.getElementById('fb'+p).className='fb';
+  document.getElementById('s'+p).textContent='-';
+  document.getElementById('v'+p).textContent='-';
+  document.getElementById('t'+p).textContent='-';
+  var zl=p===1?['er','eo','hr','ho','or','oo','cr','co']:
+    ['Ar1','Ar2','As','Br1','Br2','Bs','Cr1','Cr2','Cs','Dr1','Dr2','Ds','Er1','Er2','Es'];
+  for(var i=0;i<zl.length;i++){var dz=document.getElementById('p'+p+'-dz-'+zl[i]);if(dz){dz.className='dz';rdz(p,zl[i]);}}
+  var pool=document.getElementById('pool'+p);pool.innerHTML='';
+  var ll=shuf(lbs(p).slice());
+  for(var i=0;i<ll.length;i++){
+    var lb=ll[i];
+    var el=document.createElement('div');
+    el.className='etiq '+lb.cat;el.id=lb.id;el.textContent=lb.txt;el.draggable=true;
+    (function(id){
+      el.addEventListener('dragstart',function(){dragging=id;setTimeout(function(){var e=document.getElementById(id);if(e)e.classList.add('drag');},0);});
+      el.addEventListener('dragend',function(){var e=document.getElementById(id);if(e)e.classList.remove('drag');});
+    })(lb.id);
+    pool.appendChild(el);
+  }
+}
+
+function showWin(){
+  document.getElementById('vp2').classList.add('hidden');
+  document.getElementById('nb1').className='nav-btn';
+  document.getElementById('nb2').className='nav-btn';
+  document.getElementById('vwin').classList.remove('hidden');
+  fw();
+}
+
+function fullRestart(){
+  DONE={1:false,2:false};
+  document.getElementById('vwin').classList.add('hidden');
+  sw(1);rst(1);rst(2);
+}
+
+function fw(){
+  var c=document.getElementById('fwc'),ctx=c.getContext('2d'),W=c.width,H=c.height,parts=[];
+  var cols=['#378ADD','#1D9E75','#EF9F27','#E24B4A','#7F77DD','#D85A30','#5DCAA5','#D4537E'];
+  function sp(x,y){for(var i=0;i<55;i++){var a=Math.random()*Math.PI*2,v=1.5+Math.random()*4;parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1,c:cols[Math.floor(Math.random()*cols.length)],r:1.5+Math.random()*3});}}
+  var bst=[{x:W*.1,y:H*.5,t:0},{x:W*.3,y:H*.3,t:12},{x:W*.5,y:H*.45,t:24},{x:W*.7,y:H*.3,t:36},{x:W*.9,y:H*.5,t:48},{x:W*.2,y:H*.65,t:65},{x:W*.8,y:H*.65,t:80},{x:W*.5,y:H*.2,t:95}];
+  var ft=0;
+  function fr(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<bst.length;i++){if(ft===bst[i].t)sp(bst[i].x,bst[i].y);}
+    for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.07;p.l-=0.015;if(p.l<=0){parts.splice(i,1);continue;}ctx.globalAlpha=p.l;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;ft++;
+    if(ft<220||parts.length>0)requestAnimationFrame(fr);
+  }
+  requestAnimationFrame(fr);
+}
+
+rst(1);rst(2);
+</script>
+</body>
+</html>

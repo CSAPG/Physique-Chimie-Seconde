@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Physique-Chimie Seconde — Mme Poirault-Gauvin</title>
   <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3/dist/tailwind.min.js"></script>
+  <link rel="stylesheet" href="assets/style-animations.css">
   <style>
     body { background: #f0f7ff; }
 
@@ -83,7 +84,7 @@
       <h1 style="color:#fff;font-size:1.6rem;font-weight:700;margin:0 0 6px;">Physique-Chimie Seconde</h1>
       <p style="color:#bae6fd;font-size:1rem;margin:0;">Mme Poirault-Gauvin</p>
     </div>
-    <div style="background:white;border-radius:16px;padding:36px 40px;min-width:320px;text-align:center;">
+    <div id="auth-card" style="background:white;border-radius:16px;padding:36px 40px;min-width:320px;text-align:center;">
       <p style="color:#1e293b;margin:0 0 20px;font-size:0.95rem;">Entrez le code d'accès :</p>
       <input id="auth-input" type="password" placeholder="••••••"
         style="width:100%;box-sizing:border-box;padding:14px 18px;font-size:1.2rem;border-radius:10px;border:2px solid #e2e8f0;color:#0f172a;text-align:center;outline:none;letter-spacing:0.3em;margin-bottom:16px;"
@@ -121,9 +122,14 @@
 
   <!-- HERO -->
   <header class="hero">
-    <div class="hero-title">🔬 Physique-Chimie Seconde</div>
+    <canvas id="particles-canvas"></canvas>
+    <div class="hero-title">Physique-Chimie Seconde</div>
     <div class="hero-sub">Animations · Cours · Quiz · Exercices</div>
-    <div class="hero-badge">Mme Poirault-Gauvin </div>
+    <div class="hero-badge">Mme Poirault-Gauvin</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 16.6%"></div>
+    </div>
+    <div class="progress-label">2 séquences disponibles sur 12</div>
   </header>
 
 
@@ -170,26 +176,28 @@
       <p>Ce site regroupe des animations interactives, cours, quiz et exercices pour les élèves de <strong>Seconde</strong>.<br>Cliquez sur une séquence pour accéder aux ressources.</p>
 
       <div class="seq-grid">
-        <a class="seq-card" onclick="afficherSeq(1); return false;" href="#">
+        <a class="seq-card" data-theme="chimie" onclick="afficherSeq(1); return false;" href="#">
+          <div class="badge-dispo"><span class="dot-wrap"><span class="ring"></span><span class="dot"></span></span>Disponible</div>
           <div class="seq-icon">⚗️</div>
           <div class="seq-num-badge">Séq. 01</div>
           <div class="seq-title">Corps purs et mélanges</div>
         </a>
-        <div class="seq-card coming-soon"><div class="seq-icon">⚛️</div><div class="seq-num-badge">Séq. 02</div><div class="seq-title">......................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">🧪</div><div class="seq-num-badge">Séq. 03</div><div class="seq-title">.......................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">💧</div><div class="seq-num-badge">Séq. 04</div><div class="seq-title">.............................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">🏃</div><div class="seq-num-badge">Séq. 05</div><div class="seq-title">............................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">⚡</div><div class="seq-num-badge">Séq. 06</div><div class="seq-title">............................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">🌊</div><div class="seq-num-badge">Séq. 07</div><div class="seq-title">..............................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">📡</div><div class="seq-num-badge">Séq. 08</div><div class="seq-title">................................s</div></div>
-        <a class="seq-card" onclick="afficherSeq(9); return false;" href="#">
+        <div class="seq-card coming-soon" data-theme="atome"><div class="seq-icon">⚛️</div><div class="seq-num-badge">Séq. 02</div><div class="seq-title">......................</div></div>
+        <div class="seq-card coming-soon" data-theme="solution"><div class="seq-icon">🧪</div><div class="seq-num-badge">Séq. 03</div><div class="seq-title">.......................</div></div>
+        <div class="seq-card coming-soon" data-theme="solution"><div class="seq-icon">💧</div><div class="seq-num-badge">Séq. 04</div><div class="seq-title">.............................</div></div>
+        <div class="seq-card coming-soon" data-theme="mecanique"><div class="seq-icon">🏃</div><div class="seq-num-badge">Séq. 05</div><div class="seq-title">............................</div></div>
+        <div class="seq-card coming-soon" data-theme="electro"><div class="seq-icon">⚡</div><div class="seq-num-badge">Séq. 06</div><div class="seq-title">............................</div></div>
+        <div class="seq-card coming-soon" data-theme="ondes"><div class="seq-icon">🌊</div><div class="seq-num-badge">Séq. 07</div><div class="seq-title">..............................</div></div>
+        <div class="seq-card coming-soon" data-theme="ondes"><div class="seq-icon">📡</div><div class="seq-num-badge">Séq. 08</div><div class="seq-title">................................s</div></div>
+        <a class="seq-card" data-theme="optique" onclick="afficherSeq(9); return false;" href="#">
+          <div class="badge-dispo"><span class="dot-wrap"><span class="ring"></span><span class="dot"></span></span>Disponible</div>
           <div class="seq-icon">👁️</div>
           <div class="seq-num-badge">Séq. 09</div>
           <div class="seq-title">Vision et Images</div>
         </a>
-        <div class="seq-card coming-soon"><div class="seq-icon">🔩</div><div class="seq-num-badge">Séq. 10</div><div class="seq-title">.............................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">🧬</div><div class="seq-num-badge">Séq. 11</div><div class="seq-title">......................</div></div>
-        <div class="seq-card coming-soon"><div class="seq-icon">🔌</div><div class="seq-num-badge">Séq. 12</div><div class="seq-title">...........................</div></div>
+        <div class="seq-card coming-soon" data-theme="mecanique"><div class="seq-icon">🔩</div><div class="seq-num-badge">Séq. 10</div><div class="seq-title">.............................</div></div>
+        <div class="seq-card coming-soon" data-theme="chimie"><div class="seq-icon">🧬</div><div class="seq-num-badge">Séq. 11</div><div class="seq-title">......................</div></div>
+        <div class="seq-card coming-soon" data-theme="electro"><div class="seq-icon">🔌</div><div class="seq-num-badge">Séq. 12</div><div class="seq-title">...........................</div></div>
       </div>
     </div>
 
@@ -202,13 +210,14 @@
           <p>Propagation · Snell-Descartes · Spectres · Lentilles · Modèle de l'œil</p>
         </div>
       </div>
-      <a class="resource-link" href="seq09/sequence09_vision_image.html" target="_blank">
+      <a class="resource-link" data-type="cours" href="seq09/sequence09_vision_image.html" target="_blank">
         <span class="icon">🎓</span>
         <div>
           <div class="label">Cours interactif complet</div>
           <div class="sub">Animations · Exercices · Quiz · 4 parties</div>
         </div>
         <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+        <span class="type-dot"></span>
       </a>
     </div>
 
@@ -225,26 +234,28 @@
       <!-- Sous-section : Cours -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
-        <a class="resource-link" href="seq01/fiche-de-cours-1.pdf" target="_blank">
+        <a class="resource-link" data-type="pdf" href="seq01/fiche-de-cours-1.pdf" target="_blank">
           <span class="icon">📄</span>
           <div>
             <div class="label">Fiche de cours — Corps purs et mélanges</div>
             <div class="sub">PDF · Cours complet</div>
           </div>
           <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+          <span class="type-dot"></span>
         </a>
       </div>
 
       <!-- Sous-section : Jeux -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux interactifs</div>
-        <a class="resource-link" href="seq01/seq01-jeu.html" target="_blank">
+        <a class="resource-link" data-type="jeu" href="seq01/seq01-jeu.html" target="_blank">
           <span class="icon">🧪</span>
           <div>
             <div class="label">Tests d'identification des espèces chimiques</div>
             <div class="sub">Jeu interactif · Corps purs et mélanges</div>
           </div>
           <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+          <span class="type-dot"></span>
         </a>
       </div>
 
@@ -287,5 +298,6 @@
     }
   </script>
 
+  <script src="assets/milkyway.js"></script>
 </body>
 </html>

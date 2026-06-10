@@ -123,7 +123,7 @@
   <header class="hero">
     <div class="hero-title">🔬 Physique-Chimie Seconde</div>
     <div class="hero-sub">Animations · Cours · Quiz · Exercices</div>
-    <div class="hero-badge">Mme Poirault-Gauvin </div>
+    <div class="hero-badge">Mme Poirault-Gauvin · 2025–2026</div>
   </header>
 
 
@@ -142,7 +142,9 @@
           </button>
         </li>
         <li style="border-top:1px solid #f1f5f9;">
-          <button class="disabled-seq" disabled><span class="seq-num">01</span> Corps purs et mélanges <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button>
+          <button onclick="afficherSeq(1)">
+            <span class="seq-num">01</span> Corps purs et mélanges
+          </button>
         </li>
         <li><button class="disabled-seq" disabled><span class="seq-num">02</span>.....................<span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
         <li><button class="disabled-seq" disabled><span class="seq-num">03</span> ................ <span style="margin-left:auto;font-size:0.7rem;">🔜</span></button></li>
@@ -173,7 +175,11 @@
           <div class="seq-num-badge">Séq. 09</div>
           <div class="seq-title">Vision et Images</div>
         </a>
-        <div class="seq-card coming-soon"><div class="seq-icon">⚗️</div><div class="seq-num-badge">Séq. 01</div><div class="seq-title">.......................</div></div>
+        <a class="seq-card" onclick="afficherSeq(1); return false;" href="#">
+          <div class="seq-icon">⚗️</div>
+          <div class="seq-num-badge">Séq. 01</div>
+          <div class="seq-title">Corps purs et mélanges</div>
+        </a>
         <div class="seq-card coming-soon"><div class="seq-icon">⚛️</div><div class="seq-num-badge">Séq. 02</div><div class="seq-title">......................</div></div>
         <div class="seq-card coming-soon"><div class="seq-icon">🧪</div><div class="seq-num-badge">Séq. 03</div><div class="seq-title">.......................</div></div>
         <div class="seq-card coming-soon"><div class="seq-icon">💧</div><div class="seq-num-badge">Séq. 04</div><div class="seq-title">.............................</div></div>
@@ -204,6 +210,42 @@
         </div>
         <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
       </a>
+    </div>
+
+    <!-- Séquence 01 -->
+    <div id="seq-panel-1" class="seq-panel">
+      <div class="seq-panel-header">
+        <div class="big-num">01</div>
+        <div>
+          <h3>Corps purs et mélanges</h3>
+          <p>Identification · Tests chimiques · Espèces chimiques · Mélanges</p>
+        </div>
+      </div>
+
+      <!-- Sous-section : Jeux -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux interactifs</div>
+        <a class="resource-link" href="seq01/seq01-jeu.html" target="_blank">
+          <span class="icon">🧪</span>
+          <div>
+            <div class="label">Tests d'identification des espèces chimiques</div>
+            <div class="sub">Jeu interactif · Corps purs et mélanges</div>
+          </div>
+          <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+        </a>
+      </div>
+
+      <!-- Sous-section : Cours — à venir -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
+        <div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;padding:14px 18px;color:#94a3b8;font-size:0.88rem;text-align:center;">Cours interactif — bientôt disponible 🔜</div>
+      </div>
+
+      <!-- Sous-section : Exercices — à venir -->
+      <div>
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Exercices & Quiz</div>
+        <div style="background:#f8fafc;border:1.5px dashed #cbd5e1;border-radius:10px;padding:14px 18px;color:#94a3b8;font-size:0.88rem;text-align:center;">Exercices et quiz — bientôt disponibles 🔜</div>
+      </div>
     </div>
 
   </main>

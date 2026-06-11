@@ -6,79 +6,131 @@
 <title>Sequence 01 - Tests identification especes chimiques</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f8f9fa;color:#222;font-size:14px}
-h1{font-size:19px;font-weight:700;color:#1a3a5c;text-align:center;padding:16px 0 4px}
-.sub{text-align:center;font-size:12px;color:#777;margin-bottom:16px}
-.nav{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
-.nav-btn{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid #ccc;background:#fff;color:#555}
-.nav-btn.a1{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
-.nav-btn.a2{background:#eeedf8;color:#3c3489;border-color:#afa9ec}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fb;color:#222;font-size:15px}
+
+/* ── EN-TÊTE ── */
+.hero{background:#fff;border-bottom:3px solid #1a6fbc;padding:18px 12px 14px;text-align:center;margin-bottom:0}
+h1{font-size:21px;font-weight:800;color:#1a3a5c;letter-spacing:-.01em;margin-bottom:4px}
+.sub{font-size:12px;color:#888;display:flex;align-items:center;justify-content:center;gap:6px}
+.sub-sep{color:#ccc}
+
+/* ── NAVIGATION PARTIES ── */
+.nav{display:flex;gap:8px;justify-content:center;padding:14px 12px 0;margin-bottom:16px}
+.nav-btn{padding:8px 22px;border-radius:24px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #ddd;background:#fff;color:#888;transition:all .18s}
+.nav-btn:hover{border-color:#7ab8e8;color:#1a3a5c}
+.nav-btn.a1{background:#1a6fbc;color:#fff;border-color:#1a6fbc;box-shadow:0 2px 8px rgba(26,111,188,.25)}
+.nav-btn.a2{background:#3c3489;color:#fff;border-color:#3c3489;box-shadow:0 2px 8px rgba(60,52,137,.25)}
 .hidden{display:none!important}
-.wrap{max-width:860px;margin:0 auto;padding:0 12px 40px}
-.intro{background:#fff;border:1px solid #dde;border-radius:10px;padding:13px 16px;margin-bottom:14px}
-.intro h3{font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:5px}
-.intro p{font-size:12px;color:#555;line-height:1.6;margin-bottom:4px}
+.wrap{max-width:880px;margin:0 auto;padding:0 12px 48px}
+
+/* ── BLOC INTRO ── */
+.intro{background:#fff;border:1px solid #dde;border-left:4px solid #1a6fbc;border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:16px}
+.intro h3{font-size:14px;font-weight:700;color:#1a3a5c;margin-bottom:6px}
+.intro p{font-size:13px;color:#555;line-height:1.65;margin-bottom:5px}
 .intro p:last-child{margin-bottom:0}
-.bdg{display:inline-block;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;margin-bottom:6px}
-.b1{background:#ddeeff;color:#1a3a5c}
-.b2{background:#eeedf8;color:#3c3489}
-.topbar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.sc{background:#fff;border:1px solid #dde;border-radius:20px;padding:3px 12px;font-size:12px;color:#555}
-.sc b{color:#222}
-.btn{padding:5px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid #ccc;background:#fff}
-.btn-v{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
-.btn-r{margin-left:auto}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.card{background:#fff;border:1px solid #dde;border-radius:10px;padding:10px 12px}
+.bdg{display:inline-block;font-size:11px;font-weight:800;padding:3px 12px;border-radius:20px;margin-bottom:8px;letter-spacing:.02em;text-transform:uppercase}
+.b1{background:#1a6fbc;color:#fff}
+.b2{background:#3c3489;color:#fff}
+
+/* ── BARRE SCORE ── */
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.sc{background:#fff;border:1.5px solid #c8d8f0;border-radius:20px;padding:5px 14px;font-size:13px;color:#555}
+.sc b{color:#1a6fbc;font-size:15px}
+.btn{padding:8px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:2px solid #ccc;background:#fff;transition:all .15s}
+.btn-v{background:#1a6fbc;color:#fff;border-color:#1a6fbc;box-shadow:0 2px 8px rgba(26,111,188,.2)}
+.btn-v:hover{background:#155fa0}
+.btn-r{margin-left:auto;color:#888;font-size:12px}
+.btn-r:hover{border-color:#aaa;color:#444}
+
+/* ── GRILLE CARTES ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.card{background:#fff;border:1px solid #dde;border-radius:12px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .full{grid-column:1/-1}
-.cbody{display:flex;gap:10px;align-items:flex-start}
-.ct{font-size:13px;font-weight:700;color:#1a3a5c;margin-bottom:2px}
-.dl{font-size:10px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:6px;margin-bottom:2px}
-.dz{min-height:30px;border:2px dashed #bcc;border-radius:7px;padding:4px 8px;font-size:11px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;transition:background .12s;background:#fafafa}
-.dz.over{background:#ddeeff;border-color:#7ab8e8}
+.cbody{display:flex;gap:12px;align-items:flex-start}
+
+/* Titre espèce chimique — barre colorée à gauche */
+.ct-wrap{padding-left:10px;border-left:3px solid #1a6fbc;margin-bottom:6px}
+.ct{font-size:15px;font-weight:800;color:#1a3a5c}
+.ct-formula{font-size:12px;color:#7090b0;font-weight:600}
+
+.dl{font-size:11px;color:#8899aa;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:8px;margin-bottom:3px}
+
+/* ── ZONES DE DÉPÔT ── */
+.dz{min-height:34px;border:2px dashed #99b8d0;border-radius:8px;padding:5px 10px;font-size:12px;display:flex;flex-wrap:wrap;gap:5px;align-items:center;transition:background .12s,border-color .12s;background:#f0f5ff}
+.dz.over{background:#ddeeff;border-color:#1a6fbc;border-style:solid}
 .dz.ok{border:2px solid #2e9e60;background:#e6f7ee}
 .dz.ko{border:2px solid #e24b4a;background:#fceaea}
 .dz.partial{border:2px solid #e8a000;background:#fff3dc}
-.ph{color:#bbb;font-size:10px;font-style:italic}
-.tag{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.tag .x{cursor:pointer;opacity:.5;font-size:12px;line-height:1}.tag .x:hover{opacity:1}
+.ph{color:#b0c4d8;font-size:11px;font-style:italic}
+
+/* ── TAGS ── */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .x{cursor:pointer;opacity:.45;font-size:13px;line-height:1;margin-left:1px}
+.tag .x:hover{opacity:1}
 .tag.r{background:#ddeeff;color:#1a3a5c}
 .tag.o{background:#e8f5e0;color:#275010}
 .tag.i{background:#fff3dc;color:#7a4a00}
 .tag.s{background:#eeedf8;color:#3c3489}
-.pool-wrap{background:#f0f0f8;border:1px solid #dde;border-radius:10px;padding:10px 12px;margin-bottom:12px}
-.pool-title{font-size:11px;font-weight:700;color:#666;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
-.pool{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
-.etiq{display:inline-flex;align-items:center;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:grab;border:1.5px solid #bcc;background:#fff;color:#222;user-select:none;transition:opacity .15s,transform .1s;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.etiq:active{cursor:grabbing;transform:scale(1.05)}
+
+/* ── POOL D'ÉTIQUETTES ── */
+.pool-wrap{background:#fffbf0;border:2px dashed #d4b96a;border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.pool-title{font-size:11px;font-weight:800;color:#a07820;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:6px}
+.pool-title::before{content:'↓';font-size:14px;opacity:.7}
+.pool{display:flex;flex-wrap:wrap;gap:7px;min-height:38px}
+.etiq{display:inline-flex;align-items:center;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:grab;border:1.5px solid #bcc;background:#fff;color:#222;user-select:none;transition:opacity .15s,transform .12s,box-shadow .12s;box-shadow:0 2px 5px rgba(0,0,0,.10)}
+.etiq:hover{box-shadow:0 3px 10px rgba(0,0,0,.15);transform:translateY(-1px)}
+.etiq:active{cursor:grabbing;transform:scale(1.06)}
 .etiq.drag{opacity:.3}
 .etiq.used{opacity:.35;cursor:default;pointer-events:none}
 .etiq.r{background:#ddeeff;color:#1a3a5c;border-color:#7ab8e8}
 .etiq.o{background:#e8f5e0;color:#275010;border-color:#8acc70}
 .etiq.i{background:#fff3dc;color:#7a4a00;border-color:#e8c060}
 .etiq.s{background:#eeedf8;color:#3c3489;border-color:#afa9ec}
-.tsvg{width:48px;height:105px;flex-shrink:0}
+
+/* ── SVG TUBES & PHOTOS ── */
+.tsvg{width:56px;height:120px;flex-shrink:0}
 .tphoto{width:54px;height:110px;object-fit:cover;border-radius:6px;border:1px solid #dde;flex-shrink:0}
-.tphoto-sm{width:48px;height:100px;object-fit:cover;border-radius:5px;border:1px solid #dde;flex-shrink:0}
-.fb{margin-top:8px;padding:9px 13px;border-radius:9px;font-size:12px;display:none;font-weight:500}
-.fb.show{display:block}
+.tphoto-sm{width:50px;height:105px;object-fit:cover;border-radius:6px;border:1px solid #dde;flex-shrink:0}
+
+/* ── FEEDBACK ── */
+.fb{margin-top:10px;padding:11px 15px;border-radius:10px;font-size:13px;display:none;font-weight:600;display:none;align-items:center;gap:8px}
+.fb.show{display:flex}
 .fb.win{background:#e6f7ee;color:#1a5c36;border:1px solid #2e9e60}
-.fb.info{background:#ddeeff;color:#1a3a5c;border:1px solid #7ab8e8}
+.fb.win::before{content:'✅';font-size:16px}
+.fb.info{background:#eaf2ff;color:#1a3a5c;border:1px solid #7ab8e8}
+.fb.info::before{content:'ℹ️';font-size:15px}
+
+/* ── PARTIE 2 : colonnes tubes ── */
 .mcol{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
-.mlbl{font-size:15px;font-weight:700;color:#1a3a5c}
+.mlbl{font-size:17px;font-weight:800;color:#1a3a5c;background:#eaf2ff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
 .photos-row{display:flex;gap:4px;justify-content:center}
-.photo-label{font-size:9px;color:#888;text-align:center;margin-top:2px}
-.win-box{text-align:center;padding:22px 16px;background:#fff;border:1px solid #dde;border-radius:12px}
-.win-box h2{font-size:21px;font-weight:700;color:#1a3a5c;margin:10px 0 6px}
-.win-box p{font-size:13px;color:#555;margin-bottom:12px;line-height:1.6}
-canvas{border-radius:8px}
-@media(max-width:580px){.grid2{grid-template-columns:1fr}.cbody{flex-direction:column}}
+.photo-label{font-size:10px;color:#888;text-align:center;margin-top:3px;line-height:1.3}
+
+/* ── ÉCRAN VICTOIRE ── */
+.win-box{text-align:center;padding:28px 20px;background:#fff;border:1px solid #dde;border-radius:16px;box-shadow:0 4px 20px rgba(26,111,188,.10)}
+.win-box h2{font-size:24px;font-weight:800;color:#1a3a5c;margin:10px 0 8px}
+.win-box p{font-size:14px;color:#555;margin-bottom:14px;line-height:1.7}
+canvas{border-radius:10px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:580px){
+  .grid2{grid-template-columns:1fr}
+  .cbody{flex-direction:column}
+  /* Partie 2 : scroll horizontal sur petits écrans */
+  .card.full > div[style*="grid-template-columns"]{
+    display:flex!important;overflow-x:auto;gap:10px;padding-bottom:8px
+  }
+  .mcol{min-width:120px}
+}
 </style>
 </head>
 <body>
+<div class="hero">
+  <h1>⚗️ Tests d'identification des espèces chimiques</h1>
+  <p class="sub">Seconde <span class="sub-sep">·</span> Séquence 01 <span class="sub-sep">·</span> C. Poirault-Gauvin</p>
+</div>
+
 <div class="wrap">
-<h1>Tests d'identification des especes chimiques</h1>
-<p class="sub">Seconde - Sequence 01 - C. Poirault-Gauvin</p>
 
 <div class="nav">
   <button class="nav-btn a1" id="nb1" onclick="sw(1)">Partie 1 - Gaz et eau</button>
@@ -115,7 +167,7 @@ canvas{border-radius:8px}
         <path d="M41 7 Q43 3 45 7 Q45 11 41 11 Z" fill="#7ab8e8" opacity="0.5"/>
       </svg>
       <div style="flex:1">
-        <div class="ct">Eau - H2O</div>
+        <div class="ct-wrap"><div class="ct">Eau</div><div class="ct-formula">H&#8322;O</div></div>
         <div class="dl">Reactif</div>
         <div class="dz" id="p1-dz-er" data-z="er" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
         <div class="dl">Observation</div>
@@ -138,7 +190,7 @@ canvas{border-radius:8px}
         <path d="M41.5 58 Q40 55 41.5 52 Q43 49 42.5 46 Q44.5 49 44 52 Q45.5 49 46.5 51 Q46 54 43.5 58 Z" fill="#FFD700" opacity="0.8"/>
       </svg>
       <div style="flex:1">
-        <div class="ct">Dihydrogene - H2</div>
+        <div class="ct-wrap"><div class="ct">Dihydrogène</div><div class="ct-formula">H&#8322;</div></div>
         <div class="dl">Reactif</div>
         <div class="dz" id="p1-dz-hr" data-z="hr" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
         <div class="dl">Observation</div>
@@ -161,7 +213,7 @@ canvas{border-radius:8px}
         <line x1="37" y1="36" x2="35" y2="34" stroke="#FF8C00" stroke-width="1.2" opacity="0.5"/>
       </svg>
       <div style="flex:1">
-        <div class="ct">Dioxygene - O2</div>
+        <div class="ct-wrap"><div class="ct">Dioxygène</div><div class="ct-formula">O&#8322;</div></div>
         <div class="dl">Reactif</div>
         <div class="dz" id="p1-dz-or" data-z="or" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
         <div class="dl">Observation</div>
@@ -182,7 +234,7 @@ canvas{border-radius:8px}
         <circle cx="28" cy="42" r="2" fill="none" stroke="#aaa" stroke-width="0.7"/>
       </svg>
       <div style="flex:1">
-        <div class="ct">Dioxyde de carbone - CO2</div>
+        <div class="ct-wrap"><div class="ct">Dioxyde de carbone</div><div class="ct-formula">CO&#8322;</div></div>
         <div class="dl">Reactif</div>
         <div class="dz" id="p1-dz-cr" data-z="cr" data-p="1" ondragover="ov(event)" ondrop="dp(event)"><span class="ph">Depose ici...</span></div>
         <div class="dl">Observation</div>

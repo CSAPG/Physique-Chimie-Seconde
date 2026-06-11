@@ -50,7 +50,7 @@
   }
   .header-top {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 14px;
     margin-bottom: 14px;
   }
@@ -782,11 +782,138 @@
   sup { font-size: 0.65em; }
   sub { font-size: 0.65em; }
 
+  /* ── LAMPE À LAVE ── */
+  .lava-lamp-wrap {
+    position: relative;
+    width: 38px;
+    height: 72px;
+    flex-shrink: 0;
+    margin-top: -4px;
+  }
+  .ll-body {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 52px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%),
+                linear-gradient(180deg, #f0f8ff 0%, #d4e9f7 40%, #bcd8f0 100%);
+    border-radius: 6px 6px 9px 9px;
+    border: 1.5px solid #B8D4EC;
+    overflow: hidden;
+  }
+  /* Liquide de remplissage (fond clair) */
+  .ll-liquid {
+    position: absolute;
+    inset: 0;
+    background: rgba(200, 230, 248, 0.55);
+  }
+  /* Blobs */
+  .ll-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(1px);
+    opacity: 0.88;
+  }
+  .ll-blob-1 {
+    width: 14px; height: 14px;
+    background: radial-gradient(circle at 35% 35%, #ff9a6c, #e8783a);
+    left: 50%; transform: translateX(-50%);
+    animation: blob1 5.2s ease-in-out infinite;
+  }
+  .ll-blob-2 {
+    width: 10px; height: 10px;
+    background: radial-gradient(circle at 35% 35%, #a78bfa, #7B4FA6);
+    left: 4px;
+    animation: blob2 6.8s ease-in-out infinite 1.1s;
+  }
+  .ll-blob-3 {
+    width: 12px; height: 12px;
+    background: radial-gradient(circle at 35% 35%, #6ee7b7, #3A8A6E);
+    right: 3px;
+    animation: blob3 7.5s ease-in-out infinite 0.6s;
+  }
+  .ll-blob-4 {
+    width: 8px; height: 8px;
+    background: radial-gradient(circle at 35% 35%, #93c5fd, #2D5F8A);
+    left: 6px;
+    animation: blob4 4.9s ease-in-out infinite 2.3s;
+  }
+  @keyframes blob1 {
+    0%   { bottom: 2px;  border-radius: 50%; width:14px; height:14px; }
+    25%  { bottom: 28px; border-radius: 55% 45% 50% 50%; width:13px; height:16px; }
+    50%  { bottom: 34px; border-radius: 50%; width:14px; height:13px; }
+    75%  { bottom: 12px; border-radius: 45% 55% 50% 50%; width:15px; height:14px; }
+    100% { bottom: 2px;  border-radius: 50%; width:14px; height:14px; }
+  }
+  @keyframes blob2 {
+    0%   { bottom: 30px; border-radius: 50%; width:10px; height:10px; }
+    30%  { bottom: 4px;  border-radius: 50% 45% 55% 50%; width:11px; height:9px; }
+    60%  { bottom: 20px; border-radius: 50%; width:10px; height:11px; }
+    100% { bottom: 30px; border-radius: 50%; width:10px; height:10px; }
+  }
+  @keyframes blob3 {
+    0%   { bottom: 18px; border-radius: 50%; }
+    35%  { bottom: 36px; border-radius: 48% 52% 50% 50%; width:13px; height:11px; }
+    65%  { bottom: 6px;  border-radius: 50%; width:12px; height:13px; }
+    100% { bottom: 18px; border-radius: 50%; }
+  }
+  @keyframes blob4 {
+    0%   { bottom: 38px; border-radius: 50%; }
+    40%  { bottom: 8px;  border-radius: 50% 48% 52% 50%; }
+    70%  { bottom: 24px; border-radius: 50%; }
+    100% { bottom: 38px; border-radius: 50%; }
+  }
+  /* Reflet sur le verre */
+  .ll-glare {
+    position: absolute;
+    top: 4px; left: 5px;
+    width: 5px; height: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0));
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  /* Socle */
+  .ll-base {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 34px; height: 10px;
+    background: linear-gradient(180deg, #5B8FB9, #2D5F8A);
+    border-radius: 3px 3px 5px 5px;
+  }
+  /* Chapeau */
+  .ll-cap {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 22px; height: 7px;
+    background: linear-gradient(180deg, #2D5F8A, #5B8FB9);
+    border-radius: 4px 4px 2px 2px;
+  }
+  /* Halo lumineux sous la base */
+  .ll-glow {
+    position: absolute;
+    bottom: 2px; left: 50%;
+    transform: translateX(-50%);
+    width: 28px; height: 8px;
+    background: radial-gradient(ellipse, rgba(232,120,58,0.35) 0%, transparent 75%);
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ll-blob-1, .ll-blob-2, .ll-blob-3, .ll-blob-4, .ll-glow { animation: none; }
+  }
   @media (max-width: 600px) {
     .header { padding: 12px 14px 0; }
     .header-titles h1 { font-size: 1.05rem; }
     .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
     .main { padding: 18px 12px 50px; }
+    .lava-lamp-wrap { width: 30px; height: 58px; }
   }
 </style>
 </head>
@@ -798,6 +925,20 @@
     <div class="header-titles">
       <h1>Description macroscopique de la matière</h1>
       <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+    <!-- Lampe à lave : mélange hétérogène animé -->
+    <div class="lava-lamp-wrap" title="Lampe à lave : mélange hétérogène de deux liquides non miscibles">
+      <div class="ll-cap"></div>
+      <div class="ll-body">
+        <div class="ll-liquid"></div>
+        <div class="ll-blob ll-blob-1"></div>
+        <div class="ll-blob ll-blob-2"></div>
+        <div class="ll-blob ll-blob-3"></div>
+        <div class="ll-blob ll-blob-4"></div>
+        <div class="ll-glare"></div>
+      </div>
+      <div class="ll-base"></div>
+      <div class="ll-glow"></div>
     </div>
   </div>
   <nav class="tabs-nav">
@@ -1280,6 +1421,15 @@
 
   <div class="def-card">
     <h3>Densité d</h3>
+    <!-- Image flottante à droite -->
+    <div style="float:right;margin:0 0 12px 18px;text-align:center;max-width:110px;">
+      <img src="Galileo_Thermometer.jpg"
+           alt="Thermomètre de Galilée"
+           style="height:220px;width:auto;border-radius:8px;border:1.5px solid var(--gris-bord);display:block;margin:0 auto;">
+      <p style="font-size:0.72rem;color:var(--texte-léger);margin-top:6px;line-height:1.4;font-style:italic;">
+        Thermomètre de Galilée : les bulles flottent ou coulent selon leur densité relative au liquide.
+      </p>
+    </div>
     <p>Nombre <strong>sans dimension</strong> – rapport de masses volumiques.</p>
     <div class="formule-box" style="background:var(--violet-clair);border-color:var(--violet);">
       <div style="display:flex;gap:28px;justify-content:center;flex-wrap:wrap;">
@@ -1293,6 +1443,7 @@
       <br>— d &lt; 1 → <strong>flotte</strong> dans l'eau &nbsp;&nbsp;|&nbsp;&nbsp; d &gt; 1 → <strong>coule</strong> dans l'eau
       <br><em>C'est pourquoi les nappes d'hydrocarbures restent en surface des océans !</em>
     </div>
+    <div style="clear:both;"></div>
   </div>
 
   <!-- EXERCICE MASSE VOLUMIQUE ÉTHANOL -->

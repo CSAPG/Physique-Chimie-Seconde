@@ -112,6 +112,29 @@ h1{font-size:21px;font-weight:800;color:#1a3a5c;letter-spacing:-.01em;margin-bot
 .win-box p{font-size:14px;color:#555;margin-bottom:14px;line-height:1.7}
 canvas{border-radius:10px}
 
+/* ── COLONNES TUBES (Partie 2) ── */
+.tube-col{padding:12px 8px;position:relative}
+.tube-col + .tube-col{border-left:2px solid #e0e8f4}
+/* Couleur de fond alternée légère pour renforcer la séparation */
+.tube-col-a{background:#fafcff}
+.tube-col-b{background:#f7fbf7}
+.tube-col-c{background:#fafcff}
+.tube-col-d{background:#f7fbf7}
+.tube-col-e{background:#fafcff}
+/* Bandeau de couleur en haut de chaque colonne */
+.tube-col::before{content:attr(data-tube);position:absolute;top:0;left:0;right:0;height:4px;border-radius:0}
+.tube-col-a::before{background:#1a6fbc}
+.tube-col-b::before{background:#2e9e60}
+.tube-col-c::before{background:#e8a000}
+.tube-col-d::before{background:#9c4bc0}
+.tube-col-e::before{background:#e24b4a}
+/* Le badge lettre reprend la couleur du bandeau */
+.tube-col-a .mlbl{background:#ddeeff;color:#1a6fbc;border:2px solid #1a6fbc}
+.tube-col-b .mlbl{background:#e6f7ee;color:#1a5c36;border:2px solid #2e9e60}
+.tube-col-c .mlbl{background:#fff3dc;color:#7a4a00;border:2px solid #e8a000}
+.tube-col-d .mlbl{background:#f3e8ff;color:#5e2a80;border:2px solid #9c4bc0}
+.tube-col-e .mlbl{background:#fceaea;color:#a01010;border:2px solid #e24b4a}
+
 /* ── RESPONSIVE ── */
 @media(max-width:580px){
   .grid2{grid-template-columns:1fr}
@@ -268,11 +291,11 @@ canvas{border-radius:10px}
   <button class="btn btn-r" onclick="rst(2)">Recommencer</button>
 </div>
 
-<div class="card full" style="margin-bottom:12px">
-  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+<div class="card full" style="margin-bottom:12px;padding:0;overflow:hidden;border-radius:12px">
+  <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0">
 
     <!-- TUBE A : CuCl2 - NaOH=cu.png, AgNO3=presence de cl dans chlorure de cuivre.png -->
-    <div class="mcol">
+    <div class="mcol tube-col tube-col-a">
       <div class="mlbl">A</div>
       <div class="photos-row">
         <div>
@@ -293,7 +316,7 @@ canvas{border-radius:10px}
     </div>
 
     <!-- TUBE B : FeCl2 - NaOH=fer2.png, AgNO3=cl dans chlorure de fer2.png -->
-    <div class="mcol">
+    <div class="mcol tube-col tube-col-b">
       <div class="mlbl">B</div>
       <div class="photos-row">
         <div>
@@ -314,7 +337,7 @@ canvas{border-radius:10px}
     </div>
 
     <!-- TUBE C : FeCl3 - NaOH=fer3.png, AgNO3=cl dans chlorure de fer3.png -->
-    <div class="mcol">
+    <div class="mcol tube-col tube-col-c">
       <div class="mlbl">C</div>
       <div class="photos-row">
         <div>
@@ -335,7 +358,7 @@ canvas{border-radius:10px}
     </div>
 
     <!-- TUBE D : AlCl3 - NaOH=al.png, AgNO3=cldans chlorure aluminium.png -->
-    <div class="mcol">
+    <div class="mcol tube-col tube-col-d">
       <div class="mlbl">D</div>
       <div class="photos-row">
         <div>
@@ -356,7 +379,7 @@ canvas{border-radius:10px}
     </div>
 
     <!-- TUBE E : ZnSO4 - NaOH=zn.png, BaCl2=so42-dans sulfate de zinc.png -->
-    <div class="mcol">
+    <div class="mcol tube-col tube-col-e">
       <div class="mlbl">E</div>
       <div class="photos-row">
         <div>

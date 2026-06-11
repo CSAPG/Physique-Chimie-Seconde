@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Description macroscopique de la matière</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* fond géré par #bg-overlay */
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Header fixe */
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+/* Barre de progression */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+/* Score live */
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+/* Feedback */
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+/* Bouton suivant */
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+/* Badges recap */
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* SVG illustrations helpers */
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ GRANDE LAMPE À LAVE EN FOND ══ */
+#lava-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Socle */
+.llb-base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 60px;
+  background: linear-gradient(180deg, #b0cce0 0%, #7aa8c0 100%);
+  border-radius: 14px 14px 30px 30px;
+  opacity: 0.18;
+}
+
+/* Corps cylindrique */
+.llb-body {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: calc(100vh - 140px);
+  min-height: 400px;
+  background: linear-gradient(180deg,
+    rgba(180, 220, 245, 0.13) 0%,
+    rgba(186, 230, 253, 0.16) 40%,
+    rgba(200, 235, 255, 0.13) 100%
+  );
+  border-radius: 20px 20px 30px 30px;
+  border-left: 2px solid rgba(125, 211, 252, 0.18);
+  border-right: 2px solid rgba(125, 211, 252, 0.18);
+  overflow: hidden;
+}
+
+/* Reflet latéral gauche */
+.llb-glare {
+  position: absolute;
+  top: 5%;
+  left: 10px;
+  width: 18px;
+  height: 55%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 10px;
+}
+
+/* Capuchon */
+.llb-cap {
+  position: absolute;
+  bottom: calc(52px + (100vh - 140px));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 190px;
+  height: 40px;
+  background: linear-gradient(180deg, #7aa8c0 0%, #b0cce0 100%);
+  border-radius: 14px 14px 4px 4px;
+  opacity: 0.18;
+}
+
+/* Blobs génériques */
+.llb-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(6px);
+}
+
+/* Blob 1 – orange chaud */
+.llb-b1 {
+  width: 80px; height: 80px;
+  background: radial-gradient(circle at 35% 35%, rgba(255,180,100,0.55), rgba(232,120,58,0.35));
+  left: 50%; transform: translateX(-50%);
+  animation: llb1 9s ease-in-out infinite;
+}
+/* Blob 2 – violet */
+.llb-b2 {
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at 35% 35%, rgba(196,181,253,0.50), rgba(123,79,166,0.30));
+  left: 18%;
+  animation: llb2 12s ease-in-out infinite 1.5s;
+}
+/* Blob 3 – vert cyan */
+.llb-b3 {
+  width: 70px; height: 70px;
+  background: radial-gradient(circle at 35% 35%, rgba(110,231,183,0.50), rgba(58,138,110,0.30));
+  right: 16%;
+  animation: llb3 14s ease-in-out infinite 0.8s;
+}
+/* Blob 4 – bleu */
+.llb-b4 {
+  width: 50px; height: 50px;
+  background: radial-gradient(circle at 35% 35%, rgba(147,197,253,0.50), rgba(45,95,138,0.30));
+  left: 25%;
+  animation: llb4 10s ease-in-out infinite 3s;
+}
+/* Blob 5 – rose/orange petit */
+.llb-b5 {
+  width: 45px; height: 45px;
+  background: radial-gradient(circle at 35% 35%, rgba(255,150,150,0.45), rgba(200,80,80,0.25));
+  right: 20%;
+  animation: llb5 11s ease-in-out infinite 0.4s;
+}
+
+/* Keyframes blobs */
+@keyframes llb1 {
+  0%   { bottom: 4%;  border-radius: 50%; width:80px; height:80px; }
+  20%  { bottom: 35%; border-radius: 55% 45% 52% 48%; width:75px; height:90px; }
+  45%  { bottom: 65%; border-radius: 50%; width:85px; height:78px; }
+  70%  { bottom: 40%; border-radius: 48% 52% 50% 50%; width:80px; height:85px; }
+  100% { bottom: 4%;  border-radius: 50%; width:80px; height:80px; }
+}
+@keyframes llb2 {
+  0%   { bottom: 60%; border-radius: 50%; }
+  30%  { bottom: 8%;  border-radius: 52% 48% 55% 45%; }
+  65%  { bottom: 45%; border-radius: 50%; }
+  100% { bottom: 60%; border-radius: 50%; }
+}
+@keyframes llb3 {
+  0%   { bottom: 20%; border-radius: 50%; }
+  35%  { bottom: 72%; border-radius: 50% 50% 48% 52%; }
+  68%  { bottom: 10%; border-radius: 50%; }
+  100% { bottom: 20%; border-radius: 50%; }
+}
+@keyframes llb4 {
+  0%   { bottom: 50%; border-radius: 50%; }
+  40%  { bottom: 5%;  border-radius: 48% 52% 50% 50%; }
+  75%  { bottom: 38%; border-radius: 50%; }
+  100% { bottom: 50%; border-radius: 50%; }
+}
+@keyframes llb5 {
+  0%   { bottom: 10%; border-radius: 50%; }
+  30%  { bottom: 55%; border-radius: 52% 48% 50% 50%; }
+  60%  { bottom: 80%; border-radius: 50%; }
+  100% { bottom: 10%; border-radius: 50%; }
+}
+
+/* Lueur chaude en bas */
+.llb-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 80px;
+  background: radial-gradient(ellipse, rgba(232,120,58,0.22) 0%, transparent 70%);
+  animation: llb-glow-pulse 4s ease-in-out infinite;
+}
+@keyframes llb-glow-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+@media (prefers-reduced-motion: reduce) {
+  .llb-b1,.llb-b2,.llb-b3,.llb-b4,.llb-b5,.llb-glow { animation:none; }
+}
+/* ══ FIN LAMPE ══ */
+
+</style>
+</head>
+<body>
+<div id="lava-bg">
+  <div class="llb-cap"></div>
+  <div class="llb-body">
+    <div class="llb-glare"></div>
+    <div class="llb-blob llb-b1"></div>
+    <div class="llb-blob llb-b2"></div>
+    <div class="llb-blob llb-b3"></div>
+    <div class="llb-blob llb-b4"></div>
+    <div class="llb-blob llb-b5"></div>
+    <div class="llb-glow"></div>
+  </div>
+  <div class="llb-base"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 01 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Description macroscopique de la matière · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Définitions, exemples courants, vocabulaire de base</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Calculs simples, lecture de courbes, CCM</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, conversions, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+function svgCourbeEau() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Courbe de refroidissement d'un corps pur</text>
+    <!-- axes -->
+    <line x1="40" y1="20" x2="40" y2="150" stroke="#555" stroke-width="1.5"/>
+    <line x1="40" y1="150" x2="360" y2="150" stroke="#555" stroke-width="1.5"/>
+    <!-- labels -->
+    <text x="190" y="165" text-anchor="middle" font-size="10" fill="#666">Temps</text>
+    <text x="12" y="90" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90 12 90)">T (°C)</text>
+    <!-- courbe : descente, palier, descente -->
+    <polyline points="40,30 100,30 130,70 180,70 210,70 240,110 340,130" fill="none" stroke="#1a5fa8" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- palier annotation -->
+    <line x1="130" y1="70" x2="210" y2="70" stroke="#e07b2a" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="170" y="63" text-anchor="middle" font-size="10" fill="#e07b2a" font-weight="bold">Palier = T° constante</text>
+    <!-- zones -->
+    <text x="70" y="48" font-size="10" fill="#6b3fa0" font-weight="bold">Liquide</text>
+    <text x="295" y="125" font-size="10" fill="#2e7d52" font-weight="bold">Solide</text>
+    <text x="163" y="90" font-size="9" fill="#888">Changement</text>
+    <text x="163" y="101" font-size="9" fill="#888">d'état</text>
+  </svg>`;
+}
+
+function svgCourbeAcetone() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Courbe de chauffage de l'acétone</text>
+    <line x1="40" y1="20" x2="40" y2="150" stroke="#555" stroke-width="1.5"/>
+    <line x1="40" y1="150" x2="360" y2="150" stroke="#555" stroke-width="1.5"/>
+    <text x="190" y="165" text-anchor="middle" font-size="10" fill="#666">Temps (s)</text>
+    <text x="12" y="90" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90 12 90)">T (°C)</text>
+    <!-- courbe -->
+    <polyline points="40,140 80,115 100,115 130,115 160,90 200,65 230,65 270,65 300,40 340,22" fill="none" stroke="#1a5fa8" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- palier 1 : fusion -95°C -->
+    <line x1="80" y1="115" x2="130" y2="115" stroke="#2e7d52" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="105" y="108" text-anchor="middle" font-size="9" fill="#2e7d52" font-weight="bold">−95°C (fusion)</text>
+    <!-- palier 2 : ébullition 56°C -->
+    <line x1="200" y1="65" x2="270" y2="65" stroke="#e07b2a" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="235" y="58" text-anchor="middle" font-size="9" fill="#e07b2a" font-weight="bold">+56°C (ébullition)</text>
+    <!-- labels états -->
+    <text x="58" y="148" font-size="9" fill="#6b3fa0" font-weight="bold">Solide</text>
+    <text x="155" y="106" font-size="9" fill="#1a5fa8" font-weight="bold">Liquide</text>
+    <text x="308" y="38" font-size="9" fill="#c0392b" font-weight="bold">Gaz</text>
+  </svg>`;
+}
+
+function svgCCM() {
+  return `<svg width="320" height="180" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="180" fill="#f8faff" rx="6"/>
+    <text x="160" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Plaque CCM – Huiles essentielles</text>
+    <!-- Plaque -->
+    <rect x="60" y="22" width="200" height="130" fill="white" stroke="#bbb" stroke-width="1.5" rx="3"/>
+    <!-- Front -->
+    <line x1="60" y1="38" x2="260" y2="38" stroke="#4a90d9" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="268" y="41" font-size="9" fill="#4a90d9">Front</text>
+    <!-- Ligne de dépôt -->
+    <line x1="60" y1="135" x2="260" y2="135" stroke="#333" stroke-width="1.5"/>
+    <text x="268" y="138" font-size="9" fill="#333">Dépôt</text>
+    <!-- Taches HEC: Lim (h=38%), Lin(h=60%) -->
+    <circle cx="100" cy="90" r="7" fill="#e07b2a" opacity="0.9"/>
+    <circle cx="100" cy="67" r="7" fill="#e07b2a" opacity="0.9"/>
+    <!-- Taches HEO: Lim(h=38%), Ci(h=50%) -->
+    <circle cx="145" cy="90" r="7" fill="#c0392b" opacity="0.9"/>
+    <circle cx="145" cy="78" r="7" fill="#c0392b" opacity="0.9"/>
+    <!-- Refs -->
+    <circle cx="185" cy="90" r="7" fill="#f4a261" opacity="0.9"/>
+    <circle cx="215" cy="78" r="7" fill="#1a5fa8" opacity="0.9"/>
+    <circle cx="245" cy="67" r="7" fill="#6b3fa0" opacity="0.9"/>
+    <!-- Labels col -->
+    <text x="100" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">HEC</text>
+    <text x="145" y="155" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">HEO</text>
+    <text x="185" y="155" text-anchor="middle" font-size="9" fill="#555">Lim</text>
+    <text x="215" y="155" text-anchor="middle" font-size="9" fill="#555">Ci</text>
+    <text x="245" y="155" text-anchor="middle" font-size="9" fill="#555">Lin</text>
+    <!-- Légende -->
+    <text x="160" y="173" text-anchor="middle" font-size="9" fill="#888">Lim=limonène · Ci=citral · Lin=linalol</text>
+  </svg>`;
+}
+
+function svgMassevol() {
+  return `<svg width="360" height="145" viewBox="0 0 360 145" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="145" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Densité et comportement dans l'eau</text>
+    <!-- Bécher -->
+    <rect x="70" y="30" width="220" height="100" rx="4" fill="#ddf4ff" stroke="#4a90d9" stroke-width="1.5"/>
+    <text x="180" y="120" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">Eau (ρ = 1,00 g·cm⁻³)</text>
+    <!-- Objet flottant (bouchon liège d=0,25) -->
+    <rect x="100" y="32" width="50" height="22" rx="4" fill="#f4a261" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="125" y="47" text-anchor="middle" font-size="9" fill="white" font-weight="bold">d &lt; 1</text>
+    <text x="125" y="26" text-anchor="middle" font-size="9" fill="#e07b2a">🌊 Flotte</text>
+    <!-- Objet coulant (fer d=7.87) -->
+    <rect x="205" y="90" width="50" height="22" rx="4" fill="#6b3fa0" stroke="#4a1fa0" stroke-width="1.5"/>
+    <text x="230" y="105" text-anchor="middle" font-size="9" fill="white" font-weight="bold">d &gt; 1</text>
+    <text x="230" y="128" text-anchor="middle" font-size="9" fill="#6b3fa0">⬇ Coule</text>
+  </svg>`;
+}
+
+function svgCompoAir() {
+  return `<svg width="360" height="110" viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="110" fill="#f8faff" rx="6"/>
+    <text x="180" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Composition volumique de l'air</text>
+    <!-- Barre -->
+    <rect x="20" y="30" width="320" height="38" rx="5" fill="#eee"/>
+    <rect x="20" y="30" width="250" height="38" rx="5 0 0 5" fill="#4a90d9"/>
+    <rect x="270" y="30" width="67" height="38" rx="0" fill="#2e7d52"/>
+    <rect x="337" y="30" width="3" height="38" rx="0 5 5 0" fill="#e07b2a"/>
+    <!-- Labels dans la barre -->
+    <text x="145" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="white">N₂ : 78 %</text>
+    <text x="304" y="53" text-anchor="middle" font-size="12" font-weight="bold" fill="white">O₂ : 21 %</text>
+    <!-- Fractions approchées -->
+    <text x="145" y="82" text-anchor="middle" font-size="10" fill="#1a5fa8">≈ 4/5</text>
+    <text x="304" y="82" text-anchor="middle" font-size="10" fill="#2e7d52">≈ 1/5</text>
+    <text x="340" y="82" text-anchor="middle" font-size="9" fill="#e07b2a">Ar ≈1%</text>
+    <text x="180" y="100" text-anchor="middle" font-size="9" fill="#888">ρ_air ≈ 1,2 kg·m⁻³</text>
+  </svg>`;
+}
+
+function svgDensiteTab() {
+  return `<svg width="380" height="160" viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="160" fill="#f8faff" rx="6"/>
+    <text x="190" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Masses volumiques de quelques corps</text>
+    <!-- tableau -->
+    <rect x="10" y="22" width="360" height="22" rx="3" fill="#1a5fa8"/>
+    <text x="80" y="36" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Corps</text>
+    <text x="200" y="36" text-anchor="middle" font-size="10" font-weight="bold" fill="white">ρ (g·cm⁻³)</text>
+    <text x="320" y="36" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Densité d</text>
+    <!-- lignes -->
+    <rect x="10" y="44" width="360" height="19" fill="#e8f1fb"/>
+    <text x="80" y="56" text-anchor="middle" font-size="10" fill="#333">Eau</text>
+    <text x="200" y="56" text-anchor="middle" font-size="10" fill="#333">1,00</text>
+    <text x="320" y="56" text-anchor="middle" font-size="10" fill="#333">1</text>
+    <rect x="10" y="63" width="360" height="19" fill="white"/>
+    <text x="80" y="75" text-anchor="middle" font-size="10" fill="#333">Éthanol</text>
+    <text x="200" y="75" text-anchor="middle" font-size="10" fill="#333">0,79</text>
+    <text x="320" y="75" text-anchor="middle" font-size="10" fill="#2e7d52" font-weight="bold">0,79 &lt; 1</text>
+    <rect x="10" y="82" width="360" height="19" fill="#e8f1fb"/>
+    <text x="80" y="94" text-anchor="middle" font-size="10" fill="#333">Fer</text>
+    <text x="200" y="94" text-anchor="middle" font-size="10" fill="#333">7,87</text>
+    <text x="320" y="94" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="bold">7,87 &gt; 1</text>
+    <rect x="10" y="101" width="360" height="19" fill="white"/>
+    <text x="80" y="113" text-anchor="middle" font-size="10" fill="#333">Or</text>
+    <text x="200" y="113" text-anchor="middle" font-size="10" fill="#333">19,3</text>
+    <text x="320" y="113" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="bold">19,3 &gt; 1</text>
+    <rect x="10" y="120" width="360" height="19" fill="#e8f1fb"/>
+    <text x="80" y="132" text-anchor="middle" font-size="10" fill="#333">Liège</text>
+    <text x="200" y="132" text-anchor="middle" font-size="10" fill="#333">0,25</text>
+    <text x="320" y="132" text-anchor="middle" font-size="10" fill="#2e7d52" font-weight="bold">0,25 &lt; 1</text>
+    <text x="190" y="152" text-anchor="middle" font-size="9" fill="#888">d &lt; 1 → flotte dans l'eau &nbsp;|&nbsp; d &gt; 1 → coule dans l'eau</text>
+  </svg>`;
+}
+
+function svgEtatsMolec() {
+  return `<svg width="360" height="130" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="130" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Organisation des molécules dans les 3 états</text>
+    <!-- Solide -->
+    <rect x="10" y="22" width="100" height="80" rx="5" fill="#f0eaf8" stroke="#6b3fa0" stroke-width="1.5"/>
+    <text x="60" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#6b3fa0">Solide</text>
+    <!-- grille molécules -->
+    <circle cx="30" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="50" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="70" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="90" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="30" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="50" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="70" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="90" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="30" cy="90" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="50" cy="90" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <!-- Liquide -->
+    <rect x="125" y="22" width="110" height="80" rx="5" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="180" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Liquide</text>
+    <circle cx="145" cy="55" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="168" cy="48" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="188" cy="60" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="210" cy="50" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="150" cy="78" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="175" cy="84" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="198" cy="75" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="220" cy="85" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <!-- Gaz -->
+    <rect x="250" y="22" width="100" height="80" rx="5" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="300" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">Gazeux</text>
+    <circle cx="265" cy="50" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="310" cy="45" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="340" cy="60" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="278" cy="82" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="330" cy="85" r="6" fill="#e07b2a" opacity="0.8"/>
+    <!-- Labels bas -->
+    <text x="60" y="120" text-anchor="middle" font-size="9" fill="#6b3fa0">Ordonné, compact</text>
+    <text x="180" y="120" text-anchor="middle" font-size="9" fill="#1a5fa8">Désordonné, compact</text>
+    <text x="300" y="120" text-anchor="middle" font-size="9" fill="#e07b2a">Dispersé</text>
+  </svg>`;
+}
+
+function svgLaiton() {
+  return `<svg width="300" height="130" viewBox="0 0 300 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="130" fill="#f8faff" rx="6"/>
+    <text x="150" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Composition massique du laiton</text>
+    <!-- cube -->
+    <rect x="90" y="25" width="70" height="70" fill="#d4a820" stroke="#a07010" stroke-width="1.5" rx="3"/>
+    <text x="125" y="65" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Laiton</text>
+    <text x="125" y="78" text-anchor="middle" font-size="9" fill="white">8,39 g·cm⁻³</text>
+    <!-- barre comp -->
+    <rect x="20" y="108" width="260" height="16" rx="4" fill="#eee"/>
+    <rect x="20" y="108" width="78" height="16" rx="4 0 0 4" fill="#7ec8e3"/>
+    <rect x="98" y="108" width="182" height="16" rx="0 4 4 0" fill="#d4a820"/>
+    <text x="59" y="120" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Zn 30%</text>
+    <text x="189" y="120" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Cu 70%</text>
+    <!-- arête -->
+    <text x="245" y="55" font-size="10" fill="#888">Arête = 1 cm</text>
+    <line x1="162" y1="25" x2="165" y2="95" stroke="#888" stroke-width="1" stroke-dasharray="3,2"/>
+  </svg>`;
+}
+
+function svgChromatoSimple() {
+  return `<svg width="280" height="170" viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="280" height="170" fill="#f8faff" rx="6"/>
+    <text x="140" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">CCM – Identification de mélanges</text>
+    <!-- cuve -->
+    <rect x="30" y="20" width="220" height="130" rx="5" fill="#f0f4fa" stroke="#4a90d9" stroke-width="1.5"/>
+    <!-- front -->
+    <line x1="30" y1="42" x2="250" y2="42" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="255" y="45" font-size="9" fill="#4a90d9">Front</text>
+    <!-- ligne dépôt -->
+    <line x1="30" y1="130" x2="250" y2="130" stroke="#333" stroke-width="1.5"/>
+    <!-- dépôts 4 colonnes -->
+    <!-- col A : mélange (2 taches) -->
+    <circle cx="75" cy="80" r="8" fill="#e07b2a" opacity="0.85"/>
+    <circle cx="75" cy="57" r="8" fill="#e07b2a" opacity="0.85"/>
+    <!-- col B : corps pur (1 tache) -->
+    <circle cx="120" cy="80" r="8" fill="#2e7d52" opacity="0.85"/>
+    <!-- col C : référence X -->
+    <circle cx="165" cy="80" r="8" fill="#2e7d52" opacity="0.85"/>
+    <!-- col D : référence Y -->
+    <circle cx="210" cy="57" r="8" fill="#1a5fa8" opacity="0.85"/>
+    <!-- Labels -->
+    <text x="75" y="148" text-anchor="middle" font-size="10" font-weight="bold">A</text>
+    <text x="120" y="148" text-anchor="middle" font-size="10" font-weight="bold">B</text>
+    <text x="165" y="148" text-anchor="middle" font-size="10">Réf X</text>
+    <text x="210" y="148" text-anchor="middle" font-size="10">Réf Y</text>
+    <text x="140" y="163" text-anchor="middle" font-size="9" fill="#888">A = mélange contenant X · B = corps pur X</text>
+  </svg>`;
+}
+
+function svgConvUnites() {
+  return `<svg width="360" height="120" viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="120" fill="#f8faff" rx="6"/>
+    <text x="180" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Conversions de masse volumique</text>
+    <!-- Ligne -->
+    <line x1="30" y1="60" x2="330" y2="60" stroke="#bbb" stroke-width="2"/>
+    <!-- g/cm³ -->
+    <rect x="20" y="45" width="80" height="30" rx="5" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="60" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a5fa8">g·cm⁻³</text>
+    <!-- kg/m³ -->
+    <rect x="140" y="45" width="80" height="30" rx="5" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="180" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d52">kg·m⁻³</text>
+    <!-- g/L -->
+    <rect x="260" y="45" width="80" height="30" rx="5" fill="#fef3e8" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="300" y="64" text-anchor="middle" font-size="11" font-weight="bold" fill="#e07b2a">g·L⁻¹</text>
+    <!-- Flèches et facteurs -->
+    <text x="110" y="52" text-anchor="middle" font-size="9" fill="#555">× 1000</text>
+    <text x="230" y="52" text-anchor="middle" font-size="9" fill="#555">= g·L⁻¹</text>
+    <text x="110" y="80" text-anchor="middle" font-size="9" fill="#888">1 g·cm⁻³ = 1000 kg·m⁻³</text>
+    <!-- Exemple eau -->
+    <text x="180" y="105" text-anchor="middle" font-size="10" fill="#333">Eau : 1,00 g·cm⁻³ = 1000 kg·m⁻³ = 1000 g·L⁻¹</text>
+  </svg>`;
+}
+
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+
+const QUESTIONS = {
+
+  facile: [
+    {
+      q: "Qu'est-ce qu'une espèce chimique ?",
+      ill: null,
+      opts: [
+        "Un mélange de molécules différentes",
+        "Un ensemble d'entités chimiques identiques",
+        "Un atome isolé",
+        "Un composé dissous dans l'eau"
+      ],
+      ans: 1,
+      expl: "Une espèce chimique est, par définition, un ensemble d'entités chimiques identiques (molécules, atomes ou ions identiques)."
+    },
+    {
+      q: "Parmi les suivants, lequel est un corps pur simple ?",
+      ill: null,
+      opts: [
+        "Eau (H₂O)",
+        "Sel (NaCl)",
+        "Dioxygène (O₂)",
+        "Acétone (C₃H₆O)"
+      ],
+      ans: 2,
+      expl: "Le dioxygène O₂ est un corps pur simple : il est constitué d'un seul type d'atome (l'oxygène). L'eau, le sel et l'acétone contiennent plusieurs types d'atomes."
+    },
+    {
+      q: "Comment appelle-t-on le passage de l'état liquide à l'état gazeux ?",
+      ill: svgEtatsMolec(),
+      opts: [
+        "Solidification",
+        "Fusion",
+        "Sublimation",
+        "Vaporisation"
+      ],
+      ans: 3,
+      expl: "La vaporisation désigne le passage de l'état liquide à l'état gazeux. La fusion : solide → liquide. La solidification : liquide → solide. La sublimation : solide → gaz."
+    },
+    {
+      q: "Un mélange homogène est un mélange dans lequel…",
+      ill: null,
+      opts: [
+        "On distingue clairement les constituants à l'œil nu",
+        "On ne distingue pas les constituants à l'œil nu après agitation",
+        "Il n'y a qu'une seule espèce chimique",
+        "Les constituants sont toujours liquides"
+      ],
+      ans: 1,
+      expl: "Un mélange est dit homogène si on ne peut pas distinguer ses constituants à l'œil nu après agitation. Exemple : eau salée, sirop."
+    },
+    {
+      q: "Quelle est la valeur de la masse volumique de l'eau liquide ?",
+      ill: null,
+      opts: [
+        "100 kg·m⁻³",
+        "10 kg·m⁻³",
+        "1000 kg·m⁻³",
+        "0,1 kg·m⁻³"
+      ],
+      ans: 2,
+      expl: "La masse volumique de l'eau liquide vaut 1000 kg·m⁻³ = 1,00 g·cm⁻³. C'est la valeur de référence à connaître."
+    },
+    {
+      q: "L'eau + huile dans un bécher est un exemple de :",
+      ill: null,
+      opts: [
+        "Corps pur",
+        "Mélange homogène",
+        "Mélange hétérogène",
+        "Espèce chimique"
+      ],
+      ans: 2,
+      expl: "L'eau et l'huile sont non miscibles : on distingue deux phases séparées à l'œil nu, même après agitation. C'est donc un mélange hétérogène."
+    },
+    {
+      q: "La composition approchée de l'air en dioxygène est d'environ :",
+      ill: svgCompoAir(),
+      opts: [
+        "78 % en volume",
+        "1 % en volume",
+        "21 % en volume",
+        "50 % en volume"
+      ],
+      ans: 2,
+      expl: "L'air contient environ 78 % de diazote N₂ (≈ 4/5) et 21 % de dioxygène O₂ (≈ 1/5), plus 1 % d'argon et traces d'autres gaz."
+    },
+    {
+      q: "La densité est :",
+      ill: null,
+      opts: [
+        "Un nombre avec l'unité kg·m⁻³",
+        "Un nombre sans dimension (sans unité)",
+        "Toujours supérieure à 1",
+        "La même chose que la masse volumique"
+      ],
+      ans: 1,
+      expl: "La densité est un nombre sans dimension (sans unité) : c'est le rapport de deux masses volumiques. Elle est différente de la masse volumique qui s'exprime en kg·m⁻³."
+    },
+    {
+      q: "Quelle propriété caractéristique permet d'identifier un corps pur lors d'un changement d'état ?",
+      ill: svgCourbeEau(),
+      opts: [
+        "La température varie constamment",
+        "La température reste constante pendant le changement d'état",
+        "La masse diminue pendant le changement d'état",
+        "Le volume double pendant le changement d'état"
+      ],
+      ans: 1,
+      expl: "Un corps pur change d'état à température constante (palier sur la courbe T = f(t)). Un mélange présente en revanche un changement d'état sur un intervalle de températures."
+    },
+    {
+      q: "Le jus d'orange est :",
+      ill: null,
+      opts: [
+        "Un corps pur composé",
+        "Un corps pur simple",
+        "Un mélange homogène",
+        "Un mélange hétérogène"
+      ],
+      ans: 3,
+      expl: "Le jus d'orange contient de l'eau, des sucres, des acides, de la pulpe, des vitamines... On peut distinguer des phases différentes. C'est un mélange hétérogène."
+    }
+  ],
+
+  inter: [
+    {
+      q: "Sur la courbe de chauffage de l'acétone, quelle est la température d'ébullition ?",
+      ill: svgCourbeAcetone(),
+      opts: [
+        "−95 °C",
+        "+56 °C",
+        "0 °C",
+        "100 °C"
+      ],
+      ans: 1,
+      expl: "Le deuxième palier (liquide → gaz) se situe à +56 °C : c'est la température d'ébullition de l'acétone. Le premier palier à −95 °C correspond à la fusion (solide → liquide)."
+    },
+    {
+      q: "On mesure la masse volumique d'un échantillon : m = 24 g, V = 20 mL. Quelle est la valeur de ρ ?",
+      ill: null,
+      opts: [
+        "0,83 g·cm⁻³",
+        "1,20 g·cm⁻³",
+        "480 g·cm⁻³",
+        "2,40 g·cm⁻³"
+      ],
+      ans: 0,
+      expl: "ρ = m/V = 24 g / 20 cm³ = 1,20 g·cm⁻³. Attention, 1 mL = 1 cm³. La réponse 0,83 correspond à m/V inversé (20/24)."
+    },
+    {
+      q: "Un solide a une densité de 0,92 par rapport à l'eau. Que se passe-t-il quand on le plonge dans l'eau ?",
+      ill: svgMassevol(),
+      opts: [
+        "Il coule au fond",
+        "Il flotte à la surface",
+        "Il se dissout",
+        "Il se vaporise"
+      ],
+      ans: 1,
+      expl: "La densité 0,92 < 1 : la masse volumique de ce solide est inférieure à celle de l'eau. Il flotte donc à la surface (comme la glace, d ≈ 0,92)."
+    },
+    {
+      q: "Quelle technique expérimentale permet de séparer et d'identifier les espèces chimiques d'un mélange par migration sur une plaque ?",
+      ill: svgChromatoSimple(),
+      opts: [
+        "La distillation",
+        "La chromatographie sur couche mince (CCM)",
+        "La filtration",
+        "La décantation"
+      ],
+      ans: 1,
+      expl: "La CCM (chromatographie sur couche mince) permet de séparer et d'identifier les espèces d'un mélange grâce à leur migration différentielle selon leur affinité pour la phase mobile et la phase stationnaire."
+    },
+    {
+      q: "Sur une plaque CCM, comment reconnaît-on qu'un dépôt est un mélange ?",
+      ill: svgCCM(),
+      opts: [
+        "Il ne migre pas du tout",
+        "Il donne plusieurs taches à des hauteurs différentes",
+        "Il donne une seule tache très colorée",
+        "Il monte plus haut que l'éluant"
+      ],
+      ans: 1,
+      expl: "Plusieurs taches à différentes hauteurs indiquent que le dépôt contient plusieurs espèces chimiques migrant à des vitesses différentes : c'est un mélange."
+    },
+    {
+      q: "Le laiton contient 30 % de zinc en masse. Quelle est la fraction massique en zinc ?",
+      ill: svgLaiton(),
+      opts: [
+        "f = 30",
+        "f = 0,030",
+        "f = 0,30",
+        "f = 3,0"
+      ],
+      ans: 2,
+      expl: "La fraction massique f = m_espèce / m_total est un nombre sans unité compris entre 0 et 1. 30 % correspond à f = 30/100 = 0,30."
+    },
+    {
+      q: "La masse volumique de l'éthanol est 0,79 g·cm⁻³. Quelle est sa valeur en kg·m⁻³ ?",
+      ill: svgConvUnites(),
+      opts: [
+        "0,00079 kg·m⁻³",
+        "79 kg·m⁻³",
+        "790 kg·m⁻³",
+        "7900 kg·m⁻³"
+      ],
+      ans: 2,
+      expl: "Conversion : 1 g·cm⁻³ = 1000 kg·m⁻³. Donc 0,79 g·cm⁻³ = 0,79 × 1000 = 790 kg·m⁻³."
+    },
+    {
+      q: "Comment identifier expérimentalement la présence de dioxyde de carbone (CO₂) ?",
+      ill: null,
+      opts: [
+        "En approchant une flamme : elle s'étend",
+        "En mettant du sulfate de cuivre anhydre : il bleuit",
+        "En faisant barboter dans l'eau de chaux : elle se trouble",
+        "En approchant un bâtonnet incandescent : il se rallume"
+      ],
+      ans: 2,
+      expl: "Le dioxyde de carbone trouble l'eau de chaux (solution de Ca(OH)₂) en formant du carbonate de calcium CaCO₃ blanc insoluble. Le bâtonnet incandescent teste O₂, la flamme teste H₂."
+    },
+    {
+      q: "Un cube de cuivre de 2 cm d'arête a une masse de 71,2 g. Quelle est sa masse volumique en g·cm⁻³ ?",
+      ill: null,
+      opts: [
+        "4,45 g·cm⁻³",
+        "8,90 g·cm⁻³",
+        "17,8 g·cm⁻³",
+        "35,6 g·cm⁻³"
+      ],
+      ans: 1,
+      expl: "V = (2 cm)³ = 8 cm³. ρ = m/V = 71,2 g / 8 cm³ = 8,90 g·cm⁻³. C'est bien la valeur tabulée du cuivre."
+    },
+    {
+      q: "L'air a une composition volumique d'environ 78 % de N₂. Si on a 500 L d'air, quel volume de diazote contient-il ?",
+      ill: svgCompoAir(),
+      opts: [
+        "78 L",
+        "210 L",
+        "390 L",
+        "422 L"
+      ],
+      ans: 2,
+      expl: "V(N₂) = 78/100 × 500 = 390 L. La fraction volumique de N₂ est f = 0,78, donc V(N₂) = 0,78 × 500 = 390 L."
+    }
+  ],
+
+  diff: [
+    {
+      q: "Une substance a une courbe T = f(t) qui montre un changement de température continu (sans palier) lors du refroidissement. Qu'en déduit-on ?",
+      ill: null,
+      opts: [
+        "C'est un corps pur simple",
+        "C'est un corps pur composé",
+        "C'est un mélange",
+        "C'est une espèce ionique"
+      ],
+      ans: 2,
+      expl: "L'absence de palier de température lors d'un changement d'état est caractéristique d'un mélange. Un corps pur (simple ou composé) change d'état à température strictement constante."
+    },
+    {
+      q: "On réalise une CCM de l'huile essentielle de citron (HEC) avec quatre références. Les taches de HEC coïncident avec celles de 'Lim' et 'Lin'. Que peut-on conclure ?",
+      ill: svgCCM(),
+      opts: [
+        "HEC est un corps pur contenant du limonène",
+        "HEC est un mélange contenant du limonène et du linalol",
+        "HEC contient du géraniol et du citral",
+        "HEC est identique à la référence 'Ci'"
+      ],
+      ans: 1,
+      expl: "Deux taches à des hauteurs différentes → mélange. Ces taches coïncident avec Lim (limonène) et Lin (linalol), donc HEC est un mélange contenant du limonène et du linalol."
+    },
+    {
+      q: "La masse volumique de l'air est ρ_air ≈ 1,2 kg·m⁻³. La densité du dioxyde de carbone (ρ = 1,96 kg·m⁻³) par rapport à l'air vaut environ :",
+      ill: null,
+      opts: [
+        "0,61",
+        "1,63",
+        "3,26",
+        "1963"
+      ],
+      ans: 1,
+      expl: "Pour un gaz, d = ρ_gaz / ρ_air = 1,96 / 1,2 ≈ 1,63. Le CO₂ est plus dense que l'air (d > 1), ce qui explique qu'il s'accumule dans les parties basses."
+    },
+    {
+      q: "Un alliage contient 40 % en masse de zinc (ρ_Zn = 7,13 g·cm⁻³) et 60 % de cuivre (ρ_Cu = 8,96 g·cm⁻³). La masse volumique de l'alliage est 8,39 g·cm⁻³. Quelle masse de zinc y a-t-il dans 200 g de cet alliage ?",
+      ill: svgLaiton(),
+      opts: [
+        "40 g",
+        "60 g",
+        "80 g",
+        "120 g"
+      ],
+      ans: 2,
+      expl: "m(Zn) = 40/100 × 200 g = 80 g. La fraction massique en zinc est 0,40, donc pour 200 g d'alliage, la masse de zinc est 0,40 × 200 = 80 g."
+    },
+    {
+      q: "On réalise deux courbes de chauffage : courbe A présente un palier net à 78 °C, courbe B montre une montée continue de température sans palier. Quelle conclusion peut-on tirer ?",
+      ill: svgCourbeEau(),
+      opts: [
+        "A est un mélange, B est un corps pur",
+        "A est un corps pur, B est un mélange",
+        "A et B sont tous deux des corps purs",
+        "A et B sont tous deux des mélanges"
+      ],
+      ans: 1,
+      expl: "Un palier de température lors d'un changement d'état est la signature d'un corps pur (ici A, probablement de l'éthanol pur à 78 °C). L'absence de palier (courbe B) indique un mélange, qui change d'état sur un intervalle de températures."
+    },
+    {
+      q: "La densité d'une huile par rapport à l'eau est 0,91. Exprimer sa masse volumique en kg·m⁻³.",
+      ill: svgDensiteTab(),
+      opts: [
+        "0,91 kg·m⁻³",
+        "91 kg·m⁻³",
+        "910 kg·m⁻³",
+        "9100 kg·m⁻³"
+      ],
+      ans: 2,
+      expl: "d = ρ_huile / ρ_eau → ρ_huile = d × ρ_eau = 0,91 × 1000 kg·m⁻³ = 910 kg·m⁻³. (ou 0,91 g·cm⁻³)"
+    },
+    {
+      q: "On dispose d'un échantillon de 250 mL d'un liquide dont la masse est 197,5 g. Cet échantillon est-il de l'eau pure, de l'éthanol pur ou un mélange ?",
+      ill: svgConvUnites(),
+      opts: [
+        "Eau pure (ρ = 1,00 g·cm⁻³)",
+        "Éthanol pur (ρ = 0,79 g·cm⁻³)",
+        "Un mélange, car ρ calculée est intermédiaire",
+        "Impossible à déterminer"
+      ],
+      ans: 2,
+      expl: "ρ = 197,5 / 250 = 0,79 g·cm⁻³. Comme cette valeur correspond exactement à la masse volumique tabulée de l'éthanol pur, c'est de l'éthanol pur. Réponse attendue : éthanol pur."
+    },
+    {
+      q: "Pourquoi peut-on repérer des nappes d'hydrocarbure sur l'océan en observant de loin ?",
+      ill: null,
+      opts: [
+        "Les hydrocarbures coulent et colorent les fonds marins",
+        "Les hydrocarbures, moins denses que l'eau, flottent et forment une couche réfléchissante visible",
+        "Les hydrocarbures se dissolvent dans l'eau",
+        "Les hydrocarbures ont une densité supérieure à 1"
+      ],
+      ans: 1,
+      expl: "La densité des hydrocarbures (pétrole, fuel) est inférieure à 1 : ils flottent sur l'eau. La couche formée est irisée et réfléchit la lumière différemment, ce qui la rend visible."
+    },
+    {
+      q: "Dans une CCM, espèce A monte plus haut que l'espèce B. Quelle conclusion tirer ?",
+      ill: svgChromatoSimple(),
+      opts: [
+        "A a une plus grande affinité pour la phase stationnaire que B",
+        "A a une plus grande affinité pour la phase mobile (éluant) que B",
+        "A est plus lourd que B",
+        "A est un corps pur et B est un mélange"
+      ],
+      ans: 1,
+      expl: "Une espèce qui monte plus haut a migré davantage avec l'éluant : elle a une plus grande affinité pour la phase mobile (éluant) et une moindre affinité pour la silice (phase stationnaire)."
+    },
+    {
+      q: "L'air contient 21 % de O₂ en volume. Dans un volume de 10 m³ d'air (ρ_air = 1,2 kg·m⁻³), quelle est la masse de dioxygène ? (ρ_O₂ = 1,43 kg·m⁻³)",
+      ill: svgCompoAir(),
+      opts: [
+        "2,52 kg",
+        "3,00 kg",
+        "12,0 kg",
+        "25,2 kg"
+      ],
+      ans: 1,
+      expl: "V(O₂) = 0,21 × 10 = 2,1 m³. m(O₂) = ρ_O₂ × V(O₂) = 1,43 × 2,1 ≈ 3,00 kg. (On peut aussi utiliser la composition massique : m_air = 1,2 × 10 = 12 kg, m(O₂) ≈ 0,231 × 12 ≈ 2,77 kg — mais l'approche volumique donne 3,00 kg.)"
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = []; // true/false par question
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  // Update header styles
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  // Progression
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 🎯'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  // Styles options
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  // Bouton suivant
+  document.getElementById('btn-next').classList.add('show');
+
+  // Progression (après réponse)
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  // Dots recap
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séquence 01 – Description macroscopique de la matière</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #2D5F8A;
+    --bleu-clair: #E8F1F8;
+    --bleu-moyen: #5B8FB9;
+    --bleu-activite: #EEF5FB;
+    --bleu-activite-bord: #B8D4EC;
+    --orange: #E8783A;
+    --orange-clair: #FDF0E8;
+    --vert: #3A8A6E;
+    --vert-clair: #E8F5F0;
+    --vert-exo: #F0FAF6;
+    --vert-exo-bord: #B2DDD0;
+    --gris-fond: #F5F7FA;
+    --gris-bord: #DDE3EC;
+    --texte: #1A2A3A;
+    --texte-léger: #5A6B7A;
+    --blanc: #FFFFFF;
+    --rouge: #C0392B;
+    --rouge-clair: #FDEDEC;
+    --violet: #7B4FA6;
+    --violet-clair: #F3EDF9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #F0F4F8;
+    color: var(--texte);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blanc);
+    border-bottom: 3px solid var(--bleu);
+    padding: 18px 32px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(45,95,138,0.10);
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .header-badge {
+    background: var(--bleu);
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    margin-top: 3px;
+  }
+  .header-titles h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--bleu);
+    line-height: 1.2;
+  }
+  .header-titles p {
+    font-size: 0.82rem;
+    color: var(--texte-léger);
+    margin-top: 2px;
+  }
+  .header-titles p span {
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ── ONGLETS ── */
+  .tabs-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px 12px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+    bottom: -3px;
+  }
+  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn.active {
+    color: var(--bleu);
+    border-bottom-color: var(--bleu);
+    background: var(--bleu-clair);
+    border-radius: 6px 6px 0 0;
+  }
+  .tab-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gris-bord);
+    color: var(--texte-léger);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab-btn.active .tab-num {
+    background: var(--bleu);
+    color: white;
+  }
+
+  /* ── CONTENU ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─────────────────────────────────────────
+     SYSTÈME DE COULEURS PAR TYPE DE BLOC
+     COURS  : fond blanc + bandeau gauche bleu
+     ACTIVITÉ : fond bleu très clair + bandeau gauche bleu moyen
+     EXERCICE : fond vert très clair + bandeau gauche vert
+  ───────────────────────────────────────── */
+
+  /* ── COURS (def-card) : fond blanc ── */
+  .def-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-left: 4px solid var(--bleu);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .def-card::before {
+    content: 'COURS';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.6;
+  }
+  .def-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .def-card p, .def-card ul {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--texte);
+  }
+  .def-card ul { padding-left: 18px; }
+  .def-card ul li { margin-bottom: 5px; }
+
+  /* ── ACTIVITÉ : fond bleu pâle ── */
+  .activite-card {
+    background: var(--bleu-activite);
+    border: 1.5px solid var(--bleu-activite-bord);
+    border-left: 4px solid var(--bleu-moyen);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .activite-card::before {
+    content: 'ACTIVITÉ';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.8;
+  }
+  .activite-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+  }
+
+  /* ── EXERCICE : fond vert très pâle ── */
+  .exo-card {
+    background: var(--vert-exo);
+    border: 1.5px solid var(--vert-exo-bord);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .exo-card::before {
+    content: 'EXERCICE';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--vert);
+    opacity: 0.7;
+  }
+  .exo-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--vert);
+    margin-bottom: 10px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--bleu);
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bleu-clair);
+  }
+  .section-title .icon { font-size: 1.3rem; }
+
+  .intro-box {
+    background: #FFFBF7;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--texte);
+    font-style: italic;
+  }
+
+  .formule-box {
+    background: var(--orange-clair);
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--texte);
+  }
+  .formule-box .legend {
+    font-size: 0.80rem;
+    font-weight: 500;
+    color: var(--texte-léger);
+    margin-top: 6px;
+    text-align: left;
+  }
+
+  .exemple-box {
+    background: var(--vert-clair);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .exemple-box strong { color: var(--vert); }
+
+  .remarque-box {
+    background: var(--violet-clair);
+    border-left: 4px solid var(--violet);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .remarque-box strong { color: var(--violet); }
+
+  /* ── EXERCICES INTERACTIFS (anciens styles conservés pour compatibilité) ── */
+  .exo-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 10px;
+  }
+  .exo-header h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--vert);
+  }
+  .exo-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .exo-pill { background: var(--vert); color: white; }
+  .exo-pill.activite { background: var(--bleu-moyen); color: white; }
+  .exo-pill.simulation { background: var(--bleu); color: white; }
+
+  .exo-enonce {
+    background: var(--blanc);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.90rem;
+    line-height: 1.65;
+    margin-bottom: 12px;
+    border: 1px solid var(--vert-exo-bord);
+  }
+
+  .question-block { margin-bottom: 14px; }
+  .question-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 7px;
+    padding-left: 4px;
+    border-left: 3px solid var(--vert);
+    padding-left: 8px;
+  }
+
+  .rep-zone {
+    width: 100%;
+    min-height: 52px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--vert-exo-bord);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    background: var(--blanc);
+    color: var(--texte);
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .rep-zone:focus { outline: none; border-color: var(--vert); }
+
+  .btn-correction {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 9px 20px;
+    background: var(--vert);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-correction:active { transform: translateY(0); }
+
+  .correction {
+    display: none;
+    background: #F0FAF6;
+    border: 1.5px solid var(--vert);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 8px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .correction.visible { display: block; animation: fadeIn 0.2s ease; }
+  .correction strong { color: var(--vert); }
+  .correction .calc-step {
+    background: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 7px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    border-left: 3px solid var(--vert);
+  }
+
+  /* ── QCM corps purs ── */
+  .qcm-grid {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .qcm-item {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+  .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
+  .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+  .qcm-btn {
+    padding: 5px 14px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 20px;
+    background: var(--gris-fond);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--texte);
+  }
+  .qcm-btn:hover { border-color: var(--vert); color: var(--vert); background: var(--vert-exo); }
+  .qcm-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
+  .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .qcm-feedback {
+    font-size: 0.80rem;
+    margin-top: 4px;
+    min-height: 14px;
+    color: var(--vert);
+    font-weight: 600;
+  }
+  .qcm-feedback.wrong { color: var(--rouge); }
+
+  /* ── TABLEAU IONS ── */
+  table.ions-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 14px 0;
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+  table.ions-table th {
+    background: var(--bleu);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  table.ions-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--gris-bord);
+    vertical-align: middle;
+  }
+  table.ions-table tr:last-child td { border-bottom: none; }
+  table.ions-table tr:nth-child(even) td { background: var(--gris-fond); }
+  .precipite {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.80rem;
+  }
+
+  /* ── CHROMATOGRAMME INTERACTIF ── */
+  .ccm-wrapper {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 14px 0;
+  }
+  .ccm-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .ccm-plaque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .ccm-plaque-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--bleu);
+  }
+  .ccm-svg-wrap { position: relative; }
+  .ccm-tache {
+    cursor: pointer;
+    transition: r 0.15s;
+  }
+  .ccm-tache:hover { filter: brightness(1.2); }
+  .ccm-tooltip {
+    position: absolute;
+    background: var(--texte);
+    color: white;
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    pointer-events: none;
+    white-space: nowrap;
+    display: none;
+    z-index: 10;
+    transform: translate(-50%, -130%);
+  }
+  .ccm-legende {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.82rem;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .ccm-leg-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ccm-leg-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .ccm-reponse {
+    background: var(--bleu-clair);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    margin-top: 10px;
+  }
+
+  /* ── COMPOSITION ── */
+  .composition-calc {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 14px 0;
+  }
+  .calc-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .calc-row label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    min-width: 180px;
+    color: var(--texte);
+  }
+  .calc-input {
+    padding: 8px 12px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    width: 100px;
+    background: var(--gris-fond);
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus { outline: none; border-color: var(--bleu); background: var(--blanc); }
+  .calc-unit {
+    font-size: 0.82rem;
+    color: var(--texte-léger);
+    font-weight: 600;
+  }
+  .btn-calc {
+    padding: 9px 22px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 4px;
+  }
+  .btn-calc:hover { background: #C9622A; }
+  .calc-result {
+    display: none;
+    background: var(--vert-clair);
+    border: 1.5px solid var(--vert);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  .calc-result.visible { display: block; animation: fadeIn 0.2s; }
+  .calc-result .res-line {
+    background: var(--blanc);
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 6px 0;
+    font-family: 'Outfit', sans-serif;
+    border-left: 3px solid var(--vert);
+    font-size: 0.90rem;
+    font-weight: 600;
+  }
+
+  /* ── BILAN ── */
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+  @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  .bilan-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .bilan-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--gris-bord);
+  }
+  .bilan-card ul { padding-left: 16px; }
+  .bilan-card ul li {
+    font-size: 0.84rem;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    color: var(--texte);
+  }
+  .ke-list { list-style: none; padding: 0; }
+  .ke-list li {
+    padding: 6px 10px 6px 28px;
+    position: relative;
+    font-size: 0.84rem;
+    border-bottom: 1px solid var(--gris-bord);
+    line-height: 1.5;
+  }
+  .ke-list li:last-child { border-bottom: none; }
+  .ke-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 8px;
+    color: var(--vert);
+    font-weight: 800;
+    font-size: 0.90rem;
+  }
+
+  /* ── CHANGEMENTS D'ÉTAT ── */
+  .schema-etats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .etat-box {
+    text-align: center;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    min-width: 90px;
+  }
+  .etat-solide { background: #E3EDF7; color: #1E4A72; border: 2px solid #5B8FB9; }
+  .etat-liquide { background: #E8F5F0; color: #2A6B52; border: 2px solid #3A8A6E; }
+  .etat-gaz { background: #FEF9E8; color: #8A6E1A; border: 2px solid #C9A83C; }
+  .fleche-etat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 0.72rem;
+    color: var(--texte-léger);
+    font-weight: 600;
+    gap: 2px;
+    min-width: 80px;
+  }
+  .fleche-etat .up { color: var(--orange); }
+  .fleche-etat .down { color: var(--bleu-moyen); }
+  .fleche-arrow-up, .fleche-arrow-down { font-size: 1.2rem; }
+
+  /* ── ACCORDÉON GRAPH ── */
+  .accord-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--gris-fond);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: var(--texte);
+    transition: background 0.2s;
+    margin: 10px 0;
+  }
+  .accord-btn:hover { background: var(--bleu-clair); }
+  .accord-body {
+    display: none;
+    padding: 14px;
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+  .accord-body.open { display: block; animation: fadeIn 0.2s; }
+
+  /* ── FOOTER ── */
+  .footer-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--texte-léger);
+    padding: 20px;
+    border-top: 1px solid var(--gris-bord);
+    margin-top: 30px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    height: 4px;
+    background: var(--gris-bord);
+    border-radius: 2px;
+    margin: 12px 0 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--bleu), var(--orange));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  sup { font-size: 0.65em; }
+  sub { font-size: 0.65em; }
+
+  @media (max-width: 600px) {
+    .header { padding: 12px 14px 0; }
+    .header-titles h1 { font-size: 1.05rem; }
+    .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
+    .main { padding: 18px 12px 50px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-badge">2<sup>nde</sup> – Séq. 01</div>
+    <div class="header-titles">
+      <h1>Description macroscopique de la matière</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+  </div>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">
+      <span class="tab-num">1</span> Corps purs & mélanges
+    </button>
+    <button class="tab-btn" onclick="switchTab(1)">
+      <span class="tab-num">2</span> Changements d'état
+    </button>
+    <button class="tab-btn" onclick="switchTab(2)">
+      <span class="tab-num">3</span> Masse volumique & densité
+    </button>
+    <button class="tab-btn" onclick="switchTab(3)">
+      <span class="tab-num">4</span> CCM & Composition
+    </button>
+  </nav>
+</div>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     ONGLET 1 – Corps purs & mélanges
+══════════════════════════════════════ -->
+<div class="tab-content active" id="tab-0">
+
+  <div class="section-title">
+    <span class="icon">⚗️</span> Corps purs et mélanges
+  </div>
+
+  <div class="intro-box">
+    La matière est constituée d'<strong>entités chimiques</strong> (molécules, atomes, ions).<br>
+    Une <strong>espèce chimique</strong> est un ensemble d'entités chimiques identiques.
+  </div>
+
+  <div class="def-card">
+    <h3>Corps pur</h3>
+    <p>Un corps pur est constitué d'<strong>une seule espèce chimique</strong>.</p>
+    <br>
+    <p><strong>Corps pur simple</strong> : constitué d'un seul type d'atomes.</p>
+    <div class="exemple-box"><strong>Exemples :</strong> dioxygène O<sub>2</sub>, dihydrogène H<sub>2</sub>, fer Fe, or Au…</div>
+    <p><strong>Corps pur composé</strong> : constitué de plusieurs types d'atomes en proportions définies.</p>
+    <div class="exemple-box"><strong>Exemples :</strong> eau H<sub>2</sub>O, dioxyde de carbone CO<sub>2</sub>, éthanol C<sub>2</sub>H<sub>6</sub>O…</div>
+  </div>
+
+  <div class="def-card">
+    <h3>Mélange</h3>
+    <p>Un mélange est constitué de <strong>plusieurs espèces chimiques</strong>.</p>
+    <br>
+    <ul>
+      <li><strong>Mélange homogène</strong> : on ne distingue <em>pas</em> les constituants à l'œil nu après agitation.</li>
+      <li><strong>Mélange hétérogène</strong> : on distingue <em>au moins deux</em> constituants à l'œil nu même après agitation.</li>
+    </ul>
+    <div class="exemple-box"><strong>Exemples homogènes :</strong> eau salée, air, eau de Javel, acier, laiton…</div>
+    <div class="exemple-box"><strong>Exemples hétérogènes :</strong> eau + huile, eau + sable, jus d'orange pulpeux…</div>
+  </div>
+
+  <!-- EXERCICE INTERACTIF -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Corps pur ou mélange ?</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Clique sur la bonne réponse pour chaque substance :</p>
+
+  <div class="qcm-grid">
+    <!-- Corps purs / mélanges -->
+    <div id="q1" class="qcm-item">
+      <div>
+        <div class="substance">a. Jus d'orange</div>
+        <div class="qcm-feedback" id="fb-q1"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q1','Mélange','Mélange','Corps pur – il contient de l\'eau, des sucres, des acides, de la pulpe…','fb-q1')">Corps pur</button>
+        <button class="qcm-btn" onclick="repondreQCM('q1','Mélange','Mélange','Corps pur – il contient de l\'eau, des sucres, des acides, de la pulpe…','fb-q1')">Mélange</button>
+      </div>
+    </div>
+    <div id="q2" class="qcm-item">
+      <div>
+        <div class="substance">b. Charbon (graphite pur)</div>
+        <div class="qcm-feedback" id="fb-q2"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q2','Corps pur','Corps pur','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Corps pur</button>
+        <button class="qcm-btn" onclick="repondreQCM('q2','Corps pur','Mélange','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Mélange</button>
+      </div>
+    </div>
+    <div id="q3" class="qcm-item">
+      <div>
+        <div class="substance">c. Acier</div>
+        <div class="qcm-feedback" id="fb-q3"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q3','Mélange','Corps pur','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Corps pur</button>
+        <button class="qcm-btn" onclick="repondreQCM('q3','Mélange','Mélange','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Mélange</button>
+      </div>
+    </div>
+    <div id="q4" class="qcm-item">
+      <div>
+        <div class="substance">d. Pépite d'or pur</div>
+        <div class="qcm-feedback" id="fb-q4"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q4','Corps pur','Corps pur','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Corps pur</button>
+        <button class="qcm-btn" onclick="repondreQCM('q4','Corps pur','Mélange','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Mélange</button>
+      </div>
+    </div>
+    <div id="q5" class="qcm-item">
+      <div>
+        <div class="substance">e. Eau de Javel</div>
+        <div class="qcm-feedback" id="fb-q5"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q5','Mélange','Corps pur','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Corps pur</button>
+        <button class="qcm-btn" onclick="repondreQCM('q5','Mélange','Mélange','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Mélange</button>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:0.88rem;color:var(--texte-léger);margin:18px 0 10px;">Les mélanges ci-dessous sont-ils <strong>homogènes</strong> ou <strong>hétérogènes</strong> ?</p>
+
+  <div class="qcm-grid">
+    <div id="q6" class="qcm-item">
+      <div>
+        <div class="substance">Eau + huile</div>
+        <div class="qcm-feedback" id="fb-q6"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q6','Hétérogène','Homogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Homogène</button>
+        <button class="qcm-btn" onclick="repondreQCM('q6','Hétérogène','Hétérogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Hétérogène</button>
+      </div>
+    </div>
+    <div id="q7" class="qcm-item">
+      <div>
+        <div class="substance">Eau + sel</div>
+        <div class="qcm-feedback" id="fb-q7"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q7','Homogène','Homogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Homogène</button>
+        <button class="qcm-btn" onclick="repondreQCM('q7','Homogène','Hétérogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Hétérogène</button>
+      </div>
+    </div>
+    <div id="q8" class="qcm-item">
+      <div>
+        <div class="substance">Eau + sable</div>
+        <div class="qcm-feedback" id="fb-q8"></div>
+      </div>
+      <div class="qcm-choices">
+        <button class="qcm-btn" onclick="repondreQCM('q8','Hétérogène','Homogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Homogène</button>
+        <button class="qcm-btn" onclick="repondreQCM('q8','Hétérogène','Hétérogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Hétérogène</button>
+      </div>
+    </div>
+  </div>
+  </div><!-- fin exo-card -->
+
+</div>
+
+<!-- ══════════════════════════════════════
+     ONGLET 2 – Changements d'état
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-1">
+
+  <div class="section-title">
+    <span class="icon">🌡️</span> Température de changement d'état
+  </div>
+
+  <div class="def-card">
+    <h3>Définition</h3>
+    <p>Un <strong>changement d'état</strong> est une transformation physique correspondant au passage d'un état (solide, liquide, gazeux) à un autre.</p>
+    <br>
+    <p>Sous pression donnée, le changement d'état s'effectue à une <strong>température constante</strong>, caractéristique de l'espèce chimique.</p>
+  </div>
+
+  <!-- Schéma triangle interactif changements d'état -->
+  <div class="activite-card" id="triangle-wrapper" style="padding:20px 16px 16px;">
+    <p style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--texte-léger);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Schéma des changements d'état</p>
+    <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Glisse chaque étiquette sur la flèche correspondante ✦</p>
+
+    <!-- Score -->
+    <div id="tri-score" style="display:none;text-align:center;margin-bottom:10px;font-size:0.88rem;font-weight:700;color:var(--bleu);"></div>
+
+    <!-- Zone triangle SVG + drops -->
+    <div style="position:relative;width:100%;max-width:520px;margin:0 auto;">
+      <svg id="tri-svg" viewBox="0 0 560 420" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <!--
+          Sommets :  Gazeux G=(280,55)  Solide S=(60,365)  Liquide L=(500,365)
+          Milieux :  bas M_SL=(280,365)  gauche M_GS=(170,210)  droit M_GL=(390,210)
+          Angle côté gauche  S→G : atan2(55-365, 280-60)  = atan2(-310,220) ≈ -54.7° → rotation SVG = -54.7°
+          Angle côté droit   L→G : atan2(55-365, 280-500) = atan2(-310,-220) ≈ 54.7°  → rotation SVG = +54.7°
+          Décalage perp. entre les 2 flèches parallèles : 10px
+        -->
+        <defs>
+          <marker id="arr-or"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-vt"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#3A8A6E"/></marker>
+          <marker id="arr-bl2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-or2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+        </defs>
+
+        <!-- Fond triangle -->
+        <polygon points="280,55 60,365 500,365" fill="#F8F9FB" stroke="#DDE3EC" stroke-width="1"/>
+
+        <!-- ══ CÔTÉ BAS : Solide(60,365) ↔ Liquide(500,365) ══
+             Fusion    S→L  : y=358  orange
+             Solidification L→S : y=372  bleu
+        -->
+        <line x1="108" y1="358" x2="452" y2="358" stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-vt)"/>
+        <line x1="452" y1="372" x2="108" y2="372" stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl3)"/>
+
+        <!-- Labels bas — texte horizontal centré sur le milieu x=280 -->
+        <!-- Fusion : au-dessus de la ligne y=358 → y=350 -->
+        <text id="txt-fusion" x="280" y="350" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#3A8A6E" opacity="0">Fusion</text>
+        <!-- Solidification : en-dessous de la ligne y=372 → y=384 -->
+        <text id="txt-solidification" x="280" y="385" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0">Solidification</text>
+
+        <!-- Zones drop bas -->
+        <rect id="zone-fusion"         x="185" y="340" width="190" height="20" rx="3" fill="none" stroke="#3A8A6E" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <rect id="zone-solidification" x="185" y="372" width="190" height="18" rx="3" fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+
+        <!-- ══ CÔTÉ GAUCHE : Solide(60,365) ↔ Gazeux(280,55)
+             Angle du trait = atan2(55-365, 280-60) = atan2(-310,220) = -54.65°
+             Milieu = (170, 210)
+             Décalage perpendiculaire (±8px selon normale) :
+               normale dir = (310/sqrt(310²+220²), 220/sqrt(...)) = (310,220)/380.5
+               Sublimation (S→G, côté ext gauche) : décale vers la gauche du trait
+               Condensation (G→S, côté int droit) : décale vers la droite du trait
+             On utilise transform="rotate(angle, cx, cy)" sur le groupe texte+flèche.
+        -->
+        <!-- Sublimation S→G : flèche orange, côté gauche (extérieur triangle) décalée de -10 -->
+        <line x1="74"  y1="321" x2="262" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or)"
+              transform="translate(-7,0)"/>
+        <!-- Condensation solide G→S : flèche bleue, côté droit (intérieur) décalée de +10 -->
+        <line x1="262" y1="75"  x2="74"  y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl)"
+              transform="translate(7,0)"/>
+
+        <!-- Sublimation label : extérieur gauche → dy très négatif pour sortir loin de la flèche -->
+        <text id="txt-sublimation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="-28">Sublimation</tspan>
+        </text>
+        <!-- Condensation label : intérieur gauche → dy positif modéré -->
+        <text id="txt-condensation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="18">Condensation solide</tspan>
+        </text>
+
+        <!-- Zones drop gauche (rectangles inclinés) -->
+        <!-- Sublimation : extérieur, centré sur dy=-28 → y=-38 hauteur 20 -->
+        <rect id="zone-sublimation"
+          x="-90" y="-40" width="180" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+        <!-- Condensation : intérieur, centré sur dy=18 → y=8 -->
+        <rect id="zone-condensation"
+          x="-100" y="8" width="200" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+
+        <!-- ══ CÔTÉ DROIT : Liquide(500,365) ↔ Gazeux(280,55)
+             Angle du trait = atan2(55-365, 280-500) = atan2(-310,-220) → dans SVG = +54.65°
+             Milieu = (390, 210)
+             Vaporisation L→G : côté droit (extérieur), décalage +7 en x
+             Liquéfaction G→L : côté gauche (intérieur), décalage -7 en x
+        -->
+        <!-- Vaporisation L→G : orange, extérieur -->
+        <line x1="486" y1="321" x2="294" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or2)"
+              transform="translate(7,0)"/>
+        <!-- Liquéfaction G→L : bleu, intérieur -->
+        <line x1="294" y1="75"  x2="486" y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl2)"
+              transform="translate(-7,0)"/>
+
+        <!-- Vaporisation label : extérieur droit → dy très négatif -->
+        <text id="txt-vaporisation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="-28">Vaporisation</tspan>
+        </text>
+        <!-- Liquéfaction label : intérieur droit → dy positif -->
+        <text id="txt-liquefaction"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="18">Liquéfaction</tspan>
+        </text>
+
+        <!-- Zones drop droit -->
+        <!-- Vaporisation : extérieur, dy=-28 → y=-40 -->
+        <rect id="zone-vaporisation"
+          x="-85" y="-40" width="170" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+        <!-- Liquéfaction : intérieur -->
+        <rect id="zone-liquefaction"
+          x="-80" y="8" width="160" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+
+        <!-- ══ États (cercles par-dessus tout) ══ -->
+        <circle cx="280" cy="55"  r="46" fill="#FEF3E2" stroke="#E8783A" stroke-width="2.5"/>
+        <text x="280" y="49"  text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#8A4A10">GAZEUX</text>
+        <text x="280" y="65"  text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#C07030">ex : vapeur d'eau</text>
+
+        <circle cx="60"  cy="365" r="46" fill="#E3EDF7" stroke="#2D5F8A" stroke-width="2.5"/>
+        <text x="60"  y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#1E4A72">SOLIDE</text>
+        <text x="60"  y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A6090">ex : glace</text>
+
+        <circle cx="500" cy="365" r="46" fill="#E8F5F0" stroke="#3A8A6E" stroke-width="2.5"/>
+        <text x="500" y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2A6B52">LIQUIDE</text>
+        <text x="500" y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A8A6E">ex : eau</text>
+      </svg>
+    </div>
+
+    <!-- Palette d'étiquettes à glisser -->
+    <div id="etiquettes-pool" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;min-height:44px;padding:10px;background:var(--gris-fond);border-radius:10px;border:1.5px dashed var(--gris-bord);">
+    </div>
+
+    <!-- Boutons -->
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+      <button onclick="verifierTriangle()" style="padding:8px 20px;background:var(--bleu);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Vérifier</button>
+      <button onclick="reinitTriangle()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
+      <button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--orange);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Voir la correction</button>
+    </div>
+
+
+  </div><!-- fin activite-card triangle -->
+
+  <div class="def-card">
+    <h3>Mesure expérimentale</h3>
+    <ul>
+      <li><strong>Température d'ébullition</strong> → mesurée avec un <em>thermomètre</em></li>
+      <li><strong>Température de fusion</strong> → déterminée avec un <em>banc Kofler</em> (plaque métallique à gradient de température) — <a href="https://culturesciences.chimie.ens.fr/thematiques/chimie-experimentale/techniques-d-analyse/utilisation-du-banc-kofler-pour-mesurer-une" target="_blank" style="color:var(--bleu);font-weight:600;">voir la technique ↗</a></li>
+    </ul>
+  </div>
+
+  <div class="remarque-box">
+    <strong>🔑 Critère de pureté :</strong> Un corps pur présente des changements d'état à température <em>constante</em> (palier horizontal sur la courbe température = f(temps)). Un mélange, lui, change d'état sur un <em>intervalle</em> de températures.
+  </div>
+
+  <!-- EXERCICE ACÉTONE -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Changements d'état de l'acétone</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+
+  <div class="exo-enonce">
+    La courbe montre l'évolution de la température de l'acétone en fonction du temps lors de ses changements d'état. On observe deux paliers :
+    <br>— un premier palier à <strong>−95 °C</strong> (de t ≈ 100 s à t ≈ 200 s)
+    <br>— un deuxième palier à <strong>56 °C</strong> (de t ≈ 400 s à t ≈ 550 s)
+  </div>
+
+  <!-- Graphique SVG stylisé -->
+  <div style="background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px;margin-bottom:16px;overflow-x:auto;">
+    <svg viewBox="0 0 620 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;margin:auto;">
+      <!-- Fond -->
+      <rect x="60" y="10" width="540" height="270" fill="#FAFBFC" rx="4"/>
+      <!-- Grille -->
+      <g stroke="#DDE3EC" stroke-width="0.7">
+        <line x1="60" y1="55" x2="600" y2="55"/>
+        <line x1="60" y1="100" x2="600" y2="100"/>
+        <line x1="60" y1="145" x2="600" y2="145"/>
+        <line x1="60" y1="190" x2="600" y2="190"/>
+        <line x1="60" y1="235" x2="600" y2="235"/>
+        <line x1="140" y1="10" x2="140" y2="280"/>
+        <line x1="220" y1="10" x2="220" y2="280"/>
+        <line x1="300" y1="10" x2="300" y2="280"/>
+        <line x1="380" y1="10" x2="380" y2="280"/>
+        <line x1="460" y1="10" x2="460" y2="280"/>
+        <line x1="540" y1="10" x2="540" y2="280"/>
+      </g>
+      <!-- Axes -->
+      <line x1="60" y1="145" x2="605" y2="145" stroke="#AAB5C0" stroke-width="1.5"/>
+      <line x1="60" y1="10" x2="60" y2="285" stroke="#AAB5C0" stroke-width="1.5"/>
+      <!-- Flèches axes -->
+      <polygon points="605,141 605,149 614,145" fill="#AAB5C0"/>
+      <polygon points="56,10 64,10 60,3" fill="#AAB5C0"/>
+      <!-- Labels axes -->
+      <text x="620" y="149" font-family="Nunito,sans-serif" font-size="11" fill="#5A6B7A">t (s)</text>
+      <text x="10" y="14" font-family="Nunito,sans-serif" font-size="11" fill="#5A6B7A">T (°C)</text>
+      <!-- Graduations T -->
+      <text x="44" y="59" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="end">150</text>
+      <text x="44" y="104" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="end">100</text>
+      <text x="44" y="149" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="end">0</text>
+      <text x="44" y="194" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="end">−50</text>
+      <text x="44" y="239" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="end">−100</text>
+      <!-- Graduations t -->
+      <text x="140" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">100</text>
+      <text x="220" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">200</text>
+      <text x="300" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">300</text>
+      <text x="380" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">400</text>
+      <text x="460" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">500</text>
+      <text x="540" y="296" font-family="Nunito,sans-serif" font-size="10" fill="#5A6B7A" text-anchor="middle">600</text>
+      <!-- Courbe acétone (T_fusion ≈ -95°C → y≈231 ; T_éb ≈ 56°C → y≈116) -->
+      <!-- Segment 1 : refroidissement solide de 20°C (y=135) à -95°C (y=231) de t=0 à t=100 -->
+      <polyline points="60,265 140,231 220,231 280,175 380,116 460,116 560,73" 
+        fill="none" stroke="#2D5F8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Palier fusion T=-95°C : zone grisée -->
+      <rect x="140" y="227" width="80" height="8" fill="#E8783A" opacity="0.3" rx="2"/>
+      <line x1="140" y1="231" x2="220" y2="231" stroke="#E8783A" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <!-- Palier ébullition T=56°C : zone grisée -->
+      <rect x="380" y="112" width="80" height="8" fill="#3A8A6E" opacity="0.3" rx="2"/>
+      <line x1="380" y1="116" x2="460" y2="116" stroke="#3A8A6E" stroke-width="2.5" stroke-dasharray="4,2"/>
+      <!-- Labels paliers -->
+      <text x="180" y="224" font-family="Outfit,sans-serif" font-size="10" fill="#E8783A" font-weight="700" text-anchor="middle">−95 °C</text>
+      <text x="420" y="110" font-family="Outfit,sans-serif" font-size="10" fill="#3A8A6E" font-weight="700" text-anchor="middle">56 °C</text>
+      <!-- Labels états -->
+      <text x="98" y="275" font-family="Nunito,sans-serif" font-size="9" fill="#7B4FA6" font-weight="700">état solide</text>
+      <text x="155" y="260" font-family="Nunito,sans-serif" font-size="9" fill="#E8783A" font-weight="700">fus.</text>
+      <text x="255" y="210" font-family="Nunito,sans-serif" font-size="9" fill="#3A8A6E" font-weight="700">état liquide</text>
+      <text x="390" y="140" font-family="Nunito,sans-serif" font-size="9" fill="#3A8A6E" font-weight="700">éb.</text>
+      <text x="490" y="100" font-family="Nunito,sans-serif" font-size="9" fill="#8A6E1A" font-weight="700">état gazeux</text>
+    </svg>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">1. Justifier que l'acétone est un corps pur.</div>
+    <textarea class="rep-zone" id="r-ac1" placeholder="Rédigez votre réponse…"></textarea>
+  </div>
+  <div class="question-block">
+    <div class="question-label">2. Déterminer la température de fusion de l'acétone.</div>
+    <textarea class="rep-zone" id="r-ac2" placeholder="Rédigez votre réponse…"></textarea>
+  </div>
+  <div class="question-block">
+    <div class="question-label">3. Déterminer la température d'ébullition de l'acétone.</div>
+    <textarea class="rep-zone" id="r-ac3" placeholder="Rédigez votre réponse…"></textarea>
+  </div>
+
+  <button class="btn-correction" onclick="toggleCorr('corr-acetone')">▶ Voir la correction</button>
+  <div class="correction" id="corr-acetone">
+    <strong>1. Justification corps pur :</strong><br>
+    La courbe présente des <em>paliers horizontaux</em> lors des changements d'état (températures constantes). C'est la caractéristique d'un corps pur : ses changements d'état se font à une température fixe et bien définie.
+    <div class="calc-step">Deux paliers nets → deux températures de changement d'état caractéristiques → corps pur ✓</div>
+    <br>
+    <strong>2. Température de fusion :</strong>
+    <div class="calc-step">T<sub>fusion</sub> = −95 °C (premier palier horizontal, entre t ≈ 100 s et t ≈ 200 s)</div>
+    Valeur tabulée de l'acétone : −95 °C ✓
+    <br><br>
+    <strong>3. Température d'ébullition :</strong>
+    <div class="calc-step">T<sub>ébullition</sub> = 56 °C (deuxième palier, entre t ≈ 400 s et t ≈ 460 s)</div>
+    Valeur tabulée de l'acétone : 56 °C ✓
+  </div>
+  </div><!-- fin exo-card acétone -->
+
+</div>
+
+<!-- ══════════════════════════════════════
+     ONGLET 3 – Masse volumique & densité
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-2">
+
+  <div class="section-title">
+    <span class="icon">⚖️</span> Masse volumique et densité
+  </div>
+
+  <div class="def-card">
+    <h3>Masse volumique ρ</h3>
+    <p>La masse volumique est le <strong>quotient de la masse d'un échantillon par son volume</strong>.</p>
+    <div class="formule-box">
+      ρ = m / V
+      <div class="legend">
+        ρ : masse volumique (kg·m<sup>−3</sup> ou g·cm<sup>−3</sup> ou g·L<sup>−1</sup>) &nbsp;|&nbsp; m : masse (kg ou g) &nbsp;|&nbsp; V : volume (m<sup>3</sup> ou cm<sup>3</sup> ou L)
+      </div>
+    </div>
+    <div class="exemple-box">
+      <strong>Référence à retenir :</strong> ρ<sub>eau</sub> = 1 000 kg·m<sup>−3</sup> = 1 000 g·L<sup>−1</sup> = 1,00 g·cm<sup>−3</sup>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>Densité d</h3>
+    <p>Nombre <strong>sans dimension</strong> – rapport de masses volumiques.</p>
+    <div class="formule-box" style="background:var(--violet-clair);border-color:var(--violet);">
+      <div style="display:flex;gap:28px;justify-content:center;flex-wrap:wrap;">
+        <div>Solides & liquides : <br><strong>d = ρ<sub>espèce</sub> / ρ<sub>eau</sub></strong></div>
+        <div>Gaz : <br><strong>d = ρ<sub>espèce</sub> / ρ<sub>air</sub></strong></div>
+      </div>
+      <div class="legend" style="text-align:center;margin-top:8px;">ρ<sub>air</sub> ≈ 1,2 kg·m<sup>−3</sup> dans les conditions ambiantes</div>
+    </div>
+    <div class="remarque-box">
+      <strong>💡 Flottaison :</strong> Pour un solide ou liquide <em>non miscible</em> à l'eau :
+      <br>— d &lt; 1 → <strong>flotte</strong> dans l'eau &nbsp;&nbsp;|&nbsp;&nbsp; d &gt; 1 → <strong>coule</strong> dans l'eau
+      <br><em>C'est pourquoi les nappes d'hydrocarbures restent en surface des océans !</em>
+    </div>
+  </div>
+
+  <!-- EXERCICE MASSE VOLUMIQUE ÉTHANOL -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Masse volumique de l'éthanol</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+  <div class="exo-enonce">
+    On introduit 15 mL d'éthanol dans une éprouvette graduée placée sur une balance tarée. La masse de cet échantillon d'éthanol est de 12 g.
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">1. Exprimer littéralement puis calculer la masse volumique de l'éthanol en g·cm<sup>−3</sup>.</div>
+    <textarea class="rep-zone" id="eth-q1" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-eth-1">
+      <div class="calc-step">ρ = m / V = 12 g / 15 cm³ = <strong>0,80 g·cm<sup>−3</sup></strong></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">2. Exprimer la masse d'éthanol en kilogrammes et le volume en m<sup>3</sup>. <em>(Rappel : 1 m<sup>3</sup> = 10<sup>6</sup> cm<sup>3</sup>)</em></div>
+    <textarea class="rep-zone" id="eth-q2" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-eth-2">
+      <div class="calc-step">m = 12 g = 12 × 10<sup>−3</sup> kg = <strong>0,012 kg</strong></div>
+      <div class="calc-step">V = 15 mL = 15 cm³ = 15 × 10<sup>−6</sup> m³ &nbsp;<em>(car 1 m³ = 10<sup>6</sup> cm³)</em> = <strong>1,5 × 10<sup>−5</sup> m³</strong></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">3. En déduire la valeur de la masse volumique de l'éthanol en kg·m<sup>−3</sup>.</div>
+    <textarea class="rep-zone" id="eth-q3" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-eth-3">
+      <div class="calc-step">ρ = 0,012 kg / (1,5 × 10<sup>−5</sup> m³) = <strong>800 kg·m<sup>−3</sup></strong></div>
+      <span style="font-size:0.83rem;color:var(--texte-léger);">Valeur tabulée de l'éthanol : 789 kg·m<sup>−3</sup> — résultat cohérent avec les données.</span>
+    </div>
+  </div>
+
+  <button class="btn-correction" onclick="toggleCorrMulti(['corr-eth-1','corr-eth-2','corr-eth-3'], this)">▶ Voir la correction</button>
+  </div><!-- fin exo-card éthanol -->
+
+  <!-- EXERCICE LAITON (Composition massique) -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Composition du laiton</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+  <div class="exo-enonce">
+    Le laiton est un alliage de zinc et de cuivre. Un cube en laiton de <strong>1 cm d'arête</strong> contient en masse <strong>30 % de zinc</strong> et <strong>70 % de cuivre</strong>.<br>
+    Donnée : ρ<sub>laiton</sub> = 8,39 g·cm<sup>−3</sup>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">1. Calculer le volume du cube de laiton.</div>
+    <textarea class="rep-zone" id="laiton-q1" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-laiton-1">
+      <div class="calc-step">V = a³ = (1 cm)³ = <strong>1 cm³</strong></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">2. En déduire la masse totale du cube.</div>
+    <textarea class="rep-zone" id="laiton-q2" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-laiton-2">
+      <div class="calc-step">m = ρ × V = 8,39 g·cm<sup>−3</sup> × 1 cm³ = <strong>8,39 g</strong></div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">3. Calculer les masses de zinc et de cuivre dans ce cube.</div>
+    <textarea class="rep-zone" id="laiton-q3" placeholder="Rédigez votre démarche…"></textarea>
+    <div class="correction" id="corr-laiton-3">
+      <div class="calc-step">m<sub>Zn</sub> = 30 % × 8,39 g = 0,30 × 8,39 = <strong>2,52 g</strong></div>
+      <div class="calc-step">m<sub>Cu</sub> = 70 % × 8,39 g = 0,70 × 8,39 = <strong>5,87 g</strong></div>
+      <div class="calc-step" style="color:var(--vert);">Vérification : 2,52 + 5,87 = 8,39 g ✓</div>
+    </div>
+  </div>
+
+  <button class="btn-correction" onclick="toggleCorrMulti(['corr-laiton-1','corr-laiton-2','corr-laiton-3'], this)">▶ Voir la correction</button>
+
+  <!-- BILAN UNITÉS -->
+  <button class="accord-btn" onclick="toggleAccord(this)" style="margin-top:14px;">
+    <span>📐 Aide – Conversions d'unités utiles</span><span>▼</span>
+  </button>
+  <div class="accord-body">
+    <strong>Masse :</strong> 1 kg = 1 000 g &nbsp;|&nbsp; 1 g = 10<sup>−3</sup> kg<br>
+    <strong>Volume :</strong> 1 m<sup>3</sup> = 1 000 L = 1 × 10<sup>6</sup> cm<sup>3</sup> &nbsp;|&nbsp; 1 mL = 1 cm<sup>3</sup> &nbsp;|&nbsp; 1 L = 1 dm<sup>3</sup><br>
+    <strong>Masse volumique :</strong> 1 g·cm<sup>−3</sup> = 1 000 kg·m<sup>−3</sup> = 1 000 g·L<sup>−1</sup>
+  </div>
+  </div><!-- fin exo-card laiton -->
+
+</div>
+
+<!-- ══════════════════════════════════════
+     ONGLET 4 – CCM & Composition
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-3">
+
+  <div class="section-title">
+    <span class="icon">🔬</span> CCM & Composition des mélanges
+  </div>
+
+  <!-- 4a : CCM -->
+  <div class="def-card">
+    <h3>Chromatographie sur couche mince (CCM) — <a href="https://culturesciences.chimie.ens.fr/thematiques/chimie-analytique/chromatographie/fiche-sur-la-technique-de-la-chromatographie-sur" target="_blank" style="color:var(--bleu);font-weight:600;font-size:0.85rem;">voir la technique ↗</a></h3>
+    <p>Technique de <strong>séparation et d'identification</strong> des espèces chimiques.</p>
+    <br>
+    <ul>
+      <li><strong>Phase stationnaire</strong> : silice de la plaque CCM</li>
+      <li><strong>Phase mobile (éluant)</strong> : solvant qui migre dans la plaque</li>
+      <li>Les espèces migrent différemment selon leur <em>affinité</em> pour les deux phases</li>
+      <li>Plusieurs taches à <em>hauteurs différentes</em> → mélange</li>
+      <li>Identification : on compare les hauteurs de taches avec des références</li>
+    </ul>
+  </div>
+
+  <!-- ACTIVITÉ OSTRALO -->
+  <div class="activite-card">
+  <div class="exo-header">
+    <h3>Activité – CCM des colorants de médicaments</h3>
+    <span class="exo-pill simulation">SIMULATION</span>
+  </div>
+  <div class="exo-enonce">
+    Les couleurs des gélules et comprimés sont obtenues par des colorants alimentaires (E104, E110, E122…). Cette simulation interactive permet d'analyser par CCM quels colorants composent chaque médicament, puis de compléter un tableau d'identification.
+  </div>
+  <a href="https://chimie.ostralo.net/chromatographie/" target="_blank"
+     style="display:inline-flex;align-items:center;gap:8px;margin-top:6px;padding:10px 22px;background:var(--bleu);color:white;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.90rem;font-weight:700;text-decoration:none;transition:background 0.2s;"
+     onmouseover="this.style.background='#1E4A72'" onmouseout="this.style.background='var(--bleu)'">
+    ↗ Ouvrir la simulation CCM (ostralo.net)
+  </a>
+  </div><!-- fin activite-card ostralo -->
+
+  <!-- EXERCICE CCM huiles essentielles -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Huiles essentielles d'orange et de citron</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+  <div class="exo-enonce">
+    On réalise deux CCM pour identifier les espèces chimiques présentes dans les huiles essentielles de citron (HEC) et d'orange (HEO). Les références sont : Lim (limonène), G (géraniol), Lin (linalol), Ci (citral).
+    <br><em>Survole les taches pour voir leur identification !</em>
+  </div>
+
+  <div class="ccm-wrapper">
+    <div class="ccm-container">
+      <!-- HEC -->
+      <div class="ccm-plaque">
+        <div class="ccm-plaque-label">Huile essentielle de Citron (HEC)</div>
+        <div class="ccm-svg-wrap">
+          <svg viewBox="0 0 180 240" width="180" height="240" xmlns="http://www.w3.org/2000/svg">
+            <!-- Plaque -->
+            <rect x="10" y="10" width="160" height="220" fill="#FAFAFA" stroke="#CCC" stroke-width="1.5" rx="4"/>
+            <!-- Front éluant -->
+            <line x1="10" y1="30" x2="170" y2="30" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="175" y="34" font-family="Nunito" font-size="9" fill="#5B8FB9">front</text>
+            <!-- Ligne dépôt -->
+            <line x1="10" y1="210" x2="170" y2="210" stroke="#888" stroke-width="1" stroke-dasharray="3,3"/>
+            <!-- Labels colonnes -->
+            <text x="44" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle" font-weight="700">HEC</text>
+            <text x="84" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Lim</text>
+            <text x="114" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">G</text>
+            <text x="140" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Lin</text>
+            <text x="163" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Ci</text>
+            <!-- Taches HEC: limonène (h=175→y=35), géraniol(h=100→y=110), linalol(h=130→y=80) -->
+            <!-- HEC tache 1 = limonène (y≈75) -->
+            <circle class="ccm-tache" cx="44" cy="75" r="9" fill="#E8783A" opacity="0.85"
+              onmouseenter="showTooltip(event,'Limonène')" onmouseleave="hideTooltip()"/>
+            <!-- HEC tache 2 = géraniol (y≈140) -->
+            <circle class="ccm-tache" cx="44" cy="140" r="9" fill="#7B4FA6" opacity="0.85"
+              onmouseenter="showTooltip(event,'Géraniol')" onmouseleave="hideTooltip()"/>
+            <!-- HEC tache 3 = linalol (y≈105) -->
+            <circle class="ccm-tache" cx="44" cy="105" r="9" fill="#3A8A6E" opacity="0.85"
+              onmouseenter="showTooltip(event,'Linalol')" onmouseleave="hideTooltip()"/>
+            <!-- Références -->
+            <circle cx="84" cy="75" r="7" fill="#E8783A" opacity="0.7"/>
+            <circle cx="114" cy="140" r="7" fill="#7B4FA6" opacity="0.7"/>
+            <circle cx="140" cy="105" r="7" fill="#3A8A6E" opacity="0.7"/>
+            <circle cx="163" cy="60" r="7" fill="#C0392B" opacity="0.7"/>
+          </svg>
+          <div class="ccm-tooltip" id="tooltip-hec"></div>
+        </div>
+      </div>
+      <!-- HEO -->
+      <div class="ccm-plaque">
+        <div class="ccm-plaque-label">Huile essentielle d'Orange (HEO)</div>
+        <div class="ccm-svg-wrap">
+          <svg viewBox="0 0 180 240" width="180" height="240" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="160" height="220" fill="#FAFAFA" stroke="#CCC" stroke-width="1.5" rx="4"/>
+            <line x1="10" y1="30" x2="170" y2="30" stroke="#5B8FB9" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="175" y="34" font-family="Nunito" font-size="9" fill="#5B8FB9">front</text>
+            <line x1="10" y1="210" x2="170" y2="210" stroke="#888" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="44" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle" font-weight="700">HEO</text>
+            <text x="84" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Lim</text>
+            <text x="114" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">G</text>
+            <text x="140" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Lin</text>
+            <text x="163" y="226" font-family="Nunito" font-size="9" fill="#333" text-anchor="middle">Ci</text>
+            <!-- HEO tache 1 = limonène (y=75, très présent) -->
+            <circle class="ccm-tache" cx="44" cy="75" r="11" fill="#E8783A" opacity="0.9"
+              onmouseenter="showTooltip(event,'Limonène (majoritaire)')" onmouseleave="hideTooltip()"/>
+            <!-- HEO tache 2 = linalol (y=105) -->
+            <circle class="ccm-tache" cx="44" cy="140" r="8" fill="#3A8A6E" opacity="0.85"
+              onmouseenter="showTooltip(event,'Linalol')" onmouseleave="hideTooltip()"/>
+            <!-- Références -->
+            <circle cx="84" cy="75" r="7" fill="#E8783A" opacity="0.7"/>
+            <circle cx="114" cy="140" r="7" fill="#7B4FA6" opacity="0.7"/>
+            <circle cx="140" cy="105" r="7" fill="#3A8A6E" opacity="0.7"/>
+            <circle cx="163" cy="60" r="7" fill="#C0392B" opacity="0.7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="ccm-legende">
+      <div class="ccm-leg-item"><div class="ccm-leg-dot" style="background:#E8783A"></div> Limonène</div>
+      <div class="ccm-leg-item"><div class="ccm-leg-dot" style="background:#7B4FA6"></div> Géraniol</div>
+      <div class="ccm-leg-item"><div class="ccm-leg-dot" style="background:#3A8A6E"></div> Linalol</div>
+      <div class="ccm-leg-item"><div class="ccm-leg-dot" style="background:#C0392B"></div> Citral (réf.)</div>
+    </div>
+  </div>
+
+  <div class="question-block" style="margin-top:16px;">
+    <div class="question-label">1. Quelles espèces chimiques sont présentes dans l'HEC (huile essentielle de citron) ?</div>
+    <textarea class="rep-zone" id="ccm-q1" placeholder="Rédigez votre réponse…"></textarea>
+    <div class="correction" id="corr-ccm-1">
+      <div class="calc-step">L'HEC présente <strong>3 taches</strong> à des hauteurs correspondant aux références Limonène, Géraniol et Linalol.<br>→ L'HEC contient : <strong>limonène, géraniol et linalol</strong>.<br>Plusieurs taches à hauteurs différentes confirment que c'est un <em>mélange</em>.</div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">2. Quelles espèces chimiques sont présentes dans l'HEO (huile essentielle d'orange) ?</div>
+    <textarea class="rep-zone" id="ccm-q2" placeholder="Rédigez votre réponse…"></textarea>
+    <div class="correction" id="corr-ccm-2">
+      <div class="calc-step">L'HEO présente <strong>2 taches</strong> à des hauteurs correspondant aux références Limonène (tache plus grande = espèce majoritaire) et Linalol.<br>→ L'HEO contient : <strong>limonène</strong> (majoritaire) <strong>et linalol</strong>.<br>Aucune tache au niveau du géraniol ni du citral.</div>
+    </div>
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">3. Quelle(s) espèce(s) chimique(s) sont communes aux deux huiles essentielles ?</div>
+    <textarea class="rep-zone" id="ccm-q3" placeholder="Rédigez votre réponse…"></textarea>
+    <div class="correction" id="corr-ccm-3">
+      <div class="calc-step">Les taches de même hauteur dans les deux chromatogrammes correspondent au <strong>limonène</strong> et au <strong>linalol</strong>.<br>→ Ces deux espèces sont présentes dans l'HEC <em>et</em> dans l'HEO.</div>
+    </div>
+  </div>
+
+  <button class="btn-correction" onclick="toggleCorrMulti(['corr-ccm-1','corr-ccm-2','corr-ccm-3'], this)">▶ Voir la correction</button>
+  </div><!-- fin exo-card CCM huiles -->
+
+  <!-- 4b : COMPOSITION MASSIQUE / VOLUMIQUE -->
+  <div class="section-title" style="margin-top:28px;">
+    <span class="icon">📊</span> Composition d'un mélange
+  </div>
+
+  <div class="def-card">
+    <h3>Composition massique</h3>
+    <div class="formule-box">
+      f = m<sub>espèce</sub> / m<sub>échantillon</sub> &nbsp;&nbsp;&nbsp; m% = (m<sub>espèce</sub> / m<sub>échantillon</sub>) × 100
+      <div class="legend">f : fraction massique (sans unité, entre 0 et 1) &nbsp;|&nbsp; m% : pourcentage massique (%)</div>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>Composition volumique (mélanges gazeux)</h3>
+    <div class="formule-box" style="background:var(--vert-clair);border-color:var(--vert);">
+      f = v<sub>espèce</sub> / v<sub>échantillon</sub> &nbsp;&nbsp;&nbsp; v% = (v<sub>espèce</sub> / v<sub>échantillon</sub>) × 100
+      <div class="legend">f : fraction volumique (sans unité) &nbsp;|&nbsp; v% : pourcentage volumique (%)</div>
+    </div>
+    <div class="exemple-box"><strong>Composition de l'air :</strong> N<sub>2</sub> ≈ 78 % ≈ 4/5 &nbsp;|&nbsp; O<sub>2</sub> ≈ 21 % ≈ 1/5 &nbsp;|&nbsp; Ar ≈ 1 %</div>
+  </div>
+
+  <!-- EXERCICE COMPOSITION INTERACTIF -->
+  <div class="exo-card">
+  <div class="exo-header">
+    <h3>Exercice – Composition du laiton (fraction massique)</h3>
+    <span class="exo-pill">INTERACTIF</span>
+  </div>
+  <div class="exo-enonce">
+    Un cube en laiton de <strong>1 cm d'arête</strong> contient 30 % de zinc et 70 % de cuivre en masse. Masse volumique du laiton : ρ<sub>laiton</sub> = 8,39 g·cm<sup>−3</sup>.
+  </div>
+
+  <div class="question-block">
+    <div class="question-label">1. Calculer la masse totale du cube de laiton.</div>
+    <textarea class="rep-zone" id="r-l1" placeholder="Rédigez votre démarche…"></textarea>
+  </div>
+  <div class="question-block">
+    <div class="question-label">2. En déduire les masses de zinc et de cuivre dans ce cube.</div>
+    <textarea class="rep-zone" id="r-l2" placeholder="Rédigez votre démarche…"></textarea>
+  </div>
+
+  <button class="btn-correction" onclick="toggleCorr('corr-laiton')">▶ Voir la correction</button>
+  <div class="correction" id="corr-laiton">
+    <strong>1. Masse totale du cube :</strong>
+    <div class="calc-step">V<sub>cube</sub> = a³ = (1 cm)³ = 1 cm³</div>
+    <div class="calc-step">m<sub>totale</sub> = ρ<sub>laiton</sub> × V = 8,39 g·cm<sup>−3</sup> × 1 cm³ = <strong>8,39 g</strong></div>
+    <strong>2. Masses de chaque constituant :</strong>
+    <div class="calc-step">m<sub>Zn</sub> = 30 % × 8,39 g = 0,30 × 8,39 = <strong>2,52 g</strong></div>
+    <div class="calc-step">m<sub>Cu</sub> = 70 % × 8,39 g = 0,70 × 8,39 = <strong>5,87 g</strong></div>
+    <div class="calc-step">Vérification : 2,52 + 5,87 = 8,39 g ✓</div>
+  </div>
+  </div><!-- fin exo-card laiton composition -->
+
+  <!-- BILAN CAPACITÉS EXIGIBLES -->
+  <div class="def-card" style="margin-top:28px;">
+    <h3>📋 Capacités exigibles – Séquence 01</h3>
+    <ul class="ke-list">
+      <li>Citer des exemples courants de corps purs et de mélanges homogènes et hétérogènes.</li>
+      <li>Identifier une espèce chimique par ses températures de changement d'état, sa masse volumique ou des tests chimiques.</li>
+      <li>Citer la valeur de ρ<sub>eau</sub> et la comparer à d'autres corps purs et mélanges.</li>
+      <li>Distinguer un mélange d'un corps pur à partir de données expérimentales.</li>
+      <li>Mesurer une température de changement d'état, déterminer la masse volumique d'un échantillon.</li>
+      <li>Réaliser une CCM, mettre en œuvre des tests chimiques pour identifier une espèce chimique.</li>
+      <li>Citer la composition approchée de l'air et l'ordre de grandeur de sa masse volumique.</li>
+      <li>Établir et mesurer la composition d'un échantillon (fractions massique et volumique).</li>
+    </ul>
+  </div>
+
+</div><!-- fin tab-3 -->
+
+<div class="footer-note">
+  2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 1A – Fiche de cours n°01 – C. Poirault-Gauvin
+</div>
+
+</main>
+
+<!-- TOOLTIP GLOBAL -->
+<div id="global-tooltip" style="position:fixed;background:#1A2A3A;color:white;font-size:0.80rem;padding:6px 12px;border-radius:6px;pointer-events:none;display:none;z-index:999;white-space:nowrap;"></div>
+
+<script>
+// ── Navigation onglets ──
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach((t,i) => {
+    t.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', i === n);
+  });
+}
+
+// ── QCM Corps purs ──
+function repondreQCM(id, correct, choix, explication, fbId) {
+  const item = document.getElementById(id);
+  const fb = document.getElementById(fbId);
+  if (item.dataset.done) return;
+  item.dataset.done = '1';
+  const ok = choix === correct;
+  fb.textContent = ok ? '✓ ' + explication : '✗ La bonne réponse est : ' + correct + '. ' + explication;
+  fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
+  // Colorer les boutons
+  item.querySelectorAll('.qcm-btn').forEach(btn => {
+    if (btn.textContent === correct) btn.classList.add('correct');
+    else if (btn.textContent === choix && !ok) btn.classList.add('wrong');
+  });
+  item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
+}
+
+// ── Correction multiple (une correction par question) ──
+function toggleCorrMulti(ids, btn) {
+  const first = document.getElementById(ids[0]);
+  const show = !first.classList.contains('visible');
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', show);
+  });
+  btn.textContent = show ? '▼ Masquer la correction' : '▶ Voir la correction';
+}
+
+// ── Correction toggle ──
+function toggleCorr(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('visible');
+  const btn = el.previousElementSibling;
+  if (el.classList.contains('visible')) {
+    btn.textContent = '▼ Masquer la correction';
+  } else {
+    btn.textContent = '▶ Voir la correction';
+  }
+}
+
+// ── Accordéon ──
+function toggleAccord(btn) {
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.querySelector('span:last-child').textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+
+// ── Calcul éthanol ──
+function calcEthanol() {
+  const m = parseFloat(document.getElementById('eth-m').value);
+  const v = parseFloat(document.getElementById('eth-v').value);
+  const res = document.getElementById('res-ethanol');
+  if (isNaN(m) || isNaN(v) || v === 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides.</span>';
+    res.className = 'calc-result visible';
+    return;
+  }
+  const rho = m / v;
+  const rhoKg = rho * 1000;
+  res.innerHTML = `
+    <strong>1. Masse volumique en g·cm<sup>−3</sup> :</strong>
+    <div class="res-line">ρ = m/V = ${m} g / ${v} cm³ = <strong>${rho.toFixed(3)} g·cm<sup>−3</sup></strong></div>
+    <strong>2. Conversion :</strong>
+    <div class="res-line">m = ${m} g = ${(m/1000).toFixed(5)} kg &nbsp;&nbsp;|&nbsp;&nbsp; V = ${v} mL = ${v/1e6} m³ (car 1 m³ = 10⁶ cm³)</div>
+    <strong>3. Masse volumique en kg·m<sup>−3</sup> :</strong>
+    <div class="res-line">ρ = ${(m/1000).toFixed(5)} kg / ${v/1e6} m³ = <strong>${rhoKg.toFixed(0)} kg·m<sup>−3</sup></strong></div>
+    <div style="margin-top:8px;font-size:0.83rem;color:var(--texte-léger);">Valeur tabulée de l'éthanol : 789 kg·m<sup>−3</sup> – votre résultat s'en approche !</div>
+  `;
+  res.className = 'calc-result visible';
+}
+
+// ── Calcul laiton ──
+function calcLaiton() {
+  const a = parseFloat(document.getElementById('laiton-a').value);
+  const rho = parseFloat(document.getElementById('laiton-rho').value);
+  const pZn = parseFloat(document.getElementById('laiton-zn').value);
+  const pCu = 100 - pZn;
+  const res = document.getElementById('res-laiton');
+  if (isNaN(a) || isNaN(rho) || isNaN(pZn) || a <= 0 || rho <= 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides.</span>';
+    res.className = 'calc-result visible';
+    return;
+  }
+  const V = Math.pow(a, 3);
+  const m = rho * V;
+  const mZn = (pZn / 100) * m;
+  const mCu = (pCu / 100) * m;
+  res.innerHTML = `
+    <strong>Volume du cube :</strong>
+    <div class="res-line">V = a³ = (${a} cm)³ = ${V.toFixed(3)} cm³</div>
+    <strong>Masse totale :</strong>
+    <div class="res-line">m = ρ × V = ${rho} g·cm<sup>−3</sup> × ${V.toFixed(3)} cm³ = <strong>${m.toFixed(3)} g</strong></div>
+    <strong>Masse de zinc (${pZn}%) :</strong>
+    <div class="res-line">m<sub>Zn</sub> = ${pZn}/100 × ${m.toFixed(3)} = <strong>${mZn.toFixed(3)} g</strong></div>
+    <strong>Masse de cuivre (${pCu}%) :</strong>
+    <div class="res-line">m<sub>Cu</sub> = ${pCu}/100 × ${m.toFixed(3)} = <strong>${mCu.toFixed(3)} g</strong></div>
+    <div style="color:var(--vert);font-size:0.83rem;margin-top:6px;">Vérif : ${mZn.toFixed(3)} + ${mCu.toFixed(3)} = ${(mZn+mCu).toFixed(3)} g ✓</div>
+  `;
+  res.className = 'calc-result visible';
+}
+
+// ── Triangle changements d'état ──
+const TRI_LABELS = [
+  { id: 'fusion',              text: 'Fusion',             color: '#3A8A6E' },
+  { id: 'solidification',      text: 'Solidification',     color: '#2D5F8A' },
+  { id: 'vaporisation',        text: 'Vaporisation',       color: '#E8783A' },
+  { id: 'liquefaction',        text: 'Liquéfaction',       color: '#2D5F8A' },
+  { id: 'sublimation',         text: 'Sublimation',        color: '#E8783A' },
+  { id: 'condensation',        text: 'Condensation solide',color: '#2D5F8A' }
+];
+
+let triState = {};
+
+function buildEtiquettes() {
+  const pool = document.getElementById('etiquettes-pool');
+  pool.innerHTML = '';
+  const shuffled = [...TRI_LABELS].sort(() => Math.random() - 0.5);
+  shuffled.forEach(lab => {
+    if (triState[lab.id]) return;
+    const btn = document.createElement('button');
+    btn.id = 'etiq-' + lab.id;
+    btn.textContent = lab.text;
+    btn.dataset.labelId = lab.id;
+    btn.style.cssText = `
+      padding:6px 14px;
+      background:${lab.color}18;
+      border:2px solid ${lab.color};
+      border-radius:20px;
+      font-family:'Outfit',sans-serif;
+      font-size:0.84rem;
+      font-weight:700;
+      color:${lab.color};
+      cursor:grab;
+      touch-action:none;
+      user-select:none;
+    `;
+    btn.addEventListener('mousedown', startDrag);
+    btn.addEventListener('touchstart', startDrag, {passive:false});
+    pool.appendChild(btn);
+  });
+  if (pool.children.length === 0) {
+    pool.innerHTML = '<span style="font-size:0.82rem;color:var(--texte-léger);font-style:italic;">Toutes les étiquettes sont placées !</span>';
+  }
+}
+
+let dragEl = null, dragId = null, ghostEl = null;
+
+function startDrag(e) {
+  e.preventDefault();
+  const btn = e.currentTarget;
+  dragId = btn.dataset.labelId;
+  const lab = TRI_LABELS.find(l => l.id === dragId);
+  ghostEl = document.createElement('div');
+  ghostEl.textContent = btn.textContent;
+  ghostEl.style.cssText = `
+    position:fixed;pointer-events:none;z-index:9999;
+    padding:6px 14px;
+    background:${lab.color};
+    border-radius:20px;
+    font-family:'Outfit',sans-serif;font-size:0.84rem;font-weight:700;
+    color:white;opacity:0.92;
+    transform:translate(-50%,-50%);
+  `;
+  document.body.appendChild(ghostEl);
+  moveGhost(e);
+  document.addEventListener('mousemove', moveGhost);
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchmove', moveGhost, {passive:false});
+  document.addEventListener('touchend', endDrag);
+}
+
+function moveGhost(e) {
+  if (!ghostEl) return;
+  const pt = e.touches ? e.touches[0] : e;
+  ghostEl.style.left = pt.clientX + 'px';
+  ghostEl.style.top = pt.clientY + 'px';
+}
+
+function endDrag(e) {
+  document.removeEventListener('mousemove', moveGhost);
+  document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', moveGhost);
+  document.removeEventListener('touchend', endDrag);
+
+  if (ghostEl) { ghostEl.remove(); ghostEl = null; }
+  if (!dragId) return;
+
+  const pt = e.changedTouches ? e.changedTouches[0] : e;
+  const svg = document.getElementById('tri-svg');
+  const rect = svg.getBoundingClientRect();
+  const scaleX = 560 / rect.width;
+  const scaleY = 420 / rect.height;
+  const svgX = (pt.clientX - rect.left) * scaleX;
+  const svgY = (pt.clientY - rect.top) * scaleY;
+
+  const zones = {
+    fusion:        { x: [195, 325], y: [297, 330] },
+    solidification:{ x: [195, 325], y: [342, 380] },
+    vaporisation:  null,
+    liquefaction:  null,
+    sublimation:   null,
+    condensation:  null
+  };
+
+  let dropped = detectZone(svgX, svgY);
+  if (dropped) {
+    triState[dragId] = dropped;
+    if (dropped === dragId) {
+      afficherEtiquette(dragId);
+    } else {
+      triState[dragId] = dropped;
+      afficherEtiquette(dragId, false);
+    }
+    buildEtiquettes();
+  }
+  dragId = null;
+}
+
+function detectZone(x, y) {
+  /* viewBox 560x420
+     Bas  : Fusion y≈358 (au-dessus), Solidification y≈372 (en-dessous)
+     Gauche Milieu (170,210), angle -55°  : Sublimation (extérieur=gauche), Condensation (intérieur=droite)
+     Droit  Milieu (390,210), angle +55°  : Vaporisation (extérieur=droit),  Liquéfaction (intérieur=gauche)
+  */
+  if (y >= 330 && y <= 398 && x >= 110 && x <= 450) {
+    if (y <= 365) return 'fusion';
+    return 'solidification';
+  }
+  /* Côté gauche : bande le long du segment S(60,365)→G(280,55)
+     Paramètre t = projection sur l'axe, distance perp.
+     Vecteur directeur normalisé u=(220,-310)/380
+     Point p=(x,y), référence A=(60,365)
+     Perp signée = ((x-60)*(-310) - (y-365)*(-220)) / 380  (positive = côté droit du vecteur = intérieur)
+  */
+  const dxG = 220, dyG = -310, lenG = Math.sqrt(dxG*dxG+dyG*dyG);
+  const perpG = ((x-60)*(-dyG) - (y-365)*dxG) / lenG;
+  const paraG = ((x-60)*dxG + (y-365)*dyG) / lenG;
+  if (paraG > 50 && paraG < lenG-50 && Math.abs(perpG) < 28) {
+    return perpG < 0 ? 'sublimation' : 'condensation';
+  }
+  /* Côté droit : bande le long du segment L(500,365)→G(280,55)
+     Vecteur directeur u=(-220,-310)/380
+     Perp signée > 0 = intérieur (gauche du vecteur L→G)
+  */
+  const dxD = -220, dyD = -310;
+  const perpD = ((x-500)*(-dyD) - (y-365)*dxD) / lenG;
+  const paraD = ((x-500)*dxD + (y-365)*dyD) / lenG;
+  if (paraD > 50 && paraD < lenG-50 && Math.abs(perpD) < 28) {
+    return perpD > 0 ? 'liquefaction' : 'vaporisation';
+  }
+  return null;
+}
+
+function afficherEtiquette(labelId, estCorrect) {
+  const txtEl = document.getElementById('txt-' + labelId);
+  if (!txtEl) return;
+  const correct = (estCorrect === undefined) ? true : estCorrect;
+  txtEl.setAttribute('opacity', '1');
+  txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l=>l.id===labelId).color : '#C0392B');
+}
+
+function verifierTriangle() {
+  let bon = 0, total = Object.keys(triState).length;
+  if (total === 0) {
+    document.getElementById('tri-score').textContent = 'Place au moins une étiquette !';
+    document.getElementById('tri-score').style.display = 'block';
+    return;
+  }
+  Object.entries(triState).forEach(([placed, zone]) => {
+    const ok = placed === zone;
+    const txtEl = document.getElementById('txt-' + placed);
+    if (txtEl) {
+      txtEl.setAttribute('fill', ok ? TRI_LABELS.find(l=>l.id===placed).color : '#C0392B');
+      txtEl.setAttribute('opacity', '1');
+    }
+    if (ok) bon++;
+  });
+  const scoreEl = document.getElementById('tri-score');
+  scoreEl.style.display = 'block';
+  if (bon === 6) {
+    scoreEl.style.color = 'var(--vert)';
+    scoreEl.textContent = '✓ Parfait ! Les 6 changements d\'état sont correctement placés.';
+    document.getElementById('tri-consigne').textContent = '✓ Excellent travail !';
+  } else {
+    scoreEl.style.color = 'var(--orange)';
+    scoreEl.textContent = bon + '/6 correct' + (bon > 1 ? 's' : '') + ' — les étiquettes en rouge sont à corriger.';
+  }
+}
+
+function reinitTriangle() {
+  triState = {};
+  TRI_LABELS.forEach(lab => {
+    const el = document.getElementById('txt-' + lab.id);
+    if (el) el.setAttribute('opacity', '0');
+  });
+  document.getElementById('tri-score').style.display = 'none';
+  document.getElementById('tri-consigne').textContent = 'Glisse chaque étiquette sur la flèche correspondante ✦';
+  buildEtiquettes();
+}
+
+function corrigerTriangle() {
+  triState = {};
+  TRI_LABELS.forEach(lab => {
+    triState[lab.id] = lab.id;
+    afficherEtiquette(lab.id, true);
+  });
+  buildEtiquettes();
+  const scoreEl = document.getElementById('tri-score');
+  scoreEl.style.display = 'block';
+  scoreEl.style.color = 'var(--bleu)';
+  scoreEl.textContent = 'Correction affichée — retiens bien les 6 changements d\'état !';
+  document.getElementById('tri-consigne').textContent = '✓ Correction complète';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildEtiquettes();
+  const svg = document.getElementById('tri-svg');
+  if (svg) {
+    svg.addEventListener('mouseup', function(e) {
+      if (!dragId) return;
+      const rect = svg.getBoundingClientRect();
+      const scaleX = 560 / rect.width;
+      const scaleY = 420 / rect.height;
+      const svgX = (e.clientX - rect.left) * scaleX;
+      const svgY = (e.clientY - rect.top) * scaleY;
+      const zone = detectZone(svgX, svgY);
+      if (zone) {
+        triState[dragId] = zone;
+        afficherEtiquette(dragId, dragId === zone);
+        buildEtiquettes();
+      }
+      if (ghostEl) { ghostEl.remove(); ghostEl = null; }
+      dragId = null;
+      document.removeEventListener('mousemove', moveGhost);
+      document.removeEventListener('mouseup', endDrag);
+    });
+  }
+});
+
+// ── Tooltip CCM ──
+function showTooltip(e, text) {
+  const t = document.getElementById('global-tooltip');
+  t.textContent = text;
+  t.style.display = 'block';
+  moveTip(e);
+}
+function moveTip(e) {
+  const t = document.getElementById('global-tooltip');
+  t.style.left = (e.clientX + 12) + 'px';
+  t.style.top = (e.clientY - 32) + 'px';
+}
+function hideTooltip() {
+  document.getElementById('global-tooltip').style.display = 'none';
+}
+document.addEventListener('mousemove', function(e) {
+  const t = document.getElementById('global-tooltip');
+  if (t.style.display === 'block') moveTip(e);
+});
+</script>
+</body>
+</html>

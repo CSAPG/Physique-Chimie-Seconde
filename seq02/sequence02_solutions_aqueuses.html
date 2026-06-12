@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séquence 02 – Les solutions aqueuses, un exemple de mélanges</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #2D5F8A;
+    --bleu-clair: #E8F1F8;
+    --bleu-moyen: #5B8FB9;
+    --bleu-activite: #EEF5FB;
+    --bleu-activite-bord: #B8D4EC;
+    --orange: #E8783A;
+    --orange-clair: #FDF0E8;
+    --vert: #3A8A6E;
+    --vert-clair: #E8F5F0;
+    --vert-exo: #F0FAF6;
+    --vert-exo-bord: #B2DDD0;
+    --gris-fond: #F5F7FA;
+    --gris-bord: #DDE3EC;
+    --texte: #1A2A3A;
+    --texte-léger: #5A6B7A;
+    --blanc: #FFFFFF;
+    --rouge: #C0392B;
+    --rouge-clair: #FDEDEC;
+    --violet: #7B4FA6;
+    --violet-clair: #F3EDF9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #F0F4F8;
+    color: var(--texte);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blanc);
+    border-bottom: 3px solid var(--bleu);
+    padding: 18px 32px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(45,95,138,0.10);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .header-badge {
+    background: var(--bleu);
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    margin-top: 3px;
+  }
+  .header-titles h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--bleu);
+    line-height: 1.2;
+  }
+  .header-titles p {
+    font-size: 0.82rem;
+    color: var(--texte-léger);
+    margin-top: 2px;
+  }
+  .header-titles p span {
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ── ONGLETS ── */
+  .tabs-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px 12px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+    bottom: -3px;
+  }
+  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn.active {
+    color: var(--bleu);
+    border-bottom-color: var(--bleu);
+    background: var(--bleu-clair);
+    border-radius: 6px 6px 0 0;
+  }
+  .tab-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gris-bord);
+    color: var(--texte-léger);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab-btn.active .tab-num {
+    background: var(--bleu);
+    color: white;
+  }
+
+  /* ── CONTENU ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── COURS (def-card) : fond blanc ── */
+  .def-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-left: 4px solid var(--bleu);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .def-card::before {
+    content: 'COURS';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.6;
+  }
+  .def-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .def-card p, .def-card ul {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--texte);
+  }
+  .def-card ul { padding-left: 18px; }
+  .def-card ul li { margin-bottom: 5px; }
+
+  /* ── ACTIVITÉ : fond bleu pâle ── */
+  .activite-card {
+    background: var(--bleu-activite);
+    border: 1.5px solid var(--bleu-activite-bord);
+    border-left: 4px solid var(--bleu-moyen);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .activite-card::before {
+    content: 'ACTIVITÉ';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.8;
+  }
+  .activite-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+  }
+
+  /* ── EXERCICE : fond vert très pâle ── */
+  .exo-card {
+    background: var(--vert-exo);
+    border: 1.5px solid var(--vert-exo-bord);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .exo-card::before {
+    content: 'EXERCICE';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--vert);
+    opacity: 0.7;
+  }
+  .exo-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--vert);
+    margin-bottom: 10px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--bleu);
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bleu-clair);
+  }
+  .section-title .icon { font-size: 1.3rem; }
+
+  .intro-box {
+    background: #FFFBF7;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--texte);
+    font-style: italic;
+  }
+
+  .formule-box {
+    background: var(--orange-clair);
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--texte);
+  }
+  .formule-box .legend {
+    font-size: 0.80rem;
+    font-weight: 500;
+    color: var(--texte-léger);
+    margin-top: 6px;
+    text-align: left;
+  }
+
+  .exemple-box {
+    background: var(--vert-clair);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .exemple-box strong { color: var(--vert); }
+
+  .remarque-box {
+    background: var(--violet-clair);
+    border-left: 4px solid var(--violet);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .remarque-box strong { color: var(--violet); }
+
+  /* ── EXERCICES INTERACTIFS ── */
+  .exo-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0 10px;
+  }
+  .exo-header h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--vert);
+  }
+  .exo-pill {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .exo-pill { background: var(--vert); color: white; }
+  .exo-pill.activite { background: var(--bleu-moyen); color: white; }
+  .exo-pill.simulation { background: var(--bleu); color: white; }
+
+  .exo-enonce {
+    background: var(--blanc);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.90rem;
+    line-height: 1.65;
+    margin-bottom: 12px;
+    border: 1px solid var(--vert-exo-bord);
+  }
+
+  .question-block { margin-bottom: 14px; }
+  .question-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 7px;
+    padding-left: 8px;
+    border-left: 3px solid var(--vert);
+  }
+
+  .rep-zone {
+    width: 100%;
+    min-height: 52px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--vert-exo-bord);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    background: var(--blanc);
+    color: var(--texte);
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .rep-zone:focus { outline: none; border-color: var(--vert); }
+
+  .btn-correction {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 9px 20px;
+    background: var(--vert);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-correction:active { transform: translateY(0); }
+
+  .correction {
+    display: none;
+    background: #F0FAF6;
+    border: 1.5px solid var(--vert);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 8px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .correction.visible { display: block; animation: fadeIn 0.2s ease; }
+  .correction strong { color: var(--vert); }
+  .correction .calc-step {
+    background: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 7px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    border-left: 3px solid var(--vert);
+  }
+
+  /* ── QCM ── */
+  .qcm-grid {
+    display: grid;
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .qcm-item {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    transition: border-color 0.2s;
+  }
+  .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
+  .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+  .qcm-btn {
+    padding: 5px 14px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 20px;
+    background: var(--gris-fond);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--texte);
+  }
+  .qcm-btn:hover { border-color: var(--vert); color: var(--vert); background: var(--vert-exo); }
+  .qcm-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
+  .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .qcm-feedback {
+    font-size: 0.80rem;
+    margin-top: 4px;
+    min-height: 14px;
+    color: var(--vert);
+    font-weight: 600;
+  }
+  .qcm-feedback.wrong { color: var(--rouge); }
+
+  /* ── TABLEAU générique ── */
+  table.ions-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 14px 0;
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+  table.ions-table th {
+    background: var(--bleu);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  table.ions-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--gris-bord);
+    vertical-align: middle;
+  }
+  table.ions-table tr:last-child td { border-bottom: none; }
+  table.ions-table tr:nth-child(even) td { background: var(--gris-fond); }
+  table.ions-table input.tbl-input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 6px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.84rem;
+    background: var(--gris-fond);
+  }
+  table.ions-table input.tbl-input:focus { outline: none; border-color: var(--bleu); background: var(--blanc); }
+
+  /* ── COMPOSITION / CALCULS ── */
+  .composition-calc {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 14px 0;
+  }
+  .calc-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .calc-row label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    min-width: 180px;
+    color: var(--texte);
+  }
+  .calc-input {
+    padding: 8px 12px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    width: 100px;
+    background: var(--gris-fond);
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus { outline: none; border-color: var(--bleu); background: var(--blanc); }
+  .calc-unit {
+    font-size: 0.82rem;
+    color: var(--texte-léger);
+    font-weight: 600;
+  }
+  .btn-calc {
+    padding: 9px 22px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 4px;
+  }
+  .btn-calc:hover { background: #C9622A; }
+  .calc-result {
+    display: none;
+    background: var(--vert-clair);
+    border: 1.5px solid var(--vert);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  .calc-result.visible { display: block; animation: fadeIn 0.2s; }
+  .calc-result .res-line {
+    background: var(--blanc);
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 6px 0;
+    font-family: 'Outfit', sans-serif;
+    border-left: 3px solid var(--vert);
+    font-size: 0.90rem;
+    font-weight: 600;
+  }
+
+  /* ── BILAN ── */
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+  @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  .bilan-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .bilan-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--gris-bord);
+  }
+  .bilan-card ul { padding-left: 16px; }
+  .bilan-card ul li {
+    font-size: 0.84rem;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    color: var(--texte);
+  }
+  .ke-list { list-style: none; padding: 0; }
+  .ke-list li {
+    padding: 6px 10px 6px 28px;
+    position: relative;
+    font-size: 0.84rem;
+    border-bottom: 1px solid var(--gris-bord);
+    line-height: 1.5;
+  }
+  .ke-list li:last-child { border-bottom: none; }
+  .ke-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 8px;
+    color: var(--vert);
+    font-weight: 800;
+    font-size: 0.90rem;
+  }
+
+  /* ── VERRERIE drag & drop ── */
+  .verrerie-wrap {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 14px 0;
+  }
+  .verrerie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .verrerie-item {
+    background: var(--gris-fond);
+    border: 2px dashed var(--gris-bord);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .verrerie-item.bonne { border-color: var(--vert); background: var(--vert-exo); color: var(--vert); }
+  .verrerie-item.mauvaise { border-color: var(--rouge); background: var(--rouge-clair); color: var(--rouge); }
+
+  /* ── ÉTALONNAGE ── */
+  .etalon-wrap {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 14px 0;
+  }
+
+  /* ── BACK TO TOP ── */
+  .back-to-top {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--bleu);
+    color: white;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(45,95,138,0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .back-to-top.visible { display: flex; animation: fadeIn 0.2s; }
+  .back-to-top:hover { background: var(--orange); transform: translateY(-2px); }
+
+  .footer-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--texte-léger);
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--gris-bord);
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 12px 14px 0; }
+    .header-titles h1 { font-size: 1.05rem; }
+    .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
+    .main { padding: 18px 12px 50px; }
+    .calc-row label { min-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
+    <div class="header-titles">
+      <h1>Les solutions aqueuses, un exemple de mélanges</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+  </div>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">
+      <span class="tab-num">1</span> Solution : solvant, soluté
+    </button>
+    <button class="tab-btn" onclick="switchTab(1)">
+      <span class="tab-num">2</span> Concentration en masse
+    </button>
+    <button class="tab-btn" onclick="switchTab(2)">
+      <span class="tab-num">3</span> Dissolution & verrerie
+    </button>
+    <button class="tab-btn" onclick="switchTab(3)">
+      <span class="tab-num">4</span> Dilution & étalonnage
+    </button>
+    <button class="tab-btn" onclick="switchTab(4)">
+      <span class="tab-num">5</span> Bilan
+    </button>
+  </nav>
+</div>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     ONGLET 1 – Solution : solvant, soluté
+══════════════════════════════════════ -->
+<div class="tab-content active" id="tab-0">
+
+  <div class="section-title">
+    <span class="icon">🧪</span> Solution : solvant, soluté
+  </div>
+
+  <div class="intro-box">
+    Vidéo débat p38 : <strong>« La barbe à papa a-t-elle disparu ? »</strong><br>
+    Qu'est-ce qui différencie toutes ces eaux minérales ?
+  </div>
+
+  <div class="activite-card">
+    <h3>Activité 1 p40 : Caféine dans les boissons énergisantes</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>Objectifs :</strong> identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution. Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.
+    </p>
+  </div>
+
+  <div class="def-card">
+    <h3>À retenir</h3>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+      <div style="flex:0 0 180px;text-align:center;">
+        <svg viewBox="0 0 200 240" style="width:100%;max-width:180px;display:block;margin:0 auto;">
+          <clipPath id="erlen-clip-retenir">
+            <path d="M82 25 L118 25 L118 72 Q118 78 122 88 L162 195 L38 195 L78 88 Q82 78 82 72 Z"/>
+          </clipPath>
+          <g clip-path="url(#erlen-clip-retenir)">
+            <rect x="20" y="125" width="160" height="80" fill="#D6EAF8"/>
+          </g>
+          <path d="M82 25 L118 25 L118 72 Q118 78 122 88 L162 195 L38 195 L78 88 Q82 78 82 72 Z"
+                fill="none" stroke="var(--texte)" stroke-width="2" stroke-linejoin="round"/>
+          <line x1="78" y1="25" x2="122" y2="25" stroke="var(--texte)" stroke-width="2"/>
+          <text x="100" y="222" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="var(--texte)">Solution</text>
+        </svg>
+        <p style="font-size:0.85rem;margin-top:6px;">
+          Solution = <span style="color:var(--bleu);font-weight:700;">solvant</span> + <span style="color:var(--orange);font-weight:700;">soluté(s)</span>
+        </p>
+      </div>
+      <div style="flex:1;min-width:220px;">
+        <p>Une <strong>solution</strong> est le mélange liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">homogène</span> obtenu lorsque l'on introduit une ou plusieurs espèces chimiques (molécules ou ions) dans un autre liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">majoritaire</span>.</p>
+        <br>
+        <p>Le liquide majoritaire dans la solution est appelé le <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--bleu);">solvant</span>. L'espèce (ou les espèces) dissoute(s), minoritaire(s), est (sont) appelée(s) le ou les <span style="background:var(--orange-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--orange);">soluté(s)</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Question – Critère de distinction</h3>
+      <span class="exo-pill">📝 QCM</span>
+    </div>
+    <div class="qcm-grid">
+      <div id="qcrit" class="qcm-item">
+        <div>
+          <div class="substance">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
+          <div class="qcm-feedback" id="fb-qcrit"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</button>
+          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</button>
+          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="remarque-box">
+    <strong>🔑 Remarque :</strong> les solutés peuvent être <em>liquides, solides, gazeux, moléculaires ou ioniques</em>.
+  </div>
+
+  <div class="exemple-box">
+    <strong>Autres solvants :</strong> cyclohexane, dichlorométhane — utilisés pour l'extraction en chimie organique.
+  </div>
+
+  <!-- TABLEAU SOLVANT/SOLUTÉ INTERACTIF -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – Solvants et solutés</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour chaque solution, indique le solvant et le ou les soluté(s) :</p>
+
+    <table class="ions-table">
+      <thead>
+        <tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Café</td><td><input class="tbl-input" id="r-cafe-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-cafe-solute" placeholder="…"></td></tr>
+        <tr><td>Eau de mer</td><td><input class="tbl-input" id="r-mer-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-mer-solute" placeholder="…"></td></tr>
+        <tr><td>Vin</td><td><input class="tbl-input" id="r-vin-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-vin-solute" placeholder="…"></td></tr>
+        <tr><td>Eau gazeuse</td><td><input class="tbl-input" id="r-gaz-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-gaz-solute" placeholder="…"></td></tr>
+        <tr><td>Lait</td><td><input class="tbl-input" id="r-lait-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-lait-solute" placeholder="…"></td></tr>
+        <tr><td>Eau de toilette</td><td><input class="tbl-input" id="r-toil-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-toil-solute" placeholder="…"></td></tr>
+      </tbody>
+    </table>
+
+    <button class="btn-correction" onclick="toggleCorr('corr-tableau1')">▶ Voir la correction</button>
+    <div class="correction" id="corr-tableau1">
+      <table class="ions-table" style="margin:0;">
+        <thead><tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr></thead>
+        <tbody>
+          <tr><td>Café</td><td>Eau</td><td>Caféine, arômes, tanins…</td></tr>
+          <tr><td>Eau de mer</td><td>Eau</td><td>Chlorure de sodium (Na⁺, Cl⁻) et autres sels minéraux</td></tr>
+          <tr><td>Vin</td><td>Eau</td><td>Éthanol, arômes, polyphénols…</td></tr>
+          <tr><td>Eau gazeuse</td><td>Eau</td><td>Dioxyde de carbone CO₂ (gaz dissous), sels minéraux</td></tr>
+          <tr><td>Lait</td><td>Eau</td><td>Lactose, sels minéraux (les matières grasses/protéines forment plutôt une émulsion)</td></tr>
+          <tr><td>Eau de toilette</td><td>Éthanol</td><td>Molécules odorantes (parfum)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- fin exo-card tableau -->
+
+  <!-- QUIZ "Qu'est-ce qu'une solution ?" -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Test – Qu'est-ce qu'une solution ?</h3>
+      <span class="exo-pill">📝 QCM</span>
+    </div>
+    <div class="qcm-grid">
+      <div id="q1" class="qcm-item">
+        <div>
+          <div class="substance">a. Une solution est toujours...</div>
+          <div class="qcm-feedback" id="fb-q1"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
+          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
+          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
+        </div>
+      </div>
+      <div id="q2" class="qcm-item">
+        <div>
+          <div class="substance">b. Dans une solution sucrée, le sucre est...</div>
+          <div class="qcm-feedback" id="fb-q2"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</button>
+          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</button>
+        </div>
+      </div>
+      <div id="q3" class="qcm-item">
+        <div>
+          <div class="substance">c. Un soluté peut être...</div>
+          <div class="qcm-feedback" id="fb-q3"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</button>
+          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- fin exo-card quiz -->
+
+  <div style="text-align:center;margin-top:8px;">
+    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-0')">↺ Réinitialiser les réponses</button>
+  </div>
+
+</div><!-- fin tab-0 -->
+
+
+<!-- ══════════════════════════════════════
+     ONGLET 2 – Concentration en masse
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-1">
+
+  <div class="section-title">
+    <span class="icon">⚖️</span> Concentration en masse d'un soluté
+  </div>
+
+  <div class="activite-card">
+    <h3>Activité 2 p41 : Contrôle du travail d'un fabricant</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">À compléter avec l'application : remplir la fiche de cours partie 2.</p>
+  </div>
+
+  <div class="def-card">
+    <h3>Concentration en masse (titre massique)</h3>
+    <p>La <strong>concentration en masse</strong> (C<sub>m</sub>) ou <strong>titre massique</strong> (t) d'une solution en une espèce chimique dissoute représente la masse de soluté dissoute dans un litre de solution.</p>
+    <div class="formule-box">
+      C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub>
+      <div class="legend">C<sub>m</sub> en g·L⁻¹ &nbsp;|&nbsp; m<sub>soluté</sub> en g &nbsp;|&nbsp; V<sub>solution</sub> en L</div>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>Masse volumique de la solution</h3>
+    <p>La <strong>masse volumique</strong> ρ<sub>solution</sub> d'une solution a la même unité que la concentration massique, mais il s'agit de la masse de la <em>solution</em> et non de la masse de soluté.</p>
+    <div class="formule-box" style="background:var(--vert-clair);border-color:var(--vert);">
+      ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub>
+      <div class="legend">ρ<sub>solution</sub> en g·L⁻¹ &nbsp;|&nbsp; m<sub>solution</sub> en g &nbsp;|&nbsp; V<sub>solution</sub> en L</div>
+    </div>
+  </div>
+
+  <div class="remarque-box">
+    <strong>🔑 À ne pas confondre :</strong> C<sub>m</sub>(soluté) ne tient compte que de la masse de soluté dissous, alors que ρ<sub>solution</sub> tient compte de la masse <em>totale</em> de la solution (solvant + soluté). On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.
+  </div>
+
+  <!-- APPLICATION GLUCOSE -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – Solution de glucose</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <div class="exo-enonce">
+      Calculer le titre massique, soit la concentration en masse t du glucose, d'une solution de volume V<sub>solution</sub> = 500 mL contenant une masse m<sub>glucose</sub> = 2,5 g de glucose dissous.<br>
+      Que peut-on dire de cette solution de glucose, sachant que la masse volumique du glucose pur est ρ<sub>glucose</sub> = 1544 g·L⁻¹ ?
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">1. Calculer le titre massique t de la solution de glucose.</div>
+      <textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.</div>
+      <textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+
+    <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
+    <div class="correction" id="corr-glucose">
+      <strong>1. Titre massique de la solution :</strong>
+      <div class="calc-step">V<sub>solution</sub> = 500 mL = 0,500 L</div>
+      <div class="calc-step">t = m<sub>glucose</sub> / V<sub>solution</sub> = 2,5 / 0,500 = <strong>5,0 g·L⁻¹</strong></div>
+      <strong>2. Comparaison et conclusion :</strong>
+      <div class="calc-step">t = 5,0 g·L⁻¹ ≪ ρ<sub>glucose</sub> = 1544 g·L⁻¹</div>
+      La concentration en masse du soluté est très inférieure à la masse volumique du glucose pur : la solution est très <strong>diluée</strong> (peu de glucose dissous par rapport au solvant).
+    </div>
+  </div><!-- fin exo-card glucose -->
+
+  <!-- CALCULATEUR Cm GÉNÉRIQUE -->
+  <div class="def-card">
+    <h3>Calculateur – Concentration en masse</h3>
+    <p style="margin-bottom:10px;">Entre deux des trois grandeurs pour calculer la troisième :</p>
+    <div class="composition-calc">
+      <div class="calc-row">
+        <label for="cm-m">Masse de soluté m<sub>soluté</sub> :</label>
+        <input type="number" class="calc-input" id="cm-m" placeholder="ex : 2,5">
+        <span class="calc-unit">g</span>
+      </div>
+      <div class="calc-row">
+        <label for="cm-v">Volume de solution V<sub>solution</sub> :</label>
+        <input type="number" class="calc-input" id="cm-v" placeholder="ex : 500">
+        <span class="calc-unit">mL</span>
+      </div>
+      <button class="btn-calc" onclick="calcConcentration()">Calculer C<sub>m</sub></button>
+      <div class="calc-result" id="res-cm"></div>
+    </div>
+  </div>
+
+  <!-- EXERCICES SUR PAPIER -->
+  <div class="def-card">
+    <h3>📚 Exercices à faire en autonomie</h3>
+    <ul>
+      <li>p49 : n° 1, 2, 3, 4, 6 et 7</li>
+      <li>p50 : n° 15, 16, 21, 22, 23 et 24</li>
+      <li>p51 : n° 33 — p52 : n° 37-38</li>
+    </ul>
+  </div>
+
+  <div style="text-align:center;margin-top:8px;">
+    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-1')">↺ Réinitialiser les réponses</button>
+  </div>
+
+</div><!-- fin tab-1 -->
+
+
+<!-- ══════════════════════════════════════
+     ONGLET 3 – Dissolution & verrerie
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-2">
+
+  <div class="section-title">
+    <span class="icon">🥽</span> Dissolution d'une espèce moléculaire ou ionique
+  </div>
+
+  <div class="activite-card">
+    <h3>À faire avant le TP4 : Test sur la verrerie en laboratoire</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">TP4 – Dosage à l'aide d'une courbe d'étalonnage <em>(blouse obligatoire)</em></p>
+  </div>
+
+  <div class="def-card">
+    <h3>a) Qu'est-ce que la dissolution ?</h3>
+    <p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
+    <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
+      <img src="seq02/dissolution_complet.png" alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>b) Masse de soluté à dissoudre</h3>
+    <p>Pour préparer une solution de volume V contenant un soluté à la concentration en masse C<sub>m</sub>, la masse de soluté à dissoudre est :</p>
+    <div class="formule-box">
+      m<sub>soluté</sub> = C<sub>m</sub> × V
+      <div class="legend">m<sub>soluté</sub> en g &nbsp;|&nbsp; C<sub>m</sub> en g·L⁻¹ &nbsp;|&nbsp; V en L</div>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>c) Solution saturée</h3>
+    <p>Une solution est dite <strong>saturée</strong> lorsqu'elle ne peut plus dissoudre de soluté supplémentaire : tout ajout de soluté reste alors sous forme non dissoute (solide non dissous au fond du récipient, par exemple). La concentration correspondante est appelée <strong>concentration maximale</strong> C<sub>max</sub>.</p>
+  </div>
+
+  <!-- APPLICATION NaCl -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – Concentration maximale du chlorure de sodium</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <div class="exo-enonce">
+      La concentration maximale de chlorure de sodium dans l'eau est C<sub>max</sub> = 358 g·L⁻¹ à T = 20 °C.
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.</div>
+      <textarea class="rep-zone" id="r-na1" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?</div>
+      <textarea class="rep-zone" id="r-na2" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+
+    <button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
+    <div class="correction" id="corr-nacl">
+      <strong>1. Vérification de la possibilité :</strong>
+      <div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
+      <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,200 = <strong>71,6 g</strong></div>
+      Comme m = 68 g &lt; m<sub>max</sub> = 71,6 g, il est <strong>possible</strong> de dissoudre 68 g de NaCl dans 200 mL d'eau (la solution n'est pas saturée).
+      <br><br>
+      <strong>2. Masse maximale pour 50,0 mL :</strong>
+      <div class="calc-step">V<sub>solution</sub> = 50,0 mL = 0,0500 L</div>
+      <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,0500 = <strong>17,9 g</strong></div>
+    </div>
+  </div><!-- fin exo-card NaCl -->
+
+  <!-- VERRERIE INTERACTIVE -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – Choisir la verrerie adaptée</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour préparer une solution par <strong>dissolution</strong> (volume précis), quelle verrerie utilise-t-on pour chaque étape ? Clique sur la bonne réponse :</p>
+
+    <div class="qcm-grid">
+      <div id="v1" class="qcm-item">
+        <div>
+          <div class="substance">Peser le solide (soluté)</div>
+          <div class="qcm-feedback" id="fb-v1"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</button>
+          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</button>
+        </div>
+      </div>
+      <div id="v2" class="qcm-item">
+        <div>
+          <div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div>
+          <div class="qcm-feedback" id="fb-v2"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
+          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
+        </div>
+      </div>
+      <div id="v3" class="qcm-item">
+        <div>
+          <div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
+          <div class="qcm-feedback" id="fb-v3"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</button>
+          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</button>
+        </div>
+      </div>
+      <div id="v4" class="qcm-item">
+        <div>
+          <div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div>
+          <div class="qcm-feedback" id="fb-v4"></div>
+        </div>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</button>
+          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="remarque-box" style="margin-top:14px;">
+      <strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
+    </div>
+  </div><!-- fin exo-card verrerie -->
+
+  <div style="text-align:center;margin-top:8px;">
+    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-2')">↺ Réinitialiser les réponses</button>
+  </div>
+
+</div><!-- fin tab-2 -->
+
+
+<!-- ══════════════════════════════════════
+     ONGLET 4 – Dilution & étalonnage
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-3">
+
+  <div class="section-title">
+    <span class="icon">💧</span> Dilution d'une solution
+  </div>
+
+  <div class="activite-card">
+    <h3>TP5 : Dosage à l'aide d'une gamme d'étalonnage</h3>
+    <p style="font-size:0.9rem;line-height:1.6;"><em>(blouse obligatoire)</em></p>
+  </div>
+
+  <div class="def-card">
+    <h3>a) Qu'est-ce que la dilution ?</h3>
+    <p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>
+    <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
+      <img src="seq02/dilution_complet.png" alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" style="width:100%;max-width:900px;display:block;margin:0 auto;">
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>b) Grandeurs qui changent ou non au cours de la dilution</h3>
+    <ul>
+      <li><strong>Ne change pas</strong> : la quantité (la masse) de soluté dissous, qui est seulement répartie dans un plus grand volume.</li>
+      <li><strong>Change</strong> : le volume total de la solution (augmente) et la concentration en masse du soluté (diminue).</li>
+    </ul>
+  </div>
+
+  <div class="def-card">
+    <h3>c) Grandeurs caractéristiques d'une solution</h3>
+    <ul>
+      <li>La <strong>concentration en masse</strong> (ou titre massique) C<sub>m</sub> (en g·L⁻¹)</li>
+      <li>La <strong>masse volumique</strong> ρ<sub>solution</sub> (en g·L⁻¹)</li>
+      <li>Des grandeurs liées comme la <strong>couleur</strong> (échelle de teinte) ou la <strong>conductance</strong></li>
+    </ul>
+  </div>
+
+  <div class="def-card">
+    <h3>d) Facteur de dilution</h3>
+    <p>Le <strong>facteur de dilution</strong> F est le rapport entre la concentration de la solution mère et celle de la solution fille (ou, de manière équivalente, le rapport entre le volume de solution fille et le volume de solution mère prélevé) :</p>
+    <div class="formule-box">
+      F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub>
+      <div class="legend">F sans unité &nbsp;|&nbsp; t<sub>m</sub>, t<sub>f</sub> en g·L⁻¹ &nbsp;|&nbsp; V<sub>m</sub>, V<sub>f</sub> en L</div>
+    </div>
+    <div class="exemple-box"><strong>Exemple :</strong> un facteur de dilution de 10 signifie que la solution mère a été diluée 10 fois (sa concentration est divisée par 10).</div>
+    <div style="text-align:center;margin-top:14px;">
+      <a href="https://www.pearltrees.com/private/id104933074/item801441797?paccess=47cfda15101.2fc50805.a9cf1083fcd0146a33d7476117786228"
+         target="_blank"
+         style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);">
+        ▶&nbsp; Vidéo – Le facteur de dilution
+      </a>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>e) Protocole expérimental d'une dilution</h3>
+    <ol style="padding-left:20px;font-size:0.92rem;line-height:1.8;">
+      <li>Prélever, avec une <strong>pipette jaugée</strong> munie d'une poire à pipeter, le volume V<sub>m</sub> de solution mère calculé.</li>
+      <li>Verser ce volume dans une <strong>fiole jaugée</strong> de volume V<sub>f</sub>.</li>
+      <li>Compléter avec de l'<strong>eau distillée</strong> jusqu'au trait de jauge, puis homogénéiser (agiter).</li>
+    </ol>
+  </div>
+
+  <div class="def-card">
+    <h3>f) Échelle de teinte</h3>
+    <p>Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.</p>
+  </div>
+
+  <!-- ÉCHELLE DE TEINTE PERMANGANATE -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – TP4 : dosage par étalonnage (échelle de teinte)</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <div class="exo-enonce">
+      Selon leur concentration en masse, les solutions de permanganate de potassium (KMnO<sub>4</sub>) peuvent être utilisées pour soigner les érythèmes (irritations de la peau) ou pour désinfecter.<br><br>
+      À partir d'une solution mère S<sub>m</sub> de concentration en masse t<sub>m</sub> = 1,0 g·L⁻¹, plusieurs groupes ont préparé par dilution une gamme de solutions filles S<sub>f1</sub> à S<sub>f7</sub>, formant une échelle de teinte.
+    </div>
+
+    <div style="background:var(--blanc);border:1.5px solid var(--vert-exo-bord);border-radius:10px;padding:12px;margin-bottom:14px;overflow-x:auto;">
+      <img src="seq02/echelle_teinte_permanganate.jpg" alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;">
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.</div>
+      <textarea class="rep-zone" id="r-teinte1" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+
+    <table class="ions-table">
+      <thead>
+        <tr><th>Solution fille</th><th>S<sub>f1</sub></th><th>S<sub>f2</sub></th><th>S<sub>f3</sub></th><th>S<sub>f4</sub></th><th>S<sub>f5</sub></th><th>S<sub>f6</sub></th><th>S<sub>f7</sub></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Volume mère V<sub>m</sub> (mL)</td><td>30</td><td>20</td><td>30</td><td>20</td><td>10</td><td>5</td><td>5</td></tr>
+        <tr><td>Volume d'eau V<sub>eau</sub> (mL)</td><td>20</td><td>30</td><td>70</td><td>80</td><td>90</td><td>95</td><td>195</td></tr>
+        <tr><td>Volume fille V<sub>f</sub> (mL)</td><td>50</td><td>50</td><td>100</td><td>100</td><td>100</td><td>100</td><td>200</td></tr>
+        <tr><td>Facteur de dilution F = V<sub>f</sub>/V<sub>m</sub></td><td>1,6</td><td>2,5</td><td>3,3</td><td>5</td><td>10</td><td>20</td><td>40</td></tr>
+        <tr><td>Concentration en masse t (g·L⁻¹)</td><td>0,6</td><td>0,4</td><td>0,3</td><td>0,2</td><td>0,1</td><td>0,05</td><td>0,025</td></tr>
+      </tbody>
+    </table>
+
+    <div class="question-block">
+      <div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.</div>
+      <textarea class="rep-zone" id="r-teinte2" placeholder="Rédigez votre réponse…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?</div>
+      <textarea class="rep-zone" id="r-teinte3" placeholder="Rédigez votre réponse…"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.</div>
+      <textarea class="rep-zone" id="r-teinte4" placeholder="Rédigez votre réponse…"></textarea>
+    </div>
+
+    <button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
+    <div class="correction" id="corr-teinte">
+      <strong>1. Facteur de dilution et concentration de S<sub>f1</sub> :</strong>
+      <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> = 50 / 30 = <strong>1,6</strong></div>
+      <div class="calc-step">t<sub>f1</sub> = t<sub>m</sub> / F = 1,0 / 1,6 = <strong>0,6 g·L⁻¹</strong></div>
+      <strong>2. Encadrement de t<sub>S'</sub> :</strong>
+      <div class="calc-step">La teinte de S' est intermédiaire entre S<sub>f5</sub> (0,05 g·L⁻¹) et S<sub>f6</sub> (0,10 g·L⁻¹), donc : <strong>0,05 g·L⁻¹ &lt; t<sub>S'</sub> &lt; 0,10 g·L⁻¹</strong></div>
+      <strong>3. Utilisations possibles de S' :</strong>
+      <div class="calc-step">La solution S' peut être utilisée pour <strong>soigner les érythèmes</strong>, car sa concentration est voisine de 0,10 g·L⁻¹.</div>
+      <div class="calc-step">En revanche, S' <strong>ne convient pas pour désinfecter de l'eau de boisson</strong>, car il faudrait une concentration d'environ 0,5 g·L⁻¹, soit bien supérieure à t<sub>S'</sub> (0,10 g·L⁻¹ &lt; 0,5 g·L⁻¹).</div>
+      <strong>4. Étapes de la méthode :</strong>
+      <div class="calc-step">– Préparer plusieurs solutions étalons, de concentrations en masse connues, par dilution d'une solution mère de concentration connue.<br>
+      – Comparer la teinte de la solution de concentration inconnue à celles des solutions de l'échelle de teinte.<br>
+      – En déduire un encadrement de la concentration en masse de la solution inconnue, à partir des concentrations des deux solutions étalons encadrant sa teinte.</div>
+    </div>
+  </div><!-- fin exo-card échelle de teinte -->
+
+  <!-- APPLICATION DIIODE -->
+  <div class="exo-card">
+    <div class="exo-header">
+      <h3>Exercice – Dilution d'une solution de diiode</h3>
+      <span class="exo-pill">INTERACTIF</span>
+    </div>
+    <div class="exo-enonce">
+      À partir d'une solution mère de concentration en masse en diiode t<sub>m</sub> = 0,25 g·L⁻¹, on souhaite préparer un volume V<sub>f</sub> = 0,200 L de solution fille de concentration en masse en diiode t<sub>f</sub> = 0,10 g·L⁻¹.
+    </div>
+
+    <div class="question-block">
+      <div class="question-label">1. Calculer le facteur de dilution F.</div>
+      <textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.</div>
+      <textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
+    </div>
+
+    <button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
+    <div class="correction" id="corr-diiode">
+      <strong>1. Facteur de dilution :</strong>
+      <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 0,25 / 0,10 = <strong>2,5</strong></div>
+      <strong>2. Volume de solution mère à prélever :</strong>
+      <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> &nbsp;→&nbsp; V<sub>m</sub> = V<sub>f</sub> / F = 0,200 / 2,5 = <strong>0,080 L = 80 mL</strong></div>
+      Vérification : on prélève 80 mL de solution mère et on complète à 200 mL avec de l'eau distillée.
+    </div>
+  </div><!-- fin exo-card diiode -->
+
+  <!-- CALCULATEUR DILUTION -->
+  <div class="def-card">
+    <h3>Calculateur – Facteur de dilution et volume à prélever</h3>
+    <div class="composition-calc">
+      <div class="calc-row">
+        <label for="dil-tm">Concentration solution mère t<sub>m</sub> :</label>
+        <input type="number" class="calc-input" id="dil-tm" placeholder="ex : 0,25">
+        <span class="calc-unit">g·L⁻¹</span>
+      </div>
+      <div class="calc-row">
+        <label for="dil-tf">Concentration solution fille t<sub>f</sub> :</label>
+        <input type="number" class="calc-input" id="dil-tf" placeholder="ex : 0,10">
+        <span class="calc-unit">g·L⁻¹</span>
+      </div>
+      <div class="calc-row">
+        <label for="dil-vf">Volume solution fille V<sub>f</sub> :</label>
+        <input type="number" class="calc-input" id="dil-vf" placeholder="ex : 200">
+        <span class="calc-unit">mL</span>
+      </div>
+      <button class="btn-calc" onclick="calcDilution()">Calculer F et v<sub>m</sub></button>
+      <div class="calc-result" id="res-dil"></div>
+    </div>
+  </div>
+
+  <!-- EXERCICES SUR PAPIER -->
+  <div class="def-card">
+    <h3>📚 Exercices</h3>
+    <p><strong>En autonomie :</strong> p51 n°33, p52 n°37-38</p>
+    <p style="margin-top:6px;"><strong>Corrigés en classe :</strong> p50 n°25,26 – p51 n°30,31,32,33 – p53 n°44 – p54 n°46, p55 n°49 et p57 n°52</p>
+  </div>
+
+  <div style="text-align:center;margin-top:8px;">
+    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-3')">↺ Réinitialiser les réponses</button>
+  </div>
+
+</div><!-- fin tab-3 -->
+
+
+<!-- ══════════════════════════════════════
+     ONGLET 5 – Bilan
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-4">
+
+  <div class="section-title">
+    <span class="icon">📋</span> Bilan de la séquence
+  </div>
+
+  <div class="bilan-grid">
+    <div class="bilan-card">
+      <h4>Formules clés</h4>
+      <ul>
+        <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
+        <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
+        <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
+        <li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Vocabulaire</h4>
+      <ul>
+        <li><strong>Solvant</strong> : liquide majoritaire</li>
+        <li><strong>Soluté</strong> : espèce dissoute</li>
+        <li><strong>Saturation</strong> : limite de dissolution</li>
+        <li><strong>Solution mère / fille</strong> : avant / après dilution</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:28px;">
+    <span class="icon">🎬</span> Bilan vidéo de cours
+  </div>
+  <p style="margin-bottom:24px; color:var(--texte-léger); font-size:0.9rem;">
+    Vidéo de synthèse du chapitre – à regarder pour consolider vos connaissances.
+  </p>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:16px; padding:12px 0 32px;">
+    <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d"
+       target="_blank"
+       style="display:inline-flex; align-items:center; gap:10px; background:var(--bleu); color:white; padding:16px 32px; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem; box-shadow:0 3px 10px rgba(45,95,138,0.20); transition:opacity 0.15s;">
+      ▶&nbsp; Ouvrir la vidéo
+    </a>
+    <p style="font-size:0.82rem; color:var(--texte-léger); text-align:center; max-width:420px;">
+      La vidéo s'ouvre dans un nouvel onglet (accès Pearltrees requis).
+    </p>
+  </div>
+
+  <div class="def-card">
+    <h3>📚 Exercices à faire en autonomie</h3>
+    <p>p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
+  </div>
+
+  <div class="def-card">
+    <h3>📋 Capacités exigibles – Séquence 02</h3>
+    <ul class="ke-list">
+      <li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
+      <li>Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.</li>
+      <li>Déterminer la valeur de la concentration d'un soluté (en g·L⁻¹) à partir du mode opératoire de préparation d'une solution par dissolution ou par dilution.</li>
+      <li>Choisir et utiliser la verrerie adaptée pour préparer une solution par dissolution ou par dilution.</li>
+      <li>Déterminer la valeur d'une concentration et d'une concentration maximale à partir de résultats expérimentaux.</li>
+      <li>Déterminer la valeur d'une concentration à l'aide d'une gamme d'étalonnage (échelle de teinte, mesure de conductance ou mesure de masse volumique).</li>
+      <li>Capacité mathématique : utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
+    </ul>
+  </div>
+
+</div><!-- fin tab-4 -->
+
+<div class="footer-note">
+  2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 1A – Fiche de cours n°02 – C. Poirault-Gauvin
+</div>
+
+</main>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
+
+<script>
+// ── Navigation onglets ──
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach((t,i) => {
+    t.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', i === n);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── QCM générique ──
+// ── Réinitialisation générique d'un onglet ──
+function reinitialiserOnglet(tabId) {
+  const tab = document.getElementById(tabId);
+  if (!tab) return;
+  // Vider les champs texte du tableau et zones de réponse
+  tab.querySelectorAll('input.tbl-input, input.calc-input, textarea.rep-zone').forEach(inp => inp.value = '');
+  // Masquer toutes les corrections et remettre le texte des boutons associés
+  tab.querySelectorAll('.correction').forEach(corr => {
+    corr.classList.remove('visible');
+    const btn = corr.previousElementSibling;
+    if (btn && btn.classList.contains('btn-correction')) btn.textContent = '▶ Voir la correction';
+  });
+  // Masquer les résultats de calcul
+  tab.querySelectorAll('.calc-result').forEach(res => {
+    res.classList.remove('visible');
+    res.innerHTML = '';
+  });
+  // Réinitialiser tous les QCM de l'onglet
+  tab.querySelectorAll('.qcm-item').forEach(item => {
+    delete item.dataset.done;
+    item.style.borderColor = '';
+    item.querySelectorAll('.qcm-btn').forEach(btn => {
+      btn.classList.remove('correct','wrong');
+    });
+    const fb = item.querySelector('.qcm-feedback');
+    if (fb) {
+      fb.textContent = '';
+      fb.className = 'qcm-feedback';
+    }
+  });
+}
+
+function repondreQCM(id, correct, choix, explication, fbId) {
+  const item = document.getElementById(id);
+  const fb = document.getElementById(fbId);
+  if (item.dataset.done) return;
+  item.dataset.done = '1';
+  const ok = choix === correct;
+  fb.textContent = ok ? '✓ ' + explication : '✗ La bonne réponse est : ' + correct + '. ' + explication;
+  fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
+  item.querySelectorAll('.qcm-btn').forEach(btn => {
+    if (btn.textContent === correct) btn.classList.add('correct');
+    else if (btn.textContent === choix && !ok) btn.classList.add('wrong');
+  });
+  item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
+}
+
+// ── Correction toggle ──
+function toggleCorr(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('visible');
+  const btn = el.previousElementSibling;
+  if (el.classList.contains('visible')) {
+    btn.textContent = '▼ Masquer la correction';
+  } else {
+    btn.textContent = '▶ Voir la correction';
+  }
+}
+
+// ── Calcul Cm générique ──
+function calcConcentration() {
+  const m = parseFloat(document.getElementById('cm-m').value);
+  const vML = parseFloat(document.getElementById('cm-v').value);
+  const res = document.getElementById('res-cm');
+  if (isNaN(m) || isNaN(vML) || vML <= 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides.</span>';
+    res.className = 'calc-result visible';
+    return;
+  }
+  const v = vML / 1000;
+  const cm = m / v;
+  res.innerHTML = `
+    <strong>Conversion du volume :</strong>
+    <div class="res-line">V<sub>solution</sub> = ${vML} mL = ${v} L</div>
+    <strong>Concentration en masse :</strong>
+    <div class="res-line">C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> = ${m} / ${v} = <strong>${cm.toFixed(2)} g·L⁻¹</strong></div>
+  `;
+  res.className = 'calc-result visible';
+}
+
+// ── Calcul dilution ──
+function calcDilution() {
+  const tm = parseFloat(document.getElementById('dil-tm').value);
+  const tf = parseFloat(document.getElementById('dil-tf').value);
+  const vfML = parseFloat(document.getElementById('dil-vf').value);
+  const res = document.getElementById('res-dil');
+  if (isNaN(tm) || isNaN(tf) || isNaN(vfML) || tf <= 0 || vfML <= 0 || tm <= 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides.</span>';
+    res.className = 'calc-result visible';
+    return;
+  }
+  if (tf > tm) {
+    res.innerHTML = '<span style="color:var(--rouge)">t<sub>f</sub> doit être inférieure à t<sub>m</sub> pour une dilution.</span>';
+    res.className = 'calc-result visible';
+    return;
+  }
+  const F = tm / tf;
+  const vf = vfML / 1000;
+  const vm = vf / F;
+  res.innerHTML = `
+    <strong>Facteur de dilution :</strong>
+    <div class="res-line">F = t<sub>m</sub> / t<sub>f</sub> = ${tm} / ${tf} = <strong>${F.toFixed(2)}</strong></div>
+    <strong>Volume de solution mère à prélever :</strong>
+    <div class="res-line">V<sub>m</sub> = V<sub>f</sub> / F = ${vf} L / ${F.toFixed(2)} = <strong>${(vm*1000).toFixed(1)} mL</strong></div>
+    <div style="margin-top:8px;font-size:0.83rem;color:var(--texte-léger);">Protocole : prélever ${(vm*1000).toFixed(1)} mL de solution mère à la pipette jaugée, verser dans une fiole jaugée de ${vfML} mL et compléter avec de l'eau distillée jusqu'au trait de jauge.</div>
+  `;
+  res.className = 'calc-result visible';
+}
+
+// ── Back to top ──
+window.addEventListener('scroll', function() {
+  const btn = document.getElementById('backToTop');
+  if (window.scrollY > 300) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>

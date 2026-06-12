@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Préparation de solutions — Trouve l'erreur</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f5f4f0;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.container { max-width: 900px; margin: 0 auto; }
+
+/* ── ÉCRANS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+.level-header { text-align: center; margin-bottom: 2rem; }
+.level-header h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+.level-header p { font-size: 14px; color: #888; }
+
+/* ── ÉCRAN ACCUEIL (choix du module) ── */
+.module-cards {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; margin-bottom: 1.5rem;
+}
+@media(max-width:640px){ .module-cards { grid-template-columns: 1fr; } }
+
+.module-card {
+  background: white; border: 2px solid #e0ddd5; border-radius: 16px;
+  padding: 1.25rem; cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.module-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.module-card.diss:hover { border-color: #1D9E75; background: #f0faf5; }
+.module-card.dil:hover  { border-color: #378ADD; background: #f0f7ff; }
+
+.module-card img {
+  width: 100%; max-height: 150px; object-fit: contain;
+  background: white; border-radius: 10px; margin-bottom: 12px;
+}
+.module-name { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.module-sub  { font-size: 13px; color: #888; line-height: 1.5; }
+.module-badge {
+  display: inline-block; margin-top: 10px;
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px;
+}
+.diss .module-badge { background: #E1F5EE; color: #085041; }
+.dil  .module-badge { background: #E6F1FB; color: #0C447C; }
+
+/* ── ÉCRAN NIVEAU ── */
+.level-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 2rem; }
+@media(max-width:600px){ .level-cards { grid-template-columns: 1fr; } }
+
+.level-card {
+  background: white; border: 2px solid #e0ddd5; border-radius: 16px;
+  padding: 1.5rem 1.25rem; cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.level-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.level-card.lv1:hover, .level-card.lv1.selected { border-color: #1D9E75; background: #f0faf5; }
+.level-card.lv2:hover, .level-card.lv2.selected { border-color: #378ADD; background: #f0f7ff; }
+.level-card.lv3:hover, .level-card.lv3.selected { border-color: #D85A30; background: #fdf4f0; }
+
+.level-emoji { font-size: 32px; margin-bottom: 10px; }
+.level-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.level-sub  { font-size: 12px; color: #888; line-height: 1.5; }
+.level-badge {
+  display: inline-block; margin-top: 10px;
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px;
+}
+.lv1 .level-badge { background: #E1F5EE; color: #085041; }
+.lv2 .level-badge { background: #E6F1FB; color: #0C447C; }
+.lv3 .level-badge { background: #FAECE7; color: #712B13; }
+
+/* ── ÉCRAN CALCUL ── */
+.calc-card {
+  background: white; border: 1px solid #e0ddd5; border-radius: 16px;
+  padding: 1.75rem 2rem; margin-bottom: 1.25rem;
+}
+
+.calc-card h2 { font-size: 17px; font-weight: 600; margin-bottom: 1rem; }
+
+.params-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem;
+}
+.params-row.params-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media(max-width:500px){ .params-row, .params-row.params-3 { grid-template-columns: 1fr; } }
+
+.param-group { display: flex; flex-direction: column; gap: 5px; }
+.param-group label { font-size: 12px; color: #888; font-weight: 500; }
+
+.param-row { display: flex; align-items: center; gap: 8px; }
+.param-input {
+  width: 90px; padding: 7px 10px; border: 1.5px solid #e0ddd5;
+  border-radius: 8px; font-size: 15px; font-weight: 600;
+  font-family: inherit; color: #1a1a1a; background: #fafaf8;
+  transition: border-color 0.15s;
+}
+.param-input:focus { outline: none; border-color: #378ADD; background: white; }
+.param-unit { font-size: 13px; color: #888; }
+
+.reroll-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 20px;
+  border: 1px solid #ccc; background: white;
+  font-size: 13px; cursor: pointer; color: #555;
+  font-family: inherit; transition: all 0.15s; margin-bottom: 1.5rem;
+}
+.reroll-btn:hover { background: #f5f4f0; border-color: #999; }
+
+.formula-box {
+  background: #f5f4f0; border-radius: 10px; padding: 12px 16px;
+  margin-bottom: 1.25rem; font-size: 14px; color: #444; line-height: 1.7;
+}
+.formula-box .formula { font-size: 16px; font-weight: 600; color: #1a1a1a; font-family: Georgia, serif; }
+
+.answer-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+.answer-row label { font-size: 14px; font-weight: 500; }
+.answer-input {
+  width: 110px; padding: 9px 12px;
+  border: 2px solid #e0ddd5; border-radius: 10px;
+  font-size: 16px; font-weight: 600; font-family: inherit;
+  text-align: center; color: #1a1a1a;
+  transition: border-color 0.15s;
+}
+.answer-input:focus { outline: none; border-color: #378ADD; }
+.answer-input.correct { border-color: #1D9E75; background: #f0faf5; color: #085041; }
+.answer-input.wrong   { border-color: #E24B4A; background: #fff5f5; color: #7a1f1f; animation: shake 0.35s; }
+
+.calc-feedback {
+  border-radius: 10px; padding: 11px 14px; font-size: 14px;
+  line-height: 1.6; display: none; margin-bottom: 1rem;
+}
+.calc-feedback.ok  { display: flex; gap: 8px; background: #edfaf3; color: #085041; border: 1px solid #9FE1CB; }
+.calc-feedback.err { display: flex; gap: 8px; background: #fff0f0; color: #7a1f1f; border: 1px solid #F7C1C1; }
+.calc-feedback.hint{ display: flex; gap: 8px; background: #fdf8ee; color: #633806; border: 1px solid #FAC775; }
+
+/* ── HEADER JEU ── */
+.game-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px;
+}
+.game-title { font-size: 16px; font-weight: 600; }
+.game-title span { font-size: 13px; font-weight: 400; color: #888; margin-left: 8px; }
+
+.stats { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.stat-pill {
+  background: white; border: 1px solid #e0ddd5; border-radius: 20px;
+  padding: 5px 12px; font-size: 13px; font-weight: 500; color: #444;
+  display: flex; align-items: center; gap: 4px;
+}
+.heart { font-size: 15px; transition: all 0.3s; }
+.heart.lost { opacity: 0.2; filter: grayscale(1); }
+.score-val  { color: #1D9E75; font-weight: 600; }
+.streak-val { color: #BA7517; font-weight: 600; }
+
+/* ── SCÉNARIO ── */
+.scenario-card {
+  background: white; border: 1px solid #e0ddd5; border-radius: 14px;
+  padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;
+}
+.scenario-eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 6px; }
+.lv1-accent .scenario-eyebrow { color: #1D9E75; }
+.lv2-accent .scenario-eyebrow { color: #378ADD; }
+.lv3-accent .scenario-eyebrow { color: #D85A30; }
+.scenario-card { border-left-width: 4px; }
+.lv1-accent { border-left-color: #1D9E75; }
+.lv2-accent { border-left-color: #378ADD; }
+.lv3-accent { border-left-color: #D85A30; }
+.scenario-text { font-size: 15px; line-height: 1.6; color: #222; }
+
+/* ── GRILLE ÉTAPES ── */
+.steps-grid {
+  display: grid; grid-template-columns: repeat(5,1fr);
+  gap: 10px; margin-bottom: 1.25rem;
+}
+.steps-grid.cols4 { grid-template-columns: repeat(4,1fr); }
+@media(max-width:640px){ .steps-grid, .steps-grid.cols4 { grid-template-columns: repeat(2,1fr); } }
+
+.step-card {
+  background: white; border: 1.5px solid #e0ddd5;
+  border-radius: 12px; overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative; display: flex; flex-direction: column;
+}
+.step-card.correct          { border-color: #1D9E75; background: #f0faf5; }
+.step-card.wrong            { border-color: #E24B4A; background: #fff5f5; animation: shake 0.35s; }
+.step-card.revealed-correct { border-color: #1D9E75; background: #f0faf5; }
+
+.step-img-wrap { position: relative; cursor: zoom-in; overflow: hidden; background:white; }
+.step-img-wrap img { width: 100%; aspect-ratio: 4/3; object-fit: contain; display: block; transition: transform 0.2s; }
+.step-img-wrap:hover img { transform: scale(1.04); }
+.step-tag {
+  position: absolute; top: 5px; left: 6px;
+  background: rgba(255,255,255,0.9); color: #1a1a1a; border: 1px solid #e0ddd5;
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; pointer-events: none;
+}
+.zoom-hint {
+  position: absolute; bottom: 5px; right: 6px;
+  background: rgba(0,0,0,0.45); color: white;
+  font-size: 10px; padding: 2px 6px; border-radius: 8px; pointer-events: none;
+}
+.error-ribbon {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: #E24B4A; color: white;
+  font-size: 10px; font-weight: 700; text-align: center;
+  padding: 3px; letter-spacing: 0.05em;
+  transform: translateY(-100%); transition: transform 0.25s; z-index: 2;
+}
+.error-ribbon.show { transform: translateY(0); }
+
+.step-label-row {
+  padding: 6px 8px 4px;
+  display: flex; align-items: center; gap: 5px;
+  border-top: 1px solid #f0ede8;
+}
+.step-num {
+  width: 18px; height: 18px; min-width: 18px; border-radius: 50%;
+  border: 1.5px solid #ccc; font-size: 10px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; color: #888;
+}
+.step-card.correct .step-num,
+.step-card.revealed-correct .step-num { background: #1D9E75; color: white; border-color: #1D9E75; }
+.step-card.wrong   .step-num          { background: #E24B4A; color: white; border-color: #E24B4A; }
+.step-lbl { font-size: 10px; color: #666; line-height: 1.3; }
+
+.vote-row { display: flex; border-top: 1px solid #f0ede8; margin-top: auto; }
+.vote-btn {
+  flex: 1; padding: 8px 4px; border: none; background: transparent;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 4px;
+  transition: background 0.15s;
+}
+.vote-btn:disabled { cursor: default; opacity: 0.4; }
+.vote-btn.ok  { color: #1D9E75; border-right: 1px solid #f0ede8; }
+.vote-btn.nok { color: #E24B4A; }
+.vote-btn.ok:hover:not(:disabled)  { background: #edfaf3; }
+.vote-btn.nok:hover:not(:disabled) { background: #fff0f0; }
+.vote-btn.pressed-ok  { background: #edfaf3; }
+.vote-btn.pressed-nok { background: #fff0f0; }
+
+/* ── FEEDBACK & BOUTONS ── */
+.feedback {
+  border-radius: 12px; padding: 14px 18px; font-size: 14px;
+  line-height: 1.65; display: flex; gap: 12px; align-items: flex-start;
+  margin-bottom: 1.25rem; min-height: 56px;
+}
+.feedback.neutral { background: #f5f4f0; color: #666; border: 1px solid #e0ddd5; }
+.feedback.ok  { background: #edfaf3; color: #085041; border: 1px solid #9FE1CB; }
+.feedback.err { background: #fff0f0; color: #7a1f1f; border: 1px solid #F7C1C1; }
+.feedback-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+.bottom-bar { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+
+.nav-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 20px; border-radius: 20px;
+  border: 1px solid #ccc; background: white;
+  font-size: 14px; cursor: pointer; color: #333;
+  font-family: inherit; transition: all 0.15s;
+}
+.nav-btn:hover { background: #f5f4f0; border-color: #999; }
+.nav-btn.primary { background: #1D9E75; color: white; border-color: #1D9E75; font-weight: 500; }
+.nav-btn.primary:hover { background: #0F6E56; }
+.nav-btn.hidden { display: none; }
+
+/* ── GAME OVER ── */
+.game-over {
+  display: none; background: white; border: 1px solid #e0ddd5;
+  border-radius: 16px; padding: 3rem 2rem; text-align: center;
+}
+.game-over.open { display: block; }
+.game-over h2 { font-size: 22px; margin-bottom: 0.5rem; }
+.final-score { font-size: 56px; font-weight: 700; color: #1D9E75; line-height: 1; margin: 1rem 0 0.25rem; }
+.final-label { font-size: 14px; color: #888; margin-bottom: 0.75rem; }
+.final-msg { font-size: 15px; color: #555; margin-bottom: 2rem; line-height: 1.6; }
+
+/* ── ZOOM ── */
+.zoom-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72); z-index: 100;
+  align-items: center; justify-content: center; cursor: zoom-out;
+}
+.zoom-overlay.open { display: flex; }
+.zoom-overlay img {
+  max-width: 90vw; max-height: 85vh;
+  border-radius: 12px; border: 3px solid white;
+  background: white;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+.sep { height: 1px; background: #e0ddd5; margin: 1.5rem 0; }
+.back-link { font-size: 13px; color: #888; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 1.25rem; }
+.back-link:hover { color: #333; }
+.back-links-row { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+
+.home-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 20px;
+  border: 1.5px solid #378ADD; background: #E6F1FB;
+  font-size: 14px; font-weight: 600; color: #0C447C;
+  cursor: pointer; font-family: inherit; transition: all 0.15s;
+  margin-bottom: 1.25rem;
+}
+.home-btn:hover { background: #378ADD; color: white; box-shadow: 0 4px 12px rgba(55,138,221,0.3); }
+
+/* ── RÉCAPITULATIF PROTOCOLE (sous le choix de niveau) ── */
+.recap-section { margin-top: 0.5rem; }
+.recap-section h3 { font-size: 14px; font-weight: 600; color: #555; margin-bottom: 10px; text-align:center; }
+.recap-img-wrap { background: white; border: 1px solid #e0ddd5; border-radius: 14px; padding: 10px; }
+.recap-img-wrap img { width: 100%; display: block; border-radius: 8px; }
+
+/* ── IMAGE D'ACCUEIL AVEC ÉTIQUETTES ── */
+.proto-img-wrap { position: relative; margin-bottom: 1rem; }
+.proto-img-wrap img { width: 100%; display: block; border-radius: 10px; background:white; }
+.proto-label {
+  position: absolute; background: #FFEFC2; border: 1.5px solid #D9A300;
+  color: #5A4200; font-weight: 700; font-size: 13px;
+  padding: 4px 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  white-space: nowrap;
+}
+.proto-label::after {
+  content: ''; position: absolute; width: 8px; height: 8px;
+  background: #FFEFC2; border: 1.5px solid #D9A300;
+  transform: rotate(45deg);
+}
+@media(max-width:600px){ .proto-label { font-size: 11px; padding: 3px 7px; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ═══════════════ ÉCRAN 0 : ACCUEIL ═══════════════ -->
+<div class="screen active" id="screenHome">
+  <div class="level-header">
+    <h1>Préparation de solutions — Trouve l'erreur</h1>
+    <p>Choisis le protocole à étudier</p>
+  </div>
+  <div class="module-cards">
+    <div class="module-card diss" onclick="goTo('screenLevelDiss')">
+      <img src="dissolution5.png" alt="Protocole de dissolution complet">
+      <div class="module-name">🧪 Dissolution</div>
+      <div class="module-sub">Préparer une solution par dissolution d'un solide<br>(pesée, transfert, dissolution, ajustement au trait de jauge)</div>
+      <div class="module-badge">5 étapes</div>
+    </div>
+    <div class="module-card dil" onclick="goTo('screenLevelDil')">
+      <img src="dilution4.png" alt="Protocole de dilution complet">
+      <div class="module-name">💧 Dilution</div>
+      <div class="module-sub">Préparer une solution fille par dilution d'une solution mère<br>(prélèvement, transfert, ajout d'eau, homogénéisation)</div>
+      <div class="module-badge">4 étapes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DISSOLUTION : ÉCRAN CHOIX DU NIVEAU ═══════════════ -->
+<div class="screen" id="screenLevelDiss">
+  <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+  <div class="level-header">
+    <h1>Dissolution — Trouve l'erreur</h1>
+    <p>Prépare une solution, puis débusque l'erreur dans le protocole</p>
+  </div>
+  <div class="level-cards">
+    <div class="level-card lv1" onclick="selectLevelDiss(1)">
+      <div class="level-emoji">🟢</div>
+      <div class="level-name">Niveau 1</div>
+      <div class="level-sub">Concentration massique<br>Erreurs visuelles évidentes</div>
+      <div class="level-badge">Seconde</div>
+    </div>
+    <div class="level-card lv2" onclick="selectLevelDiss(2)">
+      <div class="level-emoji">🔵</div>
+      <div class="level-name">Niveau 2</div>
+      <div class="level-sub">Concentration molaire<br>Erreurs de protocole</div>
+      <div class="level-badge">Première</div>
+    </div>
+    <div class="level-card lv3" onclick="selectLevelDiss(3)">
+      <div class="level-emoji">🔴</div>
+      <div class="level-name">Niveau 3</div>
+      <div class="level-sub">Rigueur métrologique<br>Erreurs subtiles</div>
+      <div class="level-badge">Terminale</div>
+    </div>
+  </div>
+  <div class="recap-section">
+    <h3>📋 Protocole complet de dissolution</h3>
+    <div class="recap-img-wrap">
+      <img src="dissolution5.png" alt="Protocole complet de dissolution">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DISSOLUTION : ÉCRAN CALCUL ═══════════════ -->
+<div class="screen" id="screenCalcDiss">
+  <div class="back-links-row">
+    <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+    <span class="back-link" onclick="goTo('screenLevelDiss')">← Changer de niveau</span>
+  </div>
+  <div class="calc-card">
+    <h2 id="calcTitleDiss">Avant de commencer — calcule la masse à peser</h2>
+
+    <div class="proto-img-wrap">
+      <img src="dissolution5.png" alt="Balance affichant 0,20 g">
+      <div class="proto-label" id="dissMassLabel" style="top:64%; left:2%;">m = ? g</div>
+    </div>
+
+    <div class="params-row">
+      <div class="param-group">
+        <label id="concLabelDiss">Concentration (g/L)</label>
+        <div class="param-row">
+          <input class="param-input" id="concInputDiss" type="number" min="0.1" step="0.1" value="0.8">
+          <span class="param-unit" id="concUnitDiss">g/L</span>
+        </div>
+      </div>
+      <div class="param-group">
+        <label>Volume final (mL)</label>
+        <div class="param-row">
+          <input class="param-input" id="volInputDiss" type="number" min="50" step="50" value="250">
+          <span class="param-unit">mL</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="reroll-btn" onclick="rerollValuesDiss()">🎲 Nouvelles valeurs aléatoires</button>
+
+    <div class="formula-box" id="formulaBoxDiss"></div>
+
+    <div class="sep"></div>
+
+    <div class="answer-row">
+      <label id="answerLabelDiss">Masse à peser =</label>
+      <input class="answer-input" id="answerInputDiss" type="number" min="0" step="0.01" placeholder="?">
+      <span class="param-unit" id="answerUnitDiss">g</span>
+      <button class="nav-btn primary" onclick="checkCalcDiss()">Vérifier</button>
+    </div>
+    <div class="calc-feedback" id="calcFeedbackDiss">
+      <span id="calcFbIconDiss"></span>
+      <span id="calcFbTextDiss"></span>
+    </div>
+    <div id="calcHintZoneDiss"></div>
+  </div>
+  <div style="text-align:right">
+    <button class="nav-btn primary hidden" id="startGameBtnDiss" onclick="startGameDiss()">Jouer →</button>
+  </div>
+</div>
+
+<!-- ═══════════════ DISSOLUTION : ÉCRAN JEU ═══════════════ -->
+<div class="screen" id="screenGameDiss">
+  <div class="game-header">
+    <div>
+      <div class="back-links-row" style="margin-bottom:6px;">
+        <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+        <span class="back-link" onclick="goToCalcDiss()">← Recalculer</span>
+      </div>
+      <div class="game-title">Trouve l'erreur <span id="levelTagDiss"></span></div>
+    </div>
+    <div class="stats">
+      <div class="stat-pill">
+        <span class="heart" id="hd0">♥</span>
+        <span class="heart" id="hd1">♥</span>
+        <span class="heart" id="hd2">♥</span>
+      </div>
+      <div class="stat-pill">Série&nbsp;<span class="streak-val" id="streakValDiss">0</span></div>
+      <div class="stat-pill">Score&nbsp;<span class="score-val" id="scoreValDiss">0</span></div>
+    </div>
+  </div>
+
+  <div id="mainGameDiss">
+    <div class="scenario-card" id="scenarioCardDiss">
+      <div class="scenario-eyebrow" id="scenarioEyebrowDiss">Situation</div>
+      <div class="scenario-text" id="scenarioTextDiss">...</div>
+    </div>
+
+    <div class="steps-grid" id="stepsGridDiss"></div>
+
+    <div class="feedback neutral" id="feedbackDiss">
+      <span class="feedback-icon">💡</span>
+      <span id="feedbackTextDiss">Pour chaque étape : <strong>✓ Correct</strong> si le geste est juste, <strong>✗ Erreur</strong> si tu penses avoir trouvé la faute.</span>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="nav-btn hidden" id="changeValBtnDiss" onclick="goToCalcDiss()">🎲 Changer les valeurs</button>
+      <button class="nav-btn primary hidden" id="nextRoundBtnDiss" onclick="newRoundDiss()">↺ Nouveau protocole</button>
+    </div>
+  </div>
+
+  <div class="game-over" id="gameOverDiss">
+    <h2>Partie terminée !</h2>
+    <div class="final-score" id="finalScoreDiss">0</div>
+    <div class="final-label">points</div>
+    <div class="final-msg" id="finalMsgDiss"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="nav-btn" onclick="goTo('screenHome')">Accueil</button>
+      <button class="nav-btn" onclick="goTo('screenLevelDiss')">Changer de niveau</button>
+      <button class="nav-btn primary" onclick="restartGameDiss()">↺ Rejouer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DILUTION : ÉCRAN CHOIX DU NIVEAU ═══════════════ -->
+<div class="screen" id="screenLevelDil">
+  <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+  <div class="level-header">
+    <h1>Dilution — Trouve l'erreur</h1>
+    <p>Prépare une solution fille, puis débusque l'erreur dans le protocole</p>
+  </div>
+  <div class="level-cards">
+    <div class="level-card lv1" onclick="selectLevelDil(1)">
+      <div class="level-emoji">🟢</div>
+      <div class="level-name">Niveau 1</div>
+      <div class="level-sub">Facteur de dilution simple<br>Erreurs visuelles évidentes</div>
+      <div class="level-badge">Seconde</div>
+    </div>
+    <div class="level-card lv2" onclick="selectLevelDil(2)">
+      <div class="level-emoji">🔵</div>
+      <div class="level-name">Niveau 2</div>
+      <div class="level-sub">Concentrations molaires<br>Erreurs de protocole</div>
+      <div class="level-badge">Première</div>
+    </div>
+    <div class="level-card lv3" onclick="selectLevelDil(3)">
+      <div class="level-emoji">🔴</div>
+      <div class="level-name">Niveau 3</div>
+      <div class="level-sub">Rigueur métrologique<br>Erreurs subtiles</div>
+      <div class="level-badge">Terminale</div>
+    </div>
+  </div>
+  <div class="recap-section">
+    <h3>📋 Protocole complet de dilution</h3>
+    <div class="recap-img-wrap">
+      <img src="dilution4.png" alt="Protocole complet de dilution">
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ DILUTION : ÉCRAN CALCUL ═══════════════ -->
+<div class="screen" id="screenCalcDil">
+  <div class="back-links-row">
+    <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+    <span class="back-link" onclick="goTo('screenLevelDil')">← Changer de niveau</span>
+  </div>
+  <div class="calc-card">
+    <h2 id="calcTitleDil">Avant de commencer — calcule le volume de solution mère à prélever</h2>
+
+    <div class="proto-img-wrap">
+      <img src="dilution1.png" alt="Prélèvement de la solution mère">
+      <div class="proto-label" id="dilVmereLabel" style="top:48%; left:2%;">V mère = ? mL</div>
+    </div>
+
+    <div class="params-row params-3">
+      <div class="param-group">
+        <label id="concMereLabel">Concentration mère (g/L)</label>
+        <div class="param-row">
+          <input class="param-input" id="concMereInput" type="number" min="0.1" step="0.1" value="4.0">
+          <span class="param-unit" id="concMereUnit">g/L</span>
+        </div>
+      </div>
+      <div class="param-group">
+        <label id="concFilleLabel">Concentration fille (g/L)</label>
+        <div class="param-row">
+          <input class="param-input" id="concFilleInput" type="number" min="0.01" step="0.01" value="0.8">
+          <span class="param-unit" id="concFilleUnit">g/L</span>
+        </div>
+      </div>
+      <div class="param-group">
+        <label>Volume fille (mL)</label>
+        <div class="param-row">
+          <input class="param-input" id="volFilleInput" type="number" min="50" step="50" value="250">
+          <span class="param-unit">mL</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="reroll-btn" onclick="rerollValuesDil()">🎲 Nouvelles valeurs aléatoires</button>
+
+    <div class="formula-box" id="formulaBoxDil"></div>
+
+    <div class="sep"></div>
+
+    <div class="answer-row">
+      <label id="answerLabelDil">Volume de solution mère à prélever V₀ =</label>
+      <input class="answer-input" id="answerInputDil" type="number" min="0" step="0.1" placeholder="?">
+      <span class="param-unit" id="answerUnitDil">mL</span>
+      <button class="nav-btn primary" onclick="checkCalcDil()">Vérifier</button>
+    </div>
+    <div class="calc-feedback" id="calcFeedbackDil">
+      <span id="calcFbIconDil"></span>
+      <span id="calcFbTextDil"></span>
+    </div>
+    <div id="calcHintZoneDil"></div>
+  </div>
+  <div style="text-align:right">
+    <button class="nav-btn primary hidden" id="startGameBtnDil" onclick="startGameDil()">Jouer →</button>
+  </div>
+</div>
+
+<!-- ═══════════════ DILUTION : ÉCRAN JEU ═══════════════ -->
+<div class="screen" id="screenGameDil">
+  <div class="game-header">
+    <div>
+      <div class="back-links-row" style="margin-bottom:6px;">
+        <span class="home-btn" onclick="goTo('screenHome')">🏠 Accueil</span>
+        <span class="back-link" onclick="goToCalcDil()">← Recalculer</span>
+      </div>
+      <div class="game-title">Trouve l'erreur <span id="levelTagDil"></span></div>
+    </div>
+    <div class="stats">
+      <div class="stat-pill">
+        <span class="heart" id="hl0">♥</span>
+        <span class="heart" id="hl1">♥</span>
+        <span class="heart" id="hl2">♥</span>
+      </div>
+      <div class="stat-pill">Série&nbsp;<span class="streak-val" id="streakValDil">0</span></div>
+      <div class="stat-pill">Score&nbsp;<span class="score-val" id="scoreValDil">0</span></div>
+    </div>
+  </div>
+
+  <div id="mainGameDil">
+    <div class="scenario-card" id="scenarioCardDil">
+      <div class="scenario-eyebrow" id="scenarioEyebrowDil">Situation</div>
+      <div class="scenario-text" id="scenarioTextDil">...</div>
+    </div>
+
+    <div class="steps-grid cols4" id="stepsGridDil"></div>
+
+    <div class="feedback neutral" id="feedbackDil">
+      <span class="feedback-icon">💡</span>
+      <span id="feedbackTextDil">Pour chaque étape : <strong>✓ Correct</strong> si le geste est juste, <strong>✗ Erreur</strong> si tu penses avoir trouvé la faute.</span>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="nav-btn hidden" id="changeValBtnDil" onclick="goToCalcDil()">🎲 Changer les valeurs</button>
+      <button class="nav-btn primary hidden" id="nextRoundBtnDil" onclick="newRoundDil()">↺ Nouveau protocole</button>
+    </div>
+  </div>
+
+  <div class="game-over" id="gameOverDil">
+    <h2>Partie terminée !</h2>
+    <div class="final-score" id="finalScoreDil">0</div>
+    <div class="final-label">points</div>
+    <div class="final-msg" id="finalMsgDil"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="nav-btn" onclick="goTo('screenHome')">Accueil</button>
+      <button class="nav-btn" onclick="goTo('screenLevelDil')">Changer de niveau</button>
+      <button class="nav-btn primary" onclick="restartGameDil()">↺ Rejouer</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+  <img id="zoomImg" src="" alt="zoom étape">
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   NAVIGATION GÉNÉRALE
+══════════════════════════════════════════ */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function zoomStep(src) {
+  document.getElementById('zoomImg').src = src;
+  document.getElementById('zoomOverlay').classList.add('open');
+}
+function closeZoom() {
+  document.getElementById('zoomOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ════════════════  MODULE 1 : DISSOLUTION  ════════════════════
+══════════════════════════════════════════════════════════════ */
+const IMGS_DISS = [
+  'dissolution1.png','dissolution2.png','dissolution3.png',
+  'dissolution4.png','dissolution5.png'
+];
+
+const CORRECT_LABELS_DISS = [
+  'Balance tarée, solide pesé',
+  'Solide introduit dans la fiole',
+  'Eau distillée ajoutée (peu)',
+  'Agitation jusqu\'à dissolution',
+  'Complété au trait de jauge'
+];
+
+const SCENARIOS_DISS = [
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} prépare ${v.desc}. Il pose le solide directement sur le plateau sans tarer la balance au préalable.`,
+    errorStep: 0,
+    fakeLabel: 'Solide pesé sans tare',
+    errorDesc: {
+      1: 'Sans tare, la masse de la coupelle s\'ajoute à la masse du solide. La concentration massique réelle sera différente de celle voulue. Il faut toujours appuyer sur TARE avant de déposer quoi que ce soit.',
+      2: 'Sans tare, la masse de la coupelle fausse la pesée. La quantité de matière réelle differ de n = m/M calculé. Il faut tarer avant de peser.',
+      3: 'L\'incertitude sur la pesée est maximale si on oublie la tare. La concentration réelle sera C = (m_solide + m_coupelle) / (M × V), soit une surestimation systématique.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} verse d\'abord de l\'eau distillée dans la fiole jusqu\'à mi-hauteur, puis ajoute le solide par-dessus pour préparer ${v.desc}.`,
+    errorStep: 1,
+    fakeLabel: 'Solide versé après l\'eau',
+    errorDesc: {
+      1: 'Le solide doit être introduit en premier dans la fiole sèche. Ajouter l\'eau avant peut provoquer des projections et rend difficile la vérification que tout le solide a bien été transféré.',
+      2: 'Introduire le solide après l\'eau peut provoquer des pertes par projections. De plus, une partie du solide peut rester dans le col si la fiole est déjà partiellement remplie.',
+      3: 'Ajouter le solvant avant le soluté contrevient au protocole standard. Cela peut créer une inhomogénéité de concentration et rendre impossible la vérification du transfert quantitatif du soluté.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} n\'a plus d\'eau distillée. Il complète sa fiole jaugée avec de l\'eau du robinet pour atteindre le trait de jauge lors de la préparation de ${v.desc}.`,
+    errorStep: 2,
+    fakeLabel: 'Eau du robinet ajoutée',
+    errorDesc: {
+      1: 'L\'eau du robinet contient des substances dissoutes (calcaire, chlore…) qui s\'ajoutent au soluté. La concentration réelle en sulfate de fer sera différente de celle calculée.',
+      2: 'L\'eau du robinet contient des ions (Ca²⁺, Mg²⁺, Cl⁻, HCO₃⁻…) qui modifient la concentration de la solution et peuvent réagir avec le soluté. L\'eau distillée est obligatoire.',
+      3: 'L\'eau du robinet est une solution dont la composition varie. Son utilisation introduit une erreur systématique non quantifiable sur la concentration. Pour toute préparation métrologique, seule l\'eau distillée ou ultrapure convient.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} commence à agiter vigoureusement la fiole alors qu\'une partie du solide orange est encore accrochée sur les parois du col. Il prépare ${v.desc}.`,
+    errorStep: 3,
+    fakeLabel: 'Agitation trop tôt',
+    errorDesc: {
+      1: 'Si du solide reste sur les parois quand on agite, il ne se retrouve pas dans la solution. La concentration réelle est plus faible que prévue. Il faut d\'abord rincer les parois avec un peu d\'eau distillée.',
+      2: 'Du soluté resté sur les parois n\'est pas pris en compte dans la quantité de matière réellement dissoute. Il faut rincer avec de l\'eau distillée avant d\'agiter pour s\'assurer du transfert quantitatif.',
+      3: 'Un transfert non quantitatif du soluté constitue une erreur de type "perte de matière". La concentration réelle sera C < C_théorique. Le protocole impose un rinçage minutieux des parois avant l\'agitation finale.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} complète sa fiole au-delà du trait de jauge lors de la préparation de ${v.desc}, pensant que l\'écart est négligeable.`,
+    errorStep: 4,
+    fakeLabel: 'Trait de jauge dépassé',
+    errorDesc: {
+      1: 'Dépasser le trait de jauge signifie que le volume final est trop grand. La solution est donc moins concentrée que voulue. À l\'approche du trait, il faut ajouter l\'eau goutte à goutte.',
+      2: 'Si V_réel > V_jaugée, alors C_réelle = n/V_réel < C_voulue. L\'erreur est irréversible. Il faut recommencer la préparation avec une nouvelle fiole.',
+      3: 'Tout dépassement du trait de jauge invalide la préparation. L\'incertitude de la fiole jaugée (±0,15 mL pour 250 mL) n\'autorise aucun dépassement volontaire. La solution doit être préparée à nouveau.'
+    }
+  },
+  {
+    levels: [2,3],
+    buildText: (v,lv) => `${v.prenom} utilise une spatule encore humide pour prélever le solide lors de la préparation de ${v.desc}.`,
+    errorStep: 0,
+    fakeLabel: 'Spatule humide utilisée',
+    errorDesc: {
+      2: 'Une spatule humide peut dissoudre une partie du solide ou en retenir sur sa surface. La masse transférée dans la fiole differ de la valeur affichée. Il faut toujours utiliser du matériel sec.',
+      3: 'L\'humidité résiduelle sur la spatule introduit une erreur sur la pesée par dissolution partielle du soluté. De plus, si le soluté est hygroscopique, l\'absorption d\'eau fausse également la masse molaire effective.'
+    }
+  },
+  {
+    levels: [3],
+    buildText: (v,lv) => `${v.prenom} lit le trait de jauge les yeux au-dessus du niveau du liquide lors de la préparation de ${v.desc}.`,
+    errorStep: 4,
+    fakeLabel: 'Erreur de parallaxe',
+    errorDesc: {
+      3: 'L\'œil doit être rigoureusement au même niveau que le trait de jauge. Une lecture depuis le dessus (erreur de parallaxe) conduit à sous-remplir la fiole : on croit atteindre le trait avant de l\'avoir réellement atteint. Le volume réel est alors inférieur au volume nominal.'
+    }
+  },
+  {
+    levels: [3],
+    buildText: (v,lv) => `${v.prenom} place la fiole jaugée directement sur la balance pour vérifier la masse de la solution lors de la préparation de ${v.desc}.`,
+    errorStep: 4,
+    fakeLabel: 'Fiole posée sur la balance',
+    errorDesc: {
+      3: 'Une fiole jaugée est un instrument volumétrique, pas gravimétrique. La peser après remplissage n\'a aucun sens dans un protocole de préparation par dissolution. De plus, si on ajuste la masse plutôt que le volume, on ne respecte pas le protocole volumétrique et la concentration n\'est pas garantie.'
+    }
+  }
+];
+
+const PRENOMS = ['Léa','Tom','Emma','Lucas','Hugo','Inès','Karim','Clara','Maxime','Jade'];
+const SOLUTE_DISS = 'Fe₂(SO₄)₃';
+const M_SOLUTE_DISS = 399.9; // g/mol
+
+let levelDiss = 1;
+let concValDiss, volValDiss;
+let livesDiss, scoreDiss, streakDiss, answeredDiss, usedScenariosDiss, currentScenarioDiss, votedDiss;
+
+function selectLevelDiss(lv) {
+  levelDiss = lv;
+  rerollValuesDiss();
+  updateFormulaBoxDiss();
+  goTo('screenCalcDiss');
+  document.getElementById('calcFeedbackDiss').className = 'calc-feedback';
+  document.getElementById('answerInputDiss').value = '';
+  document.getElementById('answerInputDiss').className = 'answer-input';
+  document.getElementById('startGameBtnDiss').classList.add('hidden');
+  document.getElementById('calcHintZoneDiss').innerHTML = '';
+
+  const titles = {
+    1: 'Avant de jouer — calcule la masse à peser',
+    2: 'Avant de jouer — calcule la masse à peser',
+    3: 'Avant de jouer — calcule la masse à peser (vérification métrologique)'
+  };
+  document.getElementById('calcTitleDiss').textContent = titles[lv];
+  document.getElementById('concLabelDiss').textContent = levelDiss === 1 ? 'Concentration massique (g/L)' : 'Concentration molaire (mol/L)';
+  document.getElementById('concUnitDiss').textContent  = levelDiss === 1 ? 'g/L' : 'mol/L';
+  document.getElementById('answerUnitDiss').textContent = 'g';
+  document.getElementById('dissMassLabel').textContent = 'm = ? g';
+}
+
+function goToCalcDiss() {
+  document.getElementById('calcFeedbackDiss').className = 'calc-feedback';
+  document.getElementById('answerInputDiss').value = '';
+  document.getElementById('answerInputDiss').className = 'answer-input';
+  document.getElementById('startGameBtnDiss').classList.add('hidden');
+  document.getElementById('calcHintZoneDiss').innerHTML = '';
+  document.getElementById('dissMassLabel').textContent = 'm = ? g';
+  goTo('screenCalcDiss');
+}
+
+const CONC_LV1_DISS = [0.4, 0.5, 0.8, 1.0, 1.2, 1.6, 2.0];
+const CONC_LV2_DISS = [0.05, 0.1, 0.2, 0.25, 0.5];
+const CONC_LV3_DISS = [0.025, 0.05, 0.1, 0.2, 0.5, 1.0];
+const VOLS_DISS     = [100, 200, 250, 500];
+
+function rerollValuesDiss() {
+  const concList = levelDiss === 1 ? CONC_LV1_DISS : (levelDiss === 2 ? CONC_LV2_DISS : CONC_LV3_DISS);
+  concValDiss = concList[Math.floor(Math.random() * concList.length)];
+  volValDiss  = VOLS_DISS[Math.floor(Math.random() * VOLS_DISS.length)];
+  document.getElementById('concInputDiss').value = concValDiss;
+  document.getElementById('volInputDiss').value  = volValDiss;
+  updateFormulaBoxDiss();
+  document.getElementById('answerInputDiss').value = '';
+  document.getElementById('answerInputDiss').className = 'answer-input';
+  document.getElementById('calcFeedbackDiss').className = 'calc-feedback';
+  document.getElementById('startGameBtnDiss').classList.add('hidden');
+  document.getElementById('calcHintZoneDiss').innerHTML = '';
+  document.getElementById('dissMassLabel').textContent = 'm = ? g';
+}
+
+function updateFormulaBoxDiss() {
+  concValDiss = parseFloat(document.getElementById('concInputDiss').value) || concValDiss;
+  volValDiss  = parseFloat(document.getElementById('volInputDiss').value)  || volValDiss;
+  const V_L = volValDiss / 1000;
+
+  let html = '';
+  if (levelDiss === 1) {
+    html = `<div>Rappel : <span class="formula">t = m / V</span> &nbsp;→&nbsp; <span class="formula">m = t × V</span></div>
+            <div style="margin-top:6px;color:#888;font-size:13px">
+              t = ${concValDiss} g/L &nbsp;|&nbsp; V = ${volValDiss} mL = ${V_L} L
+            </div>`;
+  } else {
+    html = `<div>Rappel : <span class="formula">C = n / V</span> &nbsp;et&nbsp; <span class="formula">n = m / M</span></div>
+            <div style="margin-top:4px"><span class="formula">m = C × V × M</span></div>
+            <div style="margin-top:6px;color:#888;font-size:13px">
+              C = ${concValDiss} mol/L &nbsp;|&nbsp; V = ${volValDiss} mL = ${V_L} L &nbsp;|&nbsp; M(${SOLUTE_DISS}) = ${M_SOLUTE_DISS} g/mol
+            </div>`;
+  }
+  document.getElementById('formulaBoxDiss').innerHTML = html;
+}
+
+function correctMassDiss() {
+  const V_L = volValDiss / 1000;
+  if (levelDiss === 1) return +(concValDiss * V_L).toFixed(4);
+  return +(concValDiss * V_L * M_SOLUTE_DISS).toFixed(4);
+}
+
+function checkCalcDiss() {
+  const answer = parseFloat(document.getElementById('answerInputDiss').value);
+  const correct = correctMassDiss();
+  const tol = correct * 0.02;
+  const fb = document.getElementById('calcFeedbackDiss');
+  const inp = document.getElementById('answerInputDiss');
+
+  if (isNaN(answer)) {
+    fb.className = 'calc-feedback hint';
+    document.getElementById('calcFbIconDiss').textContent = '💡';
+    document.getElementById('calcFbTextDiss').textContent = 'Entre un nombre décimal.';
+    fb.style.display = 'flex';
+    return;
+  }
+
+  if (Math.abs(answer - correct) <= tol) {
+    inp.className = 'answer-input correct';
+    fb.className = 'calc-feedback ok';
+    document.getElementById('calcFbIconDiss').textContent = '✓';
+    document.getElementById('calcFbTextDiss').innerHTML = `Exact ! m = <strong>${correct.toFixed(3)} g</strong>. Tu peux maintenant observer le protocole.`;
+    document.getElementById('startGameBtnDiss').classList.remove('hidden');
+    document.getElementById('calcHintZoneDiss').innerHTML = '';
+    document.getElementById('dissMassLabel').textContent = `m = ${correct.toFixed(2)} g`;
+  } else {
+    inp.className = 'answer-input wrong';
+    fb.className = 'calc-feedback err';
+    document.getElementById('calcFbIconDiss').textContent = '✕';
+    const hint = buildHintDiss(answer, correct);
+    document.getElementById('calcFbTextDiss').innerHTML = `Pas tout à fait. ${hint}`;
+    document.getElementById('startGameBtnDiss').classList.add('hidden');
+    showStepByStepHintDiss(correct);
+  }
+}
+
+function buildHintDiss(answer, correct) {
+  if (answer > correct * 1.5) return 'Ta valeur est beaucoup trop grande. Vérifie les unités (V doit être en L).';
+  if (answer < correct * 0.5) return 'Ta valeur est trop petite. As-tu bien converti les mL en L ?';
+  if (answer > correct)       return 'Un peu trop grand. Relis tes calculs.';
+  return 'Un peu trop petit. Relis tes calculs.';
+}
+
+function showStepByStepHintDiss(correct) {
+  const V_L = volValDiss / 1000;
+  let html = '<div style="margin-top:10px;font-size:13px;color:#555;line-height:1.8">';
+  if (levelDiss === 1) {
+    html += `Détail : m = t × V = ${concValDiss} × ${V_L} = <strong>${correct.toFixed(3)} g</strong>`;
+  } else {
+    const n = (concValDiss * V_L).toFixed(4);
+    html += `Détail :<br>
+      n = C × V = ${concValDiss} × ${V_L} = ${n} mol<br>
+      m = n × M = ${n} × ${M_SOLUTE_DISS} = <strong>${correct.toFixed(3)} g</strong>`;
+  }
+  html += '</div>';
+  document.getElementById('calcHintZoneDiss').innerHTML = html;
+}
+
+function startGameDiss() {
+  livesDiss = 3; scoreDiss = 0; streakDiss = 0; answeredDiss = false; usedScenariosDiss = [];
+  document.getElementById('gameOverDiss').classList.remove('open');
+  document.getElementById('mainGameDiss').style.display = 'block';
+  const tags = { 1: '— Niveau 1 · Seconde', 2: '— Niveau 2 · Première', 3: '— Niveau 3 · Terminale' };
+  document.getElementById('levelTagDiss').textContent = tags[levelDiss];
+  const accents = { 1: 'lv1-accent', 2: 'lv2-accent', 3: 'lv3-accent' };
+  document.getElementById('scenarioCardDiss').className = 'scenario-card ' + accents[levelDiss];
+  updateUIDiss();
+  goTo('screenGameDiss');
+  newRoundDiss();
+}
+
+function restartGameDiss() {
+  livesDiss = 3; scoreDiss = 0; streakDiss = 0; answeredDiss = false; usedScenariosDiss = [];
+  document.getElementById('gameOverDiss').classList.remove('open');
+  document.getElementById('mainGameDiss').style.display = 'block';
+  updateUIDiss();
+  newRoundDiss();
+}
+
+function newRoundDiss() {
+  answeredDiss = false;
+  votedDiss = [false,false,false,false,false];
+  document.getElementById('nextRoundBtnDiss').classList.add('hidden');
+  document.getElementById('changeValBtnDiss').classList.add('hidden');
+  setFeedbackDiss('neutral', '💡', 'Pour chaque étape : <strong>✓ Correct</strong> si le geste est juste, <strong>✗ Erreur</strong> si tu penses avoir trouvé la faute. Vote sur toutes les étapes !');
+
+  const available = SCENARIOS_DISS
+    .map((s, i) => ({ s, i }))
+    .filter(({ s, i }) => s.levels.includes(levelDiss) && !usedScenariosDiss.includes(i));
+
+  let pool = available.length > 0 ? available : SCENARIOS_DISS.map((s, i) => ({ s, i })).filter(({ s }) => s.levels.includes(levelDiss));
+  if (pool.length === 0) { usedScenariosDiss = []; pool = SCENARIOS_DISS.map((s, i) => ({ s, i })).filter(({ s }) => s.levels.includes(levelDiss)); }
+
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  usedScenariosDiss.push(pick.i);
+  currentScenarioDiss = pick.s;
+
+  const prenom = PRENOMS[Math.floor(Math.random() * PRENOMS.length)];
+  const V_L = volValDiss / 1000;
+  const m = correctMassDiss().toFixed(2);
+  let desc;
+  if (levelDiss === 1) {
+    desc = `une solution de ${SOLUTE_DISS} de concentration massique t = ${concValDiss} g/L dans une fiole jaugée de ${volValDiss} mL (m = ${m} g)`;
+  } else {
+    desc = `une solution de ${SOLUTE_DISS} de concentration molaire C = ${concValDiss} mol/L dans une fiole jaugée de ${volValDiss} mL (m = ${m} g)`;
+  }
+  document.getElementById('scenarioTextDiss').textContent = currentScenarioDiss.buildText({ prenom, desc }, levelDiss);
+  renderGridDiss();
+}
+
+function renderGridDiss() {
+  const grid = document.getElementById('stepsGridDiss');
+  grid.innerHTML = '';
+  IMGS_DISS.forEach((src, i) => {
+    const isError = (i === currentScenarioDiss.errorStep);
+    const label = isError ? currentScenarioDiss.fakeLabel : CORRECT_LABELS_DISS[i];
+    const card = document.createElement('div');
+    card.className = 'step-card';
+    card.id = 'sd' + i;
+    card.innerHTML = `
+      <div class="step-img-wrap" onclick="zoomStep('${src}')">
+        <div class="error-ribbon" id="ribbond${i}">✕ ERREUR</div>
+        <img src="${src}" alt="étape ${i+1}">
+        <span class="zoom-hint">🔍 zoom</span>
+      </div>
+      <div class="step-label-row">
+        <div class="step-num" id="snumd${i}">${i+1}</div>
+        <div class="step-lbl">${label}</div>
+      </div>
+      <div class="vote-row">
+        <button class="vote-btn ok"  id="vokd${i}"  onclick="voteDiss(${i},true)">✓ Correct</button>
+        <button class="vote-btn nok" id="vnokd${i}" onclick="voteDiss(${i},false)">✗ Erreur</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function voteDiss(i, isCorrect) {
+  if (votedDiss[i]) return;
+  votedDiss[i] = true;
+
+  const trueError = currentScenarioDiss.errorStep;
+  const userClaimsError = !isCorrect;
+  const isActuallyError  = (i === trueError);
+  const userIsRight = (userClaimsError === isActuallyError);
+
+  // Disable this card's buttons
+  document.getElementById('vokd' + i).disabled = true;
+  document.getElementById('vnokd' + i).disabled = true;
+
+  if (userIsRight) {
+    // Bonne réponse sur cette pastille
+    if (isActuallyError) {
+      document.getElementById('sd' + i).classList.add('correct');
+      document.getElementById('ribbond' + i).classList.add('show');
+      document.getElementById('vnokd' + i).classList.add('pressed-nok');
+    } else {
+      document.getElementById('sd' + i).classList.add('correct');
+      document.getElementById('vokd' + i).classList.add('pressed-ok');
+    }
+    streakDiss++;
+    const bonus = streakDiss > 1 ? streakDiss * 2 : 0;
+    scoreDiss += 10 + bonus;
+    const bonusMsg = bonus > 0 ? ` <em>(+${bonus} bonus série ×${streakDiss})</em>` : '';
+    if (isActuallyError) {
+      const expl = currentScenarioDiss.errorDesc[levelDiss] || currentScenarioDiss.errorDesc[Math.max(...Object.keys(currentScenarioDiss.errorDesc))];
+      setFeedbackDiss('ok', '✓', `<strong>Bravo, c\'était bien l\'erreur !</strong>${bonusMsg} — ${expl}`);
+    } else {
+      setFeedbackDiss('ok', '✓', `<strong>Correct !</strong>${bonusMsg} L\'étape ${i+1} est bien correcte. Continue à examiner les autres étapes.`);
+    }
+  } else {
+    // Mauvaise réponse sur cette pastille
+    document.getElementById('sd' + i).classList.add('wrong');
+    if (userClaimsError) document.getElementById('vnokd' + i).classList.add('pressed-nok');
+    else                 document.getElementById('vokd'  + i).classList.add('pressed-ok');
+    livesDiss--; streakDiss = 0;
+    if (isActuallyError) {
+      setFeedbackDiss('err', '✕', `<strong>Attention !</strong> L\'étape ${i+1} contient bien une erreur, mais tu as cliqué "Correct".`);
+    } else {
+      setFeedbackDiss('err', '✕', `<strong>Pas tout à fait.</strong> L\'étape ${i+1} était correcte.`);
+    }
+  }
+
+  updateUIDiss();
+
+  const allVoted = votedDiss.every(v => v);
+  if (allVoted) {
+    // Révéler l'étape fautive si elle n'a pas encore été identifiée correctement
+    const errEl = document.getElementById('sd' + trueError);
+    if (!errEl.classList.contains('correct')) {
+      errEl.classList.add('revealed-correct');
+      document.getElementById('ribbond' + trueError).classList.add('show');
+    }
+    const expl = currentScenarioDiss.errorDesc[levelDiss] || currentScenarioDiss.errorDesc[Math.max(...Object.keys(currentScenarioDiss.errorDesc))];
+    setFeedbackDiss('neutral', '🏁', `<strong>Manche terminée.</strong> L\'erreur se trouvait à l\'étape ${trueError+1} — ${expl}`);
+    if (livesDiss <= 0) {
+      setTimeout(showGameOverDiss, 2000);
+    } else {
+      document.getElementById('nextRoundBtnDiss').classList.remove('hidden');
+      document.getElementById('changeValBtnDiss').classList.remove('hidden');
+    }
+  }
+}
+
+function setFeedbackDiss(type, icon, html) {
+  const fb = document.getElementById('feedbackDiss');
+  fb.className = 'feedback ' + type;
+  fb.querySelector('.feedback-icon').textContent = icon;
+  document.getElementById('feedbackTextDiss').innerHTML = html;
+}
+
+function updateUIDiss() {
+  for (let i = 0; i < 3; i++)
+    document.getElementById('hd' + i).classList.toggle('lost', i >= livesDiss);
+  document.getElementById('scoreValDiss').textContent  = scoreDiss;
+  document.getElementById('streakValDiss').textContent = streakDiss;
+}
+
+function showGameOverDiss() {
+  document.getElementById('mainGameDiss').style.display = 'none';
+  document.getElementById('gameOverDiss').classList.add('open');
+  document.getElementById('finalScoreDiss').textContent = scoreDiss;
+  const msg = scoreDiss >= 70
+    ? 'Excellent ! Tu maîtrises le protocole de dissolution.'
+    : scoreDiss >= 40
+    ? 'Bien joué ! Relis les explications pour consolider.'
+    : 'Continue de t\'entraîner — la rigueur expérimentale s\'acquiert avec la pratique !';
+  document.getElementById('finalMsgDiss').textContent = msg;
+}
+
+/* sync inputs manuels — dissolution */
+document.getElementById('concInputDiss').addEventListener('input', updateFormulaBoxDiss);
+document.getElementById('volInputDiss').addEventListener('input',  updateFormulaBoxDiss);
+document.getElementById('answerInputDiss').addEventListener('keydown', e => { if(e.key==='Enter') checkCalcDiss(); });
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ════════════════  MODULE 2 : DILUTION  ════════════════════════
+══════════════════════════════════════════════════════════════ */
+const IMGS_DIL = [
+  'dilution1.png','dilution2.png','dilution3.png','dilution4.png'
+];
+
+const CORRECT_LABELS_DIL = [
+  'Prélèvement de V₀ à la pipette jaugée',
+  'Transfert dans la fiole jaugée vide',
+  'Ajout d\'eau distillée',
+  'Ajustement au trait de jauge, bouchage et homogénéisation par retournements'
+];
+
+const SOLUTE_DIL = 'sulfate de cuivre';
+const M_SOLUTE_DIL = 159.6; // g/mol, CuSO4
+
+/* Scénarios par niveau
+   errorStep : index 0-3 de l'image fautive
+   levels    : tableau des niveaux où ce scénario apparaît */
+const SCENARIOS_DIL = [
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} prélève la solution mère avec une éprouvette graduée au lieu d\'une pipette jaugée pour préparer ${v.desc}.`,
+    errorStep: 0,
+    fakeLabel: 'Prélèvement à l\'éprouvette',
+    errorDesc: {
+      1: 'Une éprouvette graduée est beaucoup moins précise qu\'une pipette jaugée. Le volume V₀ réellement prélevé peut être différent de la valeur calculée, ce qui fausse la concentration de la solution fille.',
+      2: 'L\'éprouvette graduée a une incertitude bien plus grande que la pipette jaugée (souvent ±2 à 5% contre <1%). Le volume V₀ prélevé n\'est donc pas fiable pour une dilution précise.',
+      3: 'Pour un prélèvement précis de V₀, seule une pipette jaugée (à un trait) associée à une propipette convient. L\'incertitude d\'une éprouvette graduée est incompatible avec la précision attendue d\'une dilution métrologique.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} prélève la solution mère avec une pipette jaugée qui n\'a pas été rincée avec la solution mère, mais seulement avec de l\'eau distillée, pour préparer ${v.desc}.`,
+    errorStep: 0,
+    fakeLabel: 'Pipette non rincée avec la solution mère',
+    errorDesc: {
+      1: 'De l\'eau résiduelle dans la pipette dilue légèrement la solution mère prélevée. La concentration réelle prélevée est donc inférieure à C_mère.',
+      2: 'L\'eau distillée résiduelle dilue la solution mère au moment du prélèvement : la quantité de matière réellement prélevée est inférieure à n = C_mère × V₀ attendue.',
+      3: 'Avant tout prélèvement, la pipette doit être rincée avec la solution mère elle-même (et non l\'eau distillée) pour éviter toute dilution parasite qui fausserait systématiquement la concentration de la solution fille.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} transfère la solution mère prélevée dans une fiole jaugée encore mouillée d\'eau du robinet (non rincée à l\'eau distillée) pour préparer ${v.desc}.`,
+    errorStep: 1,
+    fakeLabel: 'Fiole rincée à l\'eau du robinet',
+    errorDesc: {
+      1: 'L\'eau du robinet contient des ions dissous qui contaminent la solution. La fiole jaugée doit être rincée uniquement à l\'eau distillée avant utilisation.',
+      2: 'Les traces d\'eau du robinet apportent des espèces chimiques étrangères (Ca²⁺, Mg²⁺, Cl⁻…) qui modifient la composition de la solution fille. Seule l\'eau distillée doit être utilisée pour rincer la verrerie.',
+      3: 'Toute trace d\'eau non distillée dans la fiole introduit une contamination ionique non quantifiable. Pour une préparation métrologique, la verrerie doit être rincée exclusivement à l\'eau distillée (voire ultrapure).'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} verse l\'eau distillée rapidement et en grande quantité, dépassant largement le trait de jauge, pour préparer ${v.desc}.`,
+    errorStep: 2,
+    fakeLabel: 'Ajout d\'eau trop rapide, trait dépassé',
+    errorDesc: {
+      1: 'Si le volume final dépasse le trait de jauge, la solution fille est moins concentrée que prévu : C_fille_réelle < C_fille_voulue. Il faut ajouter l\'eau lentement, surtout en approchant du trait.',
+      2: 'Un volume final V_réel > V_fille conduit à C_réelle = n / V_réel < C_voulue. L\'ajout d\'eau doit être progressif, à la pipette ou à la pissette goutte à goutte près du trait.',
+      3: 'Dépasser le trait de jauge invalide la préparation : la fiole jaugée a une tolérance stricte. La préparation doit être refaite avec une nouvelle fiole, l\'eau étant ajoutée goutte à goutte au voisinage du trait, œil au niveau du trait.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} ajuste exactement le niveau au trait de jauge mais ne bouche pas la fiole et ne procède à aucun mélange avant de considérer la solution fille prête, lors de la préparation de ${v.desc}.`,
+    errorStep: 3,
+    fakeLabel: 'Pas d\'homogénéisation',
+    errorDesc: {
+      1: 'Sans homogénéisation, la solution mère diluée et l\'eau ajoutée ne sont pas mélangées de façon homogène : la concentration n\'est pas la même partout dans la fiole. Il faut boucher la fiole et la retourner plusieurs fois (sans la secouer).',
+      2: 'L\'homogénéisation (bouchage + retournements successifs, fiole tenue verticale) est indispensable pour que la concentration C_fille soit uniforme dans tout le volume. Sans cela, un prélèvement ultérieur ne serait pas représentatif.',
+      3: 'L\'absence d\'homogénéisation rend la solution non conforme : un gradient de concentration peut subsister localement, ce qui invalide toute utilisation analytique ultérieure (dosage, spectrophotométrie…). Le protocole impose un bouchage suivi de plusieurs retournements lents de la fiole.'
+    }
+  },
+  {
+    levels: [1,2,3],
+    buildText: (v,lv) => `${v.prenom} ajuste le niveau au trait de jauge, bouche la fiole, puis la secoue vigoureusement dans tous les sens pour homogénéiser sa solution lors de la préparation de ${v.desc}.`,
+    errorStep: 3,
+    fakeLabel: 'Fiole secouée vigoureusement',
+    errorDesc: {
+      1: 'Pour homogénéiser, il ne faut pas secouer la fiole : il faut la retourner plusieurs fois lentement (la boucher, la retourner tête en bas puis la remettre à l\'endroit, et répéter). Secouer vivement risque des projections par le bouchon et ne mélange pas mieux qu\'un retournement.',
+      2: 'Le geste correct est le retournement répété de la fiole bouchée (généralement 8 à 10 fois), tenue par le bouchon et le fond, et non une agitation ou un secouage violent qui peut provoquer des fuites de liquide au niveau du bouchon et fausser le volume final.',
+      3: 'Secouer une fiole jaugée bouchée peut créer une surpression et provoquer des projections au niveau du bouchon, modifiant le volume réel V_fille. Le protocole standard impose des retournements lents et répétés (fiole tenue verticalement, bouchon maintenu), jamais un secouage.'
+    }
+  },
+  {
+    levels: [2,3],
+    buildText: (v,lv) => `${v.prenom} utilise une pipette jaugée de 10,0 mL alors que le calcul donne V₀ = ${v.v0} mL, et complète en deux prélèvements successifs sans recalculer, pour préparer ${v.desc}.`,
+    errorStep: 0,
+    fakeLabel: 'Volume V₀ mal prélevé',
+    errorDesc: {
+      2: 'Le volume V₀ doit être prélevé en une seule fois avec une pipette jaugée adaptée à la valeur calculée. Faire plusieurs prélèvements successifs cumule les incertitudes et risque de donner un volume total différent de V₀.',
+      3: 'Le choix de la pipette doit correspondre exactement au volume V₀ calculé. Un cumul de prélèvements multiplie l\'incertitude composée (loi de propagation des incertitudes) et compromet la précision de C_fille.'
+    }
+  },
+  {
+    levels: [3],
+    buildText: (v,lv) => `${v.prenom} lit le trait de jauge de la fiole en penchant légèrement la fiole pour mieux voir, lors de la préparation de ${v.desc}.`,
+    errorStep: 3,
+    fakeLabel: 'Fiole inclinée pour la lecture',
+    errorDesc: {
+      3: 'La fiole jaugée doit être lue en position verticale, sur une surface plane, avec l\'œil au niveau du trait (pas de parallaxe). Incliner la fiole fausse la lecture du niveau et donc le volume final réel.'
+    }
+  }
+];
+
+let levelDil = 1;
+let cMereDil, cFilleDil, vFilleDil;
+let livesDil, scoreDil, streakDil, answeredDil, usedScenariosDil, currentScenarioDil, votedDil;
+
+function selectLevelDil(lv) {
+  levelDil = lv;
+  rerollValuesDil();
+  goTo('screenCalcDil');
+  document.getElementById('calcFeedbackDil').className = 'calc-feedback';
+  document.getElementById('answerInputDil').value = '';
+  document.getElementById('answerInputDil').className = 'answer-input';
+  document.getElementById('startGameBtnDil').classList.add('hidden');
+  document.getElementById('calcHintZoneDil').innerHTML = '';
+
+  const titles = {
+    1: 'Avant de jouer — calcule le volume de solution mère à prélever',
+    2: 'Avant de jouer — calcule le volume de solution mère à prélever',
+    3: 'Avant de jouer — calcule le volume de solution mère à prélever (vérification métrologique)'
+  };
+  document.getElementById('calcTitleDil').textContent = titles[lv];
+
+  if (lv === 1) {
+    document.getElementById('concMereLabel').textContent  = 'Concentration mère (g/L)';
+    document.getElementById('concFilleLabel').textContent = 'Concentration fille (g/L)';
+    document.getElementById('concMereUnit').textContent  = 'g/L';
+    document.getElementById('concFilleUnit').textContent = 'g/L';
+  } else {
+    document.getElementById('concMereLabel').textContent  = 'Concentration mère (mol/L)';
+    document.getElementById('concFilleLabel').textContent = 'Concentration fille (mol/L)';
+    document.getElementById('concMereUnit').textContent  = 'mol/L';
+    document.getElementById('concFilleUnit').textContent = 'mol/L';
+  }
+  document.getElementById('answerUnitDil').textContent = 'mL';
+  document.getElementById('dilVmereLabel').textContent = 'V mère = ? mL';
+}
+
+function goToCalcDil() {
+  document.getElementById('calcFeedbackDil').className = 'calc-feedback';
+  document.getElementById('answerInputDil').value = '';
+  document.getElementById('answerInputDil').className = 'answer-input';
+  document.getElementById('startGameBtnDil').classList.add('hidden');
+  document.getElementById('calcHintZoneDil').innerHTML = '';
+  document.getElementById('dilVmereLabel').textContent = 'V mère = ? mL';
+  goTo('screenCalcDil');
+}
+
+const CMERE_LV1 = [4, 5, 8, 10, 12, 16, 20];      // g/L
+const CFILLE_LV1 = [0.5, 1, 2, 2.5];               // g/L (facteurs simples : 2,4,5,8,10)
+const CMERE_LV2 = [0.4, 0.5, 0.8, 1.0];            // mol/L
+const CFILLE_LV2 = [0.05, 0.1, 0.2];               // mol/L
+const CMERE_LV3 = [0.2, 0.5, 1.0];                  // mol/L
+const CFILLE_LV3 = [0.01, 0.02, 0.025, 0.05];      // mol/L
+const VFILLES    = [100, 200, 250, 500];
+
+function rerollValuesDil() {
+  let cMereList, cFilleList;
+  if (levelDil === 1)      { cMereList = CMERE_LV1; cFilleList = CFILLE_LV1; }
+  else if (levelDil === 2) { cMereList = CMERE_LV2; cFilleList = CFILLE_LV2; }
+  else                      { cMereList = CMERE_LV3; cFilleList = CFILLE_LV3; }
+
+  // s'assurer que C_mère > C_fille (facteur de dilution > 1)
+  let attempts = 0;
+  do {
+    cMereDil  = cMereList[Math.floor(Math.random() * cMereList.length)];
+    cFilleDil = cFilleList[Math.floor(Math.random() * cFilleList.length)];
+    attempts++;
+  } while (cFilleDil >= cMereDil && attempts < 20);
+
+  vFilleDil = VFILLES[Math.floor(Math.random() * VFILLES.length)];
+
+  document.getElementById('concMereInput').value  = cMereDil;
+  document.getElementById('concFilleInput').value = cFilleDil;
+  document.getElementById('volFilleInput').value  = vFilleDil;
+  updateFormulaBoxDil();
+  document.getElementById('answerInputDil').value = '';
+  document.getElementById('answerInputDil').className = 'answer-input';
+  document.getElementById('calcFeedbackDil').className = 'calc-feedback';
+  document.getElementById('startGameBtnDil').classList.add('hidden');
+  document.getElementById('calcHintZoneDil').innerHTML = '';
+  document.getElementById('dilVmereLabel').textContent = 'V mère = ? mL';
+}
+
+function dilutionFactor() {
+  return cMereDil / cFilleDil;
+}
+
+function correctV0Dil() {
+  // V0 = Cfille * Vfille / Cmere
+  return +(cFilleDil * vFilleDil / cMereDil).toFixed(4);
+}
+
+function updateFormulaBoxDil() {
+  cMereDil  = parseFloat(document.getElementById('concMereInput').value)  || cMereDil;
+  cFilleDil = parseFloat(document.getElementById('concFilleInput').value) || cFilleDil;
+  vFilleDil = parseFloat(document.getElementById('volFilleInput').value)  || vFilleDil;
+
+  const F = dilutionFactor();
+  const unit = levelDil === 1 ? 'g/L' : 'mol/L';
+
+  let html = `<div>Rappel : <span class="formula">C_mère × V₀ = C_fille × V_fille</span> &nbsp;→&nbsp; <span class="formula">V₀ = C_fille × V_fille / C_mère</span></div>
+            <div style="margin-top:6px;color:#888;font-size:13px">
+              C_mère = ${cMereDil} ${unit} &nbsp;|&nbsp; C_fille = ${cFilleDil} ${unit} &nbsp;|&nbsp; V_fille = ${vFilleDil} mL
+            </div>
+            <div style="margin-top:6px">
+              Facteur de dilution : <span class="formula">F = C_mère / C_fille = ${cMereDil} / ${cFilleDil} = ${F.toFixed(2)}</span>
+            </div>`;
+  document.getElementById('formulaBoxDil').innerHTML = html;
+}
+
+function checkCalcDil() {
+  const answer = parseFloat(document.getElementById('answerInputDil').value);
+  const correct = correctV0Dil();
+  const tol = correct * 0.02;
+  const fb = document.getElementById('calcFeedbackDil');
+  const inp = document.getElementById('answerInputDil');
+
+  if (isNaN(answer)) {
+    fb.className = 'calc-feedback hint';
+    document.getElementById('calcFbIconDil').textContent = '💡';
+    document.getElementById('calcFbTextDil').textContent = 'Entre un nombre décimal.';
+    fb.style.display = 'flex';
+    return;
+  }
+
+  if (Math.abs(answer - correct) <= tol) {
+    inp.className = 'answer-input correct';
+    fb.className = 'calc-feedback ok';
+    document.getElementById('calcFbIconDil').textContent = '✓';
+    const F = dilutionFactor();
+    document.getElementById('calcFbTextDil').innerHTML = `Exact ! V₀ = <strong>${correct.toFixed(2)} mL</strong> (facteur de dilution F = ${F.toFixed(2)}). Tu peux maintenant observer le protocole.`;
+    document.getElementById('startGameBtnDil').classList.remove('hidden');
+    document.getElementById('calcHintZoneDil').innerHTML = '';
+    document.getElementById('dilVmereLabel').textContent = `V mère = ${correct.toFixed(1)} mL`;
+  } else {
+    inp.className = 'answer-input wrong';
+    fb.className = 'calc-feedback err';
+    document.getElementById('calcFbIconDil').textContent = '✕';
+    const hint = buildHintDil(answer, correct);
+    document.getElementById('calcFbTextDil').innerHTML = `Pas tout à fait. ${hint}`;
+    document.getElementById('startGameBtnDil').classList.add('hidden');
+    showStepByStepHintDil(correct);
+  }
+}
+
+function buildHintDil(answer, correct) {
+  if (answer > correct * 1.5) return 'Ta valeur est beaucoup trop grande. As-tu bien isolé V₀ dans la formule C_mère × V₀ = C_fille × V_fille ?';
+  if (answer < correct * 0.5) return 'Ta valeur est trop petite. Vérifie que tu as bien multiplié par V_fille.';
+  if (answer > correct)       return 'Un peu trop grand. Relis tes calculs.';
+  return 'Un peu trop petit. Relis tes calculs.';
+}
+
+function showStepByStepHintDil(correct) {
+  const F = dilutionFactor();
+  let html = '<div style="margin-top:10px;font-size:13px;color:#555;line-height:1.8">';
+  html += `Détail :<br>
+    Facteur de dilution F = C_mère / C_fille = ${cMereDil} / ${cFilleDil} = ${F.toFixed(2)}<br>
+    V₀ = C_fille × V_fille / C_mère = V_fille / F = ${vFilleDil} / ${F.toFixed(2)} = <strong>${correct.toFixed(2)} mL</strong>`;
+  html += '</div>';
+  document.getElementById('calcHintZoneDil').innerHTML = html;
+}
+
+function startGameDil() {
+  livesDil = 3; scoreDil = 0; streakDil = 0; answeredDil = false; usedScenariosDil = [];
+  document.getElementById('gameOverDil').classList.remove('open');
+  document.getElementById('mainGameDil').style.display = 'block';
+  const tags = { 1: '— Niveau 1 · Seconde', 2: '— Niveau 2 · Première', 3: '— Niveau 3 · Terminale' };
+  document.getElementById('levelTagDil').textContent = tags[levelDil];
+  const accents = { 1: 'lv1-accent', 2: 'lv2-accent', 3: 'lv3-accent' };
+  document.getElementById('scenarioCardDil').className = 'scenario-card ' + accents[levelDil];
+  updateUIDil();
+  goTo('screenGameDil');
+  newRoundDil();
+}
+
+function restartGameDil() {
+  livesDil = 3; scoreDil = 0; streakDil = 0; answeredDil = false; usedScenariosDil = [];
+  document.getElementById('gameOverDil').classList.remove('open');
+  document.getElementById('mainGameDil').style.display = 'block';
+  updateUIDil();
+  newRoundDil();
+}
+
+function newRoundDil() {
+  answeredDil = false;
+  votedDil = [false,false,false,false];
+  document.getElementById('nextRoundBtnDil').classList.add('hidden');
+  document.getElementById('changeValBtnDil').classList.add('hidden');
+  setFeedbackDil('neutral', '💡', 'Pour chaque étape : <strong>✓ Correct</strong> si le geste est juste, <strong>✗ Erreur</strong> si tu penses avoir trouvé la faute. Vote sur toutes les étapes !');
+
+  const available = SCENARIOS_DIL
+    .map((s, i) => ({ s, i }))
+    .filter(({ s, i }) => s.levels.includes(levelDil) && !usedScenariosDil.includes(i));
+
+  let pool = available.length > 0 ? available : SCENARIOS_DIL.map((s, i) => ({ s, i })).filter(({ s }) => s.levels.includes(levelDil));
+  if (pool.length === 0) { usedScenariosDil = []; pool = SCENARIOS_DIL.map((s, i) => ({ s, i })).filter(({ s }) => s.levels.includes(levelDil)); }
+
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  usedScenariosDil.push(pick.i);
+  currentScenarioDil = pick.s;
+
+  const prenom = PRENOMS[Math.floor(Math.random() * PRENOMS.length)];
+  const v0 = correctV0Dil().toFixed(2);
+  const F = dilutionFactor().toFixed(2);
+  const unit = levelDil === 1 ? 'g/L' : 'mol/L';
+  const desc = `une solution fille de ${SOLUTE_DIL} de concentration C_fille = ${cFilleDil} ${unit} et de volume V_fille = ${vFilleDil} mL, à partir d\'une solution mère à C_mère = ${cMereDil} ${unit} (V₀ = ${v0} mL, facteur de dilution F = ${F})`;
+  document.getElementById('scenarioTextDil').textContent = currentScenarioDil.buildText({ prenom, desc, v0 }, levelDil);
+  renderGridDil();
+}
+
+function renderGridDil() {
+  const grid = document.getElementById('stepsGridDil');
+  grid.innerHTML = '';
+  IMGS_DIL.forEach((src, i) => {
+    const isError = (i === currentScenarioDil.errorStep);
+    const label = isError ? currentScenarioDil.fakeLabel : CORRECT_LABELS_DIL[i];
+    const card = document.createElement('div');
+    card.className = 'step-card';
+    card.id = 'sl' + i;
+    card.innerHTML = `
+      <div class="step-img-wrap" onclick="zoomStep('${src}')">
+        <div class="error-ribbon" id="ribbonl${i}">✕ ERREUR</div>
+        <img src="${src}" alt="étape ${i+1}">
+        <span class="zoom-hint">🔍 zoom</span>
+      </div>
+      <div class="step-label-row">
+        <div class="step-num" id="snuml${i}">${i+1}</div>
+        <div class="step-lbl">${label}</div>
+      </div>
+      <div class="vote-row">
+        <button class="vote-btn ok"  id="vokl${i}"  onclick="voteDil(${i},true)">✓ Correct</button>
+        <button class="vote-btn nok" id="vnokl${i}" onclick="voteDil(${i},false)">✗ Erreur</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function voteDil(i, isCorrect) {
+  if (votedDil[i]) return;
+  votedDil[i] = true;
+
+  const trueError = currentScenarioDil.errorStep;
+  const userClaimsError = !isCorrect;
+  const isActuallyError  = (i === trueError);
+  const userIsRight = (userClaimsError === isActuallyError);
+
+  document.getElementById('vokl' + i).disabled = true;
+  document.getElementById('vnokl' + i).disabled = true;
+
+  if (userIsRight) {
+    if (isActuallyError) {
+      document.getElementById('sl' + i).classList.add('correct');
+      document.getElementById('ribbonl' + i).classList.add('show');
+      document.getElementById('vnokl' + i).classList.add('pressed-nok');
+    } else {
+      document.getElementById('sl' + i).classList.add('correct');
+      document.getElementById('vokl' + i).classList.add('pressed-ok');
+    }
+    streakDil++;
+    const bonus = streakDil > 1 ? streakDil * 2 : 0;
+    scoreDil += 10 + bonus;
+    const bonusMsg = bonus > 0 ? ` <em>(+${bonus} bonus série ×${streakDil})</em>` : '';
+    if (isActuallyError) {
+      const expl = currentScenarioDil.errorDesc[levelDil] || currentScenarioDil.errorDesc[Math.max(...Object.keys(currentScenarioDil.errorDesc))];
+      setFeedbackDil('ok', '✓', `<strong>Bravo, c\'était bien l\'erreur !</strong>${bonusMsg} — ${expl}`);
+    } else {
+      setFeedbackDil('ok', '✓', `<strong>Correct !</strong>${bonusMsg} L\'étape ${i+1} est bien correcte. Continue à examiner les autres étapes.`);
+    }
+  } else {
+    document.getElementById('sl' + i).classList.add('wrong');
+    if (userClaimsError) document.getElementById('vnokl' + i).classList.add('pressed-nok');
+    else                 document.getElementById('vokl'  + i).classList.add('pressed-ok');
+    livesDil--; streakDil = 0;
+    if (isActuallyError) {
+      setFeedbackDil('err', '✕', `<strong>Attention !</strong> L\'étape ${i+1} contient bien une erreur, mais tu as cliqué "Correct".`);
+    } else {
+      setFeedbackDil('err', '✕', `<strong>Pas tout à fait.</strong> L\'étape ${i+1} était correcte.`);
+    }
+  }
+
+  updateUIDil();
+
+  const allVoted = votedDil.every(v => v);
+  if (allVoted) {
+    const errEl = document.getElementById('sl' + trueError);
+    if (!errEl.classList.contains('correct')) {
+      errEl.classList.add('revealed-correct');
+      document.getElementById('ribbonl' + trueError).classList.add('show');
+    }
+    const expl = currentScenarioDil.errorDesc[levelDil] || currentScenarioDil.errorDesc[Math.max(...Object.keys(currentScenarioDil.errorDesc))];
+    setFeedbackDil('neutral', '🏁', `<strong>Manche terminée.</strong> L\'erreur se trouvait à l\'étape ${trueError+1} — ${expl}`);
+    if (livesDil <= 0) {
+      setTimeout(showGameOverDil, 2000);
+    } else {
+      document.getElementById('nextRoundBtnDil').classList.remove('hidden');
+      document.getElementById('changeValBtnDil').classList.remove('hidden');
+    }
+  }
+}
+
+function setFeedbackDil(type, icon, html) {
+  const fb = document.getElementById('feedbackDil');
+  fb.className = 'feedback ' + type;
+  fb.querySelector('.feedback-icon').textContent = icon;
+  document.getElementById('feedbackTextDil').innerHTML = html;
+}
+
+function updateUIDil() {
+  for (let i = 0; i < 3; i++)
+    document.getElementById('hl' + i).classList.toggle('lost', i >= livesDil);
+  document.getElementById('scoreValDil').textContent  = scoreDil;
+  document.getElementById('streakValDil').textContent = streakDil;
+}
+
+function showGameOverDil() {
+  document.getElementById('mainGameDil').style.display = 'none';
+  document.getElementById('gameOverDil').classList.add('open');
+  document.getElementById('finalScoreDil').textContent = scoreDil;
+  const msg = scoreDil >= 70
+    ? 'Excellent ! Tu maîtrises le protocole de dilution.'
+    : scoreDil >= 40
+    ? 'Bien joué ! Relis les explications pour consolider.'
+    : 'Continue de t\'entraîner — la rigueur expérimentale s\'acquiert avec la pratique !';
+  document.getElementById('finalMsgDil').textContent = msg;
+}
+
+/* sync inputs manuels — dilution */
+document.getElementById('concMereInput').addEventListener('input', updateFormulaBoxDil);
+document.getElementById('concFilleInput').addEventListener('input', updateFormulaBoxDil);
+document.getElementById('volFilleInput').addEventListener('input', updateFormulaBoxDil);
+document.getElementById('answerInputDil').addEventListener('keydown', e => { if(e.key==='Enter') checkCalcDil(); });
+</script>
+</body>
+</html>

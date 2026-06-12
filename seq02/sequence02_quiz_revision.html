@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Les solutions aqueuses</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* fond géré par #bg-overlay */
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Header fixe */
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+/* Barre de progression */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+/* Score live */
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+/* Feedback */
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+/* Bouton suivant */
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+/* Badges recap */
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* SVG illustrations helpers */
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ GRAND TUBE À ESSAI EN FOND (séquence 02) ══ */
+#lava-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tube incliné, agrandi */
+.tube-bg {
+  position: relative;
+  width: 220px;
+  height: 620px;
+  max-height: 85vh;
+  transform: rotate(18deg);
+  opacity: 0.45;
+}
+
+/* Rebord du tube */
+.tube-bg .tube-rim {
+  position: absolute;
+  top: -10px; left: -10px;
+  width: 240px; height: 18px;
+  background: #bae6fd;
+  border-radius: 9px;
+  z-index: 2;
+}
+
+/* Verre du tube */
+.tube-bg .tube-glass {
+  position: absolute;
+  top: 0; left: 0;
+  width: 220px; height: 100%;
+  background: rgba(186,230,253,0.30);
+  border: 5px solid #38bdf8;
+  border-radius: 0 0 110px 110px;
+  overflow: hidden;
+}
+
+/* Liquide vert qui "respire" */
+.tube-bg .tube-liquid {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(180deg, #6ee7b7, #16a34a);
+  animation: tubebg-fill 6s ease-in-out infinite;
+}
+
+/* Reflet sur le verre */
+.tube-bg .tube-glare {
+  position: absolute;
+  top: 6%;
+  left: 28px;
+  width: 26px;
+  height: 60%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 14px;
+  z-index: 3;
+}
+
+/* Bulles montantes */
+.tube-bg .tube-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  animation: tubebg-bubble 7s ease-in infinite;
+}
+.tube-bg .tb-1 { width:14px; height:14px; left:40px; animation-delay:0s; }
+.tube-bg .tb-2 { width:9px;  height:9px;  left:110px; animation-delay:2.2s; }
+.tube-bg .tb-3 { width:11px; height:11px; left:160px; animation-delay:4.1s; }
+.tube-bg .tb-4 { width:8px;  height:8px;  left:75px;  animation-delay:1.3s; }
+
+@keyframes tubebg-fill {
+  0%, 100% { height: 50%; }
+  50% { height: 62%; }
+}
+@keyframes tubebg-bubble {
+  0%   { bottom: 6px;   opacity: 0; }
+  15%  { opacity: 0.85; }
+  90%  { opacity: 0.3; }
+  100% { bottom: 92%;   opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tube-bg .tube-liquid, .tube-bg .tube-bubble { animation:none; }
+}
+/* ══ FIN TUBE ══ */
+
+</style>
+</head>
+<body>
+<div id="lava-bg">
+  <div class="tube-bg">
+    <div class="tube-rim"></div>
+    <div class="tube-glass">
+      <div class="tube-liquid"></div>
+      <div class="tube-bubble tb-1"></div>
+      <div class="tube-bubble tb-2"></div>
+      <div class="tube-bubble tb-3"></div>
+      <div class="tube-bubble tb-4"></div>
+    </div>
+    <div class="tube-glare"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 02 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Les solutions aqueuses · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire : soluté, solvant, dissolution, dilution</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Calculs de concentration, verrerie, dilutions</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Gammes d'étalonnage, concentration maximale, raisonnement</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+
+function svgGammeEtalonnage() {
+  return `<svg width="380" height="180" viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="180" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Gamme d'étalonnage – Absorbance</text>
+    <!-- axes -->
+    <line x1="45" y1="20" x2="45" y2="150" stroke="#555" stroke-width="1.5"/>
+    <line x1="45" y1="150" x2="350" y2="150" stroke="#555" stroke-width="1.5"/>
+    <text x="195" y="168" text-anchor="middle" font-size="10" fill="#666">Concentration C (mol·L⁻¹ ou g·L⁻¹)</text>
+    <text x="14" y="85" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90 14 85)">Absorbance A</text>
+    <!-- points de la gamme -->
+    <circle cx="70" cy="135" r="4" fill="#1a5fa8"/>
+    <circle cx="115" cy="115" r="4" fill="#1a5fa8"/>
+    <circle cx="160" cy="95" r="4" fill="#1a5fa8"/>
+    <circle cx="205" cy="75" r="4" fill="#1a5fa8"/>
+    <circle cx="250" cy="55" r="4" fill="#1a5fa8"/>
+    <circle cx="295" cy="35" r="4" fill="#1a5fa8"/>
+    <!-- droite de régression -->
+    <line x1="55" y1="148" x2="320" y2="25" stroke="#1a5fa8" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <!-- point inconnu -->
+    <circle cx="185" cy="83" r="5" fill="#c0392b"/>
+    <line x1="185" y1="83" x2="185" y2="150" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="45" y1="83" x2="185" y2="83" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="185" y="165" text-anchor="middle" font-size="9" fill="#c0392b" font-weight="bold">C inconnue</text>
+    <text x="40" y="80" text-anchor="end" font-size="9" fill="#c0392b" font-weight="bold">A mesurée</text>
+  </svg>`;
+}
+
+function svgEchelleTeinte() {
+  return `<svg width="360" height="130" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="130" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Échelle de teinte – Comparaison visuelle</text>
+    <!-- tubes étalons -->
+    <rect x="20" y="30" width="34" height="80" rx="4" fill="#cdeefe" stroke="#888" stroke-width="1.2"/>
+    <rect x="65" y="30" width="34" height="80" rx="4" fill="#9fd9f5" stroke="#888" stroke-width="1.2"/>
+    <rect x="110" y="30" width="34" height="80" rx="4" fill="#6cc0ee" stroke="#888" stroke-width="1.2"/>
+    <rect x="155" y="30" width="34" height="80" rx="4" fill="#3aa3e0" stroke="#888" stroke-width="1.2"/>
+    <rect x="200" y="30" width="34" height="80" rx="4" fill="#1a7fc8" stroke="#888" stroke-width="1.2"/>
+    <text x="37" y="122" text-anchor="middle" font-size="8" fill="#555">0,2</text>
+    <text x="82" y="122" text-anchor="middle" font-size="8" fill="#555">0,4</text>
+    <text x="127" y="122" text-anchor="middle" font-size="8" fill="#555">0,6</text>
+    <text x="172" y="122" text-anchor="middle" font-size="8" fill="#555">0,8</text>
+    <text x="217" y="122" text-anchor="middle" font-size="8" fill="#555">1,0 mol·L⁻¹</text>
+    <!-- tube inconnu -->
+    <rect x="285" y="30" width="34" height="80" rx="4" fill="#5cb6ec" stroke="#c0392b" stroke-width="2"/>
+    <text x="302" y="122" text-anchor="middle" font-size="9" fill="#c0392b" font-weight="bold">?</text>
+    <text x="302" y="20" text-anchor="middle" font-size="9" fill="#c0392b" font-weight="bold">Échantillon</text>
+  </svg>`;
+}
+
+function svgConductimetrie() {
+  return `<svg width="360" height="150" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="150" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Mesure de conductance</text>
+    <!-- bécher -->
+    <path d="M120,40 L110,120 L250,120 L240,40 Z" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="180" y="105" text-anchor="middle" font-size="10" fill="#1a5fa8">Solution ionique</text>
+    <!-- sonde conductimètre -->
+    <rect x="170" y="10" width="20" height="60" fill="#888" stroke="#555" stroke-width="1"/>
+    <rect x="165" y="60" width="10" height="40" fill="#444"/>
+    <rect x="185" y="60" width="10" height="40" fill="#444"/>
+    <text x="180" y="135" text-anchor="middle" font-size="9" fill="#555">Cellule de conductimétrie</text>
+    <!-- appareil -->
+    <rect x="265" y="30" width="80" height="50" rx="6" fill="#f4f6fa" stroke="#555" stroke-width="1.5"/>
+    <text x="305" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">G = 12,5</text>
+    <text x="305" y="65" text-anchor="middle" font-size="9" fill="#666">mS</text>
+    <line x1="200" y1="35" x2="265" y2="50" stroke="#888" stroke-width="1.5"/>
+  </svg>`;
+}
+
+
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+
+const QUESTIONS = {
+
+  facile: [
+    {
+      q: "Dans une solution aqueuse, comment appelle-t-on l'espèce chimique présente en grande quantité, qui dissout les autres ?",
+      ill: null,
+      opts: [
+        "Le soluté",
+        "Le solvant",
+        "Le précipité",
+        "L'indicateur"
+      ],
+      ans: 1,
+      expl: "Le solvant est le liquide majoritaire dans lequel le(s) soluté(s) sont dissous. Dans une solution aqueuse, le solvant est l'eau."
+    },
+    {
+      q: "Qu'appelle-t-on le « soluté » d'une solution ?",
+      ill: null,
+      opts: [
+        "Le liquide majoritaire de la solution",
+        "L'espèce chimique dissoute dans le solvant",
+        "Le récipient utilisé pour préparer la solution",
+        "La masse totale de la solution"
+      ],
+      ans: 1,
+      expl: "Le soluté est l'espèce chimique (solide, liquide ou gaz) dissoute dans le solvant pour former la solution."
+    },
+    {
+      q: "Quelle est l'unité usuelle de la concentration en masse (titre massique) d'un soluté ?",
+      ill: null,
+      opts: [
+        "kg·m⁻³",
+        "mol·L⁻¹",
+        "g·L⁻¹",
+        "g·cm⁻³"
+      ],
+      ans: 2,
+      expl: "La concentration en masse (ou titre massique) C_m s'exprime en grammes de soluté par litre de solution, soit g·L⁻¹."
+    },
+    {
+      q: "Quelle opération consiste à dissoudre une masse de soluté solide dans un solvant pour préparer une solution ?",
+      ill: null,
+      opts: [
+        "La dilution",
+        "La dissolution",
+        "La filtration",
+        "L'évaporation"
+      ],
+      ans: 1,
+      expl: "La dissolution consiste à disperser un soluté (souvent solide) dans un solvant jusqu'à obtenir un mélange homogène : la solution."
+    },
+    {
+      q: "Quelle opération consiste à ajouter du solvant à une solution pour diminuer sa concentration ?",
+      ill: null,
+      opts: [
+        "La dissolution",
+        "La saturation",
+        "La dilution",
+        "La précipitation"
+      ],
+      ans: 2,
+      expl: "La dilution consiste à ajouter du solvant à une solution mère pour obtenir une solution fille moins concentrée."
+    },
+    {
+      q: "Quelle verrerie permet de mesurer un volume précis pour préparer un volume final exact de solution (ex : 250 mL, 500 mL) ?",
+      ill: null,
+      opts: [
+        "Le bécher",
+        "L'éprouvette graduée",
+        "La fiole jaugée",
+        "Le tube à essai"
+      ],
+      ans: 2,
+      expl: "La fiole jaugée possède un trait de jauge précis correspondant à un volume donné (250 mL, 500 mL...), elle est utilisée pour préparer une solution de volume précis."
+    },
+    {
+      q: "Que signifie l'expression « concentration en masse d'une solution » ?",
+      ill: null,
+      opts: [
+        "La masse totale de la solution",
+        "La masse de soluté dissoute dans un litre de solution",
+        "La masse du solvant uniquement",
+        "Le volume de soluté dans la solution"
+      ],
+      ans: 1,
+      expl: "La concentration en masse C_m représente la masse de soluté (en g) dissoute dans un litre de solution (en g·L⁻¹)."
+    },
+    {
+      q: "Une solution est dite « saturée » lorsque...",
+      ill: null,
+      opts: [
+        "Tout le soluté ajouté s'est dissous",
+        "Le solvant a complètement disparu",
+        "Le solvant ne peut plus dissoudre davantage de soluté à cette température",
+        "La solution devient incolore"
+      ],
+      ans: 2,
+      expl: "Une solution saturée a atteint la concentration maximale de soluté que le solvant peut dissoudre : tout excès de soluté reste alors non dissous (au fond du récipient)."
+    },
+    {
+      q: "Pour préparer une solution par dissolution, quel est l'ordre logique des étapes ?",
+      ill: null,
+      opts: [
+        "Ajouter l'eau jusqu'au trait de jauge, puis peser le soluté",
+        "Peser le soluté, le dissoudre dans un peu d'eau, transférer dans la fiole et compléter jusqu'au trait de jauge",
+        "Mélanger directement le soluté et l'eau dans une éprouvette graduée",
+        "Filtrer la solution avant de peser le soluté"
+      ],
+      ans: 1,
+      expl: "On pèse la masse de soluté souhaitée, on la dissout dans un peu de solvant, on transfère dans la fiole jaugée, puis on complète avec le solvant jusqu'au trait de jauge."
+    },
+    {
+      q: "Quelle grandeur permet de distinguer une solution concentrée d'une solution diluée pour un même soluté ?",
+      ill: null,
+      opts: [
+        "Le volume de la solution",
+        "La couleur du solvant",
+        "La concentration du soluté",
+        "La masse de la fiole"
+      ],
+      ans: 2,
+      expl: "Plus la concentration du soluté est élevée, plus la solution est concentrée ; à l'inverse, une faible concentration correspond à une solution diluée."
+    }
+  ],
+
+  inter: [
+    {
+      q: "On dissout m = 5,0 g de sel dans de l'eau pour obtenir V = 250 mL de solution. Calculer la concentration en masse C_m.",
+      ill: null,
+      opts: [
+        "0,02 g·L⁻¹",
+        "20 g·L⁻¹",
+        "200 g·L⁻¹",
+        "1,25 g·L⁻¹"
+      ],
+      ans: 1,
+      expl: "C_m = m / V = 5,0 g / 0,250 L = 20 g·L⁻¹. (Attention à convertir le volume en litres avant le calcul.)"
+    },
+    {
+      q: "Une solution a une concentration en masse C_m = 12 g·L⁻¹. Quelle masse de soluté faut-il pour préparer V = 500 mL de cette solution ?",
+      ill: null,
+      opts: [
+        "0,024 g",
+        "6,0 g",
+        "60 g",
+        "24 g"
+      ],
+      ans: 1,
+      expl: "m = C_m × V = 12 g·L⁻¹ × 0,500 L = 6,0 g."
+    },
+    {
+      q: "On prélève V₀ = 20 mL d'une solution mère pour préparer V = 200 mL de solution diluée. Quel facteur de dilution F a-t-on appliqué ?",
+      ill: null,
+      opts: [
+        "F = 0,1",
+        "F = 5",
+        "F = 10",
+        "F = 100"
+      ],
+      ans: 2,
+      expl: "F = V / V₀ = 200 / 20 = 10. La solution fille est 10 fois moins concentrée que la solution mère."
+    },
+    {
+      q: "On dispose d'une solution mère de concentration C₀ = 50 g·L⁻¹. On souhaite préparer une solution fille de concentration C = 5,0 g·L⁻¹. Quel facteur de dilution faut-il appliquer ?",
+      ill: null,
+      opts: [
+        "F = 5",
+        "F = 10",
+        "F = 0,1",
+        "F = 45"
+      ],
+      ans: 1,
+      expl: "F = C₀ / C = 50 / 5,0 = 10. Il faut diluer 10 fois la solution mère."
+    },
+    {
+      q: "Pour prélever un volume précis (par exemple 10,0 mL) lors d'une dilution, quelle verrerie utilise-t-on ?",
+      ill: null,
+      opts: [
+        "Le bécher",
+        "La pipette jaugée",
+        "L'agitateur en verre",
+        "L'erlenmeyer"
+      ],
+      ans: 1,
+      expl: "La pipette jaugée (souvent associée à une propipette ou un pipeteur) permet de prélever un volume précis et reproductible de solution."
+    },
+    {
+      q: "On veut préparer V = 100 mL d'une solution de concentration C_m = 4,0 g·L⁻¹ en glucose. Quelle masse de glucose doit-on peser ?",
+      ill: null,
+      opts: [
+        "0,40 g",
+        "4,0 g",
+        "40 g",
+        "0,04 g"
+      ],
+      ans: 0,
+      expl: "m = C_m × V = 4,0 g·L⁻¹ × 0,100 L = 0,40 g."
+    },
+    {
+      q: "Lors d'une dilution, la relation C₀ × V₀ = C × V traduit la conservation de quelle grandeur ?",
+      ill: null,
+      opts: [
+        "Le volume total",
+        "La masse de solvant",
+        "La quantité de soluté",
+        "La température"
+      ],
+      ans: 2,
+      expl: "Lors d'une dilution, on n'ajoute que du solvant : la quantité (masse ou quantité de matière) de soluté prélevée est conservée. C₀V₀ représente cette quantité avant dilution, CV après."
+    },
+    {
+      q: "Quelle est la différence essentielle entre la masse volumique d'un échantillon et la concentration en masse d'un soluté dans une solution ?",
+      ill: null,
+      opts: [
+        "Elles désignent exactement la même grandeur",
+        "La masse volumique compare la masse de TOUT l'échantillon à son volume, la concentration ne concerne que la masse du SOLUTÉ dissous dans le volume de solution",
+        "La concentration s'applique uniquement aux solides",
+        "La masse volumique ne peut pas s'exprimer en g·L⁻¹"
+      ],
+      ans: 1,
+      expl: "La masse volumique ρ = m_total / V concerne la masse de l'échantillon entier (solvant + soluté), alors que la concentration en masse C_m = m_soluté / V_solution ne prend en compte que la masse du soluté dissous."
+    },
+    {
+      q: "Pour préparer 250 mL d'une solution diluée 5 fois à partir d'une solution mère, quel volume de solution mère doit-on prélever ?",
+      ill: null,
+      opts: [
+        "12,5 mL",
+        "50 mL",
+        "5 mL",
+        "1250 mL"
+      ],
+      ans: 1,
+      expl: "F = V/V₀ donc V₀ = V/F = 250/5 = 50 mL. On prélève 50 mL de solution mère et on complète à 250 mL avec le solvant."
+    },
+    {
+      q: "On souhaite préparer 1,0 L d'une solution de concentration C_m = 9,0 g·L⁻¹ (sérum physiologique). Quelle masse de soluté faut-il dissoudre ?",
+      ill: null,
+      opts: [
+        "0,9 g",
+        "9,0 g",
+        "90 g",
+        "900 g"
+      ],
+      ans: 1,
+      expl: "m = C_m × V = 9,0 g·L⁻¹ × 1,0 L = 9,0 g."
+    }
+  ],
+
+  diff: [
+    {
+      q: "On trace une gamme d'étalonnage donnant l'absorbance A en fonction de la concentration C de plusieurs solutions étalons. On mesure ensuite l'absorbance d'une solution inconnue. Comment détermine-t-on sa concentration ?",
+      ill: svgGammeEtalonnage(),
+      opts: [
+        "On lit directement la masse du soluté sur la fiole",
+        "On place le point mesuré sur la droite d'étalonnage et on lit la concentration correspondante en abscisse",
+        "On calcule la moyenne des concentrations des étalons",
+        "On mesure la couleur de la fiole jaugée"
+      ],
+      ans: 1,
+      expl: "On reporte la valeur de l'absorbance mesurée sur l'axe des ordonnées, on rejoint la droite d'étalonnage, puis on projette ce point sur l'axe des abscisses pour lire la concentration de la solution inconnue."
+    },
+    {
+      q: "Une échelle de teintes contient des tubes étalons de concentrations connues, et un tube de solution inconnue. Comment estimer la concentration de la solution inconnue ?",
+      ill: svgEchelleTeinte(),
+      opts: [
+        "En mesurant le volume du tube inconnu",
+        "En comparant visuellement la couleur du tube inconnu à celles des tubes étalons et en encadrant ou identifiant la concentration correspondante",
+        "En pesant le tube inconnu",
+        "En diluant le tube inconnu jusqu'à ce qu'il devienne incolore"
+      ],
+      ans: 1,
+      expl: "L'échelle de teinte repose sur la comparaison visuelle : la teinte de la solution inconnue est comparée à celle des solutions étalons de concentrations connues, ce qui permet d'encadrer ou d'estimer sa concentration."
+    },
+    {
+      q: "On mesure la conductance G d'une solution ionique et on la compare à une gamme d'étalonnage (G en fonction de C). Que peut-on en déduire ?",
+      ill: svgConductimetrie(),
+      opts: [
+        "La masse volumique du solvant uniquement",
+        "La concentration en ions de la solution, par lecture sur la courbe d'étalonnage conductance-concentration",
+        "La température de la solution",
+        "Le volume exact de la fiole utilisée"
+      ],
+      ans: 1,
+      expl: "La conductance d'une solution ionique dépend de la concentration en ions. En comparant la conductance mesurée à une gamme d'étalonnage préalablement établie, on peut déterminer la concentration de la solution."
+    },
+    {
+      q: "Une solution de chlorure de sodium a une concentration en masse C_m = 350 g·L⁻¹ à 20 °C, ce qui correspond à sa solubilité maximale. Que se passe-t-il si on tente de dissoudre 400 g de sel dans 1,0 L d'eau à cette température ?",
+      ill: null,
+      opts: [
+        "Les 400 g se dissolvent intégralement",
+        "Seuls 350 g se dissolvent, les 50 g restants forment un dépôt non dissous : la solution est saturée",
+        "L'eau s'évapore entièrement",
+        "La concentration finale sera de 400 g·L⁻¹"
+      ],
+      ans: 1,
+      expl: "La concentration maximale (solubilité) limite la quantité de soluté pouvant être dissoute. Au-delà de 350 g par litre, l'excès (ici 50 g) ne se dissout pas et reste sous forme solide : la solution est saturée."
+    },
+    {
+      q: "On prépare une solution en dissolvant 8,0 g de soluté dans de l'eau distillée pour obtenir 200 mL de solution, puis on prélève 25 mL de cette solution que l'on complète à 250 mL avec de l'eau. Quelle est la concentration en masse de la solution finale ?",
+      ill: null,
+      opts: [
+        "4,0 g·L⁻¹",
+        "40 g·L⁻¹",
+        "0,4 g·L⁻¹",
+        "400 g·L⁻¹"
+      ],
+      ans: 0,
+      expl: "C₀ = m/V = 8,0/0,200 = 40 g·L⁻¹. F = V/V₀ = 250/25 = 10. C = C₀/F = 40/10 = 4,0 g·L⁻¹."
+    },
+    {
+      q: "Pour une grandeur quotient telle que C_m = m/V, si l'on connaît C_m et m, comment exprime-t-on V ?",
+      ill: null,
+      opts: [
+        "V = C_m × m",
+        "V = C_m / m",
+        "V = m / C_m",
+        "V = m + C_m"
+      ],
+      ans: 2,
+      expl: "À partir de C_m = m/V, on isole V en multipliant les deux membres par V puis en divisant par C_m : V = m / C_m. C'est l'utilisation classique d'une grandeur quotient pour déterminer le dénominateur."
+    },
+    {
+      q: "On souhaite vérifier la concentration d'une solution commerciale d'eau de Javel en mesurant son absorbance et en utilisant une gamme d'étalonnage. La mesure tombe en dehors de la zone couverte par les étalons (au-delà du dernier point). Quelle est la bonne démarche ?",
+      ill: svgGammeEtalonnage(),
+      opts: [
+        "Extrapoler très largement la droite, peu importe l'écart",
+        "Diluer l'échantillon pour que sa concentration rentre dans la gamme d'étalonnage, puis tenir compte du facteur de dilution dans le calcul final",
+        "Ignorer la mesure et donner une valeur arbitraire",
+        "Refaire la gamme d'étalonnage avec moins de points"
+      ],
+      ans: 1,
+      expl: "Une gamme d'étalonnage n'est valable que dans le domaine de concentrations testé. Si l'échantillon est trop concentré, on le dilue pour ramener sa concentration dans la gamme, puis on multiplie le résultat lu par le facteur de dilution F pour obtenir la concentration réelle."
+    },
+    {
+      q: "Une solution S est préparée par dissolution de 2,5 g de soluté dans 500 mL de solution. Une solution S' est préparée par dilution dix fois de S. Quelle masse de soluté contient 100 mL de S' ?",
+      ill: null,
+      opts: [
+        "0,05 g",
+        "0,5 g",
+        "0,005 g",
+        "5 g"
+      ],
+      ans: 0,
+      expl: "C(S) = 2,5/0,500 = 5,0 g·L⁻¹. C(S') = C(S)/10 = 0,5 g·L⁻¹. m = C(S') × V = 0,5 × 0,100 = 0,05 g."
+    },
+    {
+      q: "Pourquoi rince-t-on la pipette jaugée avec la solution à prélever avant de réaliser le prélèvement ?",
+      ill: null,
+      opts: [
+        "Pour la nettoyer de toute trace de solution précédente, afin de ne pas modifier la concentration du volume prélevé",
+        "Pour augmenter le volume prélevé",
+        "Pour colorer la solution",
+        "Ce rinçage n'a aucune utilité"
+      ],
+      ans: 0,
+      expl: "Le rinçage à la solution à prélever élimine les traces d'eau ou de solution précédente qui pourraient diluer ou contaminer le prélèvement, garantissant ainsi l'exactitude de la concentration prélevée."
+    },
+    {
+      q: "On dispose de deux fioles jaugées de 100 mL et 500 mL et d'une solution mère à 100 g·L⁻¹. On veut obtenir une solution fille à 4,0 g·L⁻¹ dans la fiole de 500 mL. Quel volume de solution mère doit-on prélever ?",
+      ill: null,
+      opts: [
+        "2,0 mL",
+        "20 mL",
+        "200 mL",
+        "0,2 mL"
+      ],
+      ans: 1,
+      expl: "C₀V₀ = CV donc V₀ = C×V / C₀ = (4,0 × 500) / 100 = 20 mL."
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = []; // true/false par question
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  // Update header styles
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  // Progression
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  // Styles options
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  // Bouton suivant
+  document.getElementById('btn-next').classList.add('show');
+
+  // Progression (après réponse)
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  // Dots recap
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

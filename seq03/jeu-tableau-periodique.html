@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeu : Configurations électroniques et symboles de Lewis (Z ≤ 20)</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f4f4f5;
+    --text: #1a1a1a;
+    --text-secondary: #6b6b6b;
+    --text-tertiary: #b0b0b0;
+    --border: #d4d4d8;
+    --success-bg: #e7f6ee;
+    --success-border: #34a163;
+    --success-text: #1d9e75;
+    --danger-bg: #fdeeec;
+    --danger-border: #e0654f;
+    --danger-text: #d85a30;
+    --info-bg: #eaf1fb;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+    --mono: 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; margin: 0 0 20px; }
+  button {
+    font-family: inherit;
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  button:hover { background: var(--bg-secondary); }
+  #tabs button.active, #lewis-opts button.active {
+    border-color: #378ADD;
+    border-width: 2px;
+  }
+  .row { display:flex; gap:8px; margin-bottom:1rem; }
+  .row > button { flex:1; }
+  .info-row {
+    font-size:13px; color: var(--text-secondary); margin-bottom:1rem;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+  }
+  .lives { display:flex; gap:2px; }
+  .heart { font-size:16px; }
+  .heart.full { color: var(--danger-border); }
+  .heart.empty { color: var(--text-tertiary); }
+
+  .board {
+    display:grid;
+    grid-template-columns: repeat(18, 44px);
+    grid-template-rows: repeat(4, 64px);
+    gap: 3px;
+    margin-bottom: 1rem;
+    min-width: 850px;
+  }
+  .board.lewis-board {
+    grid-template-columns: repeat(18, 50px);
+    grid-template-rows: repeat(4, 74px);
+    min-width: 960px;
+  }
+  .table-wrap { overflow-x:auto; }
+
+  .slot {
+    border: 0.5px dashed var(--border);
+    border-radius: var(--radius-md);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 3px; position:relative;
+  }
+  .slot.hidden { visibility: hidden; }
+  .slot .sym { font-size:15px; font-weight:600; }
+  .slot .z { font-size:10px; color: var(--text-tertiary); }
+  .slot .dropzone { width:100%; height:20px; border-radius: var(--radius-md); margin-top:2px; }
+  .lewis-board .slot .dropzone { height:28px; }
+  .slot.filled {
+    border-style: solid;
+    border-color: var(--success-border);
+    background: var(--success-bg);
+  }
+  .slot.dragover .dropzone { background: var(--info-bg); }
+
+  /* Coloration par famille chimique (bordure haute) */
+  .slot[data-family]::before {
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:5px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background: var(--fam-color, transparent);
+  }
+  .slot.filled[data-family]::before { background: var(--fam-color, transparent); }
+
+  /* Légende des familles */
+  .legend {
+    display:flex; flex-wrap:wrap; gap:12px; margin: 0 0 1rem; font-size:12px; color: var(--text-secondary);
+  }
+  .legend .item { display:flex; align-items:center; gap:5px; }
+  .legend .swatch { width:14px; height:14px; border-radius:3px; display:inline-block; }
+
+  /* Bouton info / aide doublet */
+  .help-btn {
+    width:22px; height:22px; border-radius:50%; padding:0; font-size:13px; font-weight:700;
+    line-height:1; display:inline-flex; align-items:center; justify-content:center;
+    border: 0.5px solid var(--border); background: var(--info-bg); color:#378ADD; cursor:pointer;
+  }
+  .help-box {
+    display:none; background: var(--info-bg); border:0.5px solid #378ADD;
+    border-radius: var(--radius-lg); padding: 12px 14px; font-size:13px; margin-bottom:1rem; line-height:1.5;
+  }
+  .help-box.open { display:block; }
+  .help-box h3 { margin:0 0 6px; font-size:14px; }
+  .help-box .dot-demo { display:inline-flex; gap:2px; vertical-align:middle; }
+  .help-box .dot-demo .dot { width:6px; height:6px; border-radius:50%; background: var(--text); display:inline-block; }
+
+  .tray-label { font-size:13px; color: var(--text-secondary); margin: 0 0 8px; }
+  .tray {
+    display:flex; flex-wrap:wrap; gap: 6px; min-height: 50px;
+    padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-lg);
+  }
+  .piece {
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    cursor: grab;
+    user-select: none;
+  }
+  .piece.config { font-family: var(--mono); font-size: 14px; }
+  .piece.shake { animation: shake 0.2s; }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
+  }
+
+  .feedback { margin-top:1rem; font-size:14px; min-height: 24px; }
+  .feedback .ok { color: var(--success-text); }
+  .feedback .bad { color: var(--danger-text); }
+
+  .end-screen {
+    display:none; text-align:center; padding: 1.5rem 0; position:relative; min-height: 220px;
+  }
+  .end-screen canvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+  .end-content { position:relative; z-index:1; }
+  .end-title { font-size:20px; font-weight:500; margin:0 0 8px; }
+  .end-msg { color: var(--text-secondary); margin:0 0 1.5rem; }
+
+  /* Lewis option 2 */
+  .l2-layout { display:flex; gap: 24px; align-items:flex-start; flex-wrap: wrap; }
+  .l2-symbol-box {
+    position:relative; width:230px; height:230px; flex-shrink:0;
+    border: 0.5px solid var(--border); border-radius: var(--radius-lg); background: var(--bg);
+  }
+  .l2-symbol-box .center-sym {
+    position:absolute; left:88px; top:96px; font-size:38px; font-weight:600;
+  }
+  .l2slot {
+    position:absolute; border: 0.5px dashed var(--border); border-radius: var(--radius-md);
+    display:flex; align-items:center; justify-content:center; gap:5px;
+  }
+  .l2slot.filled { border-style: solid; border-color: var(--border); cursor: pointer; }
+  .l2slot.dragover { background: var(--info-bg); }
+  .dot { display:inline-block; width:9px; height:9px; border-radius:50%; background: var(--text); }
+  .l2piece {
+    padding: 8px 12px; background: var(--bg); border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); display:flex; align-items:center; gap:3px; cursor:grab;
+  }
+  .l2piece span.label { font-size:12px; margin-left:4px; }
+  .l2-right { flex:1; min-width:200px; }
+  .l2-instruction { font-size:13px; color: var(--text-secondary); margin:0 0 8px; }
+
+  .ti { font-style: normal; }
+
+  /* Option 1 (nouveau) : schéma de Lewis cible + sélection multiple */
+  .l1-target {
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 1rem;
+  }
+  .l1-target-box {
+    position:relative; width:140px; height:140px;
+    border: 0.5px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-secondary);
+  }
+  .l1-target-box .center-sym { position:absolute; left:50px; top:55px; font-size:30px; font-weight:600; color: var(--text-secondary); }
+  .l1-target-box .l1t-dot { position:absolute; width:9px; height:9px; border-radius:50%; background: var(--text); }
+  .l1-target-label { margin-left:16px; font-size:13px; color: var(--text-secondary); max-width: 320px; }
+
+  .slot.selectable { cursor: pointer; }
+  .slot.selected {
+    border-style: solid; border-color: #378ADD; border-width:2px; background: var(--info-bg);
+  }
+
+  /* Drag tactile (clone flottant) */
+  .drag-ghost {
+    position: fixed; z-index: 1000; pointer-events: none;
+    opacity: 0.85; transform: translate(-50%, -50%) scale(1.05);
+  }
+  .drag-source-active { opacity: 0.4; }
+</style>
+</head>
+<body>
+
+<h1>Jeu : configurations électroniques et symboles de Lewis</h1>
+<p class="subtitle">Tableau périodique simplifié jusqu'à Z = 20 — Seconde, thème "Constitution et transformation de la matière"</p>
+
+<div id="tabs" class="row">
+  <button id="tab-config" class="active">Configurations électroniques</button>
+  <button id="tab-lewis">Symboles de Lewis</button>
+</div>
+
+<!-- ============ PANEL CONFIG ============ -->
+<div id="panel-config">
+  <div class="legend" id="legend-config"></div>
+  <div class="info-row">
+    <span>Glisse chaque configuration électronique sur la bonne case</span>
+    <span style="display:flex; align-items:center; gap:12px;">
+      <span>Trouvés : <strong id="c-found">0</strong> / <span id="c-total">20</span></span>
+      <span id="c-lives" class="lives"></span>
+    </span>
+  </div>
+  <div id="c-table-wrap" class="table-wrap">
+    <div id="c-board" class="board"></div>
+  </div>
+  <p id="c-tray-label" class="tray-label">Configurations à placer :</p>
+  <div id="c-tray" class="tray"></div>
+  <div id="c-feedback" class="feedback"></div>
+  <div id="c-end" class="end-screen">
+    <canvas id="c-fireworks"></canvas>
+    <div class="end-content">
+      <p id="c-end-title" class="end-title"></p>
+      <p id="c-end-msg" class="end-msg"></p>
+      <button id="c-restart">Recommencer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PANEL LEWIS ============ -->
+<div id="panel-lewis" style="display:none;">
+  <div class="row">
+    <button id="lewis-opt1" class="active">Option 1 : associer le symbole de Lewis</button>
+    <button id="lewis-opt2">Option 2 : construire le schéma</button>
+  </div>
+
+  <!-- LEWIS OPTION 1 -->
+  <div id="lewis1">
+    <div class="legend" id="legend-lewis1"></div>
+    <div class="info-row">
+      <span>Sélectionne tous les éléments du tableau qui ont le schéma de Lewis affiché, puis valide</span>
+      <span style="display:flex; align-items:center; gap:12px;">
+        <span>Schéma <strong id="l1-num">1</strong> / <span id="l1-total">8</span></span>
+        <span id="l1-lives" class="lives"></span>
+      </span>
+    </div>
+    <div id="l1-target" class="l1-target"></div>
+    <div id="l1-table-wrap" class="table-wrap">
+      <div id="l1-board" class="board lewis-board"></div>
+    </div>
+    <div class="row">
+      <button id="l1-validate">Valider la sélection</button>
+    </div>
+    <div id="l1-feedback" class="feedback"></div>
+    <div id="l1-end" class="end-screen">
+      <canvas id="l1-fireworks"></canvas>
+      <div class="end-content">
+        <p id="l1-end-title" class="end-title"></p>
+        <p id="l1-end-msg" class="end-msg"></p>
+        <button id="l1-restart">Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEWIS OPTION 2 -->
+  <div id="lewis2" style="display:none;">
+    <div class="info-row">
+      <span>Place les doublets et électrons célibataires autour du symbole</span>
+      <span style="display:flex; align-items:center; gap:12px;">
+        <button id="l2-help-btn" class="help-btn" title="Qu'est-ce qu'un doublet ?" type="button">?</button>
+        <span>Élément <strong id="l2-num">1</strong> / <span id="l2-total">8</span></span>
+        <span id="l2-lives" class="lives"></span>
+      </span>
+    </div>
+
+    <div id="l2-help" class="help-box">
+      <h3>📝 Qu'est-ce qu'un doublet ?</h3>
+      <p style="margin:0 0 6px;">
+        Un <strong>doublet</strong> (ou « doublet d'électrons ») est une <strong>paire de deux électrons</strong> appartenant
+        à la couche externe (couche de valence) d'un atome, représentée par <span class="dot-demo"><span class="dot"></span><span class="dot"></span></span> dans le symbole de Lewis.
+      </p>
+      <p style="margin:0 0 6px;">
+        On parle de <strong>doublet non liant</strong> (ou doublet libre) lorsque ces deux électrons restent sur l'atome
+        et ne sont pas partagés avec un autre atome — c'est ce type de doublet qu'on place ici, autour du symbole.
+        Lors de la formation d'une liaison chimique, un doublet partagé entre deux atomes est appelé <strong>doublet liant</strong> (non représenté dans cet exercice).
+      </p>
+      <p style="margin:0;">
+        Un <strong>électron célibataire</strong> est un électron de valence <strong>seul</strong>, non associé en doublet :
+        il est représenté par un seul point <span class="dot-demo"><span class="dot"></span></span>. Ce sont ces électrons qui pourront
+        former une liaison covalente avec un autre atome (chaque liaison utilise un électron célibataire de chaque atome, formant un doublet liant).
+      </p>
+      <p style="margin:8px 0 0; color: var(--text-secondary);">
+        Méthode : le nombre d'électrons de valence (donné dans la consigne) se répartit en doublets (par paires) puis,
+        s'il en reste un seul, en électron célibataire. Exemple : l'azote N a 5 électrons de valence → 2 doublets + 1 électron célibataire (2+2+1 = 5).
+      </p>
+    </div>
+
+    <div class="l2-layout">
+      <div id="l2-symbol-box" class="l2-symbol-box"></div>
+      <div class="l2-right">
+        <p id="l2-instruction" class="l2-instruction"></p>
+        <div id="l2-tray" class="tray"></div>
+        <div id="l2-feedback" class="feedback"></div>
+        <button id="l2-validate" style="margin-top:8px;">Valider</button>
+      </div>
+    </div>
+
+    <div id="l2-end" class="end-screen">
+      <canvas id="l2-fireworks"></canvas>
+      <div class="end-content">
+        <p id="l2-end-title" class="end-title"></p>
+        <p id="l2-end-msg" class="end-msg"></p>
+        <button id="l2-restart">Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MAX_LIVES = 3;
+
+// Familles chimiques (programme Seconde) :
+// alcalins (col 1, hors H), alcalino-terreux (col 2),
+// halogènes (col 17), gaz nobles (col 18), autres (reste)
+const FAMILIES = {
+  alcalin:      {label: "Alcalins",         color: "#F2C14E"},
+  alcalinoterreux: {label: "Alcalino-terreux", color: "#F29E4C"},
+  halogene:     {label: "Halogènes",        color: "#5DA9E9"},
+  noble:        {label: "Gaz nobles",       color: "#9D8DF1"},
+  autre:        {label: "Autres éléments",  color: "#9CC5A1"}
+};
+
+const allElements = [
+  {symbol:"H", name:"Hydrogène", Z:1, config:"1s¹", row:1, col:1, valence:1, lone:0, single:1, family:"autre"},
+  {symbol:"He", name:"Hélium", Z:2, config:"1s²", row:1, col:18, valence:2, lone:1, single:0, family:"noble"},
+  {symbol:"Li", name:"Lithium", Z:3, config:"1s²2s¹", row:2, col:1, valence:1, lone:0, single:1, family:"alcalin"},
+  {symbol:"Be", name:"Béryllium", Z:4, config:"1s²2s²", row:2, col:2, valence:2, lone:1, single:0, family:"alcalinoterreux"},
+  {symbol:"B", name:"Bore", Z:5, config:"1s²2s²2p¹", row:2, col:13, valence:3, lone:1, single:1, family:"autre"},
+  {symbol:"C", name:"Carbone", Z:6, config:"1s²2s²2p²", row:2, col:14, valence:4, lone:0, single:4, family:"autre"},
+  {symbol:"N", name:"Azote", Z:7, config:"1s²2s²2p³", row:2, col:15, valence:5, lone:1, single:3, family:"autre"},
+  {symbol:"O", name:"Oxygène", Z:8, config:"1s²2s²2p⁴", row:2, col:16, valence:6, lone:2, single:2, family:"autre"},
+  {symbol:"F", name:"Fluor", Z:9, config:"1s²2s²2p⁵", row:2, col:17, valence:7, lone:3, single:1, family:"halogene"},
+  {symbol:"Ne", name:"Néon", Z:10, config:"1s²2s²2p⁶", row:2, col:18, valence:8, lone:4, single:0, family:"noble"},
+  {symbol:"Na", name:"Sodium", Z:11, config:"1s²2s²2p⁶3s¹", row:3, col:1, valence:1, lone:0, single:1, family:"alcalin"},
+  {symbol:"Mg", name:"Magnésium", Z:12, config:"1s²2s²2p⁶3s²", row:3, col:2, valence:2, lone:1, single:0, family:"alcalinoterreux"},
+  {symbol:"Al", name:"Aluminium", Z:13, config:"1s²2s²2p⁶3s²3p¹", row:3, col:13, valence:3, lone:1, single:1, family:"autre"},
+  {symbol:"Si", name:"Silicium", Z:14, config:"1s²2s²2p⁶3s²3p²", row:3, col:14, valence:4, lone:0, single:4, family:"autre"},
+  {symbol:"P", name:"Phosphore", Z:15, config:"1s²2s²2p⁶3s²3p³", row:3, col:15, valence:5, lone:1, single:3, family:"autre"},
+  {symbol:"S", name:"Soufre", Z:16, config:"1s²2s²2p⁶3s²3p⁴", row:3, col:16, valence:6, lone:2, single:2, family:"autre"},
+  {symbol:"Cl", name:"Chlore", Z:17, config:"1s²2s²2p⁶3s²3p⁵", row:3, col:17, valence:7, lone:3, single:1, family:"halogene"},
+  {symbol:"Ar", name:"Argon", Z:18, config:"1s²2s²2p⁶3s²3p⁶", row:3, col:18, valence:8, lone:4, single:0, family:"noble"},
+  {symbol:"K", name:"Potassium", Z:19, config:"1s²2s²2p⁶3s²3p⁶4s¹", row:4, col:1, valence:1, lone:0, single:1, family:"alcalin"},
+  {symbol:"Ca", name:"Calcium", Z:20, config:"1s²2s²2p⁶3s²3p⁶4s²", row:4, col:2, valence:2, lone:1, single:0, family:"alcalinoterreux"}
+];
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// ====================================================
+// SUPPORT TACTILE (tablette / smartphone)
+// Le drag-and-drop HTML5 (dragstart/drop) ne fonctionne
+// pas au toucher : on ajoute un système basé sur
+// pointerdown/pointermove/pointerup qui simule le
+// même comportement, en complément (pas en remplacement)
+// du drag-and-drop souris natif.
+// ====================================================
+const dropTargets = []; // {el, onDrop(value), panel}
+
+function registerDropTarget(el, onDrop, panel){
+  // Remplace toute cible déjà enregistrée pour ce même élément (cas "Recommencer")
+  const idx = dropTargets.findIndex(t => t.el === el);
+  if(idx !== -1) dropTargets.splice(idx, 1);
+  dropTargets.push({el, onDrop, panel});
+}
+
+function clearDropTargets(panel){
+  for(let i = dropTargets.length - 1; i >= 0; i--){
+    if(dropTargets[i].panel === panel) dropTargets.splice(i, 1);
+  }
+}
+
+function isVisible(el){
+  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+}
+
+function enableTouchDrag(piece, value){
+  let ghost = null;
+  let startX, startY, moved = false;
+
+  piece.addEventListener('pointerdown', e => {
+    if(e.pointerType === 'mouse') return; // souris -> drag HTML5 natif
+    e.preventDefault();
+    moved = false;
+    startX = e.clientX; startY = e.clientY;
+
+    ghost = piece.cloneNode(true);
+    ghost.classList.add('drag-ghost');
+    ghost.style.width = piece.offsetWidth + 'px';
+    document.body.appendChild(ghost);
+    moveGhost(e.clientX, e.clientY);
+    piece.classList.add('drag-source-active');
+
+    function moveGhost(x, y){
+      ghost.style.left = x + 'px';
+      ghost.style.top = y + 'px';
+    }
+
+    function onMove(ev){
+      moved = true;
+      moveGhost(ev.clientX, ev.clientY);
+      dropTargets.forEach(t => t.el.classList.remove('dragover'));
+      const target = dropTargets.find(t => {
+        if(!isVisible(t.el)) return false;
+        const r = t.el.getBoundingClientRect();
+        return ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
+      });
+      if(target) target.el.classList.add('dragover');
+    }
+
+    function onUp(ev){
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      ghost.remove();
+      piece.classList.remove('drag-source-active');
+      dropTargets.forEach(t => t.el.classList.remove('dragover'));
+      const target = dropTargets.find(t => {
+        if(!isVisible(t.el)) return false;
+        const r = t.el.getBoundingClientRect();
+        return ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
+      });
+      if(target) target.onDrop(value);
+    }
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  });
+}
+
+function renderLegend(elId){
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  Object.values(FAMILIES).forEach(fam => {
+    const item = document.createElement('span');
+    item.className = 'item';
+    const swatch = document.createElement('span');
+    swatch.className = 'swatch';
+    swatch.style.background = fam.color;
+    item.appendChild(swatch);
+    item.appendChild(document.createTextNode(fam.label));
+    el.appendChild(item);
+  });
+}
+function renderLivesInto(elId, lives){
+  const livesEl = document.getElementById(elId);
+  livesEl.innerHTML = '';
+  for(let i=0;i<MAX_LIVES;i++){
+    const span = document.createElement('span');
+    span.className = 'heart ' + (i < lives ? 'full' : 'empty');
+    span.textContent = i < lives ? '♥' : '♡';
+    livesEl.appendChild(span);
+  }
+}
+
+function lewisLabel(el){
+  const parts = [];
+  if(el.lone > 0) parts.push(el.lone + (el.lone===1 ? ' doublet' : ' doublets'));
+  if(el.single > 0) parts.push(el.single + (el.single===1 ? ' électron célibataire' : ' électrons célibataires'));
+  if(parts.length === 0) return 'aucun électron de valence représenté';
+  return parts.join(' + ');
+}
+
+function buildGrid(boardId){
+  const board = document.getElementById(boardId);
+  board.innerHTML = '';
+  const grid = {};
+  allElements.forEach(el => { grid[el.row+'-'+el.col] = el; });
+  for(let r=1;r<=4;r++){
+    for(let c=1;c<=18;c++){
+      const cell = document.createElement('div');
+      const el = grid[r+'-'+c];
+      cell.style.gridRow = r;
+      cell.style.gridColumn = c;
+      if(el){
+        cell.className = 'slot';
+        cell.dataset.symbol = el.symbol;
+        cell.dataset.family = el.family;
+        cell.style.setProperty('--fam-color', FAMILIES[el.family].color);
+
+        const symLabel = document.createElement('div');
+        symLabel.className = 'sym';
+        symLabel.textContent = el.symbol;
+
+        const zLabel = document.createElement('div');
+        zLabel.className = 'z';
+        zLabel.textContent = 'Z=' + el.Z;
+
+        const dropZone = document.createElement('div');
+        dropZone.className = 'dropzone';
+
+        cell.appendChild(symLabel);
+        cell.appendChild(zLabel);
+        cell.appendChild(dropZone);
+        cell.dataset.dropzone = 'true';
+      } else {
+        cell.className = 'slot hidden';
+      }
+      board.appendChild(cell);
+    }
+  }
+}
+
+// ---------- shared fireworks ----------
+function startFireworks(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const rect = canvas.parentElement.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+  const ctx = canvas.getContext('2d');
+  const colors = ['#7F77DD','#1D9E75','#D85A30','#D4537E','#378ADD','#EF9F27'];
+  let particles = [];
+  let running = true;
+
+  function spawnBurst(){
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.6 + canvas.height * 0.1;
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    for(let i=0;i<24;i++){
+      const angle = (Math.PI*2*i)/24;
+      const speed = 1.5 + Math.random()*1.5;
+      particles.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, life: 60, color });
+    }
+  }
+
+  let frame = 0;
+  function animate(){
+    if(!running) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame % 25 === 0 && frame < 150) spawnBurst();
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.life--;
+      ctx.globalAlpha = Math.max(p.life/60, 0);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2.5, 0, Math.PI*2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    particles = particles.filter(p => p.life > 0);
+    frame++;
+    if(frame < 250) requestAnimationFrame(animate);
+    else { running = false; ctx.clearRect(0,0,canvas.width,canvas.height); }
+  }
+  animate();
+}
+
+// ====================================================
+// TABS
+// ====================================================
+function setTab(active){
+  document.getElementById('panel-config').style.display = active === 'config' ? 'block' : 'none';
+  document.getElementById('panel-lewis').style.display = active === 'lewis' ? 'block' : 'none';
+  document.getElementById('tab-config').classList.toggle('active', active==='config');
+  document.getElementById('tab-lewis').classList.toggle('active', active==='lewis');
+}
+document.getElementById('tab-config').onclick = () => setTab('config');
+document.getElementById('tab-lewis').onclick = () => setTab('lewis');
+
+function setLewisOpt(active){
+  document.getElementById('lewis1').style.display = active === 1 ? 'block' : 'none';
+  document.getElementById('lewis2').style.display = active === 2 ? 'block' : 'none';
+  document.getElementById('lewis-opt1').classList.toggle('active', active===1);
+  document.getElementById('lewis-opt2').classList.toggle('active', active===2);
+}
+document.getElementById('lewis-opt1').onclick = () => setLewisOpt(1);
+document.getElementById('lewis-opt2').onclick = () => setLewisOpt(2);
+
+document.getElementById('l2-help-btn').onclick = () => {
+  document.getElementById('l2-help').classList.toggle('open');
+};
+
+// ====================================================
+// PANEL 1: CONFIGURATIONS
+// ====================================================
+let c_lives = MAX_LIVES, c_found = 0;
+function initConfig(){
+  c_lives = MAX_LIVES; c_found = 0;
+  document.getElementById('c-found').textContent = 0;
+  document.getElementById('c-feedback').innerHTML = '';
+  document.getElementById('c-feedback').style.display = 'block';
+  document.getElementById('c-table-wrap').style.display = 'block';
+  document.getElementById('c-tray').style.display = 'flex';
+  document.getElementById('c-tray-label').style.display = 'block';
+  document.getElementById('c-end').style.display = 'none';
+  document.querySelector('#panel-config > .info-row').style.display = 'flex';
+  renderLivesInto('c-lives', c_lives);
+  renderLegend('legend-config');
+
+  buildGrid('c-board');
+  clearDropTargets('config');
+  document.querySelectorAll('#c-board .slot[data-dropzone]').forEach(cell => {
+    const dropZone = cell.querySelector('.dropzone');
+    cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('dragover'); });
+    cell.addEventListener('dragleave', () => { cell.classList.remove('dragover'); });
+    cell.addEventListener('drop', e => {
+      e.preventDefault();
+      cell.classList.remove('dragover');
+      const symbol = e.dataTransfer.getData('text/plain');
+      handleConfigDrop(symbol, cell, dropZone);
+    });
+    registerDropTarget(cell, symbol => handleConfigDrop(symbol, cell, dropZone), 'config');
+  });
+
+  const tray = document.getElementById('c-tray');
+  tray.innerHTML = '';
+  shuffle(allElements).forEach(el => {
+    const piece = document.createElement('div');
+    piece.className = 'piece config';
+    piece.draggable = true;
+    piece.dataset.symbol = el.symbol;
+    piece.textContent = el.config;
+    piece.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text/plain', el.symbol);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    enableTouchDrag(piece, el.symbol);
+    tray.appendChild(piece);
+  });
+}
+
+function handleConfigDrop(symbol, cell, dropZone){
+  if(cell.dataset.filled) return;
+  const correct = symbol === cell.dataset.symbol;
+  const piece = document.querySelector('#c-tray .piece[data-symbol="'+symbol+'"]');
+  const feedback = document.getElementById('c-feedback');
+  const targetEl = allElements.find(e => e.symbol === cell.dataset.symbol);
+
+  if(correct){
+    cell.dataset.filled = 'true';
+    cell.classList.add('filled');
+    dropZone.remove();
+    piece.remove();
+    c_found++;
+    document.getElementById('c-found').textContent = c_found;
+    feedback.innerHTML = '<span class="ok">✓ Bonne case ! ' + cell.dataset.symbol + ' (Z = ' + targetEl.Z + ') a pour configuration électronique ' + targetEl.config + '.</span>';
+    if(c_found === 20) setTimeout(() => endConfig(true), 400);
+  } else {
+    c_lives--;
+    renderLivesInto('c-lives', c_lives);
+    piece.classList.add('shake');
+    setTimeout(()=>piece.classList.remove('shake'), 200);
+    const droppedEl = allElements.find(e => e.symbol === symbol);
+    feedback.innerHTML = '<span class="bad">✗ ' + droppedEl.config + ' est la configuration de ' + droppedEl.symbol
+      + ' (Z = ' + droppedEl.Z + '), pas de ' + cell.dataset.symbol + ' (Z = ' + targetEl.Z
+      + '). Rappel : on remplit les sous-couches par ordre de remplissage (1s, 2s, 2p, 3s, 3p, 4s…) en respectant le nombre maximal d\'électrons par sous-couche (2 pour s, 6 pour p), jusqu\'à atteindre Z électrons au total.</span>';
+    if(c_lives <= 0) setTimeout(() => endConfig(false), 400);
+  }
+}
+
+function endConfig(won){
+  document.querySelector('#panel-config > .info-row').style.display = 'none';
+  document.getElementById('c-table-wrap').style.display = 'none';
+  document.getElementById('c-tray-label').style.display = 'none';
+  document.getElementById('c-tray').style.display = 'none';
+  document.getElementById('c-feedback').style.display = 'none';
+  document.getElementById('c-end').style.display = 'block';
+  if(won){
+    document.getElementById('c-end-title').innerHTML = '🎉 Bravo, tableau complété !';
+    document.getElementById('c-end-msg').textContent = "Tu as placé les 20 configurations électroniques, avec " + c_lives + " vie(s) restante(s).";
+    startFireworks('c-fireworks');
+  } else {
+    document.getElementById('c-end-title').textContent = 'Partie terminée';
+    document.getElementById('c-end-msg').textContent = 'Tu as placé ' + c_found + ' / 20 configurations avant de perdre toutes tes vies.';
+  }
+}
+document.getElementById('c-restart').onclick = initConfig;
+
+// ====================================================
+// PANEL 2: LEWIS OPTION 1 - sélection par schéma de Lewis
+// L'élève voit un schéma de Lewis générique (X doublets +
+// Y électrons célibataires) et doit cliquer sur tous les
+// éléments du tableau qui possèdent ce schéma, puis valider.
+// ====================================================
+let l1_lives = MAX_LIVES;
+let l1_groups = [];   // liste de {lone, single, symbols:[...]}
+let l1_index = 0;
+let l1_selected = new Set();
+
+// Positions des points autour du symbole cible (boîte 140x140, symbole centré ~ 50,55)
+const L1_DOT_POSITIONS = [
+  // doublets (paires de points proches)
+  [{x:60, y:14},{x:74, y:14}],   // doublet 1 : haut
+  [{x:110,y:58},{x:110,y:72}],   // doublet 2 : droite
+  [{x:60, y:114},{x:74, y:114}], // doublet 3 : bas
+  [{x:18, y:58},{x:18, y:72}]    // doublet 4 : gauche
+];
+// positions pour électrons célibataires (un point, sur les côtés restants des mêmes zones)
+const L1_SINGLE_POSITIONS = [
+  {x:67, y:30},  // haut (second emplacement)
+  {x:96, y:65},  // droite
+  {x:67, y:98},  // bas
+  {x:32, y:65}   // gauche
+];
+
+function buildLewisGroups(){
+  const map = {};
+  allElements.forEach(el => {
+    const key = el.lone + '-' + el.single;
+    if(!map[key]) map[key] = {lone: el.lone, single: el.single, symbols: []};
+    map[key].symbols.push(el.symbol);
+  });
+  return shuffle(Object.values(map));
+}
+
+function initLewis1(){
+  l1_lives = MAX_LIVES;
+  l1_index = 0;
+  l1_groups = buildLewisGroups();
+  document.getElementById('l1-total').textContent = l1_groups.length;
+  document.getElementById('l1-feedback').innerHTML = '';
+  document.getElementById('l1-feedback').style.display = 'block';
+  document.getElementById('l1-table-wrap').style.display = 'block';
+  document.getElementById('l1-target').style.display = 'flex';
+  document.querySelector('#lewis1 .row').style.display = 'flex';
+  document.getElementById('l1-end').style.display = 'none';
+  document.querySelector('#lewis1 > .info-row').style.display = 'flex';
+  renderLivesInto('l1-lives', l1_lives);
+  renderLegend('legend-lewis1');
+
+  buildGrid('l1-board');
+  loadLewis1Question();
+}
+
+function loadLewis1Question(){
+  l1_selected = new Set();
+  document.getElementById('l1-num').textContent = l1_index + 1;
+  document.getElementById('l1-feedback').innerHTML = '';
+  const group = l1_groups[l1_index];
+
+  // Rendu du schéma cible
+  const target = document.getElementById('l1-target');
+  target.innerHTML = '';
+  const box = document.createElement('div');
+  box.className = 'l1-target-box';
+  const sym = document.createElement('div');
+  sym.className = 'center-sym';
+  sym.textContent = 'X';
+  box.appendChild(sym);
+  let dotsPlaced = 0;
+  for(let i=0;i<group.lone;i++){
+    L1_DOT_POSITIONS[i].forEach(p => {
+      const d = document.createElement('span');
+      d.className = 'l1t-dot';
+      d.style.left = p.x + 'px'; d.style.top = p.y + 'px';
+      box.appendChild(d);
+      dotsPlaced++;
+    });
+  }
+  for(let i=0;i<group.single;i++){
+    const p = L1_SINGLE_POSITIONS[group.lone + i] || L1_SINGLE_POSITIONS[i];
+    const d = document.createElement('span');
+    d.className = 'l1t-dot';
+    d.style.left = p.x + 'px'; d.style.top = p.y + 'px';
+    box.appendChild(d);
+  }
+  target.appendChild(box);
+
+  const label = document.createElement('div');
+  label.className = 'l1-target-label';
+  label.innerHTML = '<strong>Schéma de Lewis ' + (l1_index+1) + ' / ' + l1_groups.length + '</strong><br>'
+    + lewisLabel({lone: group.lone, single: group.single})
+    + ' (soit ' + (group.lone*2 + group.single) + ' électron(s) de valence). '
+    + 'Clique sur tous les éléments du tableau qui correspondent à ce schéma, puis valide.';
+  target.appendChild(label);
+
+  // Reset des cases (sélectionnables, non encore validées)
+  document.querySelectorAll('#l1-board .slot[data-dropzone]').forEach(cell => {
+    if(cell.dataset.done) return; // déjà validé lors d'un schéma précédent
+    cell.classList.add('selectable');
+    cell.classList.remove('selected');
+    cell.onclick = () => {
+      const sym = cell.dataset.symbol;
+      if(l1_selected.has(sym)){
+        l1_selected.delete(sym);
+        cell.classList.remove('selected');
+      } else {
+        l1_selected.add(sym);
+        cell.classList.add('selected');
+      }
+    };
+  });
+}
+
+document.getElementById('l1-validate').onclick = () => {
+  const feedback = document.getElementById('l1-feedback');
+  const group = l1_groups[l1_index];
+  const expected = new Set(group.symbols);
+  const selected = l1_selected;
+
+  const missing = [...expected].filter(s => !selected.has(s));
+  const extra = [...selected].filter(s => !expected.has(s));
+
+  if(missing.length === 0 && extra.length === 0){
+    // Valider visuellement les cases de ce groupe
+    document.querySelectorAll('#l1-board .slot[data-dropzone]').forEach(cell => {
+      if(expected.has(cell.dataset.symbol)){
+        cell.classList.remove('selectable','selected');
+        cell.classList.add('filled');
+        cell.dataset.done = 'true';
+        cell.onclick = null;
+      }
+    });
+    feedback.innerHTML = '<span class="ok">✓ Exact ! ' + group.symbols.join(', ') + ' possèdent tous '
+      + lewisLabel({lone: group.lone, single: group.single}) + '.</span>';
+    setTimeout(() => {
+      if(l1_index + 1 < l1_groups.length){
+        l1_index++;
+        loadLewis1Question();
+      } else {
+        endLewis1(true);
+      }
+    }, 1300);
+  } else {
+    l1_lives--;
+    renderLivesInto('l1-lives', l1_lives);
+    let detail = '';
+    if(extra.length){
+      const el = allElements.find(e => e.symbol === extra[0]);
+      detail += extra[0] + ' a pour configuration de valence ' + valenceConfig(el) + ' (' + el.valence
+        + ' électron(s) de valence, soit ' + lewisLabel(el) + ') : il ne correspond pas au schéma affiché. ';
+    }
+    if(missing.length){
+      const el = allElements.find(e => e.symbol === missing[0]);
+      detail += missing[0] + ' a pour configuration de valence ' + valenceConfig(el) + ' (' + el.valence
+        + ' électron(s) de valence, soit ' + lewisLabel(el) + ') : il correspond bien au schéma affiché, il fallait le sélectionner.';
+    }
+    feedback.innerHTML = '<span class="bad">✗ Ce n\'est pas exact. ' + detail + '</span>';
+    if(l1_lives <= 0){
+      setTimeout(() => endLewis1(false), 600);
+    }
+  }
+};
+
+// Extrait la configuration de la couche de valence (dernière sous-couche s et p)
+function valenceConfig(el){
+  const matches = el.config.match(/[1-4][sp][¹²³⁴⁵⁶]/g) || [];
+  // Ne garder que la dernière couche (numéro maximal)
+  const lastShell = Math.max(...matches.map(m => parseInt(m[0])));
+  return matches.filter(m => parseInt(m[0]) === lastShell).join('');
+}
+
+function endLewis1(won){
+  document.querySelector('#lewis1 > .info-row').style.display = 'none';
+  document.getElementById('l1-table-wrap').style.display = 'none';
+  document.getElementById('l1-target').style.display = 'none';
+  document.querySelector('#lewis1 .row').style.display = 'none';
+  document.getElementById('l1-feedback').style.display = 'none';
+  document.getElementById('l1-end').style.display = 'block';
+  if(won){
+    document.getElementById('l1-end-title').innerHTML = '🎉 Bravo, tous les schémas associés !';
+    document.getElementById('l1-end-msg').textContent = "Tu as associé les " + l1_groups.length + " schémas de Lewis aux 20 éléments, avec " + l1_lives + " vie(s) restante(s).";
+    startFireworks('l1-fireworks');
+  } else {
+    document.getElementById('l1-end-title').textContent = 'Partie terminée';
+    document.getElementById('l1-end-msg').textContent = 'Tu as traité ' + l1_index + ' / ' + l1_groups.length + ' schémas avant de perdre toutes tes vies.';
+  }
+}
+document.getElementById('l1-restart').onclick = initLewis1;
+
+// ====================================================
+// PANEL 2: LEWIS OPTION 2 - construct
+// 4 zones autour du symbole, resserrées et disposées de
+// façon non orthogonale (pas une croix à angles droits),
+// car le schéma de Lewis n'impose pas de géométrie.
+// ====================================================
+const NUM_L2 = 8;
+let l2_sequence = [];
+let l2_index = 0;
+let l2_lives = MAX_LIVES;
+let l2_placedLone = 0;
+let l2_placedSingle = 0;
+
+const POSITIONS = [
+  {x: 120, y: 6,   w: 64, h: 32},  // haut-droite
+  {x: 176, y: 90,  w: 64, h: 32},  // droite, légèrement bas
+  {x: 90,  y: 192, w: 64, h: 32},  // bas-gauche
+  {x: 6,   y: 78,  w: 64, h: 32}   // gauche, légèrement haut
+];
+
+function initLewis2(){
+  l2_sequence = shuffle(allElements).slice(0, NUM_L2);
+  l2_index = 0;
+  l2_lives = MAX_LIVES;
+  document.getElementById('l2-total').textContent = NUM_L2;
+  document.getElementById('l2-end').style.display = 'none';
+  document.querySelector('#lewis2 .l2-layout').style.display = 'flex';
+  document.querySelector('#lewis2 > .info-row').style.display = 'flex';
+  renderLivesInto('l2-lives', l2_lives);
+  loadL2Question();
+}
+
+function loadL2Question(){
+  document.getElementById('l2-num').textContent = l2_index + 1;
+  document.getElementById('l2-feedback').innerHTML = '';
+  l2_placedLone = 0;
+  l2_placedSingle = 0;
+
+  const el = l2_sequence[l2_index];
+  const total = el.lone + el.single;
+  document.getElementById('l2-instruction').textContent =
+    "Élément : " + el.symbol + " (configuration " + el.config + ", " + el.valence + " électron(s) de valence). "
+    + "Glisse le nombre de doublets non liants et d'électrons célibataires nécessaires sur la bonne case pour compléter le symbole de Lewis"
+    + (total>0 ? " (" + (el.lone>0 ? el.lone + (el.lone===1?' doublet':' doublets') : '')
+        + (el.lone>0 && el.single>0 ? ' et ' : '')
+        + (el.single>0 ? el.single + (el.single===1?' électron célibataire':' électrons célibataires') : '')
+        + ")" : " (ici, aucun électron à placer car la couche externe est complète)")
+    + ", sans te préoccuper de la disposition exacte (le schéma de Lewis n'a pas de géométrie imposée).";
+
+  const box = document.getElementById('l2-symbol-box');
+  box.innerHTML = '';
+  clearDropTargets('lewis2');
+
+  const sym = document.createElement('div');
+  sym.className = 'center-sym';
+  sym.textContent = el.symbol;
+  box.appendChild(sym);
+
+  POSITIONS.forEach((pos, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'l2slot';
+    slot.dataset.index = i;
+    slot.style.left = pos.x + 'px';
+    slot.style.top = pos.y + 'px';
+    slot.style.width = pos.w + 'px';
+    slot.style.height = pos.h + 'px';
+
+    slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('dragover'); });
+    slot.addEventListener('dragleave', () => { slot.classList.remove('dragover'); });
+    slot.addEventListener('drop', e => {
+      e.preventDefault();
+      slot.classList.remove('dragover');
+      const type = e.dataTransfer.getData('text/plain');
+      handleL2Drop(type, slot);
+    });
+    registerDropTarget(slot, type => handleL2Drop(type, slot), 'lewis2');
+    box.appendChild(slot);
+  });
+
+  const tray = document.getElementById('l2-tray');
+  tray.innerHTML = '';
+
+  function makeDot(){
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    return dot;
+  }
+
+  const pairPiece = document.createElement('div');
+  pairPiece.className = 'l2piece';
+  pairPiece.draggable = true;
+  pairPiece.dataset.type = 'pair';
+  pairPiece.appendChild(makeDot());
+  pairPiece.appendChild(makeDot());
+  const pairLabel = document.createElement('span');
+  pairLabel.className = 'label';
+  pairLabel.textContent = 'Doublet';
+  pairPiece.appendChild(pairLabel);
+  pairPiece.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', 'pair'); });
+  enableTouchDrag(pairPiece, 'pair');
+  tray.appendChild(pairPiece);
+
+  const singlePiece = document.createElement('div');
+  singlePiece.className = 'l2piece';
+  singlePiece.draggable = true;
+  singlePiece.dataset.type = 'single';
+  singlePiece.appendChild(makeDot());
+  const singleLabel = document.createElement('span');
+  singleLabel.className = 'label';
+  singleLabel.textContent = 'Électron seul';
+  singlePiece.appendChild(singleLabel);
+  singlePiece.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', 'single'); });
+  enableTouchDrag(singlePiece, 'single');
+  tray.appendChild(singlePiece);
+
+  // Compteur de placement (aide visuelle, évite les erreurs de surplus)
+  const counter = document.createElement('p');
+  counter.id = 'l2-counter';
+  counter.style.fontSize = '12px';
+  counter.style.color = 'var(--text-secondary)';
+  counter.style.margin = '8px 0 0';
+  tray.insertAdjacentElement('afterend', counter);
+  updateL2Counter();
+}
+
+function updateL2Counter(){
+  const el = l2_sequence[l2_index];
+  const counter = document.getElementById('l2-counter');
+  if(!counter) return;
+  counter.textContent = 'Placés : ' + l2_placedLone + ' / ' + el.lone + ' doublet(s) — '
+    + l2_placedSingle + ' / ' + el.single + ' électron(s) célibataire(s). '
+    + '(Clique sur une case déjà remplie pour la vider.)';
+}
+
+function handleL2Drop(type, slot){
+  if(slot.dataset.filled) return;
+  const el = l2_sequence[l2_index];
+
+  // Empêche de placer plus de doublets ou d'électrons célibataires que nécessaire
+  if(type === 'pair' && l2_placedLone >= el.lone) return;
+  if(type === 'single' && l2_placedSingle >= el.single) return;
+
+  slot.dataset.filled = type;
+  slot.classList.add('filled');
+
+  function makeDot(){
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    return dot;
+  }
+  slot.appendChild(makeDot());
+  if(type === 'pair'){
+    slot.appendChild(makeDot());
+    l2_placedLone++;
+  } else {
+    l2_placedSingle++;
+  }
+  updateL2Counter();
+
+  // Clic sur une case remplie pour la vider et corriger une erreur
+  slot.onclick = () => {
+    if(slot.dataset.filled === 'pair') l2_placedLone--;
+    else l2_placedSingle--;
+    slot.dataset.filled = '';
+    slot.classList.remove('filled');
+    slot.innerHTML = '';
+    slot.onclick = null;
+    updateL2Counter();
+  };
+}
+
+document.getElementById('l2-validate').onclick = () => {
+  const el = l2_sequence[l2_index];
+  const feedback = document.getElementById('l2-feedback');
+  const correct = (l2_placedLone === el.lone) && (l2_placedSingle === el.single);
+
+  if(correct){
+    feedback.innerHTML = '<span class="ok">✓ Schéma correct ! ' + el.symbol + ' (' + el.valence + ' électron(s) de valence) se représente bien avec '
+      + lewisLabel(el) + '.</span>';
+    setTimeout(() => {
+      if(l2_index + 1 < NUM_L2){
+        l2_index++;
+        loadL2Question();
+      } else {
+        endLewis2(true);
+      }
+    }, 1100);
+  } else {
+    l2_lives--;
+    renderLivesInto('l2-lives', l2_lives);
+    let detail;
+    const totalPlaced = l2_placedLone*2 + l2_placedSingle;
+    const totalExpected = el.valence;
+    if(totalPlaced !== totalExpected){
+      detail = 'Tu as placé ' + totalPlaced + ' électron(s) au total, alors que ' + el.symbol + ' en a ' + totalExpected + ' (électrons de valence).';
+    } else {
+      detail = 'Le nombre total d\'électrons placés est correct, mais leur répartition ne l\'est pas : il faut '
+        + el.lone + (el.lone===1?' doublet':' doublets') + ' et ' + el.single + (el.single===1?' électron célibataire':' électrons célibataires')
+        + ' (tu as placé ' + l2_placedLone + (l2_placedLone===1?' doublet':' doublets') + ' et ' + l2_placedSingle + (l2_placedSingle===1?' électron célibataire':' électrons célibataires') + ').';
+    }
+    feedback.innerHTML = '<span class="bad">✗ Pas tout à fait : ' + el.symbol + ' a ' + el.valence + ' électron(s) de valence, soit '
+      + lewisLabel(el) + '. ' + detail
+      + ' Rappel : on forme d\'abord des doublets (par paires de 2), puis on place l\'électron restant seul s\'il y en a un.</span>';
+    if(l2_lives <= 0){
+      setTimeout(() => endLewis2(false), 600);
+    } else {
+      setTimeout(() => loadL2Question(), 1600);
+    }
+  }
+};
+
+function endLewis2(won){
+  document.querySelector('#lewis2 .l2-layout').style.display = 'none';
+  document.querySelector('#lewis2 > .info-row').style.display = 'none';
+  document.getElementById('l2-end').style.display = 'block';
+  if(won){
+    document.getElementById('l2-end-title').innerHTML = '🎉 Bravo, tous les schémas construits !';
+    document.getElementById('l2-end-msg').textContent = "Tu as réussi les " + NUM_L2 + " schémas de Lewis, avec " + l2_lives + " vie(s) restante(s).";
+    startFireworks('l2-fireworks');
+  } else {
+    document.getElementById('l2-end-title').textContent = 'Partie terminée';
+    document.getElementById('l2-end-msg').textContent = 'Tu as réussi ' + l2_index + ' / ' + NUM_L2 + ' schémas avant de perdre toutes tes vies.';
+  }
+}
+document.getElementById('l2-restart').onclick = initLewis2;
+
+// ====================================================
+// INIT
+// ====================================================
+setTab('config');
+setLewisOpt(1);
+initConfig();
+initLewis1();
+initLewis2();
+</script>
+</body>
+</html>

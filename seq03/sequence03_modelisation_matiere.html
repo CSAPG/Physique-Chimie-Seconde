@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modélisation de la matière à l'échelle microscopique</title>
+<style>
+:root{
+  --bg:#fbf9f4;
+  --paper:#ffffff;
+  --ink:#1f2a24;
+  --accent:#2f6f5e;
+  --accent-light:#e6f1ee;
+  --accent2:#c9622a;
+  --accent2-light:#fbe9e0;
+  --line:#d9d3c6;
+  --proton:#d1495b;
+  --neutron:#8d99ae;
+  --electron:#2f6f5e;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Georgia","Iowan Old Style","Times New Roman",serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+}
+.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+
+/* HEADER */
+header.hero{
+  border-bottom:3px solid var(--accent);
+  padding-bottom:18px;
+  margin-bottom:24px;
+}
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+.header-titles{flex:1;}
+.eyebrow{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--accent2);
+  font-weight:700;
+}
+h1{
+  font-size:1.9rem;
+  margin:6px 0 4px;
+  color:var(--ink);
+  font-weight:700;
+}
+.subtitle{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.95rem;
+  color:#5b6660;
+}
+
+/* ── Animation Séquence 03 : Atome (électrons en trajectoires irrégulières) ── */
+.atom-icon {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+.atom-nucleus {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  background: radial-gradient(circle at 35% 35%, #e8a07a, var(--accent2));
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 6px rgba(201,98,42,0.5);
+}
+.atom-orbit {
+  position: absolute;
+  top: 50%; left: 50%;
+  border: 1.5px solid rgba(47,111,94,0.3);
+  border-radius: 50%;
+  transform-origin: center;
+}
+.atom-orbit-1 { width: 56px; height: 56px; margin: -28px 0 0 -28px; transform: rotate(0deg); }
+.atom-orbit-2 { width: 56px; height: 30px; margin: -15px 0 0 -28px; transform: rotate(60deg); }
+.atom-orbit-3 { width: 56px; height: 30px; margin: -15px 0 0 -28px; transform: rotate(-60deg); }
+.atom-electron {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 4px rgba(47,111,94,0.6);
+}
+.atom-e1 { animation: atom-e1-path 5.2s linear infinite; offset-path: path("M 28,0 A 28 28 0 1 1 27.99 0"); offset-rotate: 0deg; top:0; left:0; }
+@keyframes atom-e1-path {
+  0%    { offset-distance: 0%; }
+  20%   { offset-distance: 35%; }
+  45%   { offset-distance: 40%; }
+  70%   { offset-distance: 75%; }
+  100%  { offset-distance: 100%; }
+}
+.atom-e2 { animation: atom-e2-path 6.7s linear infinite reverse; offset-path: path("M 0,0 A 28 15 60 1 1 -0.01 0.01"); offset-rotate: 0deg; top:0; left:0; }
+@keyframes atom-e2-path {
+  0%    { offset-distance: 0%; }
+  30%   { offset-distance: 28%; }
+  55%   { offset-distance: 60%; }
+  80%   { offset-distance: 65%; }
+  100%  { offset-distance: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atom-e1, .atom-e2 { animation: none; }
+}
+@media (max-width:600px){
+  .atom-icon{width:46px;height:46px;}
+  .atom-orbit-1{width:44px;height:44px;margin:-22px 0 0 -22px;}
+  .atom-orbit-2,.atom-orbit-3{width:44px;height:24px;margin:-12px 0 0 -22px;}
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:22px;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.tab-btn{
+  flex:1 1 auto;
+  min-width:140px;
+  padding:12px 14px;
+  background:var(--paper);
+  border:2px solid var(--line);
+  border-radius:10px;
+  cursor:pointer;
+  font-size:0.85rem;
+  font-weight:700;
+  color:#6b756f;
+  text-align:center;
+  transition:all .15s ease;
+}
+.tab-btn .num{
+  display:block;
+  font-size:1.3rem;
+  color:var(--accent);
+  margin-bottom:2px;
+}
+.tab-btn:hover{border-color:var(--accent);}
+.tab-btn.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+.tab-btn.active .num{color:#fff;}
+
+/* PANELS */
+.panel{display:none;animation:fade .35s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px 22px;
+  margin-bottom:18px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+}
+.card h2{
+  font-size:1.25rem;
+  margin-top:0;
+  color:var(--accent);
+  border-bottom:2px solid var(--accent-light);
+  padding-bottom:8px;
+}
+.card h3{
+  font-size:1.05rem;
+  color:var(--accent2);
+  margin:18px 0 8px;
+}
+.def{
+  background:var(--accent-light);
+  border-left:4px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+}
+.def b{color:var(--accent);}
+.activite{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#9aa39d;
+  margin-bottom:4px;
+}
+
+/* À COMPLÉTER fields */
+.blank{
+  display:inline-block;
+  border-bottom:2px dotted var(--line);
+  min-width:80px;
+  height:1.2em;
+}
+
+/* EXERCICE INTERACTIF */
+.exo-box{margin:10px 0 18px;}
+.exo-input{
+  width:100%;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;
+  color:var(--ink);
+  border:2px dashed var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  background:#fdfcf9;
+  resize:vertical;
+  box-sizing:border-box;
+}
+.exo-input::placeholder{color:#aab3ad;font-style:italic;}
+.exo-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-input.line{min-height:1.4em;height:42px;}
+.exo-input.block{min-height:70px;}
+.exo-input.block.tall{min-height:100px;}
+.exo-actions{
+  display:flex;
+  gap:8px;
+  margin-top:6px;
+}
+
+/* NOTATION SYMBOLIQUE NOYAU : A en haut, Z en bas, à gauche du symbole */
+.nuc-notation{
+  display:inline-flex;
+  align-items:center;
+  font-weight:700;
+  font-size:1.1em;
+  vertical-align:middle;
+  line-height:1;
+  margin-left:0.4em;
+}
+.nuc-notation .nuc-az{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+  font-size:0.62em;
+  line-height:1.05;
+  margin-right:0.3em;
+}
+.nuc-notation .nuc-az select{
+  padding:2px 6px;
+  min-width:4em;
+  height:auto;
+  line-height:1.4;
+}
+.nuc-notation .nuc-sym{
+  font-size:1.15em;
+  flex-shrink:0;
+}
+
+.exo-select{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;
+  color:var(--ink);
+  border:2px dashed var(--line);
+  border-radius:6px;
+  padding:5px 8px;
+  background:#fdfcf9;
+  cursor:pointer;
+}
+.exo-select:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-select.correct{
+  border-color:var(--accent) !important;
+  background:var(--accent-light) !important;
+  color:var(--accent);
+  font-weight:700;
+}
+.exo-select.incorrect{
+  border-color:#c0392b !important;
+  background:#fbe6e4 !important;
+  color:#c0392b;
+  font-weight:700;
+}
+
+.exo-input.correct{
+  border-color:var(--accent) !important;
+  background:var(--accent-light) !important;
+  color:var(--accent);
+}
+.exo-input.incorrect{
+  border-color:#c0392b !important;
+  background:#fbe6e4 !important;
+  color:#c0392b;
+}
+.check-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;
+  font-weight:700;
+  background:var(--accent);
+  color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.check-btn:hover{background:#255a4c;}
+
+/* TOGGLE / CORRECTION */
+.toggle-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;
+  font-weight:700;
+  background:var(--accent2-light);
+  color:var(--accent2);
+  border:1px solid var(--accent2);
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.toggle-btn:hover{background:var(--accent2);color:#fff;}
+.reset-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;
+  font-weight:700;
+  background:#f1efe6;
+  color:#7a8079;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.reset-btn:hover{background:#e6e2d4;color:var(--ink);}
+.correction{
+  display:none;
+  background:var(--accent2-light);
+  border-left:4px solid var(--accent2);
+  border-radius:6px;
+  padding:10px 14px;
+  margin-top:8px;
+  font-size:0.92rem;
+}
+.correction.show{display:block;}
+
+/* TABLE caractéristiques particules */
+table.particules{
+  width:100%;
+  border-collapse:collapse;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.88rem;
+  margin:10px 0;
+}
+table.particules th,table.particules td{
+  border:1px solid var(--line);
+  padding:8px 10px;
+  text-align:left;
+}
+table.particules th{background:var(--accent-light);color:var(--accent);}
+
+/* EXERCICES tags */
+.exo-tag{
+  display:inline-block;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.75rem;
+  background:#f1efe6;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:3px 10px;
+  margin:2px 4px 2px 0;
+  color:#7a8079;
+}
+
+/* ANIMATIONS - electronic config */
+.atom-builder{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.atom-controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.atom-controls label{font-size:0.85rem;font-weight:700;color:var(--accent);}
+.atom-controls select, .atom-controls input{
+  font-family:inherit;
+  font-size:0.9rem;
+  padding:6px 10px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:#fff;
+}
+.atom-stage{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  align-items:flex-start;
+}
+.atom-svg-wrap{flex:1 1 280px;min-width:260px;}
+.atom-info{
+  flex:1 1 220px;
+  background:var(--accent-light);
+  border-radius:10px;
+  padding:14px 16px;
+  font-size:0.9rem;
+}
+.atom-info b{color:var(--accent);}
+.shell-fill{transition:opacity .3s;}
+.electron-dot{
+  fill:var(--electron);
+  transition:opacity .25s;
+}
+
+/* DIAGRAMME ÉNERGÉTIQUE H2 */
+.energy-diagram-wrap{
+  margin:10px 0;
+}
+
+/* LEWIS */
+.lewis-stage{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  align-items:center;
+}
+.lewis-controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.lewis-controls button{
+  font-family:inherit;
+  font-size:0.85rem;
+  font-weight:700;
+  padding:8px 14px;
+  border:2px solid var(--accent);
+  border-radius:8px;
+  background:#fff;
+  color:var(--accent);
+  cursor:pointer;
+}
+.lewis-controls button.active{background:var(--accent);color:#fff;}
+.lewis-svg-wrap{flex:1 1 320px;min-width:300px;}
+.lewis-legend{
+  flex:1 1 200px;
+  font-size:0.88rem;
+  background:var(--accent-light);
+  border-radius:10px;
+  padding:12px 16px;
+}
+
+/* PERIODIC TABLE */
+.ptable{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:6px;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  margin:14px 0;
+}
+.ptable-header{
+  text-align:center;
+  font-size:0.78rem;
+  font-weight:700;
+  color:#9aa39d;
+}
+.pcell-input-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.pcell-input-row input{
+  width:100%;
+}
+.pcell{
+  position:relative;
+  border:2px solid var(--line);
+  border-radius:8px;
+  min-height:74px;
+  padding:6px 4px;
+  text-align:center;
+  cursor:pointer;
+  background:#fff;
+  transition:all .15s;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.pcell:hover{border-color:var(--accent);transform:translateY(-2px);}
+.pcell.bloc-s{background:#eef4f2;}
+.pcell.bloc-p{background:#fbefe8;}
+.pcell .z{
+  position:absolute;
+  top:3px;
+  left:6px;
+  font-size:0.65rem;
+  color:#9aa39d;
+}
+.pcell .sym{font-size:1.1rem;font-weight:700;color:var(--ink);}
+.pcell .answer{
+  display:none;
+  font-size:0.62rem;
+  color:var(--accent);
+  margin-top:2px;
+  line-height:1.2;
+}
+.pcell.revealed .answer{display:block;}
+.pcell.revealed{border-color:var(--accent);}
+.pcell.empty{
+  visibility:hidden;
+}
+.ptable-legend{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  font-size:0.82rem;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  margin-bottom:10px;
+}
+.legend-chip{display:flex;align-items:center;gap:6px;}
+
+/* PASTILLES (liens ressources) */
+.pastilles{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:10px 0 4px;
+}
+.pastille{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.85rem;
+  font-weight:700;
+  text-decoration:none;
+  padding:9px 16px;
+  border-radius:999px;
+  border:2px solid var(--accent);
+  color:var(--accent);
+  background:var(--accent-light);
+  transition:all .15s ease;
+}
+.pastille:hover{
+  background:var(--accent);
+  color:#fff;
+}
+.pastille.alt{
+  border-color:var(--accent2);
+  color:var(--accent2);
+  background:var(--accent2-light);
+}
+.pastille.alt:hover{
+  background:var(--accent2);
+  color:#fff;
+}
+.pastille.ostralo{
+  border-color:#8e44ad;
+  color:#8e44ad;
+  background:rgba(142,68,173,0.08);
+}
+.pastille.ostralo:hover{
+  background:#8e44ad;
+  color:#fff;
+}
+.legend-swatch{width:16px;height:16px;border-radius:4px;border:1px solid var(--line);}
+
+/* QCM EXERCICES */
+.quiz-options{display:flex;flex-direction:column;gap:6px;}
+.quiz-options label{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-size:0.92rem;
+  cursor:pointer;
+  padding:6px 10px;
+  border-radius:6px;
+  border:1px solid var(--line);
+}
+.quiz-options label:hover{border-color:var(--accent);}
+.quiz-options label.opt-correct{
+  border-color:var(--accent);
+  background:var(--accent-light);
+  color:var(--accent);
+  font-weight:700;
+}
+.quiz-options label.opt-incorrect{
+  border-color:#c0392b;
+  background:#fbe6e4;
+  color:#c0392b;
+  font-weight:700;
+}
+.keyword-check-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;
+  font-weight:700;
+  background:var(--accent);
+  color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.keyword-check-btn:hover{background:#255a4c;}
+.keyword-feedback{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.85rem;
+  font-weight:700;
+  margin-top:6px;
+  padding:8px 12px;
+  border-radius:6px;
+  display:none;
+}
+.keyword-feedback.show{display:block;}
+.keyword-feedback.kw-good{
+  background:var(--accent-light);
+  color:var(--accent);
+  border-left:4px solid var(--accent);
+}
+.keyword-feedback.kw-partial{
+  background:#fdf3e2;
+  color:#a9690f;
+  border-left:4px solid #e0a52e;
+}
+.keyword-feedback.kw-empty{
+  background:#fbe6e4;
+  color:#c0392b;
+  border-left:4px solid #c0392b;
+}
+
+.check-radio-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;
+  font-weight:700;
+  background:var(--accent);
+  color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;
+  padding:6px 14px;
+  cursor:pointer;
+  margin-top:6px;
+}
+.check-radio-btn:hover{background:#255a4c;}
+
+/* BACK TO TOP */
+#backToTop{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  width:46px;
+  height:46px;
+  font-size:1.3rem;
+  cursor:pointer;
+  display:none;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+#backToTop.show{display:block;}
+
+@media (max-width:680px){
+  .ptable{grid-template-columns:repeat(4,1fr);}
+  .ptable-header{display:none;}
+  h1{font-size:1.5rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="header-top">
+    <div class="header-titles">
+      <div class="eyebrow">2nde · Thème : Constitution et transformation de la matière · 1B</div>
+      <h1>Fiche de cours n°3 — Modélisation de la matière à l'échelle microscopique</h1>
+      <div class="subtitle">Mme Poirault-Gauvin · Suivez les onglets dans l'ordre du plan de séquence. Les zones pointillées sont à compléter en classe.</div>
+    </div>
+    <!-- Animation : atome avec électrons en trajectoires irrégulières -->
+    <div class="atom-icon" title="Modèle de l'atome : noyau et cortège électronique">
+      <div class="atom-orbit atom-orbit-1"></div>
+      <div class="atom-orbit atom-orbit-2"></div>
+      <div class="atom-orbit atom-orbit-3"></div>
+      <div class="atom-nucleus"></div>
+      <div class="atom-electron atom-e1"></div>
+      <div class="atom-electron atom-e2"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="t1"><span class="num">1</span>Espèce chimique → entité</button>
+  <button class="tab-btn" data-tab="t2"><span class="num">2</span>L'atome et son noyau</button>
+  <button class="tab-btn" data-tab="t3"><span class="num">3</span>Entités stables</button>
+  <button class="tab-btn" data-tab="t4"><span class="num">📊</span>Tableau périodique</button>
+  <button class="tab-btn" data-tab="t5"><span class="num">✓</span>Bilan & Ressources</button>
+</nav>
+
+<!-- ================= ONGLET 1 ================= -->
+<section class="panel active" id="t1">
+  <div class="card">
+    <h2>1. Du macroscopique au microscopique, de l'espèce chimique à l'entité</h2>
+    <div class="activite">Activité 1 : La nature, c'est de la chimie — p60</div>
+    <h3>Définitions à retenir</h3>
+    <div class="def">
+      À l'échelle <b>macroscopique</b>, une <b>espèce chimique</b> désigne une collection d'un nombre très élevé d'<b>entités chimiques identiques</b>.
+    </div>
+    <div class="def">
+      À l'échelle <b>microscopique</b>, une <b>entité chimique</b> peut être :
+      <ul>
+        <li>un <b>atome</b> : entité électriquement neutre,</li>
+        <li>un <b>ion</b> : entité chargée positivement (<b>cation</b>) ou négativement (<b>anion</b>),</li>
+        <li>une <b>molécule</b> : assemblage d'atomes en nombre limité,</li>
+        <li>un <b>composé ionique</b> : assemblage compact et ordonné d'ions positifs et d'ions négatifs dont les charges se compensent (électroneutralité).</li>
+      </ul>
+    </div>
+
+    <h3>À toi de jouer</h3>
+    <p>Pour chaque formule, indique s'il s'agit d'un <b>atome</b>, d'une <b>molécule</b>, d'un <b>cation</b> ou d'un <b>anion</b> (ou d'un composé ionique) :</p>
+    <table class="particules">
+      <tr><th>Formule</th><th>Ta réponse</th></tr>
+      <tr><td>Fe</td><td><input type="text" class="exo-input line t1-input" style="height:34px;padding:4px 8px;" placeholder="..." data-answers="atome"></td></tr>
+      <tr><td>H₂O</td><td><input type="text" class="exo-input line t1-input" style="height:34px;padding:4px 8px;" placeholder="..." data-answers="molecule|molécule"></td></tr>
+      <tr><td>Na⁺</td><td><input type="text" class="exo-input line t1-input" style="height:34px;padding:4px 8px;" placeholder="..." data-answers="cation"></td></tr>
+      <tr><td>Cl⁻</td><td><input type="text" class="exo-input line t1-input" style="height:34px;padding:4px 8px;" placeholder="..." data-answers="anion"></td></tr>
+      <tr><td>NaCl (solide)</td><td><input type="text" class="exo-input line t1-input" style="height:34px;padding:4px 8px;" placeholder="..." data-answers="compose ionique|composé ionique|ionique"></td></tr>
+    </table>
+    <div class="exo-box" data-clear-selector=".t1-input">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".t1-input">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>Fe</b> : atome (de fer) — <b>H₂O</b> : molécule (eau) — <b>Na⁺</b> : cation (ion sodium) — <b>Cl⁻</b> : anion (ion chlorure) — <b>NaCl (solide)</b> : composé ionique (assemblage d'ions Na⁺ et Cl⁻)
+      </div>
+    </div>
+
+    <div class="activite" style="margin-top:14px;">Exercices</div>
+    <span class="exo-tag">p68 n°19-21</span>
+  </div>
+</section>
+
+<!-- ================= ONGLET 2 ================= -->
+<section class="panel" id="t2">
+
+  <div class="card">
+    <h2>2.a — Composition de l'atome</h2>
+    <div class="activite">Activité 2 p62 : Tailles et masses de l'atome et de son noyau · Activité 3 p63 : Trio de noyaux</div>
+
+    <p><i>« Tous les corps sont constitués de particules très petites et indivisibles : les atomes. »</i> — Dalton (1766-1844)</p>
+    <p>Fin du XIX<sup>e</sup> siècle : l'atome n'est pas indivisible (Rutherford, 1911).</p>
+
+    <h3>Ordres de grandeur</h3>
+    <p>Ordre de grandeur de la taille d'un <b>atome</b> :
+      <select class="exo-select t2-og" data-answers="10-10 m">
+        <option value="">— choisir —</option>
+        <option value="10-8 m">10⁻⁸ m</option>
+        <option value="10-10 m">10⁻¹⁰ m</option>
+        <option value="10-12 m">10⁻¹² m</option>
+        <option value="10-15 m">10⁻¹⁵ m</option>
+      </select>
+    </p>
+    <p>Ordre de grandeur de la taille du <b>noyau</b> :
+      <select class="exo-select t2-og" data-answers="10-15 m">
+        <option value="">— choisir —</option>
+        <option value="10-10 m">10⁻¹⁰ m</option>
+        <option value="10-12 m">10⁻¹² m</option>
+        <option value="10-15 m">10⁻¹⁵ m</option>
+        <option value="10-18 m">10⁻¹⁸ m</option>
+      </select>
+    </p>
+    <div class="exo-box" data-clear-selector=".t2-og">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".t2-og">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Taille d'un atome ≈ 10⁻¹⁰ m. Taille d'un noyau ≈ 10⁻¹⁵ m.<br>
+        Rapport : 10⁻¹⁰ / 10⁻¹⁵ = 10⁵. Le noyau est environ 100 000 fois plus petit que l'atome.
+      </div>
+    </div>
+
+    <p>Comparer les deux tailles (utiliser un quotient et l'écriture scientifique) :</p>
+    <div class="exo-box" data-clear-selector=".cmp-taille">
+      <p>Le rapport (taille atome) / (taille noyau) vaut environ :</p>
+      <select class="exo-select cmp-taille" data-answers="105">
+        <option value="">— choisir —</option>
+        <option value="10-5">10⁻⁵</option>
+        <option value="100">1</option>
+        <option value="105">10⁵</option>
+        <option value="1010">10¹⁰</option>
+      </select>
+      <p style="margin-top:8px;">Donc le noyau est environ … fois plus petit que l'atome :</p>
+      <select class="exo-select cmp-taille" data-answers="100000">
+        <option value="">— choisir —</option>
+        <option value="100">100</option>
+        <option value="1000">1 000</option>
+        <option value="100000">100 000</option>
+        <option value="10000000">10 000 000</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".cmp-taille">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        10⁻¹⁰ / 10⁻¹⁵ = 10⁵. Le noyau est environ 100 000 fois plus petit que l'atome.
+      </div>
+    </div>
+
+    <h3>Comment est constitué l'atome ?</h3>
+    <div class="def">
+      L'atome est constitué d'un <b>noyau</b> composé de <b>nucléons</b> (des <b>protons</b> chargés positivement + des <b>neutrons</b> de charge nulle), autour duquel se trouve un <b>cortège d'électrons</b>, tous identiques et chargés négativement.<br><br>
+      L'atome est <b>électriquement neutre</b> : il possède donc autant de charges négatives que de charges positives, soit <b>autant de protons que d'électrons</b>.
+    </div>
+
+    <h3>Tableau des caractéristiques des particules</h3>
+    <table class="particules">
+      <tr><th>Particule</th><th>Masse</th><th>Charge électrique</th></tr>
+      <tr><td>
+          <select class="exo-select t2a-input" data-answers="proton">
+            <option value="">— choisir —</option>
+            <option value="proton">Proton</option>
+            <option value="neutron">Neutron</option>
+            <option value="electron">Électron</option>
+          </select>
+        </td><td>1,673 × 10⁻²⁷ kg</td><td>q = +e = +1,602 × 10⁻¹⁹ C</td></tr>
+      <tr><td>
+          <select class="exo-select t2a-input" data-answers="neutron">
+            <option value="">— choisir —</option>
+            <option value="proton">Proton</option>
+            <option value="neutron">Neutron</option>
+            <option value="electron">Électron</option>
+          </select>
+        </td><td>1,675 × 10⁻²⁷ kg</td><td>0</td></tr>
+      <tr><td>
+          <select class="exo-select t2a-input" data-answers="electron">
+            <option value="">— choisir —</option>
+            <option value="proton">Proton</option>
+            <option value="neutron">Neutron</option>
+            <option value="electron">Électron</option>
+          </select>
+        </td><td>9,109 × 10⁻³¹ kg</td><td>q = −e = −1,602 × 10⁻¹⁹ C</td></tr>
+    </table>
+    <div class="exo-box" data-clear-selector=".t2a-input">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".t2a-input">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>Proton</b> : m<sub>proton</sub> = 1,673 × 10⁻²⁷ kg, q = +e<br>
+        <b>Neutron</b> : m<sub>neutron</sub> = 1,675 × 10⁻²⁷ kg, q = 0<br>
+        <b>Électron</b> : m<sub>électron</sub> = 9,109 × 10⁻³¹ kg, q = −e
+      </div>
+    </div>
+    <p style="font-size:0.88rem;font-style:italic;">Remarque : ne pas confondre la charge électrique élémentaire <i>e</i> et le symbole de l'électron e⁻.</p>
+
+    <h3>Représentation symbolique d'un noyau</h3>
+    <p>Un atome est représenté par le symbole suivant :</p>
+    <p style="text-align:center;">
+      <span class="nuc-notation"><span class="nuc-az"><span>A</span><span>Z</span></span><span class="nuc-sym">X</span></span>
+    </p>
+    <ul>
+      <li><b>X</b> : symbole de l'atome</li>
+      <li><b>A</b> : nombre de nucléons ou nombre de masse (neutrons + protons), placé <b>en haut</b></li>
+      <li><b>Z</b> : numéro atomique (nombre de protons dans le noyau), placé <b>en bas</b></li>
+    </ul>
+    <p>Comment trouver le nombre de neutrons dans un noyau ?</p>
+    <div class="exo-box" data-clear-selector=".neutron-formula">
+      <div class="quiz-options">
+        <label><input type="radio" name="neutron-formula" class="neutron-formula" value="N=A+Z" data-correct="false"> N = A + Z</label>
+        <label><input type="radio" name="neutron-formula" class="neutron-formula" value="N=A-Z" data-correct="true"> N = A − Z</label>
+        <label><input type="radio" name="neutron-formula" class="neutron-formula" value="N=Z-A" data-correct="false"> N = Z − A</label>
+        <label><input type="radio" name="neutron-formula" class="neutron-formula" value="N=A*Z" data-correct="false"> N = A × Z</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="neutron-formula">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Le nombre de neutrons N se calcule par différence : <b>N = A − Z</b> (nombre de nucléons − nombre de protons).
+      </div>
+    </div>
+
+    <p><b>Exemple 1 :</b> Un atome de phosphore (symbole P) possède 31 nucléons et 15 protons. Écrire la représentation symbolique de son noyau :</p>
+    <div class="exo-box" data-clear-selector=".ex1-select">
+      <p style="font-size:1.05rem;">Notation :
+        <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select ex1-select" data-answers="31" style="font-size:0.8em;">
+              <option value="">A</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="31">31</option>
+              <option value="46">46</option>
+            </select>
+            <select class="exo-select ex1-select" data-answers="15" style="font-size:0.8em;">
+              <option value="">Z</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="31">31</option>
+            </select>
+          </span>
+          <span class="nuc-sym">P</span>
+        </span>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ex1-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        A = 31 (nombre de nucléons), Z = 15 (nombre de protons) → notation : <span class="nuc-notation"><span class="nuc-az"><span>31</span><span>15</span></span><span class="nuc-sym">P</span></span>
+      </div>
+    </div>
+
+    <p><b>Exemple 2 :</b> Le noyau d'un atome d'aluminium a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>27</span><span>13</span></span><span class="nuc-sym">Al</span></span>. Écrire la composition de cet atome :</p>
+    <div class="exo-box" data-clear-selector=".ex2-select">
+      <p>Nombre de protons :
+        <select class="exo-select ex2-select" data-answers="13">
+          <option value="">— choisir —</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="27">27</option>
+        </select>
+      </p>
+      <p>Nombre d'électrons :
+        <select class="exo-select ex2-select" data-answers="13">
+          <option value="">— choisir —</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="27">27</option>
+        </select>
+      </p>
+      <p>Nombre de neutrons :
+        <select class="exo-select ex2-select" data-answers="14">
+          <option value="">— choisir —</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="27">27</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ex2-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Z = 13 → 13 protons et 13 électrons (atome neutre). N = A − Z = 27 − 13 = 14 neutrons.
+      </div>
+    </div>
+
+    <h3>Élément chimique et isotopes</h3>
+    <div class="def">
+      L'<b>élément chimique</b> désigne l'ensemble des atomes et des ions qui possèdent le <b>même numéro atomique Z</b> (même nombre de protons).
+    </div>
+    <p><b>Application :</b> donner les compositions chimiques des ions phosphore (P⁻) et aluminium (Al³⁺) :</p>
+    <div class="exo-box" data-clear-selector=".ex3-select">
+      <p><b>Ion P⁻</b> (le noyau de phosphore a pour notation <span class="nuc-notation"><span class="nuc-az"><span>31</span><span>15</span></span><span class="nuc-sym">P</span></span>) — protons :
+        <select class="exo-select ex3-select" data-answers="15">
+          <option value="">— choisir —</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="31">31</option>
+        </select>
+        · neutrons :
+        <select class="exo-select ex3-select" data-answers="16">
+          <option value="">— choisir —</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="31">31</option>
+        </select>
+        · électrons :
+        <select class="exo-select ex3-select" data-answers="16">
+          <option value="">— choisir —</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+        </select>
+      </p>
+      <p><b>Ion Al³⁺</b> (le noyau d'aluminium a pour notation <span class="nuc-notation"><span class="nuc-az"><span>27</span><span>13</span></span><span class="nuc-sym">Al</span></span>) — protons :
+        <select class="exo-select ex3-select" data-answers="13">
+          <option value="">— choisir —</option>
+          <option value="10">10</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+        </select>
+        · neutrons :
+        <select class="exo-select ex3-select" data-answers="14">
+          <option value="">— choisir —</option>
+          <option value="10">10</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+        </select>
+        · électrons :
+        <select class="exo-select ex3-select" data-answers="10">
+          <option value="">— choisir —</option>
+          <option value="10">10</option>
+          <option value="13">13</option>
+          <option value="16">16</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ex3-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>P⁻</b> (Z=15) : 15 protons, 16 neutrons (A=31, donc N=A−Z=16), mais 16 électrons (un électron gagné pour former l'anion).<br>
+        <b>Al³⁺</b> (Z=13) : 13 protons, 14 neutrons (A=27, donc N=A−Z=14), mais seulement 10 électrons (3 électrons perdus pour former le cation).
+      </div>
+    </div>
+
+    <p>Si le nombre de neutrons change mais que le nombre de protons reste le même, l'élément chimique reste le même mais avec un nombre de nucléons différent : on appelle ces espèces des <b>isotopes</b>. Exemple :</p>
+    <div class="exo-box" data-clear-selector=".ex-iso-select">
+      <p>Le carbone 12 (
+        <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select ex-iso-select" data-answers="12" style="font-size:0.8em;">
+              <option value="">A</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+              <option value="14">14</option>
+            </select>
+            <select class="exo-select ex-iso-select" data-answers="6" style="font-size:0.8em;">
+              <option value="">Z</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+            </select>
+          </span>
+          <span class="nuc-sym">C</span>
+        </span>, avec
+        <select class="exo-select ex-iso-select" data-answers="6">
+          <option value="">— choisir —</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+        </select> neutrons) et le carbone 14 (
+        <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select ex-iso-select" data-answers="14" style="font-size:0.8em;">
+              <option value="">A</option>
+              <option value="6">6</option>
+              <option value="12">12</option>
+              <option value="14">14</option>
+            </select>
+            <select class="exo-select ex-iso-select" data-answers="6" style="font-size:0.8em;">
+              <option value="">Z</option>
+              <option value="6">6</option>
+              <option value="8">8</option>
+            </select>
+          </span>
+          <span class="nuc-sym">C</span>
+        </span>, avec
+        <select class="exo-select ex-iso-select" data-answers="8">
+          <option value="">— choisir —</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+        </select> neutrons) sont deux isotopes du carbone : même Z, mais A différent.
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ex-iso-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Le carbone 12 (<span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span>, 6 neutrons) et le carbone 14 (<span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span>, 8 neutrons) sont deux isotopes du carbone : même Z = 6, mais A différent.
+      </div>
+    </div>
+
+    <h3>Masse de l'atome</h3>
+    <div class="def" style="text-align:center;">
+      <b>m<sub>atome</sub> = Z × m<sub>proton</sub> + (A − Z) × m<sub>neutron</sub> + Z × m<sub>électron</sub></b>
+    </div>
+    <p>Le proton et le neutron ont des masses sensiblement identiques, et m<sub>proton</sub> ≈ 1836 × m<sub>électron</sub> : on néglige donc souvent la masse des électrons.</p>
+    <div class="def" style="text-align:center;">
+      <b>m<sub>atome</sub> ≈ A × m<sub>nucléon</sub></b> — la masse de l'atome est pratiquement égale à celle du noyau.
+    </div>
+    <p>Toute la masse d'un atome est concentrée dans le noyau : si on compare l'atome à un terrain de foot, le noyau est une aiguille de 1 mm placée au centre, le reste n'étant que du vide. On dit que la matière a une <b>structure lacunaire</b>.</p>
+
+    <p><b>Application :</b> un atome de francium a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>223</span><span>87</span></span><span class="nuc-sym">Fr</span></span>. Quelle est la masse de ce noyau ? (utiliser les deux formules précédentes et conclure)</p>
+    <div class="exo-box" data-clear-selector=".ex-fr-select, .fr-conclusion">
+      <p>Nombre de neutrons N = A − Z =
+        <select class="exo-select ex-fr-select" data-answers="136">
+          <option value="">— choisir —</option>
+          <option value="87">87</option>
+          <option value="136">136</option>
+          <option value="223">223</option>
+          <option value="310">310</option>
+        </select>
+      </p>
+      <p>Formule à utiliser pour le calcul détaillé :</p>
+      <select class="exo-select ex-fr-select" data-answers="formule_zpzn">
+        <option value="">— choisir —</option>
+        <option value="formule_zpzn">m<sub>atome</sub> = Z·m<sub>proton</sub> + (A−Z)·m<sub>neutron</sub> + Z·m<sub>électron</sub></option>
+        <option value="formule_a">m<sub>atome</sub> = A·m<sub>nucléon</sub></option>
+        <option value="formule_z">m<sub>atome</sub> = Z·m<sub>nucléon</sub></option>
+        <option value="formule_az">m<sub>atome</sub> = (A+Z)·m<sub>proton</sub></option>
+      </select>
+      <p style="margin-top:8px;">Résultat du calcul détaillé (avec électrons) :</p>
+      <select class="exo-select ex-fr-select" data-answers="3.73e-25">
+        <option value="">— choisir —</option>
+        <option value="3.73e-22">≈ 3,73 × 10⁻²² kg</option>
+        <option value="3.73e-25">≈ 3,73 × 10⁻²⁵ kg</option>
+        <option value="3.73e-28">≈ 3,73 × 10⁻²⁸ kg</option>
+        <option value="1.67e-27">≈ 1,67 × 10⁻²⁷ kg</option>
+      </select>
+      <p style="margin-top:8px;">Résultat avec la formule simplifiée (masse des électrons négligée) :</p>
+      <select class="exo-select ex-fr-select" data-answers="3.73e-25b">
+        <option value="">— choisir —</option>
+        <option value="3.73e-22b">≈ 3,73 × 10⁻²² kg</option>
+        <option value="3.73e-25b">≈ 3,73 × 10⁻²⁵ kg</option>
+        <option value="3.73e-28b">≈ 3,73 × 10⁻²⁸ kg</option>
+        <option value="1.67e-27b">≈ 1,67 × 10⁻²⁷ kg</option>
+      </select>
+      <p style="margin-top:8px;">Conclusion :</p>
+      <div class="quiz-options">
+        <label><input type="radio" name="fr-conclusion" class="fr-conclusion" value="a" data-correct="false"> Les deux résultats sont très différents : la masse de l'atome dépend surtout des électrons</label>
+        <label><input type="radio" name="fr-conclusion" class="fr-conclusion" value="b" data-correct="true"> Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau</label>
+        <label><input type="radio" name="fr-conclusion" class="fr-conclusion" value="c" data-correct="false"> Les deux résultats sont incompatibles, l'une des formules est fausse</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ex-fr-select">Vérifier mes réponses</button>
+        <button class="check-radio-btn" data-radio-name="fr-conclusion">Vérifier la conclusion</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Z = 87, A = 223 → N = A − Z = 136 neutrons.<br>
+        m<sub>atome</sub> = Z·m<sub>proton</sub> + (A−Z)·m<sub>neutron</sub> + Z·m<sub>électron</sub><br>
+        ≈ 87 × 1,673×10⁻²⁷ + 136 × 1,675×10⁻²⁷ + 87 × 9,109×10⁻³¹ ≈ 3,73×10⁻²⁵ kg.<br>
+        En négligeant les électrons : m<sub>atome</sub> ≈ A × m<sub>nucléon</sub> ≈ 223 × 1,675×10⁻²⁷ ≈ 3,73×10⁻²⁵ kg.<br>
+        Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau.
+      </div>
+    </div>
+
+    <div class="activite" style="margin-top:14px;">Exercices</div>
+    <span class="exo-tag">p69 n°31-32-33-34</span>
+    <span class="exo-tag">p71 n°44</span>
+    <span class="exo-tag">p72 n°45 et 49</span>
+  </div>
+
+  <div class="card">
+    <h2>2.b — Cortège électronique de l'atome</h2>
+    <div class="activite">Activité « À chaque case son élément chimique » — p78</div>
+
+    <h3>À retenir</h3>
+    <p>Complète les phrases suivantes à l'aide des listes déroulantes :</p>
+    <div class="exo-box" data-clear-selector=".retenir-select">
+      <p>
+        Pour tous les atomes dont Z ≤ 18, les électrons du cortège se répartissent en couches numérotées
+        <select class="exo-select retenir-select" data-answers="1,2,3">
+          <option value="">— choisir —</option>
+          <option value="1,2,3">1, 2 et 3</option>
+          <option value="1,2,3,4,5,6,7">1 à 7</option>
+          <option value="s,p,d">s, p et d</option>
+          <option value="0,1,2">0, 1 et 2</option>
+        </select>
+        et en sous-couches
+        <select class="exo-select retenir-select" data-answers="s et p">
+          <option value="">— choisir —</option>
+          <option value="s et p">s et p</option>
+          <option value="1 et 2">1 et 2</option>
+          <option value="s, p et d">s, p et d</option>
+          <option value="p et d">p et d</option>
+        </select>.
+      </p>
+      <p>
+        Chaque sous-couche contient un nombre maximal d'électrons :
+        <select class="exo-select retenir-select" data-answers="2">
+          <option value="">— choisir —</option>
+          <option value="2">2</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+        </select>
+        électrons sur la sous-couche
+        <select class="exo-select retenir-select" data-answers="s">
+          <option value="">— choisir —</option>
+          <option value="s">s</option>
+          <option value="p">p</option>
+        </select>,
+        <select class="exo-select retenir-select" data-answers="6">
+          <option value="">— choisir —</option>
+          <option value="2">2</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+        </select>
+        électrons sur la sous-couche
+        <select class="exo-select retenir-select" data-answers="p">
+          <option value="">— choisir —</option>
+          <option value="s">s</option>
+          <option value="p">p</option>
+        </select>
+        au maximum.
+      </p>
+      <p>
+        Pour établir la configuration électronique d'un atome, on remplit dans l'ordre, à partir du noyau, la sous-couche
+        <select class="exo-select retenir-select" data-answers="1s">
+          <option value="">— choisir —</option>
+          <option value="1s">1s</option>
+          <option value="2s">2s</option>
+          <option value="2p">2p</option>
+          <option value="3s">3s</option>
+        </select>,
+        puis la sous-couche
+        <select class="exo-select retenir-select" data-answers="2s">
+          <option value="">— choisir —</option>
+          <option value="1s">1s</option>
+          <option value="2s">2s</option>
+          <option value="2p">2p</option>
+        </select>
+        de la couche
+        <select class="exo-select retenir-select" data-answers="2">
+          <option value="">— choisir —</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>,
+        puis les couches suivantes (2p, 3s, 3p...).
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".retenir-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Pour tous les atomes dont Z ≤ 18, les électrons du cortège se répartissent en couches numérotées <b>1, 2, 3</b> et en sous-couches <b>s et p</b>.<br><br>
+        Chaque sous-couche contient un nombre maximal d'électrons : <b>2</b> électrons sur la sous-couche <b>s</b>, <b>6</b> électrons sur la sous-couche <b>p</b> au maximum.<br><br>
+        Pour établir la configuration électronique d'un atome, on remplit dans l'ordre, à partir du noyau, la sous-couche <b>1s</b>, puis la sous-couche <b>2s</b> de la couche <b>2</b>, puis les couches suivantes (2p, 3s, 3p...).
+      </div>
+    </div>
+
+    <h3>Outil interactif — Construire la configuration électronique</h3>
+    <div class="atom-builder">
+      <div class="atom-controls">
+        <label for="atomSelect">Élément (Z ≤ 18) :</label>
+        <select id="atomSelect"></select>
+      </div>
+      <div class="atom-stage">
+        <div class="atom-svg-wrap">
+          <svg id="atomSvg" viewBox="0 0 320 320" width="100%" height="auto"></svg>
+        </div>
+        <div class="atom-info">
+          <p><b>Symbole :</b> <span id="infoSym"></span></p>
+          <p><b>Numéro atomique Z :</b> <span id="infoZ"></span></p>
+          <p><b>Nombre d'électrons :</b> <span id="infoE"></span></p>
+          <p style="margin-top:8px;"><b>Électrons de valence :</b> <span id="infoValence"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Exemple guidé : configuration électronique du carbone (Z = 6)</h3>
+    <div class="exo-box" data-clear-selector=".carbone-select">
+      <p>Configuration électronique :
+        <select class="exo-select carbone-select" data-answers="1s2 2s2 2p2">
+          <option value="">— choisir —</option>
+          <option value="1s2 2s2 2p2">1s² 2s² 2p²</option>
+          <option value="1s2 2s2 2p4">1s² 2s² 2p⁴</option>
+          <option value="1s2 2s4">1s² 2s⁴</option>
+          <option value="1s6">1s⁶</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".carbone-select">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Le carbone a Z = 6, donc 6 électrons. On remplit dans l'ordre : 1s (2 électrons max), puis 2s (2 électrons max), puis 2p. Configuration : <b>1s² 2s² 2p²</b>.
+      </div>
+    </div>
+
+    <h3>Questions (aide-toi de l'outil et de l'activité p78)</h3>
+
+    <p>Que dit-on d'une couche contenant son nombre maximal d'électrons ?</p>
+    <div class="exo-box" data-clear-selector=".q-saturee">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-saturee" class="q-saturee" value="a" data-correct="false"> Elle est instable</label>
+        <label><input type="radio" name="q-saturee" class="q-saturee" value="b" data-correct="true"> Elle est saturée (ou complète)</label>
+        <label><input type="radio" name="q-saturee" class="q-saturee" value="c" data-correct="false"> Elle est ionisée</label>
+        <label><input type="radio" name="q-saturee" class="q-saturee" value="d" data-correct="false"> Elle est de valence</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-saturee">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">On dit que la couche est <b>saturée</b> (ou complète).</div>
+    </div>
+
+    <p>À quelle condition un électron peut-il être placé sur une couche ?</p>
+    <div class="exo-box" data-clear-selector=".q-condition">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-condition" class="q-condition" value="a" data-correct="false"> Si l'atome possède un numéro atomique Z impair</label>
+        <label><input type="radio" name="q-condition" class="q-condition" value="b" data-correct="true"> Si la (ou les) couche(s) inférieure(s) sont déjà saturées</label>
+        <label><input type="radio" name="q-condition" class="q-condition" value="c" data-correct="false"> Si l'atome a perdu un électron au préalable</label>
+        <label><input type="radio" name="q-condition" class="q-condition" value="d" data-correct="false"> Aucune condition particulière</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-condition">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">Un électron ne peut occuper une couche que si la (ou les) couche(s) inférieure(s) sont déjà saturées (règle de remplissage par énergie croissante).</div>
+    </div>
+
+    <p>Qu'appelle-t-on électron de valence ?</p>
+    <div class="exo-box" data-clear-selector=".q-valence">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-valence" class="q-valence" value="a" data-correct="false"> Un électron situé dans le noyau</label>
+        <label><input type="radio" name="q-valence" class="q-valence" value="b" data-correct="false"> Le premier électron de l'atome</label>
+        <label><input type="radio" name="q-valence" class="q-valence" value="c" data-correct="true"> Un électron de la couche externe (dernière couche occupée)</label>
+        <label><input type="radio" name="q-valence" class="q-valence" value="d" data-correct="false"> Un électron qui a été perdu par l'atome</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-valence">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">Un électron de valence est un électron de la <b>couche externe</b> (la dernière couche occupée) de l'atome : ce sont ces électrons qui interviennent dans les liaisons chimiques.</div>
+    </div>
+
+    <p>Quel est le point commun entre les atomes des éléments situés sur une même ligne (période) du tableau périodique ?</p>
+    <div class="exo-box" data-clear-selector=".q-periode">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-periode" class="q-periode" value="a" data-correct="false"> Ils ont le même nombre d'électrons de valence</label>
+        <label><input type="radio" name="q-periode" class="q-periode" value="b" data-correct="true"> Ils ont le même nombre de couches électroniques occupées</label>
+        <label><input type="radio" name="q-periode" class="q-periode" value="c" data-correct="false"> Ils ont la même masse atomique</label>
+        <label><input type="radio" name="q-periode" class="q-periode" value="d" data-correct="false"> Ils forment tous des ions de même charge</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-periode">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">Ils ont le <b>même nombre de couches électroniques occupées</b>.</div>
+    </div>
+
+    <p>Où sont situés les éléments dont les atomes ont le même nombre d'électrons de valence ?</p>
+    <div class="exo-box" data-clear-selector=".q-colonne">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-colonne" class="q-colonne" value="a" data-correct="false"> Sur la même ligne (période)</label>
+        <label><input type="radio" name="q-colonne" class="q-colonne" value="b" data-correct="true"> Dans la même colonne</label>
+        <label><input type="radio" name="q-colonne" class="q-colonne" value="c" data-correct="false"> N'importe où, cela ne dépend pas de leur position</label>
+        <label><input type="radio" name="q-colonne" class="q-colonne" value="d" data-correct="false"> Uniquement dans le bloc s</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-colonne">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">Ils sont situés dans la <b>même colonne</b> du tableau périodique.</div>
+    </div>
+
+    <p>Qu'ont en commun les éléments d'une même colonne ? Que constituent-ils ?</p>
+    <div class="exo-box" data-clear-selector=".q-famille">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-famille" class="q-famille" value="a" data-correct="false"> Le même nombre de neutrons ; ils constituent des isotopes</label>
+        <label><input type="radio" name="q-famille" class="q-famille" value="b" data-correct="true"> Le même nombre d'électrons de valence ; ils constituent une famille chimique</label>
+        <label><input type="radio" name="q-famille" class="q-famille" value="c" data-correct="false"> La même masse atomique ; ils constituent un élément chimique</label>
+        <label><input type="radio" name="q-famille" class="q-famille" value="d" data-correct="false"> Le même numéro atomique Z ; ils constituent une période</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-famille">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">Ils ont le même nombre d'électrons de valence, donc des propriétés chimiques similaires. Ils constituent une <b>famille chimique</b> (ex : alcalins, halogènes, gaz nobles...).</div>
+    </div>
+
+    <h3>Recherche : familles des colonnes 1, 2, 17 et 18</h3>
+    <p>Présente le nombre d'électrons de valence et les propriétés chimiques des éléments de ces familles (utilise le <a href="https://ptable.com/?lang=fr" target="_blank" rel="noopener">tableau périodique en ligne</a>).</p>
+
+    <p><b>Colonne 1 :</b></p>
+    <div class="exo-box">
+      <textarea class="exo-input block keyword-check" placeholder="Nombre d'électrons de valence, nom de la famille, propriétés…"
+        data-keywords="1 electron de valence,1 e- de valence,un electron de valence|alcalin|reactif,reagit,reagissent|cation,1+,ion 1+,perdent un electron,perd un electron"
+        data-min-required="1"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        <b>Famille des alcalins</b> (sauf H) : 1 électron de valence. Métaux très réactifs, réagissent violemment avec l'eau, forment facilement des cations 1+ (ex : Li⁺, Na⁺, K⁺).
+      </div>
+    </div>
+
+    <p><b>Colonne 2 :</b></p>
+    <div class="exo-box">
+      <textarea class="exo-input block keyword-check" placeholder="Nombre d'électrons de valence, nom de la famille, propriétés…"
+        data-keywords="2 electrons de valence,2 e- de valence,deux electrons de valence|alcalino-terreux|reactif,reagit,reagissent|cation,2+,ion 2+,perdent deux electrons,perdent 2 electrons"
+        data-min-required="1"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        <b>Famille des alcalino-terreux</b> : 2 électrons de valence. Métaux réactifs (moins que les alcalins), forment des cations 2+ (ex : Mg²⁺, Ca²⁺).
+      </div>
+    </div>
+
+    <p><b>Colonne 17 :</b></p>
+    <div class="exo-box">
+      <textarea class="exo-input block keyword-check" placeholder="Nombre d'électrons de valence, nom de la famille, propriétés…"
+        data-keywords="7 electrons de valence,7 e- de valence,sept electrons de valence|halogene|reactif,reagit,reagissent|anion,1-,ion 1-,gagnent un electron,gagne un electron"
+        data-min-required="1"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        <b>Famille des halogènes</b> : 7 électrons de valence. Non-métaux très réactifs, tendent à gagner 1 électron pour former des anions 1− (ex : F⁻, Cl⁻).
+      </div>
+    </div>
+
+    <p><b>Colonne 18 :</b></p>
+    <div class="exo-box">
+      <textarea class="exo-input block keyword-check" placeholder="Nombre d'électrons de valence, nom de la famille, propriétés…"
+        data-keywords="8 electrons de valence,8 e- de valence,huit electrons de valence,2 electrons de valence|gaz noble,gaz rare|peu reactif,inerte,stable,ne reagissent pas,ne forment pas|couche externe saturee,couche de valence saturee,octet"
+        data-min-required="1"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        <b>Famille des gaz nobles</b> : 8 électrons de valence (2 pour l'hélium). Très peu réactifs (couche externe saturée), ne forment quasiment pas de liaisons chimiques.
+      </div>
+    </div>
+
+    <div class="activite" style="margin-top:14px;">Exercices</div>
+    <span class="exo-tag">p86 n°25</span>
+    <span class="exo-tag">p86 n°23</span>
+    <span class="exo-tag">p91 n°49</span>
+  </div>
+</section>
+
+<!-- ================= ONGLET 3 ================= -->
+<section class="panel" id="t3">
+
+  <div class="card">
+    <h2>3.a / 3.b — Gaz nobles et ions monoatomiques</h2>
+    <div class="activite">Activité 5 : Des ions dans les eaux minérales — p80</div>
+
+    <h3>a. Les gaz nobles</h3>
+    <p>Pourquoi sont-ils chimiquement stables ?</p>
+    <div class="exo-box" data-clear-selector=".q-gaznoble">
+      <div class="quiz-options">
+        <label><input type="radio" name="q-gaznoble" class="q-gaznoble" value="a" data-correct="false"> Parce qu'ils n'ont pas de noyau</label>
+        <label><input type="radio" name="q-gaznoble" class="q-gaznoble" value="b" data-correct="true"> Parce que leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium)</label>
+        <label><input type="radio" name="q-gaznoble" class="q-gaznoble" value="c" data-correct="false"> Parce qu'ils possèdent un seul électron de valence</label>
+        <label><input type="radio" name="q-gaznoble" class="q-gaznoble" value="d" data-correct="false"> Parce qu'ils sont radioactifs</label>
+      </div>
+      <div class="exo-actions">
+        <button class="check-radio-btn" data-radio-name="q-gaznoble">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Les gaz nobles possèdent une <b>couche de valence saturée</b> (8 électrons, ou 2 pour l'hélium). Cette configuration électronique très stable explique leur faible réactivité chimique : ils ne cherchent ni à gagner ni à perdre d'électrons.
+      </div>
+    </div>
+
+    <h3>b. Les ions monoatomiques</h3>
+    <div class="def">
+      Les atomes ayant <b>1 ou 2 électrons de valence</b> tendent à <b>perdre</b> ces électrons pour adopter la configuration électronique du <b>gaz noble qui les précède</b> dans le tableau périodique.
+    </div>
+    <p><b>Exemple :</b> donner la configuration électronique de l'ion sodium Na⁺ :</p>
+    <div class="exo-box" data-clear-selector=".naplus-select">
+      <p>Configuration électronique de Na⁺ :
+        <select class="exo-select naplus-select" data-answers="1s2 2s2 2p6">
+          <option value="">— choisir —</option>
+          <option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
+          <option value="1s2 2s2 2p6">1s² 2s² 2p⁶</option>
+          <option value="1s2 2s2 2p6 3s2">1s² 2s² 2p⁶ 3s²</option>
+          <option value="1s2 2s2 2p5">1s² 2s² 2p⁵</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".naplus-select">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Le sodium (Z=11) a pour configuration 1s² 2s² 2p⁶ 3s¹. En perdant son électron de valence, Na⁺ a pour configuration <b>1s² 2s² 2p⁶</b> : il adopte la configuration du néon (gaz noble qui le précède).
+      </div>
+    </div>
+
+    <div class="def">
+      Les atomes ayant <b>7 électrons de valence</b> tendent à <b>gagner 1 électron</b> pour adopter la configuration électronique du <b>gaz noble qui les suit</b> dans le tableau périodique.
+    </div>
+    <p><b>Exemple :</b> donner la configuration électronique de l'ion chlorure Cl⁻ :</p>
+    <div class="exo-box" data-clear-selector=".clmoins-select">
+      <p>Configuration électronique de Cl⁻ :
+        <select class="exo-select clmoins-select" data-answers="1s2 2s2 2p6 3s2 3p6">
+          <option value="">— choisir —</option>
+          <option value="1s2 2s2 2p6 3s2 3p5">1s² 2s² 2p⁶ 3s² 3p⁵</option>
+          <option value="1s2 2s2 2p6 3s2 3p6">1s² 2s² 2p⁶ 3s² 3p⁶</option>
+          <option value="1s2 2s2 2p6 3s2 3p4">1s² 2s² 2p⁶ 3s² 3p⁴</option>
+          <option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".clmoins-select">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        Le chlore (Z=17) a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁵. En gagnant 1 électron, Cl⁻ a pour configuration <b>1s² 2s² 2p⁶ 3s² 3p⁶</b> : il adopte la configuration de l'argon (gaz noble qui le suit).
+      </div>
+    </div>
+
+    <p style="font-size:0.9rem;">💡 Astuce : reviens à l'outil interactif de l'onglet 2 pour visualiser la configuration de l'atome neutre avant de retirer ou ajouter un électron.</p>
+  </div>
+
+  <div class="card">
+    <h2>3.c — Les molécules : schéma de Lewis et énergie de liaison</h2>
+    <div class="activite">Activité 6 : Liaisons dans les molécules — p81</div>
+
+    <div class="def">
+      Une <b>molécule</b> est un assemblage d'un nombre limité d'atomes qui mettent en commun des électrons afin de gagner en stabilité.<br><br>
+      La mise en commun de deux électrons de valence entre deux atomes s'appelle une <b>liaison covalente</b> ou <b>doublet liant</b> (A—B).<br><br>
+      Les électrons de valence d'un atome qui ne participent pas à une liaison sont répartis en <b>doublets non liants</b>, propres à chaque atome.<br><br>
+      Grâce à cet assemblage, chaque atome acquiert une configuration électronique semblable à celle du gaz noble le plus proche.
+    </div>
+
+    <h3>Outil interactif — Schémas de Lewis</h3>
+    <div class="lewis-controls" id="lewisButtons"></div>
+    <div class="lewis-stage">
+      <div class="lewis-svg-wrap">
+        <svg id="lewisSvg" viewBox="0 0 360 260" width="100%" height="auto"></svg>
+      </div>
+      <div class="lewis-legend" id="lewisLegend"></div>
+    </div>
+
+    <h3>À toi d'analyser les 4 molécules</h3>
+    <p>Pour chaque molécule (utilise les boutons ci-dessus pour afficher son schéma de Lewis), indique le nombre de doublets liants et de doublets non liants :</p>
+    <div class="exo-box" data-clear-selector=".lewis-analyse-select">
+      <table class="particules">
+        <tr><th>Molécule</th><th>Doublets liants</th><th>Doublets non liants</th></tr>
+        <tr>
+          <td>H₂</td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="1">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+          </td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="0">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>CH₄</td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="4">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="0">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>H₂O</td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="2">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="2">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>CH₃OH</td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="5">
+              <option value="">— choisir —</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </td>
+          <td>
+            <select class="exo-select lewis-analyse-select" data-answers="2">
+              <option value="">— choisir —</option>
+              <option value="0">0</option>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".lewis-analyse-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>H₂</b> : 1 doublet liant, 0 doublet non liant.<br>
+        <b>CH₄</b> : 4 doublets liants (C–H), 0 doublet non liant.<br>
+        <b>H₂O</b> : 2 doublets liants (O–H), 2 doublets non liants (sur O).<br>
+        <b>CH₃OH</b> : 5 doublets liants (3 C–H, 1 C–O, 1 O–H), 2 doublets non liants (sur O).
+      </div>
+    </div>
+
+    <p>Justifier la stabilité des atomes dans ces molécules :</p>
+    <div class="exo-box">
+      <textarea class="exo-input block keyword-check" placeholder="Justification de la stabilité…"
+        data-keywords="2 électrons,deux électrons,doublet|8 électrons,huit électrons,octet|gaz noble,gaz rare,configuration stable"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        Chaque atome de H est entouré de 2 électrons (configuration de l'hélium). Les atomes de C, O et N sont entourés de 8 électrons (doublets liants + doublets non liants) : tous adoptent la configuration électronique du gaz noble le plus proche, d'où la stabilité de la molécule.
+      </div>
+    </div>
+
+    <h3>Application : ammoniac NH₃</h3>
+    <p>Donner le schéma de Lewis de l'ammoniac (utilise l'outil ci-dessus pour vérifier ta réponse, puis dessine-le sur ta fiche papier) :</p>
+    <div class="exo-box">
+      <textarea class="exo-input block tall keyword-check" placeholder="Décris le schéma de Lewis de NH₃ (liaisons et doublets non liants)…"
+        data-keywords="3 liaisons,3 doublets liants,trois liaisons|1 doublet non liant,un doublet non liant|8 électrons,huit électrons,octet,gaz noble,gaz rare|2 électrons,deux électrons"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">Vérifier ma réponse</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        L'azote (Z=7, 5 électrons de valence) forme <b>3 liaisons covalentes N–H</b> (3 doublets liants) avec les 3 atomes d'hydrogène, et possède <b>1 doublet non liant</b>. L'azote est ainsi entouré de 8 électrons (configuration du néon), et chaque hydrogène est entouré de 2 électrons (configuration de l'hélium).
+      </div>
+    </div>
+
+    <h3>Énergie de liaison</h3>
+    <div class="def">
+      L'<b>énergie de liaison</b> représente l'énergie qu'il faut fournir pour rompre une liaison covalente (= énergie libérée lors de sa formation).<br><br>
+      Plus l'énergie de liaison est grande, plus la liaison est stable, et plus la molécule formée est stable par rapport aux atomes isolés.
+    </div>
+
+    <h4 style="color:var(--accent2);margin:14px 0 6px;">Exemple : la molécule de dihydrogène H₂</h4>
+    <p>Deux atomes d'hydrogène isolés possèdent une énergie totale plus élevée que la molécule H₂ qu'ils forment en se liant. La différence d'énergie correspond à l'<b>énergie de liaison E<sub>liaison</sub>(H–H)</b>, libérée lors de la formation de la liaison (et qu'il faudrait fournir pour la rompre).</p>
+
+    <div class="energy-diagram-wrap">
+      <img src="schema-energie-liaison.png" alt="Diagramme d'énergie : 2 atomes H isolés au niveau E_H, molécule H2 au niveau E_H2 plus bas, énergie de liaison E_liaison entre les deux" style="max-width:540px;width:100%;display:block;margin:10px auto;">
+    </div>
+    <p style="font-size:0.9rem;">
+      E<sub>liaison</sub>(H–H) ≈ 436 kJ/mol : il faut fournir 436 kJ par mole de H₂ pour casser la liaison et obtenir 2 mol d'atomes H séparés. À l'inverse, la formation de H₂ à partir de 2 atomes H libère cette énergie : H₂ est donc <b>plus stable (niveau d'énergie plus bas)</b> que 2 atomes H isolés.
+    </p>
+
+    <h3>À toi de calculer : énergie de liaison des molécules vues plus haut</h3>
+    <p>Voici quelques énergies de liaison moyennes (en kJ/mol) :</p>
+    <table class="particules">
+      <tr><th>Liaison</th><th>Énergie de liaison (kJ/mol)</th></tr>
+      <tr><td>C–H</td><td>415</td></tr>
+      <tr><td>O–H</td><td>463</td></tr>
+      <tr><td>C–O</td><td>358</td></tr>
+      <tr><td>H–H</td><td>436</td></tr>
+    </table>
+
+    <p>Pour chaque molécule, donne l'<b>expression littérale</b> de l'énergie totale de liaison, puis sa <b>valeur numérique</b> :</p>
+
+    <div class="exo-box" data-clear-selector=".energie-select">
+      <p><b>CH₄</b> (4 liaisons C–H) :</p>
+      <p>Expression littérale :
+        <select class="exo-select energie-select" data-answers="4xCH">
+          <option value="">— choisir —</option>
+          <option value="4xCH">4 × E(C–H)</option>
+          <option value="2xCH_plus_2xOH">2 × E(C–H) + 2 × E(O–H)</option>
+          <option value="CH_plus_3xCO">E(C–H) + 3 × E(C–O)</option>
+          <option value="4xOH">4 × E(O–H)</option>
+        </select>
+      </p>
+      <p>Valeur numérique :
+        <select class="exo-select energie-select" data-answers="1660">
+          <option value="">— choisir —</option>
+          <option value="1660">1660 kJ/mol</option>
+          <option value="1852">1852 kJ/mol</option>
+          <option value="1432">1432 kJ/mol</option>
+          <option value="926">926 kJ/mol</option>
+        </select>
+      </p>
+
+      <p style="margin-top:14px;"><b>H₂O</b> (2 liaisons O–H) :</p>
+      <p>Expression littérale :
+        <select class="exo-select energie-select" data-answers="2xOH">
+          <option value="">— choisir —</option>
+          <option value="2xOH">2 × E(O–H)</option>
+          <option value="2xCH">2 × E(C–H)</option>
+          <option value="OH_plus_CO">E(O–H) + E(C–O)</option>
+          <option value="1xOH">1 × E(O–H)</option>
+        </select>
+      </p>
+      <p>Valeur numérique :
+        <select class="exo-select energie-select" data-answers="926">
+          <option value="">— choisir —</option>
+          <option value="926">926 kJ/mol</option>
+          <option value="463">463 kJ/mol</option>
+          <option value="830">830 kJ/mol</option>
+          <option value="1660">1660 kJ/mol</option>
+        </select>
+      </p>
+
+      <p style="margin-top:14px;"><b>CH₃OH</b> (3 liaisons C–H, 1 liaison C–O, 1 liaison O–H) :</p>
+      <p>Expression littérale :
+        <select class="exo-select energie-select" data-answers="3xCH_plus_CO_plus_OH">
+          <option value="">— choisir —</option>
+          <option value="3xCH_plus_CO_plus_OH">3 × E(C–H) + E(C–O) + E(O–H)</option>
+          <option value="4xCH_plus_OH">4 × E(C–H) + E(O–H)</option>
+          <option value="3xCH_plus_2xOH">3 × E(C–H) + 2 × E(O–H)</option>
+          <option value="CH_plus_CO_plus_OH">E(C–H) + E(C–O) + E(O–H)</option>
+        </select>
+      </p>
+      <p>Valeur numérique :
+        <select class="exo-select energie-select" data-answers="2066">
+          <option value="">— choisir —</option>
+          <option value="2066">2066 kJ/mol</option>
+          <option value="1986">1986 kJ/mol</option>
+          <option value="1741">1741 kJ/mol</option>
+          <option value="2341">2341 kJ/mol</option>
+        </select>
+      </p>
+
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".energie-select">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>CH₄</b> : 4 × E(C–H) = 4 × 415 = <b>1660 kJ/mol</b>.<br>
+        <b>H₂O</b> : 2 × E(O–H) = 2 × 463 = <b>926 kJ/mol</b>.<br>
+        <b>CH₃OH</b> : 3 × E(C–H) + E(C–O) + E(O–H) = 3 × 415 + 358 + 463 = 1245 + 358 + 463 = <b>2066 kJ/mol</b>.<br><br>
+        Plus cette énergie totale est grande, plus il faut fournir d'énergie pour rompre toutes les liaisons de la molécule, donc plus la molécule est stable.
+      </div>
+    </div>
+
+    <div class="activite" style="margin-top:14px;">Exercice</div>
+    <span class="exo-tag">p93 n°53</span>
+  </div>
+</section>
+
+<!-- ================= ONGLET 4 — TABLEAU PÉRIODIQUE ================= -->
+<section class="panel" id="t4">
+  <div class="card">
+    <h2>Tableau périodique simplifié à compléter (lignes 1 à 4, colonnes 1, 2, 13 à 18)</h2>
+    <p>Avant de cliquer : complète directement dans le tableau ci-dessous le <b>nom de la famille</b> (au-dessus des colonnes 1, 2, 17 et 18), le <b>nombre d'électrons de valence</b> de chaque colonne (juste au-dessus des numéros de colonne), et le <b>symbole de Lewis</b> de chaque colonne (en dessous du tableau).</p>
+    <p>Ensuite, clique sur chaque case pour révéler le <b>symbole complet</b>, la <b>configuration électronique</b> et le <b>nombre d'électrons de valence</b> de l'élément, et vérifie tes réponses.</p>
+
+    <div class="ptable-legend">
+      <div class="legend-chip"><span class="legend-swatch" style="background:#eef4f2;"></span> Bloc s (colonnes 1 et 2)</div>
+      <div class="legend-chip"><span class="legend-swatch" style="background:#fbefe8;"></span> Bloc p (colonnes 13 à 18)</div>
+    </div>
+
+    <div class="ptable" id="ptable"></div>
+
+    <div class="exo-box" data-clear-selector=".ptable-family, .ptable-valence, .ptable-lewis">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".ptable-family, .ptable-valence, .ptable-lewis">Vérifier mes réponses</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">Recommencer</button>
+      </div>
+      <div class="keyword-feedback" id="ptableFeedback"></div>
+      <div class="correction">
+        <b>Électrons de valence</b> par colonne : col. 1 → 1 ; col. 2 → 2 ; col. 13 → 3 ; col. 14 → 4 ; col. 15 → 5 ; col. 16 → 6 ; col. 17 → 7 ; col. 18 → 8 (2 pour l'hélium).<br><br>
+        <b>Noms des colonnes</b> : col. 1 = <b>alcalins</b> (sauf H), col. 2 = <b>alcalino-terreux</b>, col. 17 = <b>halogènes</b>, col. 18 = <b>gaz nobles</b>.<br><br>
+        <b>Symboles de Lewis</b> : le nombre de points autour du symbole correspond au nombre d'électrons de valence (ex : Na• pour col. 1, ··Cl· avec 3 doublets + 1 électron seul pour col. 17, gaz nobles avec tous les électrons appariés en doublets).
+      </div>
+    </div>
+
+    <h3>Lien utile</h3>
+    <p><a href="https://ptable.com/?lang=fr" target="_blank" rel="noopener">Tableau périodique interactif — Ptable</a></p>
+  </div>
+</section>
+
+<!-- ================= ONGLET 5 : BILAN & RESSOURCES ================= -->
+<section class="panel" id="t5">
+  <div class="card">
+    <h2>Bilans et ressources</h2>
+
+    <h3>Bilans</h3>
+    <div class="pastilles">
+      <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640928?paccess=47d0774997c.2fc811e0.8cc3d8423b25b01a0da08f7ec1dcb67f" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — L'atome : noyau et cortège</a>
+      <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640343?paccess=47d07755025.2fc80f97.7c52443959f04eb99d45653aff7ce424" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — Entités chimiques stables</a>
+    </div>
+
+    <h3>Ressources</h3>
+    <div class="pastilles">
+      <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225324" target="_blank" rel="noopener">Cours du livre scolaire — Le cortège électronique de l'atome</a>
+      <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225388" target="_blank" rel="noopener">Cours du livre scolaire — La stabilité des entités</a>
+      <a class="pastille ostralo" href="https://chimie.ostralo.net/structure_electronique/" target="_blank" rel="noopener">Animation Ostralo — Structure électronique</a>
+      <a class="pastille ostralo" href="https://chimie.ostralo.net/entites_chimiques/" target="_blank" rel="noopener">Animation Ostralo — Entités chimiques</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<button id="backToTop" title="Haut de page">↑</button>
+
+<script>
+/* ============== DONNÉES ÉLÉMENTS Z≤18 ============== */
+const elements = [
+  {z:1,sym:"H",name:"Hydrogène",config:["1"],valence:1,group:1,row:1,col:1},
+  {z:2,sym:"He",name:"Hélium",config:["2"],valence:2,group:18,row:1,col:8},
+  {z:3,sym:"Li",name:"Lithium",config:["2","1"],valence:1,group:1,row:2,col:1},
+  {z:4,sym:"Be",name:"Béryllium",config:["2","2"],valence:2,group:2,row:2,col:2},
+  {z:5,sym:"B",name:"Bore",config:["2","3"],valence:3,group:13,row:2,col:3},
+  {z:6,sym:"C",name:"Carbone",config:["2","4"],valence:4,group:14,row:2,col:4},
+  {z:7,sym:"N",name:"Azote",config:["2","5"],valence:5,group:15,row:2,col:5},
+  {z:8,sym:"O",name:"Oxygène",config:["2","6"],valence:6,group:16,row:2,col:6},
+  {z:9,sym:"F",name:"Fluor",config:["2","7"],valence:7,group:17,row:2,col:7},
+  {z:10,sym:"Ne",name:"Néon",config:["2","8"],valence:8,group:18,row:2,col:8},
+  {z:11,sym:"Na",name:"Sodium",config:["2","8","1"],valence:1,group:1,row:3,col:1},
+  {z:12,sym:"Mg",name:"Magnésium",config:["2","8","2"],valence:2,group:2,row:3,col:2},
+  {z:13,sym:"Al",name:"Aluminium",config:["2","8","3"],valence:3,group:13,row:3,col:3},
+  {z:14,sym:"Si",name:"Silicium",config:["2","8","4"],valence:4,group:14,row:3,col:4},
+  {z:15,sym:"P",name:"Phosphore",config:["2","8","5"],valence:5,group:15,row:3,col:5},
+  {z:16,sym:"S",name:"Soufre",config:["2","8","6"],valence:6,group:16,row:3,col:6},
+  {z:17,sym:"Cl",name:"Chlore",config:["2","8","7"],valence:7,group:17,row:3,col:7},
+  {z:18,sym:"Ar",name:"Argon",config:["2","8","8"],valence:8,group:18,row:3,col:8},
+  /* Ligne 4 - colonnes 1 et 2 seulement pour rester dans Z<=18... on ajoute K et Ca avec config simplifiée niveau 2nde */
+  {z:19,sym:"K",name:"Potassium",config:["2","8","8","1"],valence:1,group:1,row:4,col:1},
+  {z:20,sym:"Ca",name:"Calcium",config:["2","8","8","2"],valence:2,group:2,row:4,col:2}
+];
+
+/* ============== ONGLET NAVIGATION ============== */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ============== BACK TO TOP ============== */
+const backBtn = document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{
+  backBtn.classList.toggle('show', window.scrollY > 400);
+});
+backBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ============== ANIMATION CONFIGURATION ÉLECTRONIQUE ============== */
+const atomSelect = document.getElementById('atomSelect');
+elements.forEach(el=>{
+  const opt = document.createElement('option');
+  opt.value = el.z;
+  opt.textContent = `${el.sym} — ${el.name} (Z=${el.z})`;
+  atomSelect.appendChild(opt);
+});
+atomSelect.value = 6; // carbone par défaut
+
+const shellColors = ["#2f6f5e","#c9622a","#3a6ea5","#8d6fab"];
+
+function drawAtom(z){
+  const el = elements.find(e=>e.z===z);
+  const svg = document.getElementById('atomSvg');
+  const cx=160, cy=160;
+  let html = '';
+
+  // Noyau
+  html += `<circle cx="${cx}" cy="${cy}" r="18" fill="#d1495b" />`;
+  html += `<text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff" font-family="Helvetica, Arial">${el.sym}</text>`;
+
+  // Couches + électrons
+  el.config.forEach((count,i)=>{
+    const radius = 36 + i*32;
+    const color = shellColors[i % shellColors.length];
+    html += `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5"/>`;
+    const n = parseInt(count);
+    for(let k=0;k<n;k++){
+      const angle = (2*Math.PI/n)*k - Math.PI/2;
+      const ex = cx + radius*Math.cos(angle);
+      const ey = cy + radius*Math.sin(angle);
+      html += `<circle class="electron-dot" cx="${ex}" cy="${ey}" r="5" fill="${color}"/>`;
+    }
+  });
+
+  svg.innerHTML = html;
+
+  document.getElementById('infoSym').textContent = `${el.sym} (${el.name})`;
+  document.getElementById('infoZ').textContent = el.z;
+  document.getElementById('infoE').textContent = el.z;
+  document.getElementById('infoValence').textContent = `${el.valence} électron(s)`;
+}
+
+/* Convertit un tableau de totaux par couche (ex: ["2","8","1"]) en notation
+   sous-couches modernes (ex: "1s² 2s² 2p⁶ 3s¹") pour Z ≤ 20 */
+const supDigits = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+function toSup(n){ return String(n).split('').map(d=>supDigits[d]||d).join(''); }
+
+function subshellConfig(config){
+  const parts = [];
+  config.forEach((countStr,i)=>{
+    const n = i+1; // numéro de couche (1,2,3,4)
+    let remaining = parseInt(countStr);
+    const subshells = n===1 ? [['s',2]] : [['s',2],['p',6]];
+    subshells.forEach(([letter,max])=>{
+      if(remaining<=0) return;
+      const electrons = Math.min(remaining,max);
+      parts.push(`${n}${letter}${toSup(electrons)}`);
+      remaining -= electrons;
+    });
+  });
+  return parts.join(' ');
+}
+
+atomSelect.addEventListener('change',e=>drawAtom(parseInt(e.target.value)));
+drawAtom(6);
+
+/* ============== ANIMATION SCHÉMAS DE LEWIS ============== */
+const lewisMolecules = {
+  H2: {
+    label:"H₂ (dihydrogène)",
+    legend:"Une seule liaison covalente entre les deux atomes d'hydrogène : chacun acquiert la configuration de l'hélium (2 électrons).",
+    draw: () => `
+      <text x="120" y="137" text-anchor="middle" font-size="22" font-weight="bold" font-family="Helvetica">H</text>
+      <text x="240" y="137" text-anchor="middle" font-size="22" font-weight="bold" font-family="Helvetica">H</text>
+      <line x1="142" y1="130" x2="218" y2="130" stroke="#1f2a24" stroke-width="3"/>
+    `
+  },
+  CH4: {
+    label:"CH₄ (méthane)",
+    legend:"Le carbone forme 4 liaisons covalentes simples avec 4 atomes d'hydrogène. Pas de doublet non liant sur C.",
+    draw: () => `
+      <text x="180" y="137" text-anchor="middle" font-size="22" font-weight="bold" font-family="Helvetica">C</text>
+      ${[[180,40],[180,220],[80,130],[280,130]].map(([x,y])=>`
+        <text x="${x}" y="${y+7}" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica">H</text>
+      `).join('')}
+      <line x1="180" y1="110" x2="180" y2="55" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="180" y1="150" x2="180" y2="205" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="162" y1="130" x2="100" y2="130" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="198" y1="130" x2="260" y2="130" stroke="#1f2a24" stroke-width="3"/>
+    `
+  },
+  H2O: {
+    label:"H₂O (eau)",
+    legend:"L'oxygène forme 2 liaisons covalentes avec les hydrogènes et possède 2 doublets non liants (paires d'électrons non partagées).",
+    draw: () => `
+      <text x="180" y="157" text-anchor="middle" font-size="22" font-weight="bold" font-family="Helvetica">O</text>
+      <text x="80" y="157" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica">H</text>
+      <text x="280" y="157" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica">H</text>
+      <!-- liaisons O-H, horizontales -->
+      <line x1="98" y1="150" x2="163" y2="150" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="197" y1="150" x2="262" y2="150" stroke="#1f2a24" stroke-width="3"/>
+      <!-- doublets non liants sur O : un au-dessus, un en-dessous, à angle droit -->
+      <line x1="165" y1="118" x2="195" y2="118" stroke="#f0b08a" stroke-width="3"/>
+      <circle cx="165" cy="118" r="3" fill="#c9622a"/><circle cx="195" cy="118" r="3" fill="#c9622a"/>
+      <line x1="165" y1="182" x2="195" y2="182" stroke="#f0b08a" stroke-width="3"/>
+      <circle cx="165" cy="182" r="3" fill="#c9622a"/><circle cx="195" cy="182" r="3" fill="#c9622a"/>
+    `
+  },
+  CH3OH: {
+    label:"CH₃OH (méthanol)",
+    legend:"Le carbone forme 4 liaisons (3 avec H, 1 avec O). L'oxygène forme 2 liaisons (avec C et H) et possède 2 doublets non liants.",
+    draw: () => `
+      <text x="120" y="157" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica">C</text>
+      <text x="240" y="157" text-anchor="middle" font-size="20" font-weight="bold" font-family="Helvetica">O</text>
+      <text x="120" y="75" text-anchor="middle" font-size="18" font-weight="bold" font-family="Helvetica">H</text>
+      <text x="120" y="235" text-anchor="middle" font-size="18" font-weight="bold" font-family="Helvetica">H</text>
+      <text x="40" y="157" text-anchor="middle" font-size="18" font-weight="bold" font-family="Helvetica">H</text>
+      <text x="240" y="75" text-anchor="middle" font-size="18" font-weight="bold" font-family="Helvetica">H</text>
+      <!-- liaisons, toutes horizontales/verticales -->
+      <line x1="120" y1="135" x2="120" y2="92" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="120" y1="165" x2="120" y2="218" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="103" y1="150" x2="58" y2="150" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="138" y1="150" x2="222" y2="150" stroke="#1f2a24" stroke-width="3"/>
+      <line x1="240" y1="135" x2="240" y2="92" stroke="#1f2a24" stroke-width="3"/>
+      <!-- doublets non liants sur O : un à droite, un en-dessous, à angle droit -->
+      <line x1="265" y1="140" x2="265" y2="160" stroke="#f0b08a" stroke-width="3"/>
+      <circle cx="265" cy="140" r="3" fill="#c9622a"/><circle cx="265" cy="160" r="3" fill="#c9622a"/>
+      <line x1="225" y1="182" x2="255" y2="182" stroke="#f0b08a" stroke-width="3"/>
+      <circle cx="225" cy="182" r="3" fill="#c9622a"/><circle cx="255" cy="182" r="3" fill="#c9622a"/>
+    `
+  }
+};
+
+const lewisButtons = document.getElementById('lewisButtons');
+Object.keys(lewisMolecules).forEach((key,i)=>{
+  const b = document.createElement('button');
+  b.textContent = lewisMolecules[key].label;
+  b.dataset.key = key;
+  if(i===0) b.classList.add('active');
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('#lewisButtons button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    drawLewis(key);
+  });
+  lewisButtons.appendChild(b);
+});
+
+function drawLewis(key){
+  const mol = lewisMolecules[key];
+  document.getElementById('lewisSvg').innerHTML = mol.draw();
+  document.getElementById('lewisLegend').innerHTML = `<b>${mol.label}</b><br><br>${mol.legend}`;
+}
+drawLewis('H2');
+
+/* ============== TABLEAU PÉRIODIQUE INTERACTIF ============== */
+const ptableDiv = document.getElementById('ptable');
+const cols = [1,2,13,14,15,16,17,18];
+const groupNames = {1:"1",2:"2",13:"13",14:"14",15:"15",16:"16",17:"17",18:"18"};
+const familyNames = {1:"Alcalins",2:"Alcalino-terreux",17:"Halogènes",18:"Gaz nobles"};
+const valenceAnswers = {1:"1",2:"2",13:"3",14:"4",15:"5",16:"6",17:"7",18:"8"};
+
+function configString(el){
+  return subshellConfig(el.config);
+}
+
+ptableDiv.innerHTML = '';
+
+// Rangée 1 : nom de la famille (à compléter, uniquement colonnes 1,2,17,18)
+cols.forEach(c=>{
+  const cell = document.createElement('div');
+  cell.className = 'pcell-input-row';
+  if(familyNames[c]){
+    cell.innerHTML = `<input type="text" class="exo-input line ptable-family" style="height:34px;padding:4px 6px;font-size:0.78rem;text-align:center;" placeholder="Famille…" data-answers="${familyNames[c].toLowerCase()}">`;
+  }
+  ptableDiv.appendChild(cell);
+});
+
+// Rangée 2 : numéro de colonne (en-tête, non modifiable)
+cols.forEach(c=>{
+  const h = document.createElement('div');
+  h.className = 'ptable-header';
+  h.textContent = groupNames[c];
+  ptableDiv.appendChild(h);
+});
+
+// Rangée 3 : nombre d'électrons de valence (liste déroulante)
+cols.forEach(c=>{
+  const cell = document.createElement('div');
+  cell.className = 'pcell-input-row';
+  const options = [1,2,3,4,5,6,7,8].map(n=>`<option value="${n}">${n}</option>`).join('');
+  cell.innerHTML = `<select class="exo-select ptable-valence" style="font-size:0.85rem;text-align:center;" data-answers="${valenceAnswers[c]}">
+    <option value="">— ? —</option>
+    ${options}
+  </select>`;
+  ptableDiv.appendChild(cell);
+});
+
+// Rangées 4 à 7 : éléments chimiques (Z <= 20)
+for(let row=1; row<=4; row++){
+  cols.forEach(col=>{
+    const el = elements.find(e=>e.row===row && e.group===col);
+    const cell = document.createElement('div');
+    if(el){
+      cell.className = `pcell ${[1,2].includes(col)?'bloc-s':'bloc-p'}`;
+      cell.innerHTML = `<div class="z">Z=${el.z}</div><div class="sym">${el.sym}</div>
+        <div class="answer">${el.name}<br>${configString(el)}<br>${el.valence} é. valence</div>`;
+      cell.addEventListener('click',()=>cell.classList.toggle('revealed'));
+    } else {
+      cell.className = 'pcell empty';
+    }
+    ptableDiv.appendChild(cell);
+  });
+}
+
+// Représentations textuelles des symboles de Lewis pour 1 à 8 électrons de valence,
+// avec X comme symbole générique de l'élément. Les doublets sont notés "••" et les
+// électrons célibataires par un seul point, répartis sur les 4 côtés.
+const lewisOptions = {
+  1: "X• (1 électron seul)",
+  2: "•X• (2 électrons seuls, sur 2 côtés)",
+  3: "•X•• (3 électrons seuls, sur 3 côtés)",
+  4: "•X•• avec • (4 électrons seuls, 1 par côté)",
+  5: "••X•• avec • (1 doublet + 3 électrons seuls)",
+  6: "••X•• avec •• (2 doublets + 2 électrons seuls)",
+  7: "••X•• avec ••• (3 doublets + 1 électron seul)",
+  8: "••X•• avec •• •• (4 doublets, couche saturée)"
+};
+
+// Rangée 8 : symbole de Lewis (liste déroulante avec propositions)
+cols.forEach(c=>{
+  const cell = document.createElement('div');
+  cell.className = 'pcell-input-row';
+  const n = valenceAnswers[c];
+  // Propositions : la bonne réponse + 2-3 distracteurs (autres nombres d'électrons)
+  const distractors = [1,2,3,4,5,6,7,8].filter(k=>k!=parseInt(n));
+  const shuffled = [...distractors].sort(()=>0.5-Math.random()).slice(0,3);
+  const choices = [parseInt(n), ...shuffled].sort(()=>0.5-Math.random());
+  const options = choices.map(k=>`<option value="${k}">${lewisOptions[k]}</option>`).join('');
+  cell.innerHTML = `<select class="exo-select ptable-lewis" style="font-size:0.7rem;text-align:center;" data-answers="${n}">
+    <option value="">— choisir —</option>
+    ${options}
+  </select>`;
+  ptableDiv.appendChild(cell);
+});
+
+/* ============== EXERCICES INTERACTIFS : correction + recommencer ============== */
+function normalize(str){
+  return str.trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // enlève accents
+    .replace(/\s+/g,' ');
+}
+
+document.querySelectorAll('.check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const selector = btn.dataset.checkSelector;
+    const fields = document.querySelectorAll(selector);
+    let total = 0, filled = 0, correct = 0;
+
+    fields.forEach(input=>{
+      const answers = (input.dataset.answers || '').split('|').map(normalize).filter(a=>a.length);
+      if(answers.length === 0) return; // pas de réponse attendue pour ce champ (ex: case vide du tableau)
+      total++;
+      const value = normalize(input.value);
+      input.classList.remove('correct','incorrect');
+      if(value.length === 0){
+        return; // champ vide : pas de couleur, mais comptabilisé dans le total
+      }
+      filled++;
+      if(answers.includes(value)){
+        input.classList.add('correct');
+        correct++;
+      } else {
+        input.classList.add('incorrect');
+      }
+    });
+
+    // Affiche un résumé si un élément de feedback est présent dans le même exo-box
+    const box = btn.closest('.exo-box');
+    const feedback = box ? box.querySelector('.keyword-feedback') : null;
+    if(feedback && total > 0){
+      feedback.classList.remove('show','kw-good','kw-partial','kw-empty');
+      if(filled === 0){
+        feedback.textContent = `Aucune réponse saisie pour l'instant (0/${total}). Tu peux vérifier à tout moment, même partiellement.`;
+        feedback.classList.add('show','kw-empty');
+      } else if(correct === total){
+        feedback.textContent = `Bravo, tout est correct (${correct}/${total}) !`;
+        feedback.classList.add('show','kw-good');
+      } else {
+        feedback.textContent = `${correct}/${total} réponses correctes (${filled}/${total} cases remplies). Continue, tu peux vérifier à nouveau à tout moment.`;
+        feedback.classList.add('show','kw-partial');
+      }
+    }
+  });
+});
+
+document.querySelectorAll('.check-radio-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const name = btn.dataset.radioName;
+    const radios = document.querySelectorAll(`input[name="${name}"]`);
+    let checked = null;
+    radios.forEach(r=>{
+      const label = r.closest('label');
+      label.classList.remove('opt-correct','opt-incorrect');
+      if(r.checked) checked = r;
+    });
+    if(!checked) return; // rien sélectionné
+    radios.forEach(r=>{
+      const label = r.closest('label');
+      const isCorrect = r.dataset.correct === 'true';
+      if(r === checked){
+        label.classList.add(isCorrect ? 'opt-correct' : 'opt-incorrect');
+      } else if(isCorrect){
+        label.classList.add('opt-correct');
+      }
+    });
+  });
+});
+
+document.querySelectorAll('.exo-box').forEach(box=>{
+  const textarea = box.querySelector('.exo-input');
+  const correction = box.querySelector('.correction');
+  const toggleBtn = box.querySelector('.toggle-btn');
+  const resetBtn = box.querySelector('.reset-btn');
+  const kwFeedback = box.querySelector('.keyword-feedback');
+
+  if(toggleBtn && correction){
+    toggleBtn.addEventListener('click',()=>{
+      correction.classList.toggle('show');
+      toggleBtn.textContent = correction.classList.contains('show') ? 'Masquer la correction' : 'Voir la correction';
+    });
+  }
+  if(resetBtn){
+    resetBtn.addEventListener('click',()=>{
+      if(textarea) textarea.value = '';
+      if(textarea) textarea.classList.remove('correct','incorrect');
+      if(kwFeedback){
+        kwFeedback.classList.remove('show','kw-good','kw-partial','kw-empty');
+        kwFeedback.textContent = '';
+      }
+      if(box.dataset.clearSelector){
+        document.querySelectorAll(box.dataset.clearSelector).forEach(inp=>{
+          if(inp.type === 'radio'){
+            inp.checked = false;
+            const label = inp.closest('label');
+            if(label) label.classList.remove('opt-correct','opt-incorrect');
+          } else {
+            inp.value='';
+            inp.classList.remove('correct','incorrect');
+          }
+        });
+      }
+      if(correction){
+        correction.classList.remove('show');
+        if(toggleBtn) toggleBtn.textContent = 'Voir la correction';
+      }
+      if(textarea) textarea.focus();
+    });
+  }
+});
+
+/* ============== VÉRIFICATION PAR MOTS-CLÉS (justifications libres) ============== */
+document.querySelectorAll('.keyword-check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const box = btn.closest('.exo-box');
+    const textarea = box.querySelector('.keyword-check');
+    const feedback = box.querySelector('.keyword-feedback');
+    if(!textarea || !feedback) return;
+
+    const text = normalize(textarea.value);
+    feedback.classList.remove('show','kw-good','kw-partial','kw-empty');
+    textarea.classList.remove('correct','incorrect');
+
+    if(text.length === 0){
+      feedback.textContent = "Écris ta réponse avant de vérifier.";
+      feedback.classList.add('show','kw-empty');
+      return;
+    }
+
+    const groups = (textarea.dataset.keywords || '').split('|').map(g=>g.split(',').map(normalize));
+    let found = 0;
+    groups.forEach(group=>{
+      if(group.some(kw => kw.length && text.includes(kw))) found++;
+    });
+
+    const total = groups.length;
+    const minRequired = parseInt(textarea.dataset.minRequired || total);
+
+    if(found >= minRequired){
+      feedback.textContent = `Ta réponse contient ${found}/${total} éléments clés attendus, c'est suffisant ! Tu peux comparer avec la correction si tu veux.`;
+      feedback.classList.add('show','kw-good');
+      textarea.classList.add('correct');
+    } else if(found > 0){
+      feedback.textContent = `Ta réponse contient ${found}/${total} éléments clés attendus (au moins ${minRequired} attendus). Essaie de compléter avant de regarder la correction.`;
+      feedback.classList.add('show','kw-partial');
+    } else {
+      feedback.textContent = `Aucun des éléments clés attendus n'a été repéré (0/${total}). Relis le cours avant de regarder la correction.`;
+      feedback.classList.add('show','kw-empty');
+      textarea.classList.add('incorrect');
+    }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Modélisation de la matière à l'échelle microscopique</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* fond géré par #bg-overlay */
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Header fixe */
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+/* Barre de progression */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+/* Score live */
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+/* Feedback */
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+/* Bouton suivant */
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+/* Badges recap */
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* SVG illustrations helpers */
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ GRAND ATOME EN FOND (séquence 03) ══ */
+#lava-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Atome agrandi, centré */
+.atom-bg {
+  display: block;
+  position: relative;
+  width: 560px;
+  height: 560px;
+  max-width: 90vmin;
+  max-height: 90vmin;
+  opacity: 0.45;
+}
+
+.atom-bg .atom-nucleus {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px; height: 70px;
+  background: radial-gradient(circle at 35% 35%, #f0997b, #d85a30);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 0 40px rgba(216,90,48,0.4);
+}
+
+.atom-bg .atom-orbit {
+  position: absolute;
+  top: 50%; left: 50%;
+  border: 3px solid rgba(14,116,144,0.25);
+  border-radius: 50%;
+  transform-origin: center;
+}
+.atom-bg .atom-orbit-1 { width: 520px; height: 520px; margin: -260px 0 0 -260px; transform: rotate(0deg); }
+.atom-bg .atom-orbit-2 { width: 520px; height: 280px; margin: -140px 0 0 -260px; transform: rotate(60deg); }
+.atom-bg .atom-orbit-3 { width: 520px; height: 280px; margin: -140px 0 0 -260px; transform: rotate(-60deg); }
+
+.atom-bg .atom-electron {
+  position: absolute;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: #0e7490;
+  box-shadow: 0 0 24px rgba(14,116,144,0.5);
+}
+.atom-bg .atom-e1 {
+  animation: atombg-e1-path 14s linear infinite;
+  offset-path: path("M 260,0 A 260 260 0 1 1 259.99 0");
+  offset-rotate: 0deg; top:0; left:0;
+}
+@keyframes atombg-e1-path {
+  0%    { offset-distance: 0%; }
+  20%   { offset-distance: 35%; }
+  45%   { offset-distance: 40%; }
+  70%   { offset-distance: 75%; }
+  100%  { offset-distance: 100%; }
+}
+.atom-bg .atom-e2 {
+  animation: atombg-e2-path 18s linear infinite reverse;
+  offset-path: path("M 0,0 A 260 140 60 1 1 -0.01 0.01");
+  offset-rotate: 0deg; top:0; left:0;
+}
+@keyframes atombg-e2-path {
+  0%    { offset-distance: 0%; }
+  30%   { offset-distance: 28%; }
+  55%   { offset-distance: 60%; }
+  80%   { offset-distance: 65%; }
+  100%  { offset-distance: 100%; }
+}
+.atom-bg .atom-e3 {
+  animation: atombg-e3-path 21s linear infinite;
+  offset-path: path("M 0,0 A 260 140 -60 1 1 -0.01 0.01");
+  offset-rotate: 0deg; top:0; left:0;
+}
+@keyframes atombg-e3-path {
+  0%    { offset-distance: 0%; }
+  25%   { offset-distance: 30%; }
+  60%   { offset-distance: 68%; }
+  100%  { offset-distance: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atom-bg .atom-electron { animation:none; }
+}
+/* ══ FIN ATOME ══ */
+
+</style>
+</head>
+<body>
+<div id="lava-bg">
+  <div class="atom-bg">
+    <div class="atom-orbit atom-orbit-1"></div>
+    <div class="atom-orbit atom-orbit-2"></div>
+    <div class="atom-orbit atom-orbit-3"></div>
+    <div class="atom-nucleus"></div>
+    <div class="atom-electron atom-e1"></div>
+    <div class="atom-electron atom-e2"></div>
+    <div class="atom-electron atom-e3"></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 03 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Modélisation de la matière à l'échelle microscopique · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire : entités, atome, ion, molécule, particules du noyau</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Notation A/Z, isotopes, configuration électronique, ions monoatomiques</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Masse de l'atome, structure lacunaire, Lewis, énergie de liaison</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+
+function svgStructureAtome() {
+  return `<svg width="360" height="170" viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="170" fill="#f8faff" rx="6"/>
+    <text x="180" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Structure de l'atome (échelle non respectée)</text>
+    <!-- nuage électronique -->
+    <circle cx="180" cy="95" r="65" fill="none" stroke="#1a5fa8" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text x="180" y="34" text-anchor="middle" font-size="9" fill="#1a5fa8" font-weight="bold">Cortège électronique</text>
+    <!-- électrons -->
+    <circle cx="180" cy="30" r="4" fill="#1a5fa8"/>
+    <circle cx="245" cy="95" r="4" fill="#1a5fa8"/>
+    <circle cx="180" cy="160" r="4" fill="#1a5fa8"/>
+    <circle cx="115" cy="95" r="4" fill="#1a5fa8"/>
+    <circle cx="225" cy="50" r="4" fill="#1a5fa8"/>
+    <circle cx="135" cy="140" r="4" fill="#1a5fa8"/>
+    <!-- noyau -->
+    <circle cx="180" cy="95" r="14" fill="#c0392b"/>
+    <text x="180" y="100" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">noyau</text>
+    <text x="280" y="98" text-anchor="middle" font-size="9" fill="#c0392b" font-weight="bold">≈ 10⁻¹⁵ m</text>
+    <text x="40" y="98" text-anchor="middle" font-size="9" fill="#1a5fa8" font-weight="bold">≈ 10⁻¹⁰ m</text>
+  </svg>`;
+}
+
+function svgConfigElectronique() {
+  return `<svg width="340" height="170" viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="170" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Remplissage des couches électroniques</text>
+    <!-- noyau -->
+    <circle cx="170" cy="95" r="16" fill="#c0392b"/>
+    <text x="170" y="99" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">Z = 11</text>
+    <!-- couche 1 -->
+    <circle cx="170" cy="95" r="35" fill="none" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="170" y="55" text-anchor="middle" font-size="9" fill="#1a5fa8" font-weight="bold">couche 1 : 2 e⁻</text>
+    <!-- couche 2 -->
+    <circle cx="170" cy="95" r="60" fill="none" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="170" y="30" text-anchor="middle" font-size="9" fill="#2e7d52" font-weight="bold">couche 2 : 8 e⁻</text>
+    <!-- couche 3 -->
+    <circle cx="170" cy="95" r="85" fill="none" stroke="#8b2fc9" stroke-width="1.5"/>
+    <text x="170" y="165" text-anchor="middle" font-size="9" fill="#8b2fc9" font-weight="bold">couche 3 : 1 e⁻ (valence)</text>
+  </svg>`;
+}
+
+function svgLewisH2O() {
+  return `<svg width="320" height="170" viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="170" fill="#f8faff" rx="6"/>
+    <text x="160" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Schéma de Lewis de la molécule d'eau H₂O</text>
+    <!-- O central -->
+    <text x="150" y="100" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">O</text>
+    <!-- H gauche (liaison horizontale) -->
+    <text x="80" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">H</text>
+    <!-- H bas (liaison verticale, angle droit) -->
+    <text x="150" y="155" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">H</text>
+    <!-- doublets liants (traits bleus) -->
+    <line x1="95" y1="100" x2="138" y2="100" stroke="#1a5fa8" stroke-width="3"/>
+    <line x1="150" y1="112" x2="150" y2="142" stroke="#1a5fa8" stroke-width="3"/>
+    <!-- doublets non liants sur O : deux paires de points oranges reliés par un trait -->
+    <!-- doublet non liant 1 (au-dessus de O) -->
+    <circle cx="144" cy="80" r="2.5" fill="#f59e0b"/>
+    <circle cx="156" cy="80" r="2.5" fill="#f59e0b"/>
+    <line x1="144" y1="80" x2="156" y2="80" stroke="#fcd34d" stroke-width="2"/>
+    <!-- doublet non liant 2 (à droite de O) -->
+    <circle cx="172" cy="91" r="2.5" fill="#f59e0b"/>
+    <circle cx="172" cy="103" r="2.5" fill="#f59e0b"/>
+    <line x1="172" y1="91" x2="172" y2="103" stroke="#fcd34d" stroke-width="2"/>
+    <text x="270" y="60" text-anchor="middle" font-size="9" fill="#1a5fa8" font-weight="bold">— : doublet liant</text>
+    <text x="270" y="78" text-anchor="middle" font-size="9" fill="#f59e0b" font-weight="bold">• : doublet non liant</text>
+  </svg>`;
+}
+
+
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+
+const QUESTIONS = {
+
+  facile: [
+    {
+      q: "À l'échelle microscopique, comment appelle-t-on une entité électriquement neutre, formée d'un noyau et d'électrons ?",
+      ill: null,
+      opts: [
+        "Un atome",
+        "Un ion",
+        "Une molécule",
+        "Un composé ionique"
+      ],
+      ans: 0,
+      expl: "Un atome est une entité électriquement neutre : il possède autant de protons (charge positive) que d'électrons (charge négative)."
+    },
+    {
+      q: "Comment appelle-t-on une entité chargée, obtenue lorsqu'un atome perd ou gagne un ou plusieurs électrons ?",
+      ill: null,
+      opts: [
+        "Une molécule",
+        "Un ion",
+        "Un nucléon",
+        "Un isotope"
+      ],
+      ans: 1,
+      expl: "Un ion est une entité chargée électriquement : un cation (charge positive) si l'atome a perdu des électrons, un anion (charge négative) s'il en a gagné."
+    },
+    {
+      q: "Quelles sont les particules constitutives du noyau d'un atome ?",
+      ill: null,
+      opts: [
+        "Les électrons et les neutrons",
+        "Les protons et les électrons",
+        "Les protons et les neutrons",
+        "Uniquement les protons"
+      ],
+      ans: 2,
+      expl: "Le noyau est constitué de nucléons : des protons (chargés positivement) et des neutrons (de charge nulle)."
+    },
+    {
+      q: "Quelle est la charge électrique d'un neutron ?",
+      ill: null,
+      opts: [
+        "Positive",
+        "Négative",
+        "Nulle",
+        "Variable selon l'atome"
+      ],
+      ans: 2,
+      expl: "Le neutron est une particule de charge électrique nulle, présente dans le noyau avec les protons."
+    },
+    {
+      q: "Dans un atome, que peut-on dire du nombre de protons et du nombre d'électrons ?",
+      ill: null,
+      opts: [
+        "Le nombre de protons est toujours supérieur au nombre d'électrons",
+        "Le nombre de protons est égal au nombre d'électrons (atome neutre)",
+        "Le nombre de protons est égal au nombre de neutrons",
+        "Il n'y a aucune relation entre ces nombres"
+      ],
+      ans: 1,
+      expl: "Un atome étant électriquement neutre, il possède autant de protons (charge +) que d'électrons (charge −)."
+    },
+    {
+      q: "Dans la notation symbolique d'un noyau <span style='display:inline-flex;flex-direction:column;line-height:1;font-size:0.85em;vertical-align:0.4em;margin-right:1px;'><span style='transform:translateY(0.15em);'>A</span><span style='transform:translateY(-0.15em);'>Z</span></span>X, que représente le nombre A ?",
+      ill: null,
+      opts: [
+        "Le nombre de protons uniquement",
+        "Le nombre de neutrons uniquement",
+        "Le nombre de nucléons (protons + neutrons)",
+        "Le nombre d'électrons"
+      ],
+      ans: 2,
+      expl: "A est le nombre de masse, c'est-à-dire le nombre total de nucléons (protons + neutrons) présents dans le noyau."
+    },
+    {
+      q: "Dans la notation symbolique d'un noyau <span style='display:inline-flex;flex-direction:column;line-height:1;font-size:0.85em;vertical-align:0.4em;margin-right:1px;'><span style='transform:translateY(0.15em);'>A</span><span style='transform:translateY(-0.15em);'>Z</span></span>X, que représente le nombre Z ?",
+      ill: null,
+      opts: [
+        "Le numéro atomique, c'est-à-dire le nombre de protons",
+        "Le nombre de nucléons",
+        "Le nombre de neutrons",
+        "La masse de l'atome"
+      ],
+      ans: 0,
+      expl: "Z est le numéro atomique : il correspond au nombre de protons contenus dans le noyau, et caractérise l'élément chimique."
+    },
+    {
+      q: "Comment appelle-t-on un assemblage d'un nombre limité d'atomes liés entre eux par des liaisons covalentes ?",
+      ill: null,
+      opts: [
+        "Un ion monoatomique",
+        "Une molécule",
+        "Un composé ionique",
+        "Un nucléon"
+      ],
+      ans: 1,
+      expl: "Une molécule est un assemblage d'atomes en nombre limité, reliés par des liaisons covalentes (mise en commun d'électrons)."
+    },
+    {
+      q: "Qu'appelle-t-on les électrons de valence d'un atome ?",
+      ill: null,
+      opts: [
+        "Les électrons situés dans le noyau",
+        "Les électrons de la couche externe (dernière couche occupée)",
+        "Le premier électron formé",
+        "Les électrons perdus lors de la formation d'un ion"
+      ],
+      ans: 1,
+      expl: "Les électrons de valence sont les électrons de la couche externe (la dernière couche occupée par des électrons). Ils interviennent dans les liaisons chimiques."
+    },
+    {
+      q: "Quelle famille chimique regroupe les éléments dont les atomes possèdent une couche de valence saturée et sont donc très peu réactifs ?",
+      ill: null,
+      opts: [
+        "Les alcalins",
+        "Les halogènes",
+        "Les alcalino-terreux",
+        "Les gaz nobles"
+      ],
+      ans: 3,
+      expl: "Les gaz nobles (colonne 18) possèdent une couche de valence saturée (8 électrons, 2 pour l'hélium), ce qui leur confère une très grande stabilité chimique et une faible réactivité."
+    }
+  ],
+
+  inter: [
+    {
+      q: "Un noyau de phosphore est noté ³¹₁₅P. Quel est le nombre de neutrons N de ce noyau ?",
+      ill: null,
+      opts: [
+        "N = 31",
+        "N = 15",
+        "N = 16",
+        "N = 46"
+      ],
+      ans: 2,
+      expl: "N = A − Z = 31 − 15 = 16 neutrons."
+    },
+    {
+      q: "Le noyau d'un atome d'aluminium a pour notation ²⁷₁₃Al. Combien d'électrons possède cet atome neutre ?",
+      ill: null,
+      opts: [
+        "13",
+        "14",
+        "27",
+        "40"
+      ],
+      ans: 0,
+      expl: "L'atome étant électriquement neutre, le nombre d'électrons est égal au nombre de protons : Z = 13, donc 13 électrons."
+    },
+    {
+      q: "Les noyaux de carbone 12 (¹²₆C) et de carbone 14 (¹⁴₆C) sont des isotopes du carbone. Que peut-on en conclure ?",
+      ill: null,
+      opts: [
+        "Ils ont le même nombre de neutrons mais des Z différents",
+        "Ils ont le même numéro atomique Z mais un nombre de nucléons A différent",
+        "Ils appartiennent à des éléments chimiques différents",
+        "Ils ont le même nombre de protons et le même nombre de neutrons"
+      ],
+      ans: 1,
+      expl: "Deux isotopes d'un même élément chimique ont le même numéro atomique Z (même nombre de protons) mais un nombre de nucléons A différent, donc un nombre de neutrons différent."
+    },
+    {
+      q: "Quel ordre de grandeur correspond à la taille typique d'un atome ?",
+      ill: svgStructureAtome(),
+      opts: [
+        "10⁻⁸ m",
+        "10⁻¹⁰ m",
+        "10⁻¹² m",
+        "10⁻¹⁵ m"
+      ],
+      ans: 1,
+      expl: "La taille typique d'un atome est de l'ordre de 10⁻¹⁰ m, alors que celle du noyau est de l'ordre de 10⁻¹⁵ m (le noyau est environ 100 000 fois plus petit que l'atome)."
+    },
+    {
+      q: "Un ion phosphure P⁻ provient du noyau ³¹₁₅P. Quelle est sa composition (protons / neutrons / électrons) ?",
+      ill: null,
+      opts: [
+        "15 protons, 16 neutrons, 15 électrons",
+        "15 protons, 16 neutrons, 16 électrons",
+        "16 protons, 15 neutrons, 16 électrons",
+        "15 protons, 15 neutrons, 16 électrons"
+      ],
+      ans: 1,
+      expl: "Le noyau ne change pas : 15 protons et N = A − Z = 16 neutrons. Pour former l'anion P⁻, l'atome gagne 1 électron : 15 + 1 = 16 électrons."
+    },
+    {
+      q: "Pour les atomes de numéro atomique Z ≤ 18, dans quel ordre se remplissent les sous-couches électroniques ?",
+      ill: svgConfigElectronique(),
+      opts: [
+        "3s, puis 2p, puis 1s, puis 2s",
+        "1s, puis 2s, puis 2p, puis 3s, puis 3p",
+        "2s, puis 1s, puis 3p, puis 2p",
+        "1s, puis 3s, puis 2s, puis 2p"
+      ],
+      ans: 1,
+      expl: "Les sous-couches se remplissent par ordre d'énergie croissante : 1s, puis 2s, puis 2p, puis 3s, puis 3p, en respectant le nombre maximal d'électrons par sous-couche (2 pour s, 6 pour p)."
+    },
+    {
+      q: "Quelle est la configuration électronique de l'atome de carbone (Z = 6) ?",
+      ill: null,
+      opts: [
+        "1s² 2s² 2p²",
+        "1s² 2s⁴",
+        "1s² 2s² 2p⁴",
+        "1s⁶"
+      ],
+      ans: 0,
+      expl: "Le carbone possède 6 électrons : 2 sur la sous-couche 1s, 2 sur la sous-couche 2s, et les 2 restants sur la sous-couche 2p, soit 1s² 2s² 2p²."
+    },
+    {
+      q: "Le sodium Na (Z = 11) a pour configuration électronique 1s² 2s² 2p⁶ 3s¹. Quelle est la configuration électronique de l'ion sodium Na⁺ ?",
+      ill: null,
+      opts: [
+        "1s² 2s² 2p⁶ 3s²",
+        "1s² 2s² 2p⁶ 3s¹",
+        "1s² 2s² 2p⁶",
+        "1s² 2s² 2p⁵"
+      ],
+      ans: 2,
+      expl: "Le sodium possède 1 électron de valence (3s¹) qu'il perd pour adopter la configuration stable du gaz noble qui le précède (le néon) : 1s² 2s² 2p⁶."
+    },
+    {
+      q: "Le chlore Cl (Z = 17) a pour configuration électronique 1s² 2s² 2p⁶ 3s² 3p⁵. Quelle est la configuration électronique de l'ion chlorure Cl⁻ ?",
+      ill: null,
+      opts: [
+        "1s² 2s² 2p⁶ 3s² 3p⁴",
+        "1s² 2s² 2p⁶ 3s² 3p⁶",
+        "1s² 2s² 2p⁶ 3s¹",
+        "1s² 2s² 2p⁶ 3s² 3p⁵"
+      ],
+      ans: 1,
+      expl: "Le chlore possède 7 électrons de valence (3p⁵) ; il gagne 1 électron pour atteindre 8 électrons de valence et adopter la configuration stable du gaz noble qui le suit (l'argon) : 1s² 2s² 2p⁶ 3s² 3p⁶."
+    },
+    {
+      q: "Que représente le schéma de Lewis d'une molécule ?",
+      ill: svgLewisH2O(),
+      opts: [
+        "Uniquement la masse de chaque atome de la molécule",
+        "La répartition des doublets liants (liaisons covalentes) et des doublets non liants autour des atomes",
+        "La taille du noyau de chaque atome",
+        "Le nombre d'isotopes de la molécule"
+      ],
+      ans: 1,
+      expl: "Le schéma de Lewis représente les doublets liants (mise en commun d'électrons formant des liaisons covalentes A—B) ainsi que les doublets non liants propres à chaque atome de la molécule."
+    }
+  ],
+
+  diff: [
+    {
+      q: "Sachant que m(proton) ≈ 1,673 × 10⁻²⁷ kg, m(neutron) ≈ 1,675 × 10⁻²⁷ kg et m(électron) ≈ 9,109 × 10⁻³¹ kg, pourquoi peut-on écrire m(atome) ≈ A × m(nucléon) ?",
+      ill: svgStructureAtome(),
+      opts: [
+        "Parce que les électrons ont une masse beaucoup plus grande que les nucléons",
+        "Parce que la masse des électrons est négligeable devant celle des nucléons (m_proton ≈ 1836 × m_électron)",
+        "Parce que le nombre de neutrons est toujours nul",
+        "Parce que A représente directement la masse en kg"
+      ],
+      ans: 1,
+      expl: "La masse d'un proton ou d'un neutron est environ 1836 fois plus grande que celle d'un électron. La masse des électrons est donc négligeable, et la masse de l'atome est pratiquement égale à celle de son noyau : m(atome) ≈ A × m(nucléon)."
+    },
+    {
+      q: "Un atome de francium a pour notation ²²³₈₇Fr. En utilisant m(atome) ≈ A × m(nucléon) avec m(nucléon) ≈ 1,674 × 10⁻²⁷ kg, quelle est la masse approximative de cet atome ?",
+      ill: null,
+      opts: [
+        "≈ 3,73 × 10⁻²⁵ kg",
+        "≈ 1,67 × 10⁻²⁷ kg",
+        "≈ 3,73 × 10⁻²² kg",
+        "≈ 3,73 × 10⁻²⁸ kg"
+      ],
+      ans: 0,
+      expl: "m(atome) ≈ A × m(nucléon) = 223 × 1,674 × 10⁻²⁷ ≈ 3,73 × 10⁻²⁵ kg, valeur quasi identique au calcul détaillé incluant les électrons."
+    },
+    {
+      q: "Le rapport entre la taille d'un atome (≈ 10⁻¹⁰ m) et la taille de son noyau (≈ 10⁻¹⁵ m) vaut environ 10⁵. Comment qualifie-t-on la structure de la matière qui en résulte ?",
+      ill: svgStructureAtome(),
+      opts: [
+        "Une structure compacte, sans vide",
+        "Une structure lacunaire : la matière est essentiellement constituée de vide",
+        "Une structure homogène où la masse est répartie uniformément",
+        "Une structure où le noyau occupe la quasi-totalité du volume de l'atome"
+      ],
+      ans: 1,
+      expl: "Le noyau étant environ 100 000 fois plus petit que l'atome tout en concentrant la quasi-totalité de sa masse, le volume de l'atome est presque entièrement vide : on dit que la matière a une structure lacunaire."
+    },
+    {
+      q: "Les énergies de liaison moyennes sont E(C–H) = 415 kJ/mol et E(O–H) = 463 kJ/mol. Quelle est l'énergie totale de liaison de la molécule H₂O (2 liaisons O–H) ?",
+      ill: svgLewisH2O(),
+      opts: [
+        "463 kJ/mol",
+        "830 kJ/mol",
+        "926 kJ/mol",
+        "1660 kJ/mol"
+      ],
+      ans: 2,
+      expl: "L'énergie totale de liaison de H₂O correspond à 2 × E(O–H) = 2 × 463 = 926 kJ/mol."
+    },
+    {
+      q: "Sachant que E(C–H) = 415 kJ/mol, E(C–O) = 358 kJ/mol et E(O–H) = 463 kJ/mol, quelle est l'énergie totale de liaison de la molécule CH₃OH (3 liaisons C–H, 1 liaison C–O, 1 liaison O–H) ?",
+      ill: null,
+      opts: [
+        "1660 kJ/mol",
+        "1741 kJ/mol",
+        "2066 kJ/mol",
+        "2341 kJ/mol"
+      ],
+      ans: 2,
+      expl: "Énergie totale = 3 × E(C–H) + E(C–O) + E(O–H) = 3 × 415 + 358 + 463 = 1245 + 358 + 463 = 2066 kJ/mol."
+    },
+    {
+      q: "Plus l'énergie de liaison d'une molécule est grande, que peut-on en conclure ?",
+      ill: null,
+      opts: [
+        "Plus la molécule est instable et facile à dissocier",
+        "Plus il faut fournir d'énergie pour rompre les liaisons, donc plus la molécule est stable",
+        "Plus la molécule contient d'électrons de valence libres",
+        "L'énergie de liaison ne renseigne pas sur la stabilité de la molécule"
+      ],
+      ans: 1,
+      expl: "L'énergie de liaison correspond à l'énergie qu'il faut fournir pour rompre une liaison (ou celle libérée lors de sa formation). Plus elle est grande, plus la molécule formée est stable par rapport aux atomes isolés."
+    },
+    {
+      q: "Dans le tableau périodique, deux éléments d'une même colonne (par exemple le sodium Na et le potassium K, colonne 1) ont en commun :",
+      ill: null,
+      opts: [
+        "Le même nombre de couches électroniques occupées",
+        "Le même nombre d'électrons de valence, donc des propriétés chimiques similaires",
+        "Le même numéro atomique Z",
+        "Le même nombre de neutrons"
+      ],
+      ans: 1,
+      expl: "Les éléments d'une même colonne (même famille chimique) possèdent le même nombre d'électrons de valence, ce qui leur confère des propriétés chimiques similaires (par exemple les alcalins, colonne 1, ont tous 1 électron de valence)."
+    },
+    {
+      q: "L'azote N (Z = 7, 5 électrons de valence) forme la molécule d'ammoniac NH₃. D'après la règle de stabilité (configuration d'un gaz noble), comment se répartissent les électrons de valence de l'azote dans NH₃ ?",
+      ill: null,
+      opts: [
+        "1 doublet liant et 4 doublets non liants",
+        "5 doublets liants et 0 doublet non liant",
+        "3 doublets liants (3 liaisons N–H) et 1 doublet non liant",
+        "2 doublets liants et 2 doublets non liants"
+      ],
+      ans: 2,
+      expl: "L'azote forme 3 liaisons covalentes N–H (3 doublets liants) avec les 3 atomes d'hydrogène et conserve 1 doublet non liant. Il est ainsi entouré de 8 électrons, ce qui correspond à la configuration du néon (gaz noble le plus proche)."
+    },
+    {
+      q: "Pourquoi les gaz nobles (colonne 18) sont-ils chimiquement très peu réactifs ?",
+      ill: null,
+      opts: [
+        "Parce qu'ils n'ont pas de noyau",
+        "Parce que leur couche de valence est saturée (8 électrons, 2 pour l'hélium), ce qui correspond à une configuration très stable",
+        "Parce qu'ils possèdent un seul électron de valence",
+        "Parce que leur masse atomique est trop faible pour réagir"
+      ],
+      ans: 1,
+      expl: "Les gaz nobles ont une couche de valence saturée (8 électrons, ou 2 pour l'hélium), configuration électronique particulièrement stable : ils n'ont donc ni tendance à gagner ni à perdre d'électrons, d'où leur faible réactivité."
+    },
+    {
+      q: "Un atome possédant 6 électrons de valence (colonne 16, ex : oxygène) tend à former un ion en :",
+      ill: null,
+      opts: [
+        "Perdant 6 électrons pour former un cation 6+",
+        "Gagnant 2 électrons pour atteindre 8 électrons de valence et former un anion 2−",
+        "Gagnant 6 électrons pour former un anion 6−",
+        "Ne formant aucun ion, car 6 électrons de valence est déjà stable"
+      ],
+      ans: 1,
+      expl: "Un atome ayant 6 électrons de valence a besoin de 2 électrons supplémentaires pour atteindre 8 (configuration du gaz noble suivant). Il tend donc à gagner 2 électrons et former un anion de charge 2− (ex : O²⁻)."
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = []; // true/false par question
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+  answered = false;
+
+  // Update header styles
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  // Progression
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  // Styles options
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  // Bouton suivant
+  document.getElementById('btn-next').classList.add('show');
+
+  // Progression (après réponse)
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  // Dots recap
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

@@ -162,6 +162,44 @@ h1{
 .panel.active{display:block;}
 @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
+/* SOUS-ONGLETS (ex: 2a / 2b) */
+.subtabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:18px;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.subtab-btn{
+  flex:1 1 260px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  text-align:left;
+  padding:16px 18px;
+  background:var(--paper);
+  border:2px solid var(--line);
+  border-radius:12px;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.subtab-btn:hover{border-color:var(--accent);}
+.subtab-btn.active{
+  background:var(--accent-light);
+  border-color:var(--accent);
+}
+.subtab-title{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--accent);
+}
+.subtab-desc{
+  font-size:0.8rem;
+  color:#6b756f;
+}
+.subpanel{display:none;animation:fade .35s ease;}
+.subpanel.active{display:block;}
+
 .card{
   background:var(--paper);
   border:1px solid var(--line);
@@ -751,6 +789,18 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
 <!-- ================= ONGLET 2 ================= -->
 <section class="panel" id="t2">
 
+  <div class="subtabs">
+    <button class="subtab-btn active" data-subtab="t2a">
+      <span class="subtab-title">2.a — Composition de l'atome</span>
+      <span class="subtab-desc">Noyau, nucléons, ordres de grandeur, isotopes, masse de l'atome</span>
+    </button>
+    <button class="subtab-btn" data-subtab="t2b">
+      <span class="subtab-title">2.b — Cortège électronique</span>
+      <span class="subtab-desc">Couches, sous-couches, configuration électronique, familles chimiques</span>
+    </button>
+  </div>
+
+  <div class="subpanel active" id="t2a">
   <div class="card">
     <h2>2.a — Composition de l'atome</h2>
     <div class="activite">Activité 2 p62 : Tailles et masses de l'atome et de son noyau · Activité 3 p63 : Trio de noyaux</div>
@@ -1149,7 +1199,9 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
     <span class="exo-tag">p71 n°44</span>
     <span class="exo-tag">p72 n°45 et 49</span>
   </div>
+  </div>
 
+  <div class="subpanel" id="t2b">
   <div class="card">
     <h2>2.b — Cortège électronique de l'atome</h2>
     <div class="activite">Activité « À chaque case son élément chimique » — p78</div>
@@ -1450,11 +1502,24 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
     <span class="exo-tag">p86 n°23</span>
     <span class="exo-tag">p91 n°49</span>
   </div>
+  </div>
 </section>
 
 <!-- ================= ONGLET 3 ================= -->
 <section class="panel" id="t3">
 
+  <div class="subtabs">
+    <button class="subtab-btn active" data-subtab="t3ab">
+      <span class="subtab-title">3.a / 3.b — Gaz nobles et ions</span>
+      <span class="subtab-desc">Stabilité des gaz nobles, ions monoatomiques (cations et anions)</span>
+    </button>
+    <button class="subtab-btn" data-subtab="t3c">
+      <span class="subtab-title">3.c — Molécules et énergie de liaison</span>
+      <span class="subtab-desc">Schémas de Lewis, doublets liants/non liants, énergie de liaison</span>
+    </button>
+  </div>
+
+  <div class="subpanel active" id="t3ab">
   <div class="card">
     <h2>3.a / 3.b — Gaz nobles et ions monoatomiques</h2>
     <div class="activite">Activité 5 : Des ions dans les eaux minérales — p80</div>
@@ -1529,7 +1594,9 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
 
     <p style="font-size:0.9rem;">💡 Astuce : reviens à l'outil interactif de l'onglet 2 pour visualiser la configuration de l'atome neutre avant de retirer ou ajouter un électron.</p>
   </div>
+  </div>
 
+  <div class="subpanel" id="t3c">
   <div class="card">
     <h2>3.c — Les molécules : schéma de Lewis et énergie de liaison</h2>
     <div class="activite">Activité 6 : Liaisons dans les molécules — p81</div>
@@ -1785,6 +1852,7 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
     <div class="activite" style="margin-top:14px;">Exercice</div>
     <span class="exo-tag">p93 n°53</span>
   </div>
+  </div>
 </section>
 
 <!-- ================= ONGLET 4 — TABLEAU PÉRIODIQUE ================= -->
@@ -1878,6 +1946,18 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ============== SOUS-ONGLETS (ex: 2a / 2b) ============== */
+document.querySelectorAll('.subtab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const parent = btn.closest('.panel');
+    parent.querySelectorAll('.subtab-btn').forEach(b=>b.classList.remove('active'));
+    parent.querySelectorAll('.subpanel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.subtab).classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
   });
 });
@@ -2018,8 +2098,8 @@ const lewisMolecules = {
       <!-- doublets non liants sur O : un à droite, un en-dessous, à angle droit -->
       <line x1="265" y1="140" x2="265" y2="160" stroke="#f0b08a" stroke-width="3"/>
       <circle cx="265" cy="140" r="3" fill="#c9622a"/><circle cx="265" cy="160" r="3" fill="#c9622a"/>
-      <line x1="225" y1="182" x2="255" y2="182" stroke="#f0b08a" stroke-width="3"/>
-      <circle cx="225" cy="182" r="3" fill="#c9622a"/><circle cx="255" cy="182" r="3" fill="#c9622a"/>
+      <line x1="225" y1="172" x2="255" y2="172" stroke="#f0b08a" stroke-width="3"/>
+      <circle cx="225" cy="172" r="3" fill="#c9622a"/><circle cx="255" cy="172" r="3" fill="#c9622a"/>
     `
   }
 };

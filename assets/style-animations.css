@@ -610,9 +610,9 @@
   transform-box: fill-box;
   transform-origin: bottom center;
 }
-.ice-1 { animation: melt-cycle-1 18s ease-in infinite; }
+.ice-1 { animation: melt-cycle-3 18s ease-in infinite; }
 .ice-2 { animation: melt-cycle-2 18s ease-in infinite; }
-.ice-3 { animation: melt-cycle-3 18s ease-in infinite; }
+.ice-3 { animation: melt-cycle-1 18s ease-in infinite; }
 @keyframes melt-cycle-1 {
   0%   { transform: scale(1, 1);    opacity: 1; }
   10%  { transform: scale(1, 1);    opacity: 1; }

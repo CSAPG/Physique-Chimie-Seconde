@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Description du mouvement</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* fond géré par #bg-overlay */
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Header fixe */
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+/* Barre de progression */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+/* Score live */
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+/* Feedback */
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+/* Bouton suivant */
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+/* Badges recap */
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* SVG illustrations helpers */
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ DÉCOR DU COUREUR EN FOND ══ */
+#runner-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(180deg, #eaf6ff 0%, #f4f9ff 55%, #eef6f2 100%);
+}
+
+/* Nuages */
+.rb-clouds {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 45%;
+}
+.rb-cloud {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50px;
+  opacity: 0.8;
+}
+.rb-cloud::before, .rb-cloud::after {
+  content: "";
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+}
+.rb-cloud1 { width: 90px; height: 30px; top: 8%; left: 10%; animation: rb-drift 60s linear infinite; }
+.rb-cloud1::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+.rb-cloud1::after  { width: 36px; height: 36px; top: -16px; left: 50px; }
+
+.rb-cloud2 { width: 70px; height: 24px; top: 18%; left: 60%; animation: rb-drift 80s linear infinite -20s; }
+.rb-cloud2::before { width: 38px; height: 38px; top: -18px; left: 8px; }
+.rb-cloud2::after  { width: 28px; height: 28px; top: -12px; left: 38px; }
+
+.rb-cloud3 { width: 110px; height: 32px; top: 4%; left: 35%; animation: rb-drift 100s linear infinite -50s; }
+.rb-cloud3::before { width: 56px; height: 56px; top: -28px; left: 14px; }
+.rb-cloud3::after  { width: 40px; height: 40px; top: -18px; left: 62px; }
+
+.rb-cloud4 { width: 60px; height: 20px; top: 28%; left: 85%; animation: rb-drift 70s linear infinite -35s; }
+.rb-cloud4::before { width: 32px; height: 32px; top: -15px; left: 6px; }
+.rb-cloud4::after  { width: 24px; height: 24px; top: -10px; left: 32px; }
+
+.rb-cloud5 { width: 80px; height: 26px; top: 35%; left: 22%; animation: rb-drift 90s linear infinite -10s; }
+.rb-cloud5::before { width: 42px; height: 42px; top: -20px; left: 8px; }
+.rb-cloud5::after  { width: 32px; height: 32px; top: -14px; left: 44px; }
+
+.rb-cloud6 { width: 65px; height: 22px; top: 12%; left: 78%; animation: rb-drift 75s linear infinite -60s; }
+.rb-cloud6::before { width: 34px; height: 34px; top: -16px; left: 6px; }
+.rb-cloud6::after  { width: 26px; height: 26px; top: -11px; left: 34px; }
+
+@keyframes rb-drift {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(40px); }
+  100% { transform: translateX(0); }
+}
+
+/* Collines (bande doublée pour un défilement continu) */
+.rb-hills {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  width: 200%;
+  height: 200px;
+  animation: rb-scroll 22s linear infinite;
+}
+.rb-hill {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50% 50% 0 0;
+  opacity: 0.5;
+}
+.rb-hill1 { width: 420px; height: 160px; left: -80px;  background: #bfe3c8; }
+.rb-hill2 { width: 520px; height: 200px; left: 220px;  background: #a8d8bd; }
+.rb-hill3 { width: 460px; height: 170px; left: 620px;  background: #bfe3c8; }
+.rb-hill4 { width: 540px; height: 210px; left: 980px;  background: #a8d8bd; }
+.rb-hill5 { width: 400px; height: 150px; left: 1350px; background: #bfe3c8; }
+.rb-hill6 { width: 480px; height: 190px; left: 1650px; background: #a8d8bd; }
+/* Copies décalées pour boucler sans coupure */
+.rb-hill7  { width: 420px; height: 160px; left: calc(-80px + 1920px);  background: #bfe3c8; }
+.rb-hill8  { width: 520px; height: 200px; left: calc(220px + 1920px);  background: #a8d8bd; }
+.rb-hill9  { width: 460px; height: 170px; left: calc(620px + 1920px);  background: #bfe3c8; }
+.rb-hill10 { width: 540px; height: 210px; left: calc(980px + 1920px);  background: #a8d8bd; }
+.rb-hill11 { width: 400px; height: 150px; left: calc(1350px + 1920px); background: #bfe3c8; }
+.rb-hill12 { width: 480px; height: 190px; left: calc(1650px + 1920px); background: #a8d8bd; }
+
+@keyframes rb-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-1920px); }
+}
+
+/* Sol défilant (motif rayé) */
+.rb-ground {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 70px;
+  background: linear-gradient(180deg, #8fcf9f 0%, #6bb583 100%);
+  overflow: hidden;
+}
+.rb-ground::before {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 200%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.18) 0 4px,
+    transparent 4px 60px
+  );
+  animation: rb-ground-scroll 3.2s linear infinite;
+}
+@keyframes rb-ground-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-60px); }
+}
+
+/* Bonhomme qui court */
+.rb-runner {
+  position: absolute;
+  bottom: 64px;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translateX(-50%);
+  animation: rb-bob 0.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.08));
+}
+.rb-runner-svg { width: 100%; height: 100%; fill: #0e7490; }
+@keyframes rb-bob {
+  0%   { transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(-6px); }
+}
+
+/* Membres animés */
+.rb-arm-back, .rb-arm-front, .rb-leg-back, .rb-leg-front {
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+.rb-arm-back  { animation: rb-arm-back 0.4s ease-in-out infinite alternate; }
+.rb-arm-front { animation: rb-arm-front 0.4s ease-in-out infinite alternate; }
+.rb-leg-back  { animation: rb-leg-back 0.4s ease-in-out infinite alternate; }
+.rb-leg-front { animation: rb-leg-front 0.4s ease-in-out infinite alternate; }
+
+@keyframes rb-arm-back  { 0% { transform: rotate(-18deg); } 100% { transform: rotate(22deg); } }
+@keyframes rb-arm-front { 0% { transform: rotate(20deg);  } 100% { transform: rotate(-20deg); } }
+@keyframes rb-leg-back  { 0% { transform: rotate(24deg);  } 100% { transform: rotate(-26deg); } }
+@keyframes rb-leg-front { 0% { transform: rotate(-22deg); } 100% { transform: rotate(24deg);  } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rb-cloud1,.rb-cloud2,.rb-cloud3,.rb-cloud4,.rb-cloud5,.rb-cloud6,
+  .rb-runner,.rb-arm-back,.rb-arm-front,.rb-leg-back,.rb-leg-front,
+  .rb-hills,.rb-ground::before {
+    animation: none;
+  }
+}
+/* ══ FIN DÉCOR COUREUR ══ */
+
+/* Notation vectorielle : flèche au-dessus du label */
+.vec{
+  position:relative;
+  display:inline-block;
+  padding-top:0.55em;
+  white-space:nowrap;
+  min-width:0.7em;
+}
+.vec::before{
+  content:"";
+  position:absolute;
+  top:0.42em;
+  left:0;
+  right:5px;
+  height:0;
+  border-top:1.5px solid currentColor;
+}
+.vec::after{
+  content:"";
+  position:absolute;
+  top:calc(0.42em - 3px);
+  right:0;
+  width:0;
+  height:0;
+  border-left:5px solid currentColor;
+  border-top:3px solid transparent;
+  border-bottom:3px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<div id="runner-bg">
+  <div class="rb-clouds">
+    <div class="rb-cloud rb-cloud1"></div>
+    <div class="rb-cloud rb-cloud2"></div>
+    <div class="rb-cloud rb-cloud3"></div>
+    <div class="rb-cloud rb-cloud4"></div>
+    <div class="rb-cloud rb-cloud5"></div>
+    <div class="rb-cloud rb-cloud6"></div>
+  </div>
+  <div class="rb-hills">
+    <div class="rb-hill rb-hill1"></div>
+    <div class="rb-hill rb-hill2"></div>
+    <div class="rb-hill rb-hill3"></div>
+    <div class="rb-hill rb-hill4"></div>
+    <div class="rb-hill rb-hill5"></div>
+    <div class="rb-hill rb-hill6"></div>
+    <div class="rb-hill rb-hill7"></div>
+    <div class="rb-hill rb-hill8"></div>
+    <div class="rb-hill rb-hill9"></div>
+    <div class="rb-hill rb-hill10"></div>
+    <div class="rb-hill rb-hill11"></div>
+    <div class="rb-hill rb-hill12"></div>
+  </div>
+  <div class="rb-ground"></div>
+  <div class="rb-runner">
+    <svg class="rb-runner-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="58" cy="16" r="9" />
+      <path class="rb-arm-back" d="M48,36 L40,30 L36,42 L44,48 Z" />
+      <path d="M44,32 Q56,28 64,38 L58,52 L46,50 Z" />
+      <path class="rb-arm-front" d="M58,40 L70,36 L74,46 L62,52 Z" />
+      <path class="rb-leg-back" d="M50,50 L40,50 L34,72 L42,74 L52,54 Z" />
+      <path class="rb-leg-front" d="M56,50 L66,50 L72,72 L64,74 L54,54 Z" />
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 04 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Description du mouvement · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Définitions, vocabulaire, référentiels, trajectoires</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Vecteur vitesse, calculs simples, lecture graphique</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, chronophotographies, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+function svgReferentiels() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Les trois référentiels usuels</text>
+    <!-- Soleil -->
+    <circle cx="60" cy="90" r="20" fill="#f4a261"/>
+    <text x="60" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Soleil</text>
+    <text x="60" y="125" text-anchor="middle" font-size="9" fill="#888">Héliocentrique</text>
+    <!-- orbite Terre -->
+    <ellipse cx="200" cy="90" rx="100" ry="50" fill="none" stroke="#bbb" stroke-width="1" stroke-dasharray="3,2"/>
+    <!-- Terre -->
+    <circle cx="200" cy="40" r="10" fill="#1a5fa8"/>
+    <text x="200" y="25" text-anchor="middle" font-size="9" fill="#1a5fa8" font-weight="bold">Terre</text>
+    <text x="200" y="58" text-anchor="middle" font-size="9" fill="#888">Géocentrique</text>
+    <!-- orbite Lune -->
+    <ellipse cx="200" cy="40" rx="28" ry="14" fill="none" stroke="#bbb" stroke-width="1" stroke-dasharray="2,2"/>
+    <circle cx="225" cy="48" r="4" fill="#999"/>
+    <!-- Sol terrestre -->
+    <rect x="290" y="120" width="80" height="40" rx="5" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="330" y="143" text-anchor="middle" font-size="9" font-weight="bold" fill="#2e7d52">Terrestre</text>
+    <text x="330" y="155" text-anchor="middle" font-size="8" fill="#888">(sol fixe)</text>
+  </svg>`;
+}
+
+function svgVecteurDeplacement() {
+  return `<svg width="360" height="160" viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="160" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Vecteur déplacement MM'</text>
+    <!-- trajectoire -->
+    <path d="M 50 120 Q 150 30 310 90" fill="none" stroke="#bbb" stroke-width="2" stroke-dasharray="4,3"/>
+    <!-- points M et M' -->
+    <circle cx="120" cy="70" r="5" fill="#1a5fa8"/>
+    <text x="112" y="58" font-size="11" font-weight="bold" fill="#1a5fa8">M</text>
+    <circle cx="230" cy="62" r="5" fill="#c0392b"/>
+    <text x="238" y="55" font-size="11" font-weight="bold" fill="#c0392b">M'</text>
+    <!-- vecteur -->
+    <defs>
+      <marker id="archead" markerWidth="10" markerHeight="10" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#e07b2a"/>
+      </marker>
+      <marker id="labelarrow1" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#e07b2a"/>
+      </marker>
+    </defs>
+    <line x1="120" y1="70" x2="225" y2="63" stroke="#e07b2a" stroke-width="2.5" marker-end="url(#archead)"/>
+    <line x1="158" y1="45" x2="182" y2="45" stroke="#e07b2a" stroke-width="1.5" marker-end="url(#labelarrow1)"/>
+    <text x="170" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#e07b2a">MM'</text>
+    <text x="180" y="145" text-anchor="middle" font-size="9" fill="#888">Origine en M, extrémité en M' — direction, sens et norme = distance MM'</text>
+  </svg>`;
+}
+
+function svgTrajectoires() {
+  return `<svg width="380" height="150" viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="150" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Trois types de trajectoires</text>
+    <!-- rectiligne -->
+    <line x1="30" y1="80" x2="130" y2="80" stroke="#1a5fa8" stroke-width="2.5"/>
+    <circle cx="30" cy="80" r="4" fill="#1a5fa8"/>
+    <circle cx="130" cy="80" r="4" fill="#1a5fa8"/>
+    <text x="80" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Rectiligne</text>
+    <!-- circulaire -->
+    <circle cx="225" cy="75" r="40" fill="none" stroke="#2e7d52" stroke-width="2.5"/>
+    <text x="225" y="125" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d52">Circulaire</text>
+    <!-- curviligne -->
+    <path d="M 290 110 Q 320 30 360 80" fill="none" stroke="#e07b2a" stroke-width="2.5"/>
+    <text x="325" y="135" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">Curviligne</text>
+  </svg>`;
+}
+
+function svgVitesseTangente() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Vecteur vitesse : direction tangente à la trajectoire</text>
+    <path d="M 40 140 Q 150 20 340 90" fill="none" stroke="#bbb" stroke-width="2" stroke-dasharray="4,3"/>
+    <circle cx="190" cy="55" r="5" fill="#1a5fa8"/>
+    <text x="185" y="42" font-size="11" font-weight="bold" fill="#1a5fa8">M</text>
+    <defs>
+      <marker id="archead2" markerWidth="10" markerHeight="10" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#c0392b"/>
+      </marker>
+      <marker id="labelarrow2" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#c0392b"/>
+      </marker>
+    </defs>
+    <line x1="190" y1="55" x2="270" y2="75" stroke="#c0392b" stroke-width="2.5" marker-end="url(#archead2)"/>
+    <line x1="244" y1="60" x2="258" y2="60" stroke="#c0392b" stroke-width="1.5" marker-end="url(#labelarrow2)"/>
+    <text x="250" y="70" text-anchor="middle" font-size="11" font-weight="bold" fill="#c0392b">v</text>
+    <text x="190" y="155" text-anchor="middle" font-size="9" fill="#888">Le vecteur vitesse est tangent à la trajectoire au point M, dans le sens du mouvement</text>
+  </svg>`;
+}
+
+function svgTableauMouvements() {
+  return `<svg width="380" height="160" viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="160" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Caractériser un mouvement</text>
+    <!-- table grid -->
+    <rect x="20" y="30" width="340" height="110" fill="white" stroke="#bbb" stroke-width="1.5"/>
+    <line x1="160" y1="30" x2="160" y2="140" stroke="#bbb" stroke-width="1"/>
+    <line x1="20" y1="85" x2="360" y2="85" stroke="#bbb" stroke-width="1"/>
+    <line x1="20" y1="30" x2="360" y2="30" stroke="#bbb" stroke-width="1.5"/>
+    <!-- headers -->
+    <text x="90" y="50" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">Direction de v</text>
+    <text x="90" y="63" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">constante</text>
+    <text x="260" y="50" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">Direction de v</text>
+    <text x="260" y="63" text-anchor="middle" font-size="10" font-weight="bold" fill="#555">change</text>
+    <!-- row labels -->
+    <text x="90" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Rectiligne</text>
+    <text x="90" y="118" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">uniforme</text>
+    <text x="260" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">Rectiligne</text>
+    <text x="260" y="118" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">non uniforme</text>
+    <text x="190" y="155" text-anchor="middle" font-size="9" fill="#888">La valeur de v constante ⇒ ligne du haut du tableau du cours</text>
+  </svg>`;
+}
+
+function svgChronoBille() {
+  return `<svg width="380" height="130" viewBox="0 0 380 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="130" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Chronophotographie d'une bille (Δt = 0,020 s)</text>
+    <line x1="20" y1="70" x2="360" y2="70" stroke="#bbb" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="40" cy="70" r="6" fill="#1a5fa8"/>
+    <text x="40" y="92" text-anchor="middle" font-size="10" font-weight="bold">A₀</text>
+    <circle cx="95" cy="70" r="6" fill="#1a5fa8"/>
+    <text x="95" y="92" text-anchor="middle" font-size="10" font-weight="bold">A₁</text>
+    <circle cx="165" cy="70" r="6" fill="#1a5fa8"/>
+    <text x="165" y="92" text-anchor="middle" font-size="10" font-weight="bold">A₂</text>
+    <circle cx="250" cy="70" r="6" fill="#1a5fa8"/>
+    <text x="250" y="92" text-anchor="middle" font-size="10" font-weight="bold">A₃</text>
+    <circle cx="350" cy="70" r="6" fill="#1a5fa8"/>
+    <text x="350" y="92" text-anchor="middle" font-size="10" font-weight="bold">A₄</text>
+    <!-- distances annotation -->
+    <text x="130" y="50" text-anchor="middle" font-size="9" fill="#888">A₁A₂ = 7,0 cm</text>
+    <line x1="95" y1="55" x2="165" y2="55" stroke="#e07b2a" stroke-width="1" />
+    <text x="207" y="50" text-anchor="middle" font-size="9" fill="#888">A₂A₃ = 8,5 cm</text>
+    <line x1="165" y1="55" x2="250" y2="55" stroke="#c0392b" stroke-width="1" />
+    <text x="190" y="115" text-anchor="middle" font-size="9" fill="#888">Échelle : 1,0 cm sur le schéma ↔ 1,0 cm en réalité</text>
+  </svg>`;
+}
+
+function svgSkieur() {
+  return `<svg width="380" height="180" viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="180" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Chronophotographie d'un skieur sur une pente</text>
+    <!-- pente -->
+    <path d="M 30 30 L 350 150" fill="none" stroke="#ddd" stroke-width="30" stroke-linecap="round"/>
+    <!-- positions et vecteurs -->
+    <circle cx="80" cy="55" r="5" fill="#1a5fa8"/>
+    <text x="70" y="45" font-size="10" font-weight="bold" fill="#1a5fa8">S₁</text>
+    <defs>
+      <marker id="archead3" markerWidth="10" markerHeight="10" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#2e7d52"/>
+      </marker>
+      <marker id="labelarrow3" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#2e7d52"/>
+      </marker>
+    </defs>
+    <line x1="80" y1="55" x2="110" y2="65" stroke="#2e7d52" stroke-width="2" marker-end="url(#archead3)"/>
+    <line x1="92" y1="68" x2="106" y2="68" stroke="#2e7d52" stroke-width="1.2" marker-end="url(#labelarrow3)"/>
+    <text x="100" y="75" font-size="9" fill="#2e7d52">v₁</text>
+
+    <circle cx="190" cy="95" r="5" fill="#1a5fa8"/>
+    <text x="180" y="85" font-size="10" font-weight="bold" fill="#1a5fa8">S₂</text>
+    <line x1="190" y1="95" x2="235" y2="110" stroke="#2e7d52" stroke-width="2" marker-end="url(#archead3)"/>
+    <line x1="218" y1="115" x2="232" y2="115" stroke="#2e7d52" stroke-width="1.2" marker-end="url(#labelarrow3)"/>
+    <text x="225" y="122" font-size="9" fill="#2e7d52">v₂</text>
+
+    <circle cx="290" cy="130" r="5" fill="#1a5fa8"/>
+    <text x="280" y="120" font-size="10" font-weight="bold" fill="#1a5fa8">S₃</text>
+    <line x1="290" y1="130" x2="345" y2="150" stroke="#2e7d52" stroke-width="2" marker-end="url(#archead3)"/>
+    <line x1="328" y1="158" x2="342" y2="158" stroke="#2e7d52" stroke-width="1.2" marker-end="url(#labelarrow3)"/>
+    <text x="335" y="165" font-size="9" fill="#2e7d52">v₃</text>
+
+    <text x="190" y="175" text-anchor="middle" font-size="9" fill="#888">Les vecteurs v₁, v₂, v₃ ont la même direction mais leur longueur augmente</text>
+  </svg>`;
+}
+
+function svgMarsRetrogradation() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Trajectoire de Mars selon le référentiel</text>
+    <!-- héliocentrique -->
+    <text x="95" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Héliocentrique</text>
+    <circle cx="95" cy="100" r="8" fill="#f4a261"/>
+    <circle cx="95" cy="100" r="55" fill="none" stroke="#c0392b" stroke-width="2"/>
+    <text x="95" y="150" text-anchor="middle" font-size="9" fill="#888">Trajectoire simple (cercle)</text>
+    <!-- géocentrique -->
+    <text x="285" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Géocentrique</text>
+    <circle cx="285" cy="100" r="8" fill="#1a5fa8"/>
+    <path d="M 230 100 C 250 50, 320 50, 340 100 C 320 90, 310 130, 285 130 C 260 130, 250 90, 230 100 Z"
+          fill="none" stroke="#c0392b" stroke-width="2"/>
+    <text x="285" y="150" text-anchor="middle" font-size="9" fill="#888">Trajectoire complexe (boucle)</text>
+  </svg>`;
+}
+
+function svgVitesseValeur() {
+  return `<svg width="380" height="150" viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="150" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Mouvement rectiligne : vecteurs vitesse successifs</text>
+    <line x1="30" y1="80" x2="350" y2="80" stroke="#bbb" stroke-width="1" stroke-dasharray="3,2"/>
+    <defs>
+      <marker id="archead4" markerWidth="10" markerHeight="10" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#1a5fa8"/>
+      </marker>
+      <marker id="labelarrow4" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#1a5fa8"/>
+      </marker>
+    </defs>
+    <circle cx="50" cy="80" r="4" fill="#333"/>
+    <line x1="50" y1="80" x2="80" y2="80" stroke="#1a5fa8" stroke-width="2.5" marker-end="url(#archead4)"/>
+    <line x1="54" y1="58" x2="68" y2="58" stroke="#1a5fa8" stroke-width="1.2" marker-end="url(#labelarrow4)"/>
+    <text x="60" y="65" font-size="10" fill="#1a5fa8" font-weight="bold">v₁</text>
+
+    <circle cx="140" cy="80" r="4" fill="#333"/>
+    <line x1="140" y1="80" x2="200" y2="80" stroke="#1a5fa8" stroke-width="2.5" marker-end="url(#archead4)"/>
+    <line x1="158" y1="58" x2="172" y2="58" stroke="#1a5fa8" stroke-width="1.2" marker-end="url(#labelarrow4)"/>
+    <text x="165" y="65" font-size="10" fill="#1a5fa8" font-weight="bold">v₂</text>
+
+    <circle cx="250" cy="80" r="4" fill="#333"/>
+    <line x1="250" y1="80" x2="345" y2="80" stroke="#1a5fa8" stroke-width="2.5" marker-end="url(#archead4)"/>
+    <line x1="288" y1="58" x2="302" y2="58" stroke="#1a5fa8" stroke-width="1.2" marker-end="url(#labelarrow4)"/>
+    <text x="295" y="65" font-size="10" fill="#1a5fa8" font-weight="bold">v₃</text>
+
+    <text x="190" y="120" text-anchor="middle" font-size="9" fill="#888">Même direction, longueur croissante : la valeur de v augmente</text>
+  </svg>`;
+}
+
+function svgVecteurEgalite() {
+  return `<svg width="360" height="150" viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="150" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Construction du vecteur déplacement</text>
+    <path d="M 40 110 Q 130 30 320 70" fill="none" stroke="#bbb" stroke-width="2" stroke-dasharray="4,3"/>
+    <circle cx="100" cy="70" r="5" fill="#1a5fa8"/>
+    <text x="92" y="58" font-size="11" font-weight="bold" fill="#1a5fa8">M₁</text>
+    <circle cx="210" cy="55" r="5" fill="#2e7d52"/>
+    <text x="218" y="48" font-size="11" font-weight="bold" fill="#2e7d52">M₂</text>
+    <defs>
+      <marker id="archead5" markerWidth="10" markerHeight="10" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#e07b2a"/>
+      </marker>
+      <marker id="labelarrow5" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M0,0 L8,4 L0,8 Z" fill="#e07b2a"/>
+      </marker>
+    </defs>
+    <line x1="100" y1="70" x2="204" y2="56" stroke="#e07b2a" stroke-width="2.5" marker-end="url(#archead5)"/>
+    <line x1="134" y1="40" x2="164" y2="40" stroke="#e07b2a" stroke-width="1.5" marker-end="url(#labelarrow5)"/>
+    <text x="150" y="50" text-anchor="middle" font-size="11" font-weight="bold" fill="#e07b2a">M₁M₂</text>
+    <text x="180" y="135" text-anchor="middle" font-size="9" fill="#888">v_moy = M₁M₂ / Δt — vecteur colinéaire au déplacement</text>
+  </svg>`;
+}
+
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+
+const QUESTIONS = {
+
+  facile: [
+    {
+      q: "Qu'est-ce qu'un référentiel ?",
+      ill: null,
+      opts: [
+        "Un point fixe dans l'espace",
+        "Un solide de référence muni d'un repère d'espace et d'un repère de temps",
+        "La trajectoire suivie par un objet",
+        "La vitesse d'un système par rapport au sol"
+      ],
+      ans: 1,
+      expl: "Un référentiel est un solide de référence par rapport auquel on étudie le mouvement. Il comporte un repère d'espace (pour la position) et un repère de temps (pour dater les positions)."
+    },
+    {
+      q: "Quel est le référentiel utilisé pour étudier le mouvement d'une voiture sur une route ?",
+      ill: svgReferentiels(),
+      opts: [
+        "Le référentiel héliocentrique",
+        "Le référentiel géocentrique",
+        "Le référentiel terrestre",
+        "Aucun référentiel n'est nécessaire"
+      ],
+      ans: 2,
+      expl: "Le référentiel terrestre, constitué par le sol ou tout corps fixe par rapport à la Terre, est adapté à l'étude des mouvements courants à la surface de la Terre."
+    },
+    {
+      q: "Qu'est-ce que la trajectoire d'un point ?",
+      ill: null,
+      opts: [
+        "La vitesse du point au cours du temps",
+        "L'ensemble des positions successives occupées par ce point au cours du temps",
+        "La force exercée sur le point",
+        "La durée du mouvement"
+      ],
+      ans: 1,
+      expl: "La trajectoire est l'ensemble des positions successives occupées par le point étudié au cours du temps. Elle peut être une droite, un cercle ou une courbe quelconque."
+    },
+    {
+      q: "Parmi ces trois trajectoires, laquelle correspond à un mouvement rectiligne ?",
+      ill: svgTrajectoires(),
+      opts: [
+        "La trajectoire en forme de droite",
+        "La trajectoire en forme de cercle",
+        "La trajectoire curviligne (courbe quelconque)",
+        "Toutes les trajectoires sont rectilignes"
+      ],
+      ans: 0,
+      expl: "Un mouvement rectiligne possède une trajectoire en forme de droite. Le mouvement circulaire suit un cercle, et le mouvement curviligne suit une courbe quelconque."
+    },
+    {
+      q: "Le vecteur déplacement <span class=\"vec\">MM'</span> a pour direction et sens :",
+      ill: svgVecteurDeplacement(),
+      opts: [
+        "Une direction quelconque, sans rapport avec M et M'",
+        "La direction du segment [MM'], orienté de M vers M'",
+        "La direction du segment [MM'], orienté de M' vers M",
+        "Toujours la direction horizontale"
+      ],
+      ans: 1,
+      expl: "Le vecteur déplacement <span class=\"vec\">MM'</span> a pour direction celle du segment [MM'], pour sens celui de M vers M', pour origine M, et pour norme la distance MM' en mètre."
+    },
+    {
+      q: "Que représente la norme du vecteur vitesse moyen ?",
+      ill: null,
+      opts: [
+        "La durée du parcours",
+        "La distance parcourue divisée par la durée du parcours",
+        "La distance totale parcourue uniquement",
+        "Le temps mis à parcourir 1 mètre"
+      ],
+      ans: 1,
+      expl: "La vitesse moyenne est définie comme le rapport entre le déplacement (vecteur <span class=\"vec\">MM'</span>) et la durée du parcours Δt : <span class=\"vec\">v</span><sub>moy</sub> = <span class=\"vec\">MM'</span> / Δt."
+    },
+    {
+      q: "Dans quelle unité s'exprime la valeur de la vitesse dans le système international ?",
+      ill: null,
+      opts: [
+        "km·h⁻¹",
+        "m·s⁻¹",
+        "m·h⁻¹",
+        "s·m⁻¹"
+      ],
+      ans: 1,
+      expl: "Dans le système international, la vitesse s'exprime en mètres par seconde (m·s⁻¹), même si le km·h⁻¹ est aussi très utilisé dans la vie courante."
+    },
+    {
+      q: "Le vecteur vitesse en un point M de la trajectoire est :",
+      ill: svgVitesseTangente(),
+      opts: [
+        "Perpendiculaire à la trajectoire en ce point",
+        "Tangent à la trajectoire en ce point, dans le sens du mouvement",
+        "Toujours dirigé vers le centre de la trajectoire",
+        "Constant quel que soit le mouvement"
+      ],
+      ans: 1,
+      expl: "Le vecteur vitesse en un point M est tangent à la trajectoire en ce point. Sa direction est celle de la tangente, son sens est celui du mouvement, et sa valeur est exprimée en m·s⁻¹."
+    },
+    {
+      q: "Un mouvement est dit « uniforme » lorsque :",
+      ill: null,
+      opts: [
+        "La direction du vecteur vitesse ne change pas",
+        "La valeur de la vitesse reste constante au cours du temps",
+        "La trajectoire est une droite",
+        "Le système est immobile"
+      ],
+      ans: 1,
+      expl: "Un mouvement uniforme est un mouvement dont la valeur de la vitesse reste constante au cours du temps, quelle que soit la forme de la trajectoire (rectiligne ou non)."
+    },
+    {
+      q: "Modéliser un système par un point pour décrire son mouvement entraîne :",
+      ill: null,
+      opts: [
+        "Aucune perte d'information",
+        "Une perte d'informations sur la forme, la taille et la rotation propre de l'objet",
+        "Une augmentation de la précision de la description",
+        "L'impossibilité de définir une trajectoire"
+      ],
+      ans: 1,
+      expl: "En modélisant un système par un point, on perd des informations sur sa forme, sa taille et sa rotation propre (par exemple, la rotation d'une roue sur elle-même n'est plus décrite)."
+    }
+  ],
+
+  inter: [
+    {
+      q: "Le vecteur vitesse moyenne <span class=\"vec\">v</span><sub>moy</sub> = <span class=\"vec\">MM'</span>/Δt est :",
+      ill: svgVecteurEgalite(),
+      opts: [
+        "Perpendiculaire au vecteur déplacement <span class=\"vec\">MM'</span>",
+        "Colinéaire au vecteur déplacement <span class=\"vec\">MM'</span>, de même direction et même sens",
+        "De direction opposée au vecteur déplacement <span class=\"vec\">MM'</span>",
+        "Indépendant du vecteur déplacement"
+      ],
+      ans: 1,
+      expl: "Le vecteur vitesse moyenne est colinéaire au vecteur déplacement (même direction, même sens) car il s'obtient en multipliant ce vecteur par le réel positif 1/Δt. Il est aussi indépendant de la trajectoire suivie entre M et M'."
+    },
+    {
+      q: "Sur une chronophotographie d'une bille, on mesure A₁A₂ = 7,0 cm pour Δt = 0,020 s. Quelle est la valeur de la vitesse en A₁A₂ ?",
+      ill: svgChronoBille(),
+      opts: [
+        "0,14 m·s⁻¹",
+        "3,5 m·s⁻¹",
+        "0,35 m·s⁻¹",
+        "14 m·s⁻¹"
+      ],
+      ans: 1,
+      expl: "v = A₁A₂ / Δt = 0,070 m / 0,020 s = 3,5 m·s⁻¹."
+    },
+    {
+      q: "Une trajectoire de Mars vue depuis la Terre (référentiel géocentrique) présente une boucle de rétrogradation, alors qu'elle est simple vue depuis le Soleil. Que peut-on en conclure ?",
+      ill: svgMarsRetrogradation(),
+      opts: [
+        "Mars suit deux mouvements physiquement différents selon l'observateur",
+        "La description du mouvement (trajectoire) dépend du référentiel choisi : le mouvement est relatif",
+        "Le référentiel géocentrique est incorrect et doit être abandonné",
+        "La trajectoire de Mars ne peut pas être déterminée"
+      ],
+      ans: 1,
+      expl: "Le mouvement d'un même objet peut être décrit de façon très différente selon le référentiel d'étude choisi : c'est ce qu'on appelle la relativité du mouvement."
+    },
+    {
+      q: "Sur une vidéo d'un skieur, les vecteurs vitesse <span class=\"vec\">v</span>₁, <span class=\"vec\">v</span>₂, <span class=\"vec\">v</span>₃ ont la même direction mais des longueurs croissantes. Comment qualifier ce mouvement ?",
+      ill: svgSkieur(),
+      opts: [
+        "Mouvement rectiligne uniforme",
+        "Mouvement rectiligne accéléré (non uniforme)",
+        "Mouvement curviligne uniforme",
+        "Mouvement circulaire décéléré"
+      ],
+      ans: 1,
+      expl: "La direction de <span class=\"vec\">v</span> ne change pas (mouvement rectiligne), mais la valeur de v augmente : le mouvement est rectiligne accéléré, donc non uniforme."
+    },
+    {
+      q: "Pour une translation d'un solide, dans quel cas le référentiel choisi influence-t-il la description du mouvement d'un système ?",
+      ill: null,
+      opts: [
+        "Jamais, le mouvement est toujours identique quel que soit le référentiel",
+        "Toujours : la trajectoire et la vitesse dépendent du référentiel d'étude",
+        "Uniquement si le système est immobile",
+        "Uniquement pour les mouvements circulaires"
+      ],
+      ans: 1,
+      expl: "Le mouvement étant relatif, la trajectoire et la valeur de la vitesse d'un même point dépendent du référentiel choisi pour l'étudier (par exemple, un objet immobile dans le référentiel d'un train est en mouvement dans le référentiel terrestre)."
+    },
+    {
+      q: "Un point M se déplace de 12 m en 4,0 s avec une vitesse de valeur constante. Quelle est la valeur de cette vitesse ?",
+      ill: null,
+      opts: [
+        "0,33 m·s⁻¹",
+        "3,0 m·s⁻¹",
+        "48 m·s⁻¹",
+        "16 m·s⁻¹"
+      ],
+      ans: 1,
+      expl: "v = distance / Δt = 12 / 4,0 = 3,0 m·s⁻¹."
+    },
+    {
+      q: "On filme un mouvement et on relève des vecteurs vitesse de même longueur mais de directions différentes le long de la trajectoire. Quel type de mouvement est-ce ?",
+      ill: svgTableauMouvements(),
+      opts: [
+        "Rectiligne et uniforme",
+        "Rectiligne et non uniforme",
+        "Non rectiligne et uniforme",
+        "Non rectiligne et non uniforme"
+      ],
+      ans: 2,
+      expl: "Si la valeur de v est constante (vecteurs de même longueur) mais que la direction change, le mouvement est non rectiligne et uniforme."
+    },
+    {
+      q: "La vitesse instantanée en un point correspond à :",
+      ill: null,
+      opts: [
+        "La vitesse moyenne sur tout le trajet",
+        "La vitesse moyenne calculée sur un intervalle de temps très court autour de ce point",
+        "Une vitesse arbitraire choisie par l'observateur",
+        "La vitesse uniquement au point de départ"
+      ],
+      ans: 1,
+      expl: "La vitesse instantanée est approchée par la vitesse moyenne sur un intervalle de temps Δt extrêmement court, pendant lequel on considère que la vitesse ne varie pas."
+    },
+    {
+      q: "Lors d'une chronophotographie prise à intervalles de temps réguliers, si l'écart entre les positions successives augmente, que peut-on dire du mouvement ?",
+      ill: null,
+      opts: [
+        "Le mouvement est uniforme",
+        "La valeur de la vitesse augmente : le mouvement est accéléré",
+        "La valeur de la vitesse diminue : le mouvement est décéléré",
+        "Le référentiel d'étude est inadapté"
+      ],
+      ans: 1,
+      expl: "Sur une chronophotographie à intervalles de temps réguliers Δt, des écarts de position croissants signifient que le système parcourt une distance de plus en plus grande pendant le même Δt : la vitesse augmente, le mouvement est accéléré."
+    },
+    {
+      q: "Pour un solide en rotation (comme un marteau lancé en rotation), si l'on choisit comme point d'étude l'extrémité du manche plutôt que la tête, que peut-on observer ?",
+      ill: null,
+      opts: [
+        "La trajectoire obtenue est identique dans tous les cas",
+        "La trajectoire du point étudié peut être différente selon le point choisi sur le solide",
+        "Il est impossible de tracer une trajectoire pour un solide en rotation",
+        "Le référentiel change automatiquement selon le point choisi"
+      ],
+      ans: 1,
+      expl: "Le choix du point modélisant le système influence la trajectoire observée : pour un solide en rotation, des points différents du solide peuvent décrire des trajectoires différentes (par exemple plus ou moins grandes selon leur distance à l'axe de rotation)."
+    }
+  ],
+
+  diff: [
+    {
+      q: "Sur une chronophotographie d'une bille à intervalles de temps réguliers Δt = 0,020 s, on mesure A₁A₂ = 7,0 cm et A₂A₃ = 8,5 cm. Que peut-on conclure sur le mouvement entre A₁ et A₃ ?",
+      ill: svgChronoBille(),
+      opts: [
+        "Le mouvement est uniforme car Δt est constant",
+        "Le mouvement est accéléré, car la distance parcourue augmente pour une même durée",
+        "Le mouvement est décéléré",
+        "On ne peut rien dire sans connaître la trajectoire"
+      ],
+      ans: 1,
+      expl: "Les intervalles de temps étant égaux, une augmentation de la distance parcourue (de 7,0 cm à 8,5 cm) traduit une augmentation de la valeur de la vitesse : le mouvement est accéléré."
+    },
+    {
+      q: "Un point décrit un cercle à vitesse de valeur constante (mouvement circulaire uniforme). Comment évolue le vecteur vitesse au cours du temps ?",
+      ill: svgTrajectoires(),
+      opts: [
+        "Il est constant : même direction, sens et valeur",
+        "Sa valeur est constante mais sa direction change continuellement (tangente au cercle)",
+        "Sa direction est constante mais sa valeur change",
+        "Il est nul en permanence"
+      ],
+      ans: 1,
+      expl: "Dans un mouvement circulaire uniforme, la valeur de la vitesse reste constante mais sa direction change à chaque instant car le vecteur vitesse est toujours tangent au cercle : le mouvement est donc non rectiligne et uniforme."
+    },
+    {
+      q: "Un train roule à vitesse constante sur une voie rectiligne. Un passager lâche une balle à l'intérieur du train. Dans le référentiel du train, la balle tombe verticalement. Dans le référentiel terrestre, quelle est la trajectoire de la balle ?",
+      ill: null,
+      opts: [
+        "Verticale, identique dans les deux référentiels",
+        "Une courbe (la balle a un mouvement vers l'avant en plus de la chute)",
+        "Horizontale uniquement",
+        "La balle reste immobile dans le référentiel terrestre"
+      ],
+      ans: 1,
+      expl: "Dans le référentiel terrestre, la balle possède à la fois le mouvement de chute et le mouvement horizontal du train (car elle était initialement entraînée à la vitesse du train) : sa trajectoire est donc une courbe, alors qu'elle est verticale dans le référentiel du train. C'est une illustration de la relativité du mouvement."
+    },
+    {
+      q: "Sur une vidéo, on pointe les positions successives S₁, S₂, S₃ d'un skieur séparées par des durées Δt égales, et on trace les vecteurs vitesse <span class=\"vec\">v</span>₁, <span class=\"vec\">v</span>₂, <span class=\"vec\">v</span>₃. Si v₁ et v₃ ont la même direction mais v₂ a une direction légèrement différente, et que les trois valeurs sont proches, comment décrire ce mouvement de façon rigoureuse ?",
+      ill: svgSkieur(),
+      opts: [
+        "Rectiligne et uniforme, sans ambiguïté",
+        "Approximativement rectiligne et approximativement uniforme, avec une légère variation de direction probablement due à l'incertitude de pointage",
+        "Forcément circulaire",
+        "Impossible à décrire sans plus de points"
+      ],
+      ans: 1,
+      expl: "Avec des valeurs de vitesse proches et des directions quasi identiques (légère variation pouvant venir de l'incertitude de mesure lors du pointage vidéo), on peut conclure à un mouvement approximativement rectiligne et uniforme, en restant prudent sur la précision de la mesure expérimentale."
+    },
+    {
+      q: "On souhaite représenter, à l'aide d'un langage de programmation, les vecteurs vitesse d'un point à partir d'une série de positions successives (x_i, y_i) relevées à intervalles de temps égaux Δt. Quelle formule permet de calculer les composantes du vecteur vitesse au point i ?",
+      ill: null,
+      opts: [
+        "v_x = (x_i+1 − x_i−1) / (2Δt) et v_y = (y_i+1 − y_i−1) / (2Δt)",
+        "v_x = x_i × Δt et v_y = y_i × Δt",
+        "v_x = x_i / y_i et v_y = y_i / x_i",
+        "v_x = x_i+1 + x_i−1 et v_y = y_i+1 + y_i−1"
+      ],
+      ans: 0,
+      expl: "Pour approcher le vecteur vitesse au point i à partir des positions encadrantes (i−1) et (i+1), on utilise le vecteur déplacement M_{i-1}M_{i+1} divisé par la durée correspondante 2Δt : v_x = (x_i+1 − x_i−1)/(2Δt), v_y = (y_i+1 − y_i−1)/(2Δt)."
+    },
+    {
+      q: "Un point M effectue un aller-retour rectiligne entre deux positions A et B puis revient en A. Sur l'ensemble du parcours, que peut-on dire du vecteur vitesse moyenne ?",
+      ill: null,
+      opts: [
+        "Sa norme est égale à la distance totale parcourue divisée par la durée totale",
+        "Il est nul, car le vecteur déplacement total est nul (le point revient à sa position de départ)",
+        "Il est toujours dirigé vers B",
+        "Sa direction ne dépend que de la vitesse instantanée maximale"
+      ],
+      ans: 1,
+      expl: "Le vecteur vitesse moyenne dépend uniquement du vecteur déplacement total (position finale moins position initiale) divisé par la durée totale. Si le point revient à son point de départ, le vecteur déplacement total est nul, donc le vecteur vitesse moyenne est nul, même si le point s'est déplacé et que sa vitesse instantanée n'était jamais nulle."
+    },
+    {
+      q: "Pourquoi le référentiel héliocentrique est-il plus adapté que le référentiel géocentrique pour décrire le mouvement des planètes du système solaire ?",
+      ill: svgReferentiels(),
+      opts: [
+        "Parce que le référentiel géocentrique est physiquement faux",
+        "Parce que, dans le référentiel héliocentrique, les trajectoires des planètes sont des courbes simples (proches de cercles), alors qu'elles sont complexes dans le référentiel géocentrique",
+        "Parce que la Terre est immobile dans le référentiel héliocentrique",
+        "Parce que le référentiel géocentrique ne permet pas de définir une trajectoire"
+      ],
+      ans: 1,
+      expl: "Les deux référentiels sont valables (le mouvement est relatif), mais dans le référentiel héliocentrique les trajectoires planétaires sont des courbes simples (ellipses proches de cercles), ce qui rend leur description et leur modélisation beaucoup plus simples que les boucles complexes observées depuis la Terre."
+    },
+    {
+      q: "Un point M parcourt 5,0 m en 2,0 s, puis 15 m en 2,0 s sur une trajectoire rectiligne, toujours dans le même sens. Quelle est la vitesse moyenne sur l'ensemble du trajet, et que peut-on dire de l'évolution du mouvement ?",
+      ill: svgVitesseValeur(),
+      opts: [
+        "v_moy = 5,0 m·s⁻¹ ; le mouvement est uniforme sur tout le trajet",
+        "v_moy = 5,0 m·s⁻¹ ; mais le mouvement n'est pas uniforme car la vitesse passe de 2,5 m·s⁻¹ à 7,5 m·s⁻¹ entre les deux phases",
+        "v_moy = 10 m·s⁻¹ ; le mouvement est uniforme",
+        "v_moy = 20 m·s⁻¹ ; le mouvement est accéléré"
+      ],
+      ans: 1,
+      expl: "v_moy = (5,0+15)/(2,0+2,0) = 20/4,0 = 5,0 m·s⁻¹. Mais sur la première phase v = 5,0/2,0 = 2,5 m·s⁻¹ et sur la seconde v = 15/2,0 = 7,5 m·s⁻¹ : la vitesse a augmenté, le mouvement n'est donc pas uniforme bien que la vitesse moyenne globale soit de 5,0 m·s⁻¹."
+    },
+    {
+      q: "Lors de l'étude expérimentale d'un mouvement par vidéo, le vecteur vitesse en un point M est approché par <span class=\"vec\">v</span> ≈ <span class=\"vec\">MM'</span>/Δt avec M' la position suivante. Pourquoi cette approximation est-elle d'autant meilleure que Δt est petit ?",
+      ill: null,
+      opts: [
+        "Parce qu'un Δt petit augmente l'incertitude de mesure",
+        "Parce que sur un intervalle de temps très court, la trajectoire est quasiment confondue avec sa tangente et la vitesse varie très peu",
+        "Parce qu'un Δt petit rend la trajectoire rectiligne",
+        "Parce que Δt n'a aucune influence sur l'approximation"
+      ],
+      ans: 1,
+      expl: "Plus Δt est petit, plus le segment MM' se confond avec la tangente à la trajectoire en M et plus la vitesse peut être considérée comme constante sur cet intervalle : l'approximation <span class=\"vec\">v</span> ≈ <span class=\"vec\">MM'</span>/Δt devient alors plus proche de la vitesse instantanée réelle."
+    },
+    {
+      q: "Sur un graphique représentant la valeur de la vitesse v en fonction du temps t, un mouvement rectiligne uniforme correspond à :",
+      ill: null,
+      opts: [
+        "Une droite horizontale (v constante)",
+        "Une droite croissante passant par l'origine",
+        "Une courbe quelconque",
+        "Une droite décroissante"
+      ],
+      ans: 0,
+      expl: "Pour un mouvement rectiligne uniforme, la valeur de la vitesse v est constante au cours du temps : le graphique v(t) est donc une droite horizontale. Une droite croissante (ou décroissante) correspondrait à un mouvement rectiligne accéléré (ou décéléré)."
+    }
+  ]
+};
+
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = []; // true/false par question
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  // Update header styles
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  // Progression
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  // Styles options
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  // Bouton suivant
+  document.getElementById('btn-next').classList.add('show');
+
+  // Progression (après réponse)
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  // Dots recap
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

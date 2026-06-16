@@ -347,6 +347,11 @@
       </button>
       <ul class="dropdown-menu" id="seq-menu">
         <li>
+          <button onclick="afficherSeq(0)">
+            <span class="seq-num">00</span> Les incontournables
+          </button>
+        </li>
+        <li>
           <button onclick="afficherSeq(1)">
             <span class="seq-num">01</span> Corps purs et mélanges
           </button>
@@ -394,6 +399,31 @@
       </a>
 
       <div class="seq-grid">
+        <a class="seq-card" data-theme="methode" onclick="afficherSeq(0); return false;" href="#">
+          <div class="badge-dispo"><span class="dot-wrap"><span class="ring"></span><span class="dot"></span></span>Disponible</div>
+          <div class="seq-icon">
+            <div class="bulb-icon">
+              <div class="bulb-glow"></div>
+              <svg class="bulb-svg" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+                <g class="bulb-rays">
+                  <line x1="30" y1="2" x2="30" y2="8" />
+                  <line x1="6" y1="10" x2="13" y2="16" />
+                  <line x1="54" y1="10" x2="47" y2="16" />
+                  <line x1="0" y1="32" x2="8" y2="32" />
+                  <line x1="60" y1="32" x2="52" y2="32" />
+                </g>
+                <ellipse class="bulb-glass" cx="30" cy="32" rx="19" ry="25" />
+                <text class="bulb-filament-text" x="30" y="35">eureka</text>
+                <rect class="bulb-base-cap" x="24" y="54" width="12" height="6" />
+                <rect class="bulb-base-ring" x="23" y="60" width="14" height="4" />
+                <rect class="bulb-base-ring" x="23" y="65" width="14" height="4" />
+                <rect class="bulb-base-tip" x="24" y="70" width="12" height="6" rx="2" />
+              </svg>
+            </div>
+          </div>
+          <div class="seq-num-badge">Séq. 00</div>
+          <div class="seq-title">Les incontournables</div>
+        </a>
         <a class="seq-card" data-theme="chimie" onclick="afficherSeq(1); return false;" href="#">
           <div class="badge-dispo"><span class="dot-wrap"><span class="ring"></span><span class="dot"></span></span>Disponible</div>
           <div class="seq-icon">
@@ -642,6 +672,62 @@
       </div>
     </div>
 <!-- Séquence 01 -->
+<!-- Séquence 0 -->
+    <div id="seq-panel-0" class="seq-panel">
+      <div class="seq-panel-header">
+        <div class="big-num">00</div>
+        <div style="flex:1;">
+          <h3>Les incontournables</h3>
+          <p>Rappels de notions mathématiques utiles en physique-chimie</p>
+        </div>
+        <!-- Ampoule clignotante : Eureka -->
+        <div class="bulb-icon" style="width:32px;height:48px;flex-shrink:0;" title="Eureka !">
+          <div class="bulb-glow"></div>
+          <svg class="bulb-svg" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+            <g class="bulb-rays">
+              <line x1="30" y1="2" x2="30" y2="8" />
+              <line x1="6" y1="10" x2="13" y2="16" />
+              <line x1="54" y1="10" x2="47" y2="16" />
+              <line x1="0" y1="32" x2="8" y2="32" />
+              <line x1="60" y1="32" x2="52" y2="32" />
+            </g>
+            <ellipse class="bulb-glass" cx="30" cy="32" rx="19" ry="25" />
+            <text class="bulb-filament-text" x="30" y="35">eureka</text>
+            <rect class="bulb-base-cap" x="24" y="54" width="12" height="6" />
+            <rect class="bulb-base-ring" x="23" y="60" width="14" height="4" />
+            <rect class="bulb-base-ring" x="23" y="65" width="14" height="4" />
+            <rect class="bulb-base-tip" x="24" y="70" width="12" height="6" rx="2" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Sous-section : Cours -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
+        <a class="resource-link" data-type="pdf" href="Fiches_incontournables-2nde.pdf" target="_blank">
+          <span class="icon">📄</span>
+          <div>
+            <div class="label">Fiches : Les incontournables</div>
+            <div class="sub">PDF · Notation scientifique, chiffres significatifs, conversions, ordre de grandeur, arrondi, incertitudes</div>
+          </div>
+          <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+          <span class="type-dot"></span>
+        </a>
+        <div class="resource-link" data-type="cours" style="opacity:0.5;cursor:default;">
+          <span class="icon">🔜</span>
+          <div>
+            <div class="label">Cours interactif — Les incontournables</div>
+            <div class="sub">À venir</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sous-section : Jeux et exercices (alimentée par assets/jeux-interactifs.js) -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux et exercices</div>
+      </div>
+    </div>
+
     <div id="seq-panel-1" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">01</div>

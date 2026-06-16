@@ -20,6 +20,16 @@
 
 const GAMES_RESOURCES = {
 
+  "0": [
+    {
+      url: "https://www.hatier-clic.fr/miniliens/mie/2018/9782401049611/pc2_activites_interactives/ai_notationscientifique/index.htm",
+      icon: "🔢",
+      label: "Activité interactive — Notation scientifique",
+      source: "Hatier",
+      desc: "Activité numérique"
+    }
+  ],
+
   "1": [
     {
       url: "https://www.hatier-clic.fr/miniliens/mie/9782401020658/C01_SI/index.html",
@@ -168,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sections.forEach(function (sec) {
       const header = sec.querySelector('div[style*="text-transform:uppercase"]');
       if (!header) return;
-      if (header.textContent.includes('Jeux interactifs')) {
+      if (header.textContent.includes('Jeux interactifs') || header.textContent.includes('Jeux et exercices')) {
         targetSection = sec;
       }
       if (header.textContent.includes('Flashcards')) {

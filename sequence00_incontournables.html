@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les incontournables – Méthode 2nde</title>
+<style>
+  :root{
+    --bg:#fdfcf9;
+    --panel:#ffffff;
+    --text:#1b1b1b;
+    --orange:#d9590c;
+    --orange-dark:#b8470a;
+    --orange-light:#fdf0e4;
+    --border:#e4ded2;
+    --green:#2f7d32;
+    --green-bg:#eef7ee;
+    --red:#c1272d;
+    --red-bg:#fcecec;
+    --warn:#9a7b00;
+    --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    --serif: 'Iowan Old Style','Palatino Linotype', Georgia, serif;
+    --sans: 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--sans); line-height:1.5; padding-bottom:60px;
+  }
+  header{
+    background:var(--panel); border-bottom:3px solid var(--orange);
+    padding:22px 18px 16px; text-align:center;
+  }
+  header h1{
+    font-family:var(--serif); color:var(--orange); margin:0 0 4px;
+    font-size:1.7rem; letter-spacing:0.3px;
+  }
+  header p{margin:0; color:#555; font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+    padding:14px 10px; background:var(--panel); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:10;
+  }
+  nav.tabs button{
+    border:1.5px solid var(--orange); background:#fff; color:var(--orange);
+    padding:7px 14px; border-radius:999px; font-size:0.85rem; cursor:pointer;
+    font-weight:600; transition:all .15s ease; font-family:var(--sans);
+  }
+  nav.tabs button:hover{ background:var(--orange-light); }
+  nav.tabs button.active{ background:var(--orange); color:#fff; }
+  nav.tabs button .badge{ margin-left:4px; color:var(--green); font-weight:700; }
+  nav.tabs button.active .badge{ color:#d7ffd7; }
+
+  .progress-wrap{ max-width:880px; margin:0 auto; padding:10px 16px 0; }
+  .progress-label{ font-size:0.8rem; color:#777; text-align:center; margin-bottom:4px; }
+  .progress-bar{ height:8px; background:#eee; border-radius:999px; overflow:hidden; border:1px solid var(--border); }
+  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--orange), #f0942e); width:0%; transition:width .5s ease; }
+
+  .confetti-piece{ position:fixed; top:-10px; width:8px; height:8px; border-radius:2px; pointer-events:none; z-index:999; opacity:0.95; }
+  @keyframes confettiFall{ from{ transform:translateY(0) rotate(0deg); opacity:1; } to{ transform:translateY(420px) rotate(380deg); opacity:0; } }
+
+  main{ max-width:880px; margin:0 auto; padding:20px 16px 60px; }
+  .panel{ display:none; }
+  .panel.active{ display:block; animation:fade .25s ease; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  .fiche-title{
+    font-family:var(--serif); color:var(--orange); font-size:1.45rem;
+    border-bottom:2px solid var(--orange-light); padding-bottom:8px; margin-bottom:18px;
+  }
+  .fiche-title span{ font-size:0.95rem; color:#888; font-weight:400; display:block; margin-top:2px;}
+
+  .cours{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; margin-bottom:18px;
+  }
+  .cours h3{ color:var(--orange-dark); margin-top:0; font-size:1.05rem; }
+  .cours ul{ margin:8px 0; padding-left:22px; }
+  .cours table.rule{ width:100%; border-collapse:collapse; margin:10px 0; }
+  .cours table.rule td{ padding:4px 8px; font-family:var(--mono); font-size:0.92rem; }
+
+  .ref-example{
+    background:var(--orange-light); border-left:4px solid var(--orange);
+    border-radius:6px; padding:12px 14px; margin:14px 0; font-size:0.95rem;
+  }
+  .ref-example .lbl{ font-weight:700; color:var(--orange-dark); display:block; margin-bottom:4px;}
+
+  .exo-block{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px; margin-bottom:16px;
+  }
+  .exo-block h4{ margin-top:0; color:var(--orange-dark); font-size:1rem; }
+  .exo-item{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+    padding:8px 0; border-bottom:1px dashed var(--border);
+  }
+  .exo-item:last-of-type{ border-bottom:none; }
+  .exo-item .question{ flex:1 1 260px; font-family:var(--mono); font-size:0.95rem; }
+  .exo-item input[type="text"]{
+    width:120px; padding:6px 8px; border:1.5px solid var(--border); border-radius:6px;
+    font-family:var(--mono); font-size:0.92rem;
+  }
+  .exo-item input[type="text"]:focus{ outline:none; border-color:var(--orange); }
+  .verif-btn{
+    background:var(--orange); color:#fff; border:none; border-radius:6px;
+    padding:6px 12px; font-size:0.85rem; cursor:pointer; font-weight:600;
+  }
+  .verif-btn:hover{ background:var(--orange-dark); }
+  .feedback{ font-size:0.88rem; font-weight:600; min-width:90px; }
+  .feedback.ok{ color:var(--green); }
+  .feedback.bad{ color:var(--red); }
+  .feedback.warn{ color:var(--warn); }
+
+  details.correction{ margin-top:6px; }
+  details.correction summary{
+    color:var(--orange-dark); cursor:pointer; font-size:0.85rem; font-weight:600;
+    list-style:none;
+  }
+  details.correction summary::before{ content:"▸ "; }
+  details.correction[open] summary::before{ content:"▾ "; }
+  details.correction .corr-content{
+    background:var(--green-bg); border:1px solid #cfe6cf; border-radius:6px;
+    padding:10px 12px; margin-top:6px; font-size:0.9rem;
+  }
+
+  table.prefix{ width:100%; border-collapse:collapse; font-size:0.78rem; margin:10px 0; display:block; overflow-x:auto; white-space:nowrap;}
+  table.prefix th, table.prefix td{ border:1px solid var(--border); padding:5px 6px; text-align:center; }
+  table.prefix th{ background:var(--orange-light); color:var(--orange-dark); }
+
+  table.synth{ width:100%; border-collapse:collapse; font-size:0.85rem; margin:10px 0;}
+  table.synth th, table.synth td{ border:1px solid var(--border); padding:6px 7px; text-align:center;}
+  table.synth th{ background:var(--orange-light); color:var(--orange-dark);}
+  table.synth input{ width:90px; padding:4px 6px; border:1.5px solid var(--border); border-radius:5px; font-family:var(--mono); font-size:0.85rem; text-align:center;}
+
+  .note{ font-size:0.83rem; color:#777; font-style:italic; margin-top:6px; }
+  hr.sep{ border:none; border-top:1px solid var(--border); margin:26px 0; }
+  .video-wrap{ position:relative; width:100%; padding-bottom:56.25%; border-radius:8px; overflow:hidden; border:1px solid var(--border); margin:14px 0; }
+  .video-wrap iframe{ position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
+  .video-caption{ font-size:0.85rem; color:#666; text-align:center; margin-top:4px; }
+
+  /* --- Fiche 0 : jeu des 5 étapes --- */
+  .step-pool{ display:flex; flex-wrap:wrap; gap:8px; padding:12px; border:2px dashed var(--border); border-radius:8px; min-height:50px; }
+  .step-chip{ background:var(--orange-light); border:1.5px solid var(--orange); color:var(--orange-dark); padding:8px 12px; border-radius:8px; cursor:pointer; font-size:0.85rem; transition:transform .12s; }
+  .step-chip:hover{ transform:scale(1.03); }
+  .step-sequence{ display:flex; flex-wrap:wrap; gap:8px; padding:12px; margin-top:10px; border:2px solid var(--orange-light); border-radius:8px; min-height:50px; }
+  .step-slot{ background:#fff; border:1.5px solid var(--border); padding:8px 12px; border-radius:8px; font-size:0.85rem; }
+  .step-slot .num{ font-weight:700; color:var(--orange); margin-right:6px; }
+  .step-slot.ok{ border-color:var(--green); background:var(--green-bg); }
+  .step-slot.bad{ border-color:var(--red); background:var(--red-bg); }
+
+  /* --- Fiche 1 : démo virgule animée --- */
+  .sci-track{ position:relative; font-family:var(--mono); font-size:1.6rem; letter-spacing:1px; background:var(--orange-light); padding:14px 18px; border-radius:8px; display:inline-block; cursor:crosshair; }
+  .sci-digits{ white-space:pre; }
+  .sci-digits .lead0{ color:#c9c2b4; }
+  .sci-point{ position:absolute; top:13px; font-weight:700; color:var(--orange-dark); transition:left .9s ease; left:0ch; }
+  .sci-exp{ margin-top:10px; font-size:1.15rem; font-family:var(--mono); color:var(--orange-dark); }
+
+  /* --- Fiche 2 : loupe à CS --- */
+  .cs-game{ font-family:var(--mono); font-size:1.8rem; letter-spacing:2px; padding:14px 18px; background:var(--orange-light); border-radius:8px; display:inline-block; }
+  .cs-digit{ cursor:pointer; padding:0 3px; border-radius:5px; transition:.12s; }
+  .cs-digit.selected{ background:var(--orange); color:#fff; }
+  .cs-digit.ok{ outline:2px solid var(--green); }
+  .cs-digit.bad{ outline:2px solid var(--red); }
+  .cs-comma{ padding:0 3px; }
+
+  /* --- Fiche 3 : ascenseur --- */
+  .elevator-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .elevator-row select{ padding:6px 8px; border:1.5px solid var(--border); border-radius:6px; font-family:var(--mono); }
+  .elevator-row input[type="text"]{ width:140px; padding:6px 8px; border:1.5px solid var(--border); border-radius:6px; font-family:var(--mono); }
+  .elevator-shaft{ position:relative; width:240px; height:330px; margin:16px auto 6px; background:linear-gradient(#fdf0e4,#fff); border:2px solid var(--orange); border-radius:8px; overflow:hidden; }
+  .elevator-floor{ position:absolute; left:0; right:0; border-top:1px dashed var(--border); font-size:0.72rem; padding-left:6px; color:#888; display:flex; align-items:center; font-family:var(--mono); }
+  .elevator-floor.start-floor{ background:rgba(58,124,165,0.15); color:#1a4d6e; font-weight:700; }
+  .elevator-floor.end-floor{ background:rgba(217,89,12,0.15); color:var(--orange-dark); font-weight:700; }
+  .elevator-car{ position:absolute; right:10px; width:42px; height:24px; background:var(--orange); border-radius:4px; transition:top 1.1s ease; box-shadow:0 2px 4px rgba(0,0,0,.2); }
+
+  /* --- Fiche 4 : frise des ordres de grandeur --- */
+  .frise-wrap{ display:flex; gap:6px; overflow-x:auto; padding:10px 2px; }
+  .frise-slot{ flex:0 0 92px; min-height:96px; border:2px dashed var(--border); border-radius:8px; text-align:center; padding:6px 4px; font-size:0.75rem; display:flex; flex-direction:column; justify-content:space-between; }
+  .frise-slot .exp-label{ font-weight:700; color:var(--orange-dark); font-family:var(--mono); font-size:0.8rem; }
+  .frise-slot .obj-zone{ min-height:42px; border-radius:6px; background:#fafafa; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:2px; }
+  .frise-slot.ok{ border-color:var(--green); }
+  .frise-slot.bad{ border-color:var(--red); }
+  .frise-pool{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; padding:10px; border:2px dashed var(--border); border-radius:8px; min-height:50px; }
+  .frise-chip{ background:var(--orange-light); border:1.5px solid var(--orange); color:var(--orange-dark); padding:6px 10px; border-radius:8px; cursor:pointer; font-size:0.8rem; }
+  .frise-chip.selected{ background:var(--orange); color:#fff; }
+
+  /* --- Fiche 5 : balance de l'arrondi --- */
+  .seesaw-wrap{ position:relative; width:230px; height:95px; margin:18px auto 4px; }
+  .seesaw-base{ position:absolute; top:37px; left:99px; width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent; border-bottom:30px solid var(--border); }
+  .seesaw-bar{ position:absolute; top:28px; left:10px; width:210px; height:9px; background:var(--orange); border-radius:5px; transform-origin:center; transition:transform .6s ease; }
+  .seesaw-labels{ position:absolute; top:74px; left:0; width:230px; display:flex; justify-content:space-between; font-size:0.78rem; color:#777; }
+
+  /* --- Fiche 6 : cible incertitude --- */
+  .target-wrap{ text-align:center; }
+  .target-wrap input[type="range"]{ width:220px; vertical-align:middle; }
+
+  sup{ font-size:0.7em; }
+
+  /* ── Ampoule qui clignote ("Eureka") ── */
+  .bulb-icon { display:inline-block; position:relative; width:36px; height:54px; flex-shrink:0; }
+  .bulb-svg { width:100%; height:100%; }
+  .bulb-glow {
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:33px; height:33px; border-radius:50%;
+    background:radial-gradient(circle, rgba(250,199,117,0.55) 0%, transparent 70%);
+    animation: bulb-glow-pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes bulb-glow-pulse {
+    0%, 100% { opacity:0.15; transform:translateX(-50%) scale(0.85); }
+    50%      { opacity:1;    transform:translateX(-50%) scale(1.15); }
+  }
+  .bulb-glass { fill:#f1f5f9; stroke:#cbd5e1; stroke-width:2; animation: bulb-glass-blink 2.6s ease-in-out infinite; }
+  @keyframes bulb-glass-blink {
+    0%, 100% { fill:#f1f5f9; stroke:#cbd5e1; }
+    50%      { fill:#FFE9A8; stroke:#FAC775; }
+  }
+  .bulb-filament-text {
+    font-family:Arial, sans-serif; font-weight:700; font-size:8px; text-anchor:middle;
+    fill:#cbd5e1; animation: bulb-filament-blink 2.6s ease-in-out infinite;
+  }
+  @keyframes bulb-filament-blink {
+    0%, 100% { fill:#cbd5e1; }
+    50%      { fill:#e8783a; }
+  }
+  .bulb-rays {
+    stroke:#FAC775; stroke-width:3; stroke-linecap:round; opacity:0;
+    animation: bulb-rays-blink 2.6s ease-in-out infinite;
+  }
+  @keyframes bulb-rays-blink {
+    0%, 35%, 100% { opacity:0; }
+    50%           { opacity:1; }
+  }
+  .bulb-base-cap  { fill:#94a3b8; }
+  .bulb-base-ring { fill:#64748b; }
+  .bulb-base-tip  { fill:#475569; }
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+    <div class="bulb-icon">
+      <div class="bulb-glow"></div>
+      <svg class="bulb-svg" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+        <g class="bulb-rays">
+          <line x1="30" y1="2" x2="30" y2="8" />
+          <line x1="6" y1="10" x2="13" y2="16" />
+          <line x1="54" y1="10" x2="47" y2="16" />
+          <line x1="0" y1="32" x2="8" y2="32" />
+          <line x1="60" y1="32" x2="52" y2="32" />
+        </g>
+        <ellipse class="bulb-glass" cx="30" cy="32" rx="19" ry="25" />
+        <text class="bulb-filament-text" x="30" y="35">eureka</text>
+        <rect class="bulb-base-cap" x="24" y="54" width="12" height="6" />
+        <rect class="bulb-base-ring" x="23" y="60" width="14" height="4" />
+        <rect class="bulb-base-ring" x="23" y="65" width="14" height="4" />
+        <rect class="bulb-base-tip" x="24" y="70" width="12" height="6" rx="2" />
+      </svg>
+    </div>
+    <h1>Les incontournables — Méthode</h1>
+  </div>
+  <p>Classe de 2<sup>nde</sup> — physique-chimie — cours interactif avec auto-correction</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="f0" class="active">Fiche 0 <span class="badge" id="badge-f0"></span></button>
+  <button data-tab="f1">Fiche 1 <span class="badge" id="badge-f1"></span></button>
+  <button data-tab="f2">Fiche 2 <span class="badge" id="badge-f2"></span></button>
+  <button data-tab="f3">Fiche 3 <span class="badge" id="badge-f3"></span></button>
+  <button data-tab="f4">Fiche 4 <span class="badge" id="badge-f4"></span></button>
+  <button data-tab="f5">Fiche 5 <span class="badge" id="badge-f5"></span></button>
+  <button data-tab="f6">Fiche 6 <span class="badge" id="badge-f6"></span></button>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-label" id="progress-label">0 / 0 exercices réussis</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<main>
+
+<!-- ============ FICHE 0 ============ -->
+<section class="panel active" id="panel-f0">
+  <div class="fiche-title">Fiche 0 — Comment présenter un exercice ?<span>La méthode en 5 étapes</span></div>
+
+  <div class="cours">
+    <h3>La méthode</h3>
+    <ol>
+      <li>J'écris ce que je cherche (« je cherche... », « calcul de... »).</li>
+      <li>J'écris la formule du cours, en remplaçant les grandeurs par celles de l'énoncé.</li>
+      <li>J'exprime la grandeur cherchée à partir de la formule.</li>
+      <li>Je fais l'application numérique (A.N.) : valeurs utiles, unités, bon nombre de chiffres significatifs (CS).</li>
+      <li>J'écris la phrase réponse.</li>
+    </ol>
+
+    <div class="ref-example">
+      <span class="lbl">Exemple corrigé (référence)</span>
+      Calculer la masse d'éthanol m(éthanol) contenue dans V(éthanol) = 1,5 L, avec ρ(éthanol) = 0,791 g/mL.<br><br>
+      1. Je cherche m(éthanol).<br>
+      2. Formule : ρ(corps) = m(corps) / V(corps) → ρ(éthanol) = m(éthanol) / V(éthanol)<br>
+      3. m(éthanol) = ρ(éthanol) × V(éthanol)<br>
+      4. A.N. : ρ(éthanol) = 0,791 g/mL ; V(éthanol) = 1,5 L = 1,5×10³ mL<br>
+         m(éthanol) = 0,791 × 1,5×10³ = 1187 g = 1,2×10³ g (2 CS)<br>
+      5. La masse d'éthanol contenue dans 1,5 L est de 1,2×10³ g (2 CS).
+    </div>
+  </div>
+
+  <div class="exo-block">
+    <h4>À toi de jouer</h4>
+    <p class="note">Choisis un jeu de données, puis applique la méthode en 5 étapes pour calculer la masse demandée (réponse en g).</p>
+
+    <div class="exo-item">
+      <label for="f0-select" style="font-weight:600;">Jeu de données :</label>
+      <select id="f0-select" onchange="loadF0()" style="padding:6px 8px; border:1.5px solid var(--border); border-radius:6px; font-family:var(--mono);">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+    </div>
+    <div class="exo-item">
+      <div class="question" id="f0-question" style="font-weight:600;"></div>
+    </div>
+    <div class="exo-item">
+      <input type="text" id="in-f0v" placeholder="ex : 1.5e2">
+      <button class="verif-btn" onclick="verifF0()">Vérifier</button>
+      <span class="feedback" id="fb-f0"></span>
+    </div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content" id="corr-f0"></div>
+    </details>
+  </div>
+
+  <div class="exo-block">
+    <h4>Jeu — remets les étapes dans le bon ordre</h4>
+    <p class="note">Clique sur les étapes dans l'ordre où tu les utiliserais.</p>
+    <div class="step-pool" id="step-pool"></div>
+    <div class="step-sequence" id="step-sequence"></div>
+    <div style="margin-top:10px;">
+      <button class="verif-btn" onclick="checkSteps()">Vérifier l'ordre</button>
+      <button class="verif-btn" style="background:#888;" onclick="renderSteps()">Réinitialiser</button>
+      <span class="feedback" id="fb-steps"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FICHE 1 ============ -->
+<section class="panel" id="panel-f1">
+  <div class="fiche-title">Fiche 1 — Notation scientifique</div>
+
+  <div class="cours">
+    <p>Mettre un nombre en notation scientifique, c'est l'écrire sous la forme :</p>
+    <p style="text-align:center; font-size:1.1rem; font-family:var(--mono);"><strong>a × 10<sup>n</sup></strong> avec 1 ≤ a &lt; 10 et n entier</p>
+    <p class="note">Pour saisir une réponse dans les exercices, utilise la forme : 5.4x10^6 (point pour la virgule).</p>
+  </div>
+
+  <div class="cours">
+    <h3>Démo — déplace la virgule au survol</h3>
+    <p class="note">Tape un nombre « normal » (ex : 458000 ou 0,0045), puis passe la souris (ou le doigt) sur les chiffres pour faire glisser la virgule.</p>
+    <div class="exo-item">
+      <input type="text" id="sci-demo-input" placeholder="ex : 458000" value="458000" oninput="renderSciDigits()">
+      <button class="verif-btn" style="background:#888;" onclick="renderSciDigits()">Réinitialiser la virgule</button>
+    </div>
+    <div class="sci-track" id="sci-demo-display" style="display:none;" onmousemove="moveComma(event)" ontouchmove="moveComma(event)">
+      <span class="sci-digits" id="sci-digits"></span><span class="sci-point" id="sci-point">,</span>
+    </div>
+    <div class="sci-exp" id="sci-demo-exp" style="display:none;">× 10<sup><span id="sci-exp-val">0</span></sup></div>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Mettre en notation scientifique</h4>
+    <div class="exo-item"><div class="question">a) 5 986 000 =</div><input type="text" id="in-f1-a"><button class="verif-btn" onclick="verif('f1-a', 5.986e6)">Vérifier</button><span class="feedback" id="fb-f1-a"></span></div>
+    <div class="exo-item"><div class="question">b) 3290,65 =</div><input type="text" id="in-f1-b"><button class="verif-btn" onclick="verif('f1-b', 3.29065e3)">Vérifier</button><span class="feedback" id="fb-f1-b"></span></div>
+    <div class="exo-item"><div class="question">c) 0,045 =</div><input type="text" id="in-f1-c"><button class="verif-btn" onclick="verif('f1-c', 4.5e-2)">Vérifier</button><span class="feedback" id="fb-f1-c"></span></div>
+    <div class="exo-item"><div class="question">d) 0,0000000005 =</div><input type="text" id="in-f1-d"><button class="verif-btn" onclick="verif('f1-d', 5e-10)">Vérifier</button><span class="feedback" id="fb-f1-d"></span></div>
+    <div class="exo-item"><div class="question">e) 0,00870059 =</div><input type="text" id="in-f1-e"><button class="verif-btn" onclick="verif('f1-e', 8.70059e-3)">Vérifier</button><span class="feedback" id="fb-f1-e"></span></div>
+    <div class="exo-item"><div class="question">f) 342,19 =</div><input type="text" id="in-f1-f"><button class="verif-btn" onclick="verif('f1-f', 3.4219e2)">Vérifier</button><span class="feedback" id="fb-f1-f"></span></div>
+    <div class="exo-item"><div class="question">g) 0,0000567 =</div><input type="text" id="in-f1-g"><button class="verif-btn" onclick="verif('f1-g', 5.67e-5)">Vérifier</button><span class="feedback" id="fb-f1-g"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">
+        a) 5,986×10⁶ &nbsp; b) 3,29065×10³ &nbsp; c) 4,5×10⁻² &nbsp; d) 5×10⁻¹⁰ &nbsp; e) 8,70059×10⁻³ &nbsp; f) 3,4219×10² &nbsp; g) 5,67×10⁻⁵
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FICHE 2 ============ -->
+<section class="panel" id="panel-f2">
+  <div class="fiche-title">Fiche 2 — Chiffres significatifs (CS)</div>
+
+  <div class="cours">
+    <h3>Règles pour compter les CS</h3>
+    <ul>
+      <li>Tous les chiffres non nuls sont significatifs.</li>
+      <li>Les « 0 » à gauche du premier chiffre non nul ne sont <strong>pas</strong> significatifs.</li>
+      <li>Les « 0 » encadrés par des chiffres non nuls, ou situés après la virgule à la fin d'un nombre, sont significatifs.</li>
+      <li>En notation scientifique, tous les chiffres du facteur a sont significatifs.</li>
+      <li>Les nombres entiers exacts d'une formule (ex : le ½ de E<sub>c</sub> = ½mv²) ne comptent pas.</li>
+    </ul>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Combien de CS ?</h4>
+    <div class="exo-item"><div class="question">1542,3 m →</div><input type="text" id="in-f2-1"><button class="verif-btn" onclick="verifInt('f2-1', 5)">Vérifier</button><span class="feedback" id="fb-f2-1"></span></div>
+    <div class="exo-item"><div class="question">15,423 hm →</div><input type="text" id="in-f2-2"><button class="verif-btn" onclick="verifInt('f2-2', 5)">Vérifier</button><span class="feedback" id="fb-f2-2"></span></div>
+    <div class="exo-item"><div class="question">0,35 g →</div><input type="text" id="in-f2-3"><button class="verif-btn" onclick="verifInt('f2-3', 2)">Vérifier</button><span class="feedback" id="fb-f2-3"></span></div>
+    <div class="exo-item"><div class="question">0,008 g →</div><input type="text" id="in-f2-4"><button class="verif-btn" onclick="verifInt('f2-4', 1)">Vérifier</button><span class="feedback" id="fb-f2-4"></span></div>
+    <div class="exo-item"><div class="question">5,60 L →</div><input type="text" id="in-f2-5"><button class="verif-btn" onclick="verifInt('f2-5', 3)">Vérifier</button><span class="feedback" id="fb-f2-5"></span></div>
+    <div class="exo-item"><div class="question">0,250 mL →</div><input type="text" id="in-f2-6"><button class="verif-btn" onclick="verifInt('f2-6', 3)">Vérifier</button><span class="feedback" id="fb-f2-6"></span></div>
+    <div class="exo-item"><div class="question">4,0068 m³ →</div><input type="text" id="in-f2-7"><button class="verif-btn" onclick="verifInt('f2-7', 5)">Vérifier</button><span class="feedback" id="fb-f2-7"></span></div>
+    <div class="exo-item"><div class="question">4,007 km →</div><input type="text" id="in-f2-8"><button class="verif-btn" onclick="verifInt('f2-8', 4)">Vérifier</button><span class="feedback" id="fb-f2-8"></span></div>
+    <div class="exo-item"><div class="question">3,25×10⁻² m →</div><input type="text" id="in-f2-9"><button class="verif-btn" onclick="verifInt('f2-9', 3)">Vérifier</button><span class="feedback" id="fb-f2-9"></span></div>
+    <div class="exo-item"><div class="question">2,025×10⁵ m →</div><input type="text" id="in-f2-10"><button class="verif-btn" onclick="verifInt('f2-10', 4)">Vérifier</button><span class="feedback" id="fb-f2-10"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">5 / 5 / 2 / 1 / 3 / 3 / 5 / 4 / 3 / 4 chiffres significatifs.</div>
+    </details>
+
+    <h4 style="margin-top:18px;">Jeu — la loupe à chiffres significatifs</h4>
+    <p class="note">Clique sur chaque chiffre pour le déclarer significatif (il devient orange), puis vérifie.</p>
+    <div class="cs-game" id="cs-game-display"></div>
+    <div style="margin-top:10px;">
+      <button class="verif-btn" onclick="checkCS()">Vérifier</button>
+      <button class="verif-btn" style="background:#888;" onclick="nextCS()">Exemple suivant</button>
+      <span class="feedback" id="fb-cs-game"></span>
+    </div>
+  </div>
+
+  <div class="cours">
+    <h3>CS du résultat d'un calcul</h3>
+    <p><strong>Multiplication / division :</strong> le résultat a le même nombre de CS que le terme qui en a le moins.</p>
+    <p><strong>Addition / soustraction :</strong> le résultat a autant de décimales que le terme qui en a le moins (même unité, même puissance de 10).</p>
+    <p class="note">Lors d'un calcul à plusieurs étapes, les résultats intermédiaires ne sont pas arrondis.</p>
+    <div class="ref-example">
+      <span class="lbl">Exemple corrigé (addition)</span>
+      100,51 g + 3,865 g + 4,41 g = 108,785 g → 108,79 g (2 décimales, le minimum parmi les termes).<br>
+      1,1037×10² m + 1,3 m = 1,1037×10² m + 0,013×10² m = 1,1167×10² m → 1,117×10² m (4 CS).
+    </div>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Multiplication / division</h4>
+    <div class="exo-item"><div class="question">1,2 × 3 =</div><input type="text" id="in-f2-md1"><button class="verif-btn" onclick="verif('f2-md1', 4, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-md1"></span></div>
+    <div class="exo-item"><div class="question">3,4 × 2,15 =</div><input type="text" id="in-f2-md2"><button class="verif-btn" onclick="verif('f2-md2', 7.3, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-md2"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">
+        1,2 × 3 = 3,6 → mais « 3 » n'a qu'1 CS, donc le résultat est arrondi à 1 CS : <strong>4</strong>.<br>
+        3,4 × 2,15 = 7,31 → 3,4 a 2 CS (le minimum), donc résultat à 2 CS : <strong>7,3</strong>.
+      </div>
+    </details>
+
+    <h4 style="margin-top:18px;">Exercice — calculs avec notation scientifique</h4>
+    <div class="exo-item"><div class="question">a) (3,71×10² × 5,4) / (1,7×10⁻²) =</div><input type="text" id="in-f2-a"><button class="verif-btn" onclick="verif('f2-a', 1.2e5, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-a"></span></div>
+    <div class="exo-item"><div class="question">b) (4,00×10⁵ × 5,44×10⁻⁴) / (9,30×10⁻⁷) =</div><input type="text" id="in-f2-b"><button class="verif-btn" onclick="verif('f2-b', 2.34e8, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-b"></span></div>
+    <div class="exo-item"><div class="question">c) 1,68×10⁻⁶ × 2,5×10⁵ × 77,7 =</div><input type="text" id="in-f2-c"><button class="verif-btn" onclick="verif('f2-c', 33, 0.03)">Vérifier</button><span class="feedback" id="fb-f2-c"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">a) 1,2×10⁵ (2 CS) &nbsp; b) 2,34×10⁸ (3 CS) &nbsp; c) 33 ≈ 3,3×10¹ (2 CS)</div>
+    </details>
+
+    <h4 style="margin-top:18px;">Exercice — Addition / soustraction</h4>
+    <div class="exo-item"><div class="question">2,3 m + 4,56 m =</div><input type="text" id="in-f2-as1"><button class="verif-btn" onclick="verif('f2-as1', 6.9, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-as1"></span></div>
+    <div class="exo-item"><div class="question">15,586 kg − 2,4 kg =</div><input type="text" id="in-f2-as2"><button class="verif-btn" onclick="verif('f2-as2', 13.2, 0.02)">Vérifier</button><span class="feedback" id="fb-f2-as2"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">2,3 + 4,56 = 6,86 → 1 décimale : <strong>6,9 m</strong>. &nbsp; 15,586 − 2,4 = 13,186 → 1 décimale : <strong>13,2 kg</strong>.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FICHE 3 ============ -->
+<section class="panel" id="panel-f3">
+  <div class="fiche-title">Fiche 3 — Conversions</div>
+
+  <div class="cours">
+    <h3>Rappel : opérations sur les puissances de 10</h3>
+    <table class="rule">
+      <tr><td>10ᵃ × 10ᵇ = 10ᵃ⁺ᵇ</td><td>10⁻ᵃ = 1/10ᵃ</td><td>10⁰ = 1</td><td>10ᵃ / 10ᵇ = 10ᵃ⁻ᵇ</td></tr>
+    </table>
+    <h3>Tableau des préfixes</h3>
+    <table class="prefix">
+      <tr><th>Préfixe</th><th>yocto</th><th>zepto</th><th>atto</th><th>femto</th><th>pico</th><th>nano</th><th>micro</th><th>milli</th><th>centi</th><th>déci</th><th>-</th><th>déca</th><th>hecto</th><th>kilo</th><th>méga</th><th>giga</th><th>téra</th><th>péta</th><th>exa</th><th>zetta</th><th>yotta</th></tr>
+      <tr><th>Symbole</th><td>y</td><td>z</td><td>a</td><td>f</td><td>p</td><td>n</td><td>µ</td><td>m</td><td>c</td><td>d</td><td>-</td><td>da</td><td>h</td><td>k</td><td>M</td><td>G</td><td>T</td><td>P</td><td>E</td><td>Z</td><td>Y</td></tr>
+      <tr><th>Facteur</th><td>10⁻²⁴</td><td>10⁻²¹</td><td>10⁻¹⁸</td><td>10⁻¹⁵</td><td>10⁻¹²</td><td>10⁻⁹</td><td>10⁻⁶</td><td>10⁻³</td><td>10⁻²</td><td>10⁻¹</td><td>10⁰</td><td>10¹</td><td>10²</td><td>10³</td><td>10⁶</td><td>10⁹</td><td>10¹²</td><td>10¹⁵</td><td>10¹⁸</td><td>10²¹</td><td>10²⁴</td></tr>
+    </table>
+    <div class="ref-example">
+      <span class="lbl">Méthode (produit en croix)</span>
+      Convertir 12 µs en s : 1 µs ↔ 10⁻⁶ s donc 12 µs = 12×10⁻⁶ s = 1,2×10⁻⁵ s.
+    </div>
+    <p class="note">Pour saisir une réponse : utilise la forme 1.2e7 ou 1.2x10^7.</p>
+  </div>
+
+  <div class="exo-block">
+    <h4>Jeu — l'ascenseur des préfixes</h4>
+    <p class="note">Choisis un étage de départ et un étage d'arrivée : l'ascenseur montre le trajet. Calcule combien d'unités d'arrivée correspondent à 1 unité de départ.</p>
+    <div class="ref-example">
+      <span class="lbl">Exemple</span>
+      Pour aller du kilomètre (km, étage 10³) au mètre (m, étage 10⁰), on descend de 3 étages : 1 km = 10³ m = 1000 m.
+    </div>
+    <div class="elevator-row">
+      <label>Départ : <select id="elev-start" onchange="onElevatorChange()"></select></label>
+      <label>Arrivée : <select id="elev-end" onchange="onElevatorChange()"></select></label>
+    </div>
+    <p id="elev-sentence" style="font-weight:600; font-family:var(--mono); font-size:1.05rem; margin:10px 0;"></p>
+    <div class="exo-item">
+      <input type="text" id="elev-guess" placeholder="ex : 1000 ou 1e3">
+      <button class="verif-btn" onclick="checkElevator()">Vérifier</button>
+      <span class="feedback" id="fb-elev"></span>
+    </div>
+    <div class="elevator-shaft" id="elevator-shaft">
+      <div class="elevator-car" id="elevator-car"></div>
+    </div>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Convertir (résultat en notation scientifique)</h4>
+    <div class="exo-item"><div class="question">f = 12 MHz = ? Hz</div><input type="text" id="in-f3-1"><button class="verif-btn" onclick="verif('f3-1', 1.2e7)">Vérifier</button><span class="feedback" id="fb-f3-1"></span></div>
+    <div class="exo-item"><div class="question">L = 0,008 mm = ? m</div><input type="text" id="in-f3-2"><button class="verif-btn" onclick="verif('f3-2', 8e-6)">Vérifier</button><span class="feedback" id="fb-f3-2"></span></div>
+    <div class="exo-item"><div class="question">V = 4×10⁻⁴ L = ? mL</div><input type="text" id="in-f3-3"><button class="verif-btn" onclick="verif('f3-3', 0.4)">Vérifier</button><span class="feedback" id="fb-f3-3"></span></div>
+    <div class="exo-item"><div class="question">L = 12 cm = ? m</div><input type="text" id="in-f3-4a"><button class="verif-btn" onclick="verif('f3-4a', 0.12)">Vérifier</button><span class="feedback" id="fb-f3-4a"></span></div>
+    <div class="exo-item"><div class="question">L = 12 cm = ? km</div><input type="text" id="in-f3-4b"><button class="verif-btn" onclick="verif('f3-4b', 1.2e-4)">Vérifier</button><span class="feedback" id="fb-f3-4b"></span></div>
+    <div class="exo-item"><div class="question">E = 154 GJ = ? J</div><input type="text" id="in-f3-5"><button class="verif-btn" onclick="verif('f3-5', 1.54e11)">Vérifier</button><span class="feedback" id="fb-f3-5"></span></div>
+    <div class="exo-item"><div class="question">E = 1 230 000 J = ? MJ</div><input type="text" id="in-f3-6"><button class="verif-btn" onclick="verif('f3-6', 1.23)">Vérifier</button><span class="feedback" id="fb-f3-6"></span></div>
+    <div class="exo-item"><div class="question">T = 0,1×10⁻² µs = ? s</div><input type="text" id="in-f3-7"><button class="verif-btn" onclick="verif('f3-7', 1e-9)">Vérifier</button><span class="feedback" id="fb-f3-7"></span></div>
+    <div class="exo-item"><div class="question">T = 18×10⁻¹⁰ s = ? ps</div><input type="text" id="in-f3-8"><button class="verif-btn" onclick="verif('f3-8', 1.8e3)">Vérifier</button><span class="feedback" id="fb-f3-8"></span></div>
+    <div class="exo-item"><div class="question">λ = 3,4×10⁻⁸ m = ? nm</div><input type="text" id="in-f3-9"><button class="verif-btn" onclick="verif('f3-9', 34)">Vérifier</button><span class="feedback" id="fb-f3-9"></span></div>
+    <div class="exo-item"><div class="question">m = 12 000 g = ? kg</div><input type="text" id="in-f3-10"><button class="verif-btn" onclick="verif('f3-10', 12)">Vérifier</button><span class="feedback" id="fb-f3-10"></span></div>
+    <div class="exo-item"><div class="question">m = 0,07 Tg = ? g</div><input type="text" id="in-f3-11"><button class="verif-btn" onclick="verif('f3-11', 7e10)">Vérifier</button><span class="feedback" id="fb-f3-11"></span></div>
+    <div class="exo-item"><div class="question">t = 0,007 s = ? ms</div><input type="text" id="in-f3-12a"><button class="verif-btn" onclick="verif('f3-12a', 7)">Vérifier</button><span class="feedback" id="fb-f3-12a"></span></div>
+    <div class="exo-item"><div class="question">t = 0,007 s = ? ns</div><input type="text" id="in-f3-12b"><button class="verif-btn" onclick="verif('f3-12b', 7e6)">Vérifier</button><span class="feedback" id="fb-f3-12b"></span></div>
+    <div class="exo-item"><div class="question">f = 13×10¹⁴ Hz = ? GHz</div><input type="text" id="in-f3-13"><button class="verif-btn" onclick="verif('f3-13', 1.3e6)">Vérifier</button><span class="feedback" id="fb-f3-13"></span></div>
+    <div class="exo-item"><div class="question">f = 19 670 Hz = ? MHz</div><input type="text" id="in-f3-14"><button class="verif-btn" onclick="verif('f3-14', 1.967e-2)">Vérifier</button><span class="feedback" id="fb-f3-14"></span></div>
+    <div class="exo-item"><div class="question">T = 3,4×10⁻⁴ s = ? µs</div><input type="text" id="in-f3-15"><button class="verif-btn" onclick="verif('f3-15', 3.4e2)">Vérifier</button><span class="feedback" id="fb-f3-15"></span></div>
+    <div class="exo-item"><div class="question">L = 9,5×10³ km = ? m</div><input type="text" id="in-f3-16a"><button class="verif-btn" onclick="verif('f3-16a', 9.5e6)">Vérifier</button><span class="feedback" id="fb-f3-16a"></span></div>
+    <div class="exo-item"><div class="question">L = 9,5×10³ km = ? Mm</div><input type="text" id="in-f3-16b"><button class="verif-btn" onclick="verif('f3-16b', 9.5)">Vérifier</button><span class="feedback" id="fb-f3-16b"></span></div>
+    <div class="exo-item"><div class="question">m = 9,5×10⁻⁷ g = ? mg</div><input type="text" id="in-f3-17"><button class="verif-btn" onclick="verif('f3-17', 9.5e-4)">Vérifier</button><span class="feedback" id="fb-f3-17"></span></div>
+    <div class="exo-item"><div class="question">V = 0,08×10⁻³ L = ? µL</div><input type="text" id="in-f3-18"><button class="verif-btn" onclick="verif('f3-18', 80)">Vérifier</button><span class="feedback" id="fb-f3-18"></span></div>
+    <details class="correction">
+      <summary>Voir la correction complète</summary>
+      <div class="corr-content">
+        1,2×10⁷ Hz / 8×10⁻⁶ m / 0,4 mL / 0,12 m soit 1,2×10⁻⁴ km / 1,54×10¹¹ J / 1,23 MJ / 1×10⁻⁹ s /
+        1,8×10³ ps / 34 nm / 12 kg / 7×10¹⁰ g / 7 ms soit 7×10⁶ ns / 1,3×10⁶ GHz / 1,967×10⁻² MHz /
+        3,4×10² µs / 9,5×10⁶ m soit 9,5 Mm / 9,5×10⁻⁴ mg / 80 µL.
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FICHE 4 ============ -->
+<section class="panel" id="panel-f4">
+  <div class="fiche-title">Fiche 4 — Ordre de grandeur</div>
+
+  <div class="cours">
+    <p>Donner l'ordre de grandeur d'un nombre, c'est prendre la puissance de 10 la plus proche : on met le nombre en notation scientifique a×10ⁿ, et si a &gt; 5 on prend la puissance supérieure.</p>
+    <div class="ref-example">
+      <span class="lbl">Exemples</span>
+      3400 = 3,4×10³ → ordre de grandeur : 10³<br>
+      7,6×10⁻⁵ → a = 7,6 &gt; 5 → ordre de grandeur : 10⁻⁴
+    </div>
+    <p class="note">Dans les exercices, indique seulement l'exposant n (entier, éventuellement négatif).</p>
+  </div>
+
+  <div class="exo-block">
+    <h4>Jeu — la frise des ordres de grandeur</h4>
+    <p class="note">Clique sur un objet puis sur la case 10ⁿ qui lui correspond.</p>
+    <div class="frise-wrap" id="frise-wrap"></div>
+    <div class="frise-pool" id="frise-pool"></div>
+    <div style="margin-top:10px;">
+      <button class="verif-btn" onclick="checkFrise()">Vérifier</button>
+      <button class="verif-btn" style="background:#888;" onclick="renderFrise()">Réinitialiser</button>
+      <span class="feedback" id="fb-frise"></span>
+    </div>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Donner l'ordre de grandeur (exposant n de 10ⁿ)</h4>
+    <div class="exo-item"><div class="question">a) 5,4×10⁵ →</div><input type="text" id="in-f4-a"><button class="verif-btn" onclick="verifInt('f4-a', 6)">Vérifier</button><span class="feedback" id="fb-f4-a"></span></div>
+    <div class="exo-item"><div class="question">b) 560,78 →</div><input type="text" id="in-f4-b"><button class="verif-btn" onclick="verifInt('f4-b', 3)">Vérifier</button><span class="feedback" id="fb-f4-b"></span></div>
+    <div class="exo-item"><div class="question">c) 0,085 →</div><input type="text" id="in-f4-c"><button class="verif-btn" onclick="verifInt('f4-c', -1)">Vérifier</button><span class="feedback" id="fb-f4-c"></span></div>
+    <div class="exo-item"><div class="question">d) 65,3×10⁻³ →</div><input type="text" id="in-f4-d"><button class="verif-btn" onclick="verifInt('f4-d', -1)">Vérifier</button><span class="feedback" id="fb-f4-d"></span></div>
+    <div class="exo-item"><div class="question">e) 1,78×10⁻² →</div><input type="text" id="in-f4-e"><button class="verif-btn" onclick="verifInt('f4-e', -2)">Vérifier</button><span class="feedback" id="fb-f4-e"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">a) 10⁶ &nbsp; b) 10³ &nbsp; c) 10⁻¹ &nbsp; d) 10⁻¹ &nbsp; e) 10⁻²</div>
+    </details>
+
+    <h4 style="margin-top:18px;">Sans calculatrice — ordre de grandeur du résultat</h4>
+    <p class="note">Remplace chaque terme par son ordre de grandeur, puis calcule. Indique seulement l'exposant n.</p>
+    <div class="exo-item"><div class="question">a) (3,71×10² × 5,4) / (5,76×10⁻²) →</div><input type="text" id="in-f4-ca"><button class="verif-btn" onclick="verifInt('f4-ca', 4)">Vérifier</button><span class="feedback" id="fb-f4-ca"></span></div>
+    <div class="exo-item"><div class="question">b) 7,00×10⁵ × 2,44×10⁻⁴ →</div><input type="text" id="in-f4-cb"><button class="verif-btn" onclick="verifInt('f4-cb', 2)">Vérifier</button><span class="feedback" id="fb-f4-cb"></span></div>
+    <div class="exo-item"><div class="question">c) (2,3×10²⁰ × 2,0×10¹²) / (5,1×10³²) →</div><input type="text" id="in-f4-cc"><button class="verif-btn" onclick="verifInt('f4-cc', -1)">Vérifier</button><span class="feedback" id="fb-f4-cc"></span></div>
+    <div class="exo-item"><div class="question">d) (74×10⁻⁹ × 234) / (2,1×10⁻²) →</div><input type="text" id="in-f4-cd"><button class="verif-btn" onclick="verifInt('f4-cd', -3)">Vérifier</button><span class="feedback" id="fb-f4-cd"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">
+        a) 10²×10¹/10⁻¹ = 10⁴ &nbsp; b) 10⁶×10⁻⁴ = 10² &nbsp; c) (10²⁰×10¹²)/10³³ = 10⁻¹ &nbsp; d) (10⁻⁷×10²)/10⁻² = 10⁻³
+      </div>
+    </details>
+  </div>
+
+  <hr class="sep">
+  <div class="cours">
+    <h3>Exercices de synthèse (fiches 1, 2 et 4)</h3>
+    <p class="note">On considère qu'un zéro final écrit sans virgule n'est pas significatif, sauf indication contraire.</p>
+  </div>
+  <div class="exo-block">
+    <h4>Compléter le tableau</h4>
+    <table class="synth">
+      <tr><th>Nombre</th><th>Écriture scientifique</th><th>CS</th><th>Ordre de grandeur (10ⁿ)</th><th></th><th>Vérif.</th></tr>
+      <tr><td>72 345 000</td><td><input type="text" id="in-t1-sci"></td><td><input type="text" id="in-t1-cs"></td><td><input type="text" id="in-t1-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t1', 7.2345e7, 5, 8)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t1"></span></td></tr>
+      <tr><td>326 000</td><td><input type="text" id="in-t2-sci"></td><td><input type="text" id="in-t2-cs"></td><td><input type="text" id="in-t2-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t2', 3.26e5, 3, 5)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t2"></span></td></tr>
+      <tr><td>57 000</td><td><input type="text" id="in-t3-sci"></td><td><input type="text" id="in-t3-cs"></td><td><input type="text" id="in-t3-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t3', 5.7e4, 2, 5)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t3"></span></td></tr>
+      <tr><td>410</td><td><input type="text" id="in-t4-sci"></td><td><input type="text" id="in-t4-cs"></td><td><input type="text" id="in-t4-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t4', 4.1e2, 2, 2)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t4"></span></td></tr>
+      <tr><td>0,00281</td><td><input type="text" id="in-t5-sci"></td><td><input type="text" id="in-t5-cs"></td><td><input type="text" id="in-t5-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t5', 2.81e-3, 3, -3)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t5"></span></td></tr>
+      <tr><td>0,00053</td><td><input type="text" id="in-t6-sci"></td><td><input type="text" id="in-t6-cs"></td><td><input type="text" id="in-t6-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t6', 5.3e-4, 2, -3)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t6"></span></td></tr>
+      <tr><td>0,0310</td><td><input type="text" id="in-t7-sci"></td><td><input type="text" id="in-t7-cs"></td><td><input type="text" id="in-t7-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t7', 3.1e-2, 3, -2)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t7"></span></td></tr>
+      <tr><td>0,523</td><td><input type="text" id="in-t8-sci"></td><td><input type="text" id="in-t8-cs"></td><td><input type="text" id="in-t8-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t8', 5.23e-1, 3, 0)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t8"></span></td></tr>
+      <tr><td>0,0000851</td><td><input type="text" id="in-t9-sci"></td><td><input type="text" id="in-t9-cs"></td><td><input type="text" id="in-t9-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t9', 8.51e-5, 3, -4)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t9"></span></td></tr>
+      <tr><td>0,3</td><td><input type="text" id="in-t10-sci"></td><td><input type="text" id="in-t10-cs"></td><td><input type="text" id="in-t10-og"></td><td></td><td><button class="verif-btn" onclick="verifRow('t10', 3e-1, 1, -1)">Vérifier</button></td></tr>
+      <tr><td colspan="5"><span class="feedback" id="fb-t10"></span></td></tr>
+    </table>
+    <details class="correction">
+      <summary>Voir la correction complète</summary>
+      <div class="corr-content">
+        7,2345×10⁷ (5 CS, 10⁸) / 3,26×10⁵ (3 CS, 10⁵) / 5,7×10⁴ (2 CS, 10⁵) / 4,1×10² (2 CS, 10²) /
+        2,81×10⁻³ (3 CS, 10⁻³) / 5,3×10⁻⁴ (2 CS, 10⁻³) / 3,10×10⁻² (3 CS, 10⁻²) / 5,23×10⁻¹ (3 CS, 10⁰) /
+        8,51×10⁻⁵ (3 CS, 10⁻⁴) / 3×10⁻¹ (1 CS, 10⁻¹)
+      </div>
+    </details>
+
+    <h4 style="margin-top:18px;">Calculs (en respectant les règles de CS)</h4>
+    <div class="exo-item"><div class="question">1,30 m + 0,305 m =</div><input type="text" id="in-s-1"><button class="verif-btn" onclick="verif('s-1', 1.61, 0.02)">Vérifier</button><span class="feedback" id="fb-s-1"></span></div>
+    <div class="exo-item"><div class="question">12,405 L + 4,3 L =</div><input type="text" id="in-s-2"><button class="verif-btn" onclick="verif('s-2', 16.7, 0.02)">Vérifier</button><span class="feedback" id="fb-s-2"></span></div>
+    <div class="exo-item"><div class="question">0,49 × 5,48 / 4,54 =</div><input type="text" id="in-s-3"><button class="verif-btn" onclick="verif('s-3', 0.59, 0.03)">Vérifier</button><span class="feedback" id="fb-s-3"></span></div>
+    <div class="exo-item"><div class="question">5,489 × 7,00 / 9 =</div><input type="text" id="in-s-4"><button class="verif-btn" onclick="verif('s-4', 4, 0.05)">Vérifier</button><span class="feedback" id="fb-s-4"></span></div>
+    <div class="exo-item"><div class="question">15,5 × 9,0 =</div><input type="text" id="in-s-5"><button class="verif-btn" onclick="verif('s-5', 140, 0.02)">Vérifier</button><span class="feedback" id="fb-s-5"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">
+        1,61 m (2 décimales) / 16,7 L (1 décimale) / 0,59 (2 CS) / 4 (1 CS, car « 9 » n'a qu'1 CS) / 1,4×10² = 140 (2 CS)
+      </div>
+    </details>
+  </div>
+
+  <hr class="sep">
+  <div class="cours">
+    <h3>Vidéo</h3>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/6WvTvGUiz9Q" title="Puissances de 10, l'Infiniment Grand, l'Infiniment Petit" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="video-caption">Puissances de 10, l'Infiniment Grand, l'Infiniment Petit</p>
+  </div>
+</section>
+
+<!-- ============ FICHE 5 ============ -->
+<section class="panel" id="panel-f5">
+  <div class="fiche-title">Fiche 5 — Arrondi</div>
+
+  <div class="cours">
+    <p>Un arrondi est une valeur approchée obtenue en réduisant le nombre de chiffres significatifs.</p>
+    <h3>Arrondi au plus proche</h3>
+    <ul>
+      <li>On augmente le dernier chiffre conservé d'une unité si le chiffre suivant vaut au moins 5.</li>
+      <li>On le conserve si le chiffre suivant est strictement inférieur à 5.</li>
+    </ul>
+    <div class="ref-example">
+      <span class="lbl">Exemples</span>
+      73 arrondi à la dizaine : 70. &nbsp; 3,046 arrondi aux centièmes : 3,05.<br>
+      1,349 → 1,3 (le chiffre suivant, 4, est &lt; 5). &nbsp; 1,350 → 1,4 (le chiffre suivant, 5, est ≥ 5).
+    </div>
+  </div>
+
+  <div class="cours">
+    <h3>Démo — la balance de l'arrondi</h3>
+    <p class="note">Tape le chiffre qui suit celui que tu veux conserver (0 à 9), puis teste la balance.</p>
+    <div class="seesaw-wrap">
+      <div class="seesaw-bar" id="seesaw-bar"></div>
+      <div class="seesaw-base"></div>
+      <div class="seesaw-labels"><span>&lt; 5 : on garde</span><span>≥ 5 : on monte</span></div>
+    </div>
+    <div class="exo-item" style="justify-content:center;">
+      <input type="text" id="seesaw-input" placeholder="ex : 7" style="width:70px; text-align:center;">
+      <button class="verif-btn" onclick="testSeesaw()">Tester la balance</button>
+    </div>
+    <p class="note" id="seesaw-result" style="text-align:center; font-style:normal;"></p>
+  </div>
+
+  <div class="exo-block">
+    <h4>Exercice — Arrondir</h4>
+    <div class="exo-item"><div class="question">Arrondir 12,67 à 3 CS →</div><input type="text" id="in-f5-a"><button class="verif-btn" onclick="verif('f5-a', 12.7, 0.005)">Vérifier</button><span class="feedback" id="fb-f5-a"></span></div>
+    <div class="exo-item"><div class="question">Arrondir 0,03456 à 2 CS →</div><input type="text" id="in-f5-b"><button class="verif-btn" onclick="verif('f5-b', 0.035, 0.01)">Vérifier</button><span class="feedback" id="fb-f5-b"></span></div>
+    <div class="exo-item"><div class="question">Arrondir 8,955 à 3 CS →</div><input type="text" id="in-f5-c"><button class="verif-btn" onclick="verif('f5-c', 8.96, 0.005)">Vérifier</button><span class="feedback" id="fb-f5-c"></span></div>
+    <div class="exo-item"><div class="question">Arrondir 245,5 à 3 CS →</div><input type="text" id="in-f5-d"><button class="verif-btn" onclick="verif('f5-d', 246, 0.005)">Vérifier</button><span class="feedback" id="fb-f5-d"></span></div>
+    <div class="exo-item"><div class="question">Arrondir 0,1999 à 2 CS →</div><input type="text" id="in-f5-e"><button class="verif-btn" onclick="verif('f5-e', 0.20, 0.01)">Vérifier</button><span class="feedback" id="fb-f5-e"></span></div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content">
+        12,67 → 12,7 (chiffre suivant 7 ≥ 5) &nbsp;|&nbsp; 0,03456 → 0,035 (6 ≥ 5) &nbsp;|&nbsp; 8,955 → 8,96 (5 ≥ 5) &nbsp;|&nbsp;
+        245,5 → 246 (5 ≥ 5) &nbsp;|&nbsp; 0,1999 → 0,20 (9 ≥ 5)
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ FICHE 6 ============ -->
+<section class="panel" id="panel-f6">
+  <div class="fiche-title">Fiche 6 — Écriture d'une mesure avec son incertitude</div>
+
+  <div class="cours">
+    <p>L'incertitude U(G) est l'intervalle contenant très probablement la valeur vraie de la grandeur G. On écrit : G = x ± U(G).</p>
+    <h3>Règles</h3>
+    <ul>
+      <li>Le résultat (la mesure) a autant de décimales que son incertitude.</li>
+      <li>L'incertitude ne dépasse jamais 2 CS.</li>
+      <li><strong>Tout arrondi de l'incertitude se fait par excès</strong> (on arrondit toujours « vers le haut », par prudence).</li>
+      <li>Règle simplifiée : si le 1ᵉʳ chiffre significatif de l'incertitude est entre 5 et 9, on arrondit à cette décimale (1 CS) ; s'il est &lt; 5, on arrondit à la décimale suivante (2 CS) — toujours par excès.</li>
+    </ul>
+    <div class="ref-example">
+      <span class="lbl">Méthode rapide</span>
+      Si le 1ᵉʳ chiffre de U vaut 4 (&lt; 5), par exemple U = 4,23 unités → on arrondit par excès à 2 CS : U ≈ 4,3 unités.<br>
+      Si le 1ᵉʳ chiffre de U vaut 6 (entre 5 et 9), par exemple U = 0,062 unité → on arrondit par excès à 1 CS : U ≈ 0,07 unité.
+    </div>
+  </div>
+
+  <div class="exo-block">
+    <h4>À toi de jouer — écrire la mesure correctement</h4>
+    <p class="note">Choisis un jeu de données, puis écris la mesure correctement arrondie avec son incertitude.</p>
+
+    <div class="exo-item">
+      <label for="f6-select" style="font-weight:600;">Jeu de données :</label>
+      <select id="f6-select" onchange="loadF6()" style="padding:6px 8px; border:1.5px solid var(--border); border-radius:6px; font-family:var(--mono);">
+        <option value="0">1</option>
+        <option value="1">2</option>
+        <option value="2">3</option>
+        <option value="3">4</option>
+      </select>
+    </div>
+    <div class="exo-item">
+      <div class="question" id="f6-question" style="font-weight:600;"></div>
+    </div>
+    <div class="exo-item">
+      <div class="question">valeur centrale</div><input type="text" id="in-f6v">
+      <div class="question">incertitude</div><input type="text" id="in-f6u">
+      <button class="verif-btn" onclick="verifF6()">Vérifier</button>
+      <span class="feedback" id="fb-f6"></span>
+    </div>
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-content" id="corr-f6"></div>
+    </details>
+  </div>
+
+  <div class="exo-block target-wrap">
+    <h4>Jeu — vise la bonne incertitude</h4>
+    <p class="note">Le cercle orange représente la zone où se trouve probablement la valeur vraie : plus U(G) est grand, plus cette zone est large (mesure moins précise). Règle les deux curseurs pour écrire correctement la mesure ci-dessous (valeur arrondie normalement, incertitude arrondie par excès, comme en Fiche 6).</p>
+    <p class="note" id="target-instr" style="font-weight:600; font-style:normal;"></p>
+    <svg viewBox="0 0 200 200" width="180" height="180">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="#eee" stroke-width="2"></circle>
+      <circle id="unc-ring" cx="100" cy="100" r="10" fill="rgba(217,89,12,0.15)" stroke="var(--orange)" stroke-width="2"></circle>
+      <circle cx="100" cy="100" r="4" fill="var(--orange-dark)"></circle>
+    </svg>
+    <div style="text-align:left; max-width:280px; margin:0 auto;">
+      <label style="font-size:0.8rem; color:#666; display:block; margin-top:8px;">Curseur valeur (G)</label>
+      <input type="range" id="val-slider" min="0" max="1" step="0.01" value="0" oninput="updateRing()" style="width:100%;">
+      <label style="font-size:0.8rem; color:#666; display:block; margin-top:8px;">Curseur incertitude U(G)</label>
+      <input type="range" id="unc-slider" min="0" max="1" step="0.01" value="0" oninput="updateRing()" style="width:100%;">
+    </div>
+    <p class="note" id="unc-label" style="font-weight:600; font-style:normal; font-family:var(--mono); font-size:1rem;"></p>
+    <button class="verif-btn" onclick="checkTarget()">Vérifier</button>
+    <button class="verif-btn" style="background:#888;" onclick="nextTarget()">Nouveau défi</button>
+    <span class="feedback" id="fb-target"></span>
+  </div>
+</section>
+
+</main>
+
+<script>
+function parseVal(raw){
+  if(raw===null || raw===undefined) return NaN;
+  let s = raw.trim();
+  if(s==='') return NaN;
+  s = s.replace(/,/g, '.').replace(/\s/g,'');
+  s = s.replace(/[×xX\*]\s*10\s*\^?/g, 'e');
+  s = s.replace(/\^/g, '');
+  return parseFloat(s);
+}
+
+function setFeedback(el, ok, isWarn){
+  if(isWarn){ el.textContent = '⟶ saisis une valeur'; el.className='feedback warn'; return; }
+  if(ok){ el.textContent = '✓ Correct !'; el.className='feedback ok'; }
+  else { el.textContent = '✗ Essaie encore'; el.className='feedback bad'; }
+}
+
+/* ===== Progression globale, badges, confettis ===== */
+const ficheKeys = {
+  f0: ['f0','f0-steps'],
+  f1: ['f1-a','f1-b','f1-c','f1-d','f1-e','f1-f','f1-g'],
+  f2: ['f2-1','f2-2','f2-3','f2-4','f2-5','f2-6','f2-7','f2-8','f2-9','f2-10',
+       'f2-md1','f2-md2','f2-a','f2-b','f2-c','f2-as1','f2-as2',
+       'cs-0','cs-1','cs-2','cs-3','cs-4'],
+  f3: ['f3-1','f3-2','f3-3','f3-4a','f3-4b','f3-5','f3-6','f3-7','f3-8','f3-9','f3-10',
+       'f3-11','f3-12a','f3-12b','f3-13','f3-14','f3-15','f3-16a','f3-16b','f3-17','f3-18','f3-elev'],
+  f4: ['f4-a','f4-b','f4-c','f4-d','f4-e','f4-ca','f4-cb','f4-cc','f4-cd',
+       't1','t2','t3','t4','t5','t6','t7','t8','t9','t10','s-1','s-2','s-3','s-4','s-5','f4-frise'],
+  f5: ['f5-a','f5-b','f5-c','f5-d','f5-e'],
+  f6: ['f6','f6-target']
+};
+const allKeys = Object.values(ficheKeys).flat();
+const solvedKeys = new Set();
+let streak = 0;
+
+function markSolved(key){
+  solvedKeys.add(key);
+  streak++;
+  updateProgress();
+  if(streak>0 && streak%5===0) confettiBurst();
+}
+function registerWrong(){ streak = 0; }
+
+function updateProgress(){
+  const total = allKeys.length;
+  const done = solvedKeys.size;
+  const pct = total>0 ? Math.round(100*done/total) : 0;
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label');
+  if(fill) fill.style.width = pct+'%';
+  if(label) label.textContent = done+' / '+total+' exercices réussis';
+  Object.keys(ficheKeys).forEach(f=>{
+    const allDone = ficheKeys[f].every(k=>solvedKeys.has(k));
+    const badge = document.getElementById('badge-'+f);
+    if(badge) badge.textContent = allDone ? '✓' : '';
+  });
+}
+
+function confettiBurst(){
+  const colors = ['#d9590c','#f0942e','#2f7d32','#3a7ca5','#c1272d','#caa53d'];
+  for(let i=0;i<22;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = (Math.random()*100)+'vw';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animation = 'confettiFall '+(0.9+Math.random()*0.6)+'s ease-in forwards';
+    piece.style.animationDelay = (Math.random()*0.2)+'s';
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(), 1800);
+  }
+}
+
+function verif(key, correct, tol){
+  tol = (tol===undefined) ? 0.01 : tol;
+  const inp = document.getElementById('in-'+key);
+  const fb = document.getElementById('fb-'+key);
+  const val = parseVal(inp.value);
+  if(isNaN(val)){ setFeedback(fb, false, true); return; }
+  const ok = Math.abs(val-correct) <= Math.max(1e-9, Math.abs(correct)*tol);
+  setFeedback(fb, ok, false);
+  if(ok) markSolved(key); else registerWrong();
+}
+
+function verifInt(key, correct){
+  const inp = document.getElementById('in-'+key);
+  const fb = document.getElementById('fb-'+key);
+  const raw = inp.value.trim();
+  if(raw===''){ setFeedback(fb, false, true); return; }
+  const val = parseInt(raw, 10);
+  const ok = val===correct;
+  setFeedback(fb, ok, false);
+  if(ok) markSolved(key); else registerWrong();
+}
+
+const f6variants = [
+  {
+    q: "v = 425,564 m·s⁻¹ ; U(v) = 0,78 m·s⁻¹  →  v = ( ___ ± ___ ) m·s⁻¹",
+    v: 425.6, u: 0.8,
+    explain: "1ᵉʳ chiffre de U(v) = 0,78 est 7 (entre 5 et 9) → arrondi à 1 CS, par excès = <strong>0,8 m·s⁻¹</strong>.<br>v est arrondi à la même décimale (dixièmes) : 425,564 → <strong>425,6 m·s⁻¹</strong>.<br>Résultat : v = (425,6 ± 0,8) m·s⁻¹."
+  },
+  {
+    q: "m = 0,12812 kg ; U(m) = 2,34 g  →  m = ( ___ ± ___ ) g",
+    v: 128.1, u: 2.4,
+    explain: "1ᵉʳ chiffre de U(m) = 2,34 g est 2 (&lt; 5) → arrondi à 2 CS, par excès = <strong>2,4 g</strong>.<br>m = 0,12812 kg = 128,12 g, arrondi à la même décimale (dixièmes) : <strong>128,1 g</strong>.<br>Résultat : m = (128,1 ± 2,4) g."
+  },
+  {
+    q: "t = 0,5523 s ; U(t) = 0,061 s  →  t = ( ___ ± ___ ) s",
+    v: 0.55, u: 0.07,
+    explain: "1ᵉʳ chiffre de U(t) = 0,061 est 6 (entre 5 et 9) → arrondi à 1 CS, par excès = <strong>0,07 s</strong>.<br>t est arrondi à la même décimale (centièmes) : 0,5523 → <strong>0,55 s</strong>.<br>Résultat : t = (0,55 ± 0,07) s."
+  },
+  {
+    q: "m = 2,5478 g ; U(m) = 0,0341 g  →  m = ( ___ ± ___ ) g",
+    v: 2.548, u: 0.035,
+    explain: "1ᵉʳ chiffre de U(m) = 0,0341 est 3 (&lt; 5) → arrondi à 2 CS, par excès (on monte dès qu'il reste un chiffre non nul) = <strong>0,035 g</strong>.<br>m est arrondi à la même décimale (millièmes) : 2,5478 → <strong>2,548 g</strong>.<br>Résultat : m = (2,548 ± 0,035) g."
+  }
+];
+
+function loadF6(){
+  const idx = parseInt(document.getElementById('f6-select').value, 10);
+  document.getElementById('f6-question').textContent = f6variants[idx].q;
+  document.getElementById('corr-f6').innerHTML = f6variants[idx].explain;
+  document.getElementById('in-f6v').value = '';
+  document.getElementById('in-f6u').value = '';
+  const fb = document.getElementById('fb-f6');
+  fb.textContent = ''; fb.className = 'feedback';
+  const details = document.querySelector('#panel-f6 details.correction');
+  if(details) details.open = false;
+}
+
+function verifF6(){
+  const idx = parseInt(document.getElementById('f6-select').value, 10);
+  const data = f6variants[idx];
+  const v = parseVal(document.getElementById('in-f6v').value);
+  const u = parseVal(document.getElementById('in-f6u').value);
+  const fb = document.getElementById('fb-f6');
+  if(isNaN(v) || isNaN(u)){ setFeedback(fb, false, true); return; }
+  const okV = Math.abs(v-data.v) <= Math.max(1e-9, Math.abs(data.v)*0.01);
+  const okU = Math.abs(u-data.u) <= Math.max(1e-9, Math.abs(data.u)*0.01);
+  if(okV && okU){ fb.textContent='✓ Correct !'; fb.className='feedback ok'; markSolved('f6'); }
+  else{
+    fb.innerHTML = 'valeur : '+(okV?'✓':'✗')+' &nbsp; incertitude : '+(okU?'✓':'✗');
+    fb.className='feedback bad';
+    registerWrong();
+  }
+}
+loadF6();
+
+const f0variants = [
+  {
+    q: "Calculer la masse m(Hg) de mercure contenue dans V(Hg) = 25 mL, sachant que ρ(Hg) = 13,6 g/mL.",
+    m: 340,
+    explain: "1. Je cherche m(Hg).<br>2. ρ(Hg) = m(Hg) / V(Hg)<br>3. m(Hg) = ρ(Hg) × V(Hg)<br>4. A.N. : m(Hg) = 13,6 × 25 = 340 g → ρ a 3 CS, V a 2 CS, résultat à <strong>2 CS</strong> : m(Hg) = 3,4×10² g.<br>5. La masse de mercure contenue dans 25 mL est de 3,4×10² g."
+  },
+  {
+    q: "Calculer la masse m(huile) d'huile d'olive contenue dans V(huile) = 50 mL, sachant que ρ(huile) = 0,92 g/mL.",
+    m: 46,
+    explain: "1. Je cherche m(huile).<br>2. ρ(huile) = m(huile) / V(huile)<br>3. m(huile) = ρ(huile) × V(huile)<br>4. A.N. : m(huile) = 0,92 × 50 = 46 g → ρ a 2 CS, V a 2 CS, résultat à <strong>2 CS</strong> : m(huile) = 4,6×10¹ g.<br>5. La masse d'huile d'olive contenue dans 50 mL est de 4,6×10¹ g."
+  },
+  {
+    q: "Calculer la masse m(sol) d'une solution salée contenue dans V(sol) = 2,00×10² mL, sachant que ρ(sol) = 1,03 g/mL.",
+    m: 206,
+    explain: "1. Je cherche m(sol).<br>2. ρ(sol) = m(sol) / V(sol)<br>3. m(sol) = ρ(sol) × V(sol)<br>4. A.N. : m(sol) = 1,03 × 200 = 206 g → ρ a 3 CS, V a 3 CS, résultat à <strong>3 CS</strong> : m(sol) = 2,06×10² g.<br>5. La masse de solution salée contenue dans 200 mL est de 2,06×10² g."
+  },
+  {
+    q: "Calculer la masse m(acétone) d'acétone contenue dans V(acétone) = 40 mL, sachant que ρ(acétone) = 0,79 g/mL.",
+    m: 32,
+    explain: "1. Je cherche m(acétone).<br>2. ρ(acétone) = m(acétone) / V(acétone)<br>3. m(acétone) = ρ(acétone) × V(acétone)<br>4. A.N. : m(acétone) = 0,79 × 40 = 31,6 g → ρ a 2 CS, V a 2 CS, résultat à <strong>2 CS</strong> : m(acétone) = 3,2×10¹ g.<br>5. La masse d'acétone contenue dans 40 mL est de 3,2×10¹ g."
+  }
+];
+
+function loadF0(){
+  const idx = parseInt(document.getElementById('f0-select').value, 10);
+  document.getElementById('f0-question').textContent = f0variants[idx].q;
+  document.getElementById('corr-f0').innerHTML = f0variants[idx].explain;
+  document.getElementById('in-f0v').value = '';
+  const fb = document.getElementById('fb-f0');
+  fb.textContent = ''; fb.className = 'feedback';
+  const details = document.querySelector('#panel-f0 details.correction');
+  if(details) details.open = false;
+}
+
+function verifF0(){
+  const idx = parseInt(document.getElementById('f0-select').value, 10);
+  const data = f0variants[idx];
+  const val = parseVal(document.getElementById('in-f0v').value);
+  const fb = document.getElementById('fb-f0');
+  if(isNaN(val)){ setFeedback(fb, false, true); return; }
+  const ok = Math.abs(val-data.m) <= Math.max(1e-9, Math.abs(data.m)*0.02);
+  setFeedback(fb, ok, false);
+  if(ok) markSolved('f0'); else registerWrong();
+}
+loadF0();
+
+function verifRow(key, expSci, expCS, expOG){
+  const sciVal = parseVal(document.getElementById('in-'+key+'-sci').value);
+  const csRaw = document.getElementById('in-'+key+'-cs').value.trim();
+  const ogRaw = document.getElementById('in-'+key+'-og').value.trim();
+  const csVal = parseInt(csRaw, 10);
+  const ogVal = parseInt(ogRaw, 10);
+  const fb = document.getElementById('fb-'+key);
+  if(isNaN(sciVal) || csRaw==='' || ogRaw===''){
+    fb.textContent = '⟶ complète les 3 cases'; fb.className='feedback warn'; return;
+  }
+  const sciOk = Math.abs(sciVal-expSci) <= Math.abs(expSci)*0.01;
+  const csOk = csVal===expCS;
+  const ogOk = ogVal===expOG;
+  fb.innerHTML = 'écriture : '+(sciOk?'✓':'✗')+' &nbsp; CS : '+(csOk?'✓':'✗')+' &nbsp; ordre de grandeur : '+(ogOk?'✓':'✗');
+  const allOk = sciOk&&csOk&&ogOk;
+  fb.className = 'feedback ' + (allOk?'ok':'bad');
+  if(allOk) markSolved(key); else registerWrong();
+}
+
+/* ===== Fiche 0 : jeu des 5 étapes ===== */
+const stepsData = [
+  {id:1, label:"Je cherche ce que je veux calculer"},
+  {id:2, label:"J'écris la formule du cours"},
+  {id:3, label:"J'exprime la grandeur cherchée"},
+  {id:4, label:"Application numérique (unités, CS)"},
+  {id:5, label:"J'écris la phrase réponse"}
+];
+let stepSequence = [];
+function shuffleArr(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function renderSteps(){
+  const pool = document.getElementById('step-pool');
+  pool.innerHTML='';
+  shuffleArr(stepsData).forEach(s=>{
+    const chip=document.createElement('div');
+    chip.className='step-chip'; chip.textContent=s.label;
+    chip.onclick=()=>{ chip.remove(); stepSequence.push(s.id); renderSequence(); };
+    pool.appendChild(chip);
+  });
+  stepSequence=[];
+  document.getElementById('step-sequence').innerHTML='';
+  const fb=document.getElementById('fb-steps'); if(fb){ fb.textContent=''; fb.className='feedback'; }
+}
+function renderSequence(){
+  const seq=document.getElementById('step-sequence');
+  seq.innerHTML='';
+  stepSequence.forEach((id, idx)=>{
+    const s=stepsData.find(x=>x.id===id);
+    const slot=document.createElement('div');
+    slot.className='step-slot';
+    slot.innerHTML='<span class="num">'+(idx+1)+'</span>'+s.label;
+    seq.appendChild(slot);
+  });
+}
+function checkSteps(){
+  const fb=document.getElementById('fb-steps');
+  if(stepSequence.length<5){ fb.textContent='⟶ place les 5 étapes'; fb.className='feedback warn'; return; }
+  const slots=document.querySelectorAll('#step-sequence .step-slot');
+  let allOk=true;
+  stepSequence.forEach((id, idx)=>{
+    const ok = id===(idx+1);
+    slots[idx].classList.add(ok?'ok':'bad');
+    if(!ok) allOk=false;
+  });
+  if(allOk){ fb.textContent='✓ Parfait, le bon ordre !'; fb.className='feedback ok'; markSolved('f0-steps'); }
+  else{ fb.textContent='✗ Regarde les étapes en rouge'; fb.className='feedback bad'; registerWrong(); }
+}
+
+/* ===== Fiche 1 : démo virgule au survol ===== */
+let sciDigitsStr = '';
+let sciOriginalIndex = 0;
+
+function renderSciDigits(){
+  const raw = document.getElementById('sci-demo-input').value.trim().replace(',', '.');
+  const display = document.getElementById('sci-demo-display');
+  const expBox = document.getElementById('sci-demo-exp');
+  if(raw===''){ display.style.display='none'; expBox.style.display='none'; return; }
+  const num = parseFloat(raw);
+  if(isNaN(num) || num===0){ display.style.display='none'; expBox.style.display='none'; return; }
+  let intPart, fracPart;
+  if(raw.includes('.')){ const parts=raw.replace('-','').split('.'); intPart=parts[0]; fracPart=parts[1]||''; }
+  else { intPart = raw.replace('-',''); fracPart=''; }
+  const D = intPart + fracPart;
+  sciDigitsStr = D;
+  sciOriginalIndex = intPart.length;
+  let firstNonZero = 0;
+  while(firstNonZero<D.length-1 && D[firstNonZero]==='0'){ firstNonZero++; }
+
+  display.style.display='inline-block';
+  expBox.style.display='block';
+  const digitsEl = document.getElementById('sci-digits');
+  digitsEl.innerHTML='';
+  for(let i=0;i<D.length;i++){
+    const span=document.createElement('span');
+    span.textContent=D[i];
+    if(i<firstNonZero) span.className='lead0';
+    digitsEl.appendChild(span);
+  }
+  const point = document.getElementById('sci-point');
+  point.style.transition='none';
+  point.style.left = sciOriginalIndex+'ch';
+  document.getElementById('sci-exp-val').textContent='0';
+}
+
+function moveComma(evt){
+  if(!sciDigitsStr) return;
+  const digitsEl = document.getElementById('sci-digits');
+  const rect = digitsEl.getBoundingClientRect();
+  const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+  const charWidth = rect.width / sciDigitsStr.length;
+  let pos = Math.round((clientX - rect.left) / charWidth);
+  pos = Math.max(0, Math.min(sciDigitsStr.length, pos));
+  const point = document.getElementById('sci-point');
+  point.style.transition = 'left .08s linear';
+  point.style.left = pos+'ch';
+  document.getElementById('sci-exp-val').textContent = sciOriginalIndex - pos;
+  if(evt.touches) evt.preventDefault();
+}
+
+/* ===== Fiche 2 : loupe à CS ===== */
+const csPool = [
+  {str:"0,0068", sig:[false,false,false,true,true]},
+  {str:"12,40", sig:[true,true,true,true]},
+  {str:"705,0", sig:[true,true,true,true]},
+  {str:"0,910", sig:[false,true,true,true]},
+  {str:"3,070", sig:[true,true,true,true]}
+];
+let csIdx=0, csSelected=[];
+function renderCS(){
+  const data=csPool[csIdx];
+  const el=document.getElementById('cs-game-display');
+  el.innerHTML='';
+  csSelected = new Array(data.sig.length).fill(false);
+  let digitCounter=0;
+  for(const ch of data.str){
+    if(ch===','){ const s=document.createElement('span'); s.className='cs-comma'; s.textContent=','; el.appendChild(s); continue; }
+    const idx=digitCounter++;
+    const s=document.createElement('span');
+    s.className='cs-digit'; s.textContent=ch;
+    s.onclick=()=>{ csSelected[idx]=!csSelected[idx]; s.classList.toggle('selected'); s.classList.remove('ok','bad'); };
+    el.appendChild(s);
+  }
+  const fb=document.getElementById('fb-cs-game'); fb.textContent=''; fb.className='feedback';
+}
+function nextCS(){ csIdx=(csIdx+1)%csPool.length; renderCS(); }
+function checkCS(){
+  const data=csPool[csIdx];
+  const spans=document.querySelectorAll('#cs-game-display .cs-digit');
+  let allOk=true;
+  spans.forEach((s,i)=>{
+    const ok = csSelected[i]===data.sig[i];
+    s.classList.add(ok?'ok':'bad');
+    if(!ok) allOk=false;
+  });
+  const fb=document.getElementById('fb-cs-game');
+  const nbSig = data.sig.filter(Boolean).length;
+  if(allOk){ fb.textContent='✓ Bravo, '+nbSig+' chiffres significatifs !'; fb.className='feedback ok'; markSolved('cs-'+csIdx); }
+  else{ fb.textContent='✗ Regarde les chiffres entourés en rouge'; fb.className='feedback bad'; registerWrong(); }
+}
+
+/* ===== Fiche 3 : ascenseur des préfixes ===== */
+const elevFloors = [
+  {sym:'Gm', exp:9}, {sym:'Mm', exp:6}, {sym:'km', exp:3},
+  {sym:'hm', exp:2}, {sym:'dam', exp:1}, {sym:'m', exp:0},
+  {sym:'dm', exp:-1}, {sym:'cm', exp:-2}, {sym:'mm', exp:-3},
+  {sym:'µm', exp:-6}, {sym:'nm', exp:-9}
+];
+function initElevatorSelects(){
+  const startSel = document.getElementById('elev-start');
+  const endSel = document.getElementById('elev-end');
+  if(startSel.options.length===0){
+    elevFloors.forEach((f,i)=>{
+      const opt = f.sym+' (10'+supExp(f.exp)+')';
+      startSel.innerHTML += '<option value="'+i+'">'+opt+'</option>';
+      endSel.innerHTML += '<option value="'+i+'">'+opt+'</option>';
+    });
+    startSel.value=2; endSel.value=5;
+  }
+}
+function renderElevatorFloors(){
+  const shaft = document.getElementById('elevator-shaft');
+  document.querySelectorAll('.elevator-floor').forEach(el=>el.remove());
+  const h = shaft.clientHeight / elevFloors.length;
+  const startIdx = parseInt(document.getElementById('elev-start').value,10);
+  const endIdx = parseInt(document.getElementById('elev-end').value,10);
+  elevFloors.forEach((f,i)=>{
+    const fl=document.createElement('div');
+    fl.className='elevator-floor'+(i===startIdx?' start-floor':'')+(i===endIdx?' end-floor':'');
+    fl.style.top=(i*h)+'px'; fl.style.height=h+'px';
+    fl.textContent=f.sym+' (10'+supExp(f.exp)+')';
+    shaft.insertBefore(fl, document.getElementById('elevator-car'));
+  });
+  return h;
+}
+function onElevatorChange(){
+  initElevatorSelects();
+  const h = renderElevatorFloors();
+  const startIdx = parseInt(document.getElementById('elev-start').value,10);
+  const endIdx = parseInt(document.getElementById('elev-end').value,10);
+  const car = document.getElementById('elevator-car');
+  car.style.transition='none';
+  car.style.top=(startIdx*h+(h-24)/2)+'px';
+  void car.offsetWidth;
+  car.style.transition='top 1.1s ease';
+  document.getElementById('elev-sentence').textContent = '1 '+elevFloors[startIdx].sym+'  =  ?  '+elevFloors[endIdx].sym;
+  document.getElementById('elev-guess').value='';
+  const fb=document.getElementById('fb-elev'); fb.textContent=''; fb.className='feedback';
+}
+function formatPow(v){
+  const exp = Math.round(Math.log10(v));
+  if(Math.abs(v - Math.pow(10,exp)) < 1e-6*v) return '10'+supExp(exp);
+  return String(Math.round(v*10000)/10000).replace('.', ',');
+}
+function checkElevator(){
+  const startIdx=parseInt(document.getElementById('elev-start').value,10);
+  const endIdx=parseInt(document.getElementById('elev-end').value,10);
+  const expected = Math.pow(10, elevFloors[startIdx].exp - elevFloors[endIdx].exp);
+  const guess = parseVal(document.getElementById('elev-guess').value);
+  const fb=document.getElementById('fb-elev');
+  const shaft = document.getElementById('elevator-shaft');
+  const h = shaft.clientHeight / elevFloors.length;
+  const car=document.getElementById('elevator-car');
+  car.style.top=(endIdx*h+(h-24)/2)+'px';
+  if(isNaN(guess)){ fb.textContent='⟶ entre une valeur avant de vérifier'; fb.className='feedback warn'; return; }
+  const ok = Math.abs(guess-expected) <= Math.max(1e-9, expected*0.02);
+  if(ok){ fb.textContent='✓ Exact ! 1 '+elevFloors[startIdx].sym+' = '+formatPow(expected)+' '+elevFloors[endIdx].sym; fb.className='feedback ok'; markSolved('f3-elev'); }
+  else{ fb.textContent='✗ La bonne réponse : 1 '+elevFloors[startIdx].sym+' = '+formatPow(expected)+' '+elevFloors[endIdx].sym; fb.className='feedback bad'; registerWrong(); }
+}
+
+/* ===== Fiche 4 : frise des ordres de grandeur ===== */
+const friseObjects = [
+  {id:1, name:"Noyau atomique", exp:-15},
+  {id:2, name:"Atome", exp:-10},
+  {id:3, name:"Virus", exp:-7},
+  {id:4, name:"Globule rouge", exp:-5},
+  {id:5, name:"Être humain", exp:0},
+  {id:6, name:"Tour Eiffel", exp:2},
+  {id:7, name:"Diamètre de la Terre", exp:7},
+  {id:8, name:"Univers observable", exp:26}
+];
+let friseSelectedId = null;
+let friseAssignment = {};
+function renderFrise(){
+  const wrap=document.getElementById('frise-wrap');
+  const pool=document.getElementById('frise-pool');
+  wrap.innerHTML=''; pool.innerHTML='';
+  friseAssignment = {};
+  friseSelectedId = null;
+  const sorted = friseObjects.slice().sort((a,b)=>a.exp-b.exp);
+  sorted.forEach(o=>{
+    const slot=document.createElement('div');
+    slot.className='frise-slot';
+    slot.innerHTML='<div class="exp-label">10'+supExp(o.exp)+'</div><div class="obj-zone" data-exp="'+o.exp+'"></div>';
+    slot.querySelector('.obj-zone').onclick=()=>placeInSlot(o.exp);
+    wrap.appendChild(slot);
+  });
+  shuffleArr(friseObjects).forEach(o=>{
+    const chip=document.createElement('div');
+    chip.className='frise-chip'; chip.textContent=o.name; chip.dataset.id=o.id;
+    chip.onclick=()=>selectChip(o.id, chip);
+    pool.appendChild(chip);
+  });
+  const fb=document.getElementById('fb-frise'); if(fb){ fb.textContent=''; fb.className='feedback'; }
+  document.querySelectorAll('#frise-wrap .frise-slot').forEach(s=>s.classList.remove('ok','bad'));
+}
+function supExp(n){
+  const map={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+  return String(n).split('').map(c=>map[c]||c).join('');
+}
+function selectChip(id, chipEl){
+  document.querySelectorAll('.frise-chip').forEach(c=>c.classList.remove('selected'));
+  friseSelectedId = id;
+  chipEl.classList.add('selected');
+}
+function placeInSlot(exp){
+  if(friseSelectedId===null) return;
+  const obj = friseObjects.find(o=>o.id===friseSelectedId);
+  const zone = document.querySelector('.obj-zone[data-exp="'+exp+'"]');
+  if(!zone) return;
+  if(friseAssignment[exp]!==undefined){
+    returnChipToPool(friseAssignment[exp]);
+  }
+  zone.textContent = obj.name;
+  friseAssignment[exp] = obj.id;
+  document.querySelector('.frise-chip.selected')?.remove();
+  friseSelectedId = null;
+}
+function returnChipToPool(id){
+  const obj = friseObjects.find(o=>o.id===id);
+  const pool=document.getElementById('frise-pool');
+  const chip=document.createElement('div');
+  chip.className='frise-chip'; chip.textContent=obj.name; chip.dataset.id=obj.id;
+  chip.onclick=()=>selectChip(obj.id, chip);
+  pool.appendChild(chip);
+}
+function checkFrise(){
+  const fb=document.getElementById('fb-frise');
+  const slots=document.querySelectorAll('#frise-wrap .frise-slot');
+  let allOk=true, allFilled=true;
+  slots.forEach(slot=>{
+    const zone=slot.querySelector('.obj-zone');
+    const exp=parseInt(zone.dataset.exp,10);
+    const assignedId=friseAssignment[exp];
+    if(assignedId===undefined){ allFilled=false; return; }
+    const obj=friseObjects.find(o=>o.id===assignedId);
+    const ok = obj.exp===exp;
+    slot.classList.toggle('ok', ok); slot.classList.toggle('bad', !ok);
+    if(!ok) allOk=false;
+  });
+  if(!allFilled){ fb.textContent='⟶ place tous les objets'; fb.className='feedback warn'; return; }
+  if(allOk){ fb.textContent='✓ Parfait, la frise est complète !'; fb.className='feedback ok'; markSolved('f4-frise'); }
+  else{ fb.textContent='✗ Regarde les cases en rouge'; fb.className='feedback bad'; registerWrong(); }
+}
+
+/* ===== Fiche 5 : balance de l'arrondi ===== */
+function testSeesaw(){
+  const raw=document.getElementById('seesaw-input').value.trim();
+  const v=parseInt(raw,10);
+  const result=document.getElementById('seesaw-result');
+  const bar=document.getElementById('seesaw-bar');
+  if(raw===''||isNaN(v)||v<0||v>9){ result.textContent='⟶ tape un chiffre entre 0 et 9'; bar.style.transform='rotate(0deg)'; return; }
+  if(v<5){ bar.style.transform='rotate(-9deg)'; result.textContent='Chiffre '+v+' < 5 → on arrondit par défaut (on garde le chiffre précédent).'; }
+  else{ bar.style.transform='rotate(9deg)'; result.textContent='Chiffre '+v+' ≥ 5 → on arrondit par excès (on augmente le chiffre précédent d\'une unité).'; }
+}
+
+/* ===== Fiche 6 : cible incertitude ===== */
+const targetChallenges = [
+  {sym:'t', unit:'s', decimals:2,
+   Graw:8.473, Gcorrect:8.47, gMin:8.42, gMax:8.52, gStep:0.01,
+   Uraw:0.056, Ucorrect:0.06, uMax:0.12, uStep:0.01},
+  {sym:'m', unit:'g', decimals:3,
+   Graw:3.1426, Gcorrect:3.143, gMin:3.138, gMax:3.148, gStep:0.001,
+   Uraw:0.0273, Ucorrect:0.028, uMax:0.06, uStep:0.001},
+  {sym:'λ', unit:'nm', decimals:1,
+   Graw:560.84, Gcorrect:560.8, gMin:560.3, gMax:561.3, gStep:0.1,
+   Uraw:0.78, Ucorrect:0.8, uMax:1.6, uStep:0.1},
+  {sym:'V', unit:'mL', decimals:3,
+   Graw:12.0834, Gcorrect:12.083, gMin:12.078, gMax:12.088, gStep:0.001,
+   Uraw:0.0461, Ucorrect:0.047, uMax:0.1, uStep:0.001}
+];
+let targetIdx = 0;
+function fmtFr(n, d){ return n.toFixed(d).replace('.', ','); }
+function updateRing(){
+  const ch = targetChallenges[targetIdx];
+  const g = parseFloat(document.getElementById('val-slider').value);
+  const u = parseFloat(document.getElementById('unc-slider').value);
+  const radius = 10 + (u/ch.uMax)*75;
+  document.getElementById('unc-ring').setAttribute('r', radius);
+  document.getElementById('unc-label').textContent = ch.sym+' = ('+fmtFr(g, ch.decimals)+' ± '+fmtFr(u, ch.decimals)+') '+ch.unit;
+}
+function nextTarget(){
+  targetIdx=(targetIdx+1)%targetChallenges.length;
+  const ch = targetChallenges[targetIdx];
+  const gSlider = document.getElementById('val-slider');
+  const uSlider = document.getElementById('unc-slider');
+  gSlider.min=String(ch.gMin); gSlider.max=String(ch.gMax); gSlider.step=String(ch.gStep); gSlider.value=String(ch.gMin);
+  uSlider.min='0'; uSlider.max=String(ch.uMax); uSlider.step=String(ch.uStep); uSlider.value='0';
+  document.getElementById('target-instr').textContent = 'Mesure brute : '+ch.sym+' = '+ch.Graw.toString().replace('.', ',')+' '+ch.unit+' (à arrondir)  ;  U('+ch.sym+') brute = '+ch.Uraw.toString().replace('.', ',')+' '+ch.unit+' (à arrondir par excès)';
+  updateRing();
+  const fb=document.getElementById('fb-target'); fb.textContent=''; fb.className='feedback';
+}
+function checkTarget(){
+  const ch = targetChallenges[targetIdx];
+  const g = parseFloat(document.getElementById('val-slider').value);
+  const u = parseFloat(document.getElementById('unc-slider').value);
+  const fb=document.getElementById('fb-target');
+  const okG = Math.abs(g-ch.Gcorrect) < ch.gStep/2 + 1e-9;
+  const okU = Math.abs(u-ch.Ucorrect) < ch.uStep/2 + 1e-9;
+  if(okG && okU){
+    fb.textContent='✓ Exact ! '+ch.sym+' = ('+fmtFr(ch.Gcorrect,ch.decimals)+' ± '+fmtFr(ch.Ucorrect,ch.decimals)+') '+ch.unit;
+    fb.className='feedback ok'; markSolved('f6-target');
+  } else {
+    fb.innerHTML = 'valeur : '+(okG?'✓':'✗')+' &nbsp; incertitude : '+(okU?'✓':'✗')+' &nbsp; (attendu : '+fmtFr(ch.Gcorrect,ch.decimals)+' ± '+fmtFr(ch.Ucorrect,ch.decimals)+')';
+    fb.className='feedback bad'; registerWrong();
+  }
+}
+
+renderSteps();
+renderSciDigits();
+renderCS();
+onElevatorChange();
+renderFrise();
+nextTarget();
+updateProgress();
+
+document.getElementById('tabs').addEventListener('click', function(e){
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const tab = btn.dataset.tab;
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b===btn));
+  document.querySelectorAll('main .panel').forEach(p=>p.classList.toggle('active', p.id==='panel-'+tab));
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+
+</body>
+</html>

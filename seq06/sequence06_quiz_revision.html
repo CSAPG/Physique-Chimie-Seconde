@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Compter les entités dans un échantillon de matière</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* fond géré par #bg-overlay */
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* Header fixe */
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+/* Barre de progression */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+/* Score live */
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+/* Feedback */
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+/* Bouton suivant */
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+/* Badges recap */
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* SVG illustrations helpers */
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ FOND : ENTITÉS QUI FLOTTENT (thème comptage d'atomes) ══ */
+#entites-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.entite-dot {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.16;
+}
+
+/* Petits sabliers en très faible opacité (rappel du thème de la séquence) */
+.entite-sablier {
+  position: absolute;
+  opacity: 0.09;
+}
+.entite-sablier svg { display: block; width: 46px; height: 56px; }
+
+@keyframes floatUp1 { 0%{ transform: translateY(0) translateX(0); } 50%{ transform: translateY(-60px) translateX(18px); } 100%{ transform: translateY(0) translateX(0); } }
+@keyframes floatUp2 { 0%{ transform: translateY(0) translateX(0); } 50%{ transform: translateY(50px) translateX(-22px); } 100%{ transform: translateY(0) translateX(0); } }
+@keyframes floatUp3 { 0%{ transform: translateY(0) translateX(0); } 50%{ transform: translateY(-40px) translateX(-16px); } 100%{ transform: translateY(0) translateX(0); } }
+@keyframes floatUp4 { 0%{ transform: translateY(0) translateX(0); } 50%{ transform: translateY(36px) translateX(20px); } 100%{ transform: translateY(0) translateX(0); } }
+@keyframes spinSlow { from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+
+.entite-dot.e1 { width: 22px; height: 22px; background: #1a5fa8; top: 8%;  left: 12%; animation: floatUp1 16s ease-in-out infinite; }
+.entite-dot.e2 { width: 16px; height: 16px; background: #e07b2a; top: 22%; left: 82%; animation: floatUp2 13s ease-in-out infinite 1s; }
+.entite-dot.e3 { width: 26px; height: 26px; background: #2e7d52; top: 65%; left: 6%;  animation: floatUp3 18s ease-in-out infinite 2s; }
+.entite-dot.e4 { width: 18px; height: 18px; background: #6b3fa0; top: 78%; left: 88%; animation: floatUp4 15s ease-in-out infinite 0.5s; }
+.entite-dot.e5 { width: 14px; height: 14px; background: #c0392b; top: 40%; left: 50%; animation: floatUp2 20s ease-in-out infinite 3s; }
+.entite-dot.e6 { width: 20px; height: 20px; background: #1a5fa8; top: 88%; left: 40%; animation: floatUp1 17s ease-in-out infinite 1.5s; }
+.entite-dot.e7 { width: 15px; height: 15px; background: #e07b2a; top: 5%;  left: 60%; animation: floatUp3 14s ease-in-out infinite 2.5s; }
+.entite-dot.e8 { width: 24px; height: 24px; background: #2e7d52; top: 50%; left: 92%; animation: floatUp4 19s ease-in-out infinite; }
+
+.entite-sablier.s1 { top: 14%; left: 38%; animation: spinSlow 30s linear infinite; }
+.entite-sablier.s2 { top: 70%; left: 70%; animation: spinSlow 36s linear infinite reverse; }
+.entite-sablier.s3 { top: 32%; left: 8%;  animation: spinSlow 26s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .entite-dot, .entite-sablier { animation: none; }
+}
+/* ══ FIN FOND ══ */
+
+</style>
+</head>
+<body>
+<div id="entites-bg">
+  <div class="entite-dot e1"></div>
+  <div class="entite-dot e2"></div>
+  <div class="entite-dot e3"></div>
+  <div class="entite-dot e4"></div>
+  <div class="entite-dot e5"></div>
+  <div class="entite-dot e6"></div>
+  <div class="entite-dot e7"></div>
+  <div class="entite-dot e8"></div>
+  <div class="entite-sablier s1"><svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="6" width="56" height="8" rx="2" fill="#185FA5"/><rect x="22" y="106" width="56" height="8" rx="2" fill="#185FA5"/><path d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" fill="none" stroke="#185FA5" stroke-width="3"/><path d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" fill="none" stroke="#185FA5" stroke-width="3"/></svg></div>
+  <div class="entite-sablier s2"><svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="6" width="56" height="8" rx="2" fill="#e07b2a"/><rect x="22" y="106" width="56" height="8" rx="2" fill="#e07b2a"/><path d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" fill="none" stroke="#e07b2a" stroke-width="3"/><path d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" fill="none" stroke="#e07b2a" stroke-width="3"/></svg></div>
+  <div class="entite-sablier s3"><svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="6" width="56" height="8" rx="2" fill="#6b3fa0"/><rect x="22" y="106" width="56" height="8" rx="2" fill="#6b3fa0"/><path d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" fill="none" stroke="#6b3fa0" stroke-width="3"/><path d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" fill="none" stroke="#6b3fa0" stroke-width="3"/></svg></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 06 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Compter les entités dans un échantillon de matière · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire, définitions, formules à connaître (N, n, N_A)</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Calculs de masse d'entité, de N et de n, conversions</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, problèmes à étapes, pièges classiques</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+function svgComposH2O() {
+  return `<svg width="320" height="190" viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="gradO" cx="35%" cy="28%" r="72%">
+        <stop offset="0%" stop-color="#ff8a72"/>
+        <stop offset="38%" stop-color="#e8402e"/>
+        <stop offset="78%" stop-color="#b71c1c"/>
+        <stop offset="100%" stop-color="#7a0d0d"/>
+      </radialGradient>
+      <radialGradient id="gradH" cx="35%" cy="28%" r="72%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="45%" stop-color="#f1f2f4"/>
+        <stop offset="80%" stop-color="#d2d7dc"/>
+        <stop offset="100%" stop-color="#a9b0b8"/>
+      </radialGradient>
+    </defs>
+    <rect width="320" height="190" fill="#f8faff" rx="6"/>
+    <text x="160" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Modèle compact de la molécule d'eau H₂O</text>
+
+    <!-- ombre au sol -->
+    <ellipse cx="160" cy="142" rx="58" ry="8" fill="#1e2330" opacity="0.10"/>
+
+    <!-- atome d'oxygène (rouge, en arrière-plan) -->
+    <circle cx="160" cy="85" r="36" fill="url(#gradO)" stroke="#7a0d0d" stroke-width="1"/>
+    <ellipse cx="146" cy="70" rx="11" ry="6.5" fill="#ffffff" opacity="0.35" transform="rotate(-28 146 70)"/>
+
+    <!-- atomes d'hydrogène (blancs, au premier plan, qui chevauchent l'oxygène) -->
+    <circle cx="130" cy="108" r="22" fill="url(#gradH)" stroke="#9aa0a6" stroke-width="1"/>
+    <ellipse cx="123" cy="100" rx="7" ry="4" fill="#ffffff" opacity="0.7"/>
+    <circle cx="190" cy="108" r="22" fill="url(#gradH)" stroke="#9aa0a6" stroke-width="1"/>
+    <ellipse cx="183" cy="100" rx="7" ry="4" fill="#ffffff" opacity="0.7"/>
+
+    <text x="160" y="160" text-anchor="middle" font-size="9.5" fill="#555">⚪ Blanc = Hydrogène (H) &nbsp;·&nbsp; 🔴 Rouge = Oxygène (O)</text>
+    <text x="160" y="178" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">m(H₂O) = 2 × m(H) + m(O)</text>
+  </svg>`;
+}
+
+function svgComposNaCl() {
+  return `<svg width="320" height="190" viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="gradNa" cx="35%" cy="28%" r="72%">
+        <stop offset="0%" stop-color="#f3e6fc"/>
+        <stop offset="38%" stop-color="#b06ee0"/>
+        <stop offset="78%" stop-color="#8b2fc9"/>
+        <stop offset="100%" stop-color="#5c1985"/>
+      </radialGradient>
+      <radialGradient id="gradCl" cx="35%" cy="28%" r="72%">
+        <stop offset="0%" stop-color="#d9f5d4"/>
+        <stop offset="38%" stop-color="#5aad7e"/>
+        <stop offset="78%" stop-color="#2e7d52"/>
+        <stop offset="100%" stop-color="#1a4a30"/>
+      </radialGradient>
+    </defs>
+    <rect width="320" height="190" fill="#f8faff" rx="6"/>
+    <text x="160" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Modèle compact de l'entité NaCl</text>
+
+    <!-- ombre au sol -->
+    <ellipse cx="165" cy="142" rx="64" ry="8" fill="#1e2330" opacity="0.10"/>
+
+    <!-- ion chlorure Cl⁻ (vert, plus grand, en arrière-plan) -->
+    <circle cx="188" cy="92" r="34" fill="url(#gradCl)" stroke="#1a4a30" stroke-width="1"/>
+    <ellipse cx="174" cy="76" rx="10" ry="6" fill="#ffffff" opacity="0.35" transform="rotate(-28 174 76)"/>
+
+    <!-- ion sodium Na⁺ (violet, plus petit, au premier plan) -->
+    <circle cx="138" cy="92" r="22" fill="url(#gradNa)" stroke="#5c1985" stroke-width="1"/>
+    <ellipse cx="131" cy="84" rx="7" ry="4" fill="#ffffff" opacity="0.7"/>
+
+    <text x="160" y="160" text-anchor="middle" font-size="9.5" fill="#555">🟣 Violet = Sodium (Na) &nbsp;·&nbsp; 🟢 Vert = Chlore (Cl)</text>
+    <text x="160" y="178" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">m(NaCl) = m(Na) + m(Cl)</text>
+  </svg>`;
+}
+
+function svgFormuleN() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">De la masse de l'échantillon au nombre d'entités</text>
+    <rect x="30" y="32" width="150" height="80" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="105" y="48" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Échantillon</text>
+    <text x="105" y="62" text-anchor="middle" font-size="10" fill="#1a5fa8">masse m (kg)</text>
+    <circle cx="55" cy="85" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="75" cy="92" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="95" cy="80" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="115" cy="95" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="135" cy="83" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="155" cy="92" r="6" fill="#1a5fa8" opacity="0.8"/>
+    <text x="200" y="76" text-anchor="middle" font-size="22" fill="#888">→</text>
+    <rect x="225" y="32" width="125" height="80" rx="8" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="287" y="48" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">N entités</text>
+    <text x="287" y="62" text-anchor="middle" font-size="10" fill="#e07b2a">de masse m_entité</text>
+    <text x="287" y="92" text-anchor="middle" font-size="13" font-weight="bold" fill="#e07b2a">N = m / m_entité</text>
+    <text x="190" y="145" text-anchor="middle" font-size="10" fill="#555">N : nombre d'entités (sans unité) · m et m_entité en kg</text>
+  </svg>`;
+}
+
+function svgFormuleMole() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Des entités à la quantité de matière</text>
+    <rect x="20" y="32" width="160" height="85" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="100" y="48" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">N entités</text>
+    <circle cx="40" cy="70" r="5" fill="#1a5fa8" opacity="0.8"/><circle cx="55" cy="80" r="5" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="70" cy="68" r="5" fill="#1a5fa8" opacity="0.8"/><circle cx="85" cy="85" r="5" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="100" cy="72" r="5" fill="#1a5fa8" opacity="0.8"/><circle cx="115" cy="82" r="5" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="130" cy="68" r="5" fill="#1a5fa8" opacity="0.8"/><circle cx="145" cy="86" r="5" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="160" cy="74" r="5" fill="#1a5fa8" opacity="0.8"/>
+    <text x="100" y="106" text-anchor="middle" font-size="9" fill="#1a5fa8">on regroupe par lots de N_A</text>
+    <text x="210" y="78" text-anchor="middle" font-size="22" fill="#888">→</text>
+    <rect x="235" y="32" width="125" height="85" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="297" y="50" text-anchor="middle" font-size="10" font-weight="bold" fill="#2e7d52">n moles</text>
+    <text x="297" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#2e7d52">n = N / N_A</text>
+    <text x="190" y="145" text-anchor="middle" font-size="10" fill="#555">N_A = 6,02×10²³ mol⁻¹ (constante d'Avogadro)</text>
+  </svg>`;
+}
+
+function svgMolePack() {
+  return `<svg width="340" height="160" viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="160" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Qu'est-ce qu'une mole ?</text>
+    <rect x="60" y="30" width="220" height="80" rx="10" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="170" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#e07b2a">1 mole = 1 « paquet »</text>
+    <text x="170" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#6b3fa0">6,02 × 10²³ entités</text>
+    <circle cx="95" cy="90" r="5" fill="#6b3fa0" opacity="0.85"/><circle cx="115" cy="85" r="5" fill="#6b3fa0" opacity="0.85"/>
+    <circle cx="135" cy="92" r="5" fill="#6b3fa0" opacity="0.85"/><circle cx="155" cy="86" r="5" fill="#6b3fa0" opacity="0.85"/>
+    <circle cx="175" cy="93" r="5" fill="#6b3fa0" opacity="0.85"/><circle cx="195" cy="86" r="5" fill="#6b3fa0" opacity="0.85"/>
+    <circle cx="215" cy="91" r="5" fill="#6b3fa0" opacity="0.85"/><circle cx="235" cy="85" r="5" fill="#6b3fa0" opacity="0.85"/>
+    <circle cx="255" cy="92" r="5" fill="#6b3fa0" opacity="0.85"/>
+    <text x="170" y="135" text-anchor="middle" font-size="9" fill="#888">(la mole : unité de quantité de matière n, en mol)</text>
+  </svg>`;
+}
+
+function svgTableMasses() {
+  return `<svg width="360" height="155" viewBox="0 0 360 155" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="155" fill="#f8faff" rx="6"/>
+    <text x="180" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Masses de quelques atomes (en kg)</text>
+    <rect x="10" y="22" width="340" height="22" rx="3" fill="#1a5fa8"/>
+    <text x="80" y="36" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Atome</text>
+    <text x="260" y="36" text-anchor="middle" font-size="10" font-weight="bold" fill="white">Masse (kg)</text>
+    <rect x="10" y="44" width="340" height="20" fill="#e8f1fb"/>
+    <text x="80" y="58" text-anchor="middle" font-size="10" fill="#333">Hydrogène H</text>
+    <text x="260" y="58" text-anchor="middle" font-size="10" fill="#333">1,67 × 10⁻²⁷</text>
+    <rect x="10" y="64" width="340" height="20" fill="white"/>
+    <text x="80" y="78" text-anchor="middle" font-size="10" fill="#333">Carbone C</text>
+    <text x="260" y="78" text-anchor="middle" font-size="10" fill="#333">2,00 × 10⁻²⁶</text>
+    <rect x="10" y="84" width="340" height="20" fill="#e8f1fb"/>
+    <text x="80" y="98" text-anchor="middle" font-size="10" fill="#333">Oxygène O</text>
+    <text x="260" y="98" text-anchor="middle" font-size="10" fill="#333">2,67 × 10⁻²⁶</text>
+    <rect x="10" y="104" width="340" height="20" fill="white"/>
+    <text x="80" y="118" text-anchor="middle" font-size="10" fill="#333">Sodium Na</text>
+    <text x="260" y="118" text-anchor="middle" font-size="10" fill="#333">3,82 × 10⁻²⁶</text>
+    <text x="180" y="142" text-anchor="middle" font-size="9" fill="#888">Plus l'atome est lourd, plus sa masse est grande</text>
+  </svg>`;
+}
+
+function svgEchelleTemps() {
+  return `<svg width="380" height="140" viewBox="0 0 380 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="140" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Compter une mole, une à une...</text>
+    <line x1="30" y1="60" x2="350" y2="60" stroke="#bbb" stroke-width="2"/>
+    <circle cx="30" cy="60" r="5" fill="#1a5fa8"/>
+    <text x="30" y="80" text-anchor="middle" font-size="9" fill="#1a5fa8">t = 0 s</text>
+    <text x="30" y="40" text-anchor="middle" font-size="9" fill="#555">0 entité</text>
+    <circle cx="350" cy="60" r="5" fill="#e07b2a"/>
+    <text x="320" y="80" text-anchor="middle" font-size="9" fill="#e07b2a">≈ 19 millions d'années</text>
+    <text x="320" y="40" text-anchor="middle" font-size="9" fill="#555">6,02×10²³ entités</text>
+    <text x="190" y="110" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">à raison d'1 milliard d'entités comptées par seconde</text>
+    <text x="190" y="126" text-anchor="middle" font-size="9" fill="#888">(1×10⁹ entités/s)</text>
+  </svg>`;
+}
+
+function svgBalanceH2CO2() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Deux échantillons de même masse m = 10 g</text>
+    <rect x="25" y="30" width="155" height="115" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="102" y="46" text-anchor="middle" font-size="11" font-weight="bold" fill="#1a5fa8">Dihydrogène H₂</text>
+    <text x="102" y="60" text-anchor="middle" font-size="9" fill="#1a5fa8">m(H₂) très petite</text>
+    <g fill="#1a5fa8" opacity="0.85">
+      <circle cx="42" cy="78" r="4"/><circle cx="55" cy="85" r="4"/><circle cx="68" cy="75" r="4"/><circle cx="81" cy="88" r="4"/>
+      <circle cx="94" cy="76" r="4"/><circle cx="107" cy="86" r="4"/><circle cx="120" cy="74" r="4"/><circle cx="133" cy="89" r="4"/>
+      <circle cx="146" cy="77" r="4"/><circle cx="159" cy="84" r="4"/><circle cx="48" cy="100" r="4"/><circle cx="62" cy="105" r="4"/>
+      <circle cx="78" cy="98" r="4"/><circle cx="95" cy="106" r="4"/><circle cx="112" cy="99" r="4"/><circle cx="130" cy="104" r="4"/>
+      <circle cx="148" cy="97" r="4"/><circle cx="60" cy="120" r="4"/><circle cx="90" cy="122" r="4"/><circle cx="120" cy="119" r="4"/>
+    </g>
+    <text x="102" y="138" text-anchor="middle" font-size="9" fill="#555">beaucoup de molécules</text>
+    <rect x="200" y="30" width="155" height="115" rx="8" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="277" y="46" text-anchor="middle" font-size="11" font-weight="bold" fill="#e07b2a">Dioxyde de carbone CO₂</text>
+    <text x="277" y="60" text-anchor="middle" font-size="9" fill="#e07b2a">m(CO₂) bien plus grande</text>
+    <g fill="#e07b2a" opacity="0.85">
+      <circle cx="240" cy="90" r="8"/><circle cx="270" cy="95" r="8"/><circle cx="300" cy="88" r="8"/><circle cx="255" cy="115" r="8"/><circle cx="290" cy="118" r="8"/>
+    </g>
+    <text x="277" y="138" text-anchor="middle" font-size="9" fill="#555">peu de molécules</text>
+  </svg>`;
+}
+
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+
+const QUESTIONS = {
+
+  facile: [
+    {
+      q: "Qu'appelle-t-on une « entité chimique » dans cette séquence ?",
+      ill: null,
+      opts: [
+        "Uniquement un atome",
+        "Un atome, un ion ou une molécule",
+        "Un mélange de plusieurs espèces",
+        "Une solution aqueuse"
+      ],
+      ans: 1,
+      expl: "Une entité chimique désigne un atome, un ion ou une molécule : c'est l'objet microscopique que l'on cherche à compter dans un échantillon."
+    },
+    {
+      q: "Comment calcule-t-on la masse d'une molécule à partir de sa formule brute ?",
+      ill: svgComposH2O(),
+      opts: [
+        "On additionne les masses de tous les atomes qui la composent (en tenant compte des répétitions)",
+        "On multiplie entre elles les masses de tous les atomes",
+        "On ne garde que la masse de l'atome le plus lourd",
+        "On divise la masse totale par le nombre d'atomes"
+      ],
+      ans: 0,
+      expl: "La masse d'une entité est la somme des masses de tous les atomes qui la composent. Si un atome est présent plusieurs fois (ex. 2 H dans H₂O), on multiplie sa masse par ce nombre avant d'additionner."
+    },
+    {
+      q: "Quelle est l'unité du nombre d'entités N dans un échantillon ?",
+      ill: null,
+      opts: [
+        "Le kilogramme (kg)",
+        "La mole (mol)",
+        "N n'a pas d'unité, c'est un nombre",
+        "Le mol⁻¹"
+      ],
+      ans: 2,
+      expl: "N représente un nombre d'entités (atomes, ions ou molécules) : c'est un nombre pur, sans unité."
+    },
+    {
+      q: "Quelle est l'unité de la quantité de matière n ?",
+      ill: null,
+      opts: [
+        "Le kilogramme (kg)",
+        "La mole (mol)",
+        "Sans unité",
+        "Le gramme (g)"
+      ],
+      ans: 1,
+      expl: "La quantité de matière n s'exprime en moles (mol). C'est la grandeur qui permet de manipuler des paquets de N_A entités plutôt que des nombres immenses."
+    },
+    {
+      q: "Quelle formule permet de calculer le nombre d'entités N à partir de la masse de l'échantillon ?",
+      ill: svgFormuleN(),
+      opts: [
+        "N = m_échantillon × m_entité",
+        "N = m_échantillon / m_entité",
+        "N = m_entité / m_échantillon",
+        "N = m_échantillon + m_entité"
+      ],
+      ans: 1,
+      expl: "N = m_échantillon / m_entité : on divise la masse totale de l'échantillon par la masse d'une seule entité pour obtenir le nombre d'entités qu'il contient."
+    },
+    {
+      q: "Quelle est la valeur (arrondie) de la constante d'Avogadro N_A ?",
+      ill: null,
+      opts: [
+        "6,02 × 10²³ mol⁻¹",
+        "3,14 × 10⁸",
+        "9,81 m·s⁻²",
+        "1,60 × 10⁻¹⁹ C"
+      ],
+      ans: 0,
+      expl: "N_A = 6,02 × 10²³ mol⁻¹ : c'est le nombre d'entités contenues dans une mole, quelle que soit la nature de ces entités."
+    },
+    {
+      q: "Quelle relation relie la quantité de matière n, le nombre d'entités N et la constante d'Avogadro N_A ?",
+      ill: svgFormuleMole(),
+      opts: [
+        "n = N × N_A",
+        "n = N / N_A",
+        "n = N_A / N",
+        "n = N + N_A"
+      ],
+      ans: 1,
+      expl: "n = N / N_A : la quantité de matière (en mol) s'obtient en divisant le nombre d'entités par la constante d'Avogadro."
+    },
+    {
+      q: "Dans la formule N = m_échantillon / m_entité, dans quelle unité doivent être exprimées les masses ?",
+      ill: null,
+      opts: [
+        "En grammes",
+        "En kilogrammes, l'unité de masse du Système International",
+        "En milligrammes",
+        "L'unité n'a aucune importance"
+      ],
+      ans: 1,
+      expl: "Pour que la formule donne un résultat correct, les deux masses (échantillon et entité) doivent être exprimées dans la même unité : le kilogramme, unité SI de la masse."
+    },
+    {
+      q: "Que représente concrètement « une mole » d'entités ?",
+      ill: svgMolePack(),
+      opts: [
+        "Une seule entité, particulièrement grosse",
+        "Un lot de 6,02 × 10²³ entités",
+        "Une masse fixe d'un gramme",
+        "Un volume fixe d'un litre"
+      ],
+      ans: 1,
+      expl: "Une mole est un « paquet » contenant exactement N_A = 6,02 × 10²³ entités. C'est une unité de comptage, comme la douzaine, mais à l'échelle microscopique."
+    },
+    {
+      q: "Comment convertit-on une masse exprimée en grammes vers les kilogrammes ?",
+      ill: null,
+      opts: [
+        "On multiplie par 1000",
+        "On divise par 1000",
+        "On multiplie par 100",
+        "La valeur numérique ne change pas"
+      ],
+      ans: 1,
+      expl: "1 kg = 1000 g, donc pour passer des grammes aux kilogrammes on divise la valeur en grammes par 1000 (ou on multiplie par 10⁻³)."
+    }
+  ],
+
+  inter: [
+    {
+      q: "On donne m(H) = 1,67×10⁻²⁷ kg et m(O) = 2,67×10⁻²⁶ kg. Quel calcul permet d'obtenir la masse de la molécule d'eau H₂O ?",
+      ill: svgComposH2O(),
+      opts: [
+        "2 × m(H) + m(O)",
+        "m(H) + 2 × m(O)",
+        "m(H) × m(O)",
+        "2 × (m(H) + m(O))"
+      ],
+      ans: 0,
+      expl: "H₂O contient 2 atomes d'hydrogène et 1 atome d'oxygène, donc m(H₂O) = 2 × m(H) + m(O) = 2×1,67×10⁻²⁷ + 2,67×10⁻²⁶ ≈ 3,00×10⁻²⁶ kg."
+    },
+    {
+      q: "Donnée : m(O) = 2,67×10⁻²⁶ kg. Calculer la masse de la molécule de dioxygène O₂.",
+      ill: null,
+      opts: [
+        "2,67 × 10⁻²⁶ kg",
+        "5,34 × 10⁻²⁶ kg",
+        "1,34 × 10⁻²⁶ kg",
+        "2,67 × 10⁻⁵² kg"
+      ],
+      ans: 1,
+      expl: "O₂ contient 2 atomes d'oxygène : m(O₂) = 2 × m(O) = 2 × 2,67×10⁻²⁶ = 5,34×10⁻²⁶ kg. (Oublier de multiplier par 2 est une erreur fréquente.)"
+    },
+    {
+      q: "Un échantillon de dioxyde de carbone a une masse m = 1,0 kg. Donnée : m(CO₂) = 7,35×10⁻²⁶ kg. Calculer le nombre N de molécules de CO₂ présentes.",
+      ill: svgFormuleN(),
+      opts: [
+        "7,35 × 10⁻²⁶",
+        "1,36 × 10²⁵",
+        "7,35 × 10²⁶",
+        "1,36 × 10⁻²⁵"
+      ],
+      ans: 1,
+      expl: "N = m_échantillon / m_entité = 1,0 / (7,35×10⁻²⁶) ≈ 1,36×10²⁵ molécules."
+    },
+    {
+      q: "On a calculé N = 1,36×10²⁵ molécules de CO₂ dans un échantillon. Quelle est la quantité de matière n correspondante ?",
+      ill: svgFormuleMole(),
+      opts: [
+        "22,6 mol",
+        "2,26 × 10⁻²² mol",
+        "8,17 × 10⁴⁸ mol",
+        "0,226 mol"
+      ],
+      ans: 0,
+      expl: "n = N / N_A = (1,36×10²⁵) / (6,02×10²³) ≈ 22,6 mol."
+    },
+    {
+      q: "Données : m(Na) = 3,82×10⁻²⁶ kg ; m(Cl) = 5,89×10⁻²⁶ kg. Calculer la masse de la molécule (entité) de chlorure de sodium NaCl.",
+      ill: svgComposNaCl(),
+      opts: [
+        "2,07 × 10⁻²⁶ kg",
+        "9,71 × 10⁻²⁶ kg",
+        "22,5 × 10⁻⁵² kg",
+        "1,54 × 10⁻²⁶ kg"
+      ],
+      ans: 1,
+      expl: "NaCl contient un atome de Na et un atome de Cl : m(NaCl) = m(Na) + m(Cl) = 3,82×10⁻²⁶ + 5,89×10⁻²⁶ = 9,71×10⁻²⁶ kg."
+    },
+    {
+      q: "Donnée : m(H₂O) = 3,00×10⁻²⁶ kg. Quelle masse d'échantillon (en kg) contient exactement N_A molécules d'eau ?",
+      ill: null,
+      opts: [
+        "3,00 × 10⁻²⁶ kg",
+        "1,81 × 10⁻² kg",
+        "6,02 × 10²³ kg",
+        "2,01 × 10⁴⁹ kg"
+      ],
+      ans: 1,
+      expl: "m = N × m_entité = 6,02×10²³ × 3,00×10⁻²⁶ ≈ 1,81×10⁻² kg (soit environ 18 g, cohérent avec la masse d'une mole d'eau)."
+    },
+    {
+      q: "Une quantité de matière de glucose n = 0,50 mol représente combien de molécules N ?",
+      ill: null,
+      opts: [
+        "3,01 × 10²³",
+        "1,20 × 10²⁴",
+        "0,50",
+        "1,20 × 10²³"
+      ],
+      ans: 0,
+      expl: "N = n × N_A = 0,50 × 6,02×10²³ ≈ 3,01×10²³ molécules."
+    },
+    {
+      q: "Un flacon contient 100 mg d'éthanol. Convertir cette masse en kilogrammes.",
+      ill: null,
+      opts: [
+        "100 kg",
+        "0,1 kg",
+        "1,0 × 10⁻⁴ kg",
+        "1,0 × 10⁻⁷ kg"
+      ],
+      ans: 2,
+      expl: "100 mg = 0,100 g = 0,100×10⁻³ kg = 1,0×10⁻⁴ kg. Il faut bien passer par les grammes avant de convertir en kilogrammes."
+    },
+    {
+      q: "D'après le tableau de données ci-dessous, quelle est la masse de l'atome de carbone ?",
+      ill: svgTableMasses(),
+      opts: [
+        "1,67 × 10⁻²⁷ kg",
+        "2,00 × 10⁻²⁶ kg",
+        "2,67 × 10⁻²⁶ kg",
+        "3,82 × 10⁻²⁶ kg"
+      ],
+      ans: 1,
+      expl: "Le tableau indique m(C) = 2,00×10⁻²⁶ kg. Les autres valeurs correspondent respectivement à H, O et Na."
+    },
+    {
+      q: "Si l'on comptait 1 milliard d'entités par seconde, combien de temps faudrait-il (environ) pour compter une mole d'entités (N_A) ?",
+      ill: svgEchelleTemps(),
+      opts: [
+        "19 secondes",
+        "19 000 ans",
+        "19 millions d'années",
+        "19 jours"
+      ],
+      ans: 2,
+      expl: "Durée = N_A / (10⁹ entités·s⁻¹) = 6,02×10²³ / 10⁹ ≈ 6,02×10¹⁴ s, soit environ 19 millions d'années. Cela illustre l'immensité du nombre N_A."
+    }
+  ],
+
+  diff: [
+    {
+      q: "Un comprimé de vitamine C contient 500 mg d'acide ascorbique. Donnée : m(acide ascorbique) = 2,94×10⁻²⁵ kg. Calculer le nombre N de molécules contenues dans le comprimé.",
+      ill: null,
+      opts: [
+        "1,70 × 10²¹",
+        "1,70 × 10²⁴",
+        "5,88 × 10⁻²²",
+        "1,70 × 10¹⁸"
+      ],
+      ans: 0,
+      expl: "On convertit d'abord la masse : 500 mg = 5,00×10⁻⁴ kg. Puis N = m / m_entité = (5,00×10⁻⁴) / (2,94×10⁻²⁵) ≈ 1,70×10²¹ molécules."
+    },
+    {
+      q: "(Suite de la question précédente) Quelle est la quantité de matière n d'acide ascorbique correspondante ?",
+      ill: null,
+      opts: [
+        "2,83 × 10⁻³ mol",
+        "2,83 × 10³ mol",
+        "1,03 × 10⁻⁴⁴ mol",
+        "1,02 × 10⁴⁵ mol"
+      ],
+      ans: 0,
+      expl: "n = N / N_A = (1,70×10²¹) / (6,02×10²³) ≈ 2,83×10⁻³ mol."
+    },
+    {
+      q: "On compare deux échantillons de même masse m = 10 g : l'un de dihydrogène H₂ (m_entité très faible), l'autre de dioxyde de carbone CO₂ (m_entité bien plus grande). Lequel contient le plus grand nombre d'entités N ?",
+      ill: svgBalanceH2CO2(),
+      opts: [
+        "Le dihydrogène, car ses entités sont beaucoup plus légères",
+        "Le dioxyde de carbone, car ses entités sont plus lourdes",
+        "Les deux échantillons contiennent le même nombre d'entités",
+        "Impossible à déterminer sans connaître N_A"
+      ],
+      ans: 0,
+      expl: "Pour une même masse d'échantillon, N = m / m_entité est d'autant plus grand que m_entité est petite. Les molécules de H₂ étant beaucoup plus légères que celles de CO₂, l'échantillon de H₂ contient bien plus d'entités."
+    },
+    {
+      q: "Pourquoi la quantité de matière n est-elle toujours proportionnelle au nombre d'entités N, alors que N n'est pas toujours proportionnel à la masse de l'échantillon de la même façon selon les substances ?",
+      ill: null,
+      opts: [
+        "Car n = N / N_A est une relation de proportionnalité directe valable pour toute substance, alors que N = m / m_entité dépend de la masse de l'entité, qui change selon l'espèce chimique",
+        "Car la masse de l'échantillon n'a aucun rapport avec n",
+        "Car N_A change selon la substance étudiée",
+        "Car n est toujours strictement égal à N"
+      ],
+      ans: 0,
+      expl: "N_A est une constante universelle, donc n = N / N_A reste valable pour toute entité. En revanche, le lien entre N et la masse dépend de m_entité, qui varie d'une espèce chimique à l'autre."
+    },
+    {
+      q: "On utilise V = 200 mL d'éthanol (ρ = 0,79 g·mL⁻¹) en TP. Donnée : m(éthanol) = 7,67×10⁻²⁶ kg. Calculer la quantité de matière n d'éthanol présente.",
+      ill: null,
+      opts: [
+        "3,42 mol",
+        "0,158 mol",
+        "2,06 × 10²⁴ mol",
+        "342 mol"
+      ],
+      ans: 0,
+      expl: "On calcule d'abord la masse : m = ρ × V = 0,79 × 200 = 158 g = 0,158 kg. Puis N = m / m_entité ≈ 2,06×10²⁴, et enfin n = N / N_A ≈ 3,42 mol."
+    },
+    {
+      q: "Un élève affirme : « Une mole de plumes a la même masse qu'une mole de plomb. » Cette affirmation est-elle correcte ?",
+      ill: null,
+      opts: [
+        "Non : une mole désigne toujours le même nombre d'entités N_A, mais la masse d'une plume diffère énormément de celle d'un atome de plomb, donc les masses des deux moles diffèrent",
+        "Oui : une mole correspond toujours à la même masse, quelle que soit la substance",
+        "Non : le nombre d'entités N_A change selon la substance considérée",
+        "Oui : la masse d'une entité ne dépend jamais de sa nature"
+      ],
+      ans: 0,
+      expl: "Une mole correspond toujours au même nombre d'entités (N_A), pas à la même masse. La masse totale dépend de la masse de l'entité considérée (m = N_A × m_entité), qui varie énormément d'une substance à l'autre."
+    },
+    {
+      q: "Pour calculer la masse de l'entité CuSO₄·5H₂O, quelle erreur fréquente faut-il éviter ?",
+      ill: null,
+      opts: [
+        "Oublier que les 5 molécules d'eau d'hydratation apportent en réalité 10 atomes H et 5 atomes O supplémentaires à comptabiliser",
+        "Multiplier la masse du cuivre par 5",
+        "Ne pas tenir compte de l'atome de soufre",
+        "Considérer que l'eau d'hydratation n'a aucune masse propre"
+      ],
+      ans: 0,
+      expl: "Le « 5 » devant H₂O multiplie toute la molécule d'eau : il faut donc ajouter 5×2 = 10 atomes H et 5×1 = 5 atomes O, en plus de Cu, S et des 4 atomes O du groupe sulfate."
+    },
+    {
+      q: "Un élève calcule N = m_échantillon / m_entité en utilisant par erreur m_échantillon exprimée en grammes au lieu de kilogrammes (sans convertir). Quelle est la conséquence sur son résultat de N ?",
+      ill: null,
+      opts: [
+        "Son résultat de N sera 1000 fois trop grand",
+        "Son résultat de N sera 1000 fois trop petit",
+        "Son résultat reste correct, l'unité n'a pas d'importance",
+        "Son résultat de N sera 100 fois trop grand"
+      ],
+      ans: 0,
+      expl: "La valeur numérique en grammes est 1000 fois plus grande que la valeur en kilogrammes. En la divisant par m_entité (en kg), on obtient donc un nombre N 1000 fois trop grand."
+    },
+    {
+      q: "On veut peser un échantillon contenant exactement n = 0,10 mol de molécules de glucose. Donnée : m(glucose) = 3,00×10⁻²⁵ kg. Quelle masse, en grammes, doit-on prélever ?",
+      ill: null,
+      opts: [
+        "18 g",
+        "1,8 g",
+        "180 g",
+        "1,8 × 10⁻² g"
+      ],
+      ans: 0,
+      expl: "On calcule d'abord N = n × N_A = 0,10 × 6,02×10²³ = 6,02×10²² entités, puis m = N × m_entité = 6,02×10²² × 3,00×10⁻²⁵ ≈ 1,8×10⁻² kg, soit 18 g."
+    },
+    {
+      q: "En quoi la relation N = n × N_A permet-elle de relier le monde « macroscopique » (la mole, mesurable en laboratoire) au monde « microscopique » (les entités individuelles) ?",
+      ill: svgFormuleMole(),
+      opts: [
+        "N_A est une constante de conversion fixe qui transforme une quantité de matière mesurable en laboratoire en un nombre exact d'entités à l'échelle atomique",
+        "Car N est toujours rigoureusement égal à n",
+        "Car N_A varie selon la substance étudiée, ce qui permet l'ajustement",
+        "Cette relation n'a pas de sens physique réel, c'est une simple convention arbitraire"
+      ],
+      ans: 0,
+      expl: "N_A = 6,02×10²³ mol⁻¹ est une constante universelle : elle joue le rôle de « pont » entre l'échelle du laboratoire (la mole, mesurée en grammes ou en mol) et l'échelle atomique (le nombre exact d'entités)."
+    }
+  ]
+};
+
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = []; // true/false par question
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  // Update header styles
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  // Progression
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  // Styles options
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  // Feedback
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  // Bouton suivant
+  document.getElementById('btn-next').classList.add('show');
+
+  // Progression (après réponse)
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  // Dots recap
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

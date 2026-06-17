@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Code d'Avogadro — Escape Game | Séquence 06</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#0a0f1c;
+  --bg-panel:#121a2e;
+  --bg-panel-locked:#0d1320;
+  --accent-cyan:#4dd9e8;
+  --accent-amber:#ffb454;
+  --text-primary:#eaf2fa;
+  --text-secondary:#84a0bf;
+  --success:#3ddc97;
+  --success-bg:rgba(61,220,151,0.12);
+  --danger:#ff6464;
+  --danger-bg:rgba(255,100,100,0.12);
+  --border:rgba(255,255,255,0.09);
+  --border-strong:rgba(255,255,255,0.18);
+  --font-display:'Space Grotesk',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:radial-gradient(circle at 50% -10%,#162338 0%,#0a0f1c 55%);min-height:100vh}
+body{font-family:var(--font-body);color:var(--text-primary);line-height:1.55}
+sup{font-size:.78em;vertical-align:super;line-height:0}
+
+.stage{max-width:720px;margin:0 auto;padding:22px 18px 60px;position:relative}
+
+/* ---- topbar ---- */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-amber)}
+.topbar h1{font-family:var(--font-display);font-size:1.65rem;font-weight:700;margin-top:5px;color:var(--text-primary)}
+.timer-wrap{position:relative;width:84px;height:84px;flex-shrink:0;transition:transform .15s}
+.timer-wrap.penalty{animation:penaltyFlash .5s ease}
+@keyframes penaltyFlash{0%{transform:scale(1)}40%{transform:scale(1.16)}100%{transform:scale(1)}}
+.timer-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--border-strong);stroke-width:6}
+.ring-fg{fill:none;stroke:var(--accent-cyan);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s}
+.ring-fg.warning{stroke:var(--accent-amber)}
+.ring-fg.danger{stroke:var(--danger)}
+.timer-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:15px;font-weight:600}
+.timer-wrap.penalty .timer-text{color:var(--danger)}
+
+.doors-progress{display:flex;align-items:center;gap:10px;margin:14px 0 22px;font-family:var(--font-mono);font-size:12px;color:var(--text-secondary)}
+.doors-progress .track{flex:1;height:4px;border-radius:99px;background:var(--border-strong);overflow:hidden}
+.doors-progress .fill{height:100%;width:0%;background:var(--success);border-radius:99px;transition:width .4s}
+
+/* ---- overlays ---- */
+.overlay{position:fixed;inset:0;background:rgba(6,9,16,.92);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.overlay.hidden{display:none}
+.overlay-card{background:var(--bg-panel);border:1px solid var(--border-strong);border-radius:16px;padding:30px 26px;max-width:460px;box-shadow:0 24px 60px rgba(0,0,0,.55)}
+.overlay-card .eyebrow{display:block;margin-bottom:10px}
+.overlay-card h2{font-family:var(--font-display);font-size:1.3rem;font-weight:700;margin-bottom:12px}
+.overlay-card p{font-size:14px;color:var(--text-secondary);margin-bottom:12px}
+.overlay-card p strong{color:var(--text-primary)}
+.recap-box{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:14px 0;font-family:var(--font-mono);font-size:13px;line-height:2;color:var(--accent-cyan)}
+.egg-note{font-size:12.5px;color:var(--text-secondary);border-left:2px solid var(--accent-amber);padding-left:10px;margin:14px 0}
+
+/* ---- buttons ---- */
+button{font-family:var(--font-body);font-weight:600;font-size:13px;border:none;border-radius:9px;padding:9px 18px;cursor:pointer;transition:.15s}
+.btn-primary{background:var(--accent-cyan);color:#06222a}
+.btn-primary:hover{background:#6ee3ef}
+.btn-exit{background:var(--success);color:#06291c}
+.btn-exit:hover{background:#5fe9ad}
+.btn-retry{background:var(--danger);color:#2a0606}
+.btn-retry:hover{background:#ff8585}
+.btn-hint{background:transparent;border:1px solid var(--border-strong);color:var(--text-secondary);font-size:12px;padding:6px 13px;margin-top:8px}
+.btn-hint:hover:not(:disabled){border-color:var(--accent-amber);color:var(--accent-amber)}
+button:disabled{opacity:.35;cursor:not-allowed}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent-cyan);outline-offset:2px}
+
+/* ---- corridor / panels ---- */
+.corridor{display:flex;flex-direction:column;align-items:stretch}
+.connector{width:2px;height:26px;background:var(--border-strong);margin:0 auto}
+.lock-panel{background:var(--bg-panel);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;transition:.3s}
+.lock-panel.solved{border-color:var(--success);box-shadow:0 0 0 1px var(--success),0 0 26px rgba(61,220,151,.14)}
+.lock-panel.locked{background:var(--bg-panel-locked)}
+.lock-panel.locked .lock-body{opacity:.3;filter:blur(.3px)}
+.lock-panel.locked::after{content:'🔒 Verrouillé — résous la serrure précédente';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--font-mono);font-size:12.5px;color:var(--text-secondary);background:rgba(10,15,28,.6);border-radius:14px;padding:0 30px}
+
+.lock-head{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.lock-num{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--accent-cyan);background:rgba(77,217,232,.12);border:1px solid rgba(77,217,232,.35);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lock-title{font-family:var(--font-display);font-weight:600;font-size:16px}
+.lock-status{font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);margin-top:2px}
+.lock-status.solved{color:var(--success)}
+
+.lock-body p{font-size:14px;color:var(--text-secondary);margin-bottom:10px}
+.clue-banner{background:rgba(61,220,151,.08);border-left:3px solid var(--success);padding:9px 12px;border-radius:6px;font-family:var(--font-mono);font-size:12.5px;color:var(--text-primary);margin-bottom:12px;display:none}
+.clue-banner.show{display:block}
+
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 14px;font-family:var(--font-mono)}
+.data-table th{text-align:left;font-weight:600;color:var(--text-secondary);padding:6px 8px;border-bottom:1px solid var(--border-strong);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.data-table td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-primary)}
+
+.formula-hint{font-family:var(--font-mono);background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;font-size:13px;color:var(--accent-cyan);margin:10px 0}
+
+.input-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.input-row label{font-size:13px;color:var(--text-secondary);white-space:nowrap}
+.input-row input[type=text]{font-family:var(--font-mono);background:#0d1424;border:1px solid var(--border-strong);color:var(--text-primary);padding:8px 10px;border-radius:8px;font-size:13px;width:140px}
+.input-row .unit{font-size:13px;color:var(--text-secondary)}
+
+.feedback{display:none;margin-top:8px;padding:8px 11px;border-radius:8px;font-size:13px}
+.feedback.ok{display:block;background:var(--success-bg);color:var(--success);border:1px solid rgba(61,220,151,.3)}
+.feedback.ko{display:block;background:var(--danger-bg);color:var(--danger);border:1px solid rgba(255,100,100,.3)}
+
+.hint-text{display:none;font-size:12.5px;color:var(--accent-amber);margin-top:8px;line-height:1.6}
+.hint-text.show{display:block}
+
+@media (max-width:560px){
+  .topbar h1{font-size:1.3rem}
+  .timer-wrap{width:64px;height:64px}
+  .timer-text{font-size:12px}
+  .input-row input[type=text]{width:120px}
+}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="topbar">
+    <div>
+      <span class="eyebrow">Escape game · Séquence 06</span>
+      <h1>Le Code d'Avogadro</h1>
+    </div>
+    <div class="timer-wrap" id="timerWrap">
+      <svg class="timer-ring" viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-text" id="timerText">06:02</div>
+    </div>
+  </div>
+
+  <div class="doors-progress">
+    <span id="doorsCount">0/3 serrures déverrouillées</span>
+    <div class="track"><div class="fill" id="doorsFill"></div></div>
+    <span id="hintsUsed">0 indice utilisé</span>
+  </div>
+
+  <!-- ═══ INTRO ═══ -->
+  <div class="overlay" id="introOverlay">
+    <div class="overlay-card">
+      <span class="eyebrow">23h58 · Lycée fermé</span>
+      <h2>Tu es resté·e bloqué·e dans la salle de chimie.</h2>
+      <p>Les lumières principales se sont éteintes et le système de sécurité a verrouillé les trois accès du couloir. Sur l'écran de la paillasse, un message clignote :</p>
+      <p>« Trois serrures. Un seul échantillon : une fiole de craie (CaCO₃). <strong>06 min 02 s</strong> avant la fermeture totale du bâtiment. »</p>
+      <p>Résous les trois calculs dans l'ordre : chaque bonne réponse déverrouille la serrure suivante.</p>
+      <button class="btn-primary" onclick="startGame()">Démarrer l'évasion ⏳</button>
+    </div>
+  </div>
+
+  <!-- ═══ VICTOIRE ═══ -->
+  <div class="overlay hidden" id="winOverlay">
+    <div class="overlay-card">
+      <span class="eyebrow" style="color:var(--success)">Sortie débloquée</span>
+      <h2>🔓 Évasion réussie !</h2>
+      <p>Tu sors du laboratoire avec <strong id="finalTime"></strong> restantes sur l'horloge, après avoir mené l'échantillon de craie jusqu'au bout de la chaîne de calcul :</p>
+      <div class="recap-box">
+        m(entité) = Σ m(atomes)<br>
+        N = m<sub>échantillon</sub> / m(entité)<br>
+        n = N / N<sub>A</sub>
+      </div>
+      <div class="egg-note">As-tu remarqué que le chrono démarrait à 06 min 02 s ? Un clin d'œil à la constante d'Avogadro, N<sub>A</sub> = 6,02×10<sup>23</sup> mol<sup>-1</sup> — celle-là même que tu viens d'utiliser pour sortir.</div>
+      <button class="btn-exit" onclick="restart()">🔁 Rejouer</button>
+    </div>
+  </div>
+
+  <!-- ═══ ÉCHEC ═══ -->
+  <div class="overlay hidden" id="loseOverlay">
+    <div class="overlay-card">
+      <span class="eyebrow" style="color:var(--danger)">Fermeture totale</span>
+      <h2>🔒 Le bâtiment vient de se verrouiller.</h2>
+      <p>Le temps s'est écoulé avant l'ouverture complète des trois serrures. Le gardien n'en saura rien — retente ta chance.</p>
+      <button class="btn-retry" onclick="restart()">🔁 Réessayer</button>
+    </div>
+  </div>
+
+  <!-- ═══ COULOIR ═══ -->
+  <div class="corridor">
+
+    <!-- SERRURE 1 -->
+    <div class="lock-panel" id="panel1">
+      <div class="lock-head">
+        <span class="lock-num">01</span>
+        <div>
+          <div class="lock-title">La masse d'une entité</div>
+          <div class="lock-status" id="status1">À résoudre</div>
+        </div>
+      </div>
+      <div class="lock-body">
+        <p>Le scanner moléculaire affiche la formule brute de l'échantillon : <strong>CaCO₃</strong> (carbonate de calcium). Calcule la masse d'une entité à partir des masses atomiques ci-dessous.</p>
+        <table class="data-table">
+          <thead><tr><th>Atome</th><th>Masse (kg)</th><th>Nombre dans CaCO₃</th></tr></thead>
+          <tbody>
+            <tr><td>Ca</td><td>6,66×10<sup>-26</sup></td><td>1</td></tr>
+            <tr><td>C</td><td>2,00×10<sup>-26</sup></td><td>1</td></tr>
+            <tr><td>O</td><td>2,67×10<sup>-26</sup></td><td>3</td></tr>
+          </tbody>
+        </table>
+        <div class="formula-hint">m(CaCO₃) = m(Ca) + m(C) + 3 × m(O)</div>
+        <div class="input-row">
+          <label>m(CaCO₃) =</label>
+          <input type="text" id="input1" placeholder="ex : 1.67e-25">
+          <span class="unit">kg</span>
+          <button class="btn-primary" onclick="checkDoor(1)">Valider</button>
+        </div>
+        <div class="feedback" id="fb1"></div>
+        <button class="btn-hint" onclick="useHint(1)">💡 Indice (−30 s)</button>
+        <div class="hint-text" id="hint1">Additionne les trois contributions : 6,66×10<sup>-26</sup> + 2,00×10<sup>-26</sup> + 3 × 2,67×10<sup>-26</sup>.</div>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- SERRURE 2 -->
+    <div class="lock-panel locked" id="panel2">
+      <div class="lock-head">
+        <span class="lock-num">02</span>
+        <div>
+          <div class="lock-title">Le nombre d'entités N</div>
+          <div class="lock-status" id="status2">En attente</div>
+        </div>
+      </div>
+      <div class="lock-body">
+        <div class="clue-banner" id="clue2"></div>
+        <p>Le détecteur a pesé l'échantillon de craie : <strong>m = 5,0 g</strong>. Convertis cette masse en kg, puis calcule le nombre d'entités N qu'elle contient.</p>
+        <div class="formula-hint">N = m<sub>échantillon</sub> / m(CaCO₃)</div>
+        <div class="input-row">
+          <label>N =</label>
+          <input type="text" id="input2" placeholder="ex : 3.0e22" disabled>
+          <button class="btn-primary" onclick="checkDoor(2)" disabled>Valider</button>
+        </div>
+        <div class="feedback" id="fb2"></div>
+        <button class="btn-hint" onclick="useHint(2)" disabled>💡 Indice (−30 s)</button>
+        <div class="hint-text" id="hint2">1 g = 10<sup>-3</sup> kg, donc 5,0 g = 5,0×10<sup>-3</sup> kg. Puis N = (5,0×10<sup>-3</sup>) / m(CaCO₃), avec la valeur trouvée à la serrure précédente.</div>
+      </div>
+    </div>
+
+    <div class="connector"></div>
+
+    <!-- SERRURE 3 -->
+    <div class="lock-panel locked" id="panel3">
+      <div class="lock-head">
+        <span class="lock-num">03</span>
+        <div>
+          <div class="lock-title">La quantité de matière n — code de sortie</div>
+          <div class="lock-status" id="status3">En attente</div>
+        </div>
+      </div>
+      <div class="lock-body">
+        <div class="clue-banner" id="clue3"></div>
+        <p>Dernière étape : convertis N en quantité de matière grâce à la constante d'Avogadro N<sub>A</sub> = 6,02×10<sup>23</sup> mol<sup>-1</sup>. Le résultat est le code qui ouvre la sortie.</p>
+        <div class="formula-hint">n = N / N<sub>A</sub></div>
+        <div class="input-row">
+          <label>Code de sortie : n =</label>
+          <input type="text" id="input3" placeholder="ex : 5.0e-2" disabled>
+          <span class="unit">mol</span>
+          <button class="btn-primary" onclick="checkDoor(3)" disabled>Ouvrir la sortie</button>
+        </div>
+        <div class="feedback" id="fb3"></div>
+        <button class="btn-hint" onclick="useHint(3)" disabled>💡 Indice (−30 s)</button>
+        <div class="hint-text" id="hint3">n = N / N_A, avec la valeur de N trouvée à la serrure précédente et N_A = 6,02×10<sup>23</sup> mol<sup>-1</sup>.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ---- données chimiques ---- */
+const ATOMS={Ca:6.66e-26,C:2.00e-26,O:2.67e-26};
+const NA=6.02e23;
+const mEntite=ATOMS.Ca+ATOMS.C+3*ATOMS.O;
+const mEchKg=5.0/1000;
+const officialN=mEchKg/mEntite;
+const officialNmol=officialN/NA;
+
+const INITIAL_TIME=362; // 06:02 — clin d'oeil à N_A = 6,02e23
+const RING_CIRC=326.73; // 2*pi*52
+
+let timeLeft=INITIAL_TIME;
+let timerId=null;
+let hintsUsed=0;
+let solved=[false,false,false];
+
+function fmtSci(n){
+  if(!n)return '0';
+  const e=Math.floor(Math.log10(Math.abs(n)));
+  const m=(n/Math.pow(10,e)).toFixed(2);
+  return m+'×10<sup>'+e+'</sup>';
+}
+function parseVal(s){return parseFloat(String(s).replace(',','.').replace(/[×x]/g,'e').replace(/\s/g,''));}
+function approxEq(a,b,pct){
+  pct=pct||0.015;
+  return !isNaN(a)&&b!==0&&Math.abs(a-b)/Math.abs(b)<pct;
+}
+function fmtTime(s){
+  const m=Math.floor(s/60),sec=s%60;
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
+
+function startGame(){
+  document.getElementById('introOverlay').classList.add('hidden');
+  if(timerId)clearInterval(timerId);
+  timerId=setInterval(tick,1000);
+  updateRing();
+}
+function tick(){
+  timeLeft--;
+  if(timeLeft<=0){timeLeft=0;updateRing();loseGame();return;}
+  updateRing();
+}
+function updateRing(){
+  document.getElementById('timerText').textContent=fmtTime(timeLeft);
+  const ring=document.getElementById('ringFg');
+  const frac=timeLeft/INITIAL_TIME;
+  ring.style.strokeDashoffset=(RING_CIRC*(1-frac)).toFixed(1);
+  ring.classList.remove('warning','danger');
+  if(timeLeft<=60)ring.classList.add('danger');
+  else if(timeLeft<=180)ring.classList.add('warning');
+}
+function flashPenalty(){
+  const wrap=document.getElementById('timerWrap');
+  wrap.classList.add('penalty');
+  setTimeout(()=>wrap.classList.remove('penalty'),500);
+}
+function useHint(n){
+  const hint=document.getElementById('hint'+n);
+  if(hint.classList.contains('show'))return;
+  hint.classList.add('show');
+  hintsUsed++;
+  document.getElementById('hintsUsed').textContent=hintsUsed+(hintsUsed>1?' indices utilisés':' indice utilisé');
+  timeLeft=Math.max(0,timeLeft-30);
+  updateRing();
+  flashPenalty();
+  if(timeLeft<=0)loseGame();
+}
+function setFb(id,type,msg){
+  const el=document.getElementById(id);
+  el.className='feedback '+type;
+  el.innerHTML=msg;
+}
+function updateDoorsCount(){
+  const count=solved.filter(Boolean).length;
+  document.getElementById('doorsCount').textContent=count+'/3 serrures déverrouillées';
+  document.getElementById('doorsFill').style.width=(count/3*100)+'%';
+}
+function unlockPanel(n){
+  const p=document.getElementById('panel'+n);
+  p.classList.remove('locked');
+  p.querySelectorAll('input,button').forEach(el=>el.disabled=false);
+  p.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function checkDoor(n){
+  const input=document.getElementById('input'+n);
+  const v=parseVal(input.value);
+  let expected;
+  if(n===1)expected=mEntite;
+  else if(n===2)expected=officialN;
+  else expected=officialNmol;
+
+  if(approxEq(v,expected)){
+    solved[n-1]=true;
+    setFb('fb'+n,'ok','✓ Correct, la serrure cède.');
+    document.getElementById('panel'+n).classList.add('solved');
+    document.getElementById('status'+n).textContent='✅ Résolu';
+    document.getElementById('status'+n).classList.add('solved');
+    updateDoorsCount();
+
+    if(n===1){
+      document.getElementById('clue2').innerHTML='🔓 Donnée confirmée : m(CaCO₃) = '+fmtSci(mEntite)+' kg.';
+      document.getElementById('clue2').classList.add('show');
+      unlockPanel(2);
+    } else if(n===2){
+      document.getElementById('clue3').innerHTML='🔓 Donnée confirmée : N = '+fmtSci(officialN)+' entités.';
+      document.getElementById('clue3').classList.add('show');
+      unlockPanel(3);
+    } else {
+      winGame();
+    }
+  } else {
+    const hintShown=document.getElementById('hint'+n).classList.contains('show');
+    setFb('fb'+n,'ko','✗ Pas tout à fait. Vérifie ta formule'+(hintShown?'.':" ou utilise l'indice."));
+  }
+}
+
+function winGame(){
+  clearInterval(timerId);
+  document.getElementById('finalTime').textContent=fmtTime(timeLeft);
+  document.getElementById('winOverlay').classList.remove('hidden');
+}
+function loseGame(){
+  clearInterval(timerId);
+  document.getElementById('loseOverlay').classList.remove('hidden');
+}
+
+function restart(){
+  clearInterval(timerId);
+  timeLeft=INITIAL_TIME;hintsUsed=0;solved=[false,false,false];
+  document.getElementById('hintsUsed').textContent='0 indice utilisé';
+  updateDoorsCount();
+
+  [1,2,3].forEach(n=>{
+    document.getElementById('input'+n).value='';
+    document.getElementById('fb'+n).className='feedback';
+    document.getElementById('hint'+n).classList.remove('show');
+    document.getElementById('status'+n).classList.remove('solved');
+    document.getElementById('status'+n).textContent= n===1?'À résoudre':'En attente';
+  });
+
+  document.getElementById('panel1').classList.remove('solved');
+
+  [2,3].forEach(n=>{
+    const p=document.getElementById('panel'+n);
+    p.classList.add('locked');
+    p.classList.remove('solved');
+    p.querySelectorAll('input,button').forEach(el=>el.disabled=true);
+  });
+
+  document.getElementById('clue2').classList.remove('show');
+  document.getElementById('clue3').classList.remove('show');
+  document.getElementById('winOverlay').classList.add('hidden');
+  document.getElementById('loseOverlay').classList.add('hidden');
+  document.getElementById('introOverlay').classList.remove('hidden');
+  updateRing();
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    const active=document.activeElement;
+    if(active&&active.tagName==='INPUT'){
+      const m=active.id.match(/^input(\d)$/);
+      if(m)checkDoor(parseInt(m[1]));
+    }
+  }
+});
+
+updateRing();
+updateDoorsCount();
+</script>
+</body>
+</html>

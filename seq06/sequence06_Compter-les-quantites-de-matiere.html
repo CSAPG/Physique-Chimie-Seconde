@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compter les entités dans un échantillon de matière — Séquence 06 | Physique-Chimie Seconde</title>
 <link rel="stylesheet" href="../assets/style-animations.css">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -29,18 +30,23 @@ body{font-family:var(--font-sans);color:var(--color-text-primary)}
 .back-link:hover{text-decoration:underline}
 
 /* ---- en-tête de cours avec animation sablier ---- */
-.course-header{position:relative;overflow:hidden;background:#ffffff;border:1.5px solid #e0f2fe;border-radius:16px;padding:26px 24px 22px;text-align:center;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.course-header{position:sticky;top:0;z-index:100;overflow:hidden;background:#ffffff;border:1.5px solid #e0f2fe;border-bottom:3px solid #185FA5;border-radius:14px;padding:18px 24px 14px;text-align:left;margin-bottom:24px;box-shadow:0 2px 12px rgba(24,95,165,0.10)}
 .course-header .hg-decor{position:absolute;inset:0;z-index:0;pointer-events:none}
 .course-header .hg-decor .hourglass-icon{position:absolute;opacity:.13;margin:0}
-.course-header .badge{position:relative;z-index:1;display:inline-block;background:#e6f1fb;color:#0c447c;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:700;letter-spacing:.03em;margin-bottom:10px}
-.course-header h1{position:relative;z-index:1;font-size:1.5rem;font-weight:800;color:#185FA5;margin-bottom:6px}
-.course-header .sub{position:relative;z-index:1;font-size:.88rem;color:#64748b}
-@media (max-width:560px){.course-header h1{font-size:1.2rem}}
+.course-header .header-top{position:relative;z-index:1;display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.course-header .header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px}
+.course-header .badge{display:inline-block;background:#185FA5;color:#fff;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.03em;margin:0;font-family:"Outfit",sans-serif;white-space:nowrap}
+.course-header .header-titles{flex:1;min-width:200px}
+.course-header h1{font-family:"Outfit",sans-serif;font-size:1.45rem;font-weight:800;color:#185FA5;margin:0 0 4px;line-height:1.2}
+.course-header .sub{font-family:"Nunito",sans-serif;font-size:.85rem;color:#5A6B7A;margin:0}
+.course-header .sub span{color:#E8783A;font-weight:700}
+@media (max-width:560px){.course-header h1{font-size:1.1rem}.course-header{padding:14px 16px 10px}}
 
-.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0}
-.tab{padding:9px 14px;border:0.5px solid var(--color-border-secondary);border-bottom:none;border-radius:8px 8px 0 0;background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:13px;font-weight:500;transition:.15s}
-.tab.on{background:var(--color-background-primary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
-.panel{display:none;background:var(--color-background-primary);border:0.5px solid var(--color-border-primary);border-radius:0 8px 8px 8px;padding:1.25rem}
+.tabs{position:relative;z-index:1;display:flex;gap:0;flex-wrap:wrap;margin-bottom:0}
+.tab{padding:9px 16px 11px;border:none;border-bottom:3px solid transparent;border-radius:0;background:transparent;color:#5A6B7A;cursor:pointer;font-family:"Nunito",sans-serif;font-size:13px;font-weight:600;transition:.15s;position:relative;bottom:-3px}
+.tab:hover{color:#185FA5}
+.tab.on{background:#e6f1fb;color:#185FA5;border-bottom-color:#185FA5;border-radius:6px 6px 0 0}
+.panel{display:none;background:var(--color-background-primary);border:0.5px solid var(--color-border-primary);border-radius:8px;padding:1.25rem}
 .panel.on{display:block}
 h2{font-size:16px;font-weight:500;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1rem}
 h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin:1.2rem 0 .6rem}
@@ -97,9 +103,9 @@ h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;
 .stat-val{font-size:18px;font-weight:500}
 
 /* ---- Capacités exigibles : bouton pastille + panneau ---- */
-button.cap-toggle{background:#185FA5;color:#fff;border:none;padding:10px 18px;border-radius:999px;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:14px}
+button.cap-toggle{background:#185FA5;color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:"Nunito",sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
 button.cap-toggle:hover{background:#0d4a85}
-.cap-panel{display:none;max-width:720px;margin:14px auto 0;background:#fff;border:1px solid #bcdcfb;border-radius:12px;padding:16px 20px;text-align:left;font-size:.9rem;color:#0C447C}
+.cap-panel{display:none;position:relative;z-index:1;margin:0 0 14px;background:#fff;border:1px solid #bcdcfb;border-radius:12px;padding:16px 20px;text-align:left;font-size:.9rem;color:#0C447C}
 .cap-panel.open{display:block}
 .cap-panel ul{margin:0;padding-left:1.3rem}
 .cap-panel li{margin-bottom:5px;line-height:1.6}
@@ -165,10 +171,38 @@ button.cap-toggle:hover{background:#0d4a85}
         </svg>
       </div>
     </div>
-    <div class="badge">Physique-Chimie Seconde · Séquence 06</div>
-    <h1>⏳ Compter les entités dans un échantillon de matière</h1>
-    <div class="sub">B.O. 2019 · Masse d'une entité · Nombre d'entités N · Quantité de matière n</div>
-    <button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
+
+    <div class="header-top">
+      <div class="header-left">
+        <div class="badge">2<sup>nde</sup> – Séq. 06</div>
+        <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+      </div>
+      <div class="header-titles">
+        <h1>Compter les entités dans un échantillon de matière</h1>
+        <div class="sub">Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</div>
+        <div class="sub" style="margin-top:4px;">B.O. 2019 · Masse d'une entité · Nombre d'entités N · Quantité de matière n</div>
+      </div>
+      <div class="hourglass-icon" style="position:relative;z-index:1;width:60px;height:72px;flex-shrink:0;" title="Sablier : mesurer une quantité de matière">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-06e"><path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" /></clipPath>
+          <clipPath id="bottomClip-06e"><path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" /></clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-06e)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-06e)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('t1',this)">Masse &amp; Entités</button>
+      <button class="tab" onclick="showTab('t2',this)">Quantité de matière</button>
+      <button class="tab" onclick="showTab('t3',this)">Bilan &amp; Ressources</button>
+    </div>
+
     <div class="cap-panel" id="capPanel">
       <ul>
         <li>Déterminer la masse d'une entité à partir de sa formule brute et des masses atomiques.</li>
@@ -179,11 +213,6 @@ button.cap-toggle:hover{background:#0d4a85}
   </header>
 
 <div style="padding:.5rem 0">
-<div class="tabs">
-  <button class="tab on" onclick="showTab('t1',this)">Masse &amp; Entités</button>
-  <button class="tab" onclick="showTab('t2',this)">Quantité de matière</button>
-  <button class="tab" onclick="showTab('t3',this)">Bilan &amp; Ressources</button>
-</div>
 
 <!-- ═══ ONGLET 1 ═══ -->
 <div id="t1" class="panel on">
@@ -410,8 +439,8 @@ document.getElementById("capToggle").addEventListener("click", function () {
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");
   this.textContent = panel.classList.contains("open")
-    ? "📋 Masquer les capacités exigibles"
-    : "📋 Voir les capacités exigibles";
+    ? "📋 Masquer les capacités"
+    : "📋 Capacités exigibles";
 });
 
 function showTab(id,btn){

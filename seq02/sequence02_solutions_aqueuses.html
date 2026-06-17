@@ -753,6 +753,35 @@
     .main { padding: 18px 12px 50px; }
     .calc-row label { min-width: 100%; }
   }
+  /* ---- Capacités exigibles : bouton pastille + panneau ---- */
+button.cap-toggle {
+  background: #2D5F8A;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 10px 0 14px;
+}
+button.cap-toggle:hover { background: #1e4466; }
+
+.cap-panel {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto 14px;
+  background: #fff;
+  border: 1px solid #B8D4EC;
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.88rem;
+  color: #1A2A3A;
+}
+.cap-panel.open { display: block; }
+.cap-panel ul { margin: 0; padding-left: 1.3rem; }
+.cap-panel li { margin-bottom: 5px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -776,6 +805,7 @@
       <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
     </div>
   </div>
+
   <nav class="tabs-nav">
     <button class="tab-btn active" onclick="switchTab(0)">
       <span class="tab-num">1</span> Solution : solvant, soluté
@@ -793,7 +823,22 @@
       <span class="tab-num">5</span> Bilan
     </button>
   </nav>
+    <div style="text-align:center; padding: 8px 0 18px;"></div>
+  <button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
+      <li>Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.</li>
+      <li>Déterminer la valeur de la concentration d'un soluté (en g·L⁻¹) à partir du mode opératoire de préparation d'une solution par dissolution ou par dilution.</li>
+      <li>Choisir et utiliser la verrerie adaptée pour préparer une solution par dissolution ou par dilution.</li>
+      <li>Déterminer la valeur d'une concentration et d'une concentration maximale à partir de résultats expérimentaux.</li>
+      <li>Déterminer la valeur d'une concentration à l'aide d'une gamme d'étalonnage (échelle de teinte, mesure de conductance ou mesure de masse volumique).</li>
+      <li>Capacité mathématique : utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
+    </ul>
+  </div>
 </div>
+</div>
+
 
 <main class="main">
 
@@ -1449,19 +1494,6 @@
     <p>p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
   </div>
 
-  <div class="def-card">
-    <h3>📋 Capacités exigibles – Séquence 02</h3>
-    <ul class="ke-list">
-      <li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
-      <li>Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.</li>
-      <li>Déterminer la valeur de la concentration d'un soluté (en g·L⁻¹) à partir du mode opératoire de préparation d'une solution par dissolution ou par dilution.</li>
-      <li>Choisir et utiliser la verrerie adaptée pour préparer une solution par dissolution ou par dilution.</li>
-      <li>Déterminer la valeur d'une concentration et d'une concentration maximale à partir de résultats expérimentaux.</li>
-      <li>Déterminer la valeur d'une concentration à l'aide d'une gamme d'étalonnage (échelle de teinte, mesure de conductance ou mesure de masse volumique).</li>
-      <li>Capacité mathématique : utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
-    </ul>
-  </div>
-
 </div><!-- fin tab-4 -->
 
 <div class="footer-note">
@@ -1473,6 +1505,14 @@
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
 
 <script>
+  // ===== Capacités exigibles =====
+document.getElementById("capToggle").addEventListener("click", function () {
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open")
+    ? "📋 Masquer les capacités exigibles"
+    : "📋 Voir les capacités exigibles";
+}); 
 // ── Navigation onglets ──
 function switchTab(n) {
   document.querySelectorAll('.tab-content').forEach((t,i) => {

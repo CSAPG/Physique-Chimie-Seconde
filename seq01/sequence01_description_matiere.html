@@ -915,6 +915,36 @@
     .main { padding: 18px 12px 50px; }
     .lava-lamp-wrap { width: 30px; height: 58px; }
   }
+  /* ---- Capacités exigibles : bouton pastille + panneau ---- */
+button.cap-toggle {
+  background: #2D5F8A;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 10px 0 14px;
+}
+button.cap-toggle:hover { background: #1e4466; }
+
+.cap-panel {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto 14px;
+  background: #fff;
+  border: 1px solid #B8D4EC;
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.88rem;
+  color: #1A2A3A;
+}
+.cap-panel.open { display: block; }
+.cap-panel ul { margin: 0; padding-left: 1.3rem; }
+.cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+
 </style>
 </head>
 <body>
@@ -939,7 +969,20 @@
       </div>
       <div class="ll-base"></div>
       <div class="ll-glow"></div>
-    </div>
+</div>
+  </div>
+  <button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Citer des exemples courants de corps purs et de mélanges homogènes et hétérogènes.</li>
+      <li>Identifier une espèce chimique par ses températures de changement d'état, sa masse volumique ou des tests chimiques.</li>
+      <li>Citer la valeur de ρ<sub>eau</sub> et la comparer à d'autres corps purs et mélanges.</li>
+      <li>Distinguer un mélange d'un corps pur à partir de données expérimentales.</li>
+      <li>Mesurer une température de changement d'état, déterminer la masse volumique d'un échantillon.</li>
+      <li>Réaliser une CCM, mettre en œuvre des tests chimiques pour identifier une espèce chimique.</li>
+      <li>Citer la composition approchée de l'air et l'ordre de grandeur de sa masse volumique.</li>
+      <li>Établir et mesurer la composition d'un échantillon (fractions massique et volumique).</li>
+    </ul>
   </div>
   <nav class="tabs-nav">
     <button class="tab-btn active" onclick="switchTab(0)">
@@ -1762,21 +1805,6 @@
   </div>
   </div><!-- fin exo-card laiton composition -->
 
-  <!-- BILAN CAPACITÉS EXIGIBLES -->
-  <div class="def-card" style="margin-top:28px;">
-    <h3>📋 Capacités exigibles – Séquence 01</h3>
-    <ul class="ke-list">
-      <li>Citer des exemples courants de corps purs et de mélanges homogènes et hétérogènes.</li>
-      <li>Identifier une espèce chimique par ses températures de changement d'état, sa masse volumique ou des tests chimiques.</li>
-      <li>Citer la valeur de ρ<sub>eau</sub> et la comparer à d'autres corps purs et mélanges.</li>
-      <li>Distinguer un mélange d'un corps pur à partir de données expérimentales.</li>
-      <li>Mesurer une température de changement d'état, déterminer la masse volumique d'un échantillon.</li>
-      <li>Réaliser une CCM, mettre en œuvre des tests chimiques pour identifier une espèce chimique.</li>
-      <li>Citer la composition approchée de l'air et l'ordre de grandeur de sa masse volumique.</li>
-      <li>Établir et mesurer la composition d'un échantillon (fractions massique et volumique).</li>
-    </ul>
-  </div>
-
 </div><!-- fin tab-3 -->
 
 <!-- ══════════════════════════════════════
@@ -1812,6 +1840,14 @@
 <div id="global-tooltip" style="position:fixed;background:#1A2A3A;color:white;font-size:0.80rem;padding:6px 12px;border-radius:6px;pointer-events:none;display:none;z-index:999;white-space:nowrap;"></div>
 
 <script>
+  // ===== Capacités exigibles =====
+document.getElementById("capToggle").addEventListener("click", function () {
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open")
+    ? "📋 Masquer les capacités exigibles"
+    : "📋 Voir les capacités exigibles";
+});
 // ── Navigation onglets ──
 function switchTab(n) {
   document.querySelectorAll('.tab-content').forEach((t,i) => {

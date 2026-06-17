@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modélisation de la matière à l'échelle microscopique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fbf9f4;
@@ -28,37 +29,63 @@ body{
 }
 .wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
 
-/* HEADER */
-header.hero{
-  border-bottom:3px solid var(--accent);
-  padding-bottom:18px;
+/* HEADER (style aligné séq.01/02 : fond blanc, bleu/orange, Nunito/Outfit) */
+.header{
+  background:#ffffff;
+  border:1px solid #E3E8EE;
+  border-bottom:3px solid #2D5F8A;
+  border-radius:14px;
+  padding:18px 24px 14px;
   margin-bottom:24px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(45,95,138,0.10);
 }
 .header-top{
   display:flex;
   align-items:center;
-  justify-content:space-between;
   gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
 }
-.header-titles{flex:1;}
-.eyebrow{
-  font-family:"Helvetica Neue",Arial,sans-serif;
-  font-size:0.78rem;
-  letter-spacing:0.18em;
-  text-transform:uppercase;
-  color:var(--accent2);
+.header-left{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.header-badge{
+  background:#2D5F8A;
+  color:#fff;
+  font-family:"Outfit",sans-serif;
+  font-size:11px;
   font-weight:700;
+  letter-spacing:0.08em;
+  padding:4px 10px;
+  border-radius:20px;
+  white-space:nowrap;
 }
-h1{
-  font-size:1.9rem;
-  margin:6px 0 4px;
-  color:var(--ink);
+.header-titles{flex:1;min-width:200px;}
+.header-titles h1{
+  font-family:"Outfit",sans-serif;
+  font-size:1.45rem;
+  font-weight:800;
+  color:#2D5F8A;
+  margin:0 0 4px;
+  line-height:1.2;
+}
+.header-titles p{
+  font-family:"Nunito",sans-serif;
+  font-size:0.85rem;
+  color:#5A6B7A;
+  margin:0;
+}
+.header-titles p span{
+  color:#E8783A;
   font-weight:700;
-}
-.subtitle{
-  font-family:"Helvetica Neue",Arial,sans-serif;
-  font-size:0.95rem;
-  color:#5b6660;
 }
 
 /* ── Animation Séquence 03 : Atome (électrons en trajectoires irrégulières) ── */
@@ -121,41 +148,55 @@ h1{
   .atom-orbit-2,.atom-orbit-3{width:44px;height:24px;margin:-12px 0 0 -22px;}
 }
 
-/* TABS */
-.tabs{
+/* TABS (style aligné séq.01/02) */
+.tabs-nav{
   display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:22px;
-  font-family:"Helvetica Neue",Arial,sans-serif;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
+.tabs-nav::-webkit-scrollbar{display:none;}
 .tab-btn{
-  flex:1 1 auto;
-  min-width:140px;
-  padding:12px 14px;
-  background:var(--paper);
-  border:2px solid var(--line);
-  border-radius:10px;
-  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  min-width:0;
+  padding:10px 16px 12px;
+  background:transparent;
+  border:none;
+  border-bottom:3px solid transparent;
+  border-radius:0;
+  font-family:"Nunito",sans-serif;
   font-size:0.85rem;
-  font-weight:700;
-  color:#6b756f;
-  text-align:center;
+  font-weight:600;
+  color:#5A6B7A;
+  text-align:left;
+  cursor:pointer;
+  white-space:nowrap;
+  position:relative;
+  bottom:-3px;
   transition:all .15s ease;
 }
-.tab-btn .num{
-  display:block;
-  font-size:1.3rem;
-  color:var(--accent);
-  margin-bottom:2px;
+.tab-btn .tab-num{
+  width:22px;height:22px;
+  border-radius:50%;
+  background:#DDE3EC;
+  color:#5A6B7A;
+  font-size:0.75rem;
+  font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all .15s ease;
 }
-.tab-btn:hover{border-color:var(--accent);}
+.tab-btn:hover{color:#2D5F8A;}
 .tab-btn.active{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
+  background:#E8F1F8;
+  color:#2D5F8A;
+  border-bottom-color:#2D5F8A;
+  border-radius:6px 6px 0 0;
 }
-.tab-btn.active .num{color:#fff;}
+.tab-btn.active .tab-num{background:#2D5F8A;color:#fff;}
 
 /* PANELS */
 .panel{display:none;animation:fade .35s ease;}
@@ -710,26 +751,28 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
   .ptable-header{display:none;}
   .pcell{min-height:40px;}
   .pcell .sym{font-size:0.75rem;}
-  h1{font-size:1.5rem;}
+  .header{padding:14px 16px 10px;}
+  .header-titles h1{font-size:1.1rem;}
+  .tab-btn{padding:8px 12px 10px;font-size:0.80rem;}
 }
-/* ---- Capacités exigibles : bouton pastille + panneau ---- */
+/* ---- Capacités exigibles : pastille compacte en haut à gauche + panneau ---- */
 button.cap-toggle {
-  background:  #2d7962;
-  color: #ecf1ee;
+  background: #2D5F8A;
+  color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 5px 12px;
   border-radius: 999px;
-  font-size: 0.88rem;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.74rem;
   font-weight: 700;
   cursor: pointer;
-  margin: 10px 0 14px;
+  white-space: nowrap;
 }
 button.cap-toggle:hover { background: #1e4466; }
 
 .cap-panel {
   display: none;
-  max-width: 780px;
-  margin: 0 auto 14px;
+  margin: 0 0 14px;
   background: #fff;
   border: 1px solid #B8D4EC;
   border-radius: 12px;
@@ -746,12 +789,15 @@ button.cap-toggle:hover { background: #1e4466; }
 <body>
 <div class="wrap">
 
-<header class="hero">
+<div class="header">
   <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">2<sup>nde</sup> – Séq. 03</div>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
     <div class="header-titles">
-      <div class="eyebrow">2nde · Thème : Constitution et transformation de la matière · 1B</div>
-      <h1>Fiche de cours n°3 — Modélisation de la matière à l'échelle microscopique</h1>
-      <div class="subtitle">Mme Poirault-Gauvin · Suivez les onglets dans l'ordre du plan de séquence. Les zones pointillées sont à compléter.</div>
+      <h1>Modélisation de la matière à l'échelle microscopique</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
     </div>
     <!-- Animation : atome avec électrons en trajectoires irrégulières -->
     <div class="atom-icon" title="Modèle de l'atome : noyau et cortège électronique">
@@ -763,17 +809,15 @@ button.cap-toggle:hover { background: #1e4466; }
       <div class="atom-electron atom-e2"></div>
     </div>
   </div>
-</header>
 
-<nav class="tabs">
-  <button class="tab-btn active" data-tab="t1"><span class="num">1</span>Espèce chimique → entité</button>
-  <button class="tab-btn" data-tab="t2"><span class="num">2</span>L'atome et son noyau</button>
-  <button class="tab-btn" data-tab="t3"><span class="num">3</span>Entités stables</button>
-  <button class="tab-btn" data-tab="t4"><span class="num">📊</span>Tableau périodique</button>
-  <button class="tab-btn" data-tab="t5"><span class="num">✓</span>Bilan & Ressources</button>
-</nav>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" data-tab="t1"><span class="tab-num">1</span> Espèce chimique → entité</button>
+    <button class="tab-btn" data-tab="t2"><span class="tab-num">2</span> L'atome et son noyau</button>
+    <button class="tab-btn" data-tab="t3"><span class="tab-num">3</span> Entités stables</button>
+    <button class="tab-btn" data-tab="t4"><span class="tab-num">📊</span> Tableau périodique</button>
+    <button class="tab-btn" data-tab="t5"><span class="tab-num">✓</span> Bilan & Ressources</button>
+  </nav>
 
-<button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
   <div class="cap-panel" id="capPanel">
     <ul>
       <li>Identifier les entités chimiques (atomes, ions, molécules, composés ioniques) et les relier à l’espèce chimique correspondante.</li>
@@ -783,9 +827,10 @@ button.cap-toggle:hover { background: #1e4466; }
     </ul>
   </div>
 </div>
-</div>
+
 <!-- ================= ONGLET 1 ================= -->
 <section class="panel active" id="t1">
+
   <div class="card">
     <h2>1. Du macroscopique au microscopique, de l'espèce chimique à l'entité</h2>
     <div class="activite">Activité 1 : La nature, c'est de la chimie — p60</div>
@@ -1962,8 +2007,8 @@ document.getElementById("capToggle").addEventListener("click", function () {
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");
   this.textContent = panel.classList.contains("open")
-    ? "📋 Masquer les capacités exigibles"
-    : "📋 Voir les capacités exigibles";
+    ? "📋 Masquer les capacités"
+    : "📋 Capacités exigibles";
 });
 /* ============== DONNÉES ÉLÉMENTS Z≤18 ============== */
 const elements = [
@@ -2424,5 +2469,6 @@ document.querySelectorAll('.keyword-check-btn').forEach(btn=>{
   });
 });
 </script>
+</div>
 </body>
 </html>

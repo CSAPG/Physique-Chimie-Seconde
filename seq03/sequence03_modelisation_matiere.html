@@ -712,6 +712,35 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
   .pcell .sym{font-size:0.75rem;}
   h1{font-size:1.5rem;}
 }
+/* ---- Capacités exigibles : bouton pastille + panneau ---- */
+button.cap-toggle {
+  background:  #2d7962;
+  color: #ecf1ee;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 10px 0 14px;
+}
+button.cap-toggle:hover { background: #1e4466; }
+
+.cap-panel {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto 14px;
+  background: #fff;
+  border: 1px solid #B8D4EC;
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.88rem;
+  color: #1A2A3A;
+}
+.cap-panel.open { display: block; }
+.cap-panel ul { margin: 0; padding-left: 1.3rem; }
+.cap-panel li { margin-bottom: 5px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -744,6 +773,17 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
   <button class="tab-btn" data-tab="t5"><span class="num">✓</span>Bilan & Ressources</button>
 </nav>
 
+<button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Identifier les entités chimiques (atomes, ions, molécules, composés ioniques) et les relier à l’espèce chimique correspondante.</li>
+      <li>Décrire la structure de l’atome et du noyau, et relier les notions de nucléons, isotopes et masse atomique.</li>
+      <li>Identifier le cortège électronique d’un atome et le relier à sa position dans le tableau périodique.</li>
+      <li>Utiliser les symboles chimiques et la notation nucléaire pour représenter les entités chimiques.</li>
+    </ul>
+  </div>
+</div>
+</div>
 <!-- ================= ONGLET 1 ================= -->
 <section class="panel active" id="t1">
   <div class="card">
@@ -1917,6 +1957,14 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
 <button id="backToTop" title="Haut de page">↑</button>
 
 <script>
+// ===== Capacités exigibles =====
+document.getElementById("capToggle").addEventListener("click", function () {
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open")
+    ? "📋 Masquer les capacités exigibles"
+    : "📋 Voir les capacités exigibles";
+});
 /* ============== DONNÉES ÉLÉMENTS Z≤18 ============== */
 const elements = [
   {z:1,sym:"H",name:"Hydrogène",config:["1"],valence:1,group:1,row:1,col:1},

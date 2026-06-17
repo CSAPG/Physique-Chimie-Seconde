@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Séquence 05 — Forces et principe d'inertie</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style-animations.css">
 <style>
   :root{
     --orange:#E8590C;
@@ -108,6 +109,10 @@
     font-size:0.85rem;
   }
   .header-titles .hero-quote span{display:block; font-style:normal; margin-top:2px; font-weight:600; color:var(--gray);}
+
+  .header-right{display:flex; align-items:flex-start; justify-content:flex-end; flex-shrink:0; margin-left:auto;}
+  .header-right .apple-icon{transform:scale(1.3); transform-origin:top right;}
+  @media (max-width:520px){ .header-right{display:none;} }
 
   button.cap-toggle{
     background:#2D5F8A;
@@ -431,6 +436,13 @@
         « Si j'ai pu voir vraiment loin, c'est uniquement parce que je me suis tenu sur les épaules de géants. »
         <span>— Isaac Newton (1642 – 1727)</span>
       </p>
+    </div>
+    <div class="header-right" aria-hidden="true">
+      <div class="apple-icon">
+        <div class="apple-canopy"></div>
+        <div class="apple-trunk"></div>
+        <div class="apple-fruit"></div>
+      </div>
     </div>
   </div>
 
@@ -896,11 +908,13 @@
 
       <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:14px;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Schéma bilan : Actions et forces</p>
+        <img src="img/Bilan-forces-Hatier.png" alt="Schéma bilan : interactions, forces de contact et à distance, force de gravitation, poids, principe des actions réciproques" style="max-width:380px; width:100%; display:block; margin:0 auto 12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.12);">
         <a href="https://www.pearltrees.com/private/id104961564/item801650212?paccess=47d178164e8.2fc83624.b6510ab3afb7b8a368fadecc81f117e8" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
       </div>
 
       <div class="info-box" style="text-align:center; border-style:solid;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Schéma bilan : Le principe d'inertie</p>
+        <img src="img/Bilan_principe-inertie-Hatier.png" alt="Schéma bilan : principe d'inertie, contraposée, mouvement rectiligne uniforme, chute libre" style="max-width:380px; width:100%; display:block; margin:0 auto 12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.12);">
         <a href="https://www.pearltrees.com/private/id104961625/item801650228?paccess=47d1783e041.2fc83634.32924d3fe03425c24706b26dc89e049d" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
       </div>
     </section>

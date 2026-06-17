@@ -54,6 +54,14 @@
     gap: 14px;
     margin-bottom: 14px;
   }
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
   .header-badge {
     background: var(--bleu);
     color: white;
@@ -64,7 +72,6 @@
     padding: 4px 10px;
     border-radius: 20px;
     white-space: nowrap;
-    margin-top: 3px;
   }
   .header-titles h1 {
     font-family: 'Outfit', sans-serif;
@@ -753,24 +760,24 @@
     .main { padding: 18px 12px 50px; }
     .calc-row label { min-width: 100%; }
   }
-  /* ---- Capacités exigibles : bouton pastille + panneau ---- */
+  /* ---- Capacités exigibles : pastille compacte en haut à gauche + panneau ---- */
 button.cap-toggle {
   background: #2D5F8A;
   color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 5px 12px;
   border-radius: 999px;
-  font-size: 0.88rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.74rem;
   font-weight: 700;
   cursor: pointer;
-  margin: 10px 0 14px;
+  white-space: nowrap;
 }
 button.cap-toggle:hover { background: #1e4466; }
 
 .cap-panel {
   display: none;
-  max-width: 780px;
-  margin: 0 auto 14px;
+  margin: 0 0 14px;
   background: #fff;
   border: 1px solid #B8D4EC;
   border-radius: 12px;
@@ -788,7 +795,14 @@ button.cap-toggle:hover { background: #1e4466; }
 
 <div class="header">
   <div class="header-top">
-    <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
+    <div class="header-left">
+      <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Les solutions aqueuses, un exemple de mélanges</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
     <div class="tube-icon">
       <div class="tube-tilted">
         <div class="tube-rim"></div>
@@ -799,10 +813,6 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="tube-bubble tb-3"></div>
         </div>
       </div>
-    </div>
-    <div class="header-titles">
-      <h1>Les solutions aqueuses, un exemple de mélanges</h1>
-      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
     </div>
   </div>
 
@@ -823,8 +833,6 @@ button.cap-toggle:hover { background: #1e4466; }
       <span class="tab-num">5</span> Bilan
     </button>
   </nav>
-    <div style="text-align:center; padding: 8px 0 18px;"></div>
-  <button class="cap-toggle" id="capToggle">📋 Voir les capacités exigibles</button>
   <div class="cap-panel" id="capPanel">
     <ul>
       <li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
@@ -836,7 +844,6 @@ button.cap-toggle:hover { background: #1e4466; }
       <li>Capacité mathématique : utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
     </ul>
   </div>
-</div>
 </div>
 
 
@@ -1510,8 +1517,8 @@ document.getElementById("capToggle").addEventListener("click", function () {
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");
   this.textContent = panel.classList.contains("open")
-    ? "📋 Masquer les capacités exigibles"
-    : "📋 Voir les capacités exigibles";
+    ? "📋 Masquer les capacités"
+    : "📋 Capacités exigibles";
 }); 
 // ── Navigation onglets ──
 function switchTab(n) {

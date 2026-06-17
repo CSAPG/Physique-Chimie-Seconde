@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compter les entités dans un échantillon de matière — Séquence 06 | Physique-Chimie Seconde</title>
+<link rel="stylesheet" href="../assets/style-animations.css">
+<style>
+:root{
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  --color-text-primary:#1e293b;
+  --color-text-secondary:#64748b;
+  --color-text-info:#0e7490;
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f8fafc;
+  --color-border-primary:#cbd5e1;
+  --color-border-secondary:#e2e8f0;
+  --color-border-tertiary:#eef2f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#f0f7ff}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+
+/* ---- structure de page ---- */
+.page-wrap{max-width:900px;margin:0 auto;padding:18px 16px 48px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0e7490;text-decoration:none;margin-bottom:14px}
+.back-link:hover{text-decoration:underline}
+
+/* ---- en-tête de cours avec animation sablier ---- */
+.course-header{position:relative;overflow:hidden;background:#ffffff;border:1.5px solid #e0f2fe;border-radius:16px;padding:26px 24px 22px;text-align:center;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.course-header .hg-decor{position:absolute;inset:0;z-index:0;pointer-events:none}
+.course-header .hg-decor .hourglass-icon{position:absolute;opacity:.13;margin:0}
+.course-header .badge{position:relative;z-index:1;display:inline-block;background:#e6f1fb;color:#0c447c;border-radius:20px;padding:4px 14px;font-size:.78rem;font-weight:700;letter-spacing:.03em;margin-bottom:10px}
+.course-header h1{position:relative;z-index:1;font-size:1.5rem;font-weight:800;color:#185FA5;margin-bottom:6px}
+.course-header .sub{position:relative;z-index:1;font-size:.88rem;color:#64748b}
+@media (max-width:560px){.course-header h1{font-size:1.2rem}}
+
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0}
+.tab{padding:9px 14px;border:0.5px solid var(--color-border-secondary);border-bottom:none;border-radius:8px 8px 0 0;background:var(--color-background-secondary);color:var(--color-text-secondary);cursor:pointer;font-size:13px;font-weight:500;transition:.15s}
+.tab.on{background:var(--color-background-primary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.panel{display:none;background:var(--color-background-primary);border:0.5px solid var(--color-border-primary);border-radius:0 8px 8px 8px;padding:1.25rem}
+.panel.on{display:block}
+h2{font-size:16px;font-weight:500;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1rem}
+h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin:1.2rem 0 .6rem}
+.def{background:#E6F1FB;border-left:3px solid #185FA5;border-radius:0;padding:12px 14px;font-size:14px;line-height:1.6;margin:10px 0;color:#0C447C}
+.formule-block{border:0.5px solid var(--color-border-secondary);border-radius:12px;padding:16px;margin:12px 0;background:var(--color-background-secondary)}
+.formule-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:10px}
+.formule-main{text-align:center;font-size:1.2em;font-weight:500;color:#A32D2D;background:#FCEBEB;padding:12px 16px;border-radius:8px;margin-bottom:10px}
+.formule-vars{font-size:13px;line-height:2;color:var(--color-text-secondary);padding:0 4px}
+.formule-vars span{display:inline-block;background:var(--color-background-primary);border-radius:6px;padding:2px 8px;margin:2px 3px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);font-size:13px}
+.anim-box{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin:12px 0}
+.exo-card{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin:14px 0}
+.exo-title{font-size:14px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge-exo{background:#EAF3DE;color:#27500A;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px}
+.inp-row{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.inp-row label{font-size:13px;color:var(--color-text-secondary);white-space:nowrap}
+.fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.fb.ok{background:#EAF3DE;color:#27500A;display:block}
+.fb.ko{background:#FCEBEB;color:#791F1F;display:block}
+.fb.hint{background:#FAEEDA;color:#633806;display:block}
+.slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.slider-row label{font-size:13px;color:var(--color-text-secondary);width:100px}
+.slider-row input[type=range]{flex:1}
+.slider-val{font-size:13px;font-weight:500;min-width:70px;font-family:var(--font-mono)}
+.big-num{font-size:22px;font-weight:500;text-align:center;padding:10px;margin:6px 0}
+.progress-bar{height:6px;border-radius:99px;background:var(--color-border-tertiary);margin:6px 0;overflow:hidden}
+.progress-fill{height:100%;border-radius:99px;background:#185FA5;transition:width .4s}
+.formula-applied{font-family:var(--font-mono);font-size:13px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px;margin:8px 0;line-height:2;text-align:center}
+.arrow-down{text-align:center;font-size:18px;color:var(--color-text-secondary);margin:4px 0}
+.result-highlight{text-align:center;font-size:17px;font-weight:500;color:#0F6E56;background:#E1F5EE;border-radius:8px;padding:10px;margin:6px 0}
+.vid-box{background:var(--color-background-secondary);border-radius:12px;padding:32px 16px;text-align:center;margin:10px 0;border:0.5px dashed var(--color-border-secondary);transition:.15s}
+.vid-box:hover{border-color:#185FA5;background:#E6F1FB}
+.hist-card{border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:14px;line-height:1.6;display:flex;gap:12px}
+.hist-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
+.cap-box{background:#EEEDFE;border-radius:8px;padding:14px 16px;margin-top:10px;font-size:14px;line-height:1.9;color:#3C3489}
+.step-row{display:flex;align-items:flex-start;gap:12px;margin:10px 0}
+.step-num{width:26px;height:26px;border-radius:50%;background:#E6F1FB;color:#0C447C;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-input-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 6px 38px}
+.mol-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:7px;margin-bottom:14px}
+.mol-btn{padding:8px 6px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:500;text-align:center;color:var(--color-text-primary);transition:.15s;line-height:1.5}
+.mol-btn:hover{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.mol-btn.selected{background:#185FA5;color:#fff;border-color:#185FA5}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+.data-table th{background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:500;border-bottom:0.5px solid var(--color-border-secondary)}
+.data-table td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);font-family:var(--font-mono)}
+.atom-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:middle;border:1.5px solid rgba(30,41,59,.35);box-shadow:inset -2px -2px 3px rgba(0,0,0,.25),inset 1px 1px 2px rgba(255,255,255,.7)}
+.check-inline{font-size:12px;padding:5px 12px}
+.score-bar{display:flex;gap:6px;align-items:center;margin:10px 0}
+.score-dot{width:14px;height:14px;border-radius:50%;background:var(--color-border-tertiary);transition:.3s}
+.score-dot.ok{background:#1D9E75}
+.score-dot.ko{background:#E24B4A}
+.deux-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.stat-card{background:var(--color-background-secondary);border-radius:8px;padding:12px;text-align:center}
+.stat-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
+.stat-val{font-size:18px;font-weight:500}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <a class="back-link" href="../index.html">← Retour à l'accueil</a>
+
+  <header class="course-header">
+    <div class="hg-decor" aria-hidden="true">
+      <div class="hourglass-icon" style="top:-12px;left:14px;transform:scale(.5) rotate(-8deg)">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-06a"><path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" /></clipPath>
+          <clipPath id="bottomClip-06a"><path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" /></clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-06a)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-06a)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
+      <div class="hourglass-icon" style="top:-8px;right:18px;transform:scale(.62) rotate(7deg)">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-06b"><path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" /></clipPath>
+          <clipPath id="bottomClip-06b"><path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" /></clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-06b)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-06b)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
+      <div class="hourglass-icon" style="bottom:-22px;left:38%;transform:scale(1.3);opacity:.07">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-06c"><path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" /></clipPath>
+          <clipPath id="bottomClip-06c"><path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" /></clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-06c)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-06c)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
+      <div class="hourglass-icon" style="bottom:-14px;right:64px;transform:scale(.5) rotate(10deg)">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-06d"><path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" /></clipPath>
+          <clipPath id="bottomClip-06d"><path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" /></clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-06d)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-06d)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
+    </div>
+    <div class="badge">Physique-Chimie Seconde · Séquence 06</div>
+    <h1>⏳ Compter les entités dans un échantillon de matière</h1>
+    <div class="sub">B.O. 2019 · Masse d'une entité · Nombre d'entités N · Quantité de matière n</div>
+  </header>
+
+<div style="padding:.5rem 0">
+<div class="tabs">
+  <button class="tab on" onclick="showTab('t1',this)">Masse &amp; Entités</button>
+  <button class="tab" onclick="showTab('t2',this)">Quantité de matière</button>
+  <button class="tab" onclick="showTab('t3',this)">Bilan &amp; Ressources</button>
+</div>
+
+<!-- ═══ ONGLET 1 ═══ -->
+<div id="t1" class="panel on">
+  <h2>1. Masse d'une entité</h2>
+  <div class="def">La masse d'une entité = somme des masses de tous ses atomes. Si un atome apparaît plusieurs fois, on le multiplie.</div>
+
+  <h3>Calculer la masse d'une molécule</h3>
+  <div class="anim-box">
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">Choisis une molécule, puis calcule sa masse étape par étape :</div>
+    <div class="mol-grid" id="molGrid"></div>
+    <div id="molExo" style="display:none">
+      <div id="molHeader" style="margin-bottom:10px"></div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px;color:var(--color-text-secondary)">Données :</div>
+      <table class="data-table" id="dataTable"><thead><tr><th>Atome</th><th>Masse (kg)</th><th>Nb dans la molécule</th></tr></thead><tbody id="dataBody"></tbody></table>
+      <div style="font-size:13px;font-weight:500;margin:12px 0 6px;color:var(--color-text-secondary)">Calcul étape par étape :</div>
+      <div id="stepsContainer"></div>
+      <div style="margin-top:12px;border-top:0.5px solid var(--color-border-tertiary);padding-top:12px">
+        <div style="font-size:13px;margin-bottom:6px">Résultat total — <span id="molFinalLabel"></span> en kg (ex : 7.35e-26) :</div>
+        <div class="inp-row">
+          <label id="finalLabel">m = </label>
+          <input type="text" id="finalInput" placeholder="?.??e-??" style="width:150px;font-family:var(--font-mono);font-size:13px">
+          <span style="font-size:13px">kg</span>
+          <button class="check-inline" onclick="checkFinal()">Vérifier</button>
+          <button class="check-inline" onclick="showSolution()">Correction</button>
+        </div>
+        <div id="fbFinal" class="fb"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <div class="score-bar" id="scoreBar"></div>
+        <button onclick="nextMol()" style="font-size:13px">Molécule suivante →</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:1.4rem">2. Nombre d'entités N</h2>
+
+  <div class="formule-block">
+    <div class="formule-title">Formule</div>
+    <div class="formule-main">N = m<sub>échantillon</sub> / m<sub>entité</sub></div>
+    <div class="formule-vars">
+      <span><strong>N</strong> : nombre d'entités (sans unité)</span>
+      <span><strong>m<sub>échantillon</sub></strong> : masse de l'échantillon en <strong>kg</strong></span>
+      <span><strong>m<sub>entité</sub></strong> : masse d'une entité en <strong>kg</strong></span>
+    </div>
+  </div>
+
+  <h3>Simulation — explorer N</h3>
+  <div class="anim-box">
+    <div class="slider-row">
+      <label>Masse (g) :</label>
+      <input type="range" id="slM" min="1" max="1000" value="10" step="1" oninput="updateN()">
+      <span class="slider-val" id="slMv">10 g</span>
+    </div>
+    <div class="slider-row">
+      <label>Molécule :</label>
+      <select id="slMol" onchange="updateN()" style="font-size:13px;padding:4px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+        <option value="7.35e-26">CO₂</option>
+        <option value="3.01e-26">H₂O</option>
+        <option value="2.83e-26">NH₃</option>
+        <option value="2.99e-25">Glucose C₆H₁₂O₆</option>
+        <option value="1.00e-25">Urée CO(NH₂)₂</option>
+        <option value="2.66e-25">CuSO₄·5H₂O</option>
+      </select>
+    </div>
+    <div class="formula-applied" id="formulaN">N = m / m<sub>entité</sub> = … / … = ?</div>
+    <div class="big-num" id="bigN" style="color:#185FA5">N = ?</div>
+    <div style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--color-text-secondary)">
+      <span>0</span><div class="progress-bar" style="flex:1"><div class="progress-fill" id="pbar" style="width:1%"></div></div><span>10²⁶</span>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px;text-align:center" id="scaleNote"></div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-title"><span class="badge-exo">Exercice</span> Nombre de molécules de NH₃</div>
+    <div style="font-size:14px;margin-bottom:10px">Un échantillon a m = 5,66×10⁻²⁶ kg. Combien de molécules de NH₃ contient-il ?<br><span style="font-size:13px;color:var(--color-text-secondary)">Donnée : m(NH₃) = 2,83×10⁻²⁶ kg</span></div>
+    <div class="inp-row"><label>N = </label><input type="text" id="e2res" placeholder="entier" style="width:100px;font-family:var(--font-mono);font-size:13px"></div>
+    <button onclick="checkE2()">Vérifier</button>
+    <div id="fb2" class="fb"></div>
+  </div>
+</div>
+
+<!-- ═══ ONGLET 2 ═══ -->
+<div id="t2" class="panel">
+  <h2>La quantité de matière n</h2>
+
+  <div class="def">Manipuler des nombres comme 10²⁶ est peu pratique. Les chimistes regroupent les entités par « lots » de <strong>N<sub>A</sub> = 6,02×10²³</strong> entités, appelés <strong>moles</strong>.</div>
+
+  <!-- Formule principale bien mise en avant -->
+  <div class="formule-block">
+    <div class="formule-title">Formule fondamentale</div>
+    <div class="formule-main">n = N / N<sub>A</sub></div>
+    <div class="formule-vars">
+      <span><strong>n</strong> : quantité de matière en <strong>mol</strong></span>
+      <span><strong>N</strong> : nombre d'entités (sans unité)</span>
+      <span><strong>N<sub>A</sub></strong> = 6,02×10²³ mol⁻¹ (constante d'Avogadro)</span>
+    </div>
+  </div>
+
+  <!-- Exemple pas à pas avec formule visible -->
+  <h3>Exemple appliqué — CO₂ (10 kg)</h3>
+  <div class="anim-box">
+    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">Donnée : m(CO₂) = 7,35×10⁻²⁶ kg — échantillon m = 10 kg</div>
+
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:4px">Étape 1 — calculer N :</div>
+    <div class="formula-applied">N = m<sub>échantillon</sub> / m<sub>entité</sub> = 10 / (7,35×10⁻²⁶)</div>
+    <div class="arrow-down">↓</div>
+    <div class="result-highlight">N = 1,4×10²⁶ molécules</div>
+
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:12px 0 4px">Étape 2 — calculer n :</div>
+    <div class="formula-applied">n = N / N<sub>A</sub> = (1,4×10²⁶) / (6,02×10²³)</div>
+    <div class="arrow-down">↓</div>
+    <div class="result-highlight">n = 2,3×10² mol</div>
+  </div>
+
+  <h3>Animation — l'échelle de la mole</h3>
+  <div class="anim-box">
+    <div style="font-size:14px;margin-bottom:8px;color:var(--color-text-secondary)">Si on comptait 1 milliard d'entités par seconde, combien de temps pour compter 1 mole ?</div>
+    <canvas id="timeCanvas" style="display:block;width:100%;height:80px"></canvas>
+    <div style="font-size:13px;color:var(--color-text-secondary);text-align:center;margin-top:6px">Résultat : ≈ <strong style="color:#185FA5">19 millions d'années</strong></div>
+    <button style="margin-top:10px" onclick="animTime()">Animer</button>
+  </div>
+
+  <h3>Simulation — de N vers n</h3>
+  <div class="anim-box">
+    <div class="slider-row">
+      <label>N (×10²³) :</label>
+      <input type="range" id="slN" min="1" max="30" value="6" step="1" oninput="updateMole()">
+      <span class="slider-val" id="slNv">6 ×10²³</span>
+    </div>
+    <!-- Formule appliquée visible en temps réel -->
+    <div class="formula-applied" id="formulaMole">n = N / N<sub>A</sub> = (6,0×10²³) / (6,02×10²³) = …</div>
+    <div class="deux-cols">
+      <div class="stat-card">
+        <div class="stat-label">Nombre d'entités N</div>
+        <div class="stat-val" style="color:#185FA5" id="dispN">6,0×10²³</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Quantité de matière n</div>
+        <div class="stat-val" style="color:#0F6E56" id="dispN2">1,00 mol</div>
+      </div>
+    </div>
+    <div id="moleViz" style="display:flex;flex-wrap:wrap;gap:3px;min-height:24px;align-items:center;margin-top:4px"></div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px">Chaque cercle = 1 mole</div>
+  </div>
+
+  <!-- Exercice 1 : cola -->
+  <div class="exo-card">
+    <div class="exo-title"><span class="badge-exo">Exercice 1</span> Acide phosphorique dans 1 L de cola</div>
+    <div style="font-size:14px;margin-bottom:12px">m = 0,50 g — m<sub>entité</sub> = 1,63×10⁻²⁵ kg</div>
+
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div style="flex:1">
+        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Convertir m en kg :</div>
+        <div class="formula-applied" style="text-align:left;font-size:13px">m (kg) = m (g) × 10⁻³</div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>m = </label><input type="text" id="e3s1" placeholder="?.??e-?? kg" style="width:150px;font-family:var(--font-mono);font-size:13px"></div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div style="flex:1">
+        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Calculer N :</div>
+        <div class="formula-applied" style="text-align:left;font-size:13px">N = m<sub>échantillon</sub> / m<sub>entité</sub></div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>N = </label><input type="text" id="e3s2" placeholder="?.??e??" style="font-family:var(--font-mono);font-size:13px"></div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div style="flex:1">
+        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Calculer n :</div>
+        <div class="formula-applied" style="text-align:left;font-size:13px">n = N / N<sub>A</sub></div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>n = </label><input type="text" id="e3s3" placeholder="?.?e-? mol" style="width:130px;font-family:var(--font-mono);font-size:13px"><span style="font-size:13px">mol</span></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <button onclick="checkE3(1)">Étape 1</button>
+      <button onclick="checkE3(2)">Étape 2</button>
+      <button onclick="checkE3(3)">Étape 3</button>
+    </div>
+    <div id="fb3" class="fb"></div>
+  </div>
+
+  <!-- Exercice 2 : atomes dans 1 mole -->
+  <div class="exo-card">
+    <div class="exo-title"><span class="badge-exo">Exercice 2</span> Atomes dans 1 mole</div>
+    <div style="font-size:14px;margin-bottom:6px">En utilisant <strong>N = n × N<sub>A</sub></strong> :</div>
+    <div class="formula-applied" style="text-align:left;font-size:13px;margin-bottom:12px">N = n × N<sub>A</sub> = 1 mol × 6,02×10²³ mol⁻¹</div>
+    <div style="font-size:14px;margin-bottom:8px;color:var(--color-text-secondary)">Combien d'atomes Fe dans 1 mol de fer ? Combien d'atomes H dans 1 mol de H₂O ?</div>
+    <div class="inp-row"><label>N(Fe) = </label><input type="text" id="e4a" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:13px"></div>
+    <div class="inp-row"><label>N(H) = </label><input type="text" id="e4b" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:13px"></div>
+    <button onclick="checkE4()">Vérifier</button>
+    <div id="fb4" class="fb"></div>
+  </div>
+</div>
+
+<!-- ═══ ONGLET 3 ═══ -->
+<div id="t3" class="panel">
+  <h2>Bilan &amp; Ressources</h2>
+  <h3>Bilan vidéo</h3>
+  <a href="https://www.pearltrees.com/private/id104961755/item801654427?paccess=47d161775fe.2fc8469b.42ca52dd2f77ca92c5c0ed4ba90f7e2c" target="_blank" class="vid-box" style="display:block;text-decoration:none;cursor:pointer">
+    <span style="font-size:32px" aria-hidden="true">▶️</span>
+    <div style="font-size:14px;color:#185FA5;font-weight:500;margin-top:10px">Voir la vidéo de bilan — Quantité de matière</div>
+  </a>
+  <h3>Histoire des sciences</h3>
+  <a href="https://view.genially.com/6a326a04285f20a29c6e84b0" target="_blank" class="vid-box" style="display:block;text-decoration:none;cursor:pointer">
+    <span style="font-size:32px" aria-hidden="true">🕰️</span>
+    <div style="font-size:14px;color:#185FA5;font-weight:500;margin-top:10px">Découvrir la frise interactive — Histoire de la mole</div>
+  </a>
+  <h3>Capacités exigibles</h3>
+  <div class="cap-box">
+    <div style="font-size:13px;font-weight:500;margin-bottom:6px;color:#3C3489">À maîtriser :</div>
+    <ul style="padding-left:1.2rem">
+      <li>Déterminer la masse d'une entité à partir de sa formule brute et des masses atomiques.</li>
+      <li>Calculer N dans un échantillon de masse m donnée.</li>
+      <li>Calculer n à partir de N et de N<sub>A</sub>.</li>
+    </ul>
+  </div>
+  <h3>Liens utiles</h3>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+    <a href="https://www.hatier-clic.fr/pc2084" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">🔗</span>Prérequis — Hatier Clic</a>
+    <a href="https://iupac.org/new-definition-mole-arrived/" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">🔗</span>Nouvelle définition de la mole — IUPAC</a>
+    <a href="https://www.pearltrees.com/private/id104961755/item801654433?paccess=47d16191f18.2fc846a1.11cc1fb6fdf55ccaf980d694977666e6" target="_blank" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">▶️</span>Vidéo complémentaire — Bilan quantité de matière</a>
+  </div>
+</div>
+</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');btn.classList.add('on');
+}
+
+const ATOMS={H:1.67e-27,C:2.00e-26,O:2.67e-26,N:2.33e-26,S:5.33e-26,Cu:1.06e-25,Na:3.82e-26,Cl:5.89e-26,Ca:6.66e-26};
+const ATOM_COLORS={H:'#ffffff',C:'#444441',O:'#E24B4A',N:'#7F77DD',S:'#EF9F27',Cu:'#D85A30',Na:'#1D9E75',Cl:'#639922',Ca:'#888780'};
+const MOLS=[
+  {key:'co2',label:'CO₂',name:'dioxyde de carbone',comp:{C:1,O:2}},
+  {key:'h2o',label:'H₂O',name:'eau',comp:{H:2,O:1}},
+  {key:'nh3',label:'NH₃',name:'ammoniac',comp:{N:1,H:3}},
+  {key:'o2',label:'O₂',name:'dioxygène',comp:{O:2}},
+  {key:'nacl',label:'NaCl',name:'chlorure de sodium',comp:{Na:1,Cl:1}},
+  {key:'glucose',label:'C₆H₁₂O₆',name:'glucose',comp:{C:6,H:12,O:6}},
+  {key:'uree',label:'CO(NH₂)₂',name:'urée',comp:{C:1,O:1,N:2,H:4}},
+  {key:'cuso4',label:'CuSO₄·5H₂O',name:'sulfate de cuivre',comp:{Cu:1,S:1,O:9,H:10}},
+  {key:'caco3',label:'CaCO₃',name:'carbonate de calcium',comp:{Ca:1,C:1,O:3}},
+  {key:'hcl',label:'HCl',name:'chlorure d\'hydrogène',comp:{H:1,Cl:1}},
+];
+
+function molMass(comp){return Object.entries(comp).reduce((s,[a,n])=>s+(ATOMS[a]||0)*n,0);}
+function fmtSci(n){if(!n||n===0)return'0';const e=Math.floor(Math.log10(Math.abs(n)));const m=(n/Math.pow(10,e)).toFixed(2);return m+'×10'+sup(e);}
+function sup(n){const s=String(n);let r='';for(const c of s){const m={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻'};r+=m[c]||c;}return r;}
+function parseVal(s){return parseFloat(String(s).replace(',','.').replace(/[×x]/g,'e').replace(/\s/g,''));}
+function approxEq(a,b,pct=0.06){return b!==0&&Math.abs(a-b)/Math.abs(b)<pct;}
+function setFb(id,type,msg){const el=document.getElementById(id);el.className='fb '+type;el.innerHTML=msg;el.style.display='block';}
+
+let currentMol=null,molIdx=0,stepResults=[];
+
+function buildMolGrid(){
+  const g=document.getElementById('molGrid');
+  MOLS.forEach((m,i)=>{
+    const b=document.createElement('button');
+    b.className='mol-btn';
+    b.innerHTML='<strong>'+m.label+'</strong><br><span style="font-size:11px;font-weight:400">'+m.name+'</span>';
+    b.onclick=()=>loadMol(i);g.appendChild(b);
+  });
+}
+
+function loadMol(idx){
+  molIdx=idx;currentMol=MOLS[idx];
+  document.querySelectorAll('.mol-btn').forEach((b,i)=>b.classList.toggle('selected',i===idx));
+  document.getElementById('molExo').style.display='block';
+  const mol=currentMol;stepResults=[];
+  document.getElementById('molHeader').innerHTML='<span style="background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px">'+mol.label+'</span> <strong style="font-size:15px">'+mol.name+'</strong>';
+  document.getElementById('molFinalLabel').textContent='m('+mol.label+')';
+  document.getElementById('finalLabel').textContent='m('+mol.label+') = ';
+  document.getElementById('finalInput').value='';
+  document.getElementById('fbFinal').className='fb';
+  const tbody=document.getElementById('dataBody');tbody.innerHTML='';
+  Object.entries(mol.comp).forEach(([sym,cnt])=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><span class="atom-dot" style="background:${ATOM_COLORS[sym]||'#888'}"></span>${sym}</td><td>${fmtSci(ATOMS[sym]||0)}</td><td style="font-weight:500">${cnt}</td>`;
+    tbody.appendChild(tr);
+  });
+  const sc=document.getElementById('stepsContainer');sc.innerHTML='';
+  Object.entries(mol.comp).forEach(([sym,cnt],i)=>{
+    const contrib=ATOMS[sym]*cnt;stepResults.push(null);
+    const div=document.createElement('div');div.style.cssText='margin-bottom:10px';
+    div.innerHTML=`
+      <div class="step-row">
+        <div class="step-num">${i+1}</div>
+        <div style="font-size:14px;padding-top:3px">${cnt>1?cnt+' × ':''}m(${sym}) en kg :</div>
+      </div>
+      <div style="margin-left:38px">
+        <div class="formula-applied" style="text-align:left;font-size:13px">${cnt>1?cnt+' × m('+sym+') = '+cnt+' × '+fmtSci(ATOMS[sym]):'m('+sym+') = '+fmtSci(ATOMS[sym])}</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap">
+          <label style="font-size:13px;color:var(--color-text-secondary)">= </label>
+          <input type="text" id="si${i}" placeholder="?.??e-??" style="width:150px;font-family:var(--font-mono);font-size:13px">
+          <button class="check-inline" onclick="checkStep(${i},'${sym}',${cnt},${contrib})">Vérifier</button>
+        </div>
+        <div id="sfb${i}" class="fb"></div>
+      </div>`;
+    sc.appendChild(div);
+  });
+  updateScoreBar();
+}
+
+function checkStep(i,sym,cnt,expected){
+  const v=parseVal(document.getElementById('si'+i).value);
+  if(approxEq(v,expected)){setFb('sfb'+i,'ok','✓ '+(cnt>1?cnt+'×'+fmtSci(ATOMS[sym]):'m('+sym+')')+' = <strong>'+fmtSci(expected)+' kg</strong>');stepResults[i]=true;}
+  else{setFb('sfb'+i,'ko','✗ Résultat attendu : '+fmtSci(expected)+' kg');stepResults[i]=false;}
+  updateScoreBar();
+}
+function updateScoreBar(){
+  const bar=document.getElementById('scoreBar');bar.innerHTML='';
+  stepResults.forEach(r=>{const d=document.createElement('div');d.className='score-dot'+(r===true?' ok':r===false?' ko':'');bar.appendChild(d);});
+}
+function checkFinal(){
+  if(!currentMol)return;
+  const expected=molMass(currentMol.comp);const v=parseVal(document.getElementById('finalInput').value);
+  if(approxEq(v,expected)){setFb('fbFinal','ok','✓ m('+currentMol.label+') = <strong>'+fmtSci(expected)+' kg</strong>');}
+  else{const parts=Object.entries(currentMol.comp).map(([a,c])=>c>1?c+'×'+fmtSci(ATOMS[a]):fmtSci(ATOMS[a]));setFb('fbFinal','ko','Additionne : '+parts.join(' + ')+' = '+fmtSci(expected)+' kg');}
+}
+function showSolution(){
+  if(!currentMol)return;
+  const total=molMass(currentMol.comp);
+  const parts=Object.entries(currentMol.comp).map(([a,c])=>c>1?c+'×'+fmtSci(ATOMS[a]):fmtSci(ATOMS[a]));
+  setFb('fbFinal','hint','Correction : '+parts.join(' + ')+' = <strong>'+fmtSci(total)+' kg</strong>');
+}
+function nextMol(){loadMol((molIdx+1)%MOLS.length);}
+
+function updateN(){
+  const mg=parseFloat(document.getElementById('slM').value);
+  const m=mg/1000;
+  const me=parseFloat(document.getElementById('slMol').value);
+  document.getElementById('slMv').textContent=mg+' g';
+  const N=m/me;
+  document.getElementById('formulaN').innerHTML='N = m / m<sub>entité</sub> = '+fmtSci(m)+' / '+fmtSci(me)+' = <strong>'+fmtSci(N)+'</strong>';
+  document.getElementById('bigN').textContent='N = '+fmtSci(N);
+  document.getElementById('pbar').style.width=Math.min(100,N/1e26*100)+'%';
+  document.getElementById('scaleNote').textContent='Soit ≈ '+fmtSci(N/6.02e23)+' moles';
+}
+
+function updateMole(){
+  const raw=parseInt(document.getElementById('slN').value);
+  const N=raw*1e23;const n=(N/6.02e23);
+  document.getElementById('slNv').textContent=raw+' ×10²³';
+  document.getElementById('formulaMole').innerHTML='n = N / N<sub>A</sub> = ('+raw+',0×10²³) / (6,02×10²³) = <strong>'+n.toFixed(2)+' mol</strong>';
+  document.getElementById('dispN').textContent=raw+',0×10²³';
+  document.getElementById('dispN2').textContent=n.toFixed(2)+' mol';
+  const viz=document.getElementById('moleViz');viz.innerHTML='';
+  const moles=Math.round(n);
+  for(let i=0;i<Math.min(moles,20);i++){const d=document.createElement('div');d.style.cssText='width:16px;height:16px;border-radius:50%;background:#1D9E75;opacity:0.8';viz.appendChild(d);}
+  if(moles>20){const s=document.createElement('span');s.style.cssText='font-size:12px;color:var(--color-text-secondary)';s.textContent='… +'+(moles-20)+' moles';viz.appendChild(s);}
+}
+
+let timeAnimId=null;
+function animTime(){
+  const cv=document.getElementById('timeCanvas');const W=cv.offsetWidth;cv.width=W;cv.height=80;
+  const ctx=cv.getContext('2d');if(timeAnimId)cancelAnimationFrame(timeAnimId);let p=0;
+  function draw(){
+    p=Math.min(p+0.008,1);ctx.clearRect(0,0,W,80);
+    ctx.fillStyle='#E6F1FB';ctx.fillRect(0,20,W*p,24);
+    ctx.strokeStyle='#185FA5';ctx.lineWidth=1;ctx.strokeRect(0,20,W,24);
+    ctx.fillStyle='#0C447C';ctx.font='500 13px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(fmtSci(6.02e23*p)+' entités comptées',W/2,32);
+    ctx.fillStyle='var(--color-text-secondary)';ctx.font='12px sans-serif';
+    ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('0 s',0,50);
+    ctx.textAlign='right';ctx.fillText('≈6×10¹⁴ s (19 Ma)',W,50);
+    ctx.textAlign='center';ctx.fillStyle='#185FA5';ctx.fillText('Temps écoulé : '+fmtSci(6.02e14*p)+' s',W/2,52);
+    if(p<1)timeAnimId=requestAnimationFrame(draw);
+  }draw();
+}
+
+function checkE2(){
+  const v=parseVal(document.getElementById('e2res').value);
+  approxEq(v,2)?setFb('fb2','ok','✓ N = 5,66×10⁻²⁶ ÷ 2,83×10⁻²⁶ = <strong>2 molécules</strong>.'):setFb('fb2','ko','Utilise N = m / m_entité = (5,66×10⁻²⁶) / (2,83×10⁻²⁶)');
+}
+function checkE3(step){
+  if(step===1){const v=parseVal(document.getElementById('e3s1').value);approxEq(v,5e-4)?setFb('fb3','ok','✓ 0,50 g = <strong>5,0×10⁻⁴ kg</strong>'):setFb('fb3','ko','1 g = 10⁻³ kg → 0,50 g = 5,0×10⁻⁴ kg');}
+  else if(step===2){const v=parseVal(document.getElementById('e3s2').value);approxEq(v,3.07e21)?setFb('fb3','ok','✓ N = 5,0×10⁻⁴ ÷ 1,63×10⁻²⁵ = <strong>3,07×10²¹</strong>'):setFb('fb3','ko','N = m / m_entité = (5,0×10⁻⁴) / (1,63×10⁻²⁵)');}
+  else{const v=parseVal(document.getElementById('e3s3').value);approxEq(v,5.1e-3)?setFb('fb3','ok','✓ n = 3,07×10²¹ ÷ 6,02×10²³ = <strong>5,1×10⁻³ mol</strong>'):setFb('fb3','ko','n = N / N_A = (3,07×10²¹) / (6,02×10²³)');}
+}
+function checkE4(){
+  const a=parseVal(document.getElementById('e4a').value);const b=parseVal(document.getElementById('e4b').value);
+  let msg='';let ok=true;
+  if(approxEq(a,6.02e23)){msg+='✓ N(Fe) = N_A = <strong>6,02×10²³</strong>.<br>';}else{msg+='✗ N(Fe) = N_A = 6,02×10²³.<br>';ok=false;}
+  if(approxEq(b,1.204e24)){msg+='✓ N(H) = 2×N_A = <strong>1,20×10²⁴</strong>.';}else{msg+='✗ N(H) = 2×N_A = 1,20×10²⁴.';ok=false;}
+  setFb('fb4',ok?'ok':'ko',msg);
+}
+
+buildMolGrid();updateN();updateMole();
+</script>
+</div><!-- /.page-wrap -->
+</body>
+</html>

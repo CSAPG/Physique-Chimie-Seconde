@@ -1,0 +1,2194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche de cours n°08 – Transformation physique</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #2D5F8A;
+    --bleu-clair: #E8F1F8;
+    --bleu-moyen: #5B8FB9;
+    --bleu-activite: #EEF5FB;
+    --bleu-activite-bord: #B8D4EC;
+    --orange: #E8783A;
+    --orange-clair: #FDF0E8;
+    --vert: #3A8A6E;
+    --vert-clair: #E8F5F0;
+    --vert-exo: #F0FAF6;
+    --vert-exo-bord: #B2DDD0;
+    --gris-fond: #F5F7FA;
+    --gris-bord: #DDE3EC;
+    --texte: #1A2A3A;
+    --texte-léger: #5A6B7A;
+    --blanc: #FFFFFF;
+    --rouge: #C0392B;
+    --rouge-clair: #FDEDEC;
+    --violet: #7B4FA6;
+    --violet-clair: #F3EDF9;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #F0F4F8;
+    color: var(--texte);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blanc);
+    border: 1px solid #E3E8EE;
+    border-bottom: 3px solid var(--bleu);
+    border-radius: 14px;
+    padding: 18px 24px 14px;
+    max-width: 860px;
+    margin: 0 auto 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(45,95,138,0.10);
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: var(--bleu);
+    color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  button.cap-toggle {
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button.cap-toggle:hover { background: #1e4466; }
+  .cap-panel {
+    display: none;
+    margin: 0 0 14px;
+    background: #fff;
+    border: 1px solid #B8D4EC;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .cap-panel.open { display: block; }
+  .cap-panel ul { margin: 0; padding-left: 1.3rem; }
+  .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+  .header-titles h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--bleu);
+    line-height: 1.2;
+  }
+  .header-titles p {
+    font-size: 0.82rem;
+    color: var(--texte-léger);
+    margin-top: 2px;
+  }
+  .header-titles p span {
+    color: var(--orange);
+    font-weight: 700;
+  }
+
+  /* ── ONGLETS ── */
+  .tabs-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px 12px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+    bottom: -3px;
+  }
+  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn.active {
+    color: var(--bleu);
+    border-bottom-color: var(--bleu);
+    background: var(--bleu-clair);
+    border-radius: 6px 6px 0 0;
+  }
+  .tab-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gris-bord);
+    color: var(--texte-léger);
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .tab-btn.active .tab-num {
+    background: var(--bleu);
+    color: white;
+  }
+
+  /* ── CONTENU ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── COURS (def-card) ── */
+  .def-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-left: 4px solid var(--bleu);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .def-card::before {
+    content: 'COURS';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.6;
+  }
+  .def-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .def-card p, .def-card ul {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--texte);
+  }
+  .def-card ul { padding-left: 18px; }
+  .def-card ul li { margin-bottom: 5px; }
+
+  /* ── ACTIVITÉ ── */
+  .activite-card {
+    background: var(--bleu-activite);
+    border: 1.5px solid var(--bleu-activite-bord);
+    border-left: 4px solid var(--bleu-moyen);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .activite-card::before {
+    content: 'ACTIVITÉ';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.8;
+  }
+  .activite-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+  }
+
+  /* ── EXERCICE ── */
+  .exo-card {
+    background: var(--vert-exo);
+    border: 1.5px solid var(--vert-exo-bord);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .exo-card::before {
+    content: 'EXERCICE';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--vert);
+    opacity: 0.7;
+  }
+  .exo-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--vert);
+    margin-bottom: 10px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--bleu);
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bleu-clair);
+  }
+  .section-title .icon { font-size: 1.3rem; }
+
+  .intro-box {
+    background: #FFFBF7;
+    border-left: 4px solid var(--orange);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-bottom: 22px;
+    font-size: 0.93rem;
+    line-height: 1.65;
+    color: var(--texte);
+    font-style: italic;
+  }
+
+  .formule-box {
+    background: var(--orange-clair);
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    padding: 14px 20px;
+    margin: 14px 0;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--texte);
+  }
+  .formule-box .legend {
+    font-size: 0.80rem;
+    font-weight: 500;
+    color: var(--texte-léger);
+    margin-top: 6px;
+    text-align: left;
+  }
+
+  .exemple-box {
+    background: var(--vert-clair);
+    border-left: 4px solid var(--vert);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .exemple-box strong { color: var(--vert); }
+
+  .remarque-box {
+    background: var(--violet-clair);
+    border-left: 4px solid var(--violet);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 16px;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .remarque-box strong { color: var(--violet); }
+
+  /* ── EXERCICES INTERACTIFS ── */
+  .exo-header { display: flex; align-items: center; gap: 10px; margin: 6px 0 10px; }
+  .exo-header h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); }
+  .exo-pill { font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--vert); color: white; }
+  .exo-pill.activite { background: var(--bleu-moyen); color: white; }
+
+  .exo-enonce {
+    background: var(--blanc);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.90rem;
+    line-height: 1.65;
+    margin-bottom: 12px;
+    border: 1px solid var(--vert-exo-bord);
+  }
+
+  .question-block { margin-bottom: 14px; }
+  .question-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 7px;
+    border-left: 3px solid var(--vert);
+    padding-left: 8px;
+  }
+
+  .rep-zone {
+    width: 100%;
+    min-height: 52px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--vert-exo-bord);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    background: var(--blanc);
+    color: var(--texte);
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .rep-zone:focus { outline: none; border-color: var(--vert); }
+
+  .btn-correction {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 9px 20px;
+    background: var(--vert);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-correction:active { transform: translateY(0); }
+
+  .correction {
+    display: none;
+    background: #F0FAF6;
+    border: 1.5px solid var(--vert);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 8px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+  .correction.visible { display: block; animation: fadeIn 0.2s ease; }
+  .correction strong { color: var(--vert); }
+  .correction .calc-step {
+    background: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 7px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    border-left: 3px solid var(--vert);
+  }
+
+  /* ── CHOIX DE RÉPONSES (Applications) ── */
+  .choice-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .choice-btn {
+    padding: 8px 16px;
+    border: 1.5px solid var(--vert-exo-bord);
+    border-radius: 9px;
+    background: var(--blanc);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--texte);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .choice-btn:hover { border-color: var(--vert); background: var(--vert-exo); }
+  .choice-btn.selected { border-color: var(--bleu); background: var(--bleu-clair); color: var(--bleu); font-weight: 700; }
+  .choice-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
+  .choice-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .choice-btn:disabled { cursor: default; }
+
+  .exo-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .btn-verifier {
+    padding: 9px 20px;
+    background: var(--bleu);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-verifier:hover { background: #1E4466; transform: translateY(-1px); }
+  .btn-recommencer {
+    padding: 9px 20px;
+    background: var(--blanc);
+    color: var(--texte);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-recommencer:hover { border-color: var(--bleu); color: var(--bleu); }
+  .exo-feedback {
+    font-size: 0.86rem;
+    font-weight: 700;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+  .exo-feedback.success { color: var(--vert); }
+  .exo-feedback.partial { color: var(--orange); }
+  .exo-feedback.warn { color: var(--texte-léger); font-weight: 600; font-style: italic; }
+
+  /* ── RESSOURCE EXTERNE (simulation) ── */
+  .resource-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 18px; margin: 14px 0; }
+  .resource-frame-wrap { border-radius: 10px; overflow: hidden; border: 1.5px solid var(--gris-bord); margin: 12px 0; }
+  .resource-frame-wrap iframe { width: 100%; height: 520px; display: block; border: none; }
+  .resource-credit { font-size: 0.76rem; color: var(--texte-léger); text-align: right; margin-top: 4px; }
+  .btn-fullscreen {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 18px; background: var(--bleu); color: white;
+    border-radius: 8px; text-decoration: none; font-weight: 700;
+    font-size: 0.85rem; font-family: 'Nunito', sans-serif;
+  }
+
+  /* ── QCM ── */
+  .qcm-grid { display: grid; gap: 10px; margin: 14px 0; }
+  .qcm-item {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    transition: border-color 0.2s;
+  }
+  .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
+  .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+  .qcm-btn {
+    padding: 5px 14px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 20px;
+    background: var(--gris-fond);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--texte);
+  }
+  .qcm-btn:hover { border-color: var(--vert); color: var(--vert); background: var(--vert-exo); }
+  .qcm-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
+  .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .qcm-feedback { font-size: 0.80rem; margin-top: 4px; min-height: 14px; color: var(--vert); font-weight: 600; width: 100%; }
+  .qcm-feedback.wrong { color: var(--rouge); }
+
+  /* ── TABLEAU L ── */
+  table.l-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 14px 0;
+    background: var(--blanc);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+  table.l-table th {
+    background: var(--bleu);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  table.l-table td { padding: 9px 14px; border-bottom: 1px solid var(--gris-bord); vertical-align: middle; }
+  table.l-table tr:last-child td { border-bottom: none; }
+  table.l-table tr:nth-child(even) td { background: var(--gris-fond); }
+
+  /* ── CALCULATRICE ── */
+  .composition-calc {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 14px 0;
+  }
+  .calc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .calc-row label { font-size: 0.88rem; font-weight: 600; min-width: 180px; color: var(--texte); }
+  .calc-input {
+    padding: 8px 12px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    width: 120px;
+    background: var(--gris-fond);
+    transition: border-color 0.2s;
+  }
+  .calc-input:focus { outline: none; border-color: var(--bleu); background: var(--blanc); }
+  .calc-select {
+    padding: 8px 12px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    background: var(--gris-fond);
+    color: var(--texte);
+  }
+  .calc-unit { font-size: 0.82rem; color: var(--texte-léger); font-weight: 600; }
+  .btn-calc {
+    padding: 9px 22px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 4px;
+  }
+  .btn-calc:hover { background: #C9622A; }
+  .calc-result {
+    display: none;
+    background: var(--vert-clair);
+    border: 1.5px solid var(--vert);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+  .calc-result.visible { display: block; animation: fadeIn 0.2s; }
+  .calc-result .res-line {
+    background: var(--blanc);
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 6px 0;
+    font-family: 'Outfit', sans-serif;
+    border-left: 3px solid var(--vert);
+    font-size: 0.90rem;
+    font-weight: 600;
+  }
+
+  /* ── BILAN ── */
+  .bilan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  .bilan-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; }
+  .bilan-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--gris-bord);
+  }
+  .bilan-card ul { padding-left: 16px; }
+  .bilan-card ul li { font-size: 0.84rem; margin-bottom: 5px; line-height: 1.5; color: var(--texte); }
+  .ke-list { list-style: none; padding: 0; }
+  .ke-list li {
+    padding: 6px 10px 6px 28px;
+    position: relative;
+    font-size: 0.84rem;
+    border-bottom: 1px solid var(--gris-bord);
+    line-height: 1.5;
+  }
+  .ke-list li:last-child { border-bottom: none; }
+  .ke-list li::before { content: "✓"; position: absolute; left: 8px; color: var(--vert); font-weight: 800; font-size: 0.90rem; }
+
+  /* ── ACCORDÉON ── */
+  .accord-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 12px 16px;
+    background: var(--gris-fond);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: var(--texte);
+    transition: background 0.2s;
+    margin: 10px 0;
+  }
+  .accord-btn:hover { background: var(--bleu-clair); }
+  .accord-body {
+    display: none;
+    padding: 14px;
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+  .accord-body.open { display: block; animation: fadeIn 0.2s; }
+
+  /* ── DOC IMAGE ── */
+  .doc-image-wrap {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 14px 0;
+    text-align: center;
+  }
+  .doc-image-wrap img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+  .doc-image-wrap .doc-caption { font-size: 0.78rem; color: var(--texte-léger); margin-top: 8px; font-style: italic; }
+
+  /* ── SIGNE Q : cartes endo / exo ── */
+  .signe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 560px) { .signe-grid { grid-template-columns: 1fr; } }
+  .signe-card { border-radius: 12px; padding: 16px 18px; border: 2px solid; }
+  .signe-card.endo { background: #FDEEE8; border-color: var(--orange); }
+  .signe-card.exo  { background: #E8F5F0; border-color: var(--vert); }
+  .signe-card h4 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 800; margin-bottom: 8px; }
+  .signe-card.endo h4 { color: var(--orange); }
+  .signe-card.exo h4 { color: var(--vert); }
+  .signe-card p { font-size: 0.88rem; line-height: 1.6; }
+  .signe-card .q-val { font-family:'Outfit',sans-serif; font-weight:800; font-size:1.05rem; margin:6px 0; }
+  .signe-card.endo .q-val { color: var(--orange); }
+  .signe-card.exo .q-val { color: var(--vert); }
+  .signe-card .signe-img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; display: block; margin-top: 12px; }
+  .signe-card .signe-exemple { margin-top: 8px; padding-top: 10px; border-top: 1.5px dashed; }
+  .signe-card.endo .signe-exemple { border-color: rgba(232,120,58,0.35); }
+  .signe-card.exo .signe-exemple { border-color: rgba(58,138,110,0.35); }
+  .signe-card .signe-exemple-tag { font-family:'Outfit',sans-serif; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+  .signe-card.endo .signe-exemple-tag { color: var(--orange); }
+  .signe-card.exo .signe-exemple-tag { color: var(--vert); }
+
+  /* ── MOLÉCULES : états ── */
+  .molstates-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 600px) { .molstates-grid { grid-template-columns: 1fr; } }
+  .molstate-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 12px; text-align: center; }
+  .molstate-card h4 { font-family:'Outfit',sans-serif; font-size: 0.86rem; font-weight: 800; letter-spacing: 0.04em; margin-bottom: 8px; }
+  .molstate-card.solide h4 { color: #1E4A72; }
+  .molstate-card.liquide h4 { color: #2A6B52; }
+  .molstate-card.gaz h4 { color: #8A4A10; }
+  .molstate-box {
+    position: relative;
+    width: 100%; height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .molstate-card.solide .molstate-box { background: #E3EDF7; border: 1.5px solid #B8D4EC; }
+  .molstate-card.liquide .molstate-box { background: #E8F5F0; border: 1.5px solid #B2DDD0; }
+  .molstate-card.gaz .molstate-box { background: #FEF9E8; border: 1.5px solid #ECDFA8; }
+  .molecule {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #93c5fd, #2D5F8A);
+  }
+  .molstate-card.liquide .molecule { background: radial-gradient(circle at 35% 35%, #6ee7b7, #2A6B52); }
+  .molstate-card.gaz .molecule { background: radial-gradient(circle at 35% 35%, #fcd34d, #C9822A); }
+  .molstate-props { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+  .mol-tag {
+    font-size: 0.70rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .molstate-card.solide .mol-tag { background: #E3EDF7; color: #1E4A72; }
+  .molstate-card.liquide .mol-tag { background: #E8F5F0; color: #2A6B52; }
+  .molstate-card.gaz .mol-tag { background: #FEF3D9; color: #8A4A10; }
+
+  @keyframes vibre {
+    0%, 100% { transform: translate(0,0); }
+    25% { transform: translate(0.6px,-0.5px); }
+    50% { transform: translate(-0.6px,0.5px); }
+    75% { transform: translate(0.5px,0.6px); }
+  }
+  @keyframes derive {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(4px,-3px); }
+    50% { transform: translate(-3px,3px); }
+    75% { transform: translate(3px,2px); }
+    100% { transform: translate(0,0); }
+  }
+  @keyframes derive-gaz {
+    0% { transform: translate(0,0); }
+    20% { transform: translate(18px,-14px); }
+    45% { transform: translate(-16px,10px); }
+    70% { transform: translate(14px,16px); }
+    100% { transform: translate(0,0); }
+  }
+
+  /* ── SCHÉMA BILAN INTERACTIF ── */
+  .schema-bilan-wrap { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 18px; margin: 14px 0; }
+  .sb-row { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 10px 0; flex-wrap: nowrap; }
+  .sb-etat {
+    text-align: center; padding: 14px 10px; border-radius: 12px;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.86rem;
+    min-width: 84px; flex-shrink: 0;
+  }
+  .sb-etat.solide { background: #E3EDF7; color: #1E4A72; border: 2px solid #5B8FB9; }
+  .sb-etat.liquide { background: #E8F5F0; color: #2A6B52; border: 2px solid #3A8A6E; }
+  .sb-etat.gaz { background: #FEF9E8; color: #8A6E1A; border: 2px solid #C9A83C; }
+  .sb-blank {
+    background: var(--gris-fond);
+    border: 1.5px dashed var(--gris-bord);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    min-width: 78px;
+    color: var(--texte-léger);
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .sb-blank:hover { border-color: var(--bleu); }
+  .sb-blank.revealed.endo { background: var(--orange-clair); border-color: var(--orange); border-style: solid; color: var(--orange); }
+  .sb-blank.revealed.exo { background: var(--vert-clair); border-color: var(--vert); border-style: solid; color: var(--vert); }
+  .sb-blank.revealed.info { background: var(--bleu-clair); border-color: var(--bleu); border-style: solid; color: var(--bleu); min-width:auto; text-align:left; }
+  .sb-arc-label { text-align:center; font-size:0.76rem; font-weight:700; color:var(--texte-léger); margin:4px 0; }
+  .sb-props-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px; }
+  @media (max-width:560px) { .sb-props-grid { grid-template-columns:1fr; } }
+  .sb-props-col { text-align:center; }
+  .sb-props-col .sb-blank { width:100%; min-height:60px; display:flex; align-items:center; justify-content:center; }
+
+  .sb-transform-box { border: 2px solid; border-radius: 10px; padding: 10px 16px; max-width: 420px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.92rem; }
+  .sb-transform-box.endo { border-color: var(--orange); color: var(--orange); }
+  .sb-transform-box.exo { border-color: var(--bleu); color: var(--bleu); }
+  .sb-transform-cap { text-align: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.86rem; margin: 4px 0 14px; }
+  .sb-transform-cap.endo { color: var(--orange); }
+  .sb-transform-cap.exo { color: var(--bleu); margin: 14px 0 4px; }
+  .sb-circles-wrap { position: relative; width: 100%; max-width: 600px; margin: 0 auto; aspect-ratio: 640 / 340; }
+  .sb-circles-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .sb-blank-arc { position: absolute; transform: translate(-50%,-50%); z-index: 2; }
+  .sb-choice-group { position: relative; display: inline-block; }
+  .sb-choice-group.sb-blank-arc { position: absolute; }
+  .sb-popover {
+    display: none; flex-direction: column; gap: 4px;
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    margin-top: 6px; background: var(--blanc); border: 1.5px solid var(--gris-bord);
+    border-radius: 8px; padding: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    z-index: 60; min-width: 150px;
+  }
+  .sb-popover.open { display: flex; }
+  .sb-choice-btn {
+    padding: 6px 10px; border: 1.5px solid var(--gris-bord); border-radius: 6px;
+    background: var(--gris-fond); font-family: 'Nunito', sans-serif; font-size: 0.78rem;
+    font-weight: 600; color: var(--texte); cursor: pointer; text-align: left; white-space: nowrap;
+  }
+  .sb-choice-btn:hover { border-color: var(--bleu); }
+  .sb-choice-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
+  .sb-choice-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .sb-video-link {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--bleu-clair); border: 1.5px solid var(--bleu-activite-bord);
+    border-radius: 10px; padding: 12px 16px; margin-top: 16px;
+    text-decoration: none; transition: background 0.15s;
+  }
+  .sb-video-link:hover { background: #DCE9F5; }
+  .sb-video-link .sb-video-play {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--bleu); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.0rem;
+  }
+  .sb-video-link .sb-video-text { font-family: 'Nunito', sans-serif; }
+  .sb-video-link .sb-video-title { font-weight: 700; color: var(--bleu); font-size: 0.92rem; }
+  .sb-video-link .sb-video-sub { font-size: 0.78rem; color: var(--texte-léger); }
+
+  /* ── ICÔNE DÉCORATIVE : FUSION D'UN GLAÇON ── */
+  .ice-melt-wrap { position: relative; width: 38px; height: 72px; flex-shrink: 0; margin-top: -4px; }
+  .ice-cube {
+    position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+    width: 26px; height: 26px;
+    background: linear-gradient(135deg, #f4fbff, #c3e6f7);
+    border: 1.5px solid #8fc8ea;
+    border-radius: 4px;
+    box-shadow: inset 0 0 6px rgba(255,255,255,0.7);
+    animation: ice-shrink 6s ease-in-out infinite;
+  }
+  @keyframes ice-shrink {
+    0%   { width: 26px; height: 26px; border-radius: 4px; top: 6px; opacity: 1; }
+    55%  { width: 15px; height: 15px; border-radius: 7px; top: 16px; opacity: 0.95; }
+    80%  { width: 7px;  height: 7px;  border-radius: 50%; top: 22px; opacity: 0.6; }
+    92%  { width: 7px;  height: 7px;  opacity: 0; }
+    100% { width: 26px; height: 26px; border-radius: 4px; top: 6px; opacity: 1; }
+  }
+  .ice-drop {
+    position: absolute; left: 50%; width: 3px; height: 7px;
+    background: #8fc8ea; border-radius: 0 0 50% 50%;
+    opacity: 0;
+  }
+  .ice-drop-1 { animation: drop-fall 6s ease-in infinite; }
+  .ice-drop-2 { animation: drop-fall 6s ease-in infinite 1.4s; }
+  @keyframes drop-fall {
+    0%, 35% { opacity: 0; top: 28px; transform: translateX(-50%); }
+    45% { opacity: 0.9; top: 28px; transform: translateX(-50%); }
+    62% { opacity: 0.9; top: 56px; transform: translateX(-50%); }
+    64% { opacity: 0; top: 58px; }
+    100% { opacity: 0; top: 28px; }
+  }
+  .ice-puddle {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 4px;
+    background: rgba(143,200,234,0.55);
+    border-radius: 50%;
+    animation: puddle-grow 6s ease-in-out infinite;
+  }
+  @keyframes puddle-grow {
+    0%, 40% { width: 8px; opacity: 0.3; }
+    80% { width: 28px; opacity: 0.7; }
+    92% { width: 30px; opacity: 0.75; }
+    100% { width: 8px; opacity: 0.3; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ice-cube, .ice-drop-1, .ice-drop-2, .ice-puddle, .molecule { animation: none !important; }
+  }
+
+  /* ── FOOTER ── */
+  .footer-note { text-align: center; font-size: 0.78rem; color: var(--texte-léger); padding: 20px; border-top: 1px solid var(--gris-bord); margin-top: 30px; }
+
+  sup { font-size: 0.65em; }
+  sub { font-size: 0.65em; }
+
+  @media (max-width: 600px) {
+    .header { padding: 12px 16px 10px; }
+    .header-titles h1 { font-size: 1.05rem; }
+    .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
+    .main { padding: 18px 12px 50px; }
+    .ice-melt-wrap { width: 30px; height: 58px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">2<sup>nde</sup> – Fiche n°08</div>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Transformation physique : changements d'état & énergie</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+    <!-- Glaçon en fusion : illustration animée -->
+    <div class="ice-melt-wrap" title="La fusion d'un glaçon : un changement d'état endothermique">
+      <div class="ice-cube"></div>
+      <div class="ice-drop ice-drop-1"></div>
+      <div class="ice-drop ice-drop-2"></div>
+      <div class="ice-puddle"></div>
+    </div>
+  </div>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab(0)">
+      <span class="tab-num">1</span> Changements d'état
+    </button>
+    <button class="tab-btn" onclick="switchTab(1)">
+      <span class="tab-num">2</span> Fusion vs dissolution
+    </button>
+    <button class="tab-btn" onclick="switchTab(2)">
+      <span class="tab-num">3</span> Corps pur & palier
+    </button>
+    <button class="tab-btn" onclick="switchTab(3)">
+      <span class="tab-num">4</span> Transfert thermique
+    </button>
+    <button class="tab-btn" onclick="switchTab(4)">
+      <span class="tab-num">5</span> Énergie massique
+    </button>
+    <button class="tab-btn" onclick="switchTab(5)">
+      <span class="tab-num">6</span> Bilan et ressources
+    </button>
+  </nav>
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Citer des exemples de changements d'état physique de la vie courante et dans l'environnement.</li>
+      <li>Établir l'écriture d'une équation pour un changement d'état.</li>
+      <li>Distinguer fusion et dissolution.</li>
+      <li>Identifier le sens du transfert thermique lors d'un changement d'état et le relier au terme exothermique ou endothermique.</li>
+      <li>Exploiter la relation entre l'énergie transférée lors d'un changement d'état et l'énergie massique de changement d'état de l'espèce.</li>
+      <li>Relier l'énergie échangée à la masse de l'espèce qui change d'état.</li>
+    </ul>
+  </div>
+</div>
+
+<main class="main">
+
+<div class="tab-content active" id="tab-0">
+  <div class="section-title">
+    <span class="icon">🔄</span>
+    <h2>Qu'est-ce qu'un changement d'état ?</h2>
+  </div>
+
+  <div class="intro-box">
+    Vidéo débat — Qu'est-ce qui distingue les transformations subies par les deux cuillères (l'une en métal qui fond dans un four, l'autre en sucre qui se dissout dans le café) ?
+  </div>
+
+  <div class="def-card">
+    <h3>Transformation physique</h3>
+    <p>Une <strong>transformation physique</strong> a lieu quand une espèce chimique passe d'un état physique (solide, liquide ou gaz) à un autre, <strong>sans changer de nature</strong> : seules les interactions entre les entités (molécules, atomes, ions) sont modifiées.</p>
+    <p style="margin-top:8px;">Un changement d'état est modélisé par une <strong>équation de changement d'état</strong>, écriture symbolique à l'échelle macroscopique :</p>
+    <div class="exemple-box"><strong>Exemple :</strong> H₂O(s) → H₂O(ℓ) &nbsp;(fusion de la glace)</div>
+    <p style="margin-top:8px;">Une élévation de température entraîne une <strong>agitation plus grande</strong> des entités, et inversement.</p>
+
+    <h3 style="margin-top:18px;">Modélisation moléculaire des 3 états</h3>
+    <div class="molstates-grid">
+      <div class="molstate-card solide">
+        <h4>SOLIDE</h4>
+        <div class="molstate-box" id="mol-solide"></div>
+        <div class="molstate-props">
+          <span class="mol-tag">Compactes</span>
+          <span class="mol-tag">Ordonnées</span>
+          <span class="mol-tag">Vibration sur place</span>
+        </div>
+      </div>
+      <div class="molstate-card liquide">
+        <h4>LIQUIDE</h4>
+        <div class="molstate-box" id="mol-liquide"></div>
+        <div class="molstate-props">
+          <span class="mol-tag">Proches</span>
+          <span class="mol-tag">Désordonnées</span>
+          <span class="mol-tag">Mobiles (glissent)</span>
+        </div>
+      </div>
+      <div class="molstate-card gaz">
+        <h4>GAZ</h4>
+        <div class="molstate-box" id="mol-gaz"></div>
+        <div class="molstate-props">
+          <span class="mol-tag">Éloignées</span>
+          <span class="mol-tag">Désordonnées</span>
+          <span class="mol-tag">Libres &amp; rapides</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schéma triangle interactif changements d'état -->
+  <div class="activite-card" id="triangle-wrapper" style="padding:20px 16px 16px;">
+    <p style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--texte-léger);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Les 6 changements d'état</p>
+    <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Glisse chaque étiquette sur la flèche correspondante ✦</p>
+
+    <div id="tri-score" style="display:none;text-align:center;margin-bottom:10px;font-size:0.88rem;font-weight:700;color:var(--bleu);"></div>
+
+    <div style="position:relative;width:100%;max-width:520px;margin:0 auto;">
+      <svg id="tri-svg" viewBox="0 0 560 420" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr-or"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-vt"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#3A8A6E"/></marker>
+          <marker id="arr-bl2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-or2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+        </defs>
+
+        <polygon points="280,55 60,365 500,365" fill="#F8F9FB" stroke="#DDE3EC" stroke-width="1"/>
+
+        <line x1="108" y1="358" x2="452" y2="358" stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-vt)"/>
+        <line x1="452" y1="372" x2="108" y2="372" stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl3)"/>
+
+        <text id="txt-fusion" x="280" y="350" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#3A8A6E" opacity="0">Fusion</text>
+        <text id="txt-solidification" x="280" y="385" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0">Solidification</text>
+
+        <rect id="zone-fusion"         x="185" y="340" width="190" height="20" rx="3" fill="none" stroke="#3A8A6E" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <rect id="zone-solidification" x="185" y="372" width="190" height="18" rx="3" fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+
+        <line x1="74"  y1="321" x2="262" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or)"
+              transform="translate(-7,0)"/>
+        <line x1="262" y1="75"  x2="74"  y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl)"
+              transform="translate(7,0)"/>
+
+        <text id="txt-sublimation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="-28">Sublimation</tspan>
+        </text>
+        <text id="txt-condensation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="18">Condensation</tspan>
+        </text>
+
+        <rect id="zone-sublimation"
+          x="-90" y="-40" width="180" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+        <rect id="zone-condensation"
+          x="-100" y="8" width="200" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+
+        <line x1="486" y1="321" x2="294" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or2)"
+              transform="translate(7,0)"/>
+        <line x1="294" y1="75"  x2="486" y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl2)"
+              transform="translate(-7,0)"/>
+
+        <text id="txt-vaporisation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="-28">Vaporisation</tspan>
+        </text>
+        <text id="txt-liquefaction"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="18">Liquéfaction</tspan>
+        </text>
+
+        <rect id="zone-vaporisation"
+          x="-85" y="-40" width="170" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+        <rect id="zone-liquefaction"
+          x="-80" y="8" width="160" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+
+        <circle cx="280" cy="55"  r="46" fill="#FEF3E2" stroke="#E8783A" stroke-width="2.5"/>
+        <text x="280" y="49"  text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#8A4A10">GAZEUX</text>
+        <text x="280" y="65"  text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#C07030">ex : vapeur d'eau</text>
+
+        <circle cx="60"  cy="365" r="46" fill="#E3EDF7" stroke="#2D5F8A" stroke-width="2.5"/>
+        <text x="60"  y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#1E4A72">SOLIDE</text>
+        <text x="60"  y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A6090">ex : glace</text>
+
+        <circle cx="500" cy="365" r="46" fill="#E8F5F0" stroke="#3A8A6E" stroke-width="2.5"/>
+        <text x="500" y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2A6B52">LIQUIDE</text>
+        <text x="500" y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A8A6E">ex : eau</text>
+      </svg>
+    </div>
+
+    <div id="etiquettes-pool" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;min-height:44px;padding:10px;background:var(--gris-fond);border-radius:10px;border:1.5px dashed var(--gris-bord);"></div>
+
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+      <button onclick="verifierTriangle()" style="padding:8px 20px;background:var(--bleu);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Vérifier</button>
+      <button onclick="reinitTriangle()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
+      <button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--orange);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Voir la correction</button>
+    </div>
+  </div><!-- fin activite-card triangle -->
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 1</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">La fusion de sels de chlorure de sodium (NaCl) est réalisée dans certaines centrales solaires thermiques. Quelle équation modélise ce changement d'état ?</div>
+    <div class="question-block">
+      <div class="choice-group" id="choices-app1-q1" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app1-q1')">NaCl(s) → NaCl(aq)</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app1-q1')">NaCl(s) → NaCl(ℓ)</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app1-q1')">NaCl(ℓ) → NaCl(s)</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app1',['choices-app1-q1'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app1',['choices-app1-q1'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app1')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app1"></div>
+    <div class="correction" id="corr-app1">
+      <strong>Correction :</strong> NaCl(s) → NaCl(ℓ)
+      <p style="margin-top:6px;">Le solide (s) devient liquide (ℓ) : c'est bien une fusion, modélisée par cette équation de changement d'état. La réponse A décrit une dissolution (passage à l'état aqueux) et la réponse C décrit la transformation inverse (solidification).</p>
+    </div>
+  </div>
+</div><!-- fin tab-0 -->
+
+<div class="tab-content" id="tab-1">
+  <div class="section-title">
+    <span class="icon">🧪</span>
+    <h2>Distinguer fusion et dissolution</h2>
+  </div>
+
+  <div class="def-card">
+    <h3>Deux transformations physiques à ne pas confondre</h3>
+    <ul>
+      <li><strong>Fusion</strong> : changement d'état solide → liquide (S → L). L'espèce reste seule, ses entités se réorganisent simplement sous l'effet de la température.</li>
+      <li><strong>Dissolution</strong> : transformation physique solide → aqueux (S → aq), où les entités de l'espèce dissoute se dispersent et s'entourent de molécules d'eau (elles ne changent pas d'état au sens strict, elles se mélangent à l'eau).</li>
+    </ul>
+  </div>
+
+  <div class="doc-image-wrap">
+    <img src="doc4-p117.png" alt="Modélisation microscopique de la fusion et de la dissolution">
+    <div class="doc-caption">Doc. 4 p.117 — Modélisation à l'échelle microscopique de la fusion et de la dissolution.</div>
+  </div>
+
+  <div class="exemple-box">
+    <strong>Fusion :</strong> Ga(s) → Ga(ℓ) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dissolution :</strong> C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq)
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 2</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">Quelle proposition décrit correctement le phénomène de fusion du point de vue moléculaire ?</div>
+    <div class="question-block">
+      <div class="choice-group" id="choices-app2-q1" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app2-q1')">Les entités passent d'un arrangement compact et ordonné, où elles vibrent sur place, à un arrangement désordonné où elles peuvent se déplacer librement les unes par rapport aux autres.</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app2-q1')">Les entités s'éloignent fortement les unes des autres et se dispersent dans tout l'espace disponible.</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app2-q1')">Les entités s'entourent de molécules d'eau et se dispersent dans la solution.</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app2',['choices-app2-q1'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app2',['choices-app2-q1'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app2')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app2"></div>
+    <div class="correction" id="corr-app2">
+      <strong>Correction :</strong>
+      <p style="margin-top:6px;">À l'état solide, les entités sont compactes et ordonnées, elles ne font que vibrer sur place. Lors de la fusion, l'agitation augmente avec la température : les entités gagnent en énergie, s'écartent légèrement les unes des autres et perdent leur organisation ordonnée. Elles deviennent désordonnées et mobiles : c'est l'état liquide. La réponse B décrit plutôt une vaporisation, et la réponse C décrit une dissolution (cas différent de la fusion).</p>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Fusion ou dissolution ?</h3>
+    <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:10px;">Pour chaque situation, indique s'il s'agit d'une fusion ou d'une dissolution.</p>
+    <div class="qcm-grid">
+      <div class="qcm-item" id="fd1">
+        <span class="substance">Un glaçon qui fond dans un verre</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('fd1','Fusion','Fusion','La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ).','fb-fd1')">Fusion</button>
+          <button class="qcm-btn" onclick="repondreQCM('fd1','Fusion','Dissolution','La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ).','fb-fd1')">Dissolution</button>
+        </div>
+        <div class="qcm-feedback" id="fb-fd1"></div>
+      </div>
+      <div class="qcm-item" id="fd2">
+        <span class="substance">Du sucre versé dans un café chaud qui disparaît</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('fd2','Dissolution','Fusion','Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq).','fb-fd2')">Fusion</button>
+          <button class="qcm-btn" onclick="repondreQCM('fd2','Dissolution','Dissolution','Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq).','fb-fd2')">Dissolution</button>
+        </div>
+        <div class="qcm-feedback" id="fb-fd2"></div>
+      </div>
+      <div class="qcm-item" id="fd3">
+        <span class="substance">Du beurre qui fond dans une poêle</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('fd3','Fusion','Fusion','Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est une fusion.','fb-fd3')">Fusion</button>
+          <button class="qcm-btn" onclick="repondreQCM('fd3','Fusion','Dissolution','Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est une fusion.','fb-fd3')">Dissolution</button>
+        </div>
+        <div class="qcm-feedback" id="fb-fd3"></div>
+      </div>
+      <div class="qcm-item" id="fd4">
+        <span class="substance">Du sel de cuisine qui disparaît dans l'eau d'une casserole</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('fd4','Dissolution','Fusion','Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq).','fb-fd4')">Fusion</button>
+          <button class="qcm-btn" onclick="repondreQCM('fd4','Dissolution','Dissolution','Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq).','fb-fd4')">Dissolution</button>
+        </div>
+        <div class="qcm-feedback" id="fb-fd4"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- fin tab-1 -->
+
+<div class="tab-content" id="tab-2">
+  <div class="section-title">
+    <span class="icon">🌡️</span>
+    <h2>Corps pur et palier de température</h2>
+  </div>
+
+  <div class="def-card">
+    <h3>Changement d'état d'un corps pur</h3>
+    <p>Les changements d'état d'un <strong>corps pur</strong> s'effectuent à <strong>température constante</strong>, sous une pression donnée. Les deux états coexistent pendant tout le changement d'état.</p>
+  </div>
+
+  <div class="doc-image-wrap">
+    <img src="docp116-doc2.png" alt="Évolution de la température d'un corps pur lors d'un transfert thermique">
+    <div class="doc-caption">Doc. 2 p.116 — Évolution de la température d'un corps pur lorsqu'on lui apporte régulièrement de l'énergie par transfert thermique à pression constante.</div>
+  </div>
+
+  <div class="remarque-box">
+    <strong>🔑 Critère de pureté :</strong> Un corps pur présente des changements d'état à température <em>constante</em> (palier horizontal sur la courbe température = f(temps)). Un mélange, lui, change d'état sur un <em>intervalle</em> de températures.
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 3</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">Sous pression atmosphérique normale et à la température de 25 °C, l'éthane est gazeux alors que l'éthanol est liquide.</div>
+    <div class="question-block">
+      <div class="question-label">1. Quel est le composé le plus désordonné à 25 °C ?</div>
+      <div class="choice-group" id="choices-app3-q1" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app3-q1')">L'éthane</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app3-q1')">L'éthanol</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app3-q1')">Les deux sont également désordonnés</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Dans quel composé les liaisons intermoléculaires sont-elles plus fortes à 25 °C ?</div>
+      <div class="choice-group" id="choices-app3-q2" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app3-q2')">L'éthane</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app3-q2')">L'éthanol</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app3-q2')">Impossible à déterminer</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app3',['choices-app3-q1','choices-app3-q2'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app3',['choices-app3-q1','choices-app3-q2'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app3')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app3"></div>
+    <div class="correction" id="corr-app3">
+      <strong>1.</strong> À 25 °C, l'éthane est à l'état gazeux : ses entités sont éloignées, désordonnées et libres de se déplacer dans tout l'espace disponible. C'est donc l'éthane qui est le plus désordonné.
+      <div class="calc-step">Éthane (gaz) plus désordonné que l'éthanol (liquide)</div>
+      <strong style="margin-top:8px;display:block;">2.</strong> Les liaisons intermoléculaires sont plus fortes dans l'éthanol, car il faut davantage d'énergie pour séparer ses entités les unes des autres : à 25 °C, l'éthanol reste à l'état liquide (entités proches et liées) tandis que l'éthane, dont les liaisons sont plus faibles, est déjà passé à l'état gazeux (entités libres).
+    </div>
+  </div>
+</div><!-- fin tab-2 -->
+
+<div class="tab-content" id="tab-3">
+  <div class="section-title">
+    <span class="icon">🔥</span>
+    <h2>Transfert thermique : endothermique ou exothermique ?</h2>
+  </div>
+
+  <div class="intro-box">
+    TD — Fonctionnement d'une pompe à chaleur : comment un fluide peut-il capter de l'énergie à l'extérieur en hiver pour chauffer une maison ?
+  </div>
+
+  <div class="def-card">
+    <h3>Le transfert thermique Q</h3>
+    <p>Le <strong>transfert thermique</strong> Q est l'énergie échangée sous forme de chaleur par une espèce chimique. Il s'exprime en <strong>joule (J)</strong>.</p>
+    <ul style="margin-top:8px;">
+      <li>Si l'espèce <strong>reçoit</strong> de l'énergie par transfert thermique : Q&nbsp;&gt;&nbsp;0, le milieu extérieur se refroidit (son énergie diminue) → transformation <strong>endothermique</strong>.</li>
+      <li>Si l'espèce <strong>libère</strong> de l'énergie par transfert thermique : Q&nbsp;&lt;&nbsp;0, le milieu extérieur se réchauffe (son énergie augmente) → transformation <strong>exothermique</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="signe-grid">
+    <div class="signe-card endo">
+      <h4>🌡️↑ ENDOTHERMIQUE</h4>
+      <div class="q-val">Q &gt; 0</div>
+      <p>L'espèce <strong>capte</strong> de l'énergie. C'est le cas de la <strong>fusion</strong>, de la <strong>vaporisation</strong> et de la <strong>sublimation</strong>.</p>
+      <img class="signe-img" src="exemple-endothermique-transpiration.jpg" alt="La transpiration : un exemple de transformation endothermique">
+      <div class="signe-exemple">
+        <div class="signe-exemple-tag">Exemple : la transpiration</div>
+        <p>Lorsqu'on transpire, la sueur (eau liquide) présente sur la peau s'évapore (vaporisation). Cette transformation est endothermique : elle capte de l'énergie thermique au corps, ce qui procure une sensation de fraîcheur.</p>
+      </div>
+    </div>
+    <div class="signe-card exo">
+      <h4>🌡️↓ EXOTHERMIQUE</h4>
+      <div class="q-val">Q &lt; 0</div>
+      <p>L'espèce <strong>libère</strong> de l'énergie. C'est le cas de la <strong>solidification</strong>, de la <strong>liquéfaction</strong> et de la <strong>condensation</strong>.</p>
+      <img class="signe-img" src="exemple-exothermique-gel-vigne.jpg" alt="Protection des cultures contre le gel : un exemple de transformation exothermique">
+      <div class="signe-exemple">
+        <div class="signe-exemple-tag">Exemple : protéger les cultures du gel</div>
+        <p>Lors des nuits de gel, certains viticulteurs aspergent leurs vignes d'eau. En se solidifiant sur les bourgeons, l'eau libère de l'énergie thermique (transformation exothermique), ce qui limite la baisse de température et protège la plante du gel.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 4</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">On observe de l'eau qui bout dans une casserole, puis de la vapeur d'eau qui se dépose en gouttelettes sur une assiette froide placée au-dessus.</div>
+    <div class="question-block">
+      <div class="question-label">1. L'eau bouillante dans la casserole capte-t-elle de l'énergie ?</div>
+      <div class="choice-group" id="choices-app4-q1" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q1')">Oui, elle capte de l'énergie</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q1')">Non, elle libère de l'énergie</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q1')">Elle n'échange aucune énergie</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. La transformation subie par l'eau (liquide → vapeur) est-elle :</div>
+      <div class="choice-group" id="choices-app4-q2" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q2')">Endothermique</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q2')">Exothermique</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q2')">Ni l'une ni l'autre</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">3. La vapeur d'eau au contact de l'assiette froide :</div>
+      <div class="choice-group" id="choices-app4-q3" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q3')">Capte de l'énergie</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q3')">Libère de l'énergie</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q3')">N'échange pas d'énergie</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">4. La transformation subie par la vapeur d'eau (gaz → liquide) est-elle :</div>
+      <div class="choice-group" id="choices-app4-q4" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q4')">Endothermique</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q4')">Exothermique</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q4')">Ni l'une ni l'autre</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app4',['choices-app4-q1','choices-app4-q2','choices-app4-q3','choices-app4-q4'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app4',['choices-app4-q1','choices-app4-q2','choices-app4-q3','choices-app4-q4'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app4')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app4"></div>
+    <div class="correction" id="corr-app4">
+      <div class="calc-step">1. Oui : l'eau capte de l'énergie par transfert thermique pour passer de l'état liquide à l'état gazeux (vaporisation).</div>
+      <div class="calc-step">2. La transformation est <strong>endothermique</strong> (Q &gt; 0) : c'est une vaporisation.</div>
+      <div class="calc-step">3. La vapeur d'eau, en se refroidissant au contact de l'assiette froide, <strong>libère</strong> de l'énergie.</div>
+      <div class="calc-step">4. La transformation est <strong>exothermique</strong> (Q &lt; 0) : c'est une liquéfaction.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Endothermique ou exothermique ?</h3>
+    <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:10px;">Classe chacun des 6 changements d'état.</p>
+    <div class="qcm-grid">
+      <div class="qcm-item" id="ee1"><span class="substance">Fusion</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee1','Endothermique','Endothermique','La fusion (S→L) capte de l\'énergie : Q &gt; 0.','fb-ee1')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee1','Endothermique','Exothermique','La fusion (S→L) capte de l\'énergie : Q &gt; 0.','fb-ee1')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee1"></div>
+      </div>
+      <div class="qcm-item" id="ee2"><span class="substance">Solidification</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee2','Exothermique','Endothermique','La solidification (L→S) libère de l\'énergie : Q &lt; 0.','fb-ee2')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee2','Exothermique','Exothermique','La solidification (L→S) libère de l\'énergie : Q &lt; 0.','fb-ee2')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee2"></div>
+      </div>
+      <div class="qcm-item" id="ee3"><span class="substance">Vaporisation</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee3','Endothermique','Endothermique','La vaporisation (L→G) capte de l\'énergie : Q &gt; 0.','fb-ee3')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee3','Endothermique','Exothermique','La vaporisation (L→G) capte de l\'énergie : Q &gt; 0.','fb-ee3')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee3"></div>
+      </div>
+      <div class="qcm-item" id="ee4"><span class="substance">Liquéfaction</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee4','Exothermique','Endothermique','La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0.','fb-ee4')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee4','Exothermique','Exothermique','La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0.','fb-ee4')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee4"></div>
+      </div>
+      <div class="qcm-item" id="ee5"><span class="substance">Sublimation</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee5','Endothermique','Endothermique','La sublimation (S→G) capte de l\'énergie : Q &gt; 0.','fb-ee5')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee5','Endothermique','Exothermique','La sublimation (S→G) capte de l\'énergie : Q &gt; 0.','fb-ee5')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee5"></div>
+      </div>
+      <div class="qcm-item" id="ee6"><span class="substance">Condensation</span>
+        <div class="qcm-choices">
+          <button class="qcm-btn" onclick="repondreQCM('ee6','Exothermique','Endothermique','La condensation (G→S) libère de l\'énergie : Q &lt; 0.','fb-ee6')">Endothermique</button>
+          <button class="qcm-btn" onclick="repondreQCM('ee6','Exothermique','Exothermique','La condensation (G→S) libère de l\'énergie : Q &lt; 0.','fb-ee6')">Exothermique</button>
+        </div><div class="qcm-feedback" id="fb-ee6"></div>
+      </div>
+    </div>
+  </div>
+</div><!-- fin tab-3 -->
+
+<div class="tab-content" id="tab-4">
+  <div class="section-title">
+    <span class="icon">⚡</span>
+    <h2>Énergie massique de changement d'état</h2>
+  </div>
+
+  <div class="def-card">
+    <h3>La relation Q = m × L</h3>
+    <p>Le transfert thermique Q mis en jeu lors d'un changement d'état est lié à la masse m de l'espèce chimique qui change d'état et à l'<strong>énergie massique de changement d'état</strong> L (aussi appelée chaleur latente) de l'espèce considérée.</p>
+    <div class="formule-box">
+      Q = m × L
+      <div class="legend">
+        Q : transfert thermique mis en jeu lors du changement d'état (en J)<br>
+        m : masse de l'espèce chimique ayant subi l'échange (en kg)<br>
+        L : énergie massique de changement d'état, ou chaleur latente (en J·kg⁻¹)
+      </div>
+    </div>
+    <p>L dépend de l'espèce chimique <strong>et</strong> du changement d'état considéré : elle correspond à la quantité d'énergie nécessaire pour qu'1 kg de l'espèce change d'état, sous une pression donnée.</p>
+    <p style="margin-top:8px;">Pour une transformation <strong>endothermique</strong>, Q et L sont <strong>positifs</strong>. Pour une transformation <strong>exothermique</strong>, Q et L sont <strong>négatifs</strong>.</p>
+  </div>
+
+  <table class="l-table">
+    <thead><tr><th>Espèce chimique</th><th>L<sub>fus</sub> (J·kg⁻¹) à P normal</th><th>L<sub>vap</sub> (J·kg⁻¹) à P normal</th></tr></thead>
+    <tbody>
+      <tr><td>Dioxygène</td><td>1,4 × 10⁴</td><td>2,1 × 10⁵</td></tr>
+      <tr><td>Eau</td><td>3,3 × 10⁵</td><td>2,3 × 10⁶</td></tr>
+      <tr><td>Carbone diamant</td><td>8,8 × 10⁶</td><td>6,0 × 10⁷</td></tr>
+      <tr><td>Éthanol</td><td>1,1 × 10⁵</td><td>8,6 × 10⁵</td></tr>
+    </tbody>
+  </table>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Exercice guidé</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">On souhaite transformer m = 0,5 kg d'eau liquide en vapeur d'eau, à 100 °C sous pression normale. On cherche l'énergie Q nécessaire à cette vaporisation (utilise le tableau ci-dessus pour la valeur de L).</div>
+    <div class="question-block">
+      <div class="question-label">1. Quelle formule permet de calculer Q ?</div>
+      <div class="choice-group" id="choices-qml-q1" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q1')">Q = m × L</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q1')">Q = L / m</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q1')">Q = m + L</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Quelle application numérique utilise la bonne valeur de L pour cette transformation ?</div>
+      <div class="choice-group" id="choices-qml-q2" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 2,3×10⁶</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 3,3×10⁵</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 8,6×10⁵</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">3. Quel est le résultat (en arrondissant) ?</div>
+      <div class="choice-group" id="choices-qml-q3" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q3')">1,15 × 10⁶ J</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q3')">1,15 × 10⁵ J</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q3')">4,6 × 10⁶ J</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('qml',['choices-qml-q1','choices-qml-q2','choices-qml-q3'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('qml',['choices-qml-q1','choices-qml-q2','choices-qml-q3'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-qml')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-qml"></div>
+    <div class="correction" id="corr-qml">
+      <div class="calc-step">1. Q = m × L (m en kg, L en J·kg⁻¹, Q en J).</div>
+      <div class="calc-step">2. La transformation est une <strong>vaporisation de l'eau</strong> : on utilise donc L<sub>vap</sub>(eau) = 2,3 × 10⁶ J·kg⁻¹ (et non L<sub>fus</sub>(eau), ni la valeur d'une autre espèce comme l'éthanol — L dépend à la fois de l'espèce chimique <em>et</em> du changement d'état considéré).</div>
+      <div class="calc-step">3. Q = 0,5 × 2,3×10⁶ = <strong>1,15 × 10⁶ J</strong> (la vaporisation étant endothermique, Q &gt; 0).</div>
+    </div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 5</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">On réalise la fusion de 10 kg de chlorure de sodium. Quelle est l'énergie nécessaire ?<br><strong>Donnée :</strong> L<sub>fusion</sub>(NaCl) = 481 × 10³ J·kg⁻¹.</div>
+    <div class="question-block">
+      <div class="choice-group" id="choices-app5-q1" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10³ J</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10⁶ J</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10⁹ J</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app5',['choices-app5-q1'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app5',['choices-app5-q1'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app5')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app5"></div>
+    <div class="correction" id="corr-app5">
+      <div class="calc-step">Q = m × L = 10 kg × 481×10³ J·kg⁻¹</div>
+      <div class="calc-step">Q = <strong>4,81 × 10⁶ J</strong> = 4 810 kJ</div>
+      <p style="margin-top:6px;">La fusion étant endothermique, Q &gt; 0 : le sel capte cette énergie pour passer de l'état solide à l'état liquide. Attention aux puissances de 10 : 10 kg × 481×10³ J·kg⁻¹ = 4,81×10⁶ J, et non 10³ ou 10⁹.</p>
+    </div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-header"><h3>Application 6</h3><span class="exo-pill">Exercice</span></div>
+    <div class="exo-enonce">
+      Le vinaigre contient de l'acide acétique dilué. Les températures de changement d'état de l'acide acétique pur sont θ<sub>fusion</sub> = 17 °C et θ<sub>vaporisation</sub> = 118 °C.<br><br>
+      <strong>Données :</strong><br>
+      • L<sub>vaporisation</sub>(acide acétique) = 395 kJ·kg⁻¹<br>
+      • L<sub>solidification</sub>(acide acétique) = −195,5 kJ·kg⁻¹<br>
+      • Masse volumique de l'acide acétique : ρ = 1,049 g·mL⁻¹
+    </div>
+    <div class="question-block">
+      <div class="question-label">1. Quel est l'état physique de l'acide acétique à température ambiante (≈ 20 °C) ?</div>
+      <div class="choice-group" id="choices-app6-q1" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q1')">Solide</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q1')">Liquide</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q1')">Gazeux</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">2. Énergie transférée pour la vaporisation de 250 mL d'acide acétique à 118 °C :</div>
+      <div class="choice-group" id="choices-app6-q2" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q2')">≈ 1,04 × 10⁵ J</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q2')">≈ 1,04 × 10⁸ J</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q2')">≈ 395 J</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">3. Énergie transférée pour la solidification de 250 mL d'acide acétique à 17 °C :</div>
+      <div class="choice-group" id="choices-app6-q3" data-correct="A">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q3')">≈ −5,13 × 10⁴ J</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q3')">≈ +5,13 × 10⁴ J</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q3')">≈ −1,955 × 10⁵ J</button>
+      </div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">4. Ces deux transformations sont :</div>
+      <div class="choice-group" id="choices-app6-q4" data-correct="B">
+        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q4')">Vaporisation exothermique, solidification endothermique</button>
+        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q4')">Vaporisation endothermique, solidification exothermique</button>
+        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q4')">Toutes deux exothermiques</button>
+      </div>
+    </div>
+    <div class="exo-actions">
+      <button class="btn-verifier" onclick="verifierExo('app6',['choices-app6-q1','choices-app6-q2','choices-app6-q3','choices-app6-q4'])">✓ Vérifier</button>
+      <button class="btn-recommencer" onclick="recommencerExo('app6',['choices-app6-q1','choices-app6-q2','choices-app6-q3','choices-app6-q4'])">↺ Recommencer</button>
+      <button class="btn-correction" onclick="toggleCorr('corr-app6')">▶ Voir la correction</button>
+    </div>
+    <div class="exo-feedback" id="feedback-app6"></div>
+    <div class="correction" id="corr-app6">
+      <div class="calc-step">1. À température ambiante (≈ 20 °C), on a θ<sub>fusion</sub> (17 °C) &lt; 20 °C &lt; θ<sub>vaporisation</sub> (118 °C) : l'acide acétique est donc <strong>liquide</strong>.</div>
+      <div class="calc-step">Masse : m = ρ × V = 1,049 g·mL⁻¹ × 250 mL = 262,25 g = 0,26225 kg</div>
+      <div class="calc-step">2. Q<sub>vap</sub> = m × L<sub>vap</sub> = 0,26225 kg × 395×10³ J·kg⁻¹ ≈ <strong>1,04 × 10⁵ J</strong> (≈ 103,6 kJ)</div>
+      <div class="calc-step">3. Q<sub>solid</sub> = m × L<sub>solidification</sub> = 0,26225 kg × (−195,5×10³ J·kg⁻¹) ≈ <strong>−5,13 × 10⁴ J</strong> (≈ −51,3 kJ)</div>
+      <div class="calc-step">4. La vaporisation a lieu avec Q &gt; 0 : elle est <strong>endothermique</strong>. La solidification a lieu avec Q &lt; 0 : elle est <strong>exothermique</strong>.</div>
+    </div>
+  </div>
+</div><!-- fin tab-4 -->
+
+<div class="tab-content" id="tab-5">
+  <div class="section-title">
+    <span class="icon">📚</span>
+    <h2>Bilan et ressources</h2>
+  </div>
+
+  <div class="activite-card">
+    <h3>Schéma bilan à compléter</h3>
+    <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:6px;">Clique sur chaque case pour révéler la réponse.</p>
+
+    <div class="schema-bilan-wrap">
+      <div class="sb-transform-cap endo">Le système absorbe de l'énergie</div>
+      <div class="sb-transform-box endo">
+        Transformation
+        <span class="sb-choice-group">
+          <span class="sb-blank" id="sb-transform-endo-word" data-placeholder="?" onclick="toggleBilanPop('sb-transform-endo-word')">?</span>
+          <div class="sb-popover" id="pop-sb-transform-endo-word">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-word','endothermique','endo')">endothermique</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-word','endothermique','endo')">exothermique</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-word','endothermique','endo')">neutre</button>
+          </div>
+        </span>
+        <span class="sb-choice-group">
+          <span class="sb-blank" id="sb-transform-endo-sign" data-placeholder="?" onclick="toggleBilanPop('sb-transform-endo-sign')">?</span>
+          <div class="sb-popover" id="pop-sb-transform-endo-sign">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-sign','Q &gt; 0','endo')">Q &gt; 0</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-sign','Q &gt; 0','endo')">Q &lt; 0</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-endo-sign','Q &gt; 0','endo')">Q = 0</button>
+          </div>
+        </span>
+      </div>
+
+      <div class="sb-circles-wrap">
+        <svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr-bilan-or" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L9,3.5 z" fill="#E8783A"/></marker>
+            <marker id="arr-bilan-bl" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L9,3.5 z" fill="#2D5F8A"/></marker>
+          </defs>
+
+          <!-- Arc supérieur : Sublimation (Solide -> Gaz), endothermique -->
+          <path d="M 95,135 Q 320,10 545,135" fill="none" stroke="#E8783A" stroke-width="3" marker-end="url(#arr-bilan-or)"/>
+          <!-- Arc inférieur : Condensation (Gaz -> Solide), exothermique -->
+          <path d="M 545,245 Q 320,330 95,245" fill="none" stroke="#2D5F8A" stroke-width="3" marker-end="url(#arr-bilan-bl)"/>
+
+          <!-- Flèches du haut : Fusion (Solide->Liquide) et Vaporisation (Liquide->Gaz), endothermiques -->
+          <line x1="150" y1="172" x2="262" y2="172" stroke="#E8783A" stroke-width="3" marker-end="url(#arr-bilan-or)"/>
+          <line x1="378" y1="172" x2="490" y2="172" stroke="#E8783A" stroke-width="3" marker-end="url(#arr-bilan-or)"/>
+
+          <!-- Flèches du bas : Solidification (Liquide->Solide) et Liquéfaction (Gaz->Liquide), exothermiques -->
+          <line x1="262" y1="208" x2="150" y2="208" stroke="#2D5F8A" stroke-width="3" marker-end="url(#arr-bilan-bl)"/>
+          <line x1="490" y1="208" x2="378" y2="208" stroke="#2D5F8A" stroke-width="3" marker-end="url(#arr-bilan-bl)"/>
+
+          <!-- États -->
+          <circle cx="90" cy="190" r="52" fill="#E3EDF7" stroke="#5B8FB9" stroke-width="2.5"/>
+          <text x="90" y="196" text-anchor="middle" font-family="Outfit,sans-serif" font-size="15" font-weight="700" fill="#1E4A72">SOLIDE</text>
+
+          <circle cx="320" cy="190" r="52" fill="#E8F5F0" stroke="#3A8A6E" stroke-width="2.5"/>
+          <text x="320" y="196" text-anchor="middle" font-family="Outfit,sans-serif" font-size="15" font-weight="700" fill="#2A6B52">LIQUIDE</text>
+
+          <circle cx="550" cy="190" r="52" fill="#FEF9E8" stroke="#C9A83C" stroke-width="2.5"/>
+          <text x="550" y="196" text-anchor="middle" font-family="Outfit,sans-serif" font-size="15" font-weight="700" fill="#8A6E1A">GAZ</text>
+        </svg>
+
+        <span class="sb-choice-group sb-blank-arc" style="left:50%;top:20%;">
+          <span class="sb-blank" id="sb-arc-sublimation" data-placeholder="?" onclick="toggleBilanPop('sb-arc-sublimation')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-sublimation">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-sublimation','Sublimation','endo')">Sublimation</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-sublimation','Sublimation','endo')">Fusion</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-sublimation','Sublimation','endo')">Vaporisation</button>
+          </div>
+        </span>
+        <span class="sb-choice-group sb-blank-arc" style="left:32%;top:50%;">
+          <span class="sb-blank" id="sb-arc-fusion" data-placeholder="?" onclick="toggleBilanPop('sb-arc-fusion')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-fusion">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-fusion','Fusion','endo')">Vaporisation</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-fusion','Fusion','endo')">Fusion</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-fusion','Fusion','endo')">Sublimation</button>
+          </div>
+        </span>
+        <span class="sb-choice-group sb-blank-arc" style="left:68%;top:50%;">
+          <span class="sb-blank" id="sb-arc-vaporisation" data-placeholder="?" onclick="toggleBilanPop('sb-arc-vaporisation')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-vaporisation">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-vaporisation','Vaporisation','endo')">Fusion</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-vaporisation','Vaporisation','endo')">Sublimation</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-vaporisation','Vaporisation','endo')">Vaporisation</button>
+          </div>
+        </span>
+        <span class="sb-choice-group sb-blank-arc" style="left:50%;top:84%;">
+          <span class="sb-blank" id="sb-arc-condensation" data-placeholder="?" onclick="toggleBilanPop('sb-arc-condensation')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-condensation">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-condensation','Condensation','exo')">Liquéfaction</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-condensation','Condensation','exo')">Condensation</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-condensation','Condensation','exo')">Solidification</button>
+          </div>
+        </span>
+        <span class="sb-choice-group sb-blank-arc" style="left:32%;top:61%;">
+          <span class="sb-blank" id="sb-arc-solidification" data-placeholder="?" onclick="toggleBilanPop('sb-arc-solidification')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-solidification">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-solidification','Solidification','exo')">Solidification</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-solidification','Solidification','exo')">Liquéfaction</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-solidification','Solidification','exo')">Condensation</button>
+          </div>
+        </span>
+        <span class="sb-choice-group sb-blank-arc" style="left:68%;top:61%;">
+          <span class="sb-blank" id="sb-arc-liquefaction" data-placeholder="?" onclick="toggleBilanPop('sb-arc-liquefaction')">?</span>
+          <div class="sb-popover" id="pop-sb-arc-liquefaction">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-liquefaction','Liquéfaction','exo')">Condensation</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-liquefaction','Liquéfaction','exo')">Solidification</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-arc-liquefaction','Liquéfaction','exo')">Liquéfaction</button>
+          </div>
+        </span>
+      </div>
+
+      <div class="sb-transform-box exo">
+        Transformation
+        <span class="sb-choice-group">
+          <span class="sb-blank" id="sb-transform-exo-word" data-placeholder="?" onclick="toggleBilanPop('sb-transform-exo-word')">?</span>
+          <div class="sb-popover" id="pop-sb-transform-exo-word">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-word','exothermique','exo')">neutre</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-word','exothermique','exo')">endothermique</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-word','exothermique','exo')">exothermique</button>
+          </div>
+        </span>
+        <span class="sb-choice-group">
+          <span class="sb-blank" id="sb-transform-exo-sign" data-placeholder="?" onclick="toggleBilanPop('sb-transform-exo-sign')">?</span>
+          <div class="sb-popover" id="pop-sb-transform-exo-sign">
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-sign','Q &lt; 0','exo')">Q = 0</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-sign','Q &lt; 0','exo')">Q &lt; 0</button>
+            <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-transform-exo-sign','Q &lt; 0','exo')">Q &gt; 0</button>
+          </div>
+        </span>
+      </div>
+      <div class="sb-transform-cap exo">Le système libère de l'énergie</div>
+
+      <p style="font-size:0.86rem;font-weight:700;color:var(--texte);margin-top:18px;text-align:center;">Propriétés des entités dans chaque état</p>
+      <div class="sb-props-grid">
+        <div class="sb-props-col">
+          <span class="sb-choice-group">
+            <span class="sb-blank" id="sb-prop-solide" data-placeholder="Solide ?" onclick="toggleBilanPop('sb-prop-solide')">Solide ?</span>
+            <div class="sb-popover" id="pop-sb-prop-solide">
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-solide','Compactes · Ordonnées · Vibration sur place','info')">Proches · Désordonnées · Mobiles (glissent)</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-solide','Compactes · Ordonnées · Vibration sur place','info')">Compactes · Ordonnées · Vibration sur place</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-solide','Compactes · Ordonnées · Vibration sur place','info')">Éloignées · Désordonnées · Libres &amp; rapides</button>
+            </div>
+          </span>
+        </div>
+        <div class="sb-props-col">
+          <span class="sb-choice-group">
+            <span class="sb-blank" id="sb-prop-liquide" data-placeholder="Liquide ?" onclick="toggleBilanPop('sb-prop-liquide')">Liquide ?</span>
+            <div class="sb-popover" id="pop-sb-prop-liquide">
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-liquide','Proches · Désordonnées · Mobiles (glissent)','info')">Éloignées · Désordonnées · Libres &amp; rapides</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-liquide','Proches · Désordonnées · Mobiles (glissent)','info')">Compactes · Ordonnées · Vibration sur place</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-liquide','Proches · Désordonnées · Mobiles (glissent)','info')">Proches · Désordonnées · Mobiles (glissent)</button>
+            </div>
+          </span>
+        </div>
+        <div class="sb-props-col">
+          <span class="sb-choice-group">
+            <span class="sb-blank" id="sb-prop-gaz" data-placeholder="Gaz ?" onclick="toggleBilanPop('sb-prop-gaz')">Gaz ?</span>
+            <div class="sb-popover" id="pop-sb-prop-gaz">
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-gaz','Éloignées · Désordonnées · Libres &amp; rapides','info')">Compactes · Ordonnées · Vibration sur place</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-gaz','Éloignées · Désordonnées · Libres &amp; rapides','info')">Éloignées · Désordonnées · Libres &amp; rapides</button>
+              <button class="sb-choice-btn" onclick="bilanChoisir(this,'sb-prop-gaz','Éloignées · Désordonnées · Libres &amp; rapides','info')">Proches · Désordonnées · Mobiles (glissent)</button>
+            </div>
+          </span>
+        </div>
+      </div>
+
+      <a class="sb-video-link" href="https://www.pearltrees.com/private/id104964693/item801676771?paccess=47d1c1e937d.2fc89de3.560b49094de6062275289c6bfa9ef6ad" target="_blank">
+        <span class="sb-video-play">▶</span>
+        <span class="sb-video-text">
+          <span class="sb-video-title" style="display:block;">Vidéo bilan : d'un état à l'autre, la transformation physique</span>
+          <span class="sb-video-sub">Pour revoir ce schéma expliqué pas à pas — s'ouvre dans un nouvel onglet ↗</span>
+        </span>
+      </a>
+
+      <div style="text-align:center;margin-top:16px;">
+        <button onclick="reinitBilan()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.86rem;font-weight:600;cursor:pointer;">Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="def-card">
+    <h3>Ce qu'il faut retenir</h3>
+    <ul class="ke-list">
+      <li>Une transformation physique change l'état d'une espèce sans changer sa nature (fusion, vaporisation, sublimation et leurs inverses).</li>
+      <li>La dissolution est différente de la fusion : l'espèce se disperse dans un solvant.</li>
+      <li>Un corps pur change d'état à température constante (palier).</li>
+      <li>Une transformation endothermique capte de l'énergie (Q &gt; 0) ; une transformation exothermique en libère (Q &lt; 0).</li>
+      <li>Q = m × L, avec m en kg, L en J·kg⁻¹ et Q en J.</li>
+    </ul>
+  </div>
+
+  <div class="resource-card">
+    <h3 style="font-family:'Outfit',sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin-bottom:8px;">🔗 Ressource : transferts d'énergie thermique</h3>
+    <p style="font-size:0.88rem;line-height:1.6;color:var(--texte);">
+      Cette simulation interactive (PhET, université du Colorado à Boulder) permet d'observer le transfert d'énergie thermique entre des objets de températures différentes, jusqu'à l'équilibre thermique. Place par exemple un bloc de fer chaud dans un bécher d'eau froide sur l'écran « Intro » : observe le sens des flèches d'énergie échangée, et relie cette observation au transfert thermique Q étudié dans ce chapitre (quel objet a Q &gt; 0, quel objet a Q &lt; 0 ?).
+    </p>
+    <div class="resource-frame-wrap">
+      <iframe src="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_all.html" title="Simulation PhET : Energy Forms and Changes" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:6px;">
+      <a class="btn-fullscreen" href="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_all.html" target="_blank">↗ Ouvrir en plein écran</a>
+      <span class="resource-credit">Simulation © PhET Interactive Simulations, University of Colorado Boulder</span>
+    </div>
+  </div>
+</div><!-- fin tab-5 -->
+
+<div class="footer-note">
+  2<sup>nde</sup> – Thème : Constitution et transformations de la matière – Fiche de cours n°08 – C. Poirault-Gauvin
+</div>
+
+</main>
+
+<div id="global-tooltip" style="position:fixed;background:#1A2A3A;color:white;font-size:0.80rem;padding:6px 12px;border-radius:6px;pointer-events:none;display:none;z-index:999;white-space:nowrap;"></div>
+
+<script>
+// ── Capacités exigibles ──
+document.getElementById("capToggle").addEventListener("click", function () {
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open") ? "📋 Masquer les capacités" : "📋 Capacités exigibles";
+});
+
+// ── Navigation onglets ──
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i === n));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Correction simple ──
+function toggleCorr(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('visible');
+  const btn = el.previousElementSibling;
+  btn.textContent = el.classList.contains('visible') ? '▼ Masquer la correction' : '▶ Voir la correction';
+}
+
+// ── Correction multiple ──
+function toggleCorrMulti(ids, btn) {
+  const first = document.getElementById(ids[0]);
+  const show = !first.classList.contains('visible');
+  ids.forEach(id => { const el = document.getElementById(id); if (el) el.classList.toggle('visible', show); });
+  btn.textContent = show ? '▼ Masquer la correction' : '▶ Voir la correction';
+}
+
+// ── QCM ──
+function repondreQCM(id, correct, choix, explication, fbId) {
+  const item = document.getElementById(id);
+  const fb = document.getElementById(fbId);
+  if (item.dataset.done) return;
+  item.dataset.done = '1';
+  const ok = choix === correct;
+  fb.textContent = ok ? '✓ ' + explication : '✗ La bonne réponse est : ' + correct + '. ' + explication;
+  fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
+  item.querySelectorAll('.qcm-btn').forEach(b => {
+    if (b.textContent === correct) b.classList.add('correct');
+    else if (b.textContent === choix && !ok) b.classList.add('wrong');
+  });
+  item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
+}
+
+// ── Accordéon ──
+function toggleAccord(btn) {
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.querySelector('span:last-child').textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+</script>
+
+<script>
+// ── Applications : choix de réponses + vérification ──
+function selectChoice(btn, groupId) {
+  const group = document.getElementById(groupId);
+  if (group.dataset.locked) return;
+  group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  group.dataset.selected = btn.dataset.value;
+}
+
+function verifierExo(exoId, groupIds) {
+  let bon = 0;
+  let allAnswered = true;
+  groupIds.forEach(gid => {
+    const group = document.getElementById(gid);
+    const sel = group.dataset.selected;
+    if (!sel) { allAnswered = false; return; }
+  });
+  const fb = document.getElementById('feedback-' + exoId);
+  if (!allAnswered) {
+    fb.textContent = 'Sélectionne une réponse pour chaque question avant de vérifier.';
+    fb.className = 'exo-feedback warn';
+    return;
+  }
+  groupIds.forEach(gid => {
+    const group = document.getElementById(gid);
+    group.dataset.locked = '1';
+    const sel = group.dataset.selected;
+    const correct = group.dataset.correct;
+    group.querySelectorAll('.choice-btn').forEach(b => {
+      if (b.dataset.value === correct) b.classList.add('correct');
+      else if (b.dataset.value === sel) b.classList.add('wrong');
+    });
+    if (sel === correct) bon++;
+  });
+  const total = groupIds.length;
+  fb.className = 'exo-feedback' + (bon === total ? ' success' : ' partial');
+  fb.textContent = bon === total
+    ? '✓ Toutes les réponses sont correctes !'
+    : bon + '/' + total + ' correct' + (bon > 1 ? 's' : '') + ' — regarde les réponses en rouge, ou consulte la correction détaillée.';
+}
+
+function recommencerExo(exoId, groupIds) {
+  groupIds.forEach(gid => {
+    const group = document.getElementById(gid);
+    delete group.dataset.locked;
+    delete group.dataset.selected;
+    group.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected', 'correct', 'wrong'));
+  });
+  const fb = document.getElementById('feedback-' + exoId);
+  fb.textContent = '';
+  fb.className = 'exo-feedback';
+}
+
+// ── Triangle changements d'état ──
+const TRI_LABELS = [
+  { id: 'fusion',              text: 'Fusion',             color: '#3A8A6E' },
+  { id: 'solidification',      text: 'Solidification',     color: '#2D5F8A' },
+  { id: 'vaporisation',        text: 'Vaporisation',       color: '#E8783A' },
+  { id: 'liquefaction',        text: 'Liquéfaction',       color: '#2D5F8A' },
+  { id: 'sublimation',         text: 'Sublimation',        color: '#E8783A' },
+  { id: 'condensation',        text: 'Condensation',color: '#2D5F8A' }
+];
+
+let triState = {};
+
+function buildEtiquettes() {
+  const pool = document.getElementById('etiquettes-pool');
+  if (!pool) return;
+  pool.innerHTML = '';
+  const shuffled = [...TRI_LABELS].sort(() => Math.random() - 0.5);
+  shuffled.forEach(lab => {
+    if (triState[lab.id]) return;
+    const btn = document.createElement('button');
+    btn.id = 'etiq-' + lab.id;
+    btn.textContent = lab.text;
+    btn.dataset.labelId = lab.id;
+    btn.style.cssText = `
+      padding:6px 14px;
+      background:${lab.color}18;
+      border:2px solid ${lab.color};
+      border-radius:20px;
+      font-family:'Outfit',sans-serif;
+      font-size:0.84rem;
+      font-weight:700;
+      color:${lab.color};
+      cursor:grab;
+      touch-action:none;
+      user-select:none;
+    `;
+    btn.addEventListener('mousedown', startDrag);
+    btn.addEventListener('touchstart', startDrag, {passive:false});
+    pool.appendChild(btn);
+  });
+  if (pool.children.length === 0) {
+    pool.innerHTML = '<span style="font-size:0.82rem;color:var(--texte-léger);font-style:italic;">Toutes les étiquettes sont placées !</span>';
+  }
+}
+
+let dragEl = null, dragId = null, ghostEl = null;
+
+function startDrag(e) {
+  e.preventDefault();
+  const btn = e.currentTarget;
+  dragId = btn.dataset.labelId;
+  const lab = TRI_LABELS.find(l => l.id === dragId);
+  ghostEl = document.createElement('div');
+  ghostEl.textContent = btn.textContent;
+  ghostEl.style.cssText = `
+    position:fixed;pointer-events:none;z-index:9999;
+    padding:6px 14px;
+    background:${lab.color};
+    border-radius:20px;
+    font-family:'Outfit',sans-serif;font-size:0.84rem;font-weight:700;
+    color:white;opacity:0.92;
+    transform:translate(-50%,-50%);
+  `;
+  document.body.appendChild(ghostEl);
+  moveGhost(e);
+  document.addEventListener('mousemove', moveGhost);
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchmove', moveGhost, {passive:false});
+  document.addEventListener('touchend', endDrag);
+}
+
+function moveGhost(e) {
+  if (!ghostEl) return;
+  const pt = e.touches ? e.touches[0] : e;
+  ghostEl.style.left = pt.clientX + 'px';
+  ghostEl.style.top = pt.clientY + 'px';
+}
+
+function endDrag(e) {
+  document.removeEventListener('mousemove', moveGhost);
+  document.removeEventListener('mouseup', endDrag);
+  document.removeEventListener('touchmove', moveGhost);
+  document.removeEventListener('touchend', endDrag);
+
+  if (ghostEl) { ghostEl.remove(); ghostEl = null; }
+  if (!dragId) return;
+
+  const pt = e.changedTouches ? e.changedTouches[0] : e;
+  const svg = document.getElementById('tri-svg');
+  const rect = svg.getBoundingClientRect();
+  const scaleX = 560 / rect.width;
+  const scaleY = 420 / rect.height;
+  const svgX = (pt.clientX - rect.left) * scaleX;
+  const svgY = (pt.clientY - rect.top) * scaleY;
+
+  let dropped = detectZone(svgX, svgY);
+  if (dropped) {
+    triState[dragId] = dropped;
+    afficherEtiquette(dragId, dragId === dropped);
+    buildEtiquettes();
+  }
+  dragId = null;
+}
+
+function toLocalCoords(px, py, cx, cy, forwardAngleDeg) {
+  const rad = -forwardAngleDeg * Math.PI / 180;
+  const dx = px - cx, dy = py - cy;
+  const cos = Math.cos(rad), sin = Math.sin(rad);
+  return { x: dx * cos - dy * sin, y: dx * sin + dy * cos };
+}
+
+function detectZone(x, y) {
+  // Fusion / Solidification : rectangles alignés en bas du triangle
+  if (x >= 185 && x <= 375) {
+    if (y >= 340 && y <= 360) return 'fusion';
+    if (y >= 372 && y <= 390) return 'solidification';
+  }
+  // Côté gauche (Sublimation / Condensation) : repère local centré sur (170,210), rotation -55°
+  const left = toLocalCoords(x, y, 170, 210, -55);
+  if (left.x >= -90 && left.x <= 90 && left.y >= -40 && left.y <= -18) return 'sublimation';
+  if (left.x >= -100 && left.x <= 100 && left.y >= 8 && left.y <= 30) return 'condensation';
+  // Côté droit (Vaporisation / Liquéfaction) : repère local centré sur (390,210), rotation +55°
+  const right = toLocalCoords(x, y, 390, 210, 55);
+  if (right.x >= -85 && right.x <= 85 && right.y >= -40 && right.y <= -18) return 'vaporisation';
+  if (right.x >= -80 && right.x <= 80 && right.y >= 8 && right.y <= 30) return 'liquefaction';
+  return null;
+}
+
+function afficherEtiquette(labelId, estCorrect) {
+  const txtEl = document.getElementById('txt-' + labelId);
+  if (!txtEl) return;
+  const correct = (estCorrect === undefined) ? true : estCorrect;
+  txtEl.setAttribute('opacity', '1');
+  txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l=>l.id===labelId).color : '#C0392B');
+}
+
+function verifierTriangle() {
+  let bon = 0, total = Object.keys(triState).length;
+  if (total === 0) {
+    document.getElementById('tri-score').textContent = 'Place au moins une étiquette !';
+    document.getElementById('tri-score').style.display = 'block';
+    return;
+  }
+  Object.entries(triState).forEach(([placed, zone]) => {
+    const ok = placed === zone;
+    const txtEl = document.getElementById('txt-' + placed);
+    if (txtEl) {
+      txtEl.setAttribute('fill', ok ? TRI_LABELS.find(l=>l.id===placed).color : '#C0392B');
+      txtEl.setAttribute('opacity', '1');
+    }
+    if (ok) bon++;
+  });
+  const scoreEl = document.getElementById('tri-score');
+  scoreEl.style.display = 'block';
+  if (bon === 6) {
+    scoreEl.style.color = 'var(--vert)';
+    scoreEl.textContent = '✓ Parfait ! Les 6 changements d\'état sont correctement placés.';
+    document.getElementById('tri-consigne').textContent = '✓ Excellent travail !';
+  } else {
+    scoreEl.style.color = 'var(--orange)';
+    scoreEl.textContent = bon + '/6 correct' + (bon > 1 ? 's' : '') + ' — les étiquettes en rouge sont à corriger.';
+  }
+}
+
+function reinitTriangle() {
+  triState = {};
+  TRI_LABELS.forEach(lab => {
+    const el = document.getElementById('txt-' + lab.id);
+    if (el) el.setAttribute('opacity', '0');
+  });
+  document.getElementById('tri-score').style.display = 'none';
+  document.getElementById('tri-consigne').textContent = 'Glisse chaque étiquette sur la flèche correspondante ✦';
+  buildEtiquettes();
+}
+
+function corrigerTriangle() {
+  triState = {};
+  TRI_LABELS.forEach(lab => {
+    triState[lab.id] = lab.id;
+    afficherEtiquette(lab.id, true);
+  });
+  buildEtiquettes();
+  const scoreEl = document.getElementById('tri-score');
+  scoreEl.style.display = 'block';
+  scoreEl.style.color = 'var(--bleu)';
+  scoreEl.textContent = 'Correction affichée — retiens bien les 6 changements d\'état !';
+  document.getElementById('tri-consigne').textContent = '✓ Correction complète';
+}
+
+// ── Molécules animées des 3 états ──
+function injectMolecules() {
+  function fillBox(boxId, count, mode) {
+    const box = document.getElementById(boxId);
+    if (!box) return;
+    const w = box.clientWidth || 250, h = box.clientHeight || 110;
+    for (let i = 0; i < count; i++) {
+      const mol = document.createElement('div');
+      mol.className = 'molecule';
+      let size, x, y, anim, dur, delay;
+      if (mode === 'solide') {
+        size = 13;
+        const cols = 5, rows = 3;
+        const col = i % cols, row = Math.floor(i / cols);
+        x = 16 + col * ((w - 32) / (cols - 1));
+        y = 14 + row * ((h - 28) / (rows - 1));
+        anim = 'vibre'; dur = (0.5 + Math.random()*0.3).toFixed(2) + 's'; delay = (Math.random()*0.5).toFixed(2) + 's';
+      } else if (mode === 'liquide') {
+        size = 13;
+        x = 18 + Math.random() * (w - 36);
+        y = 14 + Math.random() * (h - 28);
+        anim = 'derive'; dur = (2.4 + Math.random()*1.4).toFixed(2) + 's'; delay = (Math.random()*1.5).toFixed(2) + 's';
+      } else {
+        size = 10;
+        x = 10 + Math.random() * (w - 20);
+        y = 10 + Math.random() * (h - 20);
+        anim = 'derive-gaz'; dur = (1.6 + Math.random()*1.2).toFixed(2) + 's'; delay = (Math.random()*1.2).toFixed(2) + 's';
+      }
+      mol.style.width = size + 'px';
+      mol.style.height = size + 'px';
+      mol.style.left = x + 'px';
+      mol.style.top = y + 'px';
+      mol.style.animation = anim + ' ' + dur + ' ease-in-out infinite';
+      mol.style.animationDelay = delay;
+      box.appendChild(mol);
+    }
+  }
+  fillBox('mol-solide', 15, 'solide');
+  fillBox('mol-liquide', 11, 'liquide');
+  fillBox('mol-gaz', 7, 'gaz');
+}
+
+// ── Schéma bilan interactif (choix multiples) ──
+function toggleBilanPop(id) {
+  const pop = document.getElementById('pop-' + id);
+  if (pop.dataset.locked) return;
+  const wasOpen = pop.classList.contains('open');
+  document.querySelectorAll('.sb-popover').forEach(p => p.classList.remove('open'));
+  if (!wasOpen) pop.classList.add('open');
+}
+function bilanChoisir(btn, id, correct, type) {
+  const pop = document.getElementById('pop-' + id);
+  const blank = document.getElementById(id);
+  if (pop.dataset.locked) return;
+  pop.dataset.locked = '1';
+  pop.querySelectorAll('.sb-choice-btn').forEach(b => {
+    if (b.textContent === correct) b.classList.add('correct');
+    else if (b === btn) b.classList.add('wrong');
+  });
+  blank.innerHTML = correct;
+  blank.classList.add('revealed', type);
+}
+function reinitBilan() {
+  document.querySelectorAll('.sb-blank').forEach(el => {
+    el.classList.remove('revealed', 'endo', 'exo', 'info');
+    el.textContent = el.dataset.placeholder || '?';
+  });
+  document.querySelectorAll('.sb-popover').forEach(pop => {
+    delete pop.dataset.locked;
+    pop.classList.remove('open');
+    pop.querySelectorAll('.sb-choice-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+  });
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.sb-choice-group')) {
+    document.querySelectorAll('.sb-popover').forEach(p => p.classList.remove('open'));
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildEtiquettes();
+  injectMolecules();
+  const svg = document.getElementById('tri-svg');
+  if (svg) {
+    svg.addEventListener('mouseup', function(e) {
+      if (!dragId) return;
+      const rect = svg.getBoundingClientRect();
+      const scaleX = 560 / rect.width;
+      const scaleY = 420 / rect.height;
+      const svgX = (e.clientX - rect.left) * scaleX;
+      const svgY = (e.clientY - rect.top) * scaleY;
+      const zone = detectZone(svgX, svgY);
+      if (zone) {
+        triState[dragId] = zone;
+        afficherEtiquette(dragId, dragId === zone);
+        buildEtiquettes();
+      }
+      if (ghostEl) { ghostEl.remove(); ghostEl = null; }
+      dragId = null;
+      document.removeEventListener('mousemove', moveGhost);
+      document.removeEventListener('mouseup', endDrag);
+    });
+  }
+});
+</script>
+
+</body>
+</html>

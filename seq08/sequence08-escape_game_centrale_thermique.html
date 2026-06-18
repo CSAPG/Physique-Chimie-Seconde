@@ -1,0 +1,1634 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.game-outer {
+  position: relative;
+  min-height: 900px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+
+.bg-scene {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+}
+
+.overlay-dark {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(10, 4, 2, 0.72);
+  z-index: 1;
+}
+
+.overlay-dark.drama {
+  background: rgba(6, 2, 0, 0.78);
+}
+
+.flicker { animation: flk 2.8s infinite alternate; }
+@keyframes flk {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.85; }
+  60%  { opacity: 1; }
+  80%  { opacity: 0.78; }
+  100% { opacity: 1; }
+}
+
+.pulse-red { animation: pred 1.6s infinite; }
+@keyframes pred {
+  0%,100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.pulse-fast { animation: pred 0.6s infinite; }
+
+.smoke { animation: smk 3s infinite ease-in-out; transform-origin: bottom center; }
+.smoke2 { animation-delay: 1s; }
+.smoke3 { animation-delay: 1.8s; }
+@keyframes smk {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0.4; }
+  50%  { transform: translateY(-18px) scaleX(1.15); opacity: 0.25; }
+  100% { transform: translateY(-32px) scaleX(1.3); opacity: 0; }
+}
+
+.smoke-heavy { animation: smkh 2s infinite ease-in-out; transform-origin: bottom center; }
+.smoke-heavy2 { animation-delay: 0.7s; }
+.smoke-heavy3 { animation-delay: 1.4s; }
+@keyframes smkh {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0.7; }
+  50%  { transform: translateY(-30px) scaleX(1.4); opacity: 0.5; }
+  100% { transform: translateY(-60px) scaleX(1.8); opacity: 0; }
+}
+
+.spark { animation: spk 1.2s infinite; }
+.spark2 { animation-delay: 0.4s; }
+.spark3 { animation-delay: 0.8s; }
+@keyframes spk {
+  0%,100% { opacity: 0; transform: translateY(0); }
+  30% { opacity: 1; }
+  70% { opacity: 0.6; transform: translateY(-12px); }
+}
+
+.explosion-glow { animation: explglow 1.4s infinite alternate; }
+@keyframes explglow {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.crack { animation: crk 3s infinite; }
+@keyframes crk {
+  0%,90%,100% { opacity: 0.4; }
+  95% { opacity: 1; }
+}
+
+.lightning { animation: ltng 4s infinite; }
+.lightning2 { animation-delay: 1.5s; }
+@keyframes ltng {
+  0%,85%,100% { opacity: 0; }
+  87%,89% { opacity: 1; }
+  88% { opacity: 0.3; }
+}
+
+.content-layer {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 1rem 2rem;
+}
+
+/* ---- MODE SELECT ---- */
+.mode-select {
+  text-align: center;
+  padding: 1rem 0.5rem 2rem;
+}
+.mode-logo {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(216,90,48,0.8);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.mode-title {
+  font-size: 26px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 6px;
+  text-shadow: 0 0 30px rgba(239,159,39,0.5);
+}
+.mode-sub {
+  font-size: 13px;
+  color: #888780;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.mode-cards {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.mode-card {
+  background: rgba(12,8,4,0.8);
+  border: 1px solid rgba(239,159,39,0.3);
+  border-radius: 12px;
+  padding: 1.4rem 1.2rem;
+  width: 220px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.mode-card:hover {
+  border-color: #EF9F27;
+  background: rgba(20,12,4,0.9);
+  transform: translateY(-2px);
+}
+.mode-card.drama-card {
+  border-color: rgba(226,75,74,0.4);
+}
+.mode-card.drama-card:hover {
+  border-color: #E24B4A;
+}
+.mode-badge {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.mode-badge.standard { color: #EF9F27; }
+.mode-badge.advanced { color: #E24B4A; }
+.mode-time {
+  font-size: 36px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+.mode-time.standard { color: #EF9F27; }
+.mode-time.advanced { color: #F09595; }
+.mode-label { font-size: 12px; color: #888780; margin-bottom: 10px; }
+.mode-desc { font-size: 12px; color: #B4B2A9; line-height: 1.55; margin-bottom: 14px; }
+.mode-enigmes { font-size: 11px; color: rgba(255,255,255,0.35); border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 8px; }
+.mode-btn {
+  display: block;
+  width: 100%;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  border: none;
+  margin-top: 12px;
+  transition: background 0.15s;
+}
+.mode-btn.standard {
+  background: rgba(239,159,39,0.2);
+  color: #FAC775;
+  border: 0.5px solid #EF9F27;
+}
+.mode-btn.standard:hover { background: rgba(239,159,39,0.35); }
+.mode-btn.advanced {
+  background: rgba(226,75,74,0.18);
+  color: #F09595;
+  border: 0.5px solid #E24B4A;
+}
+.mode-btn.advanced:hover { background: rgba(226,75,74,0.32); }
+
+/* ---- GAME SCREENS ---- */
+.game-screen { display: none; }
+.game-screen.active { display: block; }
+
+.alert-banner {
+  background: rgba(216,90,48,0.18);
+  border: 1px solid #D85A30;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #FAC775;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.alert-banner.critical {
+  background: rgba(226,75,74,0.2);
+  border-color: #E24B4A;
+  color: #F09595;
+  animation: pred 0.9s infinite;
+}
+
+.header { text-align: center; margin-bottom: 14px; }
+.header h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; text-shadow: 0 0 20px rgba(239,159,39,0.5); }
+.header .scenario { font-size: 12px; color: #FAC775; background: rgba(186,117,23,0.15); border: 0.5px solid rgba(186,117,23,0.4); border-radius: 20px; display: inline-block; padding: 3px 12px; margin-bottom: 8px; }
+.header .scenario.red { color: #F09595; background: rgba(226,75,74,0.12); border-color: rgba(226,75,74,0.3); }
+.header .intro { font-size: 13px; color: #B4B2A9; max-width: 540px; margin: 0 auto; line-height: 1.6; }
+
+.timer-bar { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+.timer-display { font-size: 30px; font-weight: 500; color: #EF9F27; font-family: var(--font-mono); letter-spacing: 3px; }
+.timer-display.urgent { color: #F09595; animation: pred 0.8s infinite; }
+
+.btn { border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; border-radius: 6px; padding: 7px 18px; font-size: 13px; cursor: pointer; font-family: var(--font-sans); transition: background 0.15s; }
+.btn:hover { background: rgba(255,255,255,0.16); }
+.btn-start { background: rgba(29,158,117,0.25); color: #9FE1CB; border-color: #1D9E75; font-weight: 500; }
+.btn-start:hover { background: rgba(29,158,117,0.45); }
+.btn-danger { background: rgba(226,75,74,0.2); color: #F09595; border-color: #E24B4A; font-weight: 500; }
+.btn-danger:hover { background: rgba(226,75,74,0.38); }
+
+.progress-track { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.prog-step { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(255,255,255,0.4); transition: all 0.3s; }
+.prog-step.active { background: rgba(186,117,23,0.3); border-color: #EF9F27; color: #FAC775; font-weight: 500; }
+.prog-step.done { background: rgba(29,158,117,0.4); border-color: #1D9E75; color: #9FE1CB; }
+.prog-line { width: 24px; height: 0.5px; background: rgba(255,255,255,0.12); }
+.prog-line.done { background: #1D9E75; }
+
+.enigma-card {
+  background: rgba(12,8,4,0.75);
+  border: 0.5px solid rgba(239,159,39,0.3);
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+.enigma-card.active { display: block; }
+.enigma-num { font-size: 10px; font-weight: 500; color: #EF9F27; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.enigma-title { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 7px; }
+.enigma-desc { font-size: 13px; color: #B4B2A9; line-height: 1.6; margin-bottom: 14px; }
+
+.triangle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+.state-btn { border: 0.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #D3D1C7; border-radius: 6px; padding: 8px 4px; font-size: 12px; cursor: pointer; font-family: var(--font-sans); text-align: center; transition: all 0.2s; }
+.state-btn:hover { background: rgba(239,159,39,0.12); border-color: #EF9F27; color: #FAC775; }
+.state-btn.selected { background: rgba(29,158,117,0.25); border-color: #1D9E75; color: #9FE1CB; }
+.state-btn.wrong { background: rgba(226,75,74,0.2); border-color: #E24B4A; color: #F09595; animation: shake 0.4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+.hint-box { background: rgba(186,117,23,0.1); border-radius: 6px; border-left: 2px solid #EF9F27; padding: 9px 12px; font-size: 12px; color: #FAC775; margin-bottom: 10px; display: none; line-height:1.55; }
+
+.input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.input-row input { flex: 1; padding: 8px 12px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 6px; font-size: 15px; font-family: var(--font-mono); background: rgba(0,0,0,0.4); color: #EF9F27; }
+.input-row input::placeholder { color: rgba(239,159,39,0.3); }
+.input-row input:focus { outline: none; border-color: #EF9F27; }
+
+.feedback { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; display: none; line-height:1.5; }
+.feedback.success { background: rgba(29,158,117,0.15); color: #9FE1CB; border: 0.5px solid rgba(29,158,117,0.4); }
+.feedback.error { background: rgba(226,75,74,0.12); color: #F09595; border: 0.5px solid rgba(226,75,74,0.3); }
+
+.code-reveal { display: flex; gap: 6px; justify-content: center; margin: 12px 0; flex-wrap: wrap; }
+.code-char { width: 34px; height: 42px; border: 0.5px solid rgba(239,159,39,0.3); border-radius: 6px; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; font-family: var(--font-mono); color: rgba(255,255,255,0.25); transition: all 0.4s; }
+.code-char.revealed { background: rgba(29,158,117,0.3); border-color: #1D9E75; color: #9FE1CB; }
+
+.affirmation-item { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+.affirmation-text { font-size: 13px; color: #D3D1C7; margin-bottom: 8px; line-height: 1.5; }
+.vf-btns { display: flex; gap: 6px; }
+.vf-btn { flex: 1; padding: 5px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 5px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); cursor: pointer; font-size: 12px; font-family: var(--font-sans); transition: all 0.2s; }
+.vf-btn.selected-V { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #9FE1CB; font-weight: 500; }
+.vf-btn.selected-F { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #F09595; font-weight: 500; }
+
+.binary-display { text-align: center; font-family: var(--font-mono); font-size: 22px; color: #EF9F27; margin: 8px 0; letter-spacing: 6px; }
+
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.btn-hint { font-size: 11px; color: rgba(239,159,39,0.7); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; font-family: var(--font-sans); }
+.btn-hint:hover { color: #EF9F27; }
+
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); margin-right: 4px; margin-bottom: 6px; }
+
+.calc-block { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+.calc-block p { font-size: 12px; color: #888780; margin-bottom: 6px; }
+.slider-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.slider-row label { font-size: 12px; color: #888780; min-width: 100px; }
+.slider-row input[type=range] { flex: 1; accent-color: #EF9F27; }
+.slider-val { font-size: 12px; font-weight: 500; color: #FAC775; min-width: 70px; text-align: right; font-family: var(--font-mono); }
+.calc-result { font-size: 24px; font-weight: 500; color: #EF9F27; font-family: var(--font-mono); text-align: center; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 0.5px solid rgba(239,159,39,0.3); margin-top: 8px; }
+
+/* Enigme 4 - courbe */
+.graph-zone { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+.graph-question { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+.graph-q-text { font-size: 13px; color: #D3D1C7; margin-bottom: 8px; line-height: 1.5; }
+.graph-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+.graph-opt { padding: 5px 12px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 5px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); cursor: pointer; font-size: 12px; font-family: var(--font-mono); transition: all 0.2s; }
+.graph-opt:hover { border-color: #EF9F27; color: #FAC775; background: rgba(239,159,39,0.08); }
+.graph-opt.selected { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #9FE1CB; font-weight: 500; }
+.graph-opt.wrong { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #F09595; animation: shake 0.4s; }
+
+/* Enigme 5 - dissolution */
+.dissolution-eq { background: rgba(0,0,0,0.4); border-radius: 8px; padding: 14px; margin-bottom: 12px; text-align: center; }
+.eq-line { font-size: 16px; font-family: var(--font-mono); color: #D3D1C7; line-height: 2.2; letter-spacing: 1px; }
+.eq-blank { display: inline-block; min-width: 80px; border-bottom: 1.5px solid rgba(239,159,39,0.6); color: #EF9F27; font-weight: 500; vertical-align: bottom; text-align: center; padding: 0 4px; cursor: pointer; position: relative; }
+.eq-blank:after { content: '?'; color: rgba(239,159,39,0.3); }
+.eq-blank.filled:after { content: ''; }
+.eq-blank.filled { color: #9FE1CB; border-bottom-color: #1D9E75; }
+.ions-palette { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; justify-content: center; }
+.ion-chip { padding: 5px 14px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 20px; background: rgba(239,159,39,0.08); color: #FAC775; cursor: pointer; font-size: 13px; font-family: var(--font-mono); transition: all 0.2s; }
+.ion-chip:hover { background: rgba(239,159,39,0.18); }
+.ion-chip.used { opacity: 0.35; cursor: default; }
+.ion-chip.selected-ion { background: rgba(239,159,39,0.25); border-color: #EF9F27; box-shadow: 0 0 8px rgba(239,159,39,0.3); }
+
+.dh-block { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+.dh-formula { font-size: 14px; font-family: var(--font-mono); color: #888780; text-align: center; margin-bottom: 8px; }
+.dh-formula span { color: #EF9F27; }
+
+.victory-screen { display: none; text-align: center; padding: 2rem 1rem; }
+.victory-screen.show { display: block; }
+.victory-code { font-size: 28px; font-family: var(--font-mono); font-weight: 500; letter-spacing: 4px; color: #9FE1CB; background: rgba(29,158,117,0.15); border-radius: 10px; padding: 14px 20px; display: inline-block; margin: 14px 0; border: 1px solid rgba(29,158,117,0.4); word-break: break-all; }
+.victory-title { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+.victory-sub { font-size: 13px; color: #888780; margin-bottom: 18px; line-height: 1.55; }
+
+.section-divider { display: flex; align-items: center; gap: 8px; margin: 12px 0 10px; }
+.section-divider span { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
+.section-divider:before, .section-divider:after { content:''; flex:1; height:0.5px; background: rgba(255,255,255,0.08); }
+
+.info-box { background: rgba(56,130,198,0.08); border-left: 2px solid #378ADD; border-radius: 6px; padding: 9px 12px; font-size: 12px; color: #85B7EB; margin-bottom: 10px; line-height: 1.55; }
+</style>
+
+<!-- =================== SVG FOND VERSION 15 MIN =================== -->
+<div class="game-outer" id="gameOuter">
+
+<svg class="bg-scene" id="bgScene15" viewBox="0 0 680 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="680" height="900" fill="#0a0402"/>
+  <rect width="680" height="900" fill="#1a0800" opacity="0.7"/>
+  <rect x="0" y="500" width="680" height="400" fill="#150a00"/>
+  <rect x="60" y="340" width="90" height="260" rx="4" fill="#1c1008"/>
+  <rect x="75" y="320" width="60" height="30" rx="2" fill="#241408"/>
+  <rect x="85" y="280" width="40" height="50" rx="2" fill="#1c1008"/>
+  <rect x="95" y="250" width="20" height="40" rx="2" fill="#170e06"/>
+  <rect x="200" y="300" width="130" height="300" rx="4" fill="#1c1008"/>
+  <rect x="220" y="270" width="90" height="40" rx="2" fill="#241408"/>
+  <rect x="240" y="220" width="50" height="60" rx="2" fill="#1c1008"/>
+  <rect x="252" y="180" width="26" height="48" rx="2" fill="#170e06"/>
+  <rect x="380" y="360" width="110" height="240" rx="4" fill="#1c1008"/>
+  <rect x="395" y="335" width="80" height="35" rx="2" fill="#241408"/>
+  <rect x="415" y="295" width="40" height="48" rx="2" fill="#1c1008"/>
+  <rect x="427" y="260" width="16" height="42" rx="2" fill="#170e06"/>
+  <rect x="530" y="390" width="100" height="210" rx="4" fill="#1c1008"/>
+  <rect x="545" y="368" width="70" height="30" rx="2" fill="#241408"/>
+  <rect x="563" y="338" width="34" height="38" rx="2" fill="#1c1008"/>
+  <rect x="574" y="310" width="12" height="34" rx="2" fill="#170e06"/>
+  <ellipse class="smoke" cx="265" cy="175" rx="18" ry="28" fill="#3a2000" opacity="0.5"/>
+  <ellipse class="smoke smoke2" cx="258" cy="155" rx="14" ry="22" fill="#4a2800" opacity="0.35"/>
+  <ellipse class="smoke smoke3" cx="270" cy="135" rx="22" ry="30" fill="#2a1800" opacity="0.25"/>
+  <ellipse class="smoke" cx="435" cy="255" rx="14" ry="22" fill="#3a2000" opacity="0.4"/>
+  <ellipse class="smoke smoke2" cx="440" cy="235" rx="11" ry="18" fill="#4a2800" opacity="0.3"/>
+  <ellipse cx="265" cy="180" rx="30" ry="12" fill="#D85A30" opacity="0.15" class="flicker"/>
+  <ellipse cx="265" cy="185" rx="20" ry="8" fill="#EF9F27" opacity="0.12" class="flicker"/>
+  <polygon class="spark" points="255,220 262,195 269,220 264,208" fill="#EF9F27" opacity="0.9"/>
+  <polygon class="spark spark2" points="240,215 246,192 252,215 247,205" fill="#FAC775" opacity="0.8"/>
+  <polygon class="spark spark3" points="272,218 279,196 286,218 280,207" fill="#F09595" opacity="0.7"/>
+  <polygon class="spark" points="428,295 434,274 440,295 435,285" fill="#EF9F27" opacity="0.7"/>
+  <polygon class="spark spark2" points="415,290 420,272 426,290 421,280" fill="#FAC775" opacity="0.6"/>
+  <rect x="150" y="600" width="380" height="180" rx="6" fill="#0f0800"/>
+  <rect x="160" y="610" width="60" height="50" rx="2" fill="#1a1000"/>
+  <rect x="230" y="610" width="60" height="50" rx="2" fill="#1a1000"/>
+  <rect x="300" y="610" width="60" height="50" rx="2" fill="#1a1000"/>
+  <rect x="370" y="610" width="60" height="50" rx="2" fill="#1a1000"/>
+  <rect x="440" y="610" width="60" height="50" rx="2" fill="#1a1000"/>
+  <circle cx="175" cy="628" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="195" cy="628" r="4" fill="#EF9F27" class="flicker"/>
+  <circle cx="215" cy="628" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="245" cy="628" r="4" fill="#EF9F27" class="flicker"/>
+  <circle cx="265" cy="628" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="285" cy="628" r="4" fill="#EF9F27"/>
+  <circle cx="315" cy="628" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="335" cy="628" r="4" fill="#EF9F27" class="flicker"/>
+  <circle cx="355" cy="628" r="4" fill="#E24B4A"/>
+  <rect x="170" y="645" width="45" height="8" rx="2" fill="#E24B4A" opacity="0.6"/>
+  <rect x="240" y="645" width="35" height="8" rx="2" fill="#EF9F27" opacity="0.5"/>
+  <rect x="305" y="645" width="50" height="8" rx="2" fill="#E24B4A" opacity="0.7"/>
+  <rect x="370" y="645" width="30" height="8" rx="2" fill="#EF9F27" opacity="0.4"/>
+  <rect x="450" y="645" width="40" height="8" rx="2" fill="#E24B4A" opacity="0.6"/>
+  <rect x="0" y="860" width="680" height="40" fill="#0a0402"/>
+  <rect x="0" y="840" width="680" height="30" fill="#0d0603"/>
+  <rect x="0" y="0" width="680" height="8" fill="#D85A30" opacity="0.3" class="pulse-red"/>
+  <rect x="0" y="0" width="4" height="900" fill="#D85A30" opacity="0.15" class="pulse-red"/>
+  <rect x="676" y="0" width="4" height="900" fill="#D85A30" opacity="0.15" class="pulse-red"/>
+  <text x="340" y="460" text-anchor="middle" font-size="10" fill="#E24B4A" opacity="0.5" font-family="monospace">ALERTE TEMPÉRATURE CRITIQUE — SURCHAUFFE IMMINENTE</text>
+</svg>
+
+<!-- =================== SVG FOND VERSION 50 MIN — EXPLOSION =================== -->
+<svg class="bg-scene" id="bgScene50" viewBox="0 0 680 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true" style="display:none">
+  <!-- Ciel nocturne rougeoyant -->
+  <defs>
+    <radialGradient id="skyGrad" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#5c1a00"/>
+      <stop offset="45%" stop-color="#2a0800"/>
+      <stop offset="100%" stop-color="#0a0200"/>
+    </radialGradient>
+    <radialGradient id="fireball" cx="50%" cy="60%" r="50%">
+      <stop offset="0%" stop-color="#fff7e0" stop-opacity="0.95"/>
+      <stop offset="20%" stop-color="#FFD060"/>
+      <stop offset="50%" stop-color="#EF6020"/>
+      <stop offset="80%" stop-color="#8B1A00"/>
+      <stop offset="100%" stop-color="#3a0800" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6000" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#FF6000" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E24B4A" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#E24B4A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur4">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="blur8">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <!-- Fond ciel -->
+  <rect width="680" height="900" fill="url(#skyGrad)"/>
+
+  <!-- Lueur d'explosion centrale - halo large flou -->
+  <ellipse cx="340" cy="310" rx="240" ry="200" fill="url(#glow1)" filter="url(#blur8)" class="explosion-glow"/>
+  <ellipse cx="340" cy="330" rx="160" ry="130" fill="url(#glow2)" filter="url(#blur4)" class="pulse-fast"/>
+
+  <!-- SOL sombre -->
+  <rect x="0" y="620" width="680" height="280" fill="#0a0200"/>
+
+  <!-- TOUR GAUCHE — fissurée -->
+  <rect x="40" y="360" width="80" height="280" rx="3" fill="#1a0600"/>
+  <rect x="52" y="340" width="56" height="28" rx="2" fill="#220a04"/>
+  <rect x="62" y="300" width="36" height="48" rx="2" fill="#1a0600"/>
+  <rect x="72" y="268" width="16" height="38" rx="2" fill="#140400"/>
+  <!-- fissures tour gauche -->
+  <polyline class="crack" points="68,400 72,420 65,445 70,470" fill="none" stroke="#FF6020" stroke-width="1.2" opacity="0.7"/>
+  <polyline class="crack" points="95,380 90,410 98,430" fill="none" stroke="#FF4010" stroke-width="0.8" opacity="0.5"/>
+  <!-- fenêtres tour gauche avec lueur -->
+  <rect x="58" y="375" width="18" height="12" rx="1" fill="#FF6020" opacity="0.6" class="flicker"/>
+  <rect x="84" y="375" width="18" height="12" rx="1" fill="#EF9F27" opacity="0.5" class="flicker"/>
+  <rect x="58" y="410" width="18" height="12" rx="1" fill="#E24B4A" opacity="0.7" class="pulse-red"/>
+  <rect x="84" y="410" width="18" height="12" rx="1" fill="#FF6020" opacity="0.4"/>
+
+  <!-- TOUR CENTRALE GAUCHE — en partie effondrée -->
+  <rect x="170" y="280" width="120" height="360" rx="3" fill="#1c0800"/>
+  <rect x="188" y="255" width="84" height="34" rx="2" fill="#240e04"/>
+  <rect x="208" y="205" width="44" height="58" rx="2" fill="#1c0800"/>
+  <rect x="220" y="168" width="20" height="44" rx="2" fill="#160602"/>
+  <!-- débris tour centrale -->
+  <polygon points="170,380 155,395 168,398" fill="#1c0800" opacity="0.8"/>
+  <polygon points="290,340 305,358 292,362" fill="#1c0800" opacity="0.8"/>
+  <!-- fissures majeures -->
+  <polyline class="crack" points="220,300 215,340 225,380 218,420 224,460" fill="none" stroke="#FF6020" stroke-width="1.5" opacity="0.8"/>
+  <polyline class="crack" points="250,320 260,360 255,400" fill="none" stroke="#FF4010" stroke-width="1" opacity="0.6"/>
+  <!-- fenêtres en feu -->
+  <rect x="190" y="310" width="24" height="16" rx="1" fill="#FFD060" opacity="0.8" class="flicker"/>
+  <rect x="226" y="310" width="24" height="16" rx="1" fill="#FF6020" opacity="0.7" class="pulse-red"/>
+  <rect x="262" y="310" width="24" height="16" rx="1" fill="#E24B4A" opacity="0.8" class="flicker"/>
+  <rect x="190" y="355" width="24" height="16" rx="1" fill="#FF6020" opacity="0.6" class="pulse-red"/>
+  <rect x="262" y="355" width="24" height="16" rx="1" fill="#FFD060" opacity="0.7" class="flicker"/>
+  <rect x="190" y="400" width="24" height="16" rx="1" fill="#E24B4A" opacity="0.9" class="pulse-fast"/>
+  <rect x="226" y="400" width="24" height="16" rx="1" fill="#FF6020" opacity="0.8" class="flicker"/>
+  <rect x="262" y="400" width="24" height="16" rx="1" fill="#E24B4A" opacity="0.7" class="pulse-red"/>
+
+  <!-- TOUR DROITE PRINCIPALE — point d'explosion -->
+  <rect x="390" y="320" width="110" height="320" rx="3" fill="#1c0800"/>
+  <rect x="405" y="295" width="80" height="32" rx="2" fill="#240e04"/>
+  <rect x="425" y="250" width="40" height="52" rx="2" fill="#1c0800"/>
+  <rect x="437" y="218" width="16" height="38" rx="2" fill="#160602"/>
+  <!-- fissures majeures + explosion -->
+  <polyline class="crack" points="437,250 430,280 440,310 432,350 438,390 430,430" fill="none" stroke="#FFD060" stroke-width="2" opacity="0.9"/>
+  <polyline class="crack" points="460,270 470,310 462,350 472,390" fill="none" stroke="#FF6020" stroke-width="1.2" opacity="0.7"/>
+  <polyline class="crack" points="490,300 480,340 490,380" fill="none" stroke="#FF4010" stroke-width="0.8" opacity="0.5"/>
+  <!-- bloc effondré -->
+  <polygon points="390,480 375,500 392,498" fill="#1c0800"/>
+  <polygon points="500,440 516,460 500,458" fill="#1c0800"/>
+  <!-- fenêtres explosées -->
+  <rect x="408" y="345" width="20" height="14" rx="1" fill="#FFD060" opacity="0.95" class="pulse-fast"/>
+  <rect x="440" y="345" width="20" height="14" rx="1" fill="#fff" opacity="0.6" class="flicker"/>
+  <rect x="472" y="345" width="20" height="14" rx="1" fill="#FF6020" opacity="0.9" class="pulse-fast"/>
+  <rect x="408" y="385" width="20" height="14" rx="1" fill="#E24B4A" opacity="0.9" class="pulse-fast"/>
+  <rect x="472" y="385" width="20" height="14" rx="1" fill="#FFD060" opacity="0.85" class="flicker"/>
+  <!-- boule de feu sur le toit -->
+  <ellipse cx="445" cy="225" rx="55" ry="45" fill="url(#fireball)" class="explosion-glow"/>
+  <ellipse cx="445" cy="230" rx="35" ry="28" fill="#FFD060" opacity="0.6" filter="url(#blur4)" class="pulse-fast"/>
+  <ellipse cx="445" cy="232" rx="18" ry="14" fill="#fff" opacity="0.7" class="flicker"/>
+
+  <!-- TOUR FAR RIGHT -->
+  <rect x="550" y="380" width="90" height="250" rx="3" fill="#1a0600"/>
+  <rect x="563" y="358" width="64" height="28" rx="2" fill="#220a04"/>
+  <rect x="578" y="322" width="34" height="42" rx="2" fill="#1a0600"/>
+  <rect x="588" y="296" width="14" height="30" rx="2" fill="#140400"/>
+  <rect x="562" y="410" width="16" height="12" rx="1" fill="#E24B4A" opacity="0.7" class="pulse-red"/>
+  <rect x="590" y="410" width="16" height="12" rx="1" fill="#EF9F27" opacity="0.5" class="flicker"/>
+  <rect x="618" y="410" width="16" height="12" rx="1" fill="#E24B4A" opacity="0.6" class="pulse-red"/>
+
+  <!-- FUMÉE MASSIVE — champignon -->
+  <!-- Colonne montante -->
+  <ellipse class="smoke-heavy" cx="445" cy="200" rx="30" ry="50" fill="#1a0600" opacity="0.8"/>
+  <ellipse class="smoke-heavy smoke-heavy2" cx="440" cy="160" rx="40" ry="55" fill="#2a0e00" opacity="0.65"/>
+  <ellipse class="smoke-heavy smoke-heavy3" cx="450" cy="120" rx="55" ry="60" fill="#1a0600" opacity="0.55"/>
+  <!-- Tête du champignon -->
+  <ellipse cx="440" cy="80" rx="110" ry="70" fill="#1e0800" opacity="0.75" class="flicker"/>
+  <ellipse cx="440" cy="70" rx="90" ry="55" fill="#280e04" opacity="0.6" class="smoke"/>
+  <ellipse cx="430" cy="55" rx="70" ry="42" fill="#1a0600" opacity="0.7" class="smoke smoke2"/>
+  <!-- fumée secondaire tour gauche -->
+  <ellipse class="smoke" cx="230" cy="160" rx="22" ry="35" fill="#2a0e00" opacity="0.6"/>
+  <ellipse class="smoke smoke2" cx="225" cy="130" rx="30" ry="40" fill="#1e0800" opacity="0.5"/>
+  <ellipse class="smoke smoke3" cx="235" cy="100" rx="38" ry="45" fill="#280e04" opacity="0.4"/>
+
+  <!-- ÉCLAIRS -->
+  <polyline class="lightning" points="380,50 365,90 375,95 358,140" fill="none" stroke="#FFE080" stroke-width="1.5" opacity="0.9"/>
+  <polyline class="lightning lightning2" points="500,30 510,75 502,80 515,125" fill="none" stroke="#FFD060" stroke-width="1.2" opacity="0.8"/>
+
+  <!-- ÉTINCELLES multiples -->
+  <polygon class="spark" points="420,255 427,232 434,255 428,242" fill="#FFD060" opacity="0.95"/>
+  <polygon class="spark spark2" points="405,250 411,230 417,250 412,240" fill="#fff" opacity="0.8"/>
+  <polygon class="spark spark3" points="460,248 467,228 474,248 468,238" fill="#FF6020" opacity="0.9"/>
+  <polygon class="spark" points="435,270 440,252 445,270 441,261" fill="#FFD060" opacity="0.85"/>
+  <polygon class="spark spark2" points="395,260 400,242 405,260 401,251" fill="#FAC775" opacity="0.7"/>
+  <polygon class="spark spark3" points="480,258 485,238 490,258 486,248" fill="#F09595" opacity="0.75"/>
+  <polygon class="spark" points="260,190 265,172 270,190 266,181" fill="#EF9F27" opacity="0.7"/>
+  <polygon class="spark spark2" points="246,186 250,170 254,186 251,178" fill="#FAC775" opacity="0.6"/>
+
+  <!-- SOL détails -->
+  <rect x="0" y="620" width="680" height="20" fill="#0d0300"/>
+  <!-- Panneau de contrôle au sol -->
+  <rect x="130" y="640" width="420" height="130" rx="5" fill="#0f0400"/>
+  <rect x="140" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <rect x="205" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <rect x="270" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <rect x="335" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <rect x="400" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <rect x="465" y="650" width="55" height="40" rx="2" fill="#1a0800"/>
+  <!-- voyants tous en alerte -->
+  <circle cx="155" cy="662" r="4" fill="#E24B4A" class="pulse-fast"/>
+  <circle cx="172" cy="662" r="4" fill="#E24B4A" class="pulse-fast"/>
+  <circle cx="220" cy="662" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="237" cy="662" r="4" fill="#FF6020" class="flicker"/>
+  <circle cx="285" cy="662" r="4" fill="#E24B4A" class="pulse-fast"/>
+  <circle cx="302" cy="662" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="350" cy="662" r="4" fill="#FF6020" class="pulse-fast"/>
+  <circle cx="367" cy="662" r="4" fill="#E24B4A" class="flicker"/>
+  <circle cx="415" cy="662" r="4" fill="#E24B4A" class="pulse-fast"/>
+  <circle cx="432" cy="662" r="4" fill="#E24B4A" class="pulse-red"/>
+  <circle cx="480" cy="662" r="4" fill="#FF6020" class="pulse-fast"/>
+  <circle cx="497" cy="662" r="4" fill="#E24B4A" class="flicker"/>
+  <!-- barres de pression critiques -->
+  <rect x="144" y="676" width="42" height="7" rx="2" fill="#E24B4A" opacity="0.8" class="pulse-fast"/>
+  <rect x="209" y="676" width="38" height="7" rx="2" fill="#FF6020" opacity="0.7" class="flicker"/>
+  <rect x="274" y="676" width="46" height="7" rx="2" fill="#E24B4A" opacity="0.9" class="pulse-red"/>
+  <rect x="339" y="676" width="34" height="7" rx="2" fill="#FF6020" opacity="0.75" class="pulse-fast"/>
+  <rect x="404" y="676" width="44" height="7" rx="2" fill="#E24B4A" opacity="0.85" class="flicker"/>
+  <rect x="469" y="676" width="40" height="7" rx="2" fill="#E24B4A" opacity="0.8" class="pulse-fast"/>
+  <!-- écrans brisés -->
+  <text x="155" y="705" text-anchor="middle" font-size="8" fill="#E24B4A" opacity="0.8" font-family="monospace" class="pulse-fast">ERR</text>
+  <text x="231" y="705" text-anchor="middle" font-size="8" fill="#FF6020" opacity="0.7" font-family="monospace" class="flicker">---</text>
+  <text x="298" y="705" text-anchor="middle" font-size="8" fill="#E24B4A" opacity="0.9" font-family="monospace" class="pulse-red">CRIT</text>
+  <text x="363" y="705" text-anchor="middle" font-size="8" fill="#FF6020" opacity="0.8" font-family="monospace">FAIL</text>
+  <text x="428" y="705" text-anchor="middle" font-size="8" fill="#E24B4A" opacity="0.85" font-family="monospace" class="pulse-fast">ERR</text>
+  <text x="493" y="705" text-anchor="middle" font-size="8" fill="#E24B4A" opacity="0.7" font-family="monospace" class="flicker">---</text>
+
+  <!-- Débris au sol -->
+  <polygon points="100,622 118,620 112,630" fill="#1c0800" opacity="0.8"/>
+  <polygon points="560,622 578,618 570,628" fill="#1c0800" opacity="0.7"/>
+  <polygon points="310,622 328,619 320,627" fill="#1c0800" opacity="0.6"/>
+
+  <!-- Bordures d'alerte clignotantes -->
+  <rect x="0" y="0" width="680" height="6" fill="#E24B4A" opacity="0.5" class="pulse-fast"/>
+  <rect x="0" y="894" width="680" height="6" fill="#E24B4A" opacity="0.5" class="pulse-fast"/>
+  <rect x="0" y="0" width="5" height="900" fill="#E24B4A" opacity="0.3" class="pulse-fast"/>
+  <rect x="675" y="0" width="5" height="900" fill="#E24B4A" opacity="0.3" class="pulse-fast"/>
+
+  <text x="340" y="550" text-anchor="middle" font-size="9" fill="#E24B4A" opacity="0.6" font-family="monospace" class="pulse-fast">NIVEAU 4 — RÉACTION EN CHAÎNE IMMINENTE — ÉVACUATION IMPOSSIBLE</text>
+</svg>
+
+<div class="overlay-dark" id="overlayDark"></div>
+
+<div class="content-layer">
+
+<!-- =================== ÉCRAN MODE SELECT =================== -->
+<div id="screenMode" class="game-screen active">
+  <div class="mode-select">
+    <div class="mode-logo">⚡ Escape Game — Physique Chimie</div>
+    <div class="mode-title">La Centrale Thermique</div>
+    <p class="mode-sub">Choisissez votre mission. Le compte à rebours commence dès que vous démarrez.</p>
+
+    <div class="mode-cards">
+      <!-- CARTE 15 MIN -->
+      <div class="mode-card" onclick="chooseMode(15)">
+        <div class="mode-badge standard">Mission standard</div>
+        <div class="mode-time standard">15:00</div>
+        <div class="mode-label">3 énigmes · niveau Seconde</div>
+        <div class="mode-desc">Une centrale de production d'eau purifiée est en panne. En tant qu'ingénieurs, résolvez les 3 énigmes avant la surchauffe.</div>
+        <div class="mode-enigmes">
+          Énigme 1 — Triangle des états<br>
+          Énigme 2 — Calcul Q = m·L<br>
+          Énigme 3 — Vrai/Faux endo/exo
+        </div>
+        <button class="mode-btn standard">Choisir · 15 min</button>
+      </div>
+
+      <!-- CARTE 50 MIN -->
+      <div class="mode-card drama-card" onclick="chooseMode(50)">
+        <div class="mode-badge advanced">⚠ Mission critique</div>
+        <div class="mode-time advanced">50:00</div>
+        <div class="mode-label">6 énigmes · niveau avancé</div>
+        <div class="mode-desc">ALERTE NIVEAU 4. La salle de contrôle est hors ligne. La pression dans les circuits primaires atteint le seuil critique. Dans 50 minutes, la réaction en chaîne devient incontrôlable.</div>
+        <div class="mode-enigmes">
+          Énigmes 1–3 + Courbe de chauffage<br>
+          + Énergie de vaporisation<br>
+          + Dissolution &amp; ΔH
+        </div>
+        <button class="mode-btn advanced">Choisir · 50 min</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== JEU 15 MIN =================== -->
+<div id="screen15" class="game-screen">
+  <div class="alert-banner pulse-red">
+    Alerte critique — surchauffe imminente — résolvez les énigmes maintenant
+  </div>
+  <div class="header">
+    <div class="scenario">Scénario : La centrale thermique en crise</div>
+    <h1>Escape Game — Transformations physiques</h1>
+    <p class="intro">Une centrale de production d'eau purifiée est en panne. En tant qu'ingénieurs, résolvez les 3 énigmes avant la surchauffe.</p>
+  </div>
+  <div class="timer-bar">
+    <span style="font-size:12px;color:#888780">Temps restant :</span>
+    <span class="timer-display" id="timer15">15:00</span>
+    <button class="btn btn-start" id="startBtn15" onclick="startGame(15)">Démarrer</button>
+    <button class="btn" id="resetBtn15" onclick="resetGame(15)" style="display:none">Recommencer</button>
+    <button class="btn" onclick="goMode()" style="font-size:11px;padding:5px 10px">← Modes</button>
+  </div>
+  <div class="progress-track" id="progTrack15">
+    <div class="prog-step" id="a_ps1">1</div>
+    <div class="prog-line" id="a_pl1"></div>
+    <div class="prog-step" id="a_ps2">2</div>
+    <div class="prog-line" id="a_pl2"></div>
+    <div class="prog-step" id="a_ps3">3</div>
+    <div class="prog-line" id="a_pl3"></div>
+    <div class="prog-step" id="a_ps4"><span>🔒</span></div>
+  </div>
+
+  <!-- E1 15min -->
+  <div class="enigma-card" id="a_enigme1">
+    <div class="enigma-num">Énigme 1 / 3 · ~5 min</div>
+    <div class="enigma-title">Le triangle des états</div>
+    <div class="enigma-desc">Placez correctement les 6 changements d'état. Chaque bonne réponse révèle une lettre du code.</div>
+    <span class="tag">solide</span><span class="tag">liquide</span><span class="tag">gazeux</span>
+    <svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto 12px;">
+      <polygon points="170,18 28,188 312,188" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.6"/>
+      <circle cx="170" cy="18" r="18" fill="#1a0800" stroke="#EF9F27" stroke-width="1"/>
+      <text x="170" y="23" text-anchor="middle" font-size="10" fill="#FAC775" font-weight="500" font-family="sans-serif">GAZ</text>
+      <circle cx="28" cy="188" r="18" fill="#001020" stroke="#378ADD" stroke-width="1"/>
+      <text x="28" y="193" text-anchor="middle" font-size="10" fill="#85B7EB" font-weight="500" font-family="sans-serif">SOL.</text>
+      <circle cx="312" cy="188" r="18" fill="#001810" stroke="#1D9E75" stroke-width="1"/>
+      <text x="312" y="193" text-anchor="middle" font-size="10" fill="#9FE1CB" font-weight="500" font-family="sans-serif">LIQ.</text>
+      <text x="82" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → gaz</text>
+      <text x="258" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → liq</text>
+      <text x="170" y="202" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → sol</text>
+      <text x="84" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → sol</text>
+      <text x="250" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → gaz</text>
+      <text x="170" y="182" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → liq</text>
+    </svg>
+    <div id="a_q1Container"></div>
+    <div class="hint-box" id="a_hint1">La sublimation : passage direct solide → gaz (ex : glace carbonique). La condensation solide : gaz → solide directement.</div>
+    <div class="code-reveal" id="a_code1">
+      <div class="code-char" id="a_c1_1">_</div>
+      <div class="code-char" id="a_c1_2">_</div>
+      <div class="code-char revealed" id="a_c1_3">A</div>
+      <div class="code-char" id="a_c1_4">_</div>
+      <div class="code-char" id="a_c1_5">_</div>
+      <div class="code-char" id="a_c1_6">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('a_hint1')">Indice</button>
+      <button class="btn btn-start" id="a_next1" onclick="goEnigme15(2)" style="display:none">Énigme suivante →</button>
+    </div>
+  </div>
+
+  <!-- E2 15min -->
+  <div class="enigma-card" id="a_enigme2">
+    <div class="enigma-num">Énigme 2 / 3 · ~5 min</div>
+    <div class="enigma-title">Calcul de masse ou d'énergie</div>
+    <div class="enigma-desc">Résolvez Q = m · L pour trouver le code à 3 chiffres du cadenas.</div>
+    <span class="tag">énergie massique</span><span class="tag">Q = m·L</span>
+    <div class="calc-block">
+      <p>Ajustez les curseurs pour explorer :</p>
+      <div class="slider-row">
+        <label>Masse m (kg)</label>
+        <input type="range" min="1" max="10" step="1" value="3" id="a_slMasse" oninput="updateCalc15()">
+        <span class="slider-val" id="a_valMasse">3 kg</span>
+      </div>
+      <div class="slider-row">
+        <label>Lf (kJ/kg)</label>
+        <input type="range" min="100" max="500" step="50" value="334" id="a_slLf" oninput="updateCalc15()">
+        <span class="slider-val" id="a_valLf">334 kJ/kg</span>
+      </div>
+      <div class="calc-result" id="a_calcResult">1002 kJ</div>
+    </div>
+    <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : L = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
+    <div class="input-row">
+      <input type="number" id="a_ans2" placeholder="Ex : 1002">
+      <button class="btn btn-start" onclick="checkE2_15()">Valider</button>
+    </div>
+    <div class="feedback" id="a_fb2"></div>
+    <div class="hint-box" id="a_hint2">Q = 3 × 334 = 1002 kJ → les 3 premiers chiffres → 100</div>
+    <div class="code-reveal">
+      <div class="code-char" id="a_c2_1">_</div>
+      <div class="code-char" id="a_c2_2">_</div>
+      <div class="code-char" id="a_c2_3">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('a_hint2')">Indice</button>
+      <button class="btn btn-start" id="a_next2" onclick="goEnigme15(3)" style="display:none">Énigme suivante →</button>
+    </div>
+  </div>
+
+  <!-- E3 15min -->
+  <div class="enigma-card" id="a_enigme3">
+    <div class="enigma-num">Énigme 3 / 3 · ~5 min</div>
+    <div class="enigma-title">Vrai / Faux — Endo ou exo ?</div>
+    <div class="enigma-desc">4 affirmations sur les transferts thermiques. Vos réponses V/F forment un code binaire.</div>
+    <span class="tag">endothermique</span><span class="tag">exothermique</span><span class="tag">palier</span>
+    <div id="a_affirmations"></div>
+    <div style="font-size:12px;color:#888780;margin-bottom:4px;text-align:center;">Code binaire (V=1, F=0) :</div>
+    <div class="binary-display" id="a_binaryDisplay">_ _ _ _</div>
+    <div style="font-size:12px;color:#888780;margin-bottom:10px;text-align:center;">= décimal : <strong id="a_decimalDisplay" style="color:#EF9F27">?</strong></div>
+    <div class="hint-box" id="a_hint3">Fusion = endothermique (absorbe). Solidification = exothermique (libère). Un palier de température = changement d'état en cours.</div>
+    <div class="feedback" id="a_fb3"></div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('a_hint3')">Indice</button>
+      <button class="btn btn-start" id="a_next3" onclick="checkE3_15()">Valider →</button>
+    </div>
+  </div>
+
+  <div class="victory-screen" id="a_victory">
+    <div style="font-size:40px;margin-bottom:8px;animation:pred 2s infinite">🏭</div>
+    <div class="victory-title">Centrale sauvée !</div>
+    <p class="victory-sub">Félicitations — système rétabli avant la surchauffe critique.</p>
+    <div class="victory-code" id="a_finalCode">— — —</div>
+    <p style="font-size:12px;color:#888780;margin-bottom:18px;" id="a_timeResult"></p>
+    <button class="btn btn-start" onclick="resetGame(15)">Rejouer</button>
+    <button class="btn" onclick="goMode()" style="margin-left:8px">← Modes</button>
+  </div>
+</div>
+
+<!-- =================== JEU 50 MIN =================== -->
+<div id="screen50" class="game-screen">
+  <div class="alert-banner critical">
+    ⚠ ALERTE NIVEAU 4 — RÉACTION EN CHAÎNE IMMINENTE — INTERVENEZ MAINTENANT
+  </div>
+  <div class="header">
+    <div class="scenario red">Mission critique : Éviter la catastrophe</div>
+    <h1>Escape Game — Centrale en danger</h1>
+    <p class="intro">La salle de contrôle est hors ligne. La pression dans les circuits primaires atteint le seuil critique. Les systèmes de refroidissement sont défaillants. Vous êtes la dernière équipe d'ingénieurs capable d'intervenir. Résolvez les 6 énigmes pour éviter l'irréparable.</p>
+  </div>
+  <div class="timer-bar">
+    <span style="font-size:12px;color:#888780">Temps restant :</span>
+    <span class="timer-display" id="timer50">50:00</span>
+    <button class="btn btn-danger" id="startBtn50" onclick="startGame(50)">Démarrer la mission</button>
+    <button class="btn" id="resetBtn50" onclick="resetGame(50)" style="display:none">Recommencer</button>
+    <button class="btn" onclick="goMode()" style="font-size:11px;padding:5px 10px">← Modes</button>
+  </div>
+  <div class="progress-track" id="progTrack50">
+    <div class="prog-step" id="b_ps1">1</div>
+    <div class="prog-line" id="b_pl1"></div>
+    <div class="prog-step" id="b_ps2">2</div>
+    <div class="prog-line" id="b_pl2"></div>
+    <div class="prog-step" id="b_ps3">3</div>
+    <div class="prog-line" id="b_pl3"></div>
+    <div class="prog-step" id="b_ps4">4</div>
+    <div class="prog-line" id="b_pl4"></div>
+    <div class="prog-step" id="b_ps5">5</div>
+    <div class="prog-line" id="b_pl5"></div>
+    <div class="prog-step" id="b_ps6">6</div>
+    <div class="prog-line" id="b_pl6"></div>
+    <div class="prog-step" id="b_ps7"><span>🔒</span></div>
+  </div>
+
+  <!-- E1 50min — Triangle des états -->
+  <div class="enigma-card" id="b_enigme1">
+    <div class="enigma-num">Énigme 1 / 6 · ~8 min — Circuit A</div>
+    <div class="enigma-title">Le triangle des états</div>
+    <div class="enigma-desc">Les capteurs d'état de la matière sont en panne. Identifiez les 6 changements d'état pour restaurer le circuit A. Chaque bonne réponse révèle une lettre du code d'accès.</div>
+    <span class="tag">solide</span><span class="tag">liquide</span><span class="tag">gazeux</span>
+    <svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto 12px;">
+      <polygon points="170,18 28,188 312,188" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.6"/>
+      <circle cx="170" cy="18" r="18" fill="#1a0800" stroke="#EF9F27" stroke-width="1"/>
+      <text x="170" y="23" text-anchor="middle" font-size="10" fill="#FAC775" font-weight="500" font-family="sans-serif">GAZ</text>
+      <circle cx="28" cy="188" r="18" fill="#001020" stroke="#378ADD" stroke-width="1"/>
+      <text x="28" y="193" text-anchor="middle" font-size="10" fill="#85B7EB" font-weight="500" font-family="sans-serif">SOL.</text>
+      <circle cx="312" cy="188" r="18" fill="#001810" stroke="#1D9E75" stroke-width="1"/>
+      <text x="312" y="193" text-anchor="middle" font-size="10" fill="#9FE1CB" font-weight="500" font-family="sans-serif">LIQ.</text>
+      <text x="82" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → gaz</text>
+      <text x="258" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → liq</text>
+      <text x="170" y="202" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → sol</text>
+      <text x="84" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → sol</text>
+      <text x="250" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → gaz</text>
+      <text x="170" y="182" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → liq</text>
+    </svg>
+    <div id="b_q1Container"></div>
+    <div class="hint-box" id="b_hint1">La sublimation : passage direct solide → gaz (ex : glace carbonique). La condensation solide : gaz → solide directement.</div>
+    <div class="code-reveal">
+      <div class="code-char" id="b_c1_1">_</div>
+      <div class="code-char" id="b_c1_2">_</div>
+      <div class="code-char revealed" id="b_c1_3">A</div>
+      <div class="code-char" id="b_c1_4">_</div>
+      <div class="code-char" id="b_c1_5">_</div>
+      <div class="code-char" id="b_c1_6">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint1')">Indice</button>
+      <button class="btn btn-danger" id="b_next1" onclick="goEnigme50(2)" style="display:none">Circuit B →</button>
+    </div>
+  </div>
+
+  <!-- E2 50min — Q = m·L fusion -->
+  <div class="enigma-card" id="b_enigme2">
+    <div class="enigma-num">Énigme 2 / 6 · ~8 min — Circuit B</div>
+    <div class="enigma-title">Calcul de l'énergie de fusion</div>
+    <div class="enigma-desc">Le circuit de refroidissement principal utilise de la glace comme caloporteur. Calculez l'énergie nécessaire pour faire fondre 3 kg de glace. Q = m · Lf.</div>
+    <span class="tag">énergie massique</span><span class="tag">Q = m·Lf</span>
+    <div class="calc-block">
+      <p>Simulateur de fusion — ajustez et observez :</p>
+      <div class="slider-row">
+        <label>Masse m (kg)</label>
+        <input type="range" min="1" max="10" step="1" value="3" id="b_slMasse" oninput="updateCalc50()">
+        <span class="slider-val" id="b_valMasse">3 kg</span>
+      </div>
+      <div class="slider-row">
+        <label>Lf (kJ/kg)</label>
+        <input type="range" min="100" max="500" step="50" value="334" id="b_slLf" oninput="updateCalc50()">
+        <span class="slider-val" id="b_valLf">334 kJ/kg</span>
+      </div>
+      <div class="calc-result" id="b_calcResult">1002 kJ</div>
+    </div>
+    <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : Lf = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
+    <div class="input-row">
+      <input type="number" id="b_ans2" placeholder="Ex : 1002">
+      <button class="btn btn-danger" onclick="checkE2_50()">Valider</button>
+    </div>
+    <div class="feedback" id="b_fb2"></div>
+    <div class="hint-box" id="b_hint2">Q = 3 × 334 = 1002 kJ → les 3 premiers chiffres → 100</div>
+    <div class="code-reveal">
+      <div class="code-char" id="b_c2_1">_</div>
+      <div class="code-char" id="b_c2_2">_</div>
+      <div class="code-char" id="b_c2_3">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint2')">Indice</button>
+      <button class="btn btn-danger" id="b_next2" onclick="goEnigme50(3)" style="display:none">Circuit C →</button>
+    </div>
+  </div>
+
+  <!-- E3 50min — Vrai/Faux -->
+  <div class="enigma-card" id="b_enigme3">
+    <div class="enigma-num">Énigme 3 / 6 · ~8 min — Circuit C</div>
+    <div class="enigma-title">Diagnostic thermique — Vrai / Faux</div>
+    <div class="enigma-desc">Le système de diagnostic envoie 4 affirmations sur les transferts thermiques. Identifiez lesquelles sont vraies. Vos réponses V/F forment un code binaire d'accès.</div>
+    <span class="tag">endothermique</span><span class="tag">exothermique</span><span class="tag">palier</span>
+    <div id="b_affirmations"></div>
+    <div style="font-size:12px;color:#888780;margin-bottom:4px;text-align:center;">Code binaire (V=1, F=0) :</div>
+    <div class="binary-display" id="b_binaryDisplay">_ _ _ _</div>
+    <div style="font-size:12px;color:#888780;margin-bottom:10px;text-align:center;">= décimal : <strong id="b_decimalDisplay" style="color:#EF9F27">?</strong></div>
+    <div class="hint-box" id="b_hint3">Fusion = endothermique (absorbe). Solidification = exothermique (libère). Un palier de température = changement d'état en cours.</div>
+    <div class="feedback" id="b_fb3"></div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint3')">Indice</button>
+      <button class="btn btn-danger" id="b_next3" onclick="checkE3_50()">Valider →</button>
+    </div>
+  </div>
+
+  <!-- E4 50min — Courbe de chauffage -->
+  <div class="enigma-card" id="b_enigme4">
+    <div class="enigma-num">Énigme 4 / 6 · ~8 min — Circuit D</div>
+    <div class="enigma-title">Courbe de chauffage — Lecture des paliers</div>
+    <div class="enigma-desc">Les capteurs de température enregistrent la courbe de chauffage de l'eau. Analysez le graphe et répondez aux 4 questions. Le code de déverrouillage se forme progressivement.</div>
+    <span class="tag">palier</span><span class="tag">changement d'état</span><span class="tag">température</span>
+
+    <!-- Courbe SVG -->
+    <div class="graph-zone">
+      <svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:380px;display:block;margin:0 auto;">
+        <!-- Axes -->
+        <line x1="40" y1="10" x2="40" y2="190" stroke="#888780" stroke-width="0.8"/>
+        <line x1="40" y1="190" x2="350" y2="190" stroke="#888780" stroke-width="0.8"/>
+        <!-- Flèches axes -->
+        <polygon points="40,8 36,16 44,16" fill="#888780"/>
+        <polygon points="352,190 344,186 344,194" fill="#888780"/>
+        <!-- Labels axes -->
+        <text x="15" y="102" font-size="9" fill="#888780" font-family="sans-serif" text-anchor="middle" transform="rotate(-90,15,102)">T (°C)</text>
+        <text x="350" y="202" font-size="9" fill="#888780" font-family="sans-serif">t (min)</text>
+        <!-- Valeurs T axe -->
+        <text x="36" y="175" font-size="8" fill="#888780" font-family="monospace" text-anchor="end">-10</text>
+        <line x1="38" y1="170" x2="42" y2="170" stroke="#888780" stroke-width="0.5"/>
+        <text x="36" y="138" font-size="8" fill="#888780" font-family="monospace" text-anchor="end">0</text>
+        <line x1="38" y1="133" x2="42" y2="133" stroke="#888780" stroke-width="0.5"/>
+        <text x="36" y="68" font-size="8" fill="#888780" font-family="monospace" text-anchor="end">100</text>
+        <line x1="38" y1="63" x2="42" y2="63" stroke="#888780" stroke-width="0.5"/>
+        <text x="36" y="28" font-size="8" fill="#888780" font-family="monospace" text-anchor="end">130</text>
+        <line x1="38" y1="23" x2="42" y2="23" stroke="#888780" stroke-width="0.5"/>
+        <!-- La courbe : glace -10→0, palier fusion 0°C, eau 0→100, palier vaporisation 100°C, vapeur 100→130 -->
+        <!-- Zone A : glace -10 à 0°C -->
+        <line x1="44" y1="170" x2="90" y2="133" stroke="#85B7EB" stroke-width="2"/>
+        <!-- Zone B : palier fusion (0°C) -->
+        <line x1="90" y1="133" x2="150" y2="133" stroke="#9FE1CB" stroke-width="2.5"/>
+        <!-- Zone C : eau 0 à 100°C -->
+        <line x1="150" y1="133" x2="240" y2="63" stroke="#EF9F27" stroke-width="2"/>
+        <!-- Zone D : palier vaporisation (100°C) -->
+        <line x1="240" y1="63" x2="310" y2="63" stroke="#F09595" stroke-width="2.5"/>
+        <!-- Zone E : vapeur 100 à 130°C -->
+        <line x1="310" y1="63" x2="345" y2="23" stroke="#FAC775" stroke-width="2"/>
+        <!-- Labels zones -->
+        <text x="67" y="162" font-size="8" fill="#85B7EB" font-family="sans-serif" text-anchor="middle">A</text>
+        <text x="120" y="127" font-size="8" fill="#9FE1CB" font-family="sans-serif" text-anchor="middle">B</text>
+        <text x="195" y="100" font-size="8" fill="#EF9F27" font-family="sans-serif" text-anchor="middle">C</text>
+        <text x="275" y="57" font-size="8" fill="#F09595" font-family="sans-serif" text-anchor="middle">D</text>
+        <text x="328" y="48" font-size="8" fill="#FAC775" font-family="sans-serif" text-anchor="middle">E</text>
+        <!-- Pointillés repères -->
+        <line x1="40" y1="133" x2="90" y2="133" stroke="#9FE1CB" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.5"/>
+        <line x1="40" y1="63" x2="240" y2="63" stroke="#F09595" stroke-width="0.5" stroke-dasharray="3,3" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <div id="b_graphQs"></div>
+    <div class="hint-box" id="b_hint4">Les paliers correspondent aux changements d'état. La température reste constante car l'énergie reçue sert à rompre les liaisons intermoléculaires. Zone B = fusion à 0°C. Zone D = vaporisation à 100°C.</div>
+    <div class="code-reveal">
+      <div class="code-char" id="b_c4_1">_</div>
+      <div class="code-char" id="b_c4_2">_</div>
+      <div class="code-char" id="b_c4_3">_</div>
+      <div class="code-char" id="b_c4_4">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint4')">Indice</button>
+      <button class="btn btn-danger" id="b_next4" onclick="goEnigme50(5)" style="display:none">Circuit E →</button>
+    </div>
+  </div>
+
+  <!-- E5 50min — Énergie de vaporisation -->
+  <div class="enigma-card" id="b_enigme5">
+    <div class="enigma-num">Énigme 5 / 6 · ~8 min — Circuit E</div>
+    <div class="enigma-title">Énergie de vaporisation — Calcul critique</div>
+    <div class="enigma-desc">Le générateur de vapeur doit vaporiser 2 kg d'eau pour refroidir le cœur du réacteur. Calculez l'énergie nécessaire en kJ, puis convertissez en MJ pour trouver le code.</div>
+    <span class="tag">Q = m·Lv</span><span class="tag">conversion kJ→MJ</span><span class="tag">eau</span>
+    <div class="info-box">
+      Données : Lv(eau) = 2 260 kJ/kg · m = 2 kg<br>
+      Code = valeur en MJ (arrondi à l'entier)
+    </div>
+    <div class="calc-block">
+      <p>Simulateur — explorez les valeurs :</p>
+      <div class="slider-row">
+        <label>Masse m (kg)</label>
+        <input type="range" min="1" max="8" step="0.5" value="2" id="b_slMasse5" oninput="updateCalc50v()">
+        <span class="slider-val" id="b_valMasse5">2 kg</span>
+      </div>
+      <div class="slider-row">
+        <label>Lv (kJ/kg)</label>
+        <input type="range" min="1800" max="2700" step="100" value="2260" id="b_slLv5" oninput="updateCalc50v()">
+        <span class="slider-val" id="b_valLv5">2260 kJ/kg</span>
+      </div>
+      <div class="calc-result" id="b_calcResult5">4520 kJ = <span id="b_calcMJ5">5</span> MJ</div>
+    </div>
+    <p style="font-size:12px;color:#888780;margin-bottom:10px;">Avec m = 2 kg et Lv = 2 260 kJ/kg : Q = ? kJ = ? MJ. Le code = la valeur entière en MJ.</p>
+    <div class="input-row">
+      <input type="number" id="b_ans5" placeholder="En MJ, ex : 5">
+      <button class="btn btn-danger" onclick="checkE5_50()">Valider</button>
+    </div>
+    <div class="feedback" id="b_fb5"></div>
+    <div class="hint-box" id="b_hint5">Q = 2 × 2260 = 4520 kJ. Conversion : 4520 kJ ÷ 1000 = 4,52 MJ ≈ 5 MJ (arrondi). Le code est 5.</div>
+    <div class="code-reveal">
+      <div class="code-char" id="b_c5_1">_</div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint5')">Indice</button>
+      <button class="btn btn-danger" id="b_next5" onclick="goEnigme50(6)" style="display:none">Circuit F →</button>
+    </div>
+  </div>
+
+  <!-- E6 50min — Dissolution & ΔH -->
+  <div class="enigma-card" id="b_enigme6">
+    <div class="enigma-num">Énigme 6 / 6 · ~10 min — Circuit F · CODE FINAL</div>
+    <div class="enigma-title">Dissolution ionique &amp; énergie associée</div>
+    <div class="enigma-desc">La salle de chimie contient du chlorure de sodium (NaCl). Pour refroidir le circuit en urgence, vous devez comprendre sa dissolution. Complétez l'équation, identifiez le type de transfert et calculez ΔH pour obtenir le code final.</div>
+    <span class="tag">dissolution</span><span class="tag">ions</span><span class="tag">ΔH</span><span class="tag">endothermique</span>
+
+    <!-- Partie A : équation de dissolution -->
+    <div class="section-divider"><span>Partie A — Équation de dissolution</span></div>
+    <p style="font-size:12px;color:#888780;margin-bottom:8px;">Cliquez sur un ion dans la palette, puis cliquez sur le blanc correspondant dans l'équation pour le placer.</p>
+    <div class="dissolution-eq">
+      <div class="eq-line" id="eqLine">
+        NaCl(s) → <span class="eq-blank" id="eq_blank1" onclick="fillBlank(1)"></span>(aq) + <span class="eq-blank" id="eq_blank2" onclick="fillBlank(2)"></span>(aq)
+      </div>
+    </div>
+    <div class="ions-palette">
+      <span class="ion-chip" id="ion_Na" onclick="selectIon('Na⁺')">Na⁺</span>
+      <span class="ion-chip" id="ion_Cl" onclick="selectIon('Cl⁻')">Cl⁻</span>
+      <span class="ion-chip" id="ion_Na2" onclick="selectIon('Na²⁺')">Na²⁺</span>
+      <span class="ion-chip" id="ion_OH" onclick="selectIon('OH⁻')">OH⁻</span>
+      <span class="ion-chip" id="ion_H" onclick="selectIon('H⁺')">H⁺</span>
+      <span class="ion-chip" id="ion_Cl2" onclick="selectIon('Cl₂')">Cl₂</span>
+    </div>
+    <div class="feedback" id="b_fbEq" style="margin-bottom:10px;"></div>
+
+    <!-- Partie B : endo ou exo -->
+    <div class="section-divider"><span>Partie B — Type de transfert thermique</span></div>
+    <div class="info-box">
+      Lorsqu'on dissout du NaCl dans l'eau, la température de la solution <strong>diminue légèrement</strong> par rapport à la température initiale.
+    </div>
+    <p style="font-size:12px;color:#888780;margin-bottom:8px;">La dissolution du NaCl est-elle endothermique ou exothermique ?</p>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <button class="state-btn" id="btn_endo" onclick="selectEndoExo('endo')">Endothermique (absorbe de l'énergie)</button>
+      <button class="state-btn" id="btn_exo" onclick="selectEndoExo('exo')">Exothermique (libère de l'énergie)</button>
+    </div>
+    <div class="feedback" id="b_fbEndoExo" style="margin-bottom:10px;"></div>
+
+    <!-- Partie C : calcul ΔH -->
+    <div class="section-divider"><span>Partie C — Calcul de ΔH</span></div>
+    <div class="dh-block">
+      <div class="dh-formula">ΔH = <span>n</span> × ΔH°<sub>diss</sub></div>
+      <p style="font-size:12px;color:#888780;margin-bottom:8px;text-align:center;">Données : ΔH°diss(NaCl) = +3,9 kJ/mol · n = 2 mol de NaCl dissous</p>
+      <div class="slider-row">
+        <label>n (mol)</label>
+        <input type="range" min="0.5" max="5" step="0.5" value="2" id="b_slN6" oninput="updateCalcDH()">
+        <span class="slider-val" id="b_valN6">2 mol</span>
+      </div>
+      <div class="slider-row">
+        <label>ΔH°diss (kJ/mol)</label>
+        <input type="range" min="1" max="10" step="0.1" value="3.9" id="b_slDH6" oninput="updateCalcDH()">
+        <span class="slider-val" id="b_valDH6">3.9 kJ/mol</span>
+      </div>
+      <div class="calc-result" id="b_calcDH">+7.8 kJ</div>
+    </div>
+    <p style="font-size:12px;color:#888780;margin-bottom:10px;">Avec n = 2 mol et ΔH°diss = +3,9 kJ/mol : ΔH = ? kJ. Le code final = cette valeur sans décimale (arrondi à 0.1 → entrez 7.8 → code = <strong style="color:#EF9F27">8</strong> arrondi à l'entier).</p>
+    <div class="input-row">
+      <input type="number" id="b_ans6" placeholder="Ex : 8" step="0.1">
+      <button class="btn btn-danger" onclick="checkE6_50()">Code final →</button>
+    </div>
+    <div class="feedback" id="b_fb6"></div>
+    <div class="hint-box" id="b_hint6">ΔH = 2 × 3,9 = 7,8 kJ. Le signe positif confirme que la dissolution est endothermique. Code = 8 (arrondi à l'entier).</div>
+    <div class="nav-row">
+      <button class="btn-hint" onclick="toggleHint('b_hint6')">Indice</button>
+    </div>
+  </div>
+
+  <!-- VICTOIRE 50min -->
+  <div class="victory-screen" id="b_victory">
+    <div style="font-size:44px;margin-bottom:8px;">🛡️</div>
+    <div class="victory-title" style="color:#9FE1CB">CATASTROPHE ÉVITÉE !</div>
+    <p class="victory-sub" style="max-width:400px;margin:0 auto 18px;">Incroyable. Vous avez résolu les 6 énigmes à temps. Les circuits sont rétablis, la pression redescend, la réaction en chaîne est stoppée. La centrale est sauvée.</p>
+    <p style="font-size:12px;color:#E24B4A;margin-bottom:12px;font-weight:500;">Code d'accès complet :</p>
+    <div class="victory-code" id="b_finalCode">— — — — — — —</div>
+    <p style="font-size:12px;color:#888780;margin-bottom:20px;" id="b_timeResult"></p>
+    <button class="btn btn-start" onclick="resetGame(50)">Rejouer la mission</button>
+    <button class="btn" onclick="goMode()" style="margin-left:8px">← Modes</button>
+  </div>
+</div><!-- fin screen50 -->
+
+</div><!-- fin content-layer -->
+</div><!-- fin game-outer -->
+
+<script>
+// ===================== DONNÉES =====================
+const QUESTIONS_E1 = [
+  { q:"Solide → Liquide", ans:"Fusion", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] },
+  { q:"Liquide → Gaz", ans:"Vaporisation", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] },
+  { q:"Solide → Gaz", ans:"Sublimation", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] },
+  { q:"Gaz → Liquide", ans:"Liquéfaction", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] },
+  { q:"Liquide → Solide", ans:"Solidification", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] },
+  { q:"Gaz → Solide", ans:"Condensation", opts:["Fusion","Vaporisation","Sublimation","Liquéfaction","Solidification","Condensation"] }
+];
+const CODE_E1 = ["F","U","A","G","S","C"];
+
+const AFFIRMATIONS = [
+  { text:"La fusion est une transformation endothermique (le solide absorbe de l'énergie pour fondre).", ans:true },
+  { text:"Lors d'un changement d'état à pression constante, la température varie durant la transformation.", ans:false },
+  { text:"La vaporisation nécessite un apport d'énergie thermique.", ans:true },
+  { text:"La solidification libère de l'énergie dans le milieu extérieur (exothermique).", ans:true }
+];
+
+const GRAPH_QUESTIONS = [
+  { q:"Quelle est la température du palier de fusion (zone B) ?", opts:["0 °C","20 °C","100 °C","−10 °C"], ans:"0 °C", code:"0" },
+  { q:"Quelle zone correspond à la vaporisation de l'eau ?", opts:["Zone A","Zone B","Zone C","Zone D"], ans:"Zone D", code:"D" },
+  { q:"Dans la zone C, quel est l'état physique de l'eau ?", opts:["Solide","Liquide","Gazeux","Mélange sol-liq"], ans:"Liquide", code:"L" },
+  { q:"Pourquoi la température reste-t-elle constante dans les zones B et D ?", opts:["La chaleur disparaît","L'énergie rompt les liaisons","Le chauffage s'arrête","La pression augmente"], ans:"L'énergie rompt les liaisons", code:"E" }
+];
+
+// ===================== ÉTAT GLOBAL =====================
+let currentMode = null;
+let timerInterval = null;
+
+// État 15min
+let st15 = { secondsLeft:900, running:false, startTime:null, e1Score:0, e1Ans:new Array(6).fill(null), e3Ans:new Array(4).fill(null) };
+
+// État 50min
+let st50 = {
+  secondsLeft:3000, running:false, startTime:null,
+  e1Score:0, e1Ans:new Array(6).fill(null),
+  e3Ans:new Array(4).fill(null),
+  e4Score:0, e4Ans:new Array(4).fill(null),
+  e5Done:false,
+  eqDone:false, endoExoDone:false, dhDone:false, dhValue:null,
+  selectedIon:null, blank1:null, blank2:null
+};
+
+// ===================== NAVIGATION =====================
+function goMode() {
+  clearInterval(timerInterval);
+  document.getElementById('screen15').classList.remove('active');
+  document.getElementById('screen50').classList.remove('active');
+  document.getElementById('screenMode').classList.add('active');
+  document.getElementById('bgScene15').style.display='none';
+  document.getElementById('bgScene50').style.display='none';
+  document.getElementById('overlayDark').className='overlay-dark';
+}
+
+function chooseMode(m) {
+  document.getElementById('screenMode').classList.remove('active');
+  if(m===15) {
+    document.getElementById('screen15').classList.add('active');
+    document.getElementById('bgScene15').style.display='block';
+    document.getElementById('bgScene50').style.display='none';
+    document.getElementById('overlayDark').className='overlay-dark';
+    buildE1_15(); buildE3_15(); updateCalc15();
+  } else {
+    document.getElementById('screen50').classList.add('active');
+    document.getElementById('bgScene15').style.display='none';
+    document.getElementById('bgScene50').style.display='block';
+    document.getElementById('overlayDark').className='overlay-dark drama';
+    buildE1_50(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
+  }
+  currentMode = m;
+}
+
+function formatTime(s) {
+  const m=Math.floor(s/60), sec=s%60;
+  return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+}
+
+function toggleHint(id) {
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
+}
+
+// ===================== TIMER =====================
+function startGame(mode) {
+  if(mode===15) {
+    st15.running=true; st15.startTime=Date.now();
+    document.getElementById('startBtn15').style.display='none';
+    document.getElementById('resetBtn15').style.display='inline-block';
+    timerInterval=setInterval(()=>{
+      st15.secondsLeft--;
+      const el=document.getElementById('timer15');
+      el.textContent=formatTime(st15.secondsLeft);
+      if(st15.secondsLeft<=120) el.classList.add('urgent');
+      if(st15.secondsLeft<=0){clearInterval(timerInterval);el.textContent='Temps écoulé !';}
+    },1000);
+    goEnigme15(1);
+  } else {
+    st50.running=true; st50.startTime=Date.now();
+    document.getElementById('startBtn50').style.display='none';
+    document.getElementById('resetBtn50').style.display='inline-block';
+    timerInterval=setInterval(()=>{
+      st50.secondsLeft--;
+      const el=document.getElementById('timer50');
+      el.textContent=formatTime(st50.secondsLeft);
+      if(st50.secondsLeft<=300) el.classList.add('urgent');
+      if(st50.secondsLeft<=0){clearInterval(timerInterval);el.textContent='Temps écoulé !';}
+    },1000);
+    goEnigme50(1);
+  }
+}
+
+// ===================== RESET =====================
+function resetGame(mode) {
+  clearInterval(timerInterval);
+  if(mode===15) {
+    st15={secondsLeft:900,running:false,startTime:null,e1Score:0,e1Ans:new Array(6).fill(null),e3Ans:new Array(4).fill(null)};
+    document.getElementById('timer15').textContent='15:00';
+    document.getElementById('timer15').classList.remove('urgent');
+    document.getElementById('startBtn15').style.display='inline-block';
+    document.getElementById('resetBtn15').style.display='none';
+    ['a_enigme1','a_enigme2','a_enigme3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+    document.getElementById('a_victory').classList.remove('show');
+    resetProgSteps(15);
+    ['a_c1_1','a_c1_2','a_c1_3','a_c1_4','a_c1_5','a_c1_6'].forEach((id,i)=>{
+      const el=document.getElementById(id); el.textContent=i===2?'A':'_';
+      if(i!==2) el.classList.remove('revealed');
+    });
+    ['a_c2_1','a_c2_2','a_c2_3'].forEach(id=>{const el=document.getElementById(id);el.textContent='_';el.classList.remove('revealed');});
+    document.getElementById('a_next1').style.display='none';
+    document.getElementById('a_next2').style.display='none';
+    document.getElementById('a_fb2').style.display='none';
+    document.getElementById('a_fb3').style.display='none';
+    buildE1_15(); buildE3_15(); updateCalc15();
+  } else {
+    st50={secondsLeft:3000,running:false,startTime:null,e1Score:0,e1Ans:new Array(6).fill(null),e3Ans:new Array(4).fill(null),e4Score:0,e4Ans:new Array(4).fill(null),e5Done:false,eqDone:false,endoExoDone:false,dhDone:false,dhValue:null,selectedIon:null,blank1:null,blank2:null};
+    document.getElementById('timer50').textContent='50:00';
+    document.getElementById('timer50').classList.remove('urgent');
+    document.getElementById('startBtn50').style.display='inline-block';
+    document.getElementById('resetBtn50').style.display='none';
+    for(let i=1;i<=6;i++) document.getElementById('b_enigme'+i).classList.remove('active');
+    document.getElementById('b_victory').classList.remove('show');
+    resetProgSteps(50);
+    resetCodeChars50();
+    ['b_next1','b_next2','b_next3','b_next4','b_next5'].forEach(id=>document.getElementById(id).style.display='none');
+    ['b_fb2','b_fb3','b_fb5','b_fb6','b_fbEq','b_fbEndoExo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    buildE1_50(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
+    buildGraphQs();
+  }
+}
+
+function resetCodeChars50() {
+  ['b_c1_1','b_c1_2','b_c1_3','b_c1_4','b_c1_5','b_c1_6'].forEach((id,i)=>{
+    const el=document.getElementById(id); el.textContent=i===2?'A':'_';
+    if(i!==2) el.classList.remove('revealed');
+  });
+  ['b_c2_1','b_c2_2','b_c2_3'].forEach(id=>{const el=document.getElementById(id);el.textContent='_';el.classList.remove('revealed');});
+  ['b_c4_1','b_c4_2','b_c4_3','b_c4_4'].forEach(id=>{const el=document.getElementById(id);el.textContent='_';el.classList.remove('revealed');});
+  const c51=document.getElementById('b_c5_1'); if(c51){c51.textContent='_';c51.classList.remove('revealed');}
+}
+
+function resetProgSteps(mode) {
+  if(mode===15) {
+    ['a_ps1','a_ps2','a_ps3'].forEach((id,i)=>{const el=document.getElementById(id);el.className='prog-step';el.textContent=i+1;});
+    document.getElementById('a_ps4').className='prog-step';document.getElementById('a_ps4').innerHTML='<span>🔒</span>';
+    ['a_pl1','a_pl2','a_pl3'].forEach(id=>document.getElementById(id).className='prog-line');
+  } else {
+    for(let i=1;i<=6;i++){const el=document.getElementById('b_ps'+i);el.className='prog-step';el.textContent=i;}
+    document.getElementById('b_ps7').className='prog-step';document.getElementById('b_ps7').innerHTML='<span>🔒</span>';
+    for(let i=1;i<=6;i++) document.getElementById('b_pl'+i).className='prog-line';
+  }
+}
+
+// ===================== NAV ÉNIGMES =====================
+function goEnigme15(n) {
+  ['a_enigme1','a_enigme2','a_enigme3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('a_enigme'+n).classList.add('active');
+  ['a_ps1','a_ps2','a_ps3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(i+1<n){el.className='prog-step done';el.innerHTML='✓';}
+    else if(i+1===n){el.className='prog-step active';el.textContent=i+1;}
+    else{el.className='prog-step';el.textContent=i+1;}
+  });
+  ['a_pl1','a_pl2','a_pl3'].forEach((id,i)=>document.getElementById(id).className='prog-line'+(i+1<n?' done':''));
+  ['a_hint1','a_hint2','a_hint3'].forEach(h=>{const el=document.getElementById(h);if(el)el.style.display='none';});
+}
+
+function goEnigme50(n) {
+  for(let i=1;i<=6;i++) document.getElementById('b_enigme'+i).classList.remove('active');
+  document.getElementById('b_enigme'+n).classList.add('active');
+  for(let i=1;i<=6;i++){
+    const el=document.getElementById('b_ps'+i);
+    if(i<n){el.className='prog-step done';el.innerHTML='✓';}
+    else if(i===n){el.className='prog-step active';el.textContent=i;}
+    else{el.className='prog-step';el.textContent=i;}
+  }
+  for(let i=1;i<=6;i++) document.getElementById('b_pl'+i).className='prog-line'+(i<n?' done':'');
+  for(let i=1;i<=6;i++){const h=document.getElementById('b_hint'+i);if(h)h.style.display='none';}
+  if(n===4) buildGraphQs();
+}
+
+// ===================== ENIGME 1 — Triangle =====================
+function buildE1_15() {
+  const c=document.getElementById('a_q1Container'); c.innerHTML='';
+  QUESTIONS_E1.forEach((q,qi)=>{
+    const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
+    div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
+    const grid=document.createElement('div'); grid.className='triangle-grid';
+    q.opts.forEach(opt=>{
+      const btn=document.createElement('button'); btn.className='state-btn'; btn.textContent=opt;
+      if(st15.e1Ans[qi]===opt) btn.classList.add(opt===q.ans?'selected':'wrong');
+      btn.onclick=()=>selectE1_15(qi,opt,btn);
+      grid.appendChild(btn);
+    });
+    div.appendChild(grid); c.appendChild(div);
+  });
+}
+
+function selectE1_15(qi,chosen,btn) {
+  if(st15.e1Ans[qi]) return;
+  st15.e1Ans[qi]=chosen;
+  if(chosen===QUESTIONS_E1[qi].ans){
+    btn.classList.add('selected');
+    revealChar15_E1(qi); st15.e1Score++;
+    if(st15.e1Score===6) setTimeout(()=>document.getElementById('a_next1').style.display='inline-block',300);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(()=>{btn.classList.remove('wrong');st15.e1Ans[qi]=null;},500);
+  }
+}
+function revealChar15_E1(qi) {
+  const ids=['a_c1_1','a_c1_2','a_c1_3','a_c1_4','a_c1_5','a_c1_6'];
+  const el=document.getElementById(ids[qi]); el.textContent=CODE_E1[qi]; el.classList.add('revealed');
+}
+
+function buildE1_50() {
+  const c=document.getElementById('b_q1Container'); c.innerHTML='';
+  QUESTIONS_E1.forEach((q,qi)=>{
+    const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
+    div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
+    const grid=document.createElement('div'); grid.className='triangle-grid';
+    q.opts.forEach(opt=>{
+      const btn=document.createElement('button'); btn.className='state-btn'; btn.textContent=opt;
+      if(st50.e1Ans[qi]===opt) btn.classList.add(opt===q.ans?'selected':'wrong');
+      btn.onclick=()=>selectE1_50(qi,opt,btn);
+      grid.appendChild(btn);
+    });
+    div.appendChild(grid); c.appendChild(div);
+  });
+}
+function selectE1_50(qi,chosen,btn) {
+  if(st50.e1Ans[qi]) return;
+  st50.e1Ans[qi]=chosen;
+  if(chosen===QUESTIONS_E1[qi].ans){
+    btn.classList.add('selected');
+    revealChar50_E1(qi); st50.e1Score++;
+    if(st50.e1Score===6) setTimeout(()=>document.getElementById('b_next1').style.display='inline-block',300);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(()=>{btn.classList.remove('wrong');st50.e1Ans[qi]=null;},500);
+  }
+}
+function revealChar50_E1(qi) {
+  const ids=['b_c1_1','b_c1_2','b_c1_3','b_c1_4','b_c1_5','b_c1_6'];
+  const el=document.getElementById(ids[qi]); el.textContent=CODE_E1[qi]; el.classList.add('revealed');
+}
+
+// ===================== ENIGME 2 — Q=mL =====================
+function updateCalc15() {
+  const m=parseInt(document.getElementById('a_slMasse').value);
+  const lf=parseInt(document.getElementById('a_slLf').value);
+  document.getElementById('a_valMasse').textContent=m+' kg';
+  document.getElementById('a_valLf').textContent=lf+' kJ/kg';
+  document.getElementById('a_calcResult').textContent=(m*lf)+' kJ';
+}
+function checkE2_15() {
+  const val=parseInt(document.getElementById('a_ans2').value);
+  const fb=document.getElementById('a_fb2'); fb.style.display='block';
+  if(val===1002){
+    fb.className='feedback success'; fb.textContent='Correct ! Q = 3 × 334 = 1002 kJ. Code cadenas : 100';
+    ['a_c2_1','a_c2_2','a_c2_3'].forEach((id,i)=>{
+      const el=document.getElementById(id); el.textContent=['1','0','0'][i];
+      setTimeout(()=>el.classList.add('revealed'),i*150);
+    });
+    document.getElementById('a_next2').style.display='inline-block';
+  } else {
+    fb.className='feedback error'; fb.textContent='Pas tout à fait. Vérifiez : Q = m × Lf, avec m = 3 kg et Lf = 334 kJ/kg.';
+  }
+}
+
+function updateCalc50() {
+  const m=parseInt(document.getElementById('b_slMasse').value);
+  const lf=parseInt(document.getElementById('b_slLf').value);
+  document.getElementById('b_valMasse').textContent=m+' kg';
+  document.getElementById('b_valLf').textContent=lf+' kJ/kg';
+  document.getElementById('b_calcResult').textContent=(m*lf)+' kJ';
+}
+function checkE2_50() {
+  const val=parseInt(document.getElementById('b_ans2').value);
+  const fb=document.getElementById('b_fb2'); fb.style.display='block';
+  if(val===1002){
+    fb.className='feedback success'; fb.textContent='Correct ! Q = 3 × 334 = 1002 kJ. Circuit B déverrouillé — code : 100';
+    ['b_c2_1','b_c2_2','b_c2_3'].forEach((id,i)=>{
+      const el=document.getElementById(id); el.textContent=['1','0','0'][i];
+      setTimeout(()=>el.classList.add('revealed'),i*150);
+    });
+    document.getElementById('b_next2').style.display='inline-block';
+  } else {
+    fb.className='feedback error'; fb.textContent='Incorrect. Vérifiez : Q = m × Lf, avec m = 3 kg et Lf = 334 kJ/kg.';
+  }
+}
+
+// ===================== ENIGME 3 — Vrai/Faux =====================
+function buildE3_15() {
+  const c=document.getElementById('a_affirmations'); c.innerHTML='';
+  AFFIRMATIONS.forEach((aff,i)=>{
+    const div=document.createElement('div'); div.className='affirmation-item';
+    div.innerHTML='<div class="affirmation-text">'+aff.text+'</div><div class="vf-btns"><button class="vf-btn" id="a_vf'+i+'V" onclick="selectVF15('+i+',true)">Vrai</button><button class="vf-btn" id="a_vf'+i+'F" onclick="selectVF15('+i+',false)">Faux</button></div>';
+    c.appendChild(div);
+  });
+}
+function selectVF15(i,val) {
+  st15.e3Ans[i]=val;
+  document.getElementById('a_vf'+i+'V').className='vf-btn'+(val?' selected-V':'');
+  document.getElementById('a_vf'+i+'F').className='vf-btn'+(!val?' selected-F':'');
+  const bits=st15.e3Ans.map(a=>a===null?'_':(a?'1':'0'));
+  document.getElementById('a_binaryDisplay').textContent=bits.join(' ');
+  if(st15.e3Ans.every(a=>a!==null)) document.getElementById('a_decimalDisplay').textContent=parseInt(bits.join(''),2);
+}
+function checkE3_15() {
+  const fb=document.getElementById('a_fb3'); fb.style.display='block';
+  if(!st15.e3Ans.every(a=>a!==null)){fb.className='feedback error';fb.textContent='Répondez aux 4 affirmations.';return;}
+  if(AFFIRMATIONS.every((aff,i)=>st15.e3Ans[i]===aff.ans)){
+    fb.className='feedback success'; fb.textContent='Parfait ! Code validé — centrale sécurisée.';
+    showVictory15();
+  } else {
+    fb.className='feedback error'; fb.textContent='Une ou plusieurs réponses incorrectes. Réessayez.';
+    st15.e3Ans=new Array(4).fill(null);
+    setTimeout(()=>buildE3_15(),800);
+  }
+}
+
+function buildE3_50() {
+  const c=document.getElementById('b_affirmations'); c.innerHTML='';
+  AFFIRMATIONS.forEach((aff,i)=>{
+    const div=document.createElement('div'); div.className='affirmation-item';
+    div.innerHTML='<div class="affirmation-text">'+aff.text+'</div><div class="vf-btns"><button class="vf-btn" id="b_vf'+i+'V" onclick="selectVF50('+i+',true)">Vrai</button><button class="vf-btn" id="b_vf'+i+'F" onclick="selectVF50('+i+',false)">Faux</button></div>';
+    c.appendChild(div);
+  });
+}
+function selectVF50(i,val) {
+  st50.e3Ans[i]=val;
+  document.getElementById('b_vf'+i+'V').className='vf-btn'+(val?' selected-V':'');
+  document.getElementById('b_vf'+i+'F').className='vf-btn'+(!val?' selected-F':'');
+  const bits=st50.e3Ans.map(a=>a===null?'_':(a?'1':'0'));
+  document.getElementById('b_binaryDisplay').textContent=bits.join(' ');
+  if(st50.e3Ans.every(a=>a!==null)) document.getElementById('b_decimalDisplay').textContent=parseInt(bits.join(''),2);
+}
+function checkE3_50() {
+  const fb=document.getElementById('b_fb3'); fb.style.display='block';
+  if(!st50.e3Ans.every(a=>a!==null)){fb.className='feedback error';fb.textContent='Répondez aux 4 affirmations.';return;}
+  if(AFFIRMATIONS.every((aff,i)=>st50.e3Ans[i]===aff.ans)){
+    fb.className='feedback success'; fb.textContent='Circuit C déverrouillé ! Continuez vers le circuit D.';
+    setTimeout(()=>document.getElementById('b_next3').style.display='inline-block',400);
+  } else {
+    fb.className='feedback error'; fb.textContent='Une ou plusieurs réponses incorrectes. Réessayez.';
+    st50.e3Ans=new Array(4).fill(null);
+    setTimeout(()=>buildE3_50(),800);
+  }
+}
+
+// ===================== ENIGME 4 — Courbe =====================
+function buildGraphQs() {
+  const c=document.getElementById('b_graphQs'); c.innerHTML='';
+  GRAPH_QUESTIONS.forEach((gq,gi)=>{
+    const div=document.createElement('div'); div.className='graph-question';
+    div.innerHTML='<div class="graph-q-text"><strong style="color:#EF9F27">'+(gi+1)+'.</strong> '+gq.q+'</div><div class="graph-opts" id="b_gq'+gi+'"></div>';
+    c.appendChild(div);
+    const optsDiv=div.querySelector('#b_gq'+gi);
+    gq.opts.forEach(opt=>{
+      const btn=document.createElement('button'); btn.className='graph-opt'; btn.textContent=opt;
+      if(st50.e4Ans[gi]===opt) btn.classList.add(opt===gq.ans?'selected':'wrong');
+      btn.onclick=()=>selectGraphQ(gi,opt,btn);
+      optsDiv.appendChild(btn);
+    });
+  });
+}
+function selectGraphQ(gi,chosen,btn) {
+  if(st50.e4Ans[gi]) return;
+  st50.e4Ans[gi]=chosen;
+  const correct=GRAPH_QUESTIONS[gi].ans;
+  if(chosen===correct){
+    btn.classList.add('selected');
+    const codeIds=['b_c4_1','b_c4_2','b_c4_3','b_c4_4'];
+    const el=document.getElementById(codeIds[gi]);
+    el.textContent=GRAPH_QUESTIONS[gi].code;
+    el.classList.add('revealed');
+    st50.e4Score++;
+    if(st50.e4Score===4) setTimeout(()=>document.getElementById('b_next4').style.display='inline-block',400);
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(()=>{btn.classList.remove('wrong');st50.e4Ans[gi]=null;},500);
+  }
+}
+
+// ===================== ENIGME 5 — Vaporisation =====================
+function updateCalc50v() {
+  const m=parseFloat(document.getElementById('b_slMasse5').value);
+  const lv=parseInt(document.getElementById('b_slLv5').value);
+  document.getElementById('b_valMasse5').textContent=m+' kg';
+  document.getElementById('b_valLv5').textContent=lv+' kJ/kg';
+  const qkj=(m*lv).toFixed(0);
+  const qmj=Math.round(m*lv/1000);
+  document.getElementById('b_calcResult5').textContent=qkj+' kJ = '+qmj+' MJ';
+  document.getElementById('b_calcMJ5').textContent=qmj;
+}
+function checkE5_50() {
+  const val=parseInt(document.getElementById('b_ans5').value);
+  const fb=document.getElementById('b_fb5'); fb.style.display='block';
+  if(val===5){
+    fb.className='feedback success';
+    fb.textContent='Excellent ! Q = 2 × 2260 = 4520 kJ = 4,52 MJ ≈ 5 MJ. Circuit E déverrouillé !';
+    const el=document.getElementById('b_c5_1');
+    el.textContent='5'; el.classList.add('revealed');
+    st50.e5Done=true;
+    setTimeout(()=>document.getElementById('b_next5').style.display='inline-block',400);
+  } else {
+    fb.className='feedback error';
+    fb.textContent='Incorrect. Q = m × Lv = 2 × 2260 = 4520 kJ. Convertissez en MJ et arrondissez à l\'entier.';
+  }
+}
+
+// ===================== ENIGME 6 — Dissolution =====================
+function updateCalcDH() {
+  const n=parseFloat(document.getElementById('b_slN6').value);
+  const dh=parseFloat(document.getElementById('b_slDH6').value);
+  document.getElementById('b_valN6').textContent=n+' mol';
+  document.getElementById('b_valDH6').textContent=dh.toFixed(1)+' kJ/mol';
+  const res=(n*dh).toFixed(1);
+  document.getElementById('b_calcDH').textContent='+'+ res+' kJ';
+  st50.dhValue=Math.round(n*dh);
+}
+
+let selectedIonName = null;
+
+function selectIon(ionName) {
+  selectedIonName = ionName;
+  document.querySelectorAll('.ion-chip').forEach(c=>c.classList.remove('selected-ion'));
+  const ids={'Na⁺':'ion_Na','Cl⁻':'ion_Cl','Na²⁺':'ion_Na2','OH⁻':'ion_OH','H⁺':'ion_H','Cl₂':'ion_Cl2'};
+  const chipId=ids[ionName];
+  if(chipId) document.getElementById(chipId).classList.add('selected-ion');
+}
+
+function fillBlank(blankNum) {
+  if(!selectedIonName) return;
+  const blankEl=document.getElementById('eq_blank'+blankNum);
+  blankEl.textContent=selectedIonName;
+  blankEl.classList.add('filled');
+  if(blankNum===1) st50.blank1=selectedIonName;
+  else st50.blank2=selectedIonName;
+  selectedIonName=null;
+  document.querySelectorAll('.ion-chip').forEach(c=>c.classList.remove('selected-ion'));
+  if(st50.blank1 && st50.blank2) checkEquation();
+}
+
+function checkEquation() {
+  const fb=document.getElementById('b_fbEq'); fb.style.display='block';
+  const correct=(st50.blank1==='Na⁺'&&st50.blank2==='Cl⁻')||(st50.blank1==='Cl⁻'&&st50.blank2==='Na⁺');
+  if(correct){
+    fb.className='feedback success';
+    fb.textContent='Correct ! NaCl(s) → Na⁺(aq) + Cl⁻(aq). L\'équation est juste : le NaCl se dissocie en ions sodium Na⁺ et chlorure Cl⁻.';
+    st50.eqDone=true;
+  } else {
+    fb.className='feedback error';
+    fb.textContent='Incorrect. Pensez à la formule : NaCl contient un cation Na⁺ et un anion Cl⁻. Réessayez.';
+    setTimeout(()=>{
+      ['eq_blank1','eq_blank2'].forEach(id=>{
+        const el=document.getElementById(id); el.textContent=''; el.classList.remove('filled');
+      });
+      st50.blank1=null; st50.blank2=null;
+    },900);
+  }
+}
+
+function selectEndoExo(choice) {
+  const fb=document.getElementById('b_fbEndoExo'); fb.style.display='block';
+  if(choice==='endo'){
+    document.getElementById('btn_endo').classList.add('selected');
+    document.getElementById('btn_exo').classList.remove('selected');
+    fb.className='feedback success';
+    fb.textContent='Correct ! La dissolution du NaCl est endothermique : ΔH°diss > 0, la solution se refroidit légèrement. L\'énergie est absorbée pour rompre le réseau cristallin.';
+    st50.endoExoDone=true;
+  } else {
+    document.getElementById('btn_exo').classList.add('wrong');
+    fb.className='feedback error';
+    fb.textContent='Incorrect. La température de la solution diminue : l\'énergie est absorbée par le système → dissolution endothermique.';
+    setTimeout(()=>{document.getElementById('btn_exo').classList.remove('wrong');},600);
+  }
+}
+
+function checkE6_50() {
+  const fb=document.getElementById('b_fb6'); fb.style.display='block';
+  if(!st50.eqDone){fb.className='feedback error';fb.textContent='Complétez d\'abord l\'équation de dissolution (Partie A).';return;}
+  if(!st50.endoExoDone){fb.className='feedback error';fb.textContent='Identifiez d\'abord le type de transfert thermique (Partie B).';return;}
+  const val=parseFloat(document.getElementById('b_ans6').value);
+  if(Math.abs(val-7.8)<0.2||Math.round(val)===8){
+    fb.className='feedback success';
+    fb.textContent='PARFAIT ! ΔH = 2 × 3,9 = +7,8 kJ. Dissolution endothermique confirmée. Code final validé — tous les circuits sont rétablis !';
+    st50.dhDone=true;
+    setTimeout(()=>showVictory50(),800);
+  } else {
+    fb.className='feedback error';
+    fb.textContent='Incorrect. ΔH = n × ΔH°diss = 2 × 3,9 = 7,8 kJ. Entrez 7.8 ou 8 (arrondi).';
+  }
+}
+
+// ===================== VICTOIRES =====================
+function showVictory15() {
+  clearInterval(timerInterval);
+  setTimeout(()=>{
+    ['a_enigme1','a_enigme2','a_enigme3'].forEach(id=>document.getElementById(id).classList.remove('active'));
+    ['a_ps1','a_ps2','a_ps3'].forEach(id=>{const el=document.getElementById(id);el.className='prog-step done';el.innerHTML='✓';});
+    ['a_pl1','a_pl2','a_pl3'].forEach(id=>document.getElementById(id).className='prog-line done');
+    const ps4=document.getElementById('a_ps4'); ps4.className='prog-step done'; ps4.innerHTML='🔓';
+    const elapsed=Math.round((Date.now()-st15.startTime)/1000);
+    document.getElementById('a_timeResult').textContent='Temps : '+Math.floor(elapsed/60)+' min '+elapsed%60+' s';
+    document.getElementById('a_finalCode').textContent='FUAGSC · 100 · 13';
+    document.getElementById('a_victory').classList.add('show');
+  },600);
+}
+
+function showVictory50() {
+  clearInterval(timerInterval);
+  setTimeout(()=>{
+    for(let i=1;i<=6;i++) document.getElementById('b_enigme'+i).classList.remove('active');
+    for(let i=1;i<=6;i++){const el=document.getElementById('b_ps'+i);el.className='prog-step done';el.innerHTML='✓';}
+    for(let i=1;i<=6;i++) document.getElementById('b_pl'+i).className='prog-line done';
+    const ps7=document.getElementById('b_ps7'); ps7.className='prog-step done'; ps7.innerHTML='🔓';
+    const elapsed=Math.round((Date.now()-st50.startTime)/1000);
+    document.getElementById('b_timeResult').textContent='Temps : '+Math.floor(elapsed/60)+' min '+elapsed%60+' s';
+    document.getElementById('b_finalCode').textContent='FUAGSC · 100 · 0DLE · 5 · 8';
+    document.getElementById('b_victory').classList.add('show');
+  },700);
+}
+
+// ===================== INIT =====================
+// Init SVG cachés au départ
+document.getElementById('bgScene15').style.display='none';
+document.getElementById('bgScene50').style.display='none';
+</script>

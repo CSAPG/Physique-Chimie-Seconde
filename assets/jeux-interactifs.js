@@ -57,6 +57,13 @@ const GAMES_RESOURCES = {
       label: "Escape game — Atome",
       source: "Genially · Hatier",
       desc: "Noyau, configuration électronique, ions, schémas de Lewis"
+    },
+    {
+      url: "https://lewis.web-labosims.org/",
+      icon: "🧬",
+      label: "Application — Construire des structures de Lewis",
+      source: "LABOSIMS",
+      desc: "Placer atomes et doublets, tracer les liaisons et vérifier son schéma de Lewis"
     }
   ],
 
@@ -101,6 +108,30 @@ const GAMES_RESOURCES = {
       label: "Légender le montage à reflux",
       source: "Hatier",
       desc: "Glisser-déposer · Schéma du montage à reflux"
+    },
+    {
+      url: "https://phet.colorado.edu/sims/html/balancing-chemical-equations/latest/balancing-chemical-equations_all.html",
+      icon: "⚖️",
+      label: "Simulation — Équilibrage d'équations chimiques",
+      source: "PhET · University of Colorado",
+      desc: "Ajuster les coefficients stœchiométriques pour équilibrer les équations"
+    },
+    {
+      url: "https://physique-chimie.ac-normandie.fr/spip.php?article222",
+      icon: "🧬",
+      label: "Construire des formules de Lewis",
+      source: "Académie de Normandie",
+      desc: "Activité numérique"
+    }
+  ],
+
+  "9": [
+    {
+      url: "https://phet.colorado.edu/sims/html/isotopes-and-atomic-mass/latest/isotopes-and-atomic-mass_all.html",
+      icon: "⚛️",
+      label: "Simulation — Isotopes et masse atomique",
+      source: "PhET · University of Colorado",
+      desc: "Explorer les isotopes, leur composition et leur masse atomique moyenne"
     }
   ],
 

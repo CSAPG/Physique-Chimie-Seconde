@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Transformation nucléaire</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: rgba(244,246,250,0.70); color: var(--texte); min-height: 100vh; position: relative; }
+#screen-home, #screen-quiz, #screen-result { position: relative; z-index: 1; }
+
+/* ── FOND NUCLÉAIRE ── */
+#nuc-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.nuc-atom {
+  position: absolute;
+  border-radius: 50%;
+  background: #facc15;
+}
+.nuc-atom svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.nuc-propeller {
+  animation: nuclear-spin linear infinite;
+}
+@keyframes nuclear-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .nuc-propeller { animation: none; } }
+
+/* ACCUEIL */
+#screen-home { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; background: rgba(244,246,250,0.75); }
+.home-badge { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--texte-2); background: var(--gris-clair); border: 1.5px solid var(--gris-bord); border-radius: 20px; padding: 4px 14px; margin-bottom: 18px; }
+.home-title { font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 900; color: var(--texte); text-align: center; line-height: 1.2; max-width: 500px; margin-bottom: 6px; }
+.home-sub { font-size: 0.9rem; color: var(--texte-2); text-align: center; margin-bottom: 36px; }
+.level-cards { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; max-width: 680px; }
+.level-card { background: var(--blanc); border: 2.5px solid var(--gris-bord); border-radius: 14px; padding: 24px 22px 20px; width: 190px; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; text-align: center; user-select: none; }
+.level-card:hover { transform: translateY(-4px); }
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count { display: inline-block; margin-top: 10px; background: var(--gris-clair); border-radius: 12px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; color: var(--texte-2); }
+
+/* QUIZ */
+#screen-quiz { display: none; min-height: 100vh; flex-direction: column; }
+.quiz-header { background: var(--blanc); border-bottom: 2px solid var(--gris-bord); padding: 12px 24px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 10; }
+.quiz-back { background: none; border: 1.5px solid var(--gris-bord); border-radius: 8px; padding: 5px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: var(--texte-2); transition: background 0.15s; white-space: nowrap; }
+.quiz-back:hover { background: var(--gris-clair); }
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+.progress-wrap { display: flex; align-items: center; gap: 10px; }
+.progress-track { flex: 1; height: 9px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.progress-fill { height: 9px; border-radius: 20px; transition: width 0.4s ease; }
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label { font-size: 0.78rem; font-weight: 700; color: var(--texte-2); white-space: nowrap; }
+.score-live { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; background: var(--gris-clair); border-radius: 8px; padding: 5px 12px; white-space: nowrap; }
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+.quiz-main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 60px; }
+.question-card { background: var(--blanc); border-radius: 14px; border: 1.5px solid var(--gris-bord); width: 100%; max-width: 680px; overflow: hidden; animation: slideIn 0.25s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.q-header { padding: 16px 22px 14px; border-bottom: 1.5px solid var(--gris-bord); display: flex; align-items: flex-start; gap: 12px; }
+.q-num { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte-2); flex-shrink: 0; padding-top: 2px; }
+.q-text { font-size: 1rem; font-weight: 700; line-height: 1.5; color: var(--texte); }
+.q-illustration { padding: 16px 22px 0; display: flex; justify-content: center; }
+.q-illustration svg { max-width: 100%; border-radius: 8px; border: 1.5px solid var(--gris-bord); }
+.q-options { padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 9px; }
+.q-option { display: flex; align-items: center; gap: 12px; background: var(--blanc); border: 2px solid var(--gris-bord); border-radius: 10px; padding: 11px 16px; cursor: pointer; font-size: 0.9rem; line-height: 1.4; transition: border-color 0.15s, background 0.15s; user-select: none; }
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked { cursor: default; }
+.opt-letter { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gris-bord); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; flex-shrink: 0; transition: background 0.15s, border-color 0.15s; color: var(--texte-2); }
+.q-option.correct .opt-letter { background: var(--vert); border-color: var(--vert); color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal .opt-letter { background: var(--vert); border-color: var(--vert); color: white; }
+.q-feedback { margin: 0 22px 0; padding: 10px 14px; border-radius: 8px; font-size: 0.86rem; line-height: 1.55; display: none; border-left: 4px solid transparent; }
+.q-feedback.correct { display: block; background: var(--vert-bg); border-color: var(--vert); color: #155a33; }
+.q-feedback.incorrect { display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+.q-next-wrap { padding: 16px 22px 22px; display: flex; justify-content: flex-end; }
+.btn-next { background: var(--inter); color: white; border: none; border-radius: 8px; padding: 10px 28px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: none; transition: background 0.15s, transform 0.1s; }
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter { background: var(--inter); }
+.btn-next.diff { background: var(--diff); }
+.btn-next.show { display: block; }
+
+/* RÉSULTAT */
+#screen-result { display: none; min-height: 100vh; align-items: center; justify-content: center; padding: 32px 16px; flex-direction: column; }
+.result-card { background: var(--blanc); border-radius: 16px; border: 1.5px solid var(--gris-bord); max-width: 520px; width: 100%; padding: 36px 32px; text-align: center; }
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big { font-size: 3rem; font-weight: 900; line-height: 1; margin: 16px 0 6px; }
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter { color: var(--inter); }
+.result-score-big.diff { color: var(--diff); }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter { background: var(--inter); }
+.result-bar-fill.diff { background: var(--diff); }
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry { padding: 10px 24px; border-radius: 8px; border: none; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+.recap-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 16px 0; }
+.recap-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: white; margin: 0 auto; }
+.recap-dot.ok { background: var(--vert); }
+.recap-dot.ko { background: var(--rouge); }
+</style>
+</head>
+<body>
+
+<!-- FOND : hélices nucléaires -->
+<div id="nuc-bg" aria-hidden="true"></div>
+
+<div id="screen-home">
+  <div class="home-badge">2nde · Séquence 09 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Transformation nucléaire · 10 questions par niveau</p>
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire, isotopes, nature des transformations</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Lois de Soddy, équations nucléaires, fission/fusion</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, défaut de masse, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<div id="screen-quiz">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label"></div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track"><div class="result-bar-fill facile" id="r-bar" style="width:0%"></div></div>
+    </div>
+    <div class="recap-grid" id="r-dots"></div>
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ FOND HÉLICES NUCLÉAIRES ══ */
+(function() {
+  const bg = document.getElementById('nuc-bg');
+  const atoms = [
+    { size: 64, top: '8%',  left: '4%',  dur: 3 },
+    { size: 54, top: '65%', right: '4%', dur: 4.5, rev: true },
+    { size: 46, top: '38%', left: '2%',  dur: 6 },
+    { size: 58, top: '22%', right: '3%', dur: 3.8, rev: true },
+    { size: 40, top: '80%', left: '6%',  dur: 5.2 },
+    { size: 50, top: '50%', right: '5%', dur: 4 }
+  ];
+  atoms.forEach(a => {
+    const wrap = document.createElement('div');
+    wrap.className = 'nuc-atom';
+    Object.assign(wrap.style, {
+      width: a.size + 'px', height: a.size + 'px',
+      top: a.top || 'auto', left: a.left || 'auto',
+      right: a.right || 'auto',
+      opacity: '0.22',
+      boxShadow: '0 0 ' + Math.round(a.size*0.18) + 'px rgba(250,204,21,0.45)'
+    });
+    const vb = 100;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 100 100');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('fill','#1e293b');
+    g.style.transformOrigin = '50px 50px';
+    g.style.animation = 'nuclear-spin ' + a.dur + 's linear infinite' + (a.rev ? ' reverse' : '');
+    ['0','120','240'].forEach(deg => {
+      const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d','M50,50 L28,2 L72,2 Z');
+      if (deg !== '0') p.setAttribute('transform','rotate('+deg+' 50 50)');
+      g.appendChild(p);
+    });
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx','50'); c.setAttribute('cy','50'); c.setAttribute('r','6');
+    c.setAttribute('fill','#1e293b');
+    g.appendChild(c);
+    svg.appendChild(g);
+    wrap.appendChild(svg);
+    bg.appendChild(wrap);
+  });
+})();
+
+/* ══ SVG ILLUSTRATIONS ══ */
+function svgNotationNucleaire() {
+  return `<svg viewBox="0 0 380 110" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc;width:100%;max-width:380px;">
+    <defs>
+      <marker id="arr-a" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#1a5fa8"/></marker>
+      <marker id="arr-z" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#c0392b"/></marker>
+    </defs>
+    <text x="20" y="28" font-family="Arial" font-size="12" fill="#5a6478">Notation symbolique d'un noyau :</text>
+    <text x="120" y="65" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#1a5fa8">A</text>
+    <text x="120" y="92" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#c0392b">Z</text>
+    <text x="145" y="82" font-family="Georgia,serif" font-size="36" font-weight="bold" fill="#1e2330">X</text>
+    <line x1="200" y1="58" x2="265" y2="58" stroke="#1a5fa8" stroke-width="1.5" marker-end="url(#arr-a)"/>
+    <text x="270" y="62" font-family="Arial" font-size="12" fill="#1a5fa8">A = nombre de masse</text>
+    <text x="270" y="76" font-family="Arial" font-size="11" fill="#1a5fa8">(protons + neutrons)</text>
+    <line x1="200" y1="88" x2="265" y2="88" stroke="#c0392b" stroke-width="1.5" marker-end="url(#arr-z)"/>
+    <text x="270" y="92" font-family="Arial" font-size="12" fill="#c0392b">Z = numéro atomique</text>
+    <text x="270" y="106" font-family="Arial" font-size="11" fill="#c0392b">(nombre de protons)</text>
+  </svg>`;
+}
+
+function svgIsotopes() {
+  return `<svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc;width:100%;max-width:360px;">
+    <text x="18" y="20" font-family="Arial" font-size="12" fill="#5a6478">Les trois isotopes stables du carbone (Z = 6) :</text>
+    <rect x="18" y="30" width="72" height="50" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="2"/>
+    <text x="34" y="52" font-family="Georgia,serif" font-size="12" fill="#2e7d52">¹²</text>
+    <text x="24" y="72" font-family="Georgia,serif" font-size="12" fill="#2e7d52">₆</text>
+    <text x="42" y="72" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="#2e7d52">C</text>
+    <text x="98" y="58" font-family="Arial" font-size="18" fill="#aab3bd">↔</text>
+    <rect x="124" y="30" width="72" height="50" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="2"/>
+    <text x="140" y="52" font-family="Georgia,serif" font-size="12" fill="#1a5fa8">¹³</text>
+    <text x="130" y="72" font-family="Georgia,serif" font-size="12" fill="#1a5fa8">₆</text>
+    <text x="148" y="72" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="#1a5fa8">C</text>
+    <text x="204" y="58" font-family="Arial" font-size="18" fill="#aab3bd">↔</text>
+    <rect x="230" y="30" width="72" height="50" rx="8" fill="#f2e8fb" stroke="#8b2fc9" stroke-width="2"/>
+    <text x="246" y="52" font-family="Georgia,serif" font-size="12" fill="#8b2fc9">¹⁴</text>
+    <text x="236" y="72" font-family="Georgia,serif" font-size="12" fill="#8b2fc9">₆</text>
+    <text x="254" y="72" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="#8b2fc9">C</text>
+    <text x="315" y="55" font-family="Arial" font-size="11" fill="#8b2fc9" font-style="italic">radioactif</text>
+  </svg>`;
+}
+
+function svgDesintegrationRa() {
+  return `<svg viewBox="0 0 420 90" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc;width:100%;max-width:420px;">
+    <defs><marker id="arr-d" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c0392b"/></marker></defs>
+    <rect x="10" y="22" width="90" height="48" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="2"/>
+    <text x="28" y="44" font-family="Georgia,serif" font-size="13" fill="#2e7d52">²²⁶</text>
+    <text x="18" y="62" font-family="Georgia,serif" font-size="13" fill="#2e7d52">₈₈</text>
+    <text x="46" y="62" font-family="Georgia,serif" font-size="26" font-weight="bold" fill="#2e7d52">Ra</text>
+    <line x1="102" y1="46" x2="188" y2="46" stroke="#c0392b" stroke-width="2" marker-end="url(#arr-d)"/>
+    <text x="118" y="40" font-family="Arial" font-size="10" fill="#c0392b">désintégration α</text>
+    <rect x="192" y="22" width="90" height="48" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="2"/>
+    <text x="208" y="44" font-family="Georgia,serif" font-size="13" fill="#1a5fa8">A = ?</text>
+    <text x="200" y="62" font-family="Georgia,serif" font-size="13" fill="#1a5fa8">Z = ?</text>
+    <text x="230" y="62" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#1a5fa8">Rn</text>
+    <text x="294" y="52" font-family="Georgia,serif" font-size="20" fill="#5a6478">+</text>
+    <rect x="318" y="30" width="72" height="40" rx="8" fill="#fdecea" stroke="#c0392b" stroke-width="2"/>
+    <text x="334" y="48" font-family="Georgia,serif" font-size="13" fill="#c0392b">⁴</text>
+    <text x="326" y="64" font-family="Georgia,serif" font-size="11" fill="#c0392b">₂</text>
+    <text x="344" y="62" font-family="Georgia,serif" font-size="20" font-weight="bold" fill="#c0392b">He</text>
+  </svg>`;
+}
+
+function svgFission() {
+  return `<svg viewBox="0 0 490 110" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc;width:100%;max-width:490px;">
+    <defs><marker id="arr-f" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#8b2fc9"/></marker></defs>
+    <rect x="8" y="35" width="40" height="40" rx="6" fill="#f4f6fa" stroke="#dde2ea" stroke-width="1.5"/>
+    <text x="18" y="52" font-family="Georgia,serif" font-size="10" fill="#5a6478">¹</text>
+    <text x="14" y="66" font-family="Georgia,serif" font-size="10" fill="#5a6478">₀</text>
+    <text x="22" y="66" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#5a6478">n</text>
+    <text x="50" y="58" font-family="Arial" font-size="16" fill="#aab3bd">+</text>
+    <rect x="68" y="28" width="84" height="54" rx="8" fill="#fbe9e0" stroke="#c9622a" stroke-width="2"/>
+    <text x="92" y="49" font-family="Georgia,serif" font-size="12" fill="#c9622a">²³⁵</text>
+    <text x="76" y="68" font-family="Georgia,serif" font-size="12" fill="#c9622a">₉₂</text>
+    <text x="98" y="68" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#c9622a">U</text>
+    <line x1="155" y1="55" x2="215" y2="55" stroke="#8b2fc9" stroke-width="2" marker-end="url(#arr-f)"/>
+    <text x="163" y="48" font-family="Arial" font-size="10" fill="#8b2fc9">fission</text>
+    <rect x="218" y="28" width="78" height="54" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="2"/>
+    <text x="238" y="49" font-family="Georgia,serif" font-size="12" fill="#1a5fa8">⁹⁴</text>
+    <text x="224" y="68" font-family="Georgia,serif" font-size="12" fill="#1a5fa8">₃₈</text>
+    <text x="240" y="68" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#1a5fa8">Sr</text>
+    <text x="298" y="58" font-family="Arial" font-size="16" fill="#aab3bd">+</text>
+    <rect x="316" y="28" width="82" height="54" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="2"/>
+    <text x="336" y="49" font-family="Georgia,serif" font-size="12" fill="#2e7d52">¹³⁹</text>
+    <text x="322" y="68" font-family="Georgia,serif" font-size="12" fill="#2e7d52">₅₄</text>
+    <text x="342" y="68" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#2e7d52">Xe</text>
+    <text x="401" y="58" font-family="Arial" font-size="14" fill="#aab3bd">+ 3n</text>
+  </svg>`;
+}
+
+function svgFusion() {
+  return `<svg viewBox="0 0 420 100" xmlns="http://www.w3.org/2000/svg" style="background:#f8fafc;width:100%;max-width:420px;">
+    <defs><marker id="arr-fu" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c9622a"/></marker></defs>
+    <rect x="10" y="28" width="66" height="46" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="2"/>
+    <text x="28" y="48" font-family="Georgia,serif" font-size="11" fill="#2e7d52">¹</text>
+    <text x="18" y="64" font-family="Georgia,serif" font-size="11" fill="#2e7d52">₁</text>
+    <text x="34" y="64" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#2e7d52">H</text>
+    <text x="78" y="55" font-family="Arial" font-size="16" fill="#aab3bd">+</text>
+    <rect x="96" y="28" width="66" height="46" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="2"/>
+    <text x="114" y="48" font-family="Georgia,serif" font-size="11" fill="#2e7d52">¹</text>
+    <text x="104" y="64" font-family="Georgia,serif" font-size="11" fill="#2e7d52">₁</text>
+    <text x="120" y="64" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#2e7d52">H</text>
+    <line x1="168" y1="52" x2="228" y2="52" stroke="#c9622a" stroke-width="2" marker-end="url(#arr-fu)"/>
+    <text x="176" y="46" font-family="Arial" font-size="10" fill="#c9622a">fusion solaire</text>
+    <rect x="232" y="28" width="68" height="46" rx="8" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="2"/>
+    <text x="250" y="48" font-family="Georgia,serif" font-size="11" fill="#1a5fa8">²</text>
+    <text x="240" y="64" font-family="Georgia,serif" font-size="11" fill="#1a5fa8">₁</text>
+    <text x="256" y="64" font-family="Georgia,serif" font-size="22" font-weight="bold" fill="#1a5fa8">H</text>
+    <text x="303" y="55" font-family="Arial" font-size="16" fill="#aab3bd">+</text>
+    <rect x="322" y="35" width="82" height="32" rx="6" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+    <text x="334" y="55" font-family="Georgia,serif" font-size="14" fill="#c0392b">⁰₊₁e  (e⁺)</text>
+  </svg>`;
+}
+
+/* ══ QUESTIONS ══ */
+const QUESTIONS = {
+
+  /* ── FACILE ── */
+  facile: [
+    { q: "Qu'est-ce qu'un noyau instable ?", ill: null,
+      opts: ["Un noyau qui ne contient pas de neutrons","Un noyau qui émet spontanément des particules de grande énergie","Un noyau qui possède trop d'électrons","Un noyau dont le nombre de protons est supérieur à 100"],
+      ans: 1, expl: "Un noyau instable est un noyau radioactif : il se désintègre spontanément en émettant des particules de grande énergie. Ce phénomène est la radioactivité, découverte par Becquerel en 1896 puis étudiée par Pierre et Marie Curie." },
+
+    { q: "Que sont des isotopes ?", ill: svgIsotopes(),
+      opts: ["Des atomes ayant le même nombre de neutrons mais un Z différent","Des atomes ayant le même Z mais un nombre de neutrons différent","Des atomes ayant le même A et le même Z","Des noyaux identiques provenant d'éléments différents"],
+      ans: 1, expl: "Des isotopes ont le même Z (même élément chimique) mais un A différent (donc un nombre de neutrons différent). ¹²C, ¹³C et ¹⁴C sont tous des isotopes du carbone avec Z = 6 protons." },
+
+    { q: "Dans la notation ᴬ_Z X, que représente Z ?", ill: svgNotationNucleaire(),
+      opts: ["Le nombre de neutrons du noyau","Le nombre de masse (protons + neutrons)","Le numéro atomique, c'est-à-dire le nombre de protons","La charge totale du noyau en coulombs"],
+      ans: 2, expl: "Z est le numéro atomique : il donne le nombre de protons et détermine l'élément chimique. A est le nombre de masse (protons + neutrons). Le nombre de neutrons se calcule : N = A − Z." },
+
+    { q: "La combustion du méthane (CH₄ + 2 O₂ → CO₂ + 2 H₂O) est une transformation de quelle nature ?", ill: null,
+      opts: ["Nucléaire, car de l'énergie est libérée","Physique, car les molécules changent d'état","Chimique, car de nouvelles liaisons entre atomes sont formées","Nucléaire, car les noyaux se réarrangent"],
+      ans: 2, expl: "Une transformation chimique implique la rupture et la formation de liaisons entre atomes, sans modification des noyaux. La combustion du méthane est donc chimique : les molécules changent, mais les noyaux restent intacts." },
+
+    { q: "Parmi ces transformations, laquelle est de nature nucléaire ?", ill: null,
+      opts: ["La dissolution du sel dans l'eau","La fusion de la glace en eau liquide","La désintégration spontanée d'un noyau de radium avec changement de Z","La rouille du fer au contact de l'air humide"],
+      ans: 2, expl: "Une transformation nucléaire modifie le noyau lui-même : A et/ou Z changent. La désintégration radioactive transforme le noyau : c'est une transformation nucléaire. La dissolution et la rouille sont chimiques ; la fusion de glace est physique." },
+
+    { q: "Un noyau de carbone-14 a A = 14 et Z = 6. Combien contient-il de neutrons ?", ill: null,
+      opts: ["4","6","8","14"],
+      ans: 2, expl: "Le nombre de neutrons N = A − Z = 14 − 6 = 8. Le carbone-14 contient 6 protons et 8 neutrons dans son noyau." },
+
+    { q: "Quelle est la principale source d'énergie du Soleil ?", ill: null,
+      opts: ["Des réactions chimiques de combustion de l'hydrogène","Des réactions de fission de l'uranium","Des réactions de fusion nucléaire entre noyaux d'hydrogène","Le refroidissement progressif d'une boule de gaz initialement très chaude"],
+      ans: 2, expl: "L'énergie du Soleil provient de réactions de fusion nucléaire : des noyaux d'hydrogène fusionnent pour former des noyaux d'hélium en libérant une énergie colossale selon E = |Δm| × c²." },
+
+    { q: "Lors d'une transformation nucléaire, l'élément chimique change-t-il ?", ill: null,
+      opts: ["Non, Z reste toujours identique","Oui, car le nombre de protons Z du noyau se modifie","Non, seul le nombre de neutrons peut changer","Oui, mais uniquement si la température est très élevée"],
+      ans: 1, expl: "Lors d'une transformation nucléaire, le noyau change : Z peut varier, ce qui signifie que le nombre de protons change et donc l'élément chimique change. C'est ce qui distingue la transformation nucléaire de la transformation chimique où Z est invariant." },
+
+    { q: "Des isotopes d'un même élément chimique ont-ils les mêmes propriétés chimiques ?", ill: null,
+      opts: ["Non, leurs propriétés chimiques sont totalement différentes","Oui, car ils ont le même Z et donc le même cortège électronique","Oui, mais seulement si leur A ne diffère pas de plus de 2","Non, car leurs masses sont différentes"],
+      ans: 1, expl: "Les propriétés chimiques dépendent du nombre d'électrons (égal à Z pour un atome neutre). Les isotopes ont le même Z → mêmes propriétés chimiques. Leurs propriétés physiques (masse, radioactivité éventuelle) diffèrent." },
+
+    { q: "Quelle affirmation sur la radioactivité est correcte ?", ill: null,
+      opts: ["La radioactivité est un phénomène chimique provoqué par les électrons du cortège","La radioactivité est un phénomène spontané dû à l'instabilité du noyau","La radioactivité peut être déclenchée ou arrêtée par chauffage","Seuls les éléments synthétiques fabriqués en laboratoire sont radioactifs"],
+      ans: 1, expl: "La radioactivité est un phénomène nucléaire spontané : le noyau instable se désintègre de lui-même, indépendamment des conditions extérieures (température, pression, état chimique). Elle ne peut être ni déclenchée ni arrêtée artificiellement." }
+  ],
+
+  /* ── INTERMÉDIAIRE ── */
+  inter: [
+    { q: "Lors d'une réaction nucléaire, quelles grandeurs sont conservées selon les lois de Soddy ?", ill: null,
+      opts: ["La masse totale des noyaux et leur charge","Le nombre de masse A et le nombre de charge Z","La vitesse des particules et leur énergie cinétique","Le nombre d'électrons et le nombre de neutrons séparément"],
+      ans: 1, expl: "Les lois de Soddy : ∑A réactifs = ∑A produits (conservation du nombre de masse) et ∑Z réactifs = ∑Z produits (conservation du nombre de charge). La masse totale n'est pas conservée : il y a un défaut de masse." },
+
+    { q: "Le radium-226 (²²⁶₈₈Ra) se désintègre en émettant une particule α (⁴₂He). Quels sont A et Z du noyau fils ?", ill: svgDesintegrationRa(),
+      opts: ["A = 230, Z = 90","A = 222, Z = 86","A = 224, Z = 86","A = 222, Z = 84"],
+      ans: 1, expl: "Conservation de A : 226 = A_fils + 4 → A_fils = 222. Conservation de Z : 88 = Z_fils + 2 → Z_fils = 86. Le noyau fils est le radon-222 (²²²₈₆Rn)." },
+
+    { q: "Dans la fission de l'uranium-235 ci-contre, quelle est la somme des A à droite de l'équation ?", ill: svgFission(),
+      opts: ["234","235","236","239"],
+      ans: 2, expl: "∑A droite = 94 + 139 + 3×1 = 236. ∑A gauche = 1 + 235 = 236 → loi de conservation vérifiée ✔" },
+
+    { q: "Un noyau d'uranium-235 absorbe un neutron et se fissionne en strontium-94 (⁹⁴₃₈Sr) et xénon-139 (¹³⁹₅₄Xe). Combien de neutrons sont émis ?", ill: null,
+      opts: ["1 neutron","2 neutrons","3 neutrons","4 neutrons"],
+      ans: 2, expl: "Conservation de A : 1 + 235 = 94 + 139 + x → 236 = 233 + x → x = 3. La fission libère 3 neutrons, permettant la réaction en chaîne." },
+
+    { q: "Quelle est la différence fondamentale entre fission et fusion nucléaire ?", ill: null,
+      opts: ["La fission libère de l'énergie, la fusion en absorbe","La fission casse un noyau lourd en fragments, la fusion assemble deux noyaux légers","La fission concerne les étoiles, la fusion concerne les centrales","La fission émet des particules α, la fusion émet des particules β"],
+      ans: 1, expl: "Fission : un noyau lourd (ex. U-235) se casse en deux fragments + neutrons. Fusion : deux noyaux légers (ex. H) s'assemblent pour donner un noyau plus lourd. Les deux libèrent de l'énergie via le défaut de masse." },
+
+    { q: "Pour la réaction de fusion solaire ¹₁H + ¹₁H → ²₁H + ⁰₊₁e, vérifier la conservation de Z. Quelle est la somme des Z à droite ?", ill: svgFusion(),
+      opts: ["Z droite = 0","Z droite = 1","Z droite = 2","Z droite = 3"],
+      ans: 2, expl: "∑Z droite = Z(²₁H) + Z(⁰₊₁e) = 1 + 1 = 2. ∑Z gauche = 1 + 1 = 2. La loi de conservation de Z est bien vérifiée ✔" },
+
+    { q: "L'énergie libérée par une réaction nucléaire vient de :", ill: null,
+      opts: ["La chaleur dégagée par les électrons qui se réarrangent","Un défaut de masse : la masse des produits est légèrement inférieure à celle des réactifs","La pression très élevée dans le réacteur nucléaire","L'énergie cinétique initiale des particules projetées"],
+      ans: 1, expl: "Il y a un défaut de masse : |Δm| = m_réactifs − m_produits > 0. Cette masse 'perdue' est convertie en énergie selon E = |Δm| × c², avec c = 3,00 × 10⁸ m·s⁻¹." },
+
+    { q: "Parmi ces noyaux, lesquels sont des isotopes du fer (Z = 26) ?", ill: null,
+      opts: ["⁵⁶₂₆Fe et ⁵⁸₂₈Ni","⁵⁶₂₆Fe et ⁵⁴₂₆Fe","⁵⁴₂₆Fe et ⁵⁴₂₅Mn","⁵⁸₂₈Ni et ⁵⁴₂₆Fe"],
+      ans: 1, expl: "Les isotopes ont le même Z. ⁵⁶₂₆Fe (Z=26) et ⁵⁴₂₆Fe (Z=26) sont bien des isotopes du fer. Le nickel (Z=28) et le manganèse (Z=25) sont des éléments chimiques différents." },
+
+    { q: "Pourquoi la fusion nucléaire nécessite-t-elle des températures de plusieurs millions de degrés ?", ill: null,
+      opts: ["Pour ioniser les électrons des atomes avant la réaction","Pour que les noyaux aient assez d'énergie cinétique pour vaincre leur répulsion électrostatique","Pour maintenir les neutrons en dehors du noyau","Pour éviter que la réaction s'emballe et devienne incontrôlable"],
+      ans: 1, expl: "Les noyaux sont chargés positivement et se repoussent (force de Coulomb). Pour fusionner, ils doivent s'approcher suffisamment pour que les forces nucléaires attractives prennent le dessus. Cela nécessite des températures extrêmes (~10⁷ à 10⁸ K)." },
+
+    { q: "Identifier la nature de la transformation : « L'eau liquide se transforme en vapeur d'eau lors de l'ébullition. »", ill: null,
+      opts: ["Nucléaire : le noyau des atomes d'hydrogène change","Chimique : de nouvelles molécules sont formées","Physique : seul l'état de la matière change, les molécules H₂O restent identiques","Chimique : les liaisons O–H se rompent"],
+      ans: 2, expl: "Lors d'un changement d'état (ici liquide → gaz), les molécules d'eau H₂O ne sont pas modifiées : aucune liaison O–H ne se rompt, aucun noyau ne change. C'est une transformation physique." }
+  ],
+
+  /* ── DIFFICILE ── */
+  diff: [
+    { q: "Une centrale nucléaire et le Soleil produisent tous deux de l'énergie nucléaire. En quoi diffèrent-ils fondamentalement ?", ill: null,
+      opts: ["La centrale utilise la fission de l'uranium, le Soleil utilise la fusion de l'hydrogène","La centrale utilise la fusion, le Soleil utilise la fission","La centrale exploite la radioactivité α, le Soleil la radioactivité β","Ils fonctionnent exactement sur le même principe"],
+      ans: 0, expl: "Les centrales nucléaires exploitent la fission de noyaux lourds (uranium-235). Le Soleil fonctionne par fusion : des noyaux d'hydrogène légers fusionnent pour former de l'hélium. Les deux libèrent de l'énergie via E = |Δm|c², mais les réactions sont opposées." },
+
+    { q: "La masse d'un noyau de deutérium (²₁H) est légèrement inférieure à la somme des masses d'un proton et d'un neutron. Cela illustre :", ill: null,
+      opts: ["La conservation de la masse lors des réactions nucléaires","Le fait que les réactions nucléaires libèrent de l'énergie via E = |Δm| × c²","Le principe d'inertie, qui impose que la masse soit toujours conservée","Une propriété uniquement valable pour les noyaux légers"],
+      ans: 1, expl: "Cette différence est le 'défaut de masse' : Δm = m_proton + m_neutron − m_deutérium > 0. Elle correspond à l'énergie de liaison du noyau : E = |Δm| × c². C'est pour cela que les réactions nucléaires libèrent des énergies bien supérieures aux réactions chimiques." },
+
+    { q: "Pourquoi parle-t-on de 'réaction en chaîne' lors de la fission de l'uranium-235 ?", ill: null,
+      opts: ["Car la chaleur produite provoque la fusion des noyaux voisins","Car les neutrons libérés peuvent provoquer à leur tour la fission d'autres noyaux d'uranium-235","Car les fragments de fission (Sr, Xe) sont eux-mêmes radioactifs","Car la réaction se propage chimiquement d'atome en atome"],
+      ans: 1, expl: "La fission de ²³⁵U par un neutron libère 3 neutrons. Ces neutrons peuvent chacun provoquer la fission d'autres noyaux, libérant 9 neutrons, puis 27, etc. : c'est la réaction en chaîne. Dans une centrale, on la contrôle avec des barres absorbantes (bore) pour maintenir 1 neutron actif par fission." },
+
+    { q: "Le projet ITER utilise un confinement magnétique (tokamak). Pourquoi la fusion est-elle difficile à maîtriser sur Terre ?", ill: null,
+      opts: ["Car les noyaux utilisés sont très radioactifs et dangereux à manipuler","Car la fusion libère moins d'énergie que la fission","Car il faut atteindre ~100 millions de degrés pour vaincre la répulsion électrostatique entre noyaux légers","Car les réactions de fusion nécessitent de l'uranium, ressource très rare"],
+      ans: 2, expl: "La fusion nécessite que deux noyaux légers (ex. deutérium et tritium) s'approchent malgré leur répulsion coulombienne. Cela exige des températures de ~10⁸ K, ce qui pose des défis immenses de confinement du plasma. ITER tente de résoudre ce problème par confinement magnétique." },
+
+    { q: "On donne la réaction : ²²⁶₈₈Ra → ²²²₈₆Rn + ⁴₂He. Vérifier les lois de Soddy : quelle affirmation est correcte ?", ill: null,
+      opts: ["∑A est conservée mais ∑Z ne l'est pas : 88 ≠ 86 + 2","∑A et ∑Z sont toutes deux conservées : 226 = 222 + 4 et 88 = 86 + 2","∑Z est conservée mais ∑A ne l'est pas : 226 ≠ 222","Ni ∑A ni ∑Z ne sont conservées dans cette équation"],
+      ans: 1, expl: "∑A gauche = 226 ; ∑A droite = 222 + 4 = 226 ✔. ∑Z gauche = 88 ; ∑Z droite = 86 + 2 = 88 ✔. Les deux lois de Soddy sont respectées : cette équation nucléaire est correctement équilibrée." },
+
+    { q: "On propose l'équation : ²³⁸₉₂U → ²³⁴₉₀Th + ⁴₄He. Cette équation est-elle correcte ?", ill: null,
+      opts: ["Oui, ∑A et ∑Z sont bien conservées","Non : ∑A est correcte mais Z de la particule α est erroné (⁴₄He n'existe pas, α = ⁴₂He)","Non : ∑A n'est pas conservée (238 ≠ 234 + 4)","Oui, car l'hélium peut avoir Z = 4 dans certaines conditions"],
+      ans: 1, expl: "∑A : 238 = 234 + 4 ✔. Mais la particule α est ⁴₂He (Z = 2), pas ⁴₄He. Vérification de Z : 92 = 90 + 4 ✗ (92 ≠ 94). L'écriture ⁴₄He est fausse. L'équation correcte est : ²³⁸₉₂U → ²³⁴₉₀Th + ⁴₂He." },
+
+    { q: "Pour la fission : ¹₀n + ²³⁵₉₂U → ⁹⁴₃₈Sr + ¹³⁹₅₄Xe + x ¹₀n. En appliquant les lois de Soddy, vérifier ∑Z. Quelle affirmation est vraie ?", ill: null,
+      opts: ["∑Z gauche = 92 ; ∑Z droite = 38 + 54 + 0 = 92 → Z est conservé ✔","∑Z gauche = 93 ; ∑Z droite = 92 → Z n'est pas conservé","∑Z gauche = 92 ; ∑Z droite = 38 + 54 = 82 → Z n'est pas conservé","∑Z ne peut pas être vérifié sans connaître x"],
+      ans: 0, expl: "∑Z gauche = 0 + 92 = 92. ∑Z droite = 38 + 54 + x×0 = 92 (les neutrons ont Z = 0). La conservation de Z est vérifiée quelle que soit la valeur de x. C'est la conservation de A qui détermine x = 3." },
+
+    { q: "Pourquoi les isotopes d'un même élément ont-ils des propriétés chimiques identiques mais des propriétés nucléaires différentes ?", ill: null,
+      opts: ["Car les propriétés chimiques dépendent de Z (même cortège électronique), tandis que la stabilité nucléaire dépend du rapport N/Z (nombre de neutrons / protons)","Car les isotopes sont produits par des réactions différentes","Car les propriétés chimiques ne dépendent que de la masse A","Car les isotopes ont des températures de fusion différentes"],
+      ans: 0, expl: "Les propriétés chimiques dépendent du cortège électronique (lié à Z). Les isotopes ont le même Z → mêmes propriétés chimiques. En revanche, la stabilité nucléaire dépend du rapport N/Z : un excès de neutrons peut rendre le noyau instable (radioactif), comme ¹⁴C vs ¹²C." },
+
+    { q: "On souhaite calculer l'énergie libérée par la fission d'un noyau d'uranium-235. On dispose de : m_réactifs = 3,9025 × 10⁻²⁵ kg et m_produits = 3,8993 × 10⁻²⁵ kg. Quelle est l'énergie libérée ?", ill: null,
+      opts: ["E ≈ 2,88 × 10⁻¹¹ J","E ≈ 2,88 × 10⁻¹⁴ J","E ≈ 9,60 × 10⁻³ J","E ≈ 3,20 × 10⁻³² J"],
+      ans: 0, expl: "|Δm| = 3,9025 × 10⁻²⁵ − 3,8993 × 10⁻²⁵ = 3,2 × 10⁻²⁸ kg. E = |Δm| × c² = 3,2 × 10⁻²⁸ × (3,00 × 10⁸)² = 3,2 × 10⁻²⁸ × 9,00 × 10¹⁶ ≈ 2,88 × 10⁻¹¹ J. Cela représente ~180 MeV, typique d'une fission." },
+
+    { q: "En comparant l'énergie libérée par la combustion d'un atome de carbone (≈ 6 × 10⁻¹⁹ J) à celle de la fission d'un noyau d'uranium (≈ 2,9 × 10⁻¹¹ J), quel facteur sépare ces deux valeurs ?", ill: null,
+      opts: ["Les réactions nucléaires libèrent environ 100 fois plus d'énergie","Les réactions nucléaires libèrent environ 100 000 fois plus d'énergie","Les réactions nucléaires libèrent environ 5 × 10⁷ fois plus d'énergie","Les deux ordres de grandeur sont comparables"],
+      ans: 2, expl: "Rapport = 2,9 × 10⁻¹¹ / 6 × 10⁻¹⁹ ≈ 5 × 10⁷. Les réactions nucléaires libèrent environ 50 millions de fois plus d'énergie par atome que les réactions chimiques. C'est pourquoi une centrale nucléaire consomme peu de combustible comparée à une centrale thermique." }
+  ]
+};
+
+/* ══ ÉTAT ══ */
+let currentLevel = 'facile', currentIdx = 0, score = {ok:0,ko:0}, answers = [], answered = false;
+
+/* ══ NAVIGATION ══ */
+function startQuiz(level) {
+  currentLevel = level; currentIdx = 0; score = {ok:0,ko:0}; answers = [];
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = {facile:'🌱 Niveau Facile',inter:'⚗️ Niveau Intermédiaire',diff:'🔬 Niveau Difficile'}[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+  renderQuestion();
+}
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+function retryLevel() { startQuiz(currentLevel); }
+
+/* ══ RENDU ══ */
+function renderQuestion() {
+  answered = false;
+  const qs = QUESTIONS[currentLevel], q = qs[currentIdx], total = qs.length;
+  document.getElementById('progress-fill').style.width = Math.round(currentIdx/total*100) + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+  const letters = ['A','B','C','D'];
+  const illHTML = q.ill ? `<div class="q-illustration">${q.ill}</div>` : '';
+  const optsHTML = q.opts.map((opt,i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter">${letters[i]}</div><span>${opt}</span>
+    </div>`).join('');
+  document.getElementById('quiz-main').innerHTML = `
+    <div class="question-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx+1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total-1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ══ RÉPONSE ══ */
+function selectAnswer(chosen) {
+  if (answered) return; answered = true;
+  const q = QUESTIONS[currentLevel][currentIdx], correct = q.ans, isOk = chosen === correct;
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+  document.querySelectorAll('.q-option').forEach((el,i) => {
+    el.classList.add('locked');
+    if (i===chosen && isOk) el.classList.add('correct');
+    else if (i===chosen && !isOk) el.classList.add('incorrect');
+    else if (i===correct) el.classList.add('reveal');
+  });
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+  document.getElementById('btn-next').classList.add('show');
+  const total = QUESTIONS[currentLevel].length;
+  document.getElementById('progress-fill').style.width = Math.round((currentIdx+1)/total*100) + '%';
+  document.getElementById('progress-label').textContent = (currentIdx+1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= QUESTIONS[currentLevel].length) showResults(); else renderQuestion();
+}
+
+/* ══ RÉSULTATS ══ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+  const total = QUESTIONS[currentLevel].length, pct = Math.round(score.ok/total*100);
+  document.getElementById('r-emoji').textContent = pct>=80?'🎉':pct>=50?'💪':'📚';
+  document.getElementById('r-title').textContent = pct>=80?'Excellent !':pct>=50?'Bien joué !':'Continue tes révisions !';
+  document.getElementById('r-level-label').textContent = {facile:'🌱 Niveau Facile',inter:'⚗️ Niveau Intermédiaire',diff:'🔬 Niveau Difficile'}[currentLevel];
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = pct>=80?'Tu maîtrises bien les transformations nucléaires. Passe au niveau suivant !':pct>=50?'Tu as de bonnes bases. Relis les points où tu as hésité.':'Reprends la fiche de cours et recommence. Tu vas progresser !';
+  document.getElementById('r-pct').textContent = pct + '%';
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+  document.getElementById('r-dots').innerHTML = answers.map((ok,i) =>
+    `<div class="recap-dot ${ok?'ok':'ko'}" title="Q${i+1} : ${ok?'✓':'✗'}">${i+1}</div>`).join('');
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel==='facile'?'var(--facile)':currentLevel==='inter'?'var(--inter)':'var(--diff)';
+}
+</script>
+</body>
+</html>

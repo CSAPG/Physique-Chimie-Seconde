@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Game – Transformations nucléaires – Séq. 09</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f7f3;--paper:#ffffff;--ink:#1a2330;
+  --blue:#2D5F8A;--blue-light:#E8F1F8;--blue-mid:#B8D4EC;
+  --orange:#E8783A;--orange-light:#FBF0E8;
+  --green:#2f6f5e;--green-light:#e6f1ee;
+  --red:#c0392b;--red-light:#fbe6e4;
+  --gold:#d4a017;--gold-light:#fdf3d0;
+  --line:#e0dbd0;--shadow:0 2px 12px rgba(45,95,138,.10);
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 80px;}
+
+/* ── HEADER ── */
+.header{background:#fff;border:1px solid #E3E8EE;border-bottom:3px solid var(--blue);border-radius:var(--radius);padding:16px 22px 12px;margin-bottom:20px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow);}
+.header-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.header-badge{background:var(--blue);color:#fff;font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.header-titles h1{font-family:"Outfit",sans-serif;font-size:1.35rem;font-weight:800;color:var(--blue);margin:0 0 2px;}
+.header-titles p{font-size:.82rem;color:#5A6B7A;margin:0;}
+.header-titles p span{color:var(--orange);font-weight:700;}
+
+/* nuclear icon */
+.nuclear-icon{position:relative;width:56px;height:56px;flex-shrink:0;}
+.nuclear-circle{position:absolute;inset:0;border-radius:50%;background:#facc15;box-shadow:0 0 10px rgba(250,204,21,.5);}
+.nuclear-svg{position:absolute;inset:0;width:100%;height:100%;}
+.nuclear-propeller{transform-origin:50px 50px;animation:nuclear-spin 3s linear infinite;}
+@keyframes nuclear-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@media(prefers-reduced-motion:reduce){.nuclear-propeller{animation:none;}}
+
+/* ── SCREENS ── */
+.screen{display:none;animation:fadeIn .4s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── ACCUEIL ── */
+.home-hero{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow);}
+.home-hero h2{font-family:"Outfit",sans-serif;font-size:1.7rem;font-weight:800;color:var(--blue);margin-bottom:8px;}
+.home-hero .scenario{font-size:.98rem;line-height:1.7;color:#374151;max-width:600px;margin:0 auto 24px;}
+.home-hero .scenario strong{color:var(--orange);}
+
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+@media(max-width:560px){.mode-cards{grid-template-columns:1fr;}}
+.mode-card{background:#fff;border:2px solid var(--line);border-radius:var(--radius);padding:22px 18px;text-align:center;cursor:pointer;transition:all .2s ease;position:relative;overflow:hidden;}
+.mode-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 6px 20px rgba(45,95,138,.15);}
+.mode-card.orange:hover{border-color:var(--orange);}
+.mode-card .mode-icon{font-size:2.4rem;margin-bottom:10px;}
+.mode-card h3{font-family:"Outfit",sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:6px;}
+.mode-card.blue-card h3{color:var(--blue);}
+.mode-card.orange-card h3{color:var(--orange);}
+.mode-card p{font-size:.83rem;color:#5A6B7A;line-height:1.5;}
+.mode-card .badge-rooms{display:inline-block;font-size:.75rem;font-weight:700;background:var(--blue-light);color:var(--blue);border-radius:20px;padding:3px 10px;margin-top:8px;}
+.mode-card.orange-card .badge-rooms{background:var(--orange-light);color:var(--orange);}
+
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:"Nunito",sans-serif;font-size:.9rem;font-weight:700;padding:11px 22px;border-radius:999px;border:none;cursor:pointer;transition:all .15s ease;}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:#1e4466;}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-orange:hover{background:#c45f22;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#1f4f3e;}
+.btn-ghost{background:#f1efe6;color:#5A6B7A;border:1px solid var(--line);}
+.btn-ghost:hover{background:var(--line);}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-gold:hover{background:#b8870f;}
+.btn:disabled{opacity:.5;cursor:default;}
+
+/* ── GAME UI ── */
+.game-header{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow);}
+.game-title{font-family:"Outfit",sans-serif;font-size:1.05rem;font-weight:800;color:var(--blue);flex:1;}
+.timer-box{font-family:"Outfit",sans-serif;font-size:1.15rem;font-weight:800;color:#fff;background:var(--blue);border-radius:8px;padding:6px 14px;min-width:80px;text-align:center;}
+.timer-box.urgent{background:var(--red);animation:pulse .8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+.progress-bar{height:8px;background:var(--blue-light);border-radius:999px;overflow:hidden;margin-bottom:16px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));border-radius:999px;transition:width .5s ease;}
+
+/* ── ROOM CARD ── */
+.room-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.room-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9aa39d;margin-bottom:6px;}
+.room-card h2{font-family:"Outfit",sans-serif;font-size:1.2rem;font-weight:800;color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.room-card h2 .room-num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+.situation-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:10px 0;}
+.situation-table th,.situation-table td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+.situation-table th{background:var(--blue-light);color:var(--blue);font-weight:700;}
+
+.egame-select{font-family:"Nunito",sans-serif;font-size:.88rem;color:var(--ink);border:2px dashed var(--line);border-radius:6px;padding:5px 8px;background:#fdfcf9;cursor:pointer;transition:border-color .15s;}
+.egame-select:focus{outline:none;border-color:var(--blue);}
+.egame-select.ok{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green);font-weight:700;}
+.egame-select.ko{border-color:var(--red)!important;background:var(--red-light)!important;color:var(--red);font-weight:700;}
+
+.egame-input{font-family:"Nunito",sans-serif;font-size:.9rem;color:var(--ink);border:2px dashed var(--line);border-radius:8px;padding:8px 12px;background:#fdfcf9;width:100%;transition:border-color .15s;}
+.egame-input:focus{outline:none;border-color:var(--blue);background:#fff;}
+.egame-input.ok{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green);font-weight:700;}
+.egame-input.ko{border-color:var(--red)!important;background:var(--red-light)!important;color:var(--red);font-weight:700;}
+
+.code-display{font-family:"Outfit",sans-serif;font-size:2.2rem;font-weight:800;letter-spacing:.25em;text-align:center;color:var(--blue);background:var(--blue-light);border:2px solid var(--blue-mid);border-radius:10px;padding:14px;margin:16px 0;}
+.code-display.hidden-code{filter:blur(8px);cursor:pointer;transition:filter .3s;}
+.code-display.hidden-code:hover{filter:blur(4px);}
+.code-display.revealed{filter:none;}
+
+.nuc{display:inline-flex;align-items:center;font-weight:700;font-size:1em;vertical-align:middle;line-height:1;margin:0 .25em;}
+.nuc-az{display:inline-flex;flex-direction:column;align-items:flex-end;gap:1px;font-size:.58em;line-height:1.05;margin-right:.2em;}
+.nuc-sym{font-size:1.1em;flex-shrink:0;}
+
+.feedback{padding:10px 14px;border-radius:8px;font-size:.88rem;margin-top:10px;font-weight:600;display:none;}
+.feedback.show{display:block;}
+.feedback.good{background:var(--green-light);color:var(--green);border-left:4px solid var(--green);}
+.feedback.bad{background:var(--red-light);color:var(--red);border-left:4px solid var(--red);}
+.feedback.warn{background:var(--gold-light);color:#856404;border-left:4px solid var(--gold);}
+
+.hint-btn{font-size:.75rem;font-weight:700;color:var(--gold);background:var(--gold-light);border:1px solid var(--gold);border-radius:20px;padding:4px 12px;cursor:pointer;transition:all .15s;}
+.hint-btn:hover{background:var(--gold);color:#fff;}
+.hint-box{display:none;background:var(--gold-light);border-left:4px solid var(--gold);border-radius:6px;padding:10px 14px;margin-top:8px;font-size:.85rem;color:#5a4400;}
+.hint-box.show{display:block;}
+
+.actions-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;}
+
+.lock-icon{font-size:1.6rem;text-align:center;margin-bottom:8px;}
+.room-locked{background:#f8f7f3;border:2px dashed var(--line);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px;color:#94a3b8;}
+.room-locked p{font-size:.9rem;margin-top:6px;}
+
+/* ── ENIGME CODE ── */
+.code-inputs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+.code-digit{width:52px;height:56px;text-align:center;font-family:"Outfit",sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);background:#fff;border:2px solid var(--blue-mid);border-radius:8px;-moz-appearance:textfield;}
+.code-digit::-webkit-outer-spin-button,.code-digit::-webkit-inner-spin-button{-webkit-appearance:none;}
+.code-digit:focus{outline:none;border-color:var(--blue);background:var(--blue-light);}
+
+/* ── VICTOIRE ── */
+.victory-screen{background:#fff;border:2px solid var(--green);border-radius:var(--radius);padding:36px 28px;text-align:center;box-shadow:0 4px 24px rgba(47,111,94,.15);}
+.victory-screen h2{font-family:"Outfit",sans-serif;font-size:1.8rem;font-weight:800;color:var(--green);margin-bottom:12px;}
+.victory-trophy{font-size:4rem;margin-bottom:12px;animation:bounce 1.2s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.badge-expert{display:inline-block;background:linear-gradient(135deg,#facc15,#f59e0b);color:#1a1000;font-family:"Outfit",sans-serif;font-size:.85rem;font-weight:800;padding:8px 20px;border-radius:999px;box-shadow:0 2px 8px rgba(245,158,11,.3);margin:12px 0;}
+.stats-row{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:20px 0;}
+.stat-box{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 20px;text-align:center;}
+.stat-val{font-family:"Outfit",sans-serif;font-size:1.5rem;font-weight:800;color:var(--blue);}
+.stat-lab{font-size:.75rem;color:#5A6B7A;margin-top:2px;}
+
+/* ── CULTURE (BONUS) ── */
+.culture-card{background:#fff;border:2px solid var(--gold);border-radius:var(--radius);padding:20px 22px;margin-bottom:14px;box-shadow:0 2px 8px rgba(212,160,23,.1);}
+.culture-card h3{font-family:"Outfit",sans-serif;font-size:1rem;font-weight:800;color:#856404;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.culture-card p{font-size:.88rem;line-height:1.65;color:#374151;}
+.culture-card .portrait{font-size:2rem;margin-right:10px;vertical-align:middle;}
+
+.culture-q{margin-top:12px;}
+.culture-q p{font-size:.88rem;font-weight:600;margin-bottom:6px;}
+.culture-opts{display:flex;flex-direction:column;gap:6px;}
+.cult-opt{font-size:.85rem;padding:8px 14px;border-radius:8px;border:1.5px solid var(--line);background:#fdfcf9;cursor:pointer;text-align:left;transition:all .15s;font-family:"Nunito",sans-serif;}
+.cult-opt:hover{border-color:var(--gold);background:var(--gold-light);}
+.cult-opt.correct{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:700;}
+.cult-opt.wrong{background:var(--red-light);border-color:var(--red);color:var(--red);}
+
+/* ── MISC ── */
+.sep{border:none;border-top:1px solid var(--line);margin:18px 0;}
+.small-info{font-size:.8rem;color:#94a3b8;font-style:italic;}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:12px;padding:2px 9px;margin-right:4px;}
+.tag-blue{background:var(--blue-light);color:var(--blue);}
+.tag-orange{background:var(--orange-light);color:var(--orange);}
+.tag-green{background:var(--green-light);color:var(--green);}
+
+/* reactor animation */
+.reactor-anim{text-align:center;padding:10px 0;}
+.reactor-anim svg{max-width:260px;}
+
+@media(max-width:560px){
+  .header-titles h1{font-size:1.1rem;}
+  .code-display{font-size:1.6rem;letter-spacing:.15em;}
+  .game-title{font-size:.92rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+  <div class="header-top">
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;flex-shrink:0;">
+      <div class="header-badge">2<sup>nde</sup> – Séq. 09</div>
+    </div>
+    <div class="header-titles" style="flex:1;min-width:180px;">
+      <h1>⚛ Escape Game – Transformations nucléaires</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+    <div class="nuclear-icon">
+      <div class="nuclear-circle"></div>
+      <svg class="nuclear-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="nuclear-propeller" fill="#1e293b">
+          <path d="M50,50 L28,2 L72,2 Z"/>
+          <path d="M50,50 L28,2 L72,2 Z" transform="rotate(120 50 50)"/>
+          <path d="M50,50 L28,2 L72,2 Z" transform="rotate(240 50 50)"/>
+          <circle cx="50" cy="50" r="6" fill="#1e293b"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 0 — ACCUEIL
+═══════════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-home">
+
+  <div class="home-hero">
+    <div style="font-size:3rem;margin-bottom:10px;">🚨</div>
+    <h2>Opération ITER : La centrale en danger !</h2>
+    <p class="scenario">
+      Une <strong>alerte critique</strong> a été déclenchée dans la centrale nucléaire ITER-France.
+      Les systèmes de sécurité sont verrouillés par des codes scientifiques.<br><br>
+      Vous êtes une équipe d'<strong>expert·es en physique nucléaire</strong>. Résolvez les énigmes pour déverrouiller chaque salle et éviter la catastrophe.
+    </p>
+
+    <div class="mode-cards">
+      <div class="mode-card blue-card" onclick="startGame('short')">
+        <div class="mode-icon">⚡</div>
+        <h3>Mode Alerte — 15 min</h3>
+        <p>4 salles, questions directes, un code à trouver par salle. Pour un défi rapide et efficace.</p>
+        <div class="badge-rooms">4 salles · Chrono 15 min</div>
+      </div>
+      <div class="mode-card orange-card" onclick="startGame('long')">
+        <div class="mode-icon">🔬</div>
+        <h3>Mode Mission — 50 min</h3>
+        <p>7 salles, calculs, raisonnements complets. Pour maîtriser tous les concepts de la séquence.</p>
+        <div class="badge-rooms">7 salles · Chrono 50 min</div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;background:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:14px 18px;display:inline-block;max-width:440px;">
+      <p style="font-size:.88rem;color:#5a4400;">
+        ⭐ <strong>Pièce secrète bonus</strong> accessible après la victoire — Voyage dans l'histoire des pionniers du nucléaire !
+      </p>
+    </div>
+  </div>
+
+</div><!-- /screen-home -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 1 — MODE COURT (15 min, 4 salles)
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-short">
+
+  <div class="game-header">
+    <span style="font-size:1.4rem;">⚡</span>
+    <div class="game-title">Mode Alerte — 4 salles</div>
+    <div class="timer-box" id="timer-short">15:00</div>
+    <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;" onclick="confirmQuit()">✕ Quitter</button>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress-short" style="width:0%"></div></div>
+
+  <!-- SALLE S1 -->
+  <div class="room-card" id="s-room1">
+    <div class="room-label">Salle 1 / 4</div>
+    <h2><span class="room-num">S1</span> Salle des transformations</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Le panneau de contrôle affiche 5 situations. Identifiez la <strong>nature de chaque transformation</strong> pour obtenir le code.
+    </p>
+    <table class="situation-table">
+      <tr><th>Situation</th><th>Nature</th></tr>
+      <tr>
+        <td>L'eau liquide devient vapeur à 100 °C.</td>
+        <td><select class="egame-select" id="ss1a" data-ans="physique"><option value="">— choisir —</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>Du fer brûle dans du dioxygène → oxyde de fer.</td>
+        <td><select class="egame-select" id="ss1b" data-ans="chimique"><option value="">— choisir —</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>Un noyau de radium émet une particule alpha.</td>
+        <td><select class="egame-select" id="ss1c" data-ans="nucléaire"><option value="">— choisir —</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>La combustion du méthane libère CO₂ et H₂O.</td>
+        <td><select class="egame-select" id="ss1d" data-ans="chimique"><option value="">— choisir —</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>Deux noyaux de deutérium fusionnent dans le Soleil.</td>
+        <td><select class="egame-select" id="ss1e" data-ans="nucléaire"><option value="">— choisir —</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+    </table>
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkS1short()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-s1short')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-s1short">
+      Une transformation <strong>physique</strong> ne change pas la nature des molécules (ex : changement d'état). Une transformation <strong>chimique</strong> crée de nouvelles molécules (liaisons). Une transformation <strong>nucléaire</strong> modifie le noyau de l'atome lui-même.
+    </div>
+    <div class="feedback" id="fb-s1short"></div>
+  </div>
+
+  <!-- SALLE S2 -->
+  <div class="room-locked" id="s-room2-locked"><div class="lock-icon">🔒</div><p>Salle 2 verrouillée — Résolvez la salle 1</p></div>
+  <div class="room-card" id="s-room2" style="display:none">
+    <div class="room-label">Salle 2 / 4</div>
+    <h2><span class="room-num">S2</span> Chambre des isotopes</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Parmi ces 4 noyaux, identifiez ceux qui sont isotopes du carbone (<strong>Z = 6</strong>).
+    </p>
+    <table class="situation-table">
+      <tr><th>Noyau</th><th>Z</th><th>A</th><th>Isotope du C ?</th></tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span></td>
+        <td>6</td><td>12</td>
+        <td><select class="egame-select" id="ss2a" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>14</span><span>7</span></span><span class="nuc-sym">N</span></span></td>
+        <td>7</td><td>14</td>
+        <td><select class="egame-select" id="ss2b" data-ans="Non"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span></td>
+        <td>6</td><td>14</td>
+        <td><select class="egame-select" id="ss2c" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>16</span><span>8</span></span><span class="nuc-sym">O</span></span></td>
+        <td>8</td><td>16</td>
+        <td><select class="egame-select" id="ss2d" data-ans="Non"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+    </table>
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkS2short()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-s2short')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-s2short">Deux noyaux sont isotopes s'ils ont le <strong>même Z</strong> mais des A différents. Ici, cherchez ceux avec Z = 6.</div>
+    <div class="feedback" id="fb-s2short"></div>
+  </div>
+
+  <!-- SALLE S3 -->
+  <div class="room-locked" id="s-room3-locked"><div class="lock-icon">🔒</div><p>Salle 3 verrouillée — Résolvez la salle 2</p></div>
+  <div class="room-card" id="s-room3" style="display:none">
+    <div class="room-label">Salle 3 / 4</div>
+    <h2><span class="room-num">S3</span> Laboratoire nucléaire — Désintégration α</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Complétez A et Z du noyau fils dans la désintégration alpha du radium-226 (lois de Soddy).
+    </p>
+    <div style="font-size:1.1rem;text-align:center;line-height:3;margin:10px 0;background:var(--blue-light);border-radius:8px;padding:12px;">
+      <span class="nuc"><span class="nuc-az"><span>226</span><span>88</span></span><span class="nuc-sym">Ra</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc">
+        <span class="nuc-az">
+          <input type="number" class="code-digit" id="ss3A" placeholder="A" style="width:60px;font-size:.9rem;height:36px;">
+          <input type="number" class="code-digit" id="ss3Z" placeholder="Z" style="width:60px;font-size:.9rem;height:36px;">
+        </span>
+        <span class="nuc-sym">Rn</span>
+      </span>
+      &nbsp;+&nbsp;
+      <span class="nuc"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+    </div>
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkS3short()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-s3short')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-s3short">
+      Lois de Soddy : conservation de A et Z.<br>
+      A : 226 = A<sub>Rn</sub> + 4 → A<sub>Rn</sub> = ?<br>
+      Z : 88 = Z<sub>Rn</sub> + 2 → Z<sub>Rn</sub> = ?
+    </div>
+    <div class="feedback" id="fb-s3short"></div>
+  </div>
+
+  <!-- SALLE S4 -->
+  <div class="room-locked" id="s-room4-locked"><div class="lock-icon">🔒</div><p>Salle 4 verrouillée — Résolvez la salle 3</p></div>
+  <div class="room-card" id="s-room4" style="display:none">
+    <div class="room-label">Salle 4 / 4 — FINALE</div>
+    <h2><span class="room-num">S4</span> Réacteur central — Fission ou Fusion ?</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Identifiez le type de réaction nucléaire pour chaque situation. C'est le code final !
+    </p>
+    <table class="situation-table">
+      <tr><th>Réaction</th><th>Type</th></tr>
+      <tr>
+        <td>Un noyau d'²³⁵U absorbe un neutron et se scinde en Kr et Ba.</td>
+        <td><select class="egame-select" id="ss4a" data-ans="Fission"><option value="">— choisir —</option><option>Fission</option><option>Fusion</option><option>Désintégration α</option></select></td>
+      </tr>
+      <tr>
+        <td>Deux noyaux d'¹H fusionnent pour donner du ²H dans le Soleil.</td>
+        <td><select class="egame-select" id="ss4b" data-ans="Fusion"><option value="">— choisir —</option><option>Fission</option><option>Fusion</option><option>Désintégration α</option></select></td>
+      </tr>
+      <tr>
+        <td>Un noyau de radium ²²⁶Ra émet un noyau d'hélium ⁴He.</td>
+        <td><select class="egame-select" id="ss4c" data-ans="Désintégration α"><option value="">— choisir —</option><option>Fission</option><option>Fusion</option><option>Désintégration α</option></select></td>
+      </tr>
+      <tr>
+        <td>ITER (France) cherche à réaliser cette réaction sur Terre.</td>
+        <td><select class="egame-select" id="ss4d" data-ans="Fusion"><option value="">— choisir —</option><option>Fission</option><option>Fusion</option><option>Désintégration α</option></select></td>
+      </tr>
+    </table>
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkS4short()">📝 Vérifier &amp; Déverrouiller</button>
+      <button class="hint-btn" onclick="toggleHint('hint-s4short')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-s4short">
+      <strong>Fission</strong> : un gros noyau se scinde en deux. <strong>Fusion</strong> : deux petits noyaux s'assemblent (nécessite des millions de degrés). <strong>Désintégration α</strong> : un noyau père émet une particule ⁴He.
+    </div>
+    <div class="feedback" id="fb-s4short"></div>
+  </div>
+
+</div><!-- /screen-short -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 2 — MODE LONG (50 min, 7 salles)
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-long">
+
+  <div class="game-header">
+    <span style="font-size:1.4rem;">🔬</span>
+    <div class="game-title">Mode Mission — 7 salles</div>
+    <div class="timer-box" id="timer-long">50:00</div>
+    <button class="btn btn-ghost" style="font-size:.78rem;padding:6px 12px;" onclick="confirmQuit()">✕ Quitter</button>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress-long" style="width:0%"></div></div>
+
+  <!-- SALLE L1 -->
+  <div class="room-card" id="l-room1">
+    <div class="room-label">Salle 1 / 7 — Niveaux de danger : Vert</div>
+    <h2><span class="room-num">L1</span> Salle d'identification des transformations</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Le laboratoire de crise stocke 5 échantillons. Classez chaque transformation pour activer le premier verrou.
+    </p>
+    <table class="situation-table">
+      <tr><th>Description</th><th>Nature</th></tr>
+      <tr>
+        <td>La glace fond à 0 °C dans un bécher.</td>
+        <td><select class="egame-select" id="ls1a" data-ans="physique"><option value="">—</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>Le fer rouille : 4 Fe + 3 O₂ → 2 Fe₂O₃.</td>
+        <td><select class="egame-select" id="ls1b" data-ans="chimique"><option value="">—</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>Un noyau de cobalt-60 émet un rayonnement β⁻ et γ.</td>
+        <td><select class="egame-select" id="ls1c" data-ans="nucléaire"><option value="">—</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>La combustion du propane libère CO₂ et H₂O.</td>
+        <td><select class="egame-select" id="ls1d" data-ans="chimique"><option value="">—</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+      <tr>
+        <td>²³⁵U absorbe un neutron et libère deux fragments et 3 neutrons.</td>
+        <td><select class="egame-select" id="ls1e" data-ans="nucléaire"><option value="">—</option><option>physique</option><option>chimique</option><option>nucléaire</option></select></td>
+      </tr>
+    </table>
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL1()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l1')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l1">Physique = même molécules ; chimique = nouvelles liaisons chimiques ; nucléaire = le noyau lui-même est modifié. La radioactivité est toujours nucléaire.</div>
+    <div class="feedback" id="fb-l1"></div>
+  </div>
+
+  <!-- SALLE L2 -->
+  <div class="room-locked" id="l-room2-locked"><div class="lock-icon">🔒</div><p>Salle 2 verrouillée</p></div>
+  <div class="room-card" id="l-room2" style="display:none">
+    <div class="room-label">Salle 2 / 7 — Niveaux de danger : Vert</div>
+    <h2><span class="room-num">L2</span> Bibliothèque nucléaire — Isotopes</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Deux questions pour débloquer la salle des équations.
+    </p>
+
+    <p style="font-weight:700;font-size:.92rem;margin-bottom:8px;">Question A — Ces noyaux sont-ils des isotopes du chlore (Z = 17) ?</p>
+    <table class="situation-table">
+      <tr><th>Noyau</th><th>Z</th><th>A</th><th>Neutrons N</th><th>Isotope du Cl ?</th></tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>35</span><span>17</span></span><span class="nuc-sym">Cl</span></span></td>
+        <td>17</td><td>35</td><td>18</td>
+        <td><select class="egame-select" id="ls2a" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>37</span><span>17</span></span><span class="nuc-sym">Cl</span></span></td>
+        <td>17</td><td>37</td><td>20</td>
+        <td><select class="egame-select" id="ls2b" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td><span class="nuc"><span class="nuc-az"><span>40</span><span>18</span></span><span class="nuc-sym">Ar</span></span></td>
+        <td>18</td><td>40</td><td>22</td>
+        <td><select class="egame-select" id="ls2c" data-ans="Non"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+    <p style="font-weight:700;font-size:.92rem;margin-bottom:8px;">Question B — Propriétés des isotopes</p>
+    <p style="font-size:.88rem;margin-bottom:8px;">Les isotopes d'un même élément ont :</p>
+    <select class="egame-select" id="ls2d" data-ans="identiques chimiquement, différents physiquement" style="width:100%;margin-bottom:6px;">
+      <option value="">— Choisir la bonne affirmation —</option>
+      <option value="identiques chimiquement, différents physiquement">Des propriétés chimiques identiques mais des propriétés physiques différentes</option>
+      <option value="identiques physiquement">Des propriétés physiques identiques et chimiques identiques</option>
+      <option value="différents en Z">Des nombres de protons Z différents</option>
+    </select>
+
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL2()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l2')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l2">Les isotopes ont le même Z (même élément chimique) mais des A différents → même cortège électronique → mêmes propriétés chimiques. Masses différentes → propriétés physiques différentes.</div>
+    <div class="feedback" id="fb-l2"></div>
+  </div>
+
+  <!-- SALLE L3 -->
+  <div class="room-locked" id="l-room3-locked"><div class="lock-icon">🔒</div><p>Salle 3 verrouillée</p></div>
+  <div class="room-card" id="l-room3" style="display:none">
+    <div class="room-label">Salle 3 / 7 — Niveaux de danger : Jaune</div>
+    <h2><span class="room-num">L3</span> Salle des équations — Désintégration α</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Complétez A et Z de chaque noyau fils (lois de Soddy — conservation de A et Z).
+    </p>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Désintégration 1 : Polonium-210 → ? + ⁴He</p>
+    <div style="text-align:center;background:var(--blue-light);border-radius:8px;padding:12px;margin-bottom:12px;font-size:1rem;line-height:2.8;">
+      <span class="nuc"><span class="nuc-az"><span>210</span><span>84</span></span><span class="nuc-sym">Po</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc">
+        <span class="nuc-az">
+          <input type="number" class="code-digit" id="ll3A1" placeholder="A" style="width:58px;font-size:.85rem;height:34px;">
+          <input type="number" class="code-digit" id="ll3Z1" placeholder="Z" style="width:58px;font-size:.85rem;height:34px;">
+        </span>
+        <span class="nuc-sym">Pb</span>
+      </span>
+      &nbsp;+&nbsp;
+      <span class="nuc"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+    </div>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Désintégration 2 : Uranium-238 → ? + ⁴He</p>
+    <div style="text-align:center;background:var(--blue-light);border-radius:8px;padding:12px;margin-bottom:12px;font-size:1rem;line-height:2.8;">
+      <span class="nuc"><span class="nuc-az"><span>238</span><span>92</span></span><span class="nuc-sym">U</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc">
+        <span class="nuc-az">
+          <input type="number" class="code-digit" id="ll3A2" placeholder="A" style="width:58px;font-size:.85rem;height:34px;">
+          <input type="number" class="code-digit" id="ll3Z2" placeholder="Z" style="width:58px;font-size:.85rem;height:34px;">
+        </span>
+        <span class="nuc-sym">Th</span>
+      </span>
+      &nbsp;+&nbsp;
+      <span class="nuc"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+    </div>
+
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL3()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l3')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l3">
+      Lois de Soddy : A<sub>père</sub> = A<sub>fils</sub> + 4 et Z<sub>père</sub> = Z<sub>fils</sub> + 2.<br>
+      Donc A<sub>fils</sub> = A<sub>père</sub> − 4 et Z<sub>fils</sub> = Z<sub>père</sub> − 2.
+    </div>
+    <div class="feedback" id="fb-l3"></div>
+  </div>
+
+  <!-- SALLE L4 -->
+  <div class="room-locked" id="l-room4-locked"><div class="lock-icon">🔒</div><p>Salle 4 verrouillée</p></div>
+  <div class="room-card" id="l-room4" style="display:none">
+    <div class="room-label">Salle 4 / 7 — Niveaux de danger : Jaune</div>
+    <h2><span class="room-num">L4</span> Module β — Désintégration bêta</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Une désintégration β⁻ émet un électron <span class="nuc"><span class="nuc-az"><span>0</span><span>−1</span></span><span class="nuc-sym">e</span></span> (A = 0, Z = −1). Complétez l'équation.
+    </p>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Désintégration β⁻ du carbone-14 :</p>
+    <div style="text-align:center;background:var(--orange-light);border-radius:8px;padding:12px;margin-bottom:12px;font-size:1rem;line-height:2.8;border:1px solid #f0c0a0;">
+      <span class="nuc"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc">
+        <span class="nuc-az">
+          <input type="number" class="code-digit" id="ll4A1" placeholder="A" style="width:58px;font-size:.85rem;height:34px;">
+          <input type="number" class="code-digit" id="ll4Z1" placeholder="Z" style="width:58px;font-size:.85rem;height:34px;">
+        </span>
+        <span class="nuc-sym">N</span>
+      </span>
+      &nbsp;+&nbsp;
+      <span class="nuc"><span class="nuc-az"><span>0</span><span>−1</span></span><span class="nuc-sym">e</span></span>
+    </div>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:8px;">Quelle affirmation est vraie pour la désintégration β⁻ ?</p>
+    <select class="egame-select" id="ll4q2" data-ans="Z augmente de 1, A reste constant" style="width:100%;margin-bottom:8px;">
+      <option value="">— Choisir —</option>
+      <option value="Z augmente de 1, A reste constant">Z augmente de 1, A reste constant</option>
+      <option value="Z diminue de 2, A diminue de 4">Z diminue de 2, A diminue de 4</option>
+      <option value="A diminue de 1">A diminue de 1</option>
+    </select>
+
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL4()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l4')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l4">
+      En β⁻ : A<sub>fils</sub> = A<sub>père</sub> + 0 = A<sub>père</sub> (A ne change pas).<br>
+      Z<sub>fils</sub> = Z<sub>père</sub> − (−1) = Z<sub>père</sub> + 1 (Z augmente d'une unité).
+    </div>
+    <div class="feedback" id="fb-l4"></div>
+  </div>
+
+  <!-- SALLE L5 -->
+  <div class="room-locked" id="l-room5-locked"><div class="lock-icon">🔒</div><p>Salle 5 verrouillée</p></div>
+  <div class="room-card" id="l-room5" style="display:none">
+    <div class="room-label">Salle 5 / 7 — Niveaux de danger : Orange</div>
+    <h2><span class="room-num">L5</span> Cœur du réacteur — Fission en chaîne</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Vérifiez et analysez la fission de l'uranium-235.
+    </p>
+
+    <div style="background:var(--blue-light);border-radius:8px;padding:14px;text-align:center;font-size:1rem;line-height:2.8;margin-bottom:14px;">
+      <span class="nuc"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      + <span class="nuc"><span class="nuc-az"><span>235</span><span>92</span></span><span class="nuc-sym">U</span></span>
+      → <span class="nuc"><span class="nuc-az"><span>94</span><span>38</span></span><span class="nuc-sym">Sr</span></span>
+      + <span class="nuc"><span class="nuc-az"><span>139</span><span>54</span></span><span class="nuc-sym">Xe</span></span>
+      + 3 <span class="nuc"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+    </div>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Vérification des lois de Soddy :</p>
+    <table class="situation-table">
+      <tr><th>Grandeur</th><th>Gauche</th><th>Droite</th><th>Égaux ?</th></tr>
+      <tr>
+        <td>Somme des A</td>
+        <td><select class="egame-select" id="ls5a" data-ans="236"><option value="">?</option><option>233</option><option>235</option><option>236</option></select></td>
+        <td><select class="egame-select" id="ls5b" data-ans="236"><option value="">?</option><option>233</option><option>235</option><option>236</option></select></td>
+        <td><select class="egame-select" id="ls5c" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+      <tr>
+        <td>Somme des Z</td>
+        <td><select class="egame-select" id="ls5d" data-ans="92"><option value="">?</option><option>90</option><option>92</option><option>94</option></select></td>
+        <td><select class="egame-select" id="ls5e" data-ans="92"><option value="">?</option><option>90</option><option>92</option><option>94</option></select></td>
+        <td><select class="egame-select" id="ls5f" data-ans="Oui"><option value="">?</option><option>Oui</option><option>Non</option></select></td>
+      </tr>
+    </table>
+
+    <hr class="sep">
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Facteur de multiplication k</p>
+    <p style="font-size:.88rem;margin-bottom:8px;">Si chaque fission libère 3 neutrons mais que seulement 1,2 en moyenne déclenche une nouvelle fission, alors k = 1,2. La réaction est :</p>
+    <select class="egame-select" id="ls5g" data-ans="sur-critique : la réaction s'emballe" style="width:100%;">
+      <option value="">— Choisir —</option>
+      <option value="sous-critique : la réaction s'éteint">Sous-critique : la réaction s'éteint (k &lt; 1)</option>
+      <option value="critique : la réaction est stable">Critique : la réaction est stable (k = 1)</option>
+      <option value="sur-critique : la réaction s'emballe">Sur-critique : la réaction s'emballe (k &gt; 1)</option>
+    </select>
+
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL5()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l5')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l5">
+      A à gauche : 1 + 235 = 236. A à droite : 94 + 139 + 3×1 = 236.<br>
+      Z à gauche : 0 + 92 = 92. Z à droite : 38 + 54 + 3×0 = 92.<br>
+      k = 1,2 > 1 → réaction sur-critique → emballement.
+    </div>
+    <div class="feedback" id="fb-l5"></div>
+  </div>
+
+  <!-- SALLE L6 -->
+  <div class="room-locked" id="l-room6-locked"><div class="lock-icon">🔒</div><p>Salle 6 verrouillée</p></div>
+  <div class="room-card" id="l-room6" style="display:none">
+    <div class="room-label">Salle 6 / 7 — Niveaux de danger : Orange</div>
+    <h2><span class="room-num">L6</span> Module solaire — Fusion nucléaire</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Analysez la fusion dans le Soleil et calculez l'énergie libérée.
+    </p>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Complétez l'équation de fusion :</p>
+    <div style="text-align:center;background:var(--orange-light);border-radius:8px;padding:12px;font-size:1rem;line-height:2.8;border:1px solid #f0c0a0;margin-bottom:14px;">
+      <span class="nuc"><span class="nuc-az"><span>2</span><span>1</span></span><span class="nuc-sym">H</span></span>
+      + <span class="nuc"><span class="nuc-az"><span>3</span><span>1</span></span><span class="nuc-sym">H</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc">
+        <span class="nuc-az">
+          <input type="number" class="code-digit" id="ll6A" placeholder="A" style="width:58px;font-size:.85rem;height:34px;">
+          <input type="number" class="code-digit" id="ll6Z" placeholder="Z" style="width:58px;font-size:.85rem;height:34px;">
+        </span>
+        <span class="nuc-sym">He</span>
+      </span>
+      &nbsp;+&nbsp;
+      <span class="nuc"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+    </div>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">Calcul d'énergie libérée :</p>
+    <div style="background:#f8f6f1;border-radius:8px;padding:12px;margin-bottom:10px;font-size:.88rem;line-height:1.7;">
+      La réaction de fusion deutérium-tritium s'accompagne d'un défaut de masse |Δm| = 3,1 × 10⁻²⁹ kg.<br>
+      Calculer l'énergie libérée E = |Δm| × c² avec c = 3,00 × 10⁸ m·s⁻¹.
+    </div>
+    <p style="font-size:.88rem;margin-bottom:6px;">E = 3,1 × 10⁻²⁹ × (3,00 × 10⁸)² = ?</p>
+    <select class="egame-select" id="ll6E" data-ans="2,79 × 10⁻¹² J" style="width:100%;margin-bottom:8px;">
+      <option value="">— Choisir le résultat —</option>
+      <option value="2,79 × 10⁻¹² J">2,79 × 10⁻¹² J</option>
+      <option value="2,79 × 10⁻¹¹ J">2,79 × 10⁻¹¹ J</option>
+      <option value="9,3 × 10⁻²⁹ J">9,3 × 10⁻²⁹ J</option>
+    </select>
+
+    <p style="font-weight:700;font-size:.9rem;margin-bottom:6px;">La fusion nécessite des températures de plusieurs millions de degrés. Où cette condition est-elle naturellement réalisée ?</p>
+    <select class="egame-select" id="ll6loc" data-ans="Dans les étoiles (ex : le Soleil)" style="width:100%;margin-bottom:8px;">
+      <option value="">— Choisir —</option>
+      <option value="Dans les étoiles (ex : le Soleil)">Dans les étoiles (ex : le Soleil)</option>
+      <option value="Dans les centrales nucléaires actuelles">Dans les centrales nucléaires actuelles</option>
+      <option value="Dans les réacteurs CANDU">Dans les réacteurs CANDU</option>
+    </select>
+
+    <div class="actions-row">
+      <button class="btn btn-blue" onclick="checkL6()">📝 Vérifier</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l6')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l6">
+      Fusion D-T : A = 2+3 = 5, Z = 1+1 = 2 → ⁴He + ¹n → A<sub>He</sub> = 5−1 = 4, Z<sub>He</sub> = 2−0 = 2.<br>
+      E = 3,1×10⁻²⁹ × 9×10¹⁶ = 27,9×10⁻¹³ = 2,79×10⁻¹² J.
+    </div>
+    <div class="feedback" id="fb-l6"></div>
+  </div>
+
+  <!-- SALLE L7 -->
+  <div class="room-locked" id="l-room7-locked"><div class="lock-icon">🔒</div><p>Salle 7 verrouillée — Salle finale !</p></div>
+  <div class="room-card" id="l-room7" style="display:none">
+    <div class="room-label">Salle 7 / 7 — FINALE — Niveaux de danger : ROUGE</div>
+    <h2><span class="room-num">L7</span> Salle de contrôle — Centrale nucléaire</h2>
+    <p style="font-size:.9rem;margin-bottom:14px;color:#374151;">
+      🔐 Dernière étape ! Répondez aux 5 questions sur le fonctionnement d'une centrale pour déverrouiller le réacteur.
+    </p>
+
+    <p style="font-weight:700;font-size:.88rem;margin-bottom:6px;">1. L'uranium naturel contient seulement 0,7 % d'²³⁵U fissile. Quelle opération augmente cette proportion ?</p>
+    <select class="egame-select" id="ll7q1" data-ans="L'enrichissement isotopique" style="width:100%;margin-bottom:10px;">
+      <option value="">— Choisir —</option>
+      <option>Le raffinage chimique</option>
+      <option>L'enrichissement isotopique</option>
+      <option>Le retraitement des déchets</option>
+    </select>
+
+    <p style="font-weight:700;font-size:.88rem;margin-bottom:6px;">2. La fission dans le cœur du réacteur libère de l'énergie sous forme de :</p>
+    <select class="egame-select" id="ll7q2" data-ans="Chaleur (énergie thermique)" style="width:100%;margin-bottom:10px;">
+      <option value="">— Choisir —</option>
+      <option>Lumière visible</option>
+      <option>Chaleur (énergie thermique)</option>
+      <option>Électricité directement</option>
+    </select>
+
+    <p style="font-weight:700;font-size:.88rem;margin-bottom:6px;">3. Cette énergie est convertie en électricité grâce à :</p>
+    <select class="egame-select" id="ll7q3" data-ans="Une turbine couplée à un alternateur" style="width:100%;margin-bottom:10px;">
+      <option value="">— Choisir —</option>
+      <option>Des panneaux photovoltaïques</option>
+      <option>Une turbine couplée à un alternateur</option>
+      <option>Une pile à combustible</option>
+    </select>
+
+    <p style="font-weight:700;font-size:.88rem;margin-bottom:6px;">4. Les fragments de fission (Sr, Xe, Kr…) constituent :</p>
+    <select class="egame-select" id="ll7q4" data-ans="Des déchets radioactifs à haute activité" style="width:100%;margin-bottom:10px;">
+      <option value="">— Choisir —</option>
+      <option>Des déchets radioactifs à haute activité</option>
+      <option>Des cendres inertes</option>
+      <option>Des isotopes stables réutilisables</option>
+    </select>
+
+    <p style="font-weight:700;font-size:.88rem;margin-bottom:6px;">5. Quel projet international vise à maîtriser la fusion nucléaire sur Terre ?</p>
+    <select class="egame-select" id="ll7q5" data-ans="ITER" style="width:100%;margin-bottom:10px;">
+      <option value="">— Choisir —</option>
+      <option>CERN</option>
+      <option>ITER</option>
+      <option>NASA</option>
+    </select>
+
+    <div class="actions-row">
+      <button class="btn btn-orange" onclick="checkL7()">🔓 Déverrouiller le réacteur !</button>
+      <button class="hint-btn" onclick="toggleHint('hint-l7')">💡 Indice</button>
+    </div>
+    <div class="hint-box" id="hint-l7">
+      Souvenez-vous du cours : l'enrichissement isotopique par centrifugation gazeuse, la turbine-alternateur, les déchets à haute activité, et le projet ITER en France (Cadarache) + international.
+    </div>
+    <div class="feedback" id="fb-l7"></div>
+  </div>
+
+</div><!-- /screen-long -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 3 — VICTOIRE (court)
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-win-short">
+  <div class="victory-screen">
+    <div class="victory-trophy">🏆</div>
+    <h2>Mission accomplie !</h2>
+    <div class="badge-expert">⭐ Badge Expert·e Nucléaire — Mode Alerte</div>
+    <p style="font-size:.92rem;color:#374151;margin:14px 0;">Vous avez déverrouillé tous les systèmes de sécurité en <strong id="win-short-time">—</strong>. La centrale est sauvée !</p>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-val" id="ws-score">4/4</div><div class="stat-lab">Salles résolues</div></div>
+      <div class="stat-box"><div class="stat-val" id="ws-time">—</div><div class="stat-lab">Temps restant</div></div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-gold" onclick="goBonus()">⭐ Pièce secrète bonus</button>
+      <button class="btn btn-ghost" onclick="goHome()">🏠 Accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 4 — VICTOIRE (long)
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-win-long">
+  <div class="victory-screen">
+    <div class="victory-trophy">🏆</div>
+    <h2>Mission ITER réussie !</h2>
+    <div class="badge-expert">⭐ Badge Expert·e Nucléaire — Mode Mission</div>
+    <p style="font-size:.92rem;color:#374151;margin:14px 0;">Les 7 salles sont déverrouillées. La centrale est stabilisée en <strong id="win-long-time">—</strong>.</p>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-val" id="wl-score">7/7</div><div class="stat-lab">Salles résolues</div></div>
+      <div class="stat-box"><div class="stat-val" id="wl-time">—</div><div class="stat-lab">Temps restant</div></div>
+    </div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-gold" onclick="goBonus()">⭐ Pièce secrète bonus</button>
+      <button class="btn btn-ghost" onclick="goHome()">🏠 Accueil</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 5 — TEMPS ÉCOULÉ
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-timeout">
+  <div class="victory-screen" style="border-color:var(--red);">
+    <div style="font-size:4rem;margin-bottom:10px;">⏰</div>
+    <h2 style="color:var(--red);">Temps écoulé !</h2>
+    <p style="font-size:.92rem;color:#374151;margin:14px 0;">La centrale n'a pas été stabilisée à temps. Retentez votre chance !</p>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-blue" onclick="goHome()">🔄 Recommencer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ÉCRAN 6 — PIÈCE SECRÈTE BONUS : CULTURE
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-bonus">
+
+  <div style="background:linear-gradient(135deg,#fdf3d0,#fff8e1);border:2px solid var(--gold);border-radius:var(--radius);padding:22px;text-align:center;margin-bottom:20px;box-shadow:0 4px 16px rgba(212,160,23,.12);">
+    <div style="font-size:2.8rem;margin-bottom:8px;">🌟</div>
+    <h2 style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:#856404;margin-bottom:8px;">Pièce secrète — Panthéon des pionniers</h2>
+    <p style="font-size:.88rem;color:#5a4400;max-width:500px;margin:0 auto;">Un voyage dans l'histoire des scientifiques qui ont révolutionné notre compréhension du noyau atomique.</p>
+  </div>
+
+  <!-- FICHE 1 : Becquerel -->
+  <div class="culture-card">
+    <h3>☢ <span class="portrait">🧪</span> Henri Becquerel (1852–1908)</h3>
+    <p>
+      En <strong>1896</strong>, Henri Becquerel découvre par hasard que des sels d'uranium impressionnent une plaque photographique sans exposition à la lumière. Il vient de découvrir la <strong>radioactivité naturelle</strong>. Cette observation, faite dans son laboratoire parisien, ouvre une nouvelle ère de la physique. Il reçoit le <strong>prix Nobel de physique en 1903</strong>, partagé avec Pierre et Marie Curie.
+    </p>
+    <div class="culture-q">
+      <p>📝 En quelle année Becquerel a-t-il découvert la radioactivité ?</p>
+      <div class="culture-opts" id="cq1">
+        <button class="cult-opt" onclick="answerCult(this,'cq1','1896')">1889</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq1','1896')">1896</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq1','1896')">1903</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq1','1896')">1911</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHE 2 : Marie Curie -->
+  <div class="culture-card">
+    <h3>⚗ <span class="portrait">👩‍🔬</span> Marie Curie (1867–1934)</h3>
+    <p>
+      Première femme à obtenir un doctorat en France (1903), première personne à obtenir <strong>deux prix Nobel</strong> dans deux disciplines différentes (physique en 1903, chimie en 1911). Avec Pierre Curie, elle isole le <strong>polonium</strong> (nommé d'après sa Pologne natale) et le <strong>radium</strong>. Elle crée le terme "radioactivité" et démontre que c'est une propriété de l'atome lui-même, indépendante de sa forme chimique. Elle dirige les ambulances radiologiques (« petites Curies ») pendant la Première Guerre mondiale.
+    </p>
+    <div class="culture-q">
+      <p>📝 Quel élément Marie Curie a-t-elle nommé d'après son pays natal ?</p>
+      <div class="culture-opts" id="cq2">
+        <button class="cult-opt" onclick="answerCult(this,'cq2','polonium')">Radium</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq2','polonium')">Curium</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq2','polonium')">Polonium</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq2','polonium')">Uranium</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHE 3 : Hahn & Meitner -->
+  <div class="culture-card">
+    <h3>💥 <span class="portrait">🔬</span> Otto Hahn & Lise Meitner</h3>
+    <p>
+      En <strong>1938</strong>, Otto Hahn et Fritz Strassmann bombardent de l'uranium avec des neutrons et observent la formation de baryum — un noyau beaucoup plus léger. C'est <strong>Lise Meitner</strong> et son neveu Otto Frisch qui interprètent ce résultat : le noyau d'uranium s'est <strong>scindé</strong> en deux fragments. Ils inventent le terme "fission" (du latin <em>fissio</em> : fente). Lise Meitner, juive autrichienne réfugiée en Suède à cause du nazisme, ne reçut pas le prix Nobel en 1944, attribué à Hahn seul — une des grandes injustices de l'histoire des sciences.
+    </p>
+    <div class="culture-q">
+      <p>📝 Qui a interprété théoriquement la fission nucléaire mais n'a pas reçu le Nobel ?</p>
+      <div class="culture-opts" id="cq3">
+        <button class="cult-opt" onclick="answerCult(this,'cq3','lise meitner')">Otto Hahn</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq3','lise meitner')">Fritz Strassmann</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq3','lise meitner')">Lise Meitner</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq3','lise meitner')">Enrico Fermi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHE 4 : ITER -->
+  <div class="culture-card">
+    <h3>🌍 <span class="portrait">⚛</span> ITER — Rêve de fusion</h3>
+    <p>
+      ITER (International Thermonuclear Experimental Reactor) est le plus grand projet scientifique de l'humanité. Il est en construction à <strong>Cadarache (France)</strong>, dans les Bouches-du-Rhône. Regroupant 35 nations (dont l'UE, la Chine, l'Inde, le Japon, la Corée du Sud, la Russie, les États-Unis), ITER vise à démontrer que la <strong>fusion deutérium-tritium</strong> peut produire plus d'énergie qu'elle n'en consomme. Le plasma y sera porté à <strong>150 millions de degrés</strong> — dix fois plus chaud que le centre du Soleil ! Le Laser Mégajoule, près de Bordeaux, explore une autre voie : la fusion par confinement inertiel.
+    </p>
+    <div class="culture-q">
+      <p>📝 Où est construit le réacteur ITER ?</p>
+      <div class="culture-opts" id="cq4">
+        <button class="cult-opt" onclick="answerCult(this,'cq4','cadarache')">Saclay (Île-de-France)</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq4','cadarache')">Cadarache (Bouches-du-Rhône)</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq4','cadarache')">Genève (Suisse)</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq4','cadarache')">Bordeaux (Gironde)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHE 5 : le Soleil -->
+  <div class="culture-card">
+    <h3>☀ <span class="portrait">🌞</span> Le Soleil, réacteur nucléaire naturel</h3>
+    <p>
+      Notre Soleil fusionne environ <strong>600 millions de tonnes d'hydrogène par seconde</strong> en hélium. Cette fusion libère une quantité colossale d'énergie grâce à la relation E = mc². Le Soleil a déjà consommé la moitié de son hydrogène et brillera encore environ <strong>5 milliards d'années</strong>. La lumière met 8 minutes pour nous parvenir depuis sa surface, mais les photons produits au cœur peuvent mettre des <em>millions d'années</em> pour traverser les couches solaires avant d'être émis !
+    </p>
+    <div class="culture-q">
+      <p>📝 Combien de temps met la lumière pour aller du Soleil à la Terre ?</p>
+      <div class="culture-opts" id="cq5">
+        <button class="cult-opt" onclick="answerCult(this,'cq5','8 minutes')">1 heure 20</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq5','8 minutes')">8 minutes</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq5','8 minutes')">4 ans</button>
+        <button class="cult-opt" onclick="answerCult(this,'cq5','8 minutes')">30 secondes</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:16px 20px;text-align:center;margin:20px 0;">
+    <div style="font-size:2rem;margin-bottom:6px;">🎓</div>
+    <p style="font-family:'Outfit',sans-serif;font-weight:800;color:#856404;font-size:1rem;">Quiz culture terminé !</p>
+    <p style="font-size:.85rem;color:#5a4400;margin-top:4px;">Score : <span id="bonus-score">0</span> / 5 bonnes réponses</p>
+    <div id="bonus-badge" style="display:none;margin-top:10px;">
+      <div class="badge-expert">🌟 Historien·ne du nucléaire — Badge débloqué !</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+    <button class="btn btn-ghost" onclick="goHome()">🏠 Retour à l'accueil</button>
+  </div>
+
+</div><!-- /screen-bonus -->
+
+</div><!-- /wrap -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+// ÉTAT GLOBAL
+// ═══════════════════════════════════════════════════════
+let currentMode = null;
+let timerInterval = null;
+let secondsLeft = 0;
+let shortRoomsUnlocked = 1;
+let longRoomsUnlocked  = 1;
+let bonusScore = 0;
+let bonusAnswered = {};
+let startTime = null;
+
+// ── NAVIGATION ──
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){
+  stopTimer();
+  showScreen('screen-home');
+  resetAll();
+}
+function goBonus(){
+  showScreen('screen-bonus');
+}
+function confirmQuit(){
+  if(confirm('Quitter la partie en cours ?')) goHome();
+}
+
+// ── TIMER ──
+function startTimer(seconds, displayId){
+  stopTimer();
+  secondsLeft = seconds;
+  startTime = seconds;
+  updateTimerDisplay(displayId);
+  timerInterval = setInterval(()=>{
+    secondsLeft--;
+    updateTimerDisplay(displayId);
+    if(secondsLeft <= 60){
+      document.getElementById(displayId).classList.add('urgent');
+    }
+    if(secondsLeft <= 0){
+      stopTimer();
+      showScreen('screen-timeout');
+    }
+  }, 1000);
+}
+function stopTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+}
+function updateTimerDisplay(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const m = Math.floor(secondsLeft/60);
+  const s = secondsLeft % 60;
+  el.textContent = m+':'+(s<10?'0':'')+s;
+}
+function timeRemaining(){
+  const m = Math.floor(secondsLeft/60);
+  const s = secondsLeft % 60;
+  return m+'min '+(s<10?'0':'')+s+'s';
+}
+function elapsedTime(){
+  const elapsed = startTime - secondsLeft;
+  const m = Math.floor(elapsed/60);
+  const s = elapsed % 60;
+  return m+'min '+(s<10?'0':'')+s+'s';
+}
+
+// ── START ──
+function startGame(mode){
+  resetAll();
+  currentMode = mode;
+  if(mode === 'short'){
+    showScreen('screen-short');
+    startTimer(900, 'timer-short');
+  } else {
+    showScreen('screen-long');
+    startTimer(3000, 'timer-long');
+  }
+}
+
+function resetAll(){
+  // short
+  shortRoomsUnlocked = 1;
+  ['s-room2','s-room3','s-room4'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.style.display='none'; }
+  });
+  ['s-room2-locked','s-room3-locked','s-room4-locked'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.style.display='block'; }
+  });
+  // long
+  longRoomsUnlocked = 1;
+  for(let i=2;i<=7;i++){
+    const el = document.getElementById('l-room'+i);
+    const lk = document.getElementById('l-room'+i+'-locked');
+    if(el) el.style.display='none';
+    if(lk) lk.style.display='block';
+  }
+  // progress
+  setProgress('progress-short',0);
+  setProgress('progress-long',0);
+  // timer display
+  document.getElementById('timer-short').classList.remove('urgent');
+  document.getElementById('timer-long').classList.remove('urgent');
+  // feedbacks + inputs
+  document.querySelectorAll('.feedback').forEach(f=>{f.style.display='none';f.className='feedback';});
+  document.querySelectorAll('.egame-select').forEach(s=>{s.value='';s.className='egame-select';});
+  document.querySelectorAll('.egame-input').forEach(i=>{i.value='';i.className='egame-input';});
+  document.querySelectorAll('.code-digit').forEach(i=>{i.value='';});
+  document.querySelectorAll('.hint-box').forEach(h=>h.classList.remove('show'));
+}
+
+function setProgress(id, pct){
+  const el = document.getElementById(id);
+  if(el) el.style.width = pct+'%';
+}
+
+// ── HINTS ──
+function toggleHint(id){
+  const el = document.getElementById(id);
+  if(el) el.classList.toggle('show');
+}
+
+// ── HELPERS ──
+function showFeedback(id, type, msg){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.className = 'feedback show '+type;
+  el.innerHTML = msg;
+  el.style.display = 'block';
+}
+
+function checkSelects(ids, answers){
+  let ok = true;
+  ids.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const val = el.value.toLowerCase().trim();
+    const ans = answers[i].toLowerCase().trim();
+    if(val === ans){ el.classList.add('ok'); el.classList.remove('ko'); }
+    else { el.classList.add('ko'); el.classList.remove('ok'); ok=false; }
+  });
+  return ok;
+}
+
+function checkInputs(ids, answers){
+  let ok = true;
+  ids.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const val = el.value.trim();
+    if(parseInt(val) === parseInt(answers[i])){ el.classList.add('ok'); el.classList.remove('ko'); }
+    else { el.classList.add('ko'); el.classList.remove('ok'); ok=false; }
+  });
+  return ok;
+}
+
+function unlockShortRoom(n){
+  shortRoomsUnlocked = n;
+  const lock = document.getElementById('s-room'+n+'-locked');
+  const room = document.getElementById('s-room'+n);
+  if(lock){ lock.style.display='none'; }
+  if(room){ room.style.display='block'; setTimeout(()=>room.scrollIntoView({behavior:'smooth',block:'start'}),300); }
+  setProgress('progress-short', Math.round((n-1)/4*100));
+}
+
+function unlockLongRoom(n){
+  longRoomsUnlocked = n;
+  const lock = document.getElementById('l-room'+n+'-locked');
+  const room = document.getElementById('l-room'+n);
+  if(lock){ lock.style.display='none'; }
+  if(room){ room.style.display='block'; setTimeout(()=>room.scrollIntoView({behavior:'smooth',block:'start'}),300); }
+  setProgress('progress-long', Math.round((n-1)/7*100));
+}
+
+// ═══════════════════════════════════════════════════════
+// SALLES COURTES
+// ═══════════════════════════════════════════════════════
+
+function checkS1short(){
+  const ok = checkSelects(['ss1a','ss1b','ss1c','ss1d','ss1e'],['physique','chimique','nucléaire','chimique','nucléaire']);
+  if(ok){
+    showFeedback('fb-s1short','good','✔ Parfait ! Verrou 1 débloqué. La salle 2 est accessible.');
+    unlockShortRoom(2);
+  } else {
+    showFeedback('fb-s1short','bad','✗ Certaines réponses sont incorrectes. Vérifiez : physique = changement d\'état, chimique = nouvelles molécules, nucléaire = noyau modifié.');
+  }
+}
+
+function checkS2short(){
+  const ok = checkSelects(['ss2a','ss2b','ss2c','ss2d'],['Oui','Non','Oui','Non']);
+  if(ok){
+    showFeedback('fb-s2short','good','✔ Excellent ! ¹²C et ¹⁴C ont Z=6 : ce sont des isotopes du carbone. Verrou 2 débloqué !');
+    unlockShortRoom(3);
+  } else {
+    showFeedback('fb-s2short','bad','✗ Rappel : isotopes = même Z. Cherchez ceux avec Z = 6.');
+  }
+}
+
+function checkS3short(){
+  const okA = checkInputs(['ss3A'],[222]);
+  const okZ = checkInputs(['ss3Z'],[86]);
+  if(okA && okZ){
+    showFeedback('fb-s3short','good','✔ Correct ! A(Rn) = 226−4 = 222 et Z(Rn) = 88−2 = 86. Verrou 3 débloqué !');
+    unlockShortRoom(4);
+  } else {
+    showFeedback('fb-s3short','bad','✗ Vérifiez : conservation de A → 226 = A + 4 ; conservation de Z → 88 = Z + 2.');
+  }
+}
+
+function checkS4short(){
+  const ok = checkSelects(['ss4a','ss4b','ss4c','ss4d'],['Fission','Fusion','Désintégration α','Fusion']);
+  if(ok){
+    stopTimer();
+    const remaining = timeRemaining();
+    const elapsed = elapsedTime();
+    document.getElementById('win-short-time').textContent = elapsed;
+    document.getElementById('ws-time').textContent = remaining;
+    showFeedback('fb-s4short','good','✔ Toutes les salles sont déverrouillées !');
+    setProgress('progress-short',100);
+    setTimeout(()=>showScreen('screen-win-short'),1000);
+  } else {
+    showFeedback('fb-s4short','bad','✗ Revoyez les définitions : fission (noyau lourd scindé), fusion (noyaux légers assemblés), désintégration α (émission ⁴He).');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// SALLES LONGUES
+// ═══════════════════════════════════════════════════════
+
+function checkL1(){
+  const ok = checkSelects(['ls1a','ls1b','ls1c','ls1d','ls1e'],['physique','chimique','nucléaire','chimique','nucléaire']);
+  if(ok){
+    showFeedback('fb-l1','good','✔ Parfait ! Nature des transformations maîtrisée. Salle 2 débloquée.');
+    unlockLongRoom(2);
+  } else {
+    showFeedback('fb-l1','bad','✗ Revoyez : physique = molécules inchangées ; chimique = nouvelles liaisons ; nucléaire = noyau modifié. La radioactivité β est nucléaire.');
+  }
+}
+
+function checkL2(){
+  const ok1 = checkSelects(['ls2a','ls2b','ls2c'],['Oui','Oui','Non']);
+  const ok2 = checkSelects(['ls2d'],['identiques chimiquement, différents physiquement']);
+  if(ok1 && ok2){
+    showFeedback('fb-l2','good','✔ Exact ! ³⁵Cl et ³⁷Cl ont Z=17 : isotopes du chlore. ⁴⁰Ar a Z=18 : c\'est l\'argon. Salle 3 débloquée.');
+    unlockLongRoom(3);
+  } else {
+    showFeedback('fb-l2','bad','✗ Vérifiez : isotopes = même Z (même élément). Les propriétés chimiques dépendent de Z (cortège électronique), pas de A.');
+  }
+}
+
+function checkL3(){
+  const ok1 = checkInputs(['ll3A1','ll3Z1'],[206,82]);
+  const ok2 = checkInputs(['ll3A2','ll3Z2'],[234,90]);
+  if(ok1 && ok2){
+    showFeedback('fb-l3','good','✔ Bravo ! Po-210 → Pb-206 (A=210−4=206, Z=84−2=82) et U-238 → Th-234 (A=238−4=234, Z=92−2=90). Salle 4 débloquée !');
+    unlockLongRoom(4);
+  } else {
+    showFeedback('fb-l3','bad','✗ Rappel lois de Soddy : A<sub>fils</sub> = A<sub>père</sub> − 4 et Z<sub>fils</sub> = Z<sub>père</sub> − 2 pour une désintégration α.');
+  }
+}
+
+function checkL4(){
+  const okA = checkInputs(['ll4A1'],[14]);
+  const okZ = checkInputs(['ll4Z1'],[7]);
+  const ok2 = checkSelects(['ll4q2'],['Z augmente de 1, A reste constant']);
+  if(okA && okZ && ok2){
+    showFeedback('fb-l4','good','✔ Correct ! En β⁻ : A reste identique (14), Z augmente de 1 (6→7 : le carbone devient de l\'azote ¹⁴N). Salle 5 débloquée !');
+    unlockLongRoom(5);
+  } else {
+    showFeedback('fb-l4','bad','✗ En β⁻ : un neutron se transforme en proton → Z+1, A inchangé. ¹⁴C → ¹⁴N.');
+  }
+}
+
+function checkL5(){
+  const ok = checkSelects(['ls5a','ls5b','ls5c','ls5d','ls5e','ls5f','ls5g'],[
+    '236','236','Oui','92','92','Oui','sur-critique : la réaction s\'emballe'
+  ]);
+  if(ok){
+    showFeedback('fb-l5','good','✔ Parfait ! A conservé (236=236) et Z conservé (92=92). Avec k=1,2>1 la réaction est sur-critique. Salle 6 débloquée !');
+    unlockLongRoom(6);
+  } else {
+    showFeedback('fb-l5','bad','✗ Vérifiez le décompte : A gauche = 1+235=236 ; A droite = 94+139+3=236. Z gauche = 92 ; Z droite = 38+54=92. k>1 → sur-critique.');
+  }
+}
+
+function checkL6(){
+  const okA = checkInputs(['ll6A'],[4]);
+  const okZ = checkInputs(['ll6Z'],[2]);
+  const ok2 = checkSelects(['ll6E','ll6loc'],['2,79 × 10⁻¹² J','Dans les étoiles (ex : le Soleil)']);
+  if(okA && okZ && ok2){
+    showFeedback('fb-l6','good','✔ Excellent ! ²H + ³H → ⁴He + ¹n (A=4, Z=2). E = 3,1×10⁻²⁹ × 9×10¹⁶ = 2,79×10⁻¹² J. La fusion a lieu dans les étoiles ! Salle finale débloquée !');
+    unlockLongRoom(7);
+  } else {
+    showFeedback('fb-l6','bad','✗ Vérifiez : A(He) = 2+3−1=4, Z(He) = 1+1−0=2. E = |Δm|×c² = 3,1×10⁻²⁹×(3×10⁸)² = 2,79×10⁻¹² J.');
+  }
+}
+
+function checkL7(){
+  const ok = checkSelects(['ll7q1','ll7q2','ll7q3','ll7q4','ll7q5'],[
+    'L\'enrichissement isotopique',
+    'Chaleur (énergie thermique)',
+    'Une turbine couplée à un alternateur',
+    'Des déchets radioactifs à haute activité',
+    'ITER'
+  ]);
+  if(ok){
+    stopTimer();
+    const remaining = timeRemaining();
+    const elapsed = elapsedTime();
+    document.getElementById('win-long-time').textContent = elapsed;
+    document.getElementById('wl-time').textContent = remaining;
+    showFeedback('fb-l7','good','✔ Mission accomplie ! Le réacteur est stabilisé !');
+    setProgress('progress-long',100);
+    setTimeout(()=>showScreen('screen-win-long'),1000);
+  } else {
+    showFeedback('fb-l7','bad','✗ Relisez les indices : enrichissement isotopique, chaleur → turbine-alternateur, déchets à haute activité, ITER à Cadarache.');
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// CULTURE / BONUS
+// ═══════════════════════════════════════════════════════
+function answerCult(btn, groupId, correctAns){
+  if(bonusAnswered[groupId]) return;
+  bonusAnswered[groupId] = true;
+  const group = document.getElementById(groupId);
+  const allBtns = group.querySelectorAll('.cult-opt');
+  allBtns.forEach(b=>b.disabled=true);
+
+  const clicked = btn.textContent.toLowerCase().trim();
+  if(clicked === correctAns.toLowerCase()){
+    btn.classList.add('correct');
+    bonusScore++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b=>{ if(b.textContent.toLowerCase().trim()===correctAns.toLowerCase()) b.classList.add('correct'); });
+  }
+  document.getElementById('bonus-score').textContent = bonusScore;
+  if(bonusScore >= 4){
+    document.getElementById('bonus-badge').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>

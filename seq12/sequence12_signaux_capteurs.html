@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signaux et capteurs – Séquence 12 – 2nde</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf9f4;
+  --paper:#ffffff;
+  --ink:#1f2a24;
+  --accent:#2f6f5e;
+  --accent-light:#e6f1ee;
+  --accent2:#c9622a;
+  --accent2-light:#fbe9e0;
+  --line:#d9d3c6;
+  --blue:#2D5F8A;
+  --blue-light:#E8F1F8;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Georgia","Iowan Old Style","Times New Roman",serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+}
+.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+
+/* HEADER */
+.header{
+  background:#ffffff;
+  border:1px solid #E3E8EE;
+  border-bottom:3px solid #2D5F8A;
+  border-radius:14px;
+  padding:18px 24px 14px;
+  margin-bottom:24px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(45,95,138,0.10);
+}
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.header-left{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.header-badge{
+  background:#2D5F8A;
+  color:#fff;
+  font-family:"Outfit",sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.08em;
+  padding:4px 10px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.header-titles{flex:1;min-width:200px;}
+.header-titles h1{
+  font-family:"Outfit",sans-serif;
+  font-size:1.45rem;
+  font-weight:800;
+  color:#2D5F8A;
+  margin:0 0 4px;
+  line-height:1.2;
+}
+.header-titles p{
+  font-family:"Nunito",sans-serif;
+  font-size:0.85rem;
+  color:#5A6B7A;
+  margin:0;
+}
+.header-titles p span{color:#E8783A;font-weight:700;}
+
+/* Animation icône : satellite (reprise de l'index — Séq. 12) */
+.sat-icon{
+  display:inline-block;
+  position:relative;
+  width:64px;
+  height:64px;
+  flex-shrink:0;
+}
+.sat-svg{width:64px;height:64px;overflow:visible;}
+.sat-body{fill:#2D5F8A;}
+.sat-panel{fill:#E8783A;}
+.sat-antenna-line{stroke:#2D5F8A;stroke-width:2.5;fill:none;stroke-linecap:round;}
+.sat-ground{fill:#B8D4EC;}
+.sat-signal{
+  fill:none;
+  stroke:#E8783A;
+  stroke-width:2;
+  opacity:0;
+}
+.sat-signal-1{animation:sat-ping 2.4s ease-out infinite;}
+.sat-signal-2{animation:sat-ping 2.4s ease-out 0.8s infinite;}
+.sat-signal-3{animation:sat-ping 2.4s ease-out 1.6s infinite;}
+@keyframes sat-ping{
+  0%  {r:3;opacity:0.9;}
+  100%{r:22;opacity:0;}
+}
+@media(prefers-reduced-motion:reduce){
+  .sat-signal{animation:none;opacity:0.15;}
+}
+@media(max-width:600px){
+  .sat-icon{width:48px;height:48px;}
+  .sat-svg{width:48px;height:48px;}
+}
+
+/* CAPACITÉS EXIGIBLES */
+button.cap-toggle{
+  background:#2D5F8A;color:#fff;border:none;
+  padding:5px 12px;border-radius:999px;
+  font-family:"Nunito",sans-serif;font-size:0.74rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;
+}
+button.cap-toggle:hover{background:#1e4466;}
+.cap-panel{
+  display:none;margin:0 0 14px;
+  background:#fff;border:1px solid #B8D4EC;border-radius:12px;
+  padding:16px 20px;text-align:left;font-size:0.88rem;color:#1A2A3A;
+}
+.cap-panel.open{display:block;}
+.cap-panel ul{margin:0;padding-left:1.3rem;}
+.cap-panel li{margin-bottom:5px;line-height:1.6;}
+
+/* TABS */
+.tabs-nav{
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs-nav::-webkit-scrollbar{display:none;}
+.tab-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  min-width:0;
+  padding:10px 16px 12px;
+  background:transparent;
+  border:none;
+  border-bottom:3px solid transparent;
+  border-radius:0;
+  font-family:"Nunito",sans-serif;
+  font-size:0.85rem;
+  font-weight:600;
+  color:#5A6B7A;
+  text-align:left;
+  cursor:pointer;
+  white-space:nowrap;
+  position:relative;
+  bottom:-3px;
+  transition:all .15s ease;
+}
+.tab-btn .tab-num{
+  width:22px;height:22px;
+  border-radius:50%;
+  background:#DDE3EC;
+  color:#5A6B7A;
+  font-size:0.75rem;
+  font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all .15s ease;
+}
+.tab-btn:hover{color:#2D5F8A;}
+.tab-btn.active{
+  background:#E8F1F8;
+  color:#2D5F8A;
+  border-bottom-color:#2D5F8A;
+  border-radius:6px 6px 0 0;
+}
+.tab-btn.active .tab-num{background:#2D5F8A;color:#fff;}
+
+/* PANELS */
+.panel{display:none;animation:fade .35s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px 22px;
+  margin-bottom:18px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+}
+.card h2{
+  font-size:1.25rem;
+  margin-top:0;
+  color:var(--accent);
+  border-bottom:2px solid var(--accent-light);
+  padding-bottom:8px;
+}
+.card h3{
+  font-size:1.05rem;
+  color:var(--accent2);
+  margin:18px 0 8px;
+}
+.def{
+  background:var(--accent-light);
+  border-left:4px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+}
+.def b{color:var(--accent);}
+.warn{
+  background:#fef9e7;
+  border-left:4px solid #f39c12;
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-size:0.92rem;
+}
+.info{
+  background:var(--blue-light);
+  border-left:4px solid var(--blue);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-size:0.92rem;
+}
+.formula-box{
+  background:#f8f5ff;
+  border:2px solid #8e6bbf;
+  border-radius:10px;
+  padding:14px 18px;
+  margin:14px 0;
+  text-align:center;
+  font-size:1.1rem;
+  font-family:"Georgia",serif;
+}
+.formula-box .formula-legend{
+  font-size:0.82rem;
+  color:#6b5a8a;
+  margin-top:8px;
+  text-align:left;
+}
+
+/* EXERCICE INTERACTIF */
+.exo-box{margin:10px 0 18px;}
+.activite{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#9aa39d;
+  margin-bottom:4px;
+}
+.exo-input{
+  width:100%;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;
+  color:var(--ink);
+  border:2px dashed var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  background:#fdfcf9;
+  resize:vertical;
+  box-sizing:border-box;
+}
+.exo-input::placeholder{color:#aab3ad;font-style:italic;}
+.exo-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-input.line{min-height:1.4em;height:42px;}
+.exo-input.block{min-height:70px;}
+.exo-input.correct{border-color:var(--accent)!important;background:var(--accent-light)!important;color:var(--accent);}
+.exo-input.incorrect{border-color:#c0392b!important;background:#fbe6e4!important;color:#c0392b;}
+.exo-actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.check-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.check-btn:hover{background:#255a4c;}
+.toggle-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent2-light);color:var(--accent2);
+  border:1px solid var(--accent2);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.toggle-btn:hover{background:var(--accent2);color:#fff;}
+.reset-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:#f1efe6;color:#7a8079;
+  border:1px solid var(--line);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.reset-btn:hover{background:#e6e2d4;color:var(--ink);}
+.correction{
+  display:none;
+  background:var(--accent2-light);
+  border-left:4px solid var(--accent2);
+  border-radius:6px;padding:10px 14px;margin-top:8px;font-size:0.92rem;
+}
+.correction.show{display:block;}
+.keyword-feedback{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.85rem;font-weight:700;
+  margin-top:6px;padding:8px 12px;border-radius:6px;display:none;
+}
+.keyword-feedback.show{display:block;}
+.keyword-feedback.kw-good{background:#e6f1ee;color:var(--accent);}
+.keyword-feedback.kw-partial{background:#fef9e7;color:#c27d00;}
+.keyword-feedback.kw-empty{background:#fbe6e4;color:#c0392b;}
+.exo-select{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;color:var(--ink);
+  border:2px dashed var(--line);border-radius:6px;padding:5px 8px;background:#fdfcf9;cursor:pointer;
+}
+.exo-select:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-select.correct{border-color:var(--accent)!important;background:var(--accent-light)!important;color:var(--accent);font-weight:700;}
+.exo-select.incorrect{border-color:#c0392b!important;background:#fbe6e4!important;color:#c0392b;font-weight:700;}
+.quiz-options{display:flex;flex-direction:column;gap:6px;}
+.quiz-options label{
+  display:flex;gap:8px;align-items:center;font-size:0.92rem;cursor:pointer;
+  padding:6px 10px;border-radius:6px;border:1px solid var(--line);
+}
+.quiz-options label:hover{border-color:var(--accent);}
+.quiz-options label.opt-correct{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:700;}
+.quiz-options label.opt-incorrect{border-color:#c0392b;background:#fbe6e4;color:#c0392b;font-weight:700;}
+.check-radio-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;
+}
+.check-radio-btn:hover{background:#255a4c;}
+
+/* TABLEAU */
+table.data{
+  width:100%;border-collapse:collapse;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.88rem;margin:10px 0;
+}
+table.data th,table.data td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+table.data th{background:var(--accent-light);color:var(--accent);}
+table.data tr:nth-child(even) td{background:#f9f8f4;}
+
+/* PASTILLES */
+.pastilles{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px;}
+.pastille{
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.85rem;font-weight:700;
+  text-decoration:none;padding:9px 16px;border-radius:999px;
+  border:2px solid var(--accent);color:var(--accent);background:var(--accent-light);transition:all .15s ease;
+}
+.pastille:hover{background:var(--accent);color:#fff;}
+.pastille.alt{border-color:var(--accent2);color:var(--accent2);background:var(--accent2-light);}
+.pastille.alt:hover{background:var(--accent2);color:#fff;}
+.pastille.violet{border-color:#7c4dba;color:#7c4dba;background:rgba(124,77,186,0.08);}
+.pastille.violet:hover{background:#7c4dba;color:#fff;}
+
+/* SIGNAL WRAP */
+.signal-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;
+}
+.signal-controls{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.88rem;
+}
+.signal-controls label{font-weight:700;color:var(--accent);}
+.signal-controls input[type=range]{width:120px;accent-color:var(--accent);}
+
+/* BILAN GRID */
+.bilan-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;margin:14px 0;
+}
+.bilan-card{
+  background:var(--accent-light);border-radius:10px;padding:14px 16px;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.9rem;
+}
+.bilan-card .bc-title{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:0.95rem;}
+.bilan-card.orange{background:var(--accent2-light);}
+.bilan-card.orange .bc-title{color:var(--accent2);}
+.bilan-card.blue{background:var(--blue-light);}
+.bilan-card.blue .bc-title{color:var(--blue);}
+.bilan-card.violet{background:rgba(124,77,186,0.10);}
+.bilan-card.violet .bc-title{color:#7c4dba;}
+
+/* CIRCUIT SCHEMA */
+.circuit-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:14px;margin:14px 0;text-align:center;
+}
+
+/* CONVENTION badges */
+.conv-badge{
+  display:inline-block;
+  font-family:"Nunito",sans-serif;font-size:0.78rem;font-weight:700;
+  padding:3px 10px;border-radius:12px;margin-right:6px;
+}
+.conv-gen{background:#e8f1f8;color:#2D5F8A;}
+.conv-rec{background:#fbe9e0;color:#c9622a;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <span class="header-badge">SÉQUENCE 12</span>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Signaux et capteurs</h1>
+      <p>Thème : <span>Ondes et signaux</span> — Physique-Chimie 2nde — ©C.Poirault-Gauvin</p>
+    </div>
+    <!-- Icône satellite animée (reprise de l'index — Séq. 12) -->
+    <div class="sat-icon" aria-hidden="true">
+      <svg class="sat-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <rect class="sat-body" x="58" y="10" width="16" height="16" rx="2" />
+          <rect class="sat-panel" x="38" y="14" width="16" height="8" rx="1" />
+          <rect class="sat-panel" x="78" y="14" width="16" height="8" rx="1" />
+          <line class="sat-antenna-line" x1="54" y1="18" x2="58" y2="18" />
+          <line class="sat-antenna-line" x1="74" y1="18" x2="78" y2="18" />
+          <line class="sat-antenna-line" x1="66" y1="10" x2="66" y2="4" />
+          <circle class="sat-body" cx="66" cy="3" r="2" />
+        </g>
+        <circle class="sat-signal sat-signal-1" cx="62" cy="30" r="3" />
+        <circle class="sat-signal sat-signal-2" cx="62" cy="30" r="3" />
+        <circle class="sat-signal sat-signal-3" cx="62" cy="30" r="3" />
+        <rect class="sat-ground" x="0" y="92" width="100" height="8" />
+        <g>
+          <path class="sat-antenna-line" d="M22,92 L32,68" />
+          <path class="sat-antenna-line" d="M20,92 Q32,76 44,92 Z" />
+          <circle class="sat-body" cx="32" cy="68" r="2.5" />
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <nav class="tabs-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" onclick="showTab(0)">
+      <span class="tab-num">1</span> Signaux et mesures
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(1)">
+      <span class="tab-num">2</span> Caractéristique U-I
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(2)">
+      <span class="tab-num">3</span> Loi d'Ohm
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(3)">
+      <span class="tab-num">4</span> Capteurs
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(4)">
+      <span class="tab-num">5</span> Bilan &amp; ressources
+    </button>
+  </nav>
+
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Mesurer une tension et une intensité à l'aide d'un voltmètre et d'un ampèremètre. Schématiser un circuit électrique simple.</li>
+      <li>Utiliser les lois des circuits électriques (loi des mailles, loi des nœuds).</li>
+      <li>Tracer et exploiter la caractéristique tension-intensité d'un dipôle.</li>
+      <li>Identifier le comportement d'un conducteur ohmique et vérifier la loi d'Ohm : U = R × I.</li>
+      <li>Citer les limites de fonctionnement d'un dipôle. Lire les valeurs maximales sur une caractéristique.</li>
+      <li>Identifier qu'un capteur résistif convertit une grandeur physique (température, éclairement…) en une variation de résistance électrique.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ONGLET 1 : Signaux et mesures -->
+<!-- ================================================================ -->
+<div class="panel active" id="panel-0">
+
+  <div class="card">
+    <h2>⚡ Signaux électriques et mesures</h2>
+
+    <h3>1. La tension électrique</h3>
+    <div class="def">
+      La <b>tension électrique</b> (ou différence de potentiel) entre deux points A et B d'un circuit est notée <b>U<sub>AB</sub></b>.<br>
+      Elle se mesure avec un <b>voltmètre</b> branché <b>en dérivation</b> (en parallèle) entre ces deux points.<br>
+      Unité : le <b>volt (V)</b>.
+    </div>
+
+    <div class="circuit-wrap">
+      <svg viewBox="0 0 460 160" width="100%" style="max-width:460px;font-family:'Helvetica Neue',sans-serif;">
+        <!-- Fil horizontal haut -->
+        <line x1="40" y1="40" x2="420" y2="40" stroke="#1f2a24" stroke-width="2"/>
+        <!-- Fil horizontal bas -->
+        <line x1="40" y1="120" x2="420" y2="120" stroke="#1f2a24" stroke-width="2"/>
+        <!-- Générateur à gauche -->
+        <line x1="40" y1="40" x2="40" y2="120" stroke="#1f2a24" stroke-width="2"/>
+        <circle cx="40" cy="80" r="18" fill="#fff" stroke="#2D5F8A" stroke-width="2"/>
+        <text x="40" y="77" text-anchor="middle" font-size="11" fill="#2D5F8A" font-weight="bold">+</text>
+        <text x="40" y="90" text-anchor="middle" font-size="11" fill="#c0392b">−</text>
+        <text x="40" y="140" text-anchor="middle" font-size="10" fill="#2D5F8A">Géné</text>
+        <!-- Résistance (dipôle) -->
+        <rect x="180" y="28" width="100" height="24" rx="5" fill="#fbe9e0" stroke="#c9622a" stroke-width="2"/>
+        <text x="230" y="44" text-anchor="middle" font-size="11" fill="#c9622a" font-weight="bold">Dipôle</text>
+        <!-- Voltmètre en dérivation -->
+        <line x1="180" y1="40" x2="180" y2="75" stroke="#8e6bbf" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="280" y1="40" x2="280" y2="75" stroke="#8e6bbf" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="195" y="75" width="70" height="26" rx="5" fill="#f8f5ff" stroke="#8e6bbf" stroke-width="1.5"/>
+        <text x="230" y="91" text-anchor="middle" font-size="11" fill="#8e6bbf" font-weight="bold">V</text>
+        <text x="230" y="116" text-anchor="middle" font-size="10" fill="#8e6bbf">Voltmètre (dérivation)</text>
+        <!-- Points A et B -->
+        <circle cx="180" cy="40" r="4" fill="#c9622a"/>
+        <text x="175" y="30" font-size="10" fill="#c9622a" font-weight="bold">A</text>
+        <circle cx="280" cy="40" r="4" fill="#c9622a"/>
+        <text x="278" y="30" font-size="10" fill="#c9622a" font-weight="bold">B</text>
+        <!-- Flèche tension -->
+        <line x1="185" y1="18" x2="275" y2="18" stroke="#8e6bbf" stroke-width="1.5" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#8e6bbf"/>
+          </marker>
+        </defs>
+        <text x="230" y="14" text-anchor="middle" font-size="10" fill="#8e6bbf" font-weight="bold">U_AB</text>
+      </svg>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — voltmètre</div>
+      <p>Comment branche-t-on un voltmètre dans un circuit pour mesurer la tension aux bornes d'un dipôle ?</p>
+      <select class="exo-select s0q1" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">En série, dans le fil du circuit</option>
+        <option value="b">En dérivation (parallèle), aux bornes du dipôle</option>
+        <option value="c">Entre la borne + du générateur et la masse</option>
+        <option value="d">À n'importe quel endroit du circuit</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s0q1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Le voltmètre se branche <strong>en dérivation</strong> (en parallèle) aux bornes du dipôle à mesurer. Sa résistance interne très grande fait circuler un courant négligeable : il ne perturbe pas le circuit.</div>
+    </div>
+
+    <h3>2. L'intensité du courant électrique</h3>
+    <div class="def">
+      L'<b>intensité du courant électrique</b> est notée <b>I</b>.<br>
+      Elle se mesure avec un <b>ampèremètre</b> branché <b>en série</b> dans le circuit.<br>
+      Unité : l'<b>ampère (A)</b>.
+    </div>
+    <div class="warn">
+      ⚠️ L'ampèremètre doit toujours être branché en <strong>série</strong> — jamais en parallèle, au risque de court-circuit.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — ampèremètre</div>
+      <p>On veut mesurer le courant traversant une résistance. Où place-t-on l'ampèremètre ?</p>
+      <select class="exo-select s0q2" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">En série, dans le fil conducteur qui traverse la résistance</option>
+        <option value="b">En parallèle, aux bornes de la résistance</option>
+        <option value="c">Entre les deux bornes du générateur</option>
+        <option value="d">Après le voltmètre</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s0q2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">L'ampèremètre se place <strong>en série</strong> : le courant doit le traverser pour être mesuré. Sa résistance interne très faible ne modifie pas le circuit.</div>
+    </div>
+
+    <h3>3. Lois des circuits électriques</h3>
+
+    <div class="def">
+      <b>Loi des mailles</b> : dans une maille orientée, la somme algébrique des tensions est nulle.<br>
+      <em>Exemple : U<sub>AB</sub> + U<sub>BC</sub> + U<sub>CA</sub> = 0</em>
+    </div>
+    <div class="def">
+      <b>Loi des nœuds</b> : la somme des intensités qui arrivent à un nœud est égale à la somme des intensités qui en repartent.<br>
+      <em>Exemple : I = I<sub>1</sub> + I<sub>2</sub></em>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">calcul — loi des mailles</div>
+      <p>Dans une maille, on mesure U<sub>générateur</sub> = 12 V et U<sub>résistance</sub> = 8 V. Quelle est la tension U<sub>lampe</sub> ?</p>
+      <input type="text" class="exo-input line" id="s0calc1" data-answers="4 v|4v|4 V|4V|4"
+        placeholder="U_lampe = … V" style="max-width:220px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#s0calc1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        Loi des mailles : U<sub>géné</sub> = U<sub>résistance</sub> + U<sub>lampe</sub><br>
+        ⟹ U<sub>lampe</sub> = 12 − 8 = <strong>4 V</strong>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">calcul — loi des nœuds</div>
+      <p>En un nœud, deux branches arrivent avec I<sub>1</sub> = 0,3 A et I<sub>2</sub> = 0,5 A. Quelle est l'intensité I qui repart du nœud ?</p>
+      <input type="text" class="exo-input line" id="s0calc2" data-answers="0,8 a|0.8 a|0,8 A|0.8 A|0,8|0.8"
+        placeholder="I = … A" style="max-width:220px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#s0calc2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        Loi des nœuds : I = I<sub>1</sub> + I<sub>2</sub> = 0,3 + 0,5 = <strong>0,8 A</strong>
+      </div>
+    </div>
+
+    <h3>4. Dipôles en série et en dérivation</h3>
+
+    <div class="info">
+      💡 <strong>En série</strong> : les dipôles sont traversés par le <em>même courant</em> — ils forment une unique maille.<br>
+      💡 <strong>En dérivation</strong> : les dipôles sont soumis à la <em>même tension</em> — ils sont reliés par des nœuds.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — série ou dérivation</div>
+      <p>Deux lampes sont branchées côte à côte entre deux nœuds du circuit. Comment sont-elles montées ?</p>
+      <select class="exo-select s0q3" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">En série</option>
+        <option value="b">En dérivation</option>
+        <option value="c">En opposition</option>
+        <option value="d">Impossible à déterminer</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s0q3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Des dipôles branchés entre les mêmes nœuds sont <strong>en dérivation</strong>. Ils reçoivent la même tension mais le courant se répartit entre eux.</div>
+    </div>
+
+  </div>
+</div><!-- /panel-0 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 2 : Caractéristique tension-intensité -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-1">
+
+  <div class="card">
+    <h2>📈 Caractéristique tension-intensité d'un dipôle</h2>
+
+    <h3>1. Conventions de signe</h3>
+
+    <div class="def">
+      La tension U et l'intensité I sont des <b>grandeurs algébriques</b> (elles peuvent être positives ou négatives selon l'orientation choisie).
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;">
+      <div style="flex:1;min-width:220px;background:#e8f1f8;border-left:4px solid #2D5F8A;border-radius:6px;padding:12px 14px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:#2D5F8A;margin-bottom:6px;">
+          <span class="conv-badge conv-gen">Convention générateur</span>
+        </div>
+        Le courant sort de la <strong>borne +</strong> du dipôle.<br>
+        U et I sont orientés dans le <strong>même sens</strong>.
+      </div>
+      <div style="flex:1;min-width:220px;background:var(--accent2-light);border-left:4px solid var(--accent2);border-radius:6px;padding:12px 14px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:700;color:var(--accent2);margin-bottom:6px;">
+          <span class="conv-badge conv-rec">Convention récepteur</span>
+        </div>
+        Le courant entre par la <strong>borne +</strong> du dipôle.<br>
+        U et I sont orientés dans des <strong>sens opposés</strong>.
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — conventions</div>
+      <p>Dans un circuit, pour un <strong>récepteur</strong>, comment sont orientés U et I ?</p>
+      <select class="exo-select s1q1" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Dans le même sens</option>
+        <option value="b">Dans des sens opposés</option>
+        <option value="c">Aucune convention n'est nécessaire</option>
+        <option value="d">U est nul</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s1q1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">En convention <strong>récepteur</strong>, le courant entre par la borne + : U et I sont dans des <strong>sens opposés</strong>. C'est l'opposé de la convention générateur.</div>
+    </div>
+
+    <h3>2. La caractéristique U = f(I)</h3>
+    <div class="def">
+      La <b>caractéristique tension-intensité</b> d'un dipôle est la courbe U<sub>AB</sub> = f(I<sub>AB</sub>).<br>
+      Elle est obtenue en mesurant des couples (I ; U) pour différents réglages.<br>
+      Chaque couple est un <b>point de fonctionnement</b>.
+    </div>
+
+    <!-- Traceur de caractéristique interactif -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Traceur de caractéristique interactif</strong><br>
+        <span style="font-size:0.78rem;">Sélectionne le type de dipôle pour voir sa courbe U = f(I)</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:12px;">
+        <button onclick="setDipole('ohm')" id="btn-ohm"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.82rem;font-weight:700;
+          background:#2D5F8A;color:#fff;border:none;border-radius:20px;padding:6px 16px;cursor:pointer;">
+          Conducteur ohmique
+        </button>
+        <button onclick="setDipole('diode')" id="btn-diode"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.82rem;font-weight:700;
+          background:#e8f1f8;color:#2D5F8A;border:2px solid #2D5F8A;border-radius:20px;padding:6px 16px;cursor:pointer;">
+          Diode (non-linéaire)
+        </button>
+        <button onclick="setDipole('lampe')" id="btn-lampe"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.82rem;font-weight:700;
+          background:#e8f1f8;color:#2D5F8A;border:2px solid #2D5F8A;border-radius:20px;padding:6px 16px;cursor:pointer;">
+          Lampe à incandescence
+        </button>
+      </div>
+      <canvas id="cvCaract" width="560" height="240" style="width:100%;max-width:560px;display:block;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div id="caract-info" style="text-align:center;margin-top:8px;font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:var(--accent);font-weight:700;"></div>
+    </div>
+
+    <h3>3. Limites de fonctionnement</h3>
+    <div class="def">
+      Les <b>valeurs maximales</b> admissibles en tension et en intensité définissent le <b>domaine de fonctionnement</b> du dipôle.<br>
+      Au-delà de ces limites, le dipôle peut être <b>détérioré ou détruit</b>.
+    </div>
+    <div class="warn">
+      ⚠️ On lit les valeurs maximales directement sur la caractéristique ou sur la notice du composant. Ne jamais dépasser U<sub>max</sub> et I<sub>max</sub>.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — limites de fonctionnement</div>
+      <p>Sur la caractéristique d'une diode, on lit I<sub>max</sub> = 50 mA. Que risque-t-il de se passer si on impose I = 80 mA ?</p>
+      <select class="exo-select s1q2" data-answers="c">
+        <option value="">— Choisir —</option>
+        <option value="a">Rien, la diode s'adapte automatiquement</option>
+        <option value="b">La diode produit plus de lumière</option>
+        <option value="c">La diode risque d'être détruite</option>
+        <option value="d">Le courant diminue spontanément à 50 mA</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s1q2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Dépasser I<sub>max</sub> = 50 mA entraîne une <strong>surchauffe</strong> et risque de <strong>détruire la diode</strong>. Il faut toujours rester dans le domaine de fonctionnement indiqué.</div>
+    </div>
+
+  </div>
+</div><!-- /panel-1 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 3 : Loi d'Ohm -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-2">
+
+  <div class="card">
+    <h2>🔌 Conducteur ohmique et loi d'Ohm</h2>
+
+    <h3>1. Qu'est-ce qu'un conducteur ohmique ?</h3>
+    <div class="def">
+      Un <b>conducteur ohmique</b> (ou résistance) est un dipôle dont la caractéristique U = f(I) est une <b>droite passant par l'origine</b>.<br>
+      La tension U et l'intensité I sont <b>proportionnelles</b>.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — identification</div>
+      <p>La caractéristique d'un dipôle est une droite passant par l'origine. Que peut-on conclure ?</p>
+      <select class="exo-select s2q1" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">C'est un conducteur ohmique — U et I sont proportionnels</option>
+        <option value="b">C'est une diode — elle ne laisse passer le courant que dans un sens</option>
+        <option value="c">C'est un générateur idéal</option>
+        <option value="d">Impossible de conclure sans connaître la pente</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s2q1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Une caractéristique <strong>linéaire passant par l'origine</strong> est la signature d'un <strong>conducteur ohmique</strong> : U = R × I (loi d'Ohm).</div>
+    </div>
+
+    <h3>2. Loi d'Ohm</h3>
+    <div class="formula-box">
+      <strong>U<sub>AB</sub> = R × I<sub>AB</sub></strong>
+      <div class="formula-legend">
+        <strong>U<sub>AB</sub></strong> : tension aux bornes du conducteur ohmique (V)<br>
+        <strong>R</strong> : résistance (Ω — ohm)<br>
+        <strong>I<sub>AB</sub></strong> : intensité du courant (A)
+      </div>
+    </div>
+
+    <div class="info">
+      💡 La résistance R est la pente de la caractéristique : R = U / I. Plus R est grande, plus le dipôle s'oppose au passage du courant.
+    </div>
+
+    <!-- Simulateur loi d'Ohm -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Simulateur loi d'Ohm</strong> — modifie R et I pour voir U varier
+      </div>
+      <div class="signal-controls" style="justify-content:center;gap:20px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <label for="sl-R">R (Ω)</label>
+          <input type="range" id="sl-R" min="10" max="500" value="100" step="10" style="width:130px;accent-color:var(--blue);">
+          <span id="R-val" style="color:var(--blue);font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;font-weight:700;">R = 100 Ω</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <label for="sl-I" style="color:var(--accent2);">I (mA)</label>
+          <input type="range" id="sl-I" min="0" max="200" value="50" step="5" style="width:130px;accent-color:var(--accent2);">
+          <span id="I-val" style="color:var(--accent2);font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;font-weight:700;">I = 50 mA</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:14px;font-family:'Helvetica Neue',sans-serif;">
+        <span style="font-size:1rem;color:#1f2a24;font-weight:700;">U = R × I = </span>
+        <span id="U-result" style="font-size:1.3rem;font-weight:800;color:#8e6bbf;">5,00 V</span>
+      </div>
+      <canvas id="cvOhm" width="560" height="200" style="width:100%;max-width:560px;display:block;margin:14px auto 0;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+    </div>
+
+    <h3>3. Calculs guidés</h3>
+
+    <div class="exo-box">
+      <div class="activite">calcul guidé — trouver U</div>
+      <p>Une résistance R = 220 Ω est parcourue par un courant I = 0,1 A. Quelle est la tension U à ses bornes ?</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Formule à appliquer :</p>
+      <select class="exo-select s2c1a" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">U = R × I</option>
+        <option value="b">U = I / R</option>
+        <option value="c">U = R + I</option>
+        <option value="d">U = R² × I</option>
+      </select>
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector=".s2c1a">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 —</strong> Application numérique :</p>
+      <input type="text" class="exo-input line" id="s2c1b" data-answers="220 × 0,1|220 × 0.1|220×0,1|220×0.1|220 x 0.1|220 x 0,1"
+        placeholder="U = … × … = …" style="max-width:320px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#s2c1b">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 3 —</strong> Résultat avec unité :</p>
+      <input type="text" class="exo-input line" id="s2c1c" data-answers="22 v|22v|22 V|22V|22"
+        placeholder="U = … V" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#s2c1c">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        <strong>Formule :</strong> U = R × I<br>
+        <strong>Application :</strong> U = 220 × 0,1 = <strong>22 V</strong>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">calcul guidé — trouver R</div>
+      <p>Aux bornes d'un conducteur ohmique, on mesure U = 6 V et I = 30 mA = 0,03 A. Calculer R.</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Formule à appliquer :</p>
+      <select class="exo-select s2c2a" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">R = U × I</option>
+        <option value="b">R = U / I</option>
+        <option value="c">R = I / U</option>
+        <option value="d">R = U − I</option>
+      </select>
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector=".s2c2a">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 —</strong> Application numérique :</p>
+      <input type="text" class="exo-input line" id="s2c2b" data-answers="6 / 0,03|6/0,03|6 / 0.03|6/0.03|6÷0,03|6÷0.03"
+        placeholder="R = … / … = …" style="max-width:320px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#s2c2b">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 3 —</strong> Résultat avec unité :</p>
+      <input type="text" class="exo-input line" id="s2c2c" data-answers="200 Ω|200 ohm|200Ω|200 ohms|200"
+        placeholder="R = … Ω" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#s2c2c">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        <strong>Formule :</strong> R = U / I<br>
+        <strong>Application :</strong> R = 6 / 0,03 = <strong>200 Ω</strong>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">calcul guidé — trouver I</div>
+      <p>On applique U = 9 V aux bornes d'une résistance R = 330 Ω. Calculer l'intensité I en mA.</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Formule :</p>
+      <select class="exo-select s2c3a" data-answers="c">
+        <option value="">— Choisir —</option>
+        <option value="a">I = U × R</option>
+        <option value="b">I = R / U</option>
+        <option value="c">I = U / R</option>
+        <option value="d">I = R − U</option>
+      </select>
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector=".s2c3a">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 & 3 —</strong> Résultat en mA (arrondir à 0,1 mA) :</p>
+      <input type="text" class="exo-input line" id="s2c3b" data-answers="27,3 mA|27.3 mA|27,3ma|27.3ma|27,3 mA|≈ 27,3 mA"
+        placeholder="I ≈ … mA" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#s2c3b">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        I = U / R = 9 / 330 ≈ 0,0273 A = <strong>27,3 mA</strong>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /panel-2 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 4 : Capteurs résistifs -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-3">
+
+  <div class="card">
+    <h2>🌡️ Conducteurs ohmiques et capteurs</h2>
+
+    <h3>1. Principe d'un capteur résistif</h3>
+    <div class="def">
+      Certains matériaux ont une <b>résistance qui varie</b> en fonction d'une grandeur physique (température, éclairement, pression…).<br>
+      On les appelle <b>capteurs résistifs</b> : ils convertissent une grandeur physique en une variation de résistance électrique.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — principe</div>
+      <p>Quel est le principe de fonctionnement d'un capteur résistif ?</p>
+      <select class="exo-select s3q1" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Il convertit une tension électrique en une grandeur physique</option>
+        <option value="b">Il convertit une grandeur physique en une variation de résistance</option>
+        <option value="c">Il produit un courant électrique à partir de la chaleur</option>
+        <option value="d">Il amplifie le signal électrique</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s3q1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Un capteur résistif <strong>convertit une grandeur physique</strong> (température, lumière…) <strong>en une variation de résistance</strong>. Cette variation peut ensuite être mesurée électriquement.</div>
+    </div>
+
+    <h3>2. La thermistance (CTN)</h3>
+    <div class="def">
+      La <b>thermistance à coefficient de température négatif (CTN)</b> est un capteur dont la résistance <b>diminue</b> quand la température <b>augmente</b>.<br>
+      Elle est utilisée pour mesurer la température.
+    </div>
+
+    <!-- Simulation CTN -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Simulation CTN</strong> — observe comment R varie avec la température
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
+        <span style="color:#2D5F8A;font-weight:700;">Froid (−10°C)</span>
+        <input type="range" id="sl-temp" min="-10" max="100" value="20" step="5"
+          style="width:160px;accent-color:#c9622a;">
+        <span style="color:#c0392b;font-weight:700;">Chaud (100°C)</span>
+      </div>
+      <canvas id="cvCTN" width="540" height="180" style="width:100%;max-width:540px;display:block;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div id="ctn-info" style="text-align:center;margin-top:8px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;font-weight:700;color:var(--accent);"></div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — CTN</div>
+      <p>La résistance d'une CTN est mesurée à 20°C : R = 10 kΩ. Que devient R si la température monte à 80°C ?</p>
+      <select class="exo-select s3q2" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">R diminue (CTN = coefficient de température négatif)</option>
+        <option value="b">R augmente</option>
+        <option value="c">R reste constante, seule la tension change</option>
+        <option value="d">R double</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s3q2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">CTN = Coefficient de Température <strong>Négatif</strong> : quand T augmente, R <strong>diminue</strong>. Une CTN typique peut passer de 10 kΩ à 20°C à quelques centaines d'ohms à 100°C.</div>
+    </div>
+
+    <h3>3. La photorésistance (LDR)</h3>
+    <div class="def">
+      La <b>photorésistance (LDR — Light Dependent Resistor)</b> est un capteur dont la résistance <b>diminue</b> quand l'<b>éclairement augmente</b>.<br>
+      Elle est utilisée pour détecter la lumière (détecteurs crépusculaires, alarmes…).
+    </div>
+
+    <!-- Simulation LDR -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Simulation LDR</strong> — observe R en fonction de l'éclairement
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
+        <span style="color:#5A6B7A;font-weight:700;">🌑 Obscurité</span>
+        <input type="range" id="sl-lux" min="0" max="1000" value="200" step="20"
+          style="width:160px;accent-color:#E8783A;">
+        <span style="color:#E8783A;font-weight:700;">☀️ Forte lumière</span>
+      </div>
+      <canvas id="cvLDR" width="540" height="160" style="width:100%;max-width:540px;display:block;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div id="ldr-info" style="text-align:center;margin-top:8px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;font-weight:700;color:#E8783A;"></div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — LDR et application</div>
+      <p>La résistance d'une LDR vaut 1 MΩ dans l'obscurité et 100 Ω en plein soleil. Dans un détecteur crépusculaire, que se passe-t-il à la nuit tombante ?</p>
+      <select class="exo-select s3q3" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">La résistance diminue, le courant augmente : la lampe s'éteint</option>
+        <option value="b">La résistance augmente, le courant diminue : le circuit peut déclencher l'éclairage</option>
+        <option value="c">La résistance ne change pas la nuit</option>
+        <option value="d">La LDR produit elle-même du courant la nuit</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".s3q3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">À la nuit tombante, l'éclairement <strong>diminue</strong> → R<sub>LDR</sub> <strong>augmente</strong> → le courant dans la branche LDR <strong>diminue</strong>. Ce signal électrique est détecté par le circuit pour <strong>allumer les lampes</strong>.</div>
+    </div>
+
+    <h3>4. Tableau comparatif des capteurs</h3>
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Capteur</th>
+          <th>Grandeur mesurée</th>
+          <th>Variation de R</th>
+          <th>Exemples d'utilisation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>CTN</strong> (thermistance)</td>
+          <td>Température</td>
+          <td>R ↓ quand T ↑</td>
+          <td>Thermomètre numérique, régulateur de chauffage</td>
+        </tr>
+        <tr>
+          <td><strong>LDR</strong> (photorésistance)</td>
+          <td>Éclairement</td>
+          <td>R ↓ quand E ↑</td>
+          <td>Détecteur crépusculaire, alarme lumineuse</td>
+        </tr>
+        <tr>
+          <td><strong>Jauge de contrainte</strong></td>
+          <td>Déformation / pression</td>
+          <td>R ↑ quand étirement ↑</td>
+          <td>Balance, capteur de pression</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div><!-- /panel-3 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 5 : Bilan & ressources -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-4">
+
+  <div class="card">
+    <h2>📝 Bilan de la séquence</h2>
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <div class="bc-title">⚡ Mesures électriques</div>
+        Voltmètre → en <strong>dérivation</strong> → mesure U (V)<br>
+        Ampèremètre → en <strong>série</strong> → mesure I (A)
+      </div>
+      <div class="bilan-card orange">
+        <div class="bc-title">🔗 Lois des circuits</div>
+        <strong>Loi des mailles :</strong> somme algébrique des U = 0<br>
+        <strong>Loi des nœuds :</strong> ΣI entrants = ΣI sortants
+      </div>
+      <div class="bilan-card blue">
+        <div class="bc-title">📈 Caractéristique U = f(I)</div>
+        Ensemble des points de fonctionnement (I ; U) d'un dipôle.<br>
+        Droite passant par l'origine → conducteur ohmique.
+      </div>
+      <div class="bilan-card violet">
+        <div class="bc-title">🔌 Loi d'Ohm</div>
+        <strong>U = R × I</strong><br>
+        R en Ω, U en V, I en A<br>
+        R = pente de la caractéristique.
+      </div>
+      <div class="bilan-card">
+        <div class="bc-title">🌡️ Capteurs résistifs</div>
+        <strong>CTN :</strong> R diminue si T augmente<br>
+        <strong>LDR :</strong> R diminue si éclairement augmente
+      </div>
+      <div class="bilan-card orange">
+        <div class="bc-title">⚠️ Limites de fonctionnement</div>
+        Ne jamais dépasser U<sub>max</sub> et I<sub>max</sub> d'un dipôle au risque de le détruire.
+      </div>
+    </div>
+
+    <h3>Formules à retenir</h3>
+    <div class="formula-box" style="font-size:1rem;text-align:left;line-height:2;">
+      <strong>U = R × I</strong> &nbsp;|&nbsp; <strong>R = U / I</strong> &nbsp;|&nbsp; <strong>I = U / R</strong><br>
+      <div class="formula-legend" style="margin-top:4px;">
+        U (V) &nbsp;|&nbsp; R (Ω) &nbsp;|&nbsp; I (A) — Penser à convertir mA → A (× 10⁻³) et kΩ → Ω (× 10³)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📚 Ressources et exercices</h2>
+
+    <h3>Exercices du manuel</h3>
+    <div class="pastilles">
+      <a class="pastille" href="#" onclick="return false;">p320 n°17-18 — Lois des circuits</a>
+      <a class="pastille" href="#" onclick="return false;">p321 n°26-27 — Loi d'Ohm</a>
+      <a class="pastille" href="#" onclick="return false;">p321 n°29 — Conducteur ohmique</a>
+      <a class="pastille" href="#" onclick="return false;">p321 n°31 — Caractéristique</a>
+      <a class="pastille alt" href="#" onclick="return false;">p322 n°32 — Dipôle</a>
+      <a class="pastille alt" href="#" onclick="return false;">p322 n°36 — Capteurs (corrigé)</a>
+      <a class="pastille alt" href="#" onclick="return false;">p328 n°53 — Exercice bilan</a>
+    </div>
+
+    <h3>Simulation PhET — Circuit électrique</h3>
+    <div class="signal-wrap" style="padding:10px;">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
+        <iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html?locale=fr"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
+          allowfullscreen title="Simulation PhET — Circuits électriques"></iframe>
+      </div>
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;color:#5A6B7A;margin-top:8px;text-align:center;">
+        💡 Construis un circuit, place un voltmètre et un ampèremètre, vérifie la loi d'Ohm
+      </p>
+    </div>
+
+    <h3>Vidéo ressource</h3>
+    <div class="pastilles">
+      <a class="pastille violet" href="https://www.youtube.com/results?search_query=loi+d%27ohm+seconde+physique" target="_blank">
+        📺 Loi d'Ohm — vidéos YouTube
+      </a>
+      <a class="pastille violet" href="https://www.youtube.com/results?search_query=capteur+resistif+CTN+LDR+physique" target="_blank">
+        📺 Capteurs CTN et LDR
+      </a>
+    </div>
+
+  </div>
+</div><!-- /panel-4 -->
+
+</div><!-- /wrap -->
+
+<script>
+/* ============== TABS ============== */
+function showTab(n){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',i===n);
+    b.setAttribute('aria-selected',i===n);
+  });
+  document.querySelectorAll('.panel').forEach((p,i)=>{
+    p.classList.toggle('active',i===n);
+  });
+}
+
+/* ============== CAPACITÉS TOGGLE ============== */
+document.getElementById('capToggle').addEventListener('click',function(){
+  const p=document.getElementById('capPanel');
+  p.classList.toggle('open');
+  this.textContent=p.classList.contains('open')?'✕ Fermer':'📋 Capacités exigibles';
+});
+
+/* ============== CORRECTION / RESET ============== */
+function toggleCorr(btn){
+  const box=btn.closest('.exo-box');
+  const corr=box.querySelector('.correction');
+  corr.classList.toggle('show');
+  btn.textContent=corr.classList.contains('show')?'Masquer la correction':'Voir la correction';
+}
+function resetBox(btn){
+  const box=btn.closest('.exo-box');
+  box.querySelectorAll('.exo-input').forEach(i=>{i.value='';i.classList.remove('correct','incorrect');});
+  box.querySelectorAll('.exo-select').forEach(s=>{s.value='';s.classList.remove('correct','incorrect');});
+  box.querySelectorAll('input[type=radio]').forEach(r=>{r.checked=false;r.closest('label').classList.remove('opt-correct','opt-incorrect');});
+  const fb=box.querySelector('.keyword-feedback');
+  if(fb){fb.textContent='';fb.classList.remove('show','kw-good','kw-partial','kw-empty');}
+  const corr=box.querySelector('.correction');
+  if(corr){corr.classList.remove('show');}
+  const tb=box.querySelector('.toggle-btn');
+  if(tb) tb.textContent='Voir la correction';
+}
+function normalize(str){
+  return str.trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ');
+}
+document.querySelectorAll('.check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const selector=btn.dataset.checkSelector;
+    const fields=document.querySelectorAll(selector);
+    let total=0,filled=0,correct=0;
+    fields.forEach(input=>{
+      const answers=(input.dataset.answers||'').split('|').map(normalize).filter(a=>a.length);
+      if(!answers.length) return;
+      total++;
+      const value=normalize(input.value||input.options?.[input.selectedIndex]?.value||'');
+      input.classList.remove('correct','incorrect');
+      if(!value.length) return;
+      filled++;
+      if(answers.includes(value)){input.classList.add('correct');correct++;}
+      else input.classList.add('incorrect');
+    });
+    const box=btn.closest('.exo-box');
+    const fb=box?box.querySelector('.keyword-feedback'):null;
+    if(fb&&total>0){
+      fb.classList.remove('show','kw-good','kw-partial','kw-empty');
+      if(filled===0){fb.textContent='Aucune réponse saisie.';fb.classList.add('show','kw-empty');}
+      else if(correct===total){fb.textContent='Bravo, tout est correct ('+correct+'/'+total+') !';fb.classList.add('show','kw-good');}
+      else{fb.textContent=correct+'/'+total+' réponses correctes.';fb.classList.add('show','kw-partial');}
+    }
+  });
+});
+
+/* ============== TRACEUR DE CARACTÉRISTIQUE ============== */
+let dipoleType='ohm';
+function setDipole(type){
+  dipoleType=type;
+  ['ohm','diode','lampe'].forEach(t=>{
+    const b=document.getElementById('btn-'+t);
+    if(b){
+      b.style.background=t===type?'#2D5F8A':'#e8f1f8';
+      b.style.color=t===type?'#fff':'#2D5F8A';
+    }
+  });
+  drawCaract();
+}
+function drawCaract(){
+  const cv=document.getElementById('cvCaract');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  // Grille
+  ctx.strokeStyle='#ece8e0'; ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // Axes
+  const ox=60,oy=H-40;
+  ctx.strokeStyle='#555'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  // Labels axes
+  ctx.fillStyle='#555'; ctx.font='bold 12px "Helvetica Neue",sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('I (mA)',W-30,oy-8);
+  ctx.save(); ctx.translate(18,H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('U (V)',0,0); ctx.restore();
+  // Graduations I
+  const maxI=300; // mA
+  const maxU=15;  // V
+  ctx.fillStyle='#888'; ctx.font='10px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  for(let i=0;i<=maxI;i+=50){
+    const x=ox+(i/maxI)*(W-ox-20);
+    ctx.beginPath(); ctx.strokeStyle='#aaa'; ctx.lineWidth=1;
+    ctx.moveTo(x,oy); ctx.lineTo(x,oy+4); ctx.stroke();
+    ctx.fillText(i,x,oy+14);
+  }
+  ctx.textAlign='right';
+  for(let u=0;u<=maxU;u+=3){
+    const y=oy-(u/maxU)*(oy-20);
+    ctx.beginPath(); ctx.strokeStyle='#aaa'; ctx.lineWidth=1;
+    ctx.moveTo(ox,y); ctx.lineTo(ox-4,y); ctx.stroke();
+    ctx.fillText(u,ox-6,y+4);
+  }
+  // Tracé de la courbe
+  ctx.beginPath(); ctx.lineWidth=2.5;
+  if(dipoleType==='ohm'){
+    ctx.strokeStyle='#2D5F8A';
+    // Droite U=RI, R=47 Ω (pente)
+    ctx.moveTo(ox,oy);
+    const iMax=300e-3;
+    const R=47;
+    const uEnd=R*iMax;
+    const xEnd=ox+(iMax*1000/maxI)*(W-ox-20);
+    const yEnd=oy-(uEnd/maxU)*(oy-20);
+    ctx.lineTo(xEnd,yEnd);
+    ctx.stroke();
+    document.getElementById('caract-info').textContent='Conducteur ohmique : droite passant par l\'origine — pente R = 47 Ω';
+  } else if(dipoleType==='diode'){
+    ctx.strokeStyle='#c9622a';
+    // Tracé exponentiel approché d'une diode
+    ctx.moveTo(ox,oy);
+    for(let imA=0;imA<=maxI;imA+=1){
+      const U=0.6+0.026*Math.log(1+imA/0.001);
+      const x=ox+(imA/maxI)*(W-ox-20);
+      const y=oy-(Math.min(U,maxU)/maxU)*(oy-20);
+      ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    document.getElementById('caract-info').textContent='Diode : courbe non linéaire — conduction à partir d\'environ 0,6 V (seuil)';
+  } else {
+    ctx.strokeStyle='#2f6f5e';
+    // Lampe : courbe sublinéaire (résistance augmente avec T)
+    ctx.moveTo(ox,oy);
+    for(let imA=0;imA<=300;imA+=2){
+      const I=imA*1e-3;
+      const U=40*Math.pow(I,0.7);
+      const x=ox+(imA/maxI)*(W-ox-20);
+      const y=oy-(Math.min(U,maxU)/maxU)*(oy-20);
+      ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    document.getElementById('caract-info').textContent='Lampe à incandescence : courbe non linéaire — résistance croît avec la température du filament';
+  }
+}
+
+/* ============== SIMULATEUR LOI D'OHM ============== */
+function drawOhm(){
+  const R=parseFloat(document.getElementById('sl-R').value);
+  const ImA=parseFloat(document.getElementById('sl-I').value);
+  const I=ImA*1e-3;
+  const U=R*I;
+  document.getElementById('R-val').textContent='R = '+R+' Ω';
+  document.getElementById('I-val').textContent='I = '+ImA+' mA';
+  document.getElementById('U-result').textContent=U.toFixed(2)+' V';
+
+  const cv=document.getElementById('cvOhm');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  // Grille
+  ctx.strokeStyle='#ece8e0'; ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // Axes
+  const ox=60,oy=H-30;
+  ctx.strokeStyle='#555'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('I (mA)',W-30,oy-8);
+  ctx.save(); ctx.translate(18,H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('U (V)',0,0); ctx.restore();
+  // Droite U=RI
+  const maxI=200, maxU=Math.max(20, R*maxI*1e-3*1.2);
+  ctx.strokeStyle='#8e6bbf'; ctx.lineWidth=2;
+  ctx.beginPath();
+  ctx.moveTo(ox,oy);
+  const xEnd=ox+(maxI/maxI)*(W-ox-20);
+  const yEnd=oy-(R*maxI*1e-3/maxU)*(oy-20);
+  ctx.lineTo(xEnd, Math.max(15,yEnd));
+  ctx.stroke();
+  // Point courant
+  const xPt=ox+(ImA/maxI)*(W-ox-20);
+  const yPt=oy-(U/maxU)*(oy-20);
+  ctx.beginPath(); ctx.fillStyle='#c9622a';
+  ctx.arc(xPt,Math.max(15,yPt),6,0,Math.PI*2);
+  ctx.fill();
+  // Lignes pointillées vers axes
+  ctx.strokeStyle='#c9622a'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(xPt,Math.max(15,yPt)); ctx.lineTo(xPt,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(xPt,Math.max(15,yPt)); ctx.lineTo(ox,Math.max(15,yPt)); ctx.stroke();
+  ctx.setLineDash([]);
+  // Graduations
+  ctx.fillStyle='#888'; ctx.font='10px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  [50,100,150,200].forEach(v=>{
+    const x=ox+(v/maxI)*(W-ox-20);
+    ctx.fillText(v,x,oy+12);
+  });
+  ctx.textAlign='right';
+  const uStep=maxU>40?10:5;
+  for(let u=0;u<=maxU;u+=uStep){
+    const y=oy-(u/maxU)*(oy-20);
+    if(y>10) ctx.fillText(u.toFixed(0),ox-6,y+4);
+  }
+}
+
+document.getElementById('sl-R').addEventListener('input',drawOhm);
+document.getElementById('sl-I').addEventListener('input',drawOhm);
+
+/* ============== SIMULATION CTN ============== */
+function rCTN(T){
+  // R = R0 * exp(B*(1/T - 1/T0)), T en Kelvin, R0=10kΩ à T0=293K, B=3950
+  const R0=10000, B=3950, T0=293;
+  return R0*Math.exp(B*(1/(T+273)-1/T0));
+}
+function drawCTN(){
+  const T=parseInt(document.getElementById('sl-temp').value);
+  const R=rCTN(T);
+  const cv=document.getElementById('cvCTN');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  // Fond dégradé chaud-froid
+  const grad=ctx.createLinearGradient(0,0,W,0);
+  grad.addColorStop(0,'rgba(45,95,138,0.06)');
+  grad.addColorStop(1,'rgba(201,98,42,0.06)');
+  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+  // Grille
+  ctx.strokeStyle='#ece8e0'; ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  // Axe T
+  const ox=60,oy=H-30,Tmin=-10,Tmax=100;
+  ctx.strokeStyle='#555'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('T (°C)',W-30,oy-8);
+  ctx.save(); ctx.translate(15,H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('R (kΩ)',0,0); ctx.restore();
+  // Courbe CTN
+  ctx.beginPath(); ctx.strokeStyle='#2D5F8A'; ctx.lineWidth=2.5;
+  const Rmax=rCTN(Tmin);
+  for(let t=Tmin;t<=Tmax;t+=1){
+    const r=rCTN(t)/1000; // kΩ
+    const x=ox+((t-Tmin)/(Tmax-Tmin))*(W-ox-20);
+    const y=oy-(r/Rmax*1000)*(oy-20)/1000;
+    t===Tmin?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // Point courant
+  const xPt=ox+((T-Tmin)/(Tmax-Tmin))*(W-ox-20);
+  const rPt=R/1000;
+  const yPt=oy-(rPt/Rmax*1000)*(oy-20)/1000;
+  ctx.beginPath(); ctx.fillStyle='#c9622a';
+  ctx.arc(xPt,Math.max(12,yPt),6,0,Math.PI*2);
+  ctx.fill();
+  // Graduations T
+  ctx.fillStyle='#888'; ctx.font='10px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  [-10,0,20,40,60,80,100].forEach(t=>{
+    const x=ox+((t-Tmin)/(Tmax-Tmin))*(W-ox-20);
+    ctx.fillText(t+'°',x,oy+14);
+  });
+  const rDisp=R>=1000?(R/1000).toFixed(1)+' kΩ':Math.round(R)+' Ω';
+  document.getElementById('ctn-info').textContent='T = '+T+' °C → R ≈ '+rDisp;
+}
+document.getElementById('sl-temp').addEventListener('input',drawCTN);
+
+/* ============== SIMULATION LDR ============== */
+function rLDR(lux){
+  // R diminue en 1/lux environ
+  if(lux===0) return 1000000;
+  return Math.max(100, Math.round(500000/lux));
+}
+function drawLDR(){
+  const lux=parseFloat(document.getElementById('sl-lux').value);
+  const R=rLDR(lux);
+  const cv=document.getElementById('cvLDR');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  // Fond luminosité
+  const bri=Math.min(1,lux/1000);
+  ctx.fillStyle='rgba(255,200,50,'+bri*0.12+')'; ctx.fillRect(0,0,W,H);
+  // Grille
+  ctx.strokeStyle='#ece8e0'; ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  // Axes
+  const ox=70,oy=H-30;
+  ctx.strokeStyle='#555'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Éclairement (lux)',W/2+30,H-4);
+  ctx.save(); ctx.translate(14,H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('R (kΩ)',0,0); ctx.restore();
+  // Courbe LDR
+  ctx.beginPath(); ctx.strokeStyle='#E8783A'; ctx.lineWidth=2.5;
+  const maxLux=1000, maxR=1000;
+  for(let l=0;l<=maxLux;l+=5){
+    const r=rLDR(l)/1000;
+    const x=ox+(l/maxLux)*(W-ox-20);
+    const y=oy-(Math.min(r,maxR)/maxR)*(oy-20);
+    l===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // Point
+  const xPt=ox+(lux/maxLux)*(W-ox-20);
+  const rPt=R/1000;
+  const yPt=oy-(Math.min(rPt,maxR)/maxR)*(oy-20);
+  ctx.beginPath(); ctx.fillStyle='#2D5F8A';
+  ctx.arc(xPt,Math.max(12,yPt),6,0,Math.PI*2);
+  ctx.fill();
+  // Graduations
+  ctx.fillStyle='#888'; ctx.font='10px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
+  [0,200,400,600,800,1000].forEach(l=>{
+    const x=ox+(l/maxLux)*(W-ox-20);
+    ctx.fillText(l,x,oy+14);
+  });
+  const rDisp=R>=1000?(R/1000).toFixed(0)+' kΩ':R+' Ω';
+  document.getElementById('ldr-info').textContent='Éclairement = '+lux+' lux → R ≈ '+rDisp;
+}
+document.getElementById('sl-lux').addEventListener('input',drawLDR);
+
+/* ============== INIT ============== */
+window.addEventListener('load',()=>{
+  drawCaract();
+  drawOhm();
+  drawCTN();
+  drawLDR();
+});
+</script>
+</body>
+</html>

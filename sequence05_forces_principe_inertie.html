@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séquence 05 — Forces et principe d'inertie</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#E8590C;
+    --orange-light:#FFA94D;
+    --orange-pale:#FFF4E8;
+    --black:#1a1a1a;
+    --gray:#5c5c5c;
+    --bg:#ffffff;
+    --panel:#fbfbfb;
+    --border:#ececec;
+    --green:#2b8a3e;
+    --green-bg:#ebfbee;
+    --red:#c92a2a;
+    --red-bg:#fff0f0;
+    --blue:#1864ab;
+    --blue-bg:#eaf4ff;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--black);
+    font-family:"Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height:1.55;
+  }
+  img{max-width:100%;}
+
+  /* ---------- Vecteurs (lettre + flèche au-dessus, robuste) ---------- */
+  .vec{
+    position:relative;
+    display:inline-block;
+    font-style:italic;
+    font-weight:700;
+    padding-top:0.65em;
+    margin:0 1px;
+  }
+  .vec::before{
+    content:"";
+    position:absolute;
+    top:0.08em;
+    left:50%;
+    width:0.95em;
+    height:0.475em;
+    transform:translateX(-50%);
+    background-color:currentColor;
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2012'%3E%3Cpath d='M0,5H14V0L24,6L14,12V7H0Z'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0%200%2024%2012'%3E%3Cpath d='M0,5H14V0L24,6L14,12V7H0Z'/%3E%3C/svg%3E");
+    -webkit-mask-size:100% 100%;
+    mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+  }
+  .vec::after{ content:none; }
+  sub, sup{font-style:normal;}
+
+  /* ---------- Layout général ---------- */
+  .wrap{max-width:1000px; margin:0 auto; padding:0 20px 60px;}
+
+  .header{
+    background:#ffffff;
+    border:1px solid #E3E8EE;
+    border-bottom:3px solid #2D5F8A;
+    border-radius:14px;
+    padding:18px 24px 14px;
+    max-width:1000px;
+    margin:0 auto 20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 2px 12px rgba(45,95,138,0.10);
+  }
+  .header-top{display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+  .header-left{display:flex; flex-direction:column; align-items:flex-start; gap:7px; flex-shrink:0; margin-top:2px;}
+  .header-badge{
+    background:#2D5F8A;
+    color:#fff;
+    font-family:"Outfit",sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .header-titles{flex:1; min-width:200px; text-align:left;}
+  .header-titles h1{
+    color:#2D5F8A;
+    margin:0 0 4px;
+    font-family:"Outfit",sans-serif;
+    font-size:1.45rem;
+    font-weight:800;
+    line-height:1.2;
+  }
+  .header-titles p{margin:0; font-family:"Nunito",sans-serif; font-size:0.85rem; color:#5A6B7A;}
+  .header-titles p span{color:var(--orange); font-weight:700;}
+  .header-titles .hero-quote{
+    max-width:560px;
+    margin:10px 0 0;
+    font-style:italic;
+    color:var(--gray);
+    font-size:0.85rem;
+  }
+  .header-titles .hero-quote span{font-style:normal; margin-left:6px; font-weight:600; color:var(--gray);}
+
+  button.cap-toggle{
+    background:#2D5F8A;
+    color:#fff;
+    border:none;
+    padding:5px 12px;
+    border-radius:999px;
+    font-family:"Nunito",sans-serif;
+    font-size:0.74rem;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  button.cap-toggle:hover{background:#1e4466;}
+
+  .cap-panel{
+    display:none;
+    max-width:760px;
+    margin:0 0 14px;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 22px;
+    text-align:left;
+    font-size:0.92rem;
+  }
+  .cap-panel.open{display:block;}
+  .cap-panel h3{color:#2D5F8A; margin:14px 0 6px; font-size:1rem;}
+  .cap-panel h3:first-child{margin-top:0;}
+  .cap-panel ul{margin:0 0 4px; padding-left:20px;}
+  .cap-panel li{margin-bottom:4px;}
+
+  /* ---------- Onglets ---------- */
+  nav.tabs{
+    display:flex;
+    gap:0;
+    flex-wrap:wrap;
+    margin:0;
+    padding:0;
+  }
+  .tab-btn{
+    background:transparent;
+    border:none;
+    border-bottom:3px solid transparent;
+    color:#5A6B7A;
+    font-family:"Nunito",sans-serif;
+    font-weight:600;
+    padding:9px 16px 11px;
+    border-radius:0;
+    cursor:pointer;
+    font-size:0.85rem;
+    transition:0.15s;
+    position:relative;
+    bottom:-3px;
+  }
+  .tab-btn.active{background:#E8F1F8; color:#2D5F8A; border-bottom-color:#2D5F8A; border-radius:6px 6px 0 0;}
+  .tab-btn:hover{color:#2D5F8A;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* ---------- Blocs / cartes ---------- */
+  section.block{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:24px 26px;
+    margin-bottom:28px;
+  }
+  section.block h2{
+    color:var(--orange);
+    font-size:1.25rem;
+    margin:0 0 6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  section.block .sub-label{
+    color:var(--gray);
+    font-size:0.85rem;
+    margin:0 0 16px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  section.block h3{
+    color:var(--black);
+    font-size:1.05rem;
+    margin:22px 0 10px;
+    border-left:4px solid var(--orange);
+    padding-left:10px;
+  }
+  .bilan-box{
+    background:var(--blue-bg);
+    border:1px solid #bcdcfb;
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-size:0.95rem;
+  }
+  .bilan-box strong{color:var(--blue);}
+
+  .info-box{
+    background:#fff;
+    border:1px dashed var(--orange-light);
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:0.88rem;
+    color:var(--gray);
+    margin-top:10px;
+  }
+
+  /* ---------- Formulaires interactifs ---------- */
+  .fill-row{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin:10px 0;
+    font-size:0.98rem;
+  }
+  select.blank, input.blank{
+    border:none;
+    border-bottom:2px solid var(--orange);
+    background:var(--orange-pale);
+    padding:5px 10px;
+    border-radius:6px 6px 0 0;
+    font-size:0.95rem;
+    font-family:inherit;
+    color:var(--black);
+    font-weight:600;
+  }
+  select.blank.correct, input.blank.correct, select.qcm-select.correct{background:var(--green-bg); border-color:var(--green); color:var(--green);}
+  select.blank.wrong, input.blank.wrong, select.qcm-select.wrong{background:var(--red-bg); border-color:var(--red); color:var(--red);}
+
+  button.action-btn, a.action-btn{
+    background:#fff;
+    border:2px solid var(--orange);
+    color:var(--orange);
+    font-weight:700;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:0.88rem;
+    margin:4px 4px 4px 0;
+  }
+  button.action-btn:hover, a.action-btn:hover{background:var(--orange); color:#fff;}
+  button.action-btn.solid, a.action-btn.solid{background:var(--orange); color:#fff;}
+  button.action-btn.solid:hover, a.action-btn.solid:hover{background:#cf4c08;}
+  button.action-btn:disabled{opacity:0.4; cursor:not-allowed;}
+
+  .feedback{
+    margin-top:10px;
+    font-size:0.9rem;
+    font-weight:600;
+    min-height:1.3em;
+  }
+  .feedback.ok{color:var(--green);}
+  .feedback.ko{color:var(--red);}
+
+  /* ---------- Diagramme / canvases ---------- */
+  .canvas-frame{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    margin:10px 0;
+  }
+  canvas{max-width:100%; display:block; margin:0 auto;}
+
+  .two-col{display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;}
+  .two-col > div{flex:1; min-width:260px;}
+
+  .slider-row{margin:12px 0; font-size:0.92rem;}
+  .slider-row label{display:block; font-weight:600; margin-bottom:4px;}
+  .slider-row output{color:var(--orange); font-weight:700;}
+  input[type=range]{width:100%; accent-color:var(--orange);}
+  input[type=number]{
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:6px 8px;
+    font-size:0.92rem;
+    width:110px;
+    font-family:inherit;
+  }
+  select.dropdown{
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:6px 8px;
+    font-size:0.92rem;
+    font-family:inherit;
+    max-width:100%;
+  }
+  .qa-doc select.qcm-select{
+    width:100%;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+
+  .result-pill{
+    display:inline-block;
+    background:var(--orange-pale);
+    border:1px solid var(--orange-light);
+    border-radius:8px;
+    padding:8px 14px;
+    font-weight:700;
+    color:var(--orange);
+    margin-top:8px;
+  }
+  .formula-detail{
+    font-size:0.82rem;
+    color:var(--gray);
+    font-family:"Courier New", monospace;
+    margin-top:4px;
+  }
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:0.9rem; margin:12px 0;}
+  table.data-table th, table.data-table td{
+    border:1px solid var(--border);
+    padding:7px 6px;
+    text-align:center;
+  }
+  table.data-table th{background:var(--orange-pale); color:var(--orange);}
+  table.data-table input{width:64px; text-align:center; padding:4px; border:1px solid var(--border); border-radius:4px; font-family:inherit;}
+  input.chute-input.correct{background:var(--green-bg); border-color:var(--green); color:var(--green); font-weight:600;}
+  input.chute-input.wrong{background:var(--red-bg); border-color:var(--red); color:var(--red); font-weight:600;}
+  input.chute-input:disabled{background:#eee; color:var(--gray); font-style:italic;}
+
+  /* ---------- accordéon Q/A ---------- */
+  .qa{
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin:10px 0;
+    overflow:hidden;
+    background:#fff;
+  }
+  .qa-q{
+    padding:12px 40px 12px 16px;
+    cursor:pointer;
+    font-weight:600;
+    position:relative;
+  }
+  .qa-q span:last-child{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  .qa-q:hover{background:var(--orange-pale);}
+  .qa-a{
+    display:none;
+    padding:0 16px 14px;
+    color:var(--gray);
+    font-size:0.92rem;
+  }
+  .qa.open .qa-a{display:block;}
+  .qa.open .qa-q{color:var(--orange);}
+
+  .qa-doc{
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin:10px 0;
+    padding:14px 16px;
+    background:#fff;
+  }
+  .qa-doc .qa-question{font-weight:600; margin:0 0 8px;}
+  .qa-doc textarea.qa-reponse{
+    width:100%;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 10px;
+    font-family:inherit;
+    font-size:0.9rem;
+    resize:vertical;
+    margin-bottom:8px;
+    background:#fafafa;
+  }
+  .qa-correction{
+    display:none;
+    margin-top:10px;
+    padding:10px 14px;
+    background:var(--orange-pale);
+    border-radius:8px;
+    color:var(--black);
+    font-size:0.92rem;
+  }
+  .qa-correction.open{display:block;}
+
+  .mode-switch{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+  .mode-switch button{flex:1; min-width:220px;}
+
+  footer{
+    text-align:center;
+    color:var(--gray);
+    font-size:0.85rem;
+    padding:20px;
+  }
+  footer strong{color:var(--orange);}
+
+  @media (max-width:600px){
+    .header{padding:14px 16px 10px;}
+    .header-titles h1{font-size:1.1rem;}
+    section.block{padding:18px 16px;}
+    .tab-btn{font-size:0.78rem; padding:8px 10px 10px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">2<sup>nde</sup> – Séq. 05</div>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Forces et principe d'inertie</h1>
+      <p>Thème : <span>Mouvements et interactions</span> · C. Poirault-Gauvin</p>
+      <p class="hero-quote">
+        « Si j'ai pu voir vraiment loin, c'est uniquement parce que je me suis tenu sur les épaules de géants. »
+        <span>— Isaac Newton (1642 – 1727)</span>
+      </p>
+    </div>
+  </div>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="tab1">1️⃣ Modéliser une action</button>
+    <button class="tab-btn" data-tab="tab2">2️⃣ Principe d'inertie</button>
+    <button class="tab-btn" data-tab="tab3">3️⃣ Bilan et ressources</button>
+  </nav>
+
+  <div class="cap-panel" id="capPanel">
+    <h3>Partie 1 — Modéliser une action sur un système</h3>
+    <ul>
+      <li>Modéliser l'action d'un système extérieur sur le système étudié par une force ; représenter une force par un vecteur (norme, direction, sens).</li>
+      <li>Exploiter le principe des actions réciproques.</li>
+      <li>Distinguer actions à distance et actions de contact.</li>
+      <li>Identifier les actions modélisées par des forces dont les expressions mathématiques sont connues a priori.</li>
+      <li>Utiliser l'expression vectorielle de la force d'interaction gravitationnelle.</li>
+      <li>Utiliser l'expression vectorielle du poids d'un objet, approché par la force d'interaction gravitationnelle s'exerçant sur cet objet à la surface d'une planète.</li>
+      <li>Représenter qualitativement la force modélisant l'action d'un support dans des cas simples relevant de la statique.</li>
+    </ul>
+    <h3>Partie 2 — Principe d'inertie</h3>
+    <ul>
+      <li>Exploiter le principe d'inertie ou sa contraposée pour en déduire des informations soit sur la nature du mouvement, soit sur les forces.</li>
+      <li>Relier la variation entre deux instants voisins du vecteur vitesse à l'existence d'actions extérieures dont la somme est non nulle.</li>
+      <li>Relier la variation du vecteur vitesse dans le cas d'une chute libre à une dimension au sens du vecteur poids.</li>
+      <li>Réaliser et exploiter une vidéo ou une chronophotographie pour relier les variations du vecteur vitesse et la somme des forces appliquées.</li>
+    </ul>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===================== TAB 1 ===================== -->
+  <div class="tab-panel active" id="tab1">
+    <section class="block" id="bloc-contact-distance">
+      <h2>⚽ Actions mécaniques : contact ou distance ?</h2>
+      <p class="sub-label">Doc 1 p198</p>
+      <div class="two-col">
+        <div>
+          <div class="fill-row">
+            On parle d'action
+            <select class="blank" id="blank1">
+              <option value="">— choisir —</option>
+              <option value="contact">de contact</option>
+              <option value="distance">à distance</option>
+            </select>
+            lorsqu'il y a <strong>contact</strong> entre le système étudié et l'extérieur.
+          </div>
+          <div class="fill-row">
+            On parle d'action
+            <select class="blank" id="blank2">
+              <option value="">— choisir —</option>
+              <option value="contact">de contact</option>
+              <option value="distance">à distance</option>
+            </select>
+            lorsqu'il n'y a <strong>pas de contact</strong> entre le système étudié et l'extérieur.
+          </div>
+          <button class="action-btn solid" id="checkBlanks">✅ Vérifier</button>
+          <div class="feedback" id="feedbackBlanks"></div>
+        </div>
+        <div>
+          <div class="canvas-frame" style="padding:14px;">
+            <img src="doc1-p198.png" alt="Doc 1 p198 : a. le volleyeur exerce une force de contact F1 sur le ballon — b. l'aimant exerce une force à distance F2 sur la bille d'acier" style="max-width:260px; width:100%; display:block; margin:0 auto; border-radius:8px;">
+          </div>
+          <p style="font-size:0.82rem; color:var(--gray); text-align:center; margin-top:4px;">Doc 1 p198 — a. force de contact <span class="vec">F</span><sub>1</sub> · b. force à distance <span class="vec">F</span><sub>2</sub></p>
+        </div>
+      </div>
+
+      <h3>Classer quelques exemples</h3>
+      <p style="font-size:0.92rem; color:var(--gray); margin-top:-4px;">Pour chaque situation, indique le type d'action mise en jeu.</p>
+      <div id="classement-exemples"></div>
+      <div class="feedback" id="feedbackClassement"></div>
+    </section>
+
+    <section class="block" id="bloc-diagramme">
+      <h2>🧩 Construire un diagramme objet-interactions</h2>
+      <p class="sub-label">Exemple : le coup de pied sur un ballon de foot</p>
+      <p>Système étudié : <strong>le ballon</strong> · Référentiel : <strong>terrestre</strong>.<br>
+      Ajoute les interactions une à une puis vérifie le diagramme.</p>
+      <div class="two-col">
+        <div>
+          <button class="action-btn" id="addContact">➕ Interaction de contact (pied)</button><br>
+          <button class="action-btn" id="addDistance">➕ Interaction à distance (Terre)</button><br>
+          <button class="action-btn" id="resetDiagram">↺ Réinitialiser</button>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="diagramCanvas" width="380" height="260"></canvas>
+        </div>
+      </div>
+      <div class="feedback" id="feedbackDiagram"></div>
+      <div class="bilan-box" id="bilanDiagram" style="display:none;">
+        <strong>Bilan :</strong> une action mécanique exercée par l'extérieur sur le système étudié est modélisée par une force.
+        Cette force est représentée par un vecteur ayant une <strong>direction</strong> (celle de la droite d'action), un <strong>sens</strong> et une <strong>norme</strong> proportionnelle à la valeur de la force.
+        Le <strong>point d'application</strong> est le point où l'on considère que la force s'exerce.
+      </div>
+    </section>
+
+    <section class="block" id="bloc-vecteur">
+      <h2>📐 Modéliser une force par un vecteur</h2>
+      <p class="sub-label">Action du joueur sur le ballon</p>
+      <p>Fais varier la norme et la direction de la force <span class="vec">F</span><sub>joueur/ballon</sub> et observe le vecteur se construire en temps réel.</p>
+      <div class="two-col">
+        <div>
+          <div class="slider-row">
+            <label>Norme de la force <output id="outNorme">120</output> N</label>
+            <input type="range" id="sliderNorme" min="20" max="300" value="120" step="5">
+          </div>
+          <div class="slider-row">
+            <label>Direction / sens (angle) <output id="outAngle">35</output>°</label>
+            <input type="range" id="sliderAngle" min="0" max="90" value="35" step="1">
+          </div>
+          <div class="info-box">Échelle utilisée sur le schéma : 1 cm ↔ 50 N. Le vecteur <span class="vec">F</span><sub>joueur/ballon</sub> a une direction (celle de la droite d'action), un sens (du point initial vers le point final) et une norme (la valeur de la force, en N).</div>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="vectorCanvas" width="360" height="260"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="bloc-reciproques">
+      <h2>🪢 Le jeu de la corde — Principe des actions réciproques</h2>
+      <p class="sub-label">3<sup>ième</sup> loi de Newton</p>
+      <p>Règle la force de traction au sol de chaque équipe (grip / frottement sur leurs appuis) et observe ce qui se passe au niveau de la corde.</p>
+      <div class="two-col">
+        <div>
+          <div class="slider-row">
+            <label>💪 Équipe A — force au sol <output id="outForceA">200</output> N</label>
+            <input type="range" id="sliderForceA" min="0" max="400" value="200" step="5">
+          </div>
+          <div class="slider-row">
+            <label>💪 Équipe B — force au sol <output id="outForceB">200</output> N</label>
+            <input type="range" id="sliderForceB" min="0" max="400" value="200" step="5">
+          </div>
+          <button class="action-btn solid" id="btnEgalite">⚖️ Cas exæquo (200 N / 200 N)</button>
+          <div class="result-pill" id="resultCorde">Égalité parfaite — la corde ne bouge pas.</div>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="cordeCanvas" width="380" height="200"></canvas>
+        </div>
+      </div>
+      <div class="bilan-box">
+        <strong>À retenir :</strong> quelle que soit la situation (égalité ou non), la force exercée par la corde sur la main d'un joueur et la force exercée par cette main sur la corde sont <strong>toujours égales en norme et de sens opposés</strong> (3<sup>ième</sup> loi de Newton — <span class="vec">F</span><sub>A/corde</sub> = − <span class="vec">F</span><sub>corde/A</sub>).
+        Ce n'est <strong>pas</strong> une différence de force « dans la corde » qui fait gagner une équipe, mais une différence de force de frottement au sol sous leurs appuis.
+      </div>
+      <div class="info-box" style="text-align:center; border-style:solid;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🔬 Simulation PhET</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Visualise les deux forces d'interaction entre deux masses et observe qu'elles sont toujours égales et opposées (3<sup>ième</sup> loi de Newton).</p>
+        <a href="https://phet.colorado.edu/sims/html/gravity-force-lab-basics/latest/gravity-force-lab-basics_all.html?locale=fr" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">🚀 Ouvrir la simulation PhET ↗</a>
+      </div>
+      <div class="info-box" style="text-align:center; border-style:solid;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🚣 La barque de Tsiolkovski</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Une vidéo illustrant le principe des actions réciproques.</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d1788e78e.2fc834d6.24c1b6eb3da963e821cb6e3f57204db5" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+      </div>
+    </section>
+
+    <section class="block" id="bloc-poids-gravitation">
+      <h2>🌍 Poids et interaction gravitationnelle</h2>
+
+      <h3>⚖️ Calculer un poids</h3>
+      <div class="two-col">
+        <div>
+          <div class="slider-row">
+            <label>Masse de l'objet <output id="outMasse">70</output> kg</label>
+            <input type="range" id="sliderMasse" min="1" max="200" value="70" step="1">
+          </div>
+          <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
+          <select class="dropdown" id="selectAstre">
+            <option value="9.8">Terre (g = 9,8 N·kg⁻¹)</option>
+            <option value="1.62">Lune (g = 1,62 N·kg⁻¹)</option>
+            <option value="3.7">Mars (g = 3,7 N·kg⁻¹)</option>
+            <option value="24.8">Jupiter (g = 24,8 N·kg⁻¹)</option>
+          </select>
+          <div class="result-pill" id="resultPoids">P = 686 N</div>
+          <div class="formula-detail" id="formulaPoids"></div>
+          <div class="info-box">Formule : <span class="vec">P</span> = m × <span class="vec">g</span> (avec <span class="vec">P</span> et <span class="vec">g</span> verticaux, vers le bas).</div>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="poidsCanvas" width="220" height="260"></canvas>
+        </div>
+      </div>
+
+      <h3>🛰️ Force d'interaction gravitationnelle</h3>
+      <p style="font-size:0.92rem;">F<sub>A/B</sub> = G × (m<sub>A</sub> × m<sub>B</sub>) / d² &nbsp;avec&nbsp; G = 6,67×10⁻¹¹ N·m²·kg⁻²</p>
+      <div class="two-col">
+        <div>
+          <div class="slider-row">
+            <label>Masse m<sub>A</sub> (Terre) — <output id="outMA">5.97e24</output> kg</label>
+            <input type="range" id="sliderMA" min="22" max="26" value="24.776" step="0.01">
+          </div>
+          <div class="slider-row">
+            <label>Masse m<sub>B</sub> (satellite) — <output id="outMB">1000</output> kg</label>
+            <input type="range" id="sliderMB" min="0" max="4" value="3" step="0.05">
+          </div>
+          <div class="slider-row">
+            <label>Distance d <output id="outD">7000</output> km</label>
+            <input type="range" id="sliderD" min="6400" max="50000" value="7000" step="100">
+          </div>
+          <div class="result-pill" id="resultGravitation">F = 8,14×10³ N</div>
+          <div class="formula-detail" id="formulaGravitation"></div>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="gravCanvas" width="360" height="180"></canvas>
+        </div>
+      </div>
+
+      <h3>📏 Pesanteur à une altitude h</h3>
+      <p style="font-size:0.92rem;">g(h) = G × M<sub>Terre</sub> / (R<sub>Terre</sub> + h)²</p>
+      <div class="slider-row">
+        <label>Altitude h <output id="outAlt">0</output> km</label>
+        <input type="range" id="sliderAlt" min="0" max="3000" value="0" step="10">
+      </div>
+      <div class="result-pill" id="resultAlt">g(0 km) = 9,82 N·kg⁻¹</div>
+      <div class="formula-detail" id="formulaAlt"></div>
+      <div class="info-box">Données : R<sub>Terre</sub> = 6 371 km · M<sub>Terre</sub> = 5,97×10²⁴ kg · g<sub>Lune</sub> ≈ g<sub>Terre</sub> / 6.</div>
+    </section>
+    <!--TAB1_CONTENT-->
+  </div>
+
+  <!-- ===================== TAB 2 ===================== -->
+  <div class="tab-panel" id="tab2">
+    <section class="block" id="bloc-inertie-anim">
+      <h2>🛹 Comprendre le principe d'inertie, sa contraposée et sa réciproque</h2>
+      <p>Anime les trois situations ci-dessous (camion qui démarre, bus qui freine, balle qui tombe), puis réponds aux questions.</p>
+      <div class="canvas-frame" style="padding:6px;">
+        <iframe src="https://physique.ostralo.net/principe_inertie/" width="100%" height="900" style="border:none; display:block;" loading="lazy" title="Animation du principe d'inertie — Ostralo"></iframe>
+      </div>
+      <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-top:6px;">
+        Animation réalisée par A. Willm — <a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">ostralo.net</a> (CC BY-NC-SA).
+        Si elle ne s'affiche pas ci-dessus, <a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">ouvre-la dans un nouvel onglet ↗</a>.
+      </p>
+
+      <div class="bilan-box">
+        <strong>Principe d'inertie :</strong> tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.<br>
+        <strong>Contraposée :</strong> si entre deux instants voisins le vecteur vitesse varie, alors les forces qui s'exercent sur le système ne se compensent pas.<br>
+        <strong>Réciproquement :</strong> si les forces qui s'exercent sur un système ne se compensent pas, alors son vecteur vitesse varie.
+      </div>
+
+      <h3>🚛 Application — camion, bus et balle</h3>
+      <p style="font-size:0.92rem;">D'après l'animation ci-dessus (frottements négligés dans les 3 cas), réponds aux questions suivantes.</p>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Que se passe-t-il pour le bloc lorsque le camion démarre ?</p>
+        <select class="dropdown qcm-select" id="qcmOstralo1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Il accélère avec le camion, à la même vitesse.</option>
+          <option value="b">Il reste immobile par rapport au sol et semble glisser vers l'arrière du camion.</option>
+          <option value="c">Il part instantanément vers l'avant du camion.</option>
+          <option value="d">Il tombe immédiatement du camion.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Que se passe-t-il pour le bloc lorsque le bus freine et s'arrête ?</p>
+        <select class="dropdown qcm-select" id="qcmOstralo2" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Il s'arrête en même temps que le bus.</option>
+          <option value="b">Il continue tout droit à vitesse constante et semble glisser vers l'avant du bus.</option>
+          <option value="c">Il recule vers l'arrière du bus.</option>
+          <option value="d">Il tombe immédiatement sur le sol.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Une fois la balle lâchée, comment évolue sa vitesse horizontale (frottements de l'air négligés) ?</p>
+        <select class="dropdown qcm-select" id="qcmOstralo3" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elle s'annule dès qu'on lâche la balle.</option>
+          <option value="b">Elle reste constante : la balle conserve la vitesse horizontale qu'elle avait au moment où on l'a lâchée.</option>
+          <option value="c">Elle augmente continuellement, comme la vitesse verticale.</option>
+          <option value="d">Elle diminue progressivement à cause de la pesanteur.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkOstralo">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackOstralo"></div>
+      <div class="qa-correction" id="correctionOstralo">
+        <strong>1.</strong> Sans frottement, rien n'entraîne le bloc avec le camion : par rapport au sol (référentiel terrestre), il reste immobile (principe d'inertie). Comme le camion avance sous lui, le bloc semble reculer vers l'arrière du plateau.<br><br>
+        <strong>2.</strong> Sans frottement, rien ne freine le bloc : il conserve la vitesse qu'il avait avant le freinage et continue tout droit (principe d'inertie). Comme le bus ralentit, le bloc semble avancer vers le devant du bus.<br><br>
+        <strong>3.</strong> Une fois lâchée, la balle n'est plus soumise qu'à son poids (chute libre) : aucune force horizontale n'agit sur elle, donc d'après le principe d'inertie sa vitesse horizontale reste constante — seule sa vitesse verticale augmente sous l'effet du poids.
+      </div>
+
+      <h3>🧠 Questions guidées — activité « Découvrir le principe d'inertie »</h3>
+      <div class="info-box" style="text-align:center; border-style:solid; max-width:420px; margin:0 auto 18px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📄 Activité documentaire — Découvrir le principe d'inertie</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Ouvre le document pour répondre aux questions ci-dessous.</p>
+        <a href="AD_decouvrir-le-principe-d-inertie.pdf" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Ouvrir l'activité (PDF) ↗</a>
+      </div>
+      <p style="font-size:0.9rem; color:var(--gray);">Choisis une réponse pour chaque question, puis vérifie.</p>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Dans quel sens serait dirigée la force qui pousserait le skateur, selon l'énoncé d'Aristote ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir1" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Dans le sens du mouvement (vers l'avant).</option>
+          <option value="b">Dans le sens opposé au mouvement (vers l'arrière).</option>
+          <option value="c">Verticale, vers le haut.</option>
+          <option value="d">Verticale, vers le bas.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Comment appelle-t-on en classe « un mouvement uniforme en ligne droite » ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir2" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Mouvement rectiligne accéléré.</option>
+          <option value="b">Mouvement rectiligne uniforme (MRU).</option>
+          <option value="c">Mouvement circulaire uniforme.</option>
+          <option value="d">Mouvement curviligne.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.a</strong> Que se passerait-il si la force <span class="vec">F</span><sub>2</sub> (frottement) était soudain supprimée ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir3a" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le skateur s'arrêterait immédiatement.</option>
+          <option value="b">Le skateur continuerait en ligne droite à vitesse constante.</option>
+          <option value="c">Le skateur accélérerait de plus en plus.</option>
+          <option value="d">Le skateur partirait à la verticale.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.b</strong> Pourquoi <span class="vec">F</span><sub>1</sub> (réaction normale du support) est-elle constante tout au long du mouvement sur la piste horizontale ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir3b" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le skateur ne s'enfonce pas et ne s'envole pas : la composante verticale des forces reste nulle, donc <span class="vec">F</span><sub>1</sub> compense exactement le poids à chaque instant.</option>
+          <option value="b"><span class="vec">F</span><sub>1</sub> dépend de la vitesse du skateur.</option>
+          <option value="c">Le frottement <span class="vec">F</span><sub>2</sub> impose sa valeur à <span class="vec">F</span><sub>1</sub>.</option>
+          <option value="d"><span class="vec">F</span><sub>1</sub> diminue progressivement comme <span class="vec">F</span><sub>2</sub>.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.c</strong> Pourquoi les frottements sont-ils nuls lorsque le skateur est arrêté ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir3c" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Parce que le poids devient nul à l'arrêt.</option>
+          <option value="b">Parce que le frottement n'existe que s'il y a un mouvement relatif entre le skateur et la piste.</option>
+          <option value="c">Parce que la piste devient parfaitement lisse à l'arrêt.</option>
+          <option value="d">Parce que <span class="vec">F</span><sub>1</sub> augmente pour compenser.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> Nommer les 3 forces qui s'exercent sur le skateur avant qu'il ne s'arrête.</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir4" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Poids <span class="vec">P</span>, réaction normale <span class="vec">F</span><sub>1</sub>, frottement <span class="vec">F</span><sub>2</sub>.</option>
+          <option value="b">Poids <span class="vec">P</span>, force motrice, réaction normale.</option>
+          <option value="c">Poids <span class="vec">P</span>, frottement <span class="vec">F</span><sub>2</sub>, force centrifuge.</option>
+          <option value="d">Réaction normale <span class="vec">F</span><sub>1</sub>, frottement <span class="vec">F</span><sub>2</sub>, vitesse.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>5.</strong> Pourquoi la norme de <span class="vec">F</span><sub>2</sub> diminue-t-elle au cours du mouvement ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir5" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Parce que le poids diminue.</option>
+          <option value="b">Parce que la vitesse de glissement/roulement diminue, ce qui réduit l'intensité du frottement.</option>
+          <option value="c">Parce que <span class="vec">F</span><sub>1</sub> augmente pour compenser.</option>
+          <option value="d">Parce que la piste devient plus lisse.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>6.</strong> Pourquoi l'énoncé d'Aristote est-il incorrect ?</p>
+        <select class="dropdown qcm-select" id="qcmDecouvrir6" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Un système peut conserver un mouvement rectiligne uniforme sans force motrice, tant que les forces se compensent.</option>
+          <option value="b">Parce qu'Aristote n'avait pas de notion de vitesse.</option>
+          <option value="c">Parce que la Terre n'est pas immobile.</option>
+          <option value="d">Parce que les frottements n'existaient pas à son époque.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkDecouvrir">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackDecouvrir"></div>
+      <div class="qa-correction" id="correctionDecouvrir">
+        <strong>1.</strong> Selon Aristote, il faudrait une force dirigée dans le sens du mouvement pour que le skateur continue d'avancer : sans cette « force motrice », il s'arrêterait. C'est cette idée que Galilée puis Newton ont réfutée.<br><br>
+        <strong>2.</strong> On l'appelle un <strong>mouvement rectiligne uniforme</strong> (MRU).<br><br>
+        <strong>3.a</strong> Les forces qui s'exercent alors sur le skateur (poids et réaction du support) se compenseraient parfaitement : d'après le principe d'inertie, il continuerait son mouvement en ligne droite à vitesse constante.<br><br>
+        <strong>3.b</strong> Sur la partie horizontale, le skateur ne s'enfonce pas et ne s'envole pas : la composante verticale des forces reste nulle, donc la réaction du support compense exactement le poids à chaque instant.<br><br>
+        <strong>3.c</strong> Le frottement de roulement n'apparaît que lorsqu'il y a mouvement relatif entre le skateur et la piste. À l'arrêt, il n'y a plus de glissement/roulement, donc plus de force de frottement à compenser : le système reste à l'équilibre (poids et réaction se compensent).<br><br>
+        <strong>4.</strong> Le poids <span class="vec">P</span> (action à distance de la Terre), la réaction normale du support <span class="vec">F</span><sub>1</sub> (action de contact) et la force de frottement <span class="vec">F</span><sub>2</sub> (action de contact, qui s'oppose au mouvement).<br><br>
+        <strong>5.</strong> À mesure que le skateur ralentit, la vitesse de glissement/roulement diminue, ce qui réduit l'intensité de la force de frottement. Quand le skateur s'arrête, cette force devient nulle (voir question 3.c).<br><br>
+        <strong>6.</strong> Aristote pensait qu'une force motrice était nécessaire pour entretenir tout mouvement. Or un système peut conserver un mouvement rectiligne uniforme sans aucune force motrice, tant que les forces qui s'exercent sur lui se compensent (principe d'inertie) — c'est l'absence de compensation (le frottement) qui freine le skateur, et non l'absence d'une « force motrice ».
+      </div>
+
+      <h3>🪶 Application — la graine de pissenlit</h3>
+      <p style="font-size:0.92rem;">Dans le référentiel terrestre, une graine de pissenlit chute verticalement à <strong>vitesse constante</strong>.</p>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Que peut-on en déduire sur la force <span class="vec">F</span><sub>air</sub> exercée par l'air sur la graine ?</p>
+        <select class="dropdown qcm-select" id="qcmPissenlit1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elle est nulle.</option>
+          <option value="b">Elle est verticale, vers le haut, de même norme que le poids.</option>
+          <option value="c">Elle est horizontale, opposée au vent.</option>
+          <option value="d">Elle est verticale vers le bas et plus grande que le poids.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Si la graine chutait dans un milieu sans air, que pourrait-on déduire sur son mouvement ?</p>
+        <select class="dropdown qcm-select" id="qcmPissenlit2" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Il resterait un mouvement rectiligne uniforme.</option>
+          <option value="b">Il deviendrait un mouvement accéléré (chute libre).</option>
+          <option value="c">La graine s'arrêterait immédiatement.</option>
+          <option value="d">La graine remonterait.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkPissenlit">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackPissenlit"></div>
+      <div class="qa-correction" id="correctionPissenlit">
+        <strong>1.</strong> Le vecteur vitesse ne varie pas (mouvement rectiligne uniforme), donc d'après la contraposée du principe d'inertie, les forces se compensent. La force de l'air <span class="vec">F</span><sub>air</sub> compense donc exactement le poids <span class="vec">P</span> de la graine : elle est verticale, dirigée vers le haut, de même norme que le poids.<br><br>
+        <strong>2.</strong> Sans air, la graine ne serait soumise qu'à son poids : elle serait en <strong>chute libre</strong>. Les forces ne se compenseraient plus (il n'y aurait que <span class="vec">P</span>), donc, d'après le principe d'inertie, son vecteur vitesse varierait : son mouvement serait accéléré.
+      </div>
+    </section>
+
+    <section class="block" id="bloc-chute-libre">
+      <h2>🪂 La chute libre verticale</h2>
+      <div class="fill-row">
+        Un système est en chute libre lorsqu'il n'est soumis qu'à
+        <input type="text" class="blank" id="blankChute" placeholder="…" style="width:140px;">
+        <button class="action-btn solid" id="checkChute">✅ Vérifier</button>
+      </div>
+      <div class="feedback" id="feedbackChute"></div>
+
+      <p style="font-size:0.92rem; margin-top:16px;">Données de Galilée pour une chute sans vitesse initiale :</p>
+      <p class="formula-detail" id="formulaChute" style="font-size:0.95rem;">v = g × Δt &nbsp;et&nbsp; d = g × Δt² / 2 &nbsp;(avec g = 9,8 m·s⁻²)</p>
+      <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
+      <select class="dropdown" id="selectAstreChute">
+        <option value="9.8">Terre (g = 9,8 m·s⁻²)</option>
+        <option value="1.62">Lune (g = 1,62 m·s⁻²)</option>
+      </select>
+
+      <p style="font-size:0.88rem; color:var(--gray); margin-top:14px;">Complète le tableau (M₀ te donne l'exemple), puis vérifie tes réponses.</p>
+      <table class="data-table" id="tableChute">
+        <thead>
+          <tr><th>Position</th><th>M₀</th><th>M₁</th><th>M₂</th><th>M₃</th><th>M₄</th><th>M₅</th><th>M₆</th><th>M₇</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Δt (s)</td><td>0</td><td>0,04</td><td>0,08</td><td>0,12</td><td>0,16</td><td>0,20</td><td>0,24</td><td>0,28</td></tr>
+          <tr id="rowD"><td>d (m)</td></tr>
+          <tr id="rowV"><td>v (m·s⁻¹)</td></tr>
+        </tbody>
+      </table>
+      <button class="action-btn solid" id="btnVerifChute">✅ Vérifier mes réponses</button>
+      <button class="action-btn" id="btnCorrectionChute">👀 Voir la correction</button>
+      <div class="feedback" id="feedbackChuteTable"></div>
+
+      <div class="two-col">
+        <div>
+          <p style="font-size:0.92rem;">Échelle des vecteurs vitesse (sur le schéma papier) : 1 cm ↔ 0,3 m·s⁻¹. Compare <span class="vec">v</span><sub>4</sub> et <span class="vec">v</span><sub>5</sub> : le vecteur vitesse s'allonge-t-il ?</p>
+          <div class="result-pill" id="resultChuteConclusion">Vérifie ou affiche la correction pour voir le schéma.</div>
+        </div>
+        <div class="canvas-frame">
+          <canvas id="chuteCanvas" width="300" height="280"></canvas>
+        </div>
+      </div>
+      <div class="bilan-box">
+        Le vecteur vitesse d'un système en chute libre <strong>varie</strong> (sa norme augmente à chaque instant). D'après la <strong>réciproque</strong> du principe d'inertie : puisque la seule force présente est le poids, les forces ne se compensent pas (il n'y a rien pour compenser <span class="vec">P</span>) — c'est cohérent avec la variation observée du vecteur vitesse.
+      </div>
+      <div class="info-box">Chaque vecteur vitesse est tracé <strong>verticalement</strong>, dans le sens du mouvement, avec son origine au point où il s'applique (M₄ pour <span class="vec">v</span><sub>4</sub>, M₅ pour <span class="vec">v</span><sub>5</sub>) — légèrement décalés à gauche et à droite de la trajectoire pour mieux les distinguer.</div>
+    </section>
+    <!--TAB2_CONTENT-->
+  </div>
+
+  <!-- ===================== TAB 3 ===================== -->
+  <div class="tab-panel" id="tab3">
+    <section class="block" id="bloc-bilans-img">
+      <h2>🖼️ Bilans visuels — Hatier</h2>
+      <p class="sub-label">Visionne la vidéo bilan, puis consulte l'image de synthèse</p>
+
+      <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start;">
+
+        <div style="flex:1; min-width:260px; text-align:center;">
+          <p style="font-weight:700; color:var(--black); margin:0 0 8px;">⚡ Actions et forces</p>
+          <a href="https://www.pearltrees.com/private/id104961564/item801650212?paccess=47d178164e8.2fc83624.b6510ab3afb7b8a368fadecc81f117e8" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block; margin-bottom:10px;">🎬 Vidéo bilan ↗</a>
+          <div class="canvas-frame" style="padding:10px; margin:0;">
+            <img src="Bilan-forces-Hatier.png" alt="Bilan actions et forces — Hatier" style="width:100%; display:block; border-radius:6px;">
+          </div>
+        </div>
+
+        <div style="flex:1; min-width:260px; text-align:center;">
+          <p style="font-weight:700; color:var(--black); margin:0 0 8px;">🔄 Principe d'inertie</p>
+          <a href="https://www.pearltrees.com/private/id104961625/item801650228?paccess=47d1783e041.2fc83634.32924d3fe03425c24706b26dc89e049d" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block; margin-bottom:10px;">🎬 Vidéo bilan ↗</a>
+          <div class="canvas-frame" style="padding:10px; margin:0;">
+            <img src="Bilan-principe-inertie-Hatier.png" alt="Bilan principe d'inertie — Hatier" style="width:100%; display:block; border-radius:6px;">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="block" id="bloc-ressources">
+      <h2>📚 Ressources complémentaires</h2>
+      <p class="sub-label">Activités et vidéos pour aller plus loin</p>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📏 Mesure avec le dynamomètre</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801652852?paccess=47d210df351.2fc84074.93fce808df7cfae1ca4d544bc561efd3" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Vidéo — La troisième loi de Newton</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801650885?paccess=47d210d362f.2fc838c5.be9fe0ee80b81174cce0b63fc259a9c2" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📐 Schématiser les forces</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801652926?paccess=47d210f284b.2fc840be.2be63b8cfacf6fbaa903a2ef85df7623" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🚣 La barque de Constantin</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Illustration du principe des actions réciproques (3<sup>ième</sup> loi de Newton).</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d211015cc.2fc834d6.2d4fca4140a2fac62bf6634e744a3d10" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+<footer>
+  Fiche de cours interactive — Séquence 05 · <strong>C. Poirault-Gauvin</strong><br>
+  📝 Le quiz de révision associé est disponible dans un fichier séparé.
+</footer>
+
+<script>
+// ===================== Utilitaires =====================
+function drawArrow(ctx, x1, y1, x2, y2, color, width, headColor) {
+  width = width || 3;
+  headColor = headColor || color;
+  var headlen = 9 + width;
+  var angle = Math.atan2(y2 - y1, x2 - x1);
+  ctx.strokeStyle = color; ctx.lineWidth = width;
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.fillStyle = headColor;
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
+  ctx.closePath(); ctx.fill();
+}
+function drawLetterVecArrow(ctx, x, y, w, color){
+  color = color || "#000";
+  ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x+w, y); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x+w, y);
+  ctx.lineTo(x+w-4.5, y-2.6);
+  ctx.lineTo(x+w-4.5, y+2.6);
+  ctx.closePath(); ctx.fill();
+}
+function drawPlayer(ctx, x, y, shirtColor, label, armDir){
+  // tête
+  ctx.beginPath(); ctx.arc(x, y-34, 9, 0, 2*Math.PI);
+  ctx.fillStyle="#f1c27d"; ctx.fill(); ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=1; ctx.stroke();
+  // jambes
+  ctx.strokeStyle="#3b3b3b"; ctx.lineWidth=4; ctx.lineCap="round";
+  ctx.beginPath(); ctx.moveTo(x-4,y+4); ctx.lineTo(x-9,y+26); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x+4,y+4); ctx.lineTo(x+9,y+26); ctx.stroke();
+  // haut (tee-shirt coloré)
+  ctx.fillStyle = shirtColor;
+  ctx.beginPath();
+  ctx.moveTo(x-11, y-24);
+  ctx.lineTo(x+11, y-24);
+  ctx.lineTo(x+9, y+6);
+  ctx.lineTo(x-9, y+6);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=1; ctx.stroke();
+  // bras tendu vers la corde
+  ctx.strokeStyle="#f1c27d"; ctx.lineWidth=3.5; ctx.lineCap="round";
+  ctx.beginPath(); ctx.moveTo(x, y-18); ctx.lineTo(x+armDir*22, y-12); ctx.stroke();
+  // étiquette
+  ctx.font="13px sans-serif"; ctx.fillStyle="#1a1a1a"; ctx.textAlign="center";
+  ctx.fillText(label, x, y+42);
+}
+function fmtSci(x) {
+  if (x === 0) return "0";
+  var exp = Math.floor(Math.log10(Math.abs(x)));
+  var mant = x / Math.pow(10, exp);
+  return mant.toFixed(2).replace(".", ",") + "×10" + supExp(exp);
+}
+function supExp(e) {
+  var map = {"-":"⁻","0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
+  return String(e).split("").map(function(c){return map[c] || c;}).join("");
+}
+
+// ===================== Onglets =====================
+document.querySelectorAll(".tab-btn").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
+    document.querySelectorAll(".tab-panel").forEach(function(p){p.classList.remove("active");});
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+// ===================== Capacités exigibles =====================
+document.getElementById("capToggle").addEventListener("click", function(){
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open") ? "📋 Masquer les capacités" : "📋 Capacités exigibles";
+});
+
+// ===================== Accordéons Q/A (génériques) =====================
+function bindAccordions(){
+  document.querySelectorAll(".qa-q").forEach(function(q){
+    q.addEventListener("click", function(){
+      q.parentElement.classList.toggle("open");
+    });
+  });
+  document.querySelectorAll(".qa-reveal-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var corr = btn.nextElementSibling;
+      corr.classList.toggle("open");
+      btn.textContent = corr.classList.contains("open") ? "🙈 Masquer la correction" : "👀 Voir la correction";
+    });
+  });
+  var btnPissenlit = document.getElementById("checkPissenlit");
+  if (btnPissenlit){
+    btnPissenlit.addEventListener("click", function(){
+      var score = 0;
+      var selects = document.querySelectorAll(".qcm-select");
+      selects.forEach(function(sel){
+        sel.classList.remove("correct","wrong");
+        if (sel.value === sel.dataset.correct){
+          sel.classList.add("correct"); score++;
+        } else {
+          sel.classList.add("wrong");
+        }
+      });
+      var fb = document.getElementById("feedbackPissenlit");
+      fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+      fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+      document.getElementById("correctionPissenlit").classList.add("open");
+    });
+  }
+}
+
+// ===================== Contact / distance =====================
+document.getElementById("checkBlanks").addEventListener("click", function(){
+  var b1 = document.getElementById("blank1");
+  var b2 = document.getElementById("blank2");
+  var ok1 = b1.value === "contact";
+  var ok2 = b2.value === "distance";
+  b1.classList.remove("correct","wrong"); b2.classList.remove("correct","wrong");
+  b1.classList.add(ok1 ? "correct" : "wrong");
+  b2.classList.add(ok2 ? "correct" : "wrong");
+  var fb = document.getElementById("feedbackBlanks");
+  if (ok1 && ok2) { fb.textContent = "✅ Exact : contact = avec contact, distance = sans contact."; fb.className = "feedback ok"; }
+  else { fb.textContent = "❌ Revois la définition puis réessaie."; fb.className = "feedback ko"; }
+});
+
+var exemplesActions = [
+  {txt:"Un aimant attire une bille en acier", rep:"distance"},
+  {txt:"Le pied du joueur pousse le ballon", rep:"contact"},
+  {txt:"La Terre attire la Lune", rep:"distance"},
+  {txt:"Une main pousse un chariot", rep:"contact"},
+  {txt:"Un satellite est attiré par la Terre", rep:"distance"},
+  {txt:"Un dynamomètre tire sur un solide immergé", rep:"contact"}
+];
+(function initClassement(){
+  var container = document.getElementById("classement-exemples");
+  var html = "";
+  exemplesActions.forEach(function(ex, i){
+    html += '<div class="fill-row">' + ex.txt + ' → <select class="blank" data-i="'+i+'">' +
+      '<option value="">— choisir —</option><option value="contact">contact</option><option value="distance">distance</option>' +
+      '</select></div>';
+  });
+  html += '<button class="action-btn solid" id="checkClassement">✅ Vérifier le classement</button>';
+  container.innerHTML = html;
+  document.getElementById("checkClassement").addEventListener("click", function(){
+    var ok = 0;
+    document.querySelectorAll('#classement-exemples select').forEach(function(sel){
+      var i = parseInt(sel.dataset.i);
+      var good = sel.value === exemplesActions[i].rep;
+      sel.classList.remove("correct","wrong");
+      sel.classList.add(good ? "correct" : "wrong");
+      if (good) ok++;
+    });
+    var fb = document.getElementById("feedbackClassement");
+    fb.textContent = ok === exemplesActions.length ? "✅ Parfait, " + ok + "/" + exemplesActions.length + " !" : "🔁 " + ok + "/" + exemplesActions.length + " correctes — corrige les cases rouges.";
+    fb.className = "feedback " + (ok === exemplesActions.length ? "ok" : "ko");
+  });
+})();
+
+// ===================== Diagramme objet-interactions =====================
+(function initDiagram(){
+  var canvas = document.getElementById("diagramCanvas");
+  var ctx = canvas.getContext("2d");
+  var state = {contact:false, distance:false};
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // ballon
+    ctx.beginPath(); ctx.arc(190,130,28,0,2*Math.PI);
+    ctx.fillStyle="#fff"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#1a1a1a"; ctx.stroke();
+    ctx.font="28px sans-serif"; ctx.textAlign="center"; ctx.fillText("⚽",190,140);
+    ctx.font="13px sans-serif"; ctx.fillStyle="#5c5c5c";
+    ctx.fillText("le ballon (système étudié)",190,180);
+
+    if (state.contact){
+      ctx.strokeStyle = "#2b8a3e";
+      ctx.font="22px sans-serif"; ctx.fillStyle="#2b8a3e";
+      ctx.fillText("👟", 70, 150);
+      drawArrow(ctx, 95, 140, 162, 132, "#2b8a3e", 3);
+      ctx.font="12px sans-serif"; ctx.fillText("contact (pied)", 90, 165);
+    }
+    if (state.distance){
+      ctx.font="22px sans-serif"; ctx.fillStyle="#c92a2a";
+      ctx.fillText("🌍", 300, 230);
+      ctx.save();
+      ctx.strokeStyle="#c92a2a"; ctx.setLineDash([4,4]);
+      drawArrow(ctx, 300, 210, 218, 145, "#c92a2a", 3);
+      ctx.restore();
+      ctx.font="12px sans-serif"; ctx.fillStyle="#c92a2a"; ctx.fillText("distance (Terre)", 280, 245);
+    }
+  }
+  draw();
+
+  document.getElementById("addContact").addEventListener("click", function(){ state.contact = true; draw(); checkState(); });
+  document.getElementById("addDistance").addEventListener("click", function(){ state.distance = true; draw(); checkState(); });
+  document.getElementById("resetDiagram").addEventListener("click", function(){
+    state.contact = false; state.distance = false; draw();
+    document.getElementById("feedbackDiagram").textContent = "";
+    document.getElementById("bilanDiagram").style.display = "none";
+  });
+  function checkState(){
+    var fb = document.getElementById("feedbackDiagram");
+    if (state.contact && state.distance){
+      fb.textContent = "✅ Diagramme complet : une interaction de contact (le pied) et une interaction à distance (la Terre).";
+      fb.className = "feedback ok";
+      document.getElementById("bilanDiagram").style.display = "block";
+    } else {
+      fb.textContent = "Il manque encore une interaction…";
+      fb.className = "feedback ko";
+    }
+  }
+})();
+
+// ===================== Vecteur force =====================
+(function initVector(){
+  var canvas = document.getElementById("vectorCanvas");
+  var ctx = canvas.getContext("2d");
+  var sN = document.getElementById("sliderNorme");
+  var sA = document.getElementById("sliderAngle");
+  var oN = document.getElementById("outNorme");
+  var oA = document.getElementById("outAngle");
+
+  function draw(){
+    var norme = parseFloat(sN.value);
+    var angle = parseFloat(sA.value);
+    oN.textContent = norme; oA.textContent = angle;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var ox = 90, oy = 230;
+    ctx.font="26px sans-serif"; ctx.fillText("👟",ox-18,oy+10);
+    ctx.beginPath(); ctx.arc(180,210,18,0,2*Math.PI);
+    ctx.fillStyle="#fff"; ctx.fill(); ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.font="20px sans-serif"; ctx.textAlign="center"; ctx.fillText("⚽",180,217);
+
+    var lenPx = (norme/300) * 200;
+    var rad = -angle * Math.PI/180;
+    var x2 = ox + lenPx*Math.cos(rad);
+    var y2 = oy + lenPx*Math.sin(rad);
+    drawArrow(ctx, ox, oy, x2, y2, "#E8590C", 4);
+    ctx.font="bold 14px sans-serif"; ctx.fillStyle="#E8590C"; ctx.textAlign="left";
+    ctx.fillText("F = " + norme + " N", x2+8, y2);
+  }
+  sN.addEventListener("input", draw);
+  sA.addEventListener("input", draw);
+  draw();
+})();
+
+// ===================== Jeu de la corde =====================
+(function initCorde(){
+  var canvas = document.getElementById("cordeCanvas");
+  var ctx = canvas.getContext("2d");
+  var sA = document.getElementById("sliderForceA");
+  var sB = document.getElementById("sliderForceB");
+  var oA = document.getElementById("outForceA");
+  var oB = document.getElementById("outForceB");
+
+  function draw(){
+    var fa = parseFloat(sA.value), fb = parseFloat(sB.value);
+    oA.textContent = fa; oB.textContent = fb;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var cy = 100;
+    var offset = Math.max(-110, Math.min(110, (fa-fb)/400*110));
+    var midx = 190 + offset;
+
+    drawPlayer(ctx, 60, cy+4, "#1864ab", "Équipe A", 1);
+    drawPlayer(ctx, 330, cy+4, "#c92a2a", "Équipe B", -1);
+
+    ctx.strokeStyle="#8c5a2b"; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.moveTo(85,cy); ctx.lineTo(305,cy); ctx.stroke();
+
+    ctx.beginPath(); ctx.arc(midx,cy,7,0,2*Math.PI); ctx.fillStyle="#E8590C"; ctx.fill();
+
+    var T = (fa+fb)/2;
+    var tLen = 20 + (T/400)*45;
+    drawArrow(ctx, midx, cy-28, midx - tLen, cy-28, "#1864ab", 3);
+    drawArrow(ctx, midx, cy-28, midx + tLen, cy-28, "#1864ab", 3);
+    ctx.font="11px sans-serif"; ctx.fillStyle="#1864ab";
+    ctx.fillText("T ≈ "+Math.round(T)+" N", midx, cy-38);
+
+    var result = document.getElementById("resultCorde");
+    if (Math.abs(fa-fb) < 5){
+      result.textContent = "Égalité parfaite — la corde ne bouge pas.";
+    } else if (fa > fb){
+      result.textContent = "L'équipe A gagne (plus de force au sol) — la corde se déplace vers A.";
+    } else {
+      result.textContent = "L'équipe B gagne (plus de force au sol) — la corde se déplace vers B.";
+    }
+  }
+  sA.addEventListener("input", draw);
+  sB.addEventListener("input", draw);
+  document.getElementById("btnEgalite").addEventListener("click", function(){
+    sA.value = 200; sB.value = 200; draw();
+  });
+  draw();
+})();
+
+// ===================== Poids =====================
+(function initPoids(){
+  var canvas = document.getElementById("poidsCanvas");
+  var ctx = canvas.getContext("2d");
+  var sM = document.getElementById("sliderMasse");
+  var oM = document.getElementById("outMasse");
+  var selA = document.getElementById("selectAstre");
+
+  function draw(){
+    var m = parseFloat(sM.value);
+    var g = parseFloat(selA.value);
+    oM.textContent = m;
+    var P = m*g;
+    document.getElementById("resultPoids").textContent = "P = " + Math.round(P) + " N";
+    document.getElementById("formulaPoids").textContent = "P = m × g = " + m + " × " + g + " = " + Math.round(P) + " N";
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#fff"; ctx.fillRect(80,60,60,40); ctx.strokeStyle="#1a1a1a"; ctx.strokeRect(80,60,60,40);
+    ctx.font="12px sans-serif"; ctx.textAlign="center"; ctx.fillStyle="#1a1a1a"; ctx.fillText("objet",110,84);
+    var lenPx = Math.min(150, (P/1000)*150);
+    drawArrow(ctx, 110, 100, 110, 100+lenPx, "#E8590C", 4);
+    ctx.font="bold 13px sans-serif"; ctx.textAlign="left";
+    var labelY = 100+lenPx*0.5;
+    var pWidth = ctx.measureText("P").width;
+    drawLetterVecArrow(ctx, 118, labelY-12, pWidth, "#E8590C");
+    ctx.fillStyle="#E8590C";
+    ctx.fillText("P", 118, labelY);
+  }
+  sM.addEventListener("input", draw);
+  selA.addEventListener("change", draw);
+  draw();
+})();
+
+// ===================== Gravitation =====================
+(function initGrav(){
+  var canvas = document.getElementById("gravCanvas");
+  var ctx = canvas.getContext("2d");
+  var sMA = document.getElementById("sliderMA");
+  var sMB = document.getElementById("sliderMB");
+  var sD = document.getElementById("sliderD");
+  var oMA = document.getElementById("outMA");
+  var oMB = document.getElementById("outMB");
+  var oD = document.getElementById("outD");
+  var G = 6.67e-11;
+
+  function draw(){
+    var mA = Math.pow(10, parseFloat(sMA.value));
+    var mB = Math.pow(10, parseFloat(sMB.value));
+    var dKm = parseFloat(sD.value);
+    var dM = dKm*1000;
+    oMA.textContent = fmtSci(mA);
+    oMB.textContent = Math.round(mB);
+    oD.textContent = dKm;
+    var F = G*mA*mB/(dM*dM);
+    document.getElementById("resultGravitation").textContent = "F = " + fmtSci(F) + " N";
+    document.getElementById("formulaGravitation").textContent =
+      "F = G×mA×mB/d² = 6,67×10⁻¹¹ × " + fmtSci(mA) + " × " + Math.round(mB) + " / (" + fmtSci(dM) + ")² = " + fmtSci(F) + " N";
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var cy = 90;
+    var xLeft = 50, xRight = 310;
+    ctx.font="36px sans-serif"; ctx.textAlign="center";
+    ctx.fillText("🌍", xLeft, cy+12);
+    ctx.fillText("🛰️", xRight, cy+12);
+    ctx.font="11px sans-serif"; ctx.fillStyle="#1a1a1a";
+    ctx.fillText("A (Terre)", xLeft, cy+38);
+    ctx.fillText("B (satellite)", xRight, cy+38);
+    var yLabel1 = 18, yArrow1 = 30, yLabel2 = 52, yArrow2 = 64;
+    drawArrow(ctx, xLeft+25, yArrow1, xRight-50, yArrow1, "#1864ab", 3);
+    drawArrow(ctx, xRight-25, yArrow2, xLeft+50, yArrow2, "#c92a2a", 3);
+    ctx.font="11px sans-serif"; ctx.textAlign="center";
+    var cx = (xLeft+xRight)/2;
+    var fW = ctx.measureText("F").width;
+
+    var w1 = ctx.measureText("F(A/B)").width;
+    drawLetterVecArrow(ctx, cx - w1/2, yLabel1-10, fW, "#1864ab");
+    ctx.fillStyle="#1864ab"; ctx.fillText("F(A/B)", cx, yLabel1);
+
+    var w2 = ctx.measureText("F(B/A)").width;
+    drawLetterVecArrow(ctx, cx - w2/2, yLabel2-10, fW, "#c92a2a");
+    ctx.fillStyle="#c92a2a"; ctx.fillText("F(B/A)", cx, yLabel2);
+  }
+  [sMA,sMB,sD].forEach(function(s){ s.addEventListener("input", draw); });
+  draw();
+})();
+
+// ===================== Pesanteur altitude =====================
+(function initAlt(){
+  var sAlt = document.getElementById("sliderAlt");
+  var oAlt = document.getElementById("outAlt");
+  var G = 6.67e-11, M = 5.97e24, R = 6371000;
+  function draw(){
+    var h = parseFloat(sAlt.value);
+    oAlt.textContent = h;
+    var g = G*M/Math.pow(R + h*1000, 2);
+    document.getElementById("resultAlt").textContent = "g(" + h + " km) = " + g.toFixed(2) + " N·kg⁻¹  (g_Lune ≈ " + (g/6).toFixed(2) + " N·kg⁻¹)";
+    document.getElementById("formulaAlt").textContent =
+      "g(h) = G×M/(R+h)² = 6,67×10⁻¹¹ × 5,97×10²⁴ / (" + fmtSci(R+h*1000) + ")² = " + g.toFixed(2) + " N·kg⁻¹";
+  }
+  sAlt.addEventListener("input", draw);
+  draw();
+})();
+
+// ===================== Principe d'inertie : QCM camion/bus/balle (Ostralo) =====================
+var btnOstralo = document.getElementById("checkOstralo");
+if (btnOstralo){
+  btnOstralo.addEventListener("click", function(){
+    var score = 0;
+    var selects = document.querySelectorAll("#qcmOstralo1, #qcmOstralo2, #qcmOstralo3");
+    selects.forEach(function(sel){
+      sel.classList.remove("correct","wrong");
+      if (sel.value === sel.dataset.correct){
+        sel.classList.add("correct"); score++;
+      } else {
+        sel.classList.add("wrong");
+      }
+    });
+    var fb = document.getElementById("feedbackOstralo");
+    fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+    fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+    document.getElementById("correctionOstralo").classList.add("open");
+  });
+}
+
+// ===================== Questions guidées "Découvrir le principe d'inertie" (QCM) =====================
+var btnDecouvrir = document.getElementById("checkDecouvrir");
+if (btnDecouvrir){
+  btnDecouvrir.addEventListener("click", function(){
+    var score = 0;
+    var selects = document.querySelectorAll("#qcmDecouvrir1, #qcmDecouvrir2, #qcmDecouvrir3a, #qcmDecouvrir3b, #qcmDecouvrir3c, #qcmDecouvrir4, #qcmDecouvrir5, #qcmDecouvrir6");
+    selects.forEach(function(sel){
+      sel.classList.remove("correct","wrong");
+      if (sel.value === sel.dataset.correct){
+        sel.classList.add("correct"); score++;
+      } else {
+        sel.classList.add("wrong");
+      }
+    });
+    var fb = document.getElementById("feedbackDecouvrir");
+    fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+    fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+    document.getElementById("correctionDecouvrir").classList.add("open");
+  });
+}
+
+// ===================== Chute libre =====================
+(function initChute(){
+  document.getElementById("checkChute").addEventListener("click", function(){
+    var val = document.getElementById("blankChute").value.trim().toLowerCase();
+    var input = document.getElementById("blankChute");
+    var fb = document.getElementById("feedbackChute");
+    input.classList.remove("correct","wrong");
+    if (val.indexOf("poids") !== -1){
+      input.classList.add("correct");
+      fb.textContent = "✅ Un système est en chute libre lorsqu'il n'est soumis qu'à son poids.";
+      fb.className = "feedback ok";
+    } else {
+      input.classList.add("wrong");
+      fb.textContent = "❌ Indice : c'est la seule force qui agit alors sur le système.";
+      fb.className = "feedback ko";
+    }
+  });
+
+  var dts = [0,0.04,0.08,0.12,0.16,0.20,0.24,0.28];
+
+  function buildChuteTable(){
+    var rowD = document.getElementById("rowD");
+    var rowV = document.getElementById("rowV");
+    for (var i=0;i<8;i++){
+      var tdD = document.createElement("td");
+      var tdV = document.createElement("td");
+      if (i===0){
+        tdD.innerHTML = '<input type="text" class="chute-input" data-type="d" data-i="0" value="0" disabled>';
+        tdV.innerHTML = '<input type="text" class="chute-input" data-type="v" data-i="0" value="0" disabled>';
+      } else {
+        tdD.innerHTML = '<input type="text" class="chute-input" data-type="d" data-i="'+i+'" placeholder="?">';
+        tdV.innerHTML = '<input type="text" class="chute-input" data-type="v" data-i="'+i+'" placeholder="?">';
+      }
+      rowD.appendChild(tdD);
+      rowV.appendChild(tdV);
+    }
+  }
+  buildChuteTable();
+
+  function computeDsVs(g){
+    var ds=[], vs=[];
+    dts.forEach(function(t){ ds.push(g*t*t/2); vs.push(g*t); });
+    return {ds:ds, vs:vs};
+  }
+
+  function updateFormulaChute(){
+    var g = parseFloat(document.getElementById("selectAstreChute").value);
+    document.getElementById("formulaChute").textContent =
+      "v = g × Δt  et  d = g × Δt² / 2   (avec g = " + g + " m·s⁻²)";
+  }
+  document.getElementById("selectAstreChute").addEventListener("change", updateFormulaChute);
+  updateFormulaChute();
+
+  document.getElementById("btnVerifChute").addEventListener("click", function(){
+    var g = parseFloat(document.getElementById("selectAstreChute").value);
+    var r = computeDsVs(g);
+    var score = 0, total = 0;
+    document.querySelectorAll(".chute-input").forEach(function(inp){
+      if (inp.disabled) return;
+      var i = parseInt(inp.dataset.i, 10);
+      var type = inp.dataset.type;
+      var correct = type === "d" ? r.ds[i] : r.vs[i];
+      var val = parseFloat((inp.value || "").replace(",", "."));
+      var tol = type === "d" ? 0.006 : 0.06;
+      total++;
+      inp.classList.remove("correct","wrong");
+      if (!isNaN(val) && Math.abs(val-correct) <= tol){
+        inp.classList.add("correct"); score++;
+      } else {
+        inp.classList.add("wrong");
+      }
+    });
+    var fb = document.getElementById("feedbackChuteTable");
+    fb.textContent = score + " / " + total + " bonnes réponses.";
+    fb.className = "feedback " + (score === total ? "ok" : "ko");
+  });
+
+  document.getElementById("btnCorrectionChute").addEventListener("click", function(){
+    var g = parseFloat(document.getElementById("selectAstreChute").value);
+    var r = computeDsVs(g);
+    document.querySelectorAll(".chute-input").forEach(function(inp){
+      if (inp.disabled) return;
+      var i = parseInt(inp.dataset.i, 10);
+      var type = inp.dataset.type;
+      var correct = type === "d" ? r.ds[i] : r.vs[i];
+      inp.value = type === "d" ? correct.toFixed(3) : correct.toFixed(2);
+      inp.classList.remove("wrong"); inp.classList.add("correct");
+    });
+    document.getElementById("resultChuteConclusion").textContent =
+      "v₅ (" + r.vs[5].toFixed(2) + " m·s⁻¹) > v₄ (" + r.vs[4].toFixed(2) + " m·s⁻¹) : le vecteur vitesse s'allonge → mouvement accéléré.";
+    var fb = document.getElementById("feedbackChuteTable");
+    fb.textContent = "Correction affichée ci-dessus.";
+    fb.className = "feedback ok";
+    drawChute(r.ds, r.vs);
+  });
+
+  function drawChute(ds, vs){
+    var canvas = document.getElementById("chuteCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var maxD = ds[7];
+    var topY = 16, bottomY = 240;
+    var scale = (bottomY-topY)/maxD;
+    var trajX = 150;
+
+    // trajectoire verticale M0...M7, point d'application de chaque vecteur
+    ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(trajX,topY); ctx.lineTo(trajX,bottomY); ctx.stroke();
+    var ys = [];
+    ds.forEach(function(d,i){
+      var y = topY + d*scale;
+      ys.push(y);
+      ctx.beginPath(); ctx.arc(trajX,y,4,0,2*Math.PI); ctx.fillStyle="#E8590C"; ctx.fill();
+      ctx.font="10px sans-serif"; ctx.fillStyle="#1a1a1a"; ctx.textAlign="left";
+      ctx.fillText("M"+i, trajX+8, y+3);
+    });
+
+    // vecteurs vitesse verticaux (sens du mouvement), origine sur M4 et M5, decales a gauche/droite de la trajectoire
+    var pxPerMs = 100 / vs[5];
+    var specs = [
+      {i:4, x:trajX-45, color:"#1864ab"},
+      {i:5, x:trajX+45, color:"#c92a2a"}
+    ];
+    specs.forEach(function(c){
+      var y0 = ys[c.i];
+      var lenPx = vs[c.i] * pxPerMs;
+      drawArrow(ctx, c.x, y0, c.x, y0+lenPx, c.color, 3);
+      ctx.font="12px sans-serif"; ctx.textAlign="center";
+      var lbl = "v" + c.i;
+      var lblW = ctx.measureText(lbl).width;
+      var vW = ctx.measureText("v").width;
+      drawLetterVecArrow(ctx, c.x - lblW/2, y0-15, vW, c.color);
+      ctx.fillStyle = c.color;
+      ctx.fillText(lbl, c.x, y0-5);
+      ctx.font="10px sans-serif";
+      ctx.fillText(vs[c.i].toFixed(2)+" m/s", c.x, y0+lenPx+14);
+    });
+  }
+})();
+
+bindAccordions();
+</script>
+
+</body>
+</html>

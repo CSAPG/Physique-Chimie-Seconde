@@ -181,7 +181,7 @@ button.cap-toggle:hover{background:#1e4466;}
     <button class="tab-btn" data-tab="t3"><span class="tab-num">3</span> Fission</button>
     <button class="tab-btn" data-tab="t4"><span class="tab-num">4</span> Fusion</button>
     <button class="tab-btn" data-tab="t5"><span class="tab-num">5</span> Application – Curie</button>
-    <button class="tab-btn" data-tab="t6"><span class="tab-num">📎</span> Ressources</button>
+    <button class="tab-btn" data-tab="t6"><span class="tab-num">📎</span> Bilan et Ressources</button>
   </nav>
 
   <div class="cap-panel" id="capPanel">
@@ -343,8 +343,8 @@ button.cap-toggle:hover{background:#1e4466;}
     <h2>Lois de conservation – Lois de Soddy</h2>
     <div class="def">
       Au cours d'une réaction nucléaire, il y a conservation du <b>nombre de masse A</b> et du <b>nombre de charge Z</b> :<br><br>
-      &nbsp;&nbsp;∑ A (réactifs) = ∑ A (produits)<br>
-      &nbsp;&nbsp;∑ Z (réactifs) = ∑ Z (produits)
+      &nbsp;&nbsp;La somme des nombres de masse A des réactifs = La somme des nombres de masse A des produits<br>
+      &nbsp;&nbsp;La somme des nombres de charge Z des réactifs = La somme des nombres de charge Z des produits
     </div>
 
     <h3>Énergie libérée par une réaction nucléaire</h3>
@@ -425,6 +425,39 @@ button.cap-toggle:hover{background:#1e4466;}
       </div>
     </div>
 
+    <h3>Application interactive – Réaction en chaîne</h3>
+    <div class="anim-wrap" style="padding:16px;">
+      <p style="font-family:'Nunito',sans-serif;font-size:.88rem;color:#475569;margin:0 0 10px;text-align:left;">
+        Simule une réaction en chaîne : chaque fission libère 3 neutrons qui peuvent déclencher d'autres fissions. Ajuste le <b>facteur de multiplication k</b> et observe si la réaction s'emballe, se stabilise ou s'éteint.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:12px;">
+        <label style="font-family:'Nunito',sans-serif;font-size:.88rem;font-weight:700;color:#1f2a24;">
+          Facteur k :
+          <input type="range" id="kSlider" min="0.5" max="1.5" step="0.05" value="1.0" style="width:130px;vertical-align:middle;margin:0 8px;">
+          <span id="kVal" style="color:#2D5F8A;font-weight:800;">1.00</span>
+        </label>
+        <button class="anim-btn" id="btnChain" style="margin-top:0;">▶ Lancer</button>
+        <button class="reset-btn" id="btnChainReset" style="margin-top:0;">🔄 Réinitialiser</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+        <canvas id="canvasChain" width="360" height="220" style="border-radius:6px;background:#0f172a;max-width:100%;flex-shrink:0;"></canvas>
+        <div style="flex:1;min-width:160px;">
+          <div id="chainStatus" style="font-family:'Nunito',sans-serif;font-size:.88rem;background:#f8f6f1;border:1px solid #d9d3c6;border-radius:8px;padding:12px;min-height:100px;">
+            <p style="margin:0 0 6px;font-weight:700;color:#1f2a24;">📊 État de la réaction</p>
+            <p id="chainGen" style="margin:2px 0;color:#475569;">Génération : —</p>
+            <p id="chainCount" style="margin:2px 0;color:#475569;">Noyaux fissionnés : —</p>
+            <p id="chainEnergy" style="margin:2px 0;color:#475569;">Énergie (×10⁻¹¹ J) : —</p>
+            <p id="chainVerdict" style="margin:8px 0 0;font-weight:700;font-size:.95rem;">—</p>
+          </div>
+          <div style="margin-top:10px;font-family:'Nunito',sans-serif;font-size:.8rem;color:#5A6B7A;background:#E8F1F8;border-radius:6px;padding:8px 10px;">
+            <b>k &lt; 1</b> : sous-critique (réaction s'éteint)<br>
+            <b>k = 1</b> : critique (réaction stable)<br>
+            <b>k &gt; 1</b> : sur-critique (emballement !)
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h3>Exercice 3 – Calcul d'énergie libérée</h3>
     <p>La fission d'un noyau d'uranium-235 s'accompagne d'une perte de masse |Δm| = 3,1 × 10⁻²⁸ kg. Calculer l'énergie libérée :</p>
     <div class="exo-box" data-clear-selector=".eq3-sel">
@@ -472,10 +505,140 @@ button.cap-toggle:hover{background:#1e4466;}
       <br><span style="font-size:.85rem;color:#475569;">Conservation : A : 1+235 = 94+139+3×1 = 236 ✔ &nbsp;|&nbsp; Z : 0+92 = 38+54+0 = 92 ✔</span>
     </div>
 
+    <h3>Exercice – Vérifier les lois de Soddy</h3>
+    <p>Une autre réaction de fission possible de l'uranium-235 produit du baryum-141 et un noyau inconnu, ainsi que 3 neutrons. Retrouver A, Z et le symbole chimique du noyau manquant en appliquant les lois de conservation.</p>
+    <div class="exo-box" data-clear-selector=".sod-sel">
+      <div class="info" style="text-align:center;font-size:1rem;line-height:2.6;margin-bottom:12px;">
+        <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>235</span><span>92</span></span><span class="nuc-sym">U</span></span>
+        → <span class="nuc-notation"><span class="nuc-az"><span>141</span><span>56</span></span><span class="nuc-sym">Ba</span></span>
+        + <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select sod-sel" data-answers="92" style="font-size:.85em;min-width:3.5em;">
+              <option value="">A=?</option><option value="89">89</option><option value="92">92</option><option value="95">95</option>
+            </select>
+            <select class="exo-select sod-sel" data-answers="36" style="font-size:.85em;min-width:3.5em;">
+              <option value="">Z=?</option><option value="34">34</option><option value="36">36</option><option value="38">38</option>
+            </select>
+          </span>
+          <input type="text" class="exo-input line sod-sel" data-answers="Kr|kr|krypton" placeholder="Symbole ?" style="width:64px;display:inline-block;vertical-align:middle;text-align:center;font-weight:700;font-size:1.05em;">
+        </span>
+        + 3 <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      </div>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".sod-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        Conservation de A : 1 + 235 = 141 + A + 3×1 → A = 236 − 141 − 3 = <b>92</b>.<br>
+        Conservation de Z : 0 + 92 = 56 + Z + 0 → Z = 92 − 56 = <b>36</b>.<br>
+        Z = 36 correspond au <b>Krypton</b> : le noyau manquant est <span class="nuc-notation"><span class="nuc-az"><span>92</span><span>36</span></span><span class="nuc-sym">Kr</span></span>.<br>
+        <span style="font-size:.85rem;color:#475569;">Vérification A : 1+235 = 141+92+3 = 236 ✔ &nbsp;|&nbsp; Z : 0+92 = 56+36+0 = 92 ✔</span>
+      </div>
+    </div>
+
     <h3>Animation – Fission de l'uranium-235</h3>
     <div class="anim-wrap">
-      <canvas id="canvasFission" width="520" height="200" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
+      <canvas id="canvasFission" width="620" height="260" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
       <button class="anim-btn" id="btnFission">▶ Animer la fission</button>
+    </div>
+
+    <h3>Exercice – Compléter une équation de fission</h3>
+    <p>La fission de l'uranium-235 peut aussi produire du césium-137. Compléter l'équation en trouvant A et Z du noyau manquant, puis identifier l'élément.</p>
+    <div class="exo-box" data-clear-selector=".rb-sel">
+      <div class="info" style="text-align:center;font-size:1rem;line-height:2.6;margin-bottom:12px;">
+        <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>235</span><span>92</span></span><span class="nuc-sym">U</span></span>
+        → <span class="nuc-notation"><span class="nuc-az"><span>137</span><span>55</span></span><span class="nuc-sym">Cs</span></span>
+        + <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select rb-sel" data-answers="97" style="font-size:.85em;min-width:3.5em;">
+              <option value="">A=?</option><option value="93">93</option><option value="95">95</option><option value="97">97</option>
+            </select>
+            <select class="exo-select rb-sel" data-answers="37" style="font-size:.85em;min-width:3.5em;">
+              <option value="">Z=?</option><option value="35">35</option><option value="37">37</option><option value="39">39</option>
+            </select>
+          </span>
+          <input type="text" class="exo-input line rb-sel" data-answers="Rb|rb|rubidium" placeholder="Symbole ?" style="width:70px;display:inline-block;vertical-align:middle;text-align:center;font-weight:700;font-size:1.05em;">
+        </span>
+        + 2 <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      </div>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".rb-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        Conservation de A : 1 + 235 = 137 + A + 2×1 → A = 236 − 137 − 2 = <b>97</b>.<br>
+        Conservation de Z : 0 + 92 = 55 + Z + 0 → Z = 92 − 55 = <b>37</b>.<br>
+        Z = 37 correspond au <b>Rubidium</b> : le noyau manquant est <span class="nuc-notation"><span class="nuc-az"><span>97</span><span>37</span></span><span class="nuc-sym">Rb</span></span>.<br>
+        <span style="font-size:.85rem;color:#475569;">Vérification A : 1+235 = 137+97+2 = 236 ✔ &nbsp;|&nbsp; Z : 0+92 = 55+37+0 = 92 ✔</span>
+      </div>
+    </div>
+
+    <h3>Exercice contextualisé – Cycle simplifié du combustible nucléaire</h3>
+
+    <div class="def" style="font-size:.9rem;line-height:1.7;">
+      <b>Document – Le cycle du combustible nucléaire</b><br><br>
+      L'uranium est extrait sous forme de minerai dans des mines (principalement au Kazakhstan, Canada et Namibie). Il contient naturellement <b>99,3 % d'²³⁸U</b> et seulement <b>0,7 % d'²³⁵U</b>. Or, seul l'²³⁵U peut être facilement scindé par un neutron lent : on dit qu'il est <b>fissile</b>.<br><br>
+      Pour être utilisé dans un réacteur nucléaire, le minerai doit subir plusieurs transformations. D'abord, il est purifié chimiquement pour obtenir de l'uranium sous forme gazeuse (UF₆). Ensuite, une opération appelée <b>enrichissement</b> — réalisée par centrifugation — permet d'augmenter la proportion d'²³⁵U à environ <b>3 à 5 %</b>. Le combustible enrichi est alors mis en forme de pastilles empilées dans des <b>crayons combustibles</b> qui sont chargés dans le cœur du réacteur.<br><br>
+      Dans le réacteur, chaque fission libère une grande quantité d'<b>énergie thermique</b>. Cette chaleur chauffe de l'eau sous pression, qui produit de la vapeur entraînant une <b>turbine couplée à un alternateur</b> pour produire de l'électricité. Après utilisation, le combustible usé contient des <b>produits de fission radioactifs</b> (fragments de noyaux comme le Sr, le Xe ou le Kr) dont certains restent dangereux pendant des milliers d'années. Ces déchets sont classés comme <b>déchets radioactifs à haute activité</b> et font l'objet d'un stockage géologique profond.
+    </div>
+
+    <p style="margin-top:14px;">En t'appuyant sur le document ci-dessus, réponds aux questions suivantes.</p>
+    <div class="exo-box" data-clear-selector=".cyc-sel">
+      <p><b>1.</b> L'uranium naturel contient principalement deux isotopes. Lequel est fissile (capable de subir une fission avec un neutron lent) ?
+        <select class="exo-select cyc-sel" data-answers="U-235">
+          <option value="">— choisir —</option>
+          <option value="U-235">²³⁵U (uranium-235)</option>
+          <option value="U-238">²³⁸U (uranium-238)</option>
+        </select>
+      </p>
+      <p><b>2.</b> L'uranium naturel contient seulement 0,7 % de cet isotope fissile. Quelle opération permet d'augmenter cette proportion pour alimenter une centrale ?
+        <select class="exo-select cyc-sel" data-answers="enrichissement">
+          <option value="">— choisir —</option>
+          <option value="raffinage">Le raffinage chimique</option>
+          <option value="enrichissement">L'enrichissement isotopique</option>
+          <option value="retraitement">Le retraitement</option>
+        </select>
+      </p>
+      <p><b>3.</b> Dans le cœur du réacteur, la fission de l'uranium libère de l'énergie sous forme de :
+        <select class="exo-select cyc-sel" data-answers="chaleur">
+          <option value="">— choisir —</option>
+          <option value="lumiere">Lumière visible</option>
+          <option value="chaleur">Chaleur (énergie thermique)</option>
+          <option value="electricite">Électricité directement</option>
+        </select>
+      </p>
+      <p><b>4.</b> Cette énergie est ensuite convertie en électricité grâce à :
+        <select class="exo-select cyc-sel" data-answers="turbine">
+          <option value="">— choisir —</option>
+          <option value="panneau">Des panneaux photovoltaïques</option>
+          <option value="turbine">Une turbine couplée à un alternateur</option>
+          <option value="pile">Une pile à combustible</option>
+        </select>
+      </p>
+      <p><b>5.</b> Les noyaux produits par la fission (Sr, Xe, Kr…) sont radioactifs. Comment appelle-t-on ces déchets ?
+        <select class="exo-select cyc-sel" data-answers="dechets">
+          <option value="">— choisir —</option>
+          <option value="dechets">Des déchets radioactifs à haute activité</option>
+          <option value="cendres">Des cendres nucléaires inertes</option>
+          <option value="isotopes">Des isotopes stables réutilisables</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".cyc-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>1.</b> C'est l'²³⁵U qui est fissile : il capture un neutron lent et se scinde. L'²³⁸U est fertile (il peut donner du Pu-239 par capture) mais non fissile avec des neutrons lents.<br>
+        <b>2.</b> L'<b>enrichissement isotopique</b> (par centrifugation gazeuse) permet de passer de 0,7 % à ~3–5 % d'²³⁵U pour les réacteurs à eau pressurisée.<br>
+        <b>3.</b> La fission libère principalement de la <b>chaleur</b> par le ralentissement des fragments et des neutrons dans le combustible.<br>
+        <b>4.</b> Cette chaleur vaporise de l'eau ; la vapeur entraîne une <b>turbine couplée à un alternateur</b> qui produit l'électricité.<br>
+        <b>5.</b> Les fragments de fission constituent des <b>déchets radioactifs à haute activité</b>, dont certains ont des périodes de plusieurs milliers d'années.
+      </div>
     </div>
   </div>
 </section>
@@ -509,7 +672,7 @@ button.cap-toggle:hover{background:#1e4466;}
 
     <h3>Animation – Fusion nucléaire</h3>
     <div class="anim-wrap">
-      <canvas id="canvasFusion" width="520" height="200" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
+      <canvas id="canvasFusion" width="620" height="260" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
       <button class="anim-btn" id="btnFusion">▶ Animer la fusion</button>
     </div>
 
@@ -543,10 +706,83 @@ button.cap-toggle:hover{background:#1e4466;}
         Le noyau produit est le deutérium : <span class="nuc-notation"><span class="nuc-az"><span>2</span><span>1</span></span><span class="nuc-sym">H</span></span>.
       </div>
     </div>
+
+    <h3>Exercice contextualisé – Vie et mort d'une étoile</h3>
+
+    <div class="def" style="font-size:.9rem;line-height:1.7;">
+      <b>Document – La vie d'une étoile comme le Soleil</b><br><br>
+      Une étoile naît par effondrement gravitationnel d'un nuage de gaz composé essentiellement d'<b>hydrogène</b>. Sous l'effet de la pression et de la température qui s'élèvent au cœur (jusqu'à <b>15 millions de degrés</b> pour le Soleil), des réactions de <b>fusion nucléaire</b> s'amorcent : des noyaux d'hydrogène fusionnent pour former des noyaux d'<b>hélium-4</b>, en libérant une immense quantité d'énergie. Cette phase, la plus longue de la vie d'une étoile, dure plusieurs milliards d'années pour une étoile de la masse du Soleil.<br><br>
+      Quand l'hydrogène du cœur est épuisé, l'étoile ne peut plus maintenir l'équilibre entre la gravité et la pression de radiation. Le cœur se contracte et se réchauffe, tandis que les couches externes <b>gonflent et refroidissent</b> : l'étoile devient une <b>géante rouge</b>. La température atteint alors <b>plus de 100 millions de degrés</b> au cœur, ce qui permet la fusion de l'hélium en <b>carbone-12</b> et en oxygène.<br><br>
+      Pour une étoile comme le Soleil, les couches externes sont ensuite expulsées (on parle de <b>nébuleuse planétaire</b>) et il ne reste qu'un résidu dense et chaud appelé <b>naine blanche</b>, qui refroidit lentement sur des milliards d'années.<br><br>
+      Les étoiles beaucoup plus massives (plus de 8 fois la masse du Soleil) peuvent fusionner des éléments de plus en plus lourds : carbone, oxygène, néon… jusqu'au <b>fer (Z = 26)</b>. Le fer-56 est le noyau le plus stable qui existe : sa fusion ne libère plus d'énergie mais en consomme. Le cœur s'effondre alors brutalement en une fraction de seconde, provoquant une gigantesque explosion appelée <b>supernova</b>, suivie de la formation d'une étoile à neutrons ou d'un trou noir.
+    </div>
+
+    <p style="margin-top:14px;">En t'appuyant sur le document ci-dessus, réponds aux questions suivantes.</p>
+    <div class="exo-box" data-clear-selector=".star-sel">
+      <p><b>1.</b> Quelle réaction nucléaire se produit au cœur du Soleil durant sa longue phase de vie principale ? Quel élément est consommé ?
+        <select class="exo-select star-sel" data-answers="hydrogene">
+          <option value="">— choisir —</option>
+          <option value="helium">De l'hélium (He)</option>
+          <option value="hydrogene">De l'hydrogène (H)</option>
+          <option value="carbone">Du carbone (C)</option>
+        </select>
+      </p>
+      <p><b>2.</b> La fusion de l'hydrogène dans le Soleil produit principalement quel noyau ?
+        <select class="exo-select star-sel" data-answers="helium">
+          <option value="">— choisir —</option>
+          <option value="deuterium">Du deutérium ²H</option>
+          <option value="helium">De l'hélium ⁴He</option>
+          <option value="lithium">Du lithium ⁷Li</option>
+        </select>
+      </p>
+      <p><b>3.</b> Quand l'hydrogène est épuisé au cœur, l'étoile gonfle et devient une :
+        <select class="exo-select star-sel" data-answers="geante">
+          <option value="">— choisir —</option>
+          <option value="naine">Naine blanche</option>
+          <option value="geante">Géante rouge</option>
+          <option value="nova">Nova</option>
+        </select>
+      </p>
+      <p><b>4.</b> Dans cette phase, l'étoile fusionne maintenant de l'hélium pour produire du carbone-12. Cette réaction de fusion est-elle possible car :
+        <select class="exo-select star-sel" data-answers="temperature">
+          <option value="">— choisir —</option>
+          <option value="temperature">La température du cœur a encore augmenté (> 100 millions K)</option>
+          <option value="pression">La pression a diminué dans le cœur</option>
+          <option value="neutrons">Des neutrons libres déclenchent la fusion</option>
+        </select>
+      </p>
+      <p><b>5.</b> Pour une étoile de la masse du Soleil, la phase finale est :
+        <select class="exo-select star-sel" data-answers="naine">
+          <option value="">— choisir —</option>
+          <option value="supernova">Une supernova puis un trou noir</option>
+          <option value="naine">Une nébuleuse planétaire puis une naine blanche</option>
+          <option value="neutron">Une étoile à neutrons</option>
+        </select>
+      </p>
+      <p><b>6.</b> Les étoiles massives (> 8 masses solaires) peuvent fusionner des noyaux jusqu'au fer (Z = 26). Pourquoi la fusion s'arrête-t-elle au fer ?
+        <select class="exo-select star-sel" data-answers="energie">
+          <option value="">— choisir —</option>
+          <option value="manque">Il n'y a plus assez de fer dans l'univers</option>
+          <option value="energie">La fusion du fer ne libère plus d'énergie — elle en consomme</option>
+          <option value="temperature">La température redevient trop basse</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".star-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>1.</b> L'étoile fusionne de l'<b>hydrogène</b> dans son cœur durant sa longue phase de vie principale.<br>
+        <b>2.</b> La chaîne proton-proton transforme 4 noyaux d'¹H en un noyau d'<b>⁴He</b> (hélium-4), avec émission de positrons, neutrinos et rayonnements γ.<br>
+        <b>3.</b> L'enveloppe de l'étoile se dilate et refroidit : elle devient une <b>géante rouge</b>. Le Soleil engloutira Mercure et Vénus dans ~5 milliards d'années.<br>
+        <b>4.</b> La fusion de l'hélium nécessite une <b>température encore plus élevée</b> (barrière coulombienne plus grande car Z(He) = 2 > Z(H) = 1).<br>
+        <b>5.</b> Une étoile comme le Soleil expulse ses couches externes (nébuleuse planétaire) et son cœur devient une <b>naine blanche</b>, résidu dense qui refroidit lentement.<br>
+        <b>6.</b> Le fer-56 est le noyau le plus stable qui existe (énergie de liaison par nucléon maximale). Sa fusion <b>consomme de l'énergie</b> au lieu d'en libérer : le cœur s'effondre brutalement → supernova.
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- ===== ONGLET 5 : APPLICATION CURIE ===== -->
 <section class="panel" id="t5">
   <div class="card">
     <h2>Application : Découverte des isotopes – Marie et Pierre Curie</h2>
@@ -667,7 +903,7 @@ button.cap-toggle:hover{background:#1e4466;}
 <!-- ===== ONGLET 6 : RESSOURCES ===== -->
 <section class="panel" id="t6">
   <div class="card">
-    <h2>📎 Ressources</h2>
+    <h2>📎 Bilan et ressources</h2>
     <h3>Vidéos</h3>
     <div class="pastilles">
       <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – Les isotopes</a>
@@ -678,7 +914,6 @@ button.cap-toggle:hover{background:#1e4466;}
     <div class="pastilles">
       <a href="https://segree.web-labosims.org/" target="_blank" rel="noopener" class="pastille">🔬 Simulateur Ségré (web-labosims.org)</a>
       <a href="https://www.cea.fr/multimedia/Documents/publications/les-essentiels/la-radioactivite.pdf" target="_blank" rel="noopener" class="pastille alt">📄 Livret CEA – Radioactivité</a>
-      <a href="seq09/ASN-Guide-radon-collectivites-territoriales.pdf" target="_blank" rel="noopener" class="pastille alt">📄 ASN – Guide radon (collectivités territoriales)</a>
       <a href="https://www.iter.org/fr" target="_blank" rel="noopener" class="pastille">⚛ Projet ITER</a>
       <a href="https://www.hatier-clic.fr/" target="_blank" rel="noopener" class="pastille alt">📝 QCM Hatier-clic (ch. 9)</a>
     </div>
@@ -688,14 +923,6 @@ button.cap-toggle:hover{background:#1e4466;}
     <span class="exo-tag">p160 n°26-27-28</span>
     <span class="exo-tag">p162 n°35-36-37</span>
 
-    <h3>Capacités exigibles (B.O.)</h3>
-    <table class="tab" style="margin-top:8px;">
-      <tr><th>Capacité</th><th>Traité dans</th></tr>
-      <tr><td>Identifier des isotopes</td><td>Onglet 1</td></tr>
-      <tr><td>Établir l'équation de réaction nucléaire</td><td>Onglets 2 et 5</td></tr>
-      <tr><td>Relier l'énergie du Soleil / centrale à des réactions nucléaires</td><td>Onglets 3 et 4</td></tr>
-      <tr><td>Identifier la nature d'une transformation</td><td>Onglet 1</td></tr>
-    </table>
   </div>
 </section>
 
@@ -829,55 +1056,51 @@ document.querySelectorAll('.exo-box').forEach(box=>{
 
   function drawScene(t){
     ctx.clearRect(0,0,W,H);
-    // Fond blanc garanti
     ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
 
     const phase1=0.35, phase2=0.55, phase3=0.75;
+    const cx=W/2, cy=H/2;
 
     if(t<phase1){
-      // Neutron s'approche de l'uranium
       const p=t/phase1;
-      const nx=60+p*(W/2-60-40);
-      drawNeutron(nx,H/2,10);
-      drawNucleus(W/2+30,H/2,36,'²³⁵U',cP,cN);
-      // Étiquette
-      ctx.font='13px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
-      ctx.fillText('neutron',60,H/2+22);
-      ctx.fillText('uranium-235',W/2+30,H/2+54);
+      const nx=55+p*(cx-55-50);
+      drawNeutron(nx,cy,13);
+      drawNucleus(cx+40,cy,48,'²³⁵U',cP,cN);
+      ctx.font='bold 13px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
+      ctx.fillText('neutron →',55,cy+28);
+      ctx.fillText('uranium-235',cx+40,cy+68);
     } else if(t<phase2){
-      // Impact : uranium instable, grossit
       const p=(t-phase1)/(phase2-phase1);
-      const r=36+10*Math.sin(p*Math.PI);
-      drawNucleus(W/2+10,H/2,r,'U*',cP,cN);
-      ctx.font='12px Arial';ctx.fillStyle='#c9622a';ctx.textAlign='center';
-      ctx.fillText('noyau excité !',W/2+10,H/2+r+18);
+      const r=48+14*Math.sin(p*Math.PI);
+      drawNucleus(cx+10,cy,r,'U*',cP,cN);
+      ctx.font='bold 13px Arial';ctx.fillStyle='#c9622a';ctx.textAlign='center';
+      ctx.fillText('⚠ noyau excité !',cx+10,cy+r+20);
     } else if(t<phase3){
-      // Scission : 2 fragments + neutrons apparaissent
       const p=(t-phase2)/(phase3-phase2);
-      const dx=p*70, dy=p*40;
-      drawNucleus(W/2-20-dx,H/2-dy,22,'Sr',cSr,cN);
-      drawNucleus(W/2+20+dx,H/2+dy,26,'Xe',cXe,cN);
-      // 3 neutrons s'éjectent
-      const npos=[[W/2+80+p*80,H/2-50-p*30],[W/2+90+p*90,H/2],[W/2+85+p*75,H/2+50+p*25]];
-      npos.forEach(np=>drawNeutron(np[0],np[1],8));
-      ctx.font='11px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
-      ctx.fillText('⁹⁴Sr',W/2-20-dx,H/2-dy+38);
-      ctx.fillText('¹³⁹Xe',W/2+20+dx,H/2+dy+44);
-      ctx.fillText('3 neutrons',W/2+130,H/2-10);
+      const dx=p*80, dy=p*45;
+      drawNucleus(cx-20-dx,cy-dy,30,'Sr',cSr,cN);
+      drawNucleus(cx+20+dx,cy+dy,34,'Xe',cXe,cN);
+      const npos=[[cx+90+p*95,cy-60-p*35],[cx+100+p*105,cy],[cx+95+p*90,cy+58+p*30]];
+      npos.forEach(np=>drawNeutron(np[0],np[1],11));
+      ctx.font='bold 12px Arial';ctx.fillStyle='#2f6f5e';ctx.textAlign='center';
+      ctx.fillText('⁹⁴Sr',cx-20-dx,cy-dy+50);
+      ctx.font='bold 12px Arial';ctx.fillStyle='#2D5F8A';
+      ctx.fillText('¹³⁹Xe',cx+20+dx,cy+dy+55);
+      ctx.font='12px Arial';ctx.fillStyle='#475569';
+      ctx.fillText('3n',cx+155,cy-10);
     } else {
-      // Final + énergie
       const p=Math.min(1,(t-phase3)/(1-phase3));
-      drawNucleus(W/2-90,H/2-40,22,'Sr',cSr,cN);
-      drawNucleus(W/2+50,H/2+40,26,'Xe',cXe,cN);
-      [[W/2+150,H/2-55],[W/2+160,H/2],[W/2+155,H/2+45]].forEach(np=>drawNeutron(np[0],np[1],8));
-      // Flash énergie
+      drawNucleus(cx-105,cy-45,30,'Sr',cSr,cN);
+      drawNucleus(cx+55,cy+45,34,'Xe',cXe,cN);
+      [[cx+170,cy-65],[cx+180,cy],[cx+175,cy+55]].forEach(np=>drawNeutron(np[0],np[1],11));
       ctx.globalAlpha=p;
-      ctx.font='bold 16px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
-      ctx.fillText('⚡ Énergie libérée !',W/2-20,H-28);
+      ctx.font='bold 17px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
+      ctx.fillText('⚡ Énergie libérée !',cx-15,H-22);
       ctx.globalAlpha=1;
-      ctx.font='11px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
-      ctx.fillText('⁹⁴Sr',W/2-90,H/2+(-40)+38);
-      ctx.fillText('¹³⁹Xe',W/2+50,H/2+40+44);
+      ctx.font='bold 12px Arial';ctx.fillStyle='#2f6f5e';ctx.textAlign='center';
+      ctx.fillText('⁹⁴Sr',cx-105,cy-45+50);
+      ctx.font='bold 12px Arial';ctx.fillStyle='#2D5F8A';
+      ctx.fillText('¹³⁹Xe',cx+55,cy+45+55);
     }
   }
 
@@ -947,56 +1170,50 @@ document.querySelectorAll('.exo-box').forEach(box=>{
     const cx=W/2, cy=H/2;
 
     if(t<phase1){
-      // Deux protons (¹H) s'approchent
       const p=t/phase1;
-      const d=120-p*90;
-      // Températures élevées : petits éclairs autour
-      const flarR=18+5*Math.sin(t*20);
-      ctx.strokeStyle='#f4c430';ctx.lineWidth=1.5;ctx.globalAlpha=.5;
+      const d=140-p*105;
+      const flarR=22+6*Math.sin(t*20);
+      ctx.strokeStyle='#f4c430';ctx.lineWidth=2;ctx.globalAlpha=.5;
       for(let i=0;i<6;i++){
         const a=i*Math.PI/3+t*4;
         ctx.beginPath();ctx.moveTo(cx-d+Math.cos(a)*flarR,cy+Math.sin(a)*flarR);
-        ctx.lineTo(cx-d+Math.cos(a)*(flarR+7),cy+Math.sin(a)*(flarR+7));ctx.stroke();
+        ctx.lineTo(cx-d+Math.cos(a)*(flarR+10),cy+Math.sin(a)*(flarR+10));ctx.stroke();
         ctx.beginPath();ctx.moveTo(cx+d+Math.cos(a)*flarR,cy+Math.sin(a)*flarR);
-        ctx.lineTo(cx+d+Math.cos(a)*(flarR+7),cy+Math.sin(a)*(flarR+7));ctx.stroke();
+        ctx.lineTo(cx+d+Math.cos(a)*(flarR+10),cy+Math.sin(a)*(flarR+10));ctx.stroke();
       }
       ctx.globalAlpha=1;ctx.lineWidth=1;
       drawH(cx-d,cy,'¹H',cH);
       drawH(cx+d,cy,'¹H',cH);
-      drawLabel(cx,cy-55,'Très haute température nécessaire…','#a9690f',11);
-      drawLabel(cx-d,cy+28,'¹₁H','#2D5F8A',10);
-      drawLabel(cx+d,cy+28,'¹₁H','#2D5F8A',10);
+      drawLabel(cx,cy-65,'🌡 Très haute température nécessaire…','#a9690f',12);
+      drawLabel(cx-d,cy+34,'¹₁H','#2D5F8A',12);
+      drawLabel(cx+d,cy+34,'¹₁H','#2D5F8A',12);
     } else if(t<phase2){
-      // Collision / fusion : flash
       const p=(t-phase1)/(phase2-phase1);
       const sc=1+0.4*Math.sin(p*Math.PI);
       ctx.save();ctx.translate(cx,cy);ctx.scale(sc,sc);
-      drawProton(0,0,20,'#e8a07a');
+      drawProton(0,0,26,'#e8a07a');
       ctx.restore();
-      // Flash
       ctx.globalAlpha=Math.sin(p*Math.PI)*.6;
-      ctx.beginPath();ctx.arc(cx,cy,50*p+10,0,Math.PI*2);
+      ctx.beginPath();ctx.arc(cx,cy,65*p+12,0,Math.PI*2);
       ctx.fillStyle='#f4c430';ctx.fill();
       ctx.globalAlpha=1;
-      drawLabel(cx,cy+52,'Fusion !','#c9622a',14);
+      drawLabel(cx,cy+70,'⚡ Fusion !','#c9622a',16);
     } else if(t<phase3){
-      // Produits apparaissent : ²H + e⁺
       const p=(t-phase2)/(phase3-phase2);
-      const dx=p*80;
-      drawD(cx-dx*.6,cy,1);
-      drawPositron(cx+60+dx*.8,cy-20*p);
-      drawLabel(cx-dx*.6,cy+36,'²₁H','#2f6f5e',10);
-      drawLabel(cx+60+dx*.8,cy-20*p+22,'e⁺','#d1495b',10);
+      const dx=p*95;
+      drawD(cx-dx*.6,cy,1.3);
+      drawPositron(cx+70+dx*.9,cy-24*p);
+      drawLabel(cx-dx*.6,cy+44,'²₁H','#2f6f5e',13);
+      drawLabel(cx+70+dx*.9,cy-24*p+28,'e⁺','#d1495b',13);
     } else {
-      // Final + énergie libérée
       const p=Math.min(1,(t-phase3)/(1-phase3));
-      drawD(cx-80,cy,1);
-      drawPositron(cx+80,cy-30);
-      drawLabel(cx-80,cy+36,'deutérium ²₁H','#2f6f5e',10);
-      drawLabel(cx+80,cy-10,'positron e⁺','#d1495b',10);
+      drawD(cx-90,cy,1.3);
+      drawPositron(cx+90,cy-36);
+      drawLabel(cx-90,cy+44,'deutérium ²₁H','#2f6f5e',12);
+      drawLabel(cx+90,cy-10,'positron e⁺','#d1495b',12);
       ctx.globalAlpha=p;
-      ctx.font='bold 15px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
-      ctx.fillText('⚡ Énergie libérée !',cx,H-28);
+      ctx.font='bold 17px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
+      ctx.fillText('⚡ Énergie libérée !',cx,H-22);
       ctx.globalAlpha=1;
     }
   }
@@ -1022,6 +1239,143 @@ document.querySelectorAll('.exo-box').forEach(box=>{
     animId=requestAnimationFrame(loop);
   });
 })();
+/* ====== APP RÉACTION EN CHAÎNE (FISSION) ====== */
+(function(){
+  const canvas=document.getElementById('canvasChain');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const kSlider=document.getElementById('kSlider');
+  const kValEl=document.getElementById('kVal');
+  const genEl=document.getElementById('chainGen');
+  const countEl=document.getElementById('chainCount');
+  const energyEl=document.getElementById('chainEnergy');
+  const verdictEl=document.getElementById('chainVerdict');
+
+  kSlider.addEventListener('input',()=>{ kValEl.textContent=parseFloat(kSlider.value).toFixed(2); });
+
+  let animId=null, running=false;
+
+  function drawChain(gen, nodes){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H);
+    if(!nodes.length) return;
+    const maxR=Math.min(W,H)/2-10;
+    nodes.forEach(n=>{
+      const angle=n.angle*(Math.PI/180);
+      const r=Math.min(n.dist*30, maxR);
+      const x=W/2+Math.cos(angle)*r;
+      const y=H/2+Math.sin(angle)*r;
+      const sz=Math.max(3, 9-n.gen*1.2);
+      ctx.beginPath(); ctx.arc(x,y,sz,0,Math.PI*2);
+      const heat=Math.min(1,n.gen/6);
+      const g=Math.floor(100+heat*120), rb=Math.floor(50*(1-heat));
+      ctx.fillStyle=`rgb(255,${g},${rb})`;
+      ctx.fill();
+      if(n.parent){
+        const pr=Math.min(n.parent.dist*30,maxR);
+        const px=W/2+Math.cos(n.parent.angle*(Math.PI/180))*pr;
+        const py=H/2+Math.sin(n.parent.angle*(Math.PI/180))*pr;
+        ctx.strokeStyle='rgba(255,200,50,0.25)';ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();
+      }
+    });
+    // Centre
+    ctx.beginPath();ctx.arc(W/2,H/2,10,0,Math.PI*2);
+    ctx.fillStyle='#f4c430';ctx.fill();
+    ctx.font='bold 9px Arial';ctx.fillStyle='#0f172a';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('U',W/2,H/2);
+  }
+
+  function runChain(){
+    const k=parseFloat(kSlider.value);
+    const maxGen=8;
+    let nodes=[];
+    let current=[{angle:0,dist:0,gen:0,parent:null}];
+    let totalFissions=0;
+    let gen=0;
+
+    function step(){
+      if(gen>maxGen || current.length===0 || totalFissions>300){
+        running=false;
+        document.getElementById('btnChain').textContent='▶ Relancer';
+        document.getElementById('btnChain').disabled=false;
+        const e=(totalFissions*2.79).toFixed(1);
+        energyEl.textContent=`Énergie (×10⁻¹¹ J) : ${e}`;
+        if(k<1) verdictEl.innerHTML='<span style="color:#ef4444">🔴 Réaction sous-critique : elle s\'éteint.</span>';
+        else if(k===1.0) verdictEl.innerHTML='<span style="color:#f4c430">🟡 Réaction critique : stable.</span>';
+        else verdictEl.innerHTML='<span style="color:#22c55e">🟢 Réaction sur-critique : emballement !</span>';
+        return;
+      }
+      let next=[];
+      current.forEach(node=>{
+        if(node.gen===0){
+          totalFissions++;
+          const nNeutrons=Math.round(k*3);
+          for(let i=0;i<nNeutrons;i++){
+            const a=node.angle+(i-1)*35+(Math.random()-0.5)*20;
+            const child={angle:a,dist:node.dist+1,gen:node.gen+1,parent:node};
+            nodes.push(child);
+            next.push(child);
+          }
+        } else {
+          if(Math.random()<k){
+            totalFissions++;
+            const nNeutrons=Math.round(k*3);
+            for(let i=0;i<nNeutrons;i++){
+              const a=node.angle+(i-1)*40+(Math.random()-0.5)*25;
+              const child={angle:a,dist:node.dist+1,gen:node.gen+1,parent:node};
+              nodes.push(child);
+              next.push(child);
+            }
+          }
+        }
+      });
+      current=next;
+      gen++;
+      genEl.textContent=`Génération : ${gen}`;
+      countEl.textContent=`Noyaux fissionnés : ${totalFissions}`;
+      drawChain(gen, nodes);
+      animId=setTimeout(step, 320);
+    }
+    nodes=[{angle:0,dist:0,gen:0,parent:null}];
+    current=[nodes[0]];
+    drawChain(0,nodes);
+    step();
+  }
+
+  document.getElementById('btnChain').addEventListener('click',()=>{
+    if(running) return;
+    running=true;
+    document.getElementById('btnChain').disabled=true;
+    document.getElementById('btnChain').textContent='⏳ En cours…';
+    genEl.textContent='Génération : 0';
+    countEl.textContent='Noyaux fissionnés : 0';
+    energyEl.textContent='Énergie (×10⁻¹¹ J) : …';
+    verdictEl.textContent='—';
+    runChain();
+  });
+  document.getElementById('btnChainReset').addEventListener('click',()=>{
+    if(animId) clearTimeout(animId);
+    running=false;
+    document.getElementById('btnChain').disabled=false;
+    document.getElementById('btnChain').textContent='▶ Lancer';
+    genEl.textContent='Génération : —';
+    countEl.textContent='Noyaux fissionnés : —';
+    energyEl.textContent='Énergie (×10⁻¹¹ J) : —';
+    verdictEl.textContent='—';
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0f172a';ctx.fillRect(0,0,W,H);
+    ctx.font='bold 13px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('Règle k puis clique sur ▶ Lancer',W/2,H/2);
+  });
+  // Dessin initial
+  ctx.fillStyle='#0f172a';ctx.fillRect(0,0,W,H);
+  ctx.font='13px Arial';ctx.fillStyle='#64748b';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('Règle k puis clique sur ▶ Lancer',W/2,H/2);
+})();
+
+
 </script>
 </body>
 </html>

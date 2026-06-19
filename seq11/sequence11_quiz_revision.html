@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Émission et perception d'un son</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+/* ══ ONDES SONORES EN FOND ══ */
+#sound-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sound-emitter {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(26,95,168,0.18);
+  border: 2px solid rgba(26,95,168,0.22);
+}
+
+.sound-wave {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(26,95,168,0.15);
+  animation: wave-expand linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes wave-expand {
+  0%   { width: 20px;  height: 20px;  opacity: 0.7; }
+  100% { width: 260px; height: 260px; opacity: 0; }
+}
+
+/* Émetteurs fixes */
+.em1 { width: 18px; height: 18px; top: 10%; left: 5%; }
+.em2 { width: 14px; height: 14px; top: 60%; right: 4%; }
+.em3 { width: 16px; height: 16px; top: 82%; left: 3%; }
+.em4 { width: 12px; height: 12px; top: 28%; right: 3%; }
+
+/* Ondes par émetteur */
+.w1a { top: calc(10% + 9px); left: calc(5% + 9px);  animation-duration: 4s;   animation-delay: 0s; }
+.w1b { top: calc(10% + 9px); left: calc(5% + 9px);  animation-duration: 4s;   animation-delay: 1.3s; }
+.w1c { top: calc(10% + 9px); left: calc(5% + 9px);  animation-duration: 4s;   animation-delay: 2.6s; }
+
+.w2a { top: calc(60% + 7px); right: auto; left: calc(100% - 4% - 7px); animation-duration: 5s;   animation-delay: 0s; }
+.w2b { top: calc(60% + 7px); left: calc(100% - 4% - 7px); animation-duration: 5s;   animation-delay: 1.7s; }
+.w2c { top: calc(60% + 7px); left: calc(100% - 4% - 7px); animation-duration: 5s;   animation-delay: 3.4s; }
+
+.w3a { top: calc(82% + 8px); left: calc(3% + 8px);  animation-duration: 4.5s; animation-delay: 0.5s; }
+.w3b { top: calc(82% + 8px); left: calc(3% + 8px);  animation-duration: 4.5s; animation-delay: 2s; }
+.w3c { top: calc(82% + 8px); left: calc(3% + 8px);  animation-duration: 4.5s; animation-delay: 3.5s; }
+
+.w4a { top: calc(28% + 6px); left: calc(100% - 3% - 6px); animation-duration: 3.8s; animation-delay: 0.8s; }
+.w4b { top: calc(28% + 6px); left: calc(100% - 3% - 6px); animation-duration: 3.8s; animation-delay: 2.1s; }
+.w4c { top: calc(28% + 6px); left: calc(100% - 3% - 6px); animation-duration: 3.8s; animation-delay: 3.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-wave { animation: none; }
+}
+/* ══ FIN ONDES ══ */
+
+</style>
+</head>
+<body>
+
+<!-- ══ FOND ONDES SONORES ══ -->
+<div id="sound-bg" aria-hidden="true">
+  <div class="sound-emitter em1"></div>
+  <div class="sound-emitter em2"></div>
+  <div class="sound-emitter em3"></div>
+  <div class="sound-emitter em4"></div>
+
+  <div class="sound-wave w1a"></div>
+  <div class="sound-wave w1b"></div>
+  <div class="sound-wave w1c"></div>
+
+  <div class="sound-wave w2a"></div>
+  <div class="sound-wave w2b"></div>
+  <div class="sound-wave w2c"></div>
+
+  <div class="sound-wave w3a"></div>
+  <div class="sound-wave w3b"></div>
+  <div class="sound-wave w3c"></div>
+
+  <div class="sound-wave w4a"></div>
+  <div class="sound-wave w4b"></div>
+  <div class="sound-wave w4c"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 11 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Émission et perception d'un son · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire, vibration, milieu, grandeurs de base</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Calculs v = d/Δt et f = 1/T, dB, domaines de fréquences</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, oscillogramme, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG
+═══════════════════════════════════════════════ */
+
+function svgOscilloSimple() {
+  return `<svg width="380" height="160" viewBox="0 0 380 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="160" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Oscillogramme d'un son périodique</text>
+    <line x1="30" y1="20" x2="30" y2="148" stroke="#aaa" stroke-width="1.5"/>
+    <line x1="30" y1="84" x2="360" y2="84" stroke="#aaa" stroke-width="1.5"/>
+    <text x="22" y="88" text-anchor="end" font-size="9" fill="#666">0</text>
+    <text x="190" y="158" text-anchor="middle" font-size="9" fill="#666">Temps (ms)</text>
+    <text x="14" y="88" text-anchor="middle" font-size="9" fill="#666" transform="rotate(-90 14 88)">u (V)</text>
+    <!-- 2 périodes de sinusoïde -->
+    <path d="M30,84 C55,40 80,40 105,84 C130,128 155,128 180,84 C205,40 230,40 255,84 C280,128 305,128 330,84 C342,62 350,52 360,48" fill="none" stroke="#1a5fa8" stroke-width="2.5"/>
+    <!-- marquage période T -->
+    <line x1="30" y1="40" x2="30" y2="35" stroke="#d4690a" stroke-width="1.5"/>
+    <line x1="180" y1="40" x2="180" y2="35" stroke="#d4690a" stroke-width="1.5"/>
+    <line x1="30" y1="37" x2="180" y2="37" stroke="#d4690a" stroke-width="1.5" marker-end="none"/>
+    <text x="105" y="30" text-anchor="middle" font-size="10" fill="#d4690a" font-weight="bold">T</text>
+    <!-- marquage amplitude -->
+    <line x1="345" y1="84" x2="365" y2="84" stroke="#2e7d52" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="345" y1="48" x2="365" y2="48" stroke="#2e7d52" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="358" y1="84" x2="358" y2="48" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="370" y="68" font-size="9" fill="#2e7d52" font-weight="bold">A</text>
+    <!-- graduations temps -->
+    <text x="105" y="145" text-anchor="middle" font-size="9" fill="#888">T/2</text>
+    <text x="180" y="145" text-anchor="middle" font-size="9" fill="#888">T</text>
+    <text x="330" y="145" text-anchor="middle" font-size="9" fill="#888">2T</text>
+  </svg>`;
+}
+
+function svgDomainesFrequences() {
+  return `<svg width="380" height="130" viewBox="0 0 380 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="130" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Domaines de fréquences des sons</text>
+    <!-- axe fréquences -->
+    <line x1="20" y1="60" x2="360" y2="60" stroke="#555" stroke-width="1.5"/>
+    <!-- zones -->
+    <rect x="20" y="35" width="80" height="26" rx="4" fill="#f2e8fb" stroke="#8b2fc9" stroke-width="1"/>
+    <text x="60" y="50" text-anchor="middle" font-size="9.5" fill="#8b2fc9" font-weight="bold">Infrasons</text>
+    <rect x="100" y="35" width="180" height="26" rx="4" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1"/>
+    <text x="190" y="50" text-anchor="middle" font-size="9.5" fill="#2e7d52" font-weight="bold">Sons audibles</text>
+    <rect x="280" y="35" width="80" height="26" rx="4" fill="#e8f1fb" stroke="#1a5fa8" stroke-width="1"/>
+    <text x="320" y="50" text-anchor="middle" font-size="9.5" fill="#1a5fa8" font-weight="bold">Ultrasons</text>
+    <!-- graduations -->
+    <line x1="100" y1="55" x2="100" y2="68" stroke="#555" stroke-width="1.5"/>
+    <text x="100" y="80" text-anchor="middle" font-size="9" fill="#333" font-weight="bold">20 Hz</text>
+    <line x1="280" y1="55" x2="280" y2="68" stroke="#555" stroke-width="1.5"/>
+    <text x="280" y="80" text-anchor="middle" font-size="9" fill="#333" font-weight="bold">20 kHz</text>
+    <text x="20" y="80" text-anchor="start" font-size="9" fill="#8b2fc9">f → 0</text>
+    <text x="360" y="80" text-anchor="end" font-size="9" fill="#1a5fa8">f → ∞</text>
+    <!-- exemples -->
+    <text x="60" y="105" text-anchor="middle" font-size="8.5" fill="#8b2fc9">Séismes, infra-basses</text>
+    <text x="190" y="105" text-anchor="middle" font-size="8.5" fill="#2e7d52">Voix, musique, sons courants</text>
+    <text x="320" y="105" text-anchor="middle" font-size="8.5" fill="#1a5fa8">Chauves-souris, échographies</text>
+  </svg>`;
+}
+
+function svgVitesseMilieux() {
+  return `<svg width="380" height="155" viewBox="0 0 380 155" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="155" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Vitesse du son dans différents milieux</text>
+    <!-- en-tête tableau -->
+    <rect x="10" y="22" width="360" height="22" rx="3" fill="#1a5fa8"/>
+    <text x="110" y="36" text-anchor="middle" font-size="9.5" font-weight="bold" fill="white">Milieu</text>
+    <text x="260" y="36" text-anchor="middle" font-size="9.5" font-weight="bold" fill="white">Vitesse (m·s⁻¹)</text>
+    <!-- lignes -->
+    <rect x="10" y="44" width="360" height="22" fill="#fff3e0"/>
+    <text x="110" y="59" text-anchor="middle" font-size="10" fill="#333">Air (20 °C)</text>
+    <text x="260" y="59" text-anchor="middle" font-size="10" fill="#d4690a" font-weight="bold">340</text>
+    <rect x="10" y="66" width="360" height="22" fill="#e8f1fb"/>
+    <text x="110" y="81" text-anchor="middle" font-size="10" fill="#333">Eau liquide</text>
+    <text x="260" y="81" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">1 480</text>
+    <rect x="10" y="88" width="360" height="22" fill="#e6f4ec"/>
+    <text x="110" y="103" text-anchor="middle" font-size="10" fill="#333">Acier</text>
+    <text x="260" y="103" text-anchor="middle" font-size="10" fill="#2e7d52" font-weight="bold">5 900</text>
+    <text x="190" y="140" text-anchor="middle" font-size="9" fill="#888">Plus le milieu est dense et rigide, plus le son va vite</text>
+  </svg>`;
+}
+
+function svgOscilloHauteur() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="13" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Deux sons A et B sur oscilloscope</text>
+    <!-- Son A -->
+    <text x="50" y="30" font-size="10" fill="#1a5fa8" font-weight="bold">Son A</text>
+    <line x1="30" y1="28" x2="30" y2="78" stroke="#aaa" stroke-width="1"/>
+    <line x1="30" y1="53" x2="370" y2="53" stroke="#aaa" stroke-width="1"/>
+    <path d="M30,53 C52,26 74,26 96,53 C118,80 140,80 162,53 C184,26 206,26 228,53 C250,80 272,80 294,53 C316,26 338,26 360,53" fill="none" stroke="#1a5fa8" stroke-width="2"/>
+    <!-- Son B -->
+    <text x="50" y="100" font-size="10" fill="#d4690a" font-weight="bold">Son B</text>
+    <line x1="30" y1="98" x2="30" y2="155" stroke="#aaa" stroke-width="1"/>
+    <line x1="30" y1="127" x2="370" y2="127" stroke="#aaa" stroke-width="1"/>
+    <path d="M30,127 C38,108 46,108 54,127 C62,146 70,146 78,127 C86,108 94,108 102,127 C110,146 118,146 126,127 C134,108 142,108 150,127 C158,146 166,146 174,127 C182,108 190,108 198,127 C206,146 214,146 222,127 C230,108 238,108 246,127 C254,146 262,146 270,127 C278,108 286,108 294,127 C302,146 310,146 318,127 C326,108 334,108 342,127 C350,146 358,146 366,127" fill="none" stroke="#d4690a" stroke-width="2"/>
+    <text x="190" y="165" text-anchor="middle" font-size="8.5" fill="#888">Les deux sons ont la même amplitude</text>
+  </svg>`;
+}
+
+function svgOscilloTimbre() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="13" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Violon vs Flûte — même note (La 440 Hz)</text>
+    <text x="50" y="30" font-size="10" fill="#2e7d52" font-weight="bold">Violon</text>
+    <line x1="30" y1="28" x2="30" y2="78" stroke="#aaa" stroke-width="1"/>
+    <line x1="30" y1="53" x2="370" y2="53" stroke="#aaa" stroke-width="1"/>
+    <path d="M30,53 C44,25 52,22 66,38 C74,48 80,53 96,53 C112,53 118,58 132,70 C140,78 148,80 162,68 C170,60 176,53 192,53 C208,53 214,25 228,22 C236,20 244,22 258,38 C266,48 272,53 288,53" fill="none" stroke="#2e7d52" stroke-width="2"/>
+    <text x="50" y="100" font-size="10" fill="#8b2fc9" font-weight="bold">Flûte</text>
+    <line x1="30" y1="98" x2="30" y2="155" stroke="#aaa" stroke-width="1"/>
+    <line x1="30" y1="127" x2="370" y2="127" stroke="#aaa" stroke-width="1"/>
+    <path d="M30,127 C52,100 74,100 96,127 C118,154 140,154 162,127 C184,100 206,100 228,127 C250,154 272,154 294,127 C316,100 338,100 360,127" fill="none" stroke="#8b2fc9" stroke-width="2"/>
+    <text x="190" y="165" text-anchor="middle" font-size="8.5" fill="#888">Même fréquence (même hauteur), forme différente (timbre différent)</text>
+  </svg>`;
+}
+
+function svgEchelleDbs() {
+  return `<svg width="380" height="155" viewBox="0 0 380 155" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="155" fill="#f8faff" rx="6"/>
+    <text x="190" y="13" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Échelle de niveaux d'intensité sonore</text>
+    <!-- axe -->
+    <line x1="60" y1="25" x2="60" y2="140" stroke="#555" stroke-width="1.5"/>
+    <!-- niveaux -->
+    <rect x="62" y="27" width="130" height="14" rx="2" fill="#e6f4ec"/>
+    <text x="66" y="38" font-size="9" fill="#2e7d52">0 dB — seuil d'audition</text>
+    <rect x="62" y="44" width="170" height="14" rx="2" fill="#e6f4ec"/>
+    <text x="66" y="55" font-size="9" fill="#2e7d52">20 dB — feuilles dans le vent</text>
+    <rect x="62" y="61" width="190" height="14" rx="2" fill="#fff3e0"/>
+    <text x="66" y="72" font-size="9" fill="#d4690a">60 dB — conversation normale</text>
+    <rect x="62" y="78" width="220" height="14" rx="2" fill="#fff3e0"/>
+    <text x="66" y="89" font-size="9" fill="#d4690a">85 dB — seuil de danger (exposition prolongée)</text>
+    <rect x="62" y="95" width="250" height="14" rx="2" fill="#fdecea"/>
+    <text x="66" y="106" font-size="9" fill="#c0392b">100 dB — marteau piqueur</text>
+    <rect x="62" y="112" width="280" height="14" rx="2" fill="#fdecea"/>
+    <text x="66" y="123" font-size="9" fill="#c0392b">120 dB — concert de rock (seuil de douleur)</text>
+    <text x="190" y="146" text-anchor="middle" font-size="8.5" fill="#888">Au-dessus de 85 dB, les cellules ciliées de l'oreille interne peuvent être lésées</text>
+  </svg>`;
+}
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+const QUESTIONS = {
+  facile: [
+    {
+      q: "Comment un signal sonore est-il produit ?",
+      ill: null,
+      opts: [
+        "Par la propagation de la lumière dans un milieu",
+        "Par la vibration d'un objet qui met en mouvement le milieu environnant",
+        "Par le déplacement d'air chaud vers l'air froid",
+        "Par une réaction chimique qui libère de l'énergie"
+      ],
+      ans: 1,
+      expl: "Un signal sonore est produit par la vibration d'un objet (corde, membrane, colonne d'air…). Cette vibration met en mouvement les molécules du milieu environnant, créant une onde mécanique qui se propage."
+    },
+    {
+      q: "Le son peut-il se propager dans le vide ?",
+      ill: null,
+      opts: [
+        "Oui, le son se propage dans tous les milieux, y compris le vide",
+        "Non, le son a besoin d'un milieu matériel pour se propager",
+        "Oui, mais seulement si la fréquence est très élevée",
+        "Non, le son ne se propage que dans les liquides"
+      ],
+      ans: 1,
+      expl: "Le son est une onde mécanique : il a besoin d'un milieu matériel (solide, liquide ou gaz) pour se propager. Dans le vide, il n'y a pas de molécules à mettre en vibration, donc le son ne s'y propage pas."
+    },
+    {
+      q: "Quelle est la valeur approchée de la vitesse du son dans l'air à 20 °C ?",
+      ill: null,
+      opts: ["v ≈ 3 × 10⁸ m·s⁻¹", "v ≈ 1 480 m·s⁻¹", "v ≈ 340 m·s⁻¹", "v ≈ 10 m·s⁻¹"],
+      ans: 2,
+      expl: "La vitesse du son dans l'air à 20 °C est d'environ 340 m·s⁻¹. C'est bien plus lent que la lumière (3 × 10⁸ m·s⁻¹), ce qui explique qu'on entende le tonnerre après avoir vu l'éclair."
+    },
+    {
+      q: "Qu'appelle-t-on la période T d'un signal sonore périodique ?",
+      ill: svgOscilloSimple(),
+      opts: [
+        "La valeur maximale du signal",
+        "La durée d'un motif élémentaire qui se répète identiquement",
+        "Le nombre de vibrations par seconde",
+        "La distance entre deux compressions successives dans l'air"
+      ],
+      ans: 1,
+      expl: "La période T est la durée d'un motif élémentaire qui se répète identiquement dans le temps. Elle s'exprime en secondes (s). Sur un oscillogramme, c'est l'intervalle de temps entre deux points identiques consécutifs."
+    },
+    {
+      q: "Quelle est la relation entre la fréquence f et la période T ?",
+      ill: null,
+      opts: ["f = T²", "f = T", "f = 1/T", "f = 2πT"],
+      ans: 2,
+      expl: "La fréquence et la période sont liées par la relation f = 1/T. La fréquence s'exprime en hertz (Hz) et la période en secondes (s). Si T = 0,01 s, alors f = 100 Hz."
+    },
+    {
+      q: "Dans quel domaine de fréquences l'oreille humaine peut-elle percevoir les sons ?",
+      ill: svgDomainesFrequences(),
+      opts: [
+        "De 0 Hz à 340 Hz",
+        "De 20 Hz à 20 000 Hz (20 kHz)",
+        "De 1 Hz à 100 Hz",
+        "De 20 kHz à 200 kHz"
+      ],
+      ans: 1,
+      expl: "L'oreille humaine perçoit les sons dont la fréquence est comprise entre environ 20 Hz et 20 kHz (20 000 Hz). En dessous de 20 Hz, on parle d'infrasons ; au-dessus de 20 kHz, d'ultrasons."
+    },
+    {
+      q: "Comment nomme-t-on les sons dont la fréquence est inférieure à 20 Hz ?",
+      ill: null,
+      opts: ["Ultrasons", "Sons audibles", "Infrasons", "Hypersons"],
+      ans: 2,
+      expl: "Les sons dont la fréquence est inférieure à 20 Hz sont appelés infrasons. Ils sont inaudibles pour l'homme mais peuvent être émis par des séismes ou perçus par certains animaux (éléphants, baleines)."
+    },
+    {
+      q: "La hauteur d'un son perçu à l'oreille est liée à quelle grandeur physique ?",
+      ill: null,
+      opts: ["À l'amplitude du signal", "À la fréquence du signal", "À la durée du signal", "À la vitesse de propagation"],
+      ans: 1,
+      expl: "La hauteur (grave ou aigu) d'un son est liée à sa fréquence : plus la fréquence est élevée, plus le son est aigu. Un son grave correspond à une fréquence basse, un son aigu à une fréquence haute."
+    },
+    {
+      q: "Qu'est-ce que le timbre d'un son ?",
+      ill: svgOscilloTimbre(),
+      opts: [
+        "La vitesse à laquelle le son se propage",
+        "La durée pendant laquelle on entend le son",
+        "La caractéristique qui permet de distinguer deux sons de même hauteur et de même intensité, liée à la forme du signal",
+        "Le niveau sonore mesuré en décibels"
+      ],
+      ans: 2,
+      expl: "Le timbre est la qualité qui permet de distinguer deux sons ayant la même hauteur (fréquence) et la même intensité (amplitude), comme un violon et une flûte jouant la même note. Il est lié à la forme du motif du signal sur l'oscillogramme."
+    },
+    {
+      q: "À quelle grandeur physique est liée l'intensité sonore (caractère fort ou faible d'un son) ?",
+      ill: null,
+      opts: [
+        "À la fréquence du signal",
+        "À la période du signal",
+        "À la vitesse de propagation",
+        "À l'amplitude du signal"
+      ],
+      ans: 3,
+      expl: "L'intensité sonore (le caractère fort ou faible du son perçu) est liée à l'amplitude du signal sur l'oscillogramme : plus l'amplitude est grande, plus le son est fort (niveau en dB élevé)."
+    }
+  ],
+
+  inter: [
+    {
+      q: "Un éclair est observé, puis le tonnerre est entendu 4,0 s plus tard. La vitesse du son dans l'air est v = 340 m·s⁻¹. À quelle distance l'éclair s'est-il produit ?",
+      ill: null,
+      opts: ["d = 85 m", "d = 1 360 m", "d = 4 700 m", "d = 340 m"],
+      ans: 1,
+      expl: "On applique v = d/Δt, donc d = v × Δt = 340 × 4,0 = 1 360 m. La lumière étant quasi instantanée, le délai entre l'éclair et le tonnerre donne directement le temps de parcours du son."
+    },
+    {
+      q: "Un signal sonore met Δt = 0,025 s pour parcourir une distance d = 8,5 m dans un milieu. Quelle est la vitesse du son dans ce milieu ?",
+      ill: null,
+      opts: ["v = 34 m·s⁻¹", "v = 340 m·s⁻¹", "v = 2 125 m·s⁻¹", "v = 0,003 m·s⁻¹"],
+      ans: 1,
+      expl: "v = d/Δt = 8,5 / 0,025 = 340 m·s⁻¹. Ce résultat correspond à la vitesse du son dans l'air à environ 20 °C."
+    },
+    {
+      q: "Un signal sonore a une période T = 2,5 ms. Quelle est sa fréquence ?",
+      ill: null,
+      opts: ["f = 0,0025 Hz", "f = 400 Hz", "f = 2 500 Hz", "f = 4 000 Hz"],
+      ans: 1,
+      expl: "T = 2,5 ms = 2,5 × 10⁻³ s. f = 1/T = 1/(2,5 × 10⁻³) = 400 Hz. Ce son est bien dans le domaine audible (20 Hz – 20 kHz)."
+    },
+    {
+      q: "Une note de musique a une fréquence f = 880 Hz. Quelle est sa période ?",
+      ill: null,
+      opts: ["T = 880 s", "T ≈ 1,14 × 10⁻³ s", "T ≈ 1,14 ms", "Réponses B et C sont identiques, les deux sont correctes"],
+      ans: 3,
+      expl: "T = 1/f = 1/880 ≈ 1,136 × 10⁻³ s = 1,136 ms. Les réponses B et C expriment la même valeur avec des unités différentes, elles sont donc toutes deux correctes."
+    },
+    {
+      q: "Dans quel milieu le son se propage-t-il le plus vite ?",
+      ill: svgVitesseMilieux(),
+      opts: ["Dans l'air", "Dans l'eau liquide", "Dans l'acier", "La vitesse est la même dans tous les milieux"],
+      ans: 2,
+      expl: "La vitesse du son dépend du milieu : dans l'air ≈ 340 m·s⁻¹, dans l'eau ≈ 1 480 m·s⁻¹, dans l'acier ≈ 5 900 m·s⁻¹. Plus le milieu est rigide et dense, plus les vibrations se transmettent rapidement entre les molécules."
+    },
+    {
+      q: "Un sifflet pour chien émet un son à f = 25 000 Hz. Comment qualifier ce son ?",
+      ill: svgDomainesFrequences(),
+      opts: [
+        "C'est un infrason, inaudible pour l'homme",
+        "C'est un son audible pour l'homme",
+        "C'est un ultrason, inaudible pour l'homme",
+        "C'est un ultrason, audible pour l'homme"
+      ],
+      ans: 2,
+      expl: "25 000 Hz = 25 kHz > 20 kHz : c'est un ultrason. Il est inaudible pour l'homme mais perçu par les chiens, dont la plage d'audition s'étend au-delà de 20 kHz."
+    },
+    {
+      q: "À partir de quel niveau sonore une exposition prolongée risque-t-elle d'endommager l'oreille de façon irréversible ?",
+      ill: svgEchelleDbs(),
+      opts: ["À partir de 40 dB", "À partir de 60 dB", "À partir de 85 dB", "À partir de 130 dB"],
+      ans: 2,
+      expl: "Le seuil de danger est fixé à 85 dB pour une exposition prolongée. Au-delà, les cellules ciliées de l'oreille interne peuvent être lésées de façon irréversible, car elles ne se régénèrent pas."
+    },
+    {
+      q: "Sur l'oscillogramme ci-dessus, qu'est-ce que l'amplitude A représente pour la perception du son ?",
+      ill: svgOscilloSimple(),
+      opts: [
+        "La hauteur du son : plus A est grand, plus le son est aigu",
+        "Le timbre du son : plus A est grand, plus le son a une forme complexe",
+        "L'intensité sonore : plus A est grand, plus le son est fort",
+        "La fréquence du son : plus A est grand, plus f est élevée"
+      ],
+      ans: 2,
+      expl: "L'amplitude A est la valeur maximale du signal sur l'oscillogramme. Elle est liée à l'intensité sonore : plus A est grand, plus le son perçu est fort (niveau en dB élevé). Elle n'est pas liée à la hauteur (fréquence) ni au timbre (forme)."
+    },
+    {
+      q: "Sur un oscillogramme, on mesure une période T = 5,0 ms et une amplitude A = 0,3 V. On double l'amplitude sans changer la fréquence. Comment évoluent la hauteur et l'intensité du son ?",
+      ill: null,
+      opts: [
+        "La hauteur augmente, l'intensité reste identique",
+        "La hauteur reste identique, l'intensité augmente",
+        "La hauteur et l'intensité augmentent toutes les deux",
+        "La hauteur et l'intensité restent identiques"
+      ],
+      ans: 1,
+      expl: "La hauteur dépend de la fréquence (donc de T), qui n'a pas changé : la hauteur reste identique. L'intensité dépend de l'amplitude, qui a doublé : le son est plus fort."
+    },
+    {
+      q: "Lors d'une séance de travaux pratiques, on souhaite mesurer la vitesse du son dans l'air avec un microphone et un oscilloscope. Quelle grandeur doit-on mesurer ?",
+      ill: null,
+      opts: [
+        "La fréquence f du signal et son amplitude A",
+        "La distance d entre la source et le micro, et le retard Δt entre l'émission et la réception",
+        "La période T du signal et la longueur d'onde",
+        "La hauteur et le timbre du son émis"
+      ],
+      ans: 1,
+      expl: "Pour appliquer v = d/Δt, on mesure d (distance source-microphone) à la règle, et Δt (durée entre l'émission et la réception) sur l'oscillogramme. Le rapport d/Δt donne la vitesse de propagation."
+    }
+  ],
+
+  diff: [
+    {
+      q: "Un élève affirme : « La caisse de résonance d'une guitare amplifie le son en ajoutant de l'énergie à la corde vibrante. » Cette affirmation est-elle correcte ?",
+      ill: null,
+      opts: [
+        "Oui, la caisse fournit de l'énergie électrique qui amplifie la vibration",
+        "Oui, la caisse convertit l'énergie thermique ambiante en énergie sonore",
+        "Non, la caisse entre en vibration sympathique et amplifie le son sans apport d'énergie supplémentaire",
+        "Non, la caisse de résonance n'a aucun rôle dans l'émission du son"
+      ],
+      ans: 2,
+      expl: "La caisse de résonance entre en vibration sympathique avec la corde et amplifie le son en rayonnant plus d'énergie sonore dans l'air — mais cette énergie provient de la corde elle-même, pas d'une source extérieure. Il n'y a pas d'apport d'énergie supplémentaire."
+    },
+    {
+      q: "Sur l'oscillogramme, le son A a une fréquence double de celle du son B, mais la même amplitude. Lequel est le plus aigu ? Lequel est le plus fort ?",
+      ill: svgOscilloHauteur(),
+      opts: [
+        "A est plus aigu que B ; ils ont la même intensité sonore",
+        "B est plus aigu que A ; A est plus fort que B",
+        "Ils ont la même hauteur ; A est plus fort que B",
+        "A est plus aigu que B ; A est plus fort que B"
+      ],
+      ans: 0,
+      expl: "La hauteur dépend de la fréquence : A, de fréquence double, est plus aigu (les oscillations sont plus serrées sur le graphe). L'intensité dépend de l'amplitude : comme les amplitudes sont identiques, les deux sons ont la même intensité sonore."
+    },
+    {
+      q: "Un violon et une flûte jouent tous deux la note La à 440 Hz avec la même intensité. Pourquoi les distingue-t-on à l'oreille ?",
+      ill: svgOscilloTimbre(),
+      opts: [
+        "Parce que leur fréquence est légèrement différente",
+        "Parce que leur amplitude est différente",
+        "Parce que la forme du motif de leur signal (le timbre) est différente",
+        "Parce que la vitesse de propagation est différente pour chaque instrument"
+      ],
+      ans: 2,
+      expl: "Même hauteur (même fréquence) et même intensité (même amplitude) : seule la forme du motif du signal, le timbre, diffère. C'est cette forme complexe, liée aux harmoniques présents, qui caractérise chaque instrument et permet de les distinguer."
+    },
+    {
+      q: "Une onde sonore se propage dans l'air. On double la fréquence du signal émis. Comment évolue la vitesse de propagation ?",
+      ill: null,
+      opts: [
+        "La vitesse double aussi",
+        "La vitesse est divisée par deux",
+        "La vitesse reste la même : elle dépend du milieu, pas de la fréquence",
+        "La vitesse augmente, mais pas nécessairement au même facteur"
+      ],
+      ans: 2,
+      expl: "La vitesse de propagation d'une onde sonore dépend du milieu de propagation (sa densité, son élasticité) et de la température, mais pas de la fréquence du signal. Changer la fréquence ne modifie pas v ≈ 340 m·s⁻¹ dans l'air."
+    },
+    {
+      q: "On enregistre le son d'une alarme avec un microphone placé à d = 17 m de la source. L'oscilloscope montre un retard Δt = 0,050 s entre l'émission et la réception. Quelle est la valeur de la vitesse du son ? Ce résultat est-il cohérent ?",
+      ill: null,
+      opts: [
+        "v = 850 m·s⁻¹ ; incohérent car trop élevé pour de l'air",
+        "v = 340 m·s⁻¹ ; cohérent avec la valeur dans l'air à 20 °C",
+        "v = 17 m·s⁻¹ ; incohérent, c'est la valeur dans un solide",
+        "v = 0,003 m·s⁻¹ ; incohérent, trop faible"
+      ],
+      ans: 1,
+      expl: "v = d/Δt = 17/0,050 = 340 m·s⁻¹. Ce résultat est cohérent avec la valeur attendue pour le son dans l'air à environ 20 °C (≈ 340 m·s⁻¹)."
+    },
+    {
+      q: "Les cellules ciliées de l'oreille interne endommagées par une exposition sonore excessive se régénèrent-elles ?",
+      ill: svgEchelleDbs(),
+      opts: [
+        "Oui, elles se régénèrent complètement en quelques semaines",
+        "Oui, mais seulement si l'exposition n'a pas dépassé 120 dB",
+        "Non, les lésions auditives sont irréversibles",
+        "Ça dépend de l'âge : avant 20 ans, la régénération est possible"
+      ],
+      ans: 2,
+      expl: "Les cellules ciliées de la cochlée (oreille interne) ne se régénèrent pas chez l'homme : les lésions causées par une exposition sonore excessive (au-dessus de 85 dB de façon prolongée ou à des niveaux très élevés) sont irréversibles. D'où l'importance de la prévention."
+    },
+    {
+      q: "Sur un oscillogramme, deux sons C et D ont la même fréquence mais l'amplitude de D est deux fois plus grande que celle de C. La forme du motif est identique. Que peut-on dire de leurs caractéristiques perceptives ?",
+      ill: null,
+      opts: [
+        "C et D ont la même hauteur et la même intensité, mais un timbre différent",
+        "C et D ont la même hauteur et le même timbre, mais D est plus fort que C",
+        "D est plus aigu que C et plus fort que C",
+        "C et D ont la même intensité ; D est plus aigu et a un timbre différent"
+      ],
+      ans: 1,
+      expl: "Même fréquence → même hauteur. Même forme du motif → même timbre. Amplitude de D double de C → D est plus intense (plus fort). La perception de l'intensité sonore est liée à l'amplitude du signal."
+    },
+    {
+      q: "Un sonar émet un ultrason et reçoit l'écho du fond marin après Δt = 0,60 s. La vitesse du son dans l'eau est v = 1 480 m·s⁻¹. Quelle est la profondeur de l'eau ?",
+      ill: null,
+      opts: ["d = 888 m", "d = 444 m", "d = 2 467 m", "d = 1 480 m"],
+      ans: 1,
+      expl: "Le son effectue un aller-retour, donc la distance parcourue est 2d. On a 2d = v × Δt = 1 480 × 0,60 = 888 m, d'où d = 444 m. Il faut toujours penser à diviser par 2 dans les problèmes d'écho."
+    },
+    {
+      q: "Un microphone connecté à un oscilloscope reçoit un son. On augmente progressivement le volume de la source sonore sans changer la note jouée. Que voit-on évoluer sur l'oscillogramme ?",
+      ill: null,
+      opts: [
+        "La période T diminue, l'amplitude reste constante",
+        "L'amplitude augmente, la période reste constante",
+        "La période et l'amplitude augmentent toutes les deux",
+        "La forme du signal change radicalement"
+      ],
+      ans: 1,
+      expl: "Augmenter le volume (l'intensité sonore) sans changer la note (la fréquence) : l'amplitude du signal sur l'oscillogramme augmente, mais la période T reste identique puisque la fréquence n'a pas changé. Le timbre (forme) reste aussi le même."
+    },
+    {
+      q: "Dans quel ordre croissant la vitesse du son se classe-t-elle dans ces trois milieux : acier, air, eau ?",
+      ill: svgVitesseMilieux(),
+      opts: [
+        "Air < Eau < Acier",
+        "Eau < Air < Acier",
+        "Air < Acier < Eau",
+        "Acier < Eau < Air"
+      ],
+      ans: 0,
+      expl: "La vitesse du son croît avec la rigidité et la densité du milieu : air ≈ 340 m·s⁻¹ < eau ≈ 1 480 m·s⁻¹ < acier ≈ 5 900 m·s⁻¹. Plus le milieu est rigide, plus les vibrations moléculaires se transmettent rapidement."
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = [];
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  document.getElementById('btn-next').classList.add('show');
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

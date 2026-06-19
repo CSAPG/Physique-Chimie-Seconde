@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Séquence 05 — Forces et principe d'inertie</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/style-animations.css">
 <style>
   :root{
     --orange:#E8590C;
@@ -71,7 +70,8 @@
     border-bottom:3px solid #2D5F8A;
     border-radius:14px;
     padding:18px 24px 14px;
-    margin:0 0 20px;
+    max-width:1000px;
+    margin:0 auto 20px;
     position:sticky;
     top:0;
     z-index:100;
@@ -108,11 +108,7 @@
     color:var(--gray);
     font-size:0.85rem;
   }
-  .header-titles .hero-quote span{display:block; font-style:normal; margin-top:2px; font-weight:600; color:var(--gray);}
-
-  .header-right{display:flex; align-items:flex-start; justify-content:flex-end; flex-shrink:0; margin-left:auto;}
-  .header-right .apple-icon{transform:scale(1.3); transform-origin:top right;}
-  @media (max-width:520px){ .header-right{display:none;} }
+  .header-titles .hero-quote span{font-style:normal; margin-left:6px; font-weight:600; color:var(--gray);}
 
   button.cap-toggle{
     background:#2D5F8A;
@@ -437,13 +433,6 @@
         <span>— Isaac Newton (1642 – 1727)</span>
       </p>
     </div>
-    <div class="header-right" aria-hidden="true">
-      <div class="apple-icon">
-        <div class="apple-canopy"></div>
-        <div class="apple-trunk"></div>
-        <div class="apple-fruit"></div>
-      </div>
-    </div>
   </div>
 
   <nav class="tabs">
@@ -505,7 +494,7 @@
         </div>
         <div>
           <div class="canvas-frame" style="padding:14px;">
-            <img src="img/doc1-p198.png" alt="Doc 1 p198 : a. le volleyeur exerce une force de contact F1 sur le ballon — b. l'aimant exerce une force à distance F2 sur la bille d'acier" style="max-width:260px; width:100%; display:block; margin:0 auto; border-radius:8px;">
+            <img src="doc1-p198.png" alt="Doc 1 p198 : a. le volleyeur exerce une force de contact F1 sur le ballon — b. l'aimant exerce une force à distance F2 sur la bille d'acier" style="max-width:260px; width:100%; display:block; margin:0 auto; border-radius:8px;">
           </div>
           <p style="font-size:0.82rem; color:var(--gray); text-align:center; margin-top:4px;">Doc 1 p198 — a. force de contact <span class="vec">F</span><sub>1</sub> · b. force à distance <span class="vec">F</span><sub>2</sub></p>
         </div>
@@ -722,10 +711,11 @@
       </div>
 
       <h3>🧠 Questions guidées — activité « Découvrir le principe d'inertie »</h3>
-      <div class="canvas-frame" style="max-width:420px; margin:0 auto 18px; padding:14px;">
-        <img src="img/activite-decouvrir-inertie.jpg" alt="Activité documentaire : découvrir le principe d'inertie — Doc 1 modélisation du skateur, Doc 2 citations d'Aristote, Newton et Galilée, et questions" style="width:100%; display:block; border-radius:6px;">
+      <div class="info-box" style="text-align:center; border-style:solid; max-width:420px; margin:0 auto 18px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📄 Activité documentaire — Découvrir le principe d'inertie</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Ouvre le document pour répondre aux questions ci-dessous.</p>
+        <a href="AD_decouvrir-le-principe-d-inertie.pdf" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Ouvrir l'activité (PDF) ↗</a>
       </div>
-      <p style="font-size:0.85rem; color:var(--gray); text-align:center; margin-top:-10px;">Activité documentaire « Découvrir le principe d'inertie »</p>
       <p style="font-size:0.9rem; color:var(--gray);">Choisis une réponse pour chaque question, puis vérifie.</p>
 
       <div class="qa-doc">
@@ -908,20 +898,52 @@
 
       <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:14px;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Schéma bilan : Actions et forces</p>
-        <img src="Bilan-forces-Hatier.png" alt="Schéma bilan : interactions, forces de contact et à distance, force de gravitation, poids, principe des actions réciproques" style="max-width:380px; width:100%; display:block; margin:0 auto 12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.12);">
         <a href="https://www.pearltrees.com/private/id104961564/item801650212?paccess=47d178164e8.2fc83624.b6510ab3afb7b8a368fadecc81f117e8" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
       </div>
 
       <div class="info-box" style="text-align:center; border-style:solid;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Schéma bilan : Le principe d'inertie</p>
-        <img src="Bilan-principe-inertie-Hatier.png" alt="Schéma bilan : principe d'inertie, contraposée, mouvement rectiligne uniforme, chute libre" style="max-width:380px; width:100%; display:block; margin:0 auto 12px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.12);">
         <a href="https://www.pearltrees.com/private/id104961625/item801650228?paccess=47d1783e041.2fc83634.32924d3fe03425c24706b26dc89e049d" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
       </div>
     </section>
 
+    <section class="block" id="bloc-bilans-img">
+      <h2>🖼️ Bilans visuels — Hatier</h2>
+      <p class="sub-label">Images de synthèse à consulter et à retenir</p>
+      <h3>⚡ Bilan — Actions et forces</h3>
+      <div class="canvas-frame" style="padding:14px; margin-bottom:20px;">
+        <img src="Bilan-forces-Hatier.png" alt="Bilan schématique sur les actions et forces — Hatier" style="width:100%; max-width:700px; display:block; margin:0 auto; border-radius:8px;">
+      </div>
+      <h3>🔄 Bilan — Principe d'inertie</h3>
+      <div class="canvas-frame" style="padding:14px;">
+        <img src="Bilan-principe-inertie-Hatier.png" alt="Bilan schématique sur le principe d'inertie — Hatier" style="width:100%; max-width:700px; display:block; margin:0 auto; border-radius:8px;">
+      </div>
+    </section>
+
     <section class="block" id="bloc-ressources">
-      <h2>📚 Ressources</h2>
-      <p class="sub-label">À compléter</p>
+      <h2>📚 Ressources complémentaires</h2>
+      <p class="sub-label">Activités et vidéos pour aller plus loin</p>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📏 Mesure avec le dynamomètre</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801652852?paccess=47d210df351.2fc84074.93fce808df7cfae1ca4d544bc561efd3" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Vidéo — La troisième loi de Newton</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801650885?paccess=47d210d362f.2fc838c5.be9fe0ee80b81174cce0b63fc259a9c2" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📐 Schématiser les forces</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801652926?paccess=47d210f284b.2fc840be.2be63b8cfacf6fbaa903a2ef85df7623" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
+      </div>
+
+      <div class="info-box" style="text-align:center; border-style:solid;">
+        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🚣 La barque de Constantin</p>
+        <p style="margin:0 0 12px; font-size:0.88rem;">Illustration du principe des actions réciproques (3<sup>ième</sup> loi de Newton).</p>
+        <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d211015cc.2fc834d6.2d4fca4140a2fac62bf6634e744a3d10" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+      </div>
     </section>
   </div>
 

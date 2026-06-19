@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformation nucléaire – Séquence 09</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf9f4;--paper:#ffffff;--ink:#1f2a24;
+  --accent:#2f6f5e;--accent-light:#e6f1ee;
+  --accent2:#c9622a;--accent2-light:#fbe9e0;
+  --line:#d9d3c6;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Georgia","Times New Roman",serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+
+/* HEADER */
+.header{background:#fff;border:1px solid #E3E8EE;border-bottom:3px solid #2D5F8A;border-radius:14px;padding:18px 24px 14px;margin-bottom:24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,.10);}
+.header-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
+.header-left{display:flex;flex-direction:column;align-items:flex-start;gap:7px;flex-shrink:0;margin-top:2px;}
+.header-badge{background:#2D5F8A;color:#fff;font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.header-titles{flex:1;min-width:200px;}
+.header-titles h1{font-family:"Outfit",sans-serif;font-size:1.45rem;font-weight:800;color:#2D5F8A;margin:0 0 4px;line-height:1.2;}
+.header-titles p{font-family:"Nunito",sans-serif;font-size:.85rem;color:#5A6B7A;margin:0;}
+.header-titles p span{color:#E8783A;font-weight:700;}
+
+/* ANIMATION NOYAU HEADER */
+.nuc-icon{display:inline-block;position:relative;width:64px;height:64px;flex-shrink:0;}
+.nuc-icon svg{width:64px;height:64px;overflow:visible;}
+@keyframes nuc-pulse-c{0%,100%{transform:scale(1);}50%{transform:scale(.92);}}
+@keyframes alpha-out-c{0%{transform:translate(0,0) scale(1);opacity:1;}70%{transform:translate(22px,-18px) scale(.9);opacity:.8;}100%{transform:translate(34px,-28px) scale(.7);opacity:0;}}
+.nuc-core-c{animation:nuc-pulse-c 2.4s ease-in-out infinite;transform-origin:28px 38px;}
+.alpha-c{animation:alpha-out-c 2.4s ease-in infinite;transform-origin:50px 14px;}
+@media(prefers-reduced-motion:reduce){.nuc-core-c,.alpha-c{animation:none;}}
+
+/* TABS */
+.tabs-nav{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.tabs-nav::-webkit-scrollbar{display:none;}
+.tab-btn{display:flex;align-items:center;gap:8px;flex:0 0 auto;padding:10px 16px 12px;background:transparent;border:none;border-bottom:3px solid transparent;border-radius:0;font-family:"Nunito",sans-serif;font-size:.85rem;font-weight:600;color:#5A6B7A;cursor:pointer;white-space:nowrap;position:relative;bottom:-3px;transition:all .15s ease;}
+.tab-btn .tab-num{width:22px;height:22px;border-radius:50%;background:#DDE3EC;color:#5A6B7A;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s ease;}
+.tab-btn:hover{color:#2D5F8A;}
+.tab-btn.active{background:#E8F1F8;color:#2D5F8A;border-bottom-color:#2D5F8A;border-radius:6px 6px 0 0;}
+.tab-btn.active .tab-num{background:#2D5F8A;color:#fff;}
+
+/* PANELS */
+.panel{display:none;animation:fade .35s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px;box-shadow:0 2px 6px rgba(0,0,0,.03);}
+.card h2{font-size:1.25rem;margin-top:0;color:var(--accent);border-bottom:2px solid var(--accent-light);padding-bottom:8px;}
+.card h3{font-size:1.05rem;color:var(--accent2);margin:18px 0 8px;}
+.def{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:10px 0;}
+.def b{color:var(--accent);}
+.warn{background:#fdf3e2;border-left:4px solid #e0a52e;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92rem;}
+.info{background:#e8f4fd;border-left:4px solid #2D5F8A;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:.92rem;}
+.activite{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:#9aa39d;margin-bottom:4px;}
+
+/* NOTATION NUCLÉAIRE */
+.nuc-notation{display:inline-flex;align-items:center;font-weight:700;font-size:1.1em;vertical-align:middle;line-height:1;margin:0 .3em;}
+.nuc-notation .nuc-az{display:inline-flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:.62em;line-height:1.05;margin-right:.3em;}
+.nuc-notation .nuc-az select{padding:2px 4px;min-width:3.5em;height:auto;line-height:1.4;font-size:1em;}
+.nuc-notation .nuc-sym{font-size:1.15em;flex-shrink:0;}
+
+/* EXO */
+.exo-box{margin:10px 0 18px;}
+.exo-input{width:100%;font-family:"Helvetica Neue",Arial,sans-serif;font-size:.92rem;color:var(--ink);border:2px dashed var(--line);border-radius:8px;padding:10px 12px;background:#fdfcf9;resize:vertical;box-sizing:border-box;}
+.exo-input::placeholder{color:#aab3ad;font-style:italic;}
+.exo-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-input.line{height:42px;}
+.exo-input.block{min-height:70px;}
+.exo-input.tall{min-height:110px;}
+.exo-actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.exo-select{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.92rem;color:var(--ink);border:2px dashed var(--line);border-radius:6px;padding:5px 8px;background:#fdfcf9;cursor:pointer;}
+.exo-select:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-select.correct,.exo-input.correct{border-color:var(--accent)!important;background:var(--accent-light)!important;color:var(--accent);font-weight:700;}
+.exo-select.incorrect,.exo-input.incorrect{border-color:#c0392b!important;background:#fbe6e4!important;color:#c0392b;font-weight:700;}
+.check-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.8rem;font-weight:700;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;}
+.check-btn:hover{background:#255a4c;}
+.toggle-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.8rem;font-weight:700;background:var(--accent2-light);color:var(--accent2);border:1px solid var(--accent2);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;}
+.toggle-btn:hover{background:var(--accent2);color:#fff;}
+.reset-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.8rem;font-weight:700;background:#f1efe6;color:#7a8079;border:1px solid var(--line);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;}
+.reset-btn:hover{background:#e6e2d4;color:var(--ink);}
+.correction{display:none;background:var(--accent2-light);border-left:4px solid var(--accent2);border-radius:6px;padding:10px 14px;margin-top:8px;font-size:.92rem;}
+.correction.show{display:block;}
+.keyword-feedback{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.85rem;font-weight:700;margin-top:6px;padding:8px 12px;border-radius:6px;display:none;}
+.keyword-feedback.show{display:block;}
+.keyword-feedback.kw-good{background:var(--accent-light);color:var(--accent);border-left:4px solid var(--accent);}
+.keyword-feedback.kw-partial{background:#fdf3e2;color:#a9690f;border-left:4px solid #e0a52e;}
+.keyword-feedback.kw-empty{background:#fbe6e4;color:#c0392b;border-left:4px solid #c0392b;}
+.keyword-check-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.8rem;font-weight:700;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;}
+.keyword-check-btn:hover{background:#255a4c;}
+
+/* TABLE */
+table.tab{width:100%;border-collapse:collapse;font-family:"Helvetica Neue",Arial,sans-serif;font-size:.88rem;margin:10px 0;}
+table.tab th,table.tab td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+table.tab th{background:var(--accent-light);color:var(--accent);}
+
+/* PASTILLES */
+.pastilles{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px;}
+.pastille{font-family:"Helvetica Neue",Arial,sans-serif;font-size:.85rem;font-weight:700;text-decoration:none;padding:9px 16px;border-radius:999px;border:2px solid var(--accent);color:var(--accent);background:var(--accent-light);transition:all .15s ease;}
+.pastille:hover{background:var(--accent);color:#fff;}
+.pastille.alt{border-color:var(--accent2);color:var(--accent2);background:var(--accent2-light);}
+.pastille.alt:hover{background:var(--accent2);color:#fff;}
+.pastille.blue{border-color:#2D5F8A;color:#2D5F8A;background:#E8F1F8;}
+.pastille.blue:hover{background:#2D5F8A;color:#fff;}
+.exo-tag{display:inline-block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:.75rem;background:#f1efe6;border:1px solid var(--line);border-radius:14px;padding:3px 10px;margin:2px 4px 2px 0;color:#7a8079;}
+
+/* FORMULE */
+.formula-box{background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:14px 20px;text-align:center;font-size:1.15rem;font-family:"Georgia",serif;margin:12px 0;}
+
+/* ANIMATION CANVAS */
+.anim-wrap{background:#f8f6f1;border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0;text-align:center;}
+.anim-btn{font-family:"Nunito",sans-serif;font-size:.85rem;font-weight:700;background:#2D5F8A;color:#fff;border:none;border-radius:20px;padding:8px 20px;cursor:pointer;margin-top:8px;}
+.anim-btn:hover{background:#1e4466;}
+.anim-btn:disabled{background:#94a3b8;cursor:default;}
+
+/* SEGRE IMAGE */
+.segre-wrap{text-align:center;margin:14px 0;}
+.segre-wrap img{max-width:100%;border-radius:8px;border:1px solid var(--line);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+
+/* CAPS */
+button.cap-toggle{background:#2D5F8A;color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:"Nunito",sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap;}
+button.cap-toggle:hover{background:#1e4466;}
+.cap-panel{display:none;margin:0 0 14px;background:#fff;border:1px solid #B8D4EC;border-radius:12px;padding:16px 20px;font-size:.88rem;color:#1A2A3A;}
+.cap-panel.open{display:block;}
+.cap-panel ul{margin:0;padding-left:1.3rem;}
+.cap-panel li{margin-bottom:5px;line-height:1.6;}
+
+/* NUCLEAR ICON (identique index) */
+.nuclear-icon{position:relative;width:60px;height:60px;flex-shrink:0;}
+.nuclear-circle{position:absolute;inset:0;border-radius:50%;background:#facc15;box-shadow:0 0 10px rgba(250,204,21,.5);}
+.nuclear-svg{position:absolute;inset:0;width:100%;height:100%;}
+.nuclear-propeller{transform-origin:50px 50px;animation:nuclear-spin 3s linear infinite;}
+@keyframes nuclear-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@media(prefers-reduced-motion:reduce){.nuclear-propeller{animation:none;}}
+
+#backToTop{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:46px;height:46px;font-size:1.3rem;cursor:pointer;display:none;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+#backToTop.show{display:block;}
+
+@media(max-width:680px){
+  .header{padding:14px 16px 10px;}
+  .header-titles h1{font-size:1.1rem;}
+  .tab-btn{padding:8px 10px 10px;font-size:.78rem;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="header-badge">2<sup>nde</sup> – Séq. 09</div>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Transformation nucléaire</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+    </div>
+    <div class="nuclear-icon" style="flex-shrink:0;">
+      <div class="nuclear-circle"></div>
+      <svg class="nuclear-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="nuclear-propeller" fill="#1e293b">
+          <path d="M50,50 L28,2 L72,2 Z" />
+          <path d="M50,50 L28,2 L72,2 Z" transform="rotate(120 50 50)" />
+          <path d="M50,50 L28,2 L72,2 Z" transform="rotate(240 50 50)" />
+          <circle cx="50" cy="50" r="6" fill="#1e293b" />
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" data-tab="t1"><span class="tab-num">1</span> Radioactivité &amp; isotopes</button>
+    <button class="tab-btn" data-tab="t2"><span class="tab-num">2</span> Équations nucléaires</button>
+    <button class="tab-btn" data-tab="t3"><span class="tab-num">3</span> Fission</button>
+    <button class="tab-btn" data-tab="t4"><span class="tab-num">4</span> Fusion</button>
+    <button class="tab-btn" data-tab="t5"><span class="tab-num">5</span> Application – Curie</button>
+    <button class="tab-btn" data-tab="t6"><span class="tab-num">📎</span> Ressources</button>
+  </nav>
+
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Identifier des isotopes.</li>
+      <li>Établir, à partir des noyaux père et fils, l'équation de la réaction nucléaire associée.</li>
+      <li>Relier l'énergie convertie dans le Soleil et dans une centrale nucléaire à des réactions nucléaires.</li>
+      <li>Identifier la nature physique, chimique ou nucléaire d'une transformation à partir de sa description ou d'une écriture symbolique.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== ONGLET 1 : RADIOACTIVITÉ & ISOTOPES ===== -->
+<section class="panel active" id="t1">
+  <div class="card">
+    <h2>1. Qu'est-ce que la radioactivité ?</h2>
+    <div class="def">
+      La <b>radioactivité</b> est l'émission spontanée de <b>particules de grande énergie</b> par des <b>noyaux instables</b>. Ces noyaux se transforment : c'est une <b>désintégration radioactive</b>.<br><br>
+      Un <b>noyau père</b> instable se désintègre spontanément en émettant un <b>noyau fils</b>, une particule et un rayonnement électromagnétique γ.
+    </div>
+    <p>C'est la grande énergie des particules émises qui a permis de comprendre, dès la découverte de la radioactivité par <b>Becquerel en 1896</b> puis expliquée par <b>Pierre et Marie Curie</b>, que la radioactivité est un phénomène <b>nucléaire</b> (transformation du noyau) et non chimique.</p>
+
+    <h3>Nature d'une transformation</h3>
+    <p>Pour chaque situation, identifier la nature de la transformation :</p>
+    <div class="exo-box" data-clear-selector=".nat-sel">
+      <table class="tab">
+        <tr><th>Description</th><th>Nature</th></tr>
+        <tr>
+          <td>L'eau liquide se transforme en vapeur.</td>
+          <td><select class="exo-select nat-sel" data-answers="physique">
+            <option value="">— choisir —</option>
+            <option value="physique">Physique</option>
+            <option value="chimique">Chimique</option>
+            <option value="nucleaire">Nucléaire</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Le fer rouille au contact de l'air humide.</td>
+          <td><select class="exo-select nat-sel" data-answers="chimique">
+            <option value="">— choisir —</option>
+            <option value="physique">Physique</option>
+            <option value="chimique">Chimique</option>
+            <option value="nucleaire">Nucléaire</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Un noyau de radium se transforme en radon en émettant une particule.</td>
+          <td><select class="exo-select nat-sel" data-answers="nucleaire">
+            <option value="">— choisir —</option>
+            <option value="physique">Physique</option>
+            <option value="chimique">Chimique</option>
+            <option value="nucleaire">Nucléaire</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>La combustion du méthane produit CO₂ et H₂O.</td>
+          <td><select class="exo-select nat-sel" data-answers="chimique">
+            <option value="">— choisir —</option>
+            <option value="physique">Physique</option>
+            <option value="chimique">Chimique</option>
+            <option value="nucleaire">Nucléaire</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td>Un noyau d'uranium absorbe un neutron et se scinde en deux fragments.</td>
+          <td><select class="exo-select nat-sel" data-answers="nucleaire">
+            <option value="">— choisir —</option>
+            <option value="physique">Physique</option>
+            <option value="chimique">Chimique</option>
+            <option value="nucleaire">Nucléaire</option>
+          </select></td>
+        </tr>
+      </table>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".nat-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>Eau → vapeur</b> : physique (changement d'état, molécules inchangées).<br>
+        <b>Rouille du fer</b> : chimique (nouvelles liaisons entre atomes).<br>
+        <b>Radium → radon</b> : nucléaire (le noyau lui-même se transforme).<br>
+        <b>Combustion méthane</b> : chimique.<br>
+        <b>Fission uranium</b> : nucléaire.
+      </div>
+    </div>
+
+    <div class="activite">Vidéo – Radioactivité</div>
+    <div class="pastilles">
+      <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – Les isotopes</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Les isotopes</h2>
+    <div class="def">
+      Des <b>isotopes</b> sont des atomes possédant le <b>même nombre de protons Z</b> mais un <b>nombre de neutrons différent</b> (donc un nombre de masse A différent).<br>
+      Ils appartiennent au même élément chimique : <b>propriétés chimiques identiques</b>, propriétés physiques différentes.
+    </div>
+    <p>Exemple : <span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span>, <span class="nuc-notation"><span class="nuc-az"><span>13</span><span>6</span></span><span class="nuc-sym">C</span></span> et <span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span> sont les trois isotopes du carbone. Ils ont tous Z = 6 protons.</p>
+
+    <h3>Exercice – Identifier des isotopes</h3>
+    <p>Les noyaux suivants sont-ils des isotopes du carbone (Z = 6) ?</p>
+    <div class="exo-box" data-clear-selector=".iso-sel">
+      <table class="tab">
+        <tr><th>Noyau</th><th>Z</th><th>A</th><th>Isotope du carbone ?</th></tr>
+        <tr>
+          <td><span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span></td>
+          <td>6</td><td>12</td>
+          <td><select class="exo-select iso-sel" data-answers="oui"><option value="">?</option><option value="oui">Oui</option><option value="non">Non</option></select></td>
+        </tr>
+        <tr>
+          <td><span class="nuc-notation"><span class="nuc-az"><span>14</span><span>7</span></span><span class="nuc-sym">N</span></span></td>
+          <td>7</td><td>14</td>
+          <td><select class="exo-select iso-sel" data-answers="non"><option value="">?</option><option value="oui">Oui</option><option value="non">Non</option></select></td>
+        </tr>
+        <tr>
+          <td><span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span></td>
+          <td>6</td><td>14</td>
+          <td><select class="exo-select iso-sel" data-answers="oui"><option value="">?</option><option value="oui">Oui</option><option value="non">Non</option></select></td>
+        </tr>
+        <tr>
+          <td><span class="nuc-notation"><span class="nuc-az"><span>16</span><span>8</span></span><span class="nuc-sym">O</span></span></td>
+          <td>8</td><td>16</td>
+          <td><select class="exo-select iso-sel" data-answers="non"><option value="">?</option><option value="oui">Oui</option><option value="non">Non</option></select></td>
+        </tr>
+      </table>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".iso-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        <b>¹²C</b> : Z=6 → oui, isotope du carbone ✔<br>
+        <b>¹⁴N</b> : Z=7 ≠ 6 → non, c'est l'azote ✗<br>
+        <b>¹⁴C</b> : Z=6 → oui, isotope du carbone (radiocarbone) ✔<br>
+        <b>¹⁶O</b> : Z=8 ≠ 6 → non, c'est l'oxygène ✗
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Stabilité des noyaux – Diagramme de Ségré</h2>
+    <p>Le <b>diagramme (N, Z)</b> ou <b>diagramme de Ségré</b> représente les noyaux en fonction de leur nombre de neutrons N (abscisse) et de leur nombre de protons Z (ordonnée). Il indique la nature de l'instabilité de chaque noyau.</p>
+    <p>Lorsqu'un noyau est instable, il expulse spontanément une particule et émet un rayonnement gamma de grande énergie.</p>
+    <div class="segre-wrap">
+      <img src="seq09-diagramme-segre.png" alt="Diagramme de Ségré (N,Z) – simulation web-labosims.org" style="max-height:400px;">
+      <p style="font-size:.8rem;color:#64748b;margin-top:6px;">Source : simulation interactive web-labosims.org</p>
+    </div>
+    <div class="pastilles">
+      <a href="https://segree.web-labosims.org/" target="_blank" rel="noopener" class="pastille blue">🔬 Simulateur Ségré interactif</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONGLET 2 : ÉQUATIONS NUCLÉAIRES ===== -->
+<section class="panel" id="t2">
+  <div class="card">
+    <h2>Lois de conservation – Lois de Soddy</h2>
+    <div class="def">
+      Au cours d'une réaction nucléaire, il y a conservation du <b>nombre de masse A</b> et du <b>nombre de charge Z</b> :<br><br>
+      &nbsp;&nbsp;∑ A (réactifs) = ∑ A (produits)<br>
+      &nbsp;&nbsp;∑ Z (réactifs) = ∑ Z (produits)
+    </div>
+
+    <h3>Énergie libérée par une réaction nucléaire</h3>
+    <p>Une réaction nucléaire s'accompagne d'une <b>perte de masse</b> (défaut de masse |Δm|) qui se traduit par une libération d'énergie :</p>
+    <div class="formula-box">
+      <i>E</i><sub>libérée</sub> = |Δm| · <i>c</i>²
+    </div>
+    <p>avec <i>c</i> = 3,00 × 10⁸ m·s⁻¹ et Δm en kg, E en joules.</p>
+
+    <h3>Exercice 1 – Compléter l'équation de désintégration du radium</h3>
+    <p>Le radium-226 se désintègre en émettant un noyau de radon et une particule. Compléter A et Z du noyau de radon :</p>
+    <div class="exo-box" data-clear-selector=".eq1-sel">
+      <p style="font-size:1.05rem;text-align:center;line-height:2.8;">
+        <span class="nuc-notation"><span class="nuc-az"><span>226</span><span>88</span></span><span class="nuc-sym">Ra</span></span>
+        &nbsp;→&nbsp;
+        <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select eq1-sel" data-answers="222" style="font-size:.85em;min-width:4em;">
+              <option value="">A=?</option>
+              <option value="218">218</option><option value="220">220</option><option value="222">222</option><option value="226">226</option>
+            </select>
+            <select class="exo-select eq1-sel" data-answers="86" style="font-size:.85em;min-width:4em;">
+              <option value="">Z=?</option>
+              <option value="84">84</option><option value="86">86</option><option value="88">88</option>
+            </select>
+          </span>
+          <span class="nuc-sym">Rn</span>
+        </span>
+        &nbsp;+&nbsp;
+        <span class="nuc-notation"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".eq1-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        Conservation de A : 226 = A + 4 → <b>A = 222</b>.<br>
+        Conservation de Z : 88 = Z + 2 → <b>Z = 86</b>.<br>
+        Le noyau fils est le radon-222 : <span class="nuc-notation"><span class="nuc-az"><span>222</span><span>86</span></span><span class="nuc-sym">Rn</span></span>.
+      </div>
+    </div>
+
+    <h3>Exercice 2 – Vérifier la loi de conservation pour la fission</h3>
+    <p>Vérifier que l'équation suivante respecte les lois de Soddy :</p>
+    <div class="info" style="text-align:center;font-size:1rem;line-height:2.4;">
+      <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>235</span><span>92</span></span><span class="nuc-sym">U</span></span>
+      → <span class="nuc-notation"><span class="nuc-az"><span>94</span><span>38</span></span><span class="nuc-sym">Sr</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>139</span><span>54</span></span><span class="nuc-sym">Xe</span></span>
+      + 3 <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+    </div>
+    <div class="exo-box" data-clear-selector=".eq2-sel">
+      <p>Somme de A à gauche : 1 + 235 =
+        <select class="exo-select eq2-sel" data-answers="236"><option value="">?</option><option value="234">234</option><option value="235">235</option><option value="236">236</option></select>
+      </p>
+      <p>Somme de A à droite : 94 + 139 + 3 =
+        <select class="exo-select eq2-sel" data-answers="236"><option value="">?</option><option value="233">233</option><option value="235">235</option><option value="236">236</option></select>
+      </p>
+      <p>Somme de Z à gauche : 0 + 92 =
+        <select class="exo-select eq2-sel" data-answers="92"><option value="">?</option><option value="90">90</option><option value="92">92</option><option value="94">94</option></select>
+      </p>
+      <p>Somme de Z à droite : 38 + 54 + 0 =
+        <select class="exo-select eq2-sel" data-answers="92"><option value="">?</option><option value="90">90</option><option value="92">92</option><option value="94">94</option></select>
+      </p>
+      <p>L'équation est-elle équilibrée ?
+        <select class="exo-select eq2-sel" data-answers="oui"><option value="">?</option><option value="oui">Oui</option><option value="non">Non</option></select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".eq2-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        A gauche : A = 1 + 235 = 236 ; Z = 0 + 92 = 92.<br>
+        À droite : A = 94 + 139 + 3×1 = 236 ✔ ; Z = 38 + 54 + 3×0 = 92 ✔.<br>
+        L'équation respecte bien les lois de Soddy.
+      </div>
+    </div>
+
+    <h3>Exercice 3 – Calcul d'énergie libérée</h3>
+    <p>La fission d'un noyau d'uranium-235 s'accompagne d'une perte de masse |Δm| = 3,1 × 10⁻²⁸ kg. Calculer l'énergie libérée :</p>
+    <div class="exo-box" data-clear-selector=".eq3-sel">
+      <p>E = |Δm| × c² = 3,1 × 10⁻²⁸ × (3,00 × 10⁸)² = ?</p>
+      <select class="exo-select eq3-sel" data-answers="2.79e-11">
+        <option value="">— choisir —</option>
+        <option value="9.3e-19">9,3 × 10⁻¹⁹ J</option>
+        <option value="2.79e-11">2,79 × 10⁻¹¹ J</option>
+        <option value="9.3e-12">9,3 × 10⁻¹² J</option>
+        <option value="2.79e-5">2,79 × 10⁻⁵ J</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".eq3-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        E = 3,1 × 10⁻²⁸ × (3,00 × 10⁸)² = 3,1 × 10⁻²⁸ × 9,00 × 10¹⁶ = <b>2,79 × 10⁻¹¹ J</b>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONGLET 3 : FISSION ===== -->
+<section class="panel" id="t3">
+  <div class="card">
+    <h2>La fission nucléaire</h2>
+    <div class="def">
+      La <b>fission</b> est la rencontre d'un <b>neutron</b> avec un <b>gros noyau radioactif</b>. Ce noyau se scinde en deux noyaux plus petits. Elle s'accompagne de la <b>libération d'énergie</b>.<br><br>
+      <b>Les centrales nucléaires</b> produisent de l'électricité grâce à l'énergie dégagée par la fission de noyaux d'uranium.
+    </div>
+
+    <div class="activite" style="margin-top:14px;">Vidéo – Cycle du combustible nucléaire</div>
+    <div class="pastilles">
+      <a href="https://www.pearltrees.com/private/id104964762/item801677305?paccess=47d1fbbe2c5.2fc89ff9.915d092ae4760b962943645e9b45586a" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fission nucléaire</a>
+    </div>
+
+    <h3>Équation de fission de l'uranium-235</h3>
+    <div class="info" style="text-align:center;font-size:1rem;line-height:2.6;">
+      <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>235</span><span>92</span></span><span class="nuc-sym">U</span></span>
+      → <span class="nuc-notation"><span class="nuc-az"><span>94</span><span>38</span></span><span class="nuc-sym">Sr</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>139</span><span>54</span></span><span class="nuc-sym">Xe</span></span>
+      + 3 <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>0</span></span><span class="nuc-sym">n</span></span>
+      <br><span style="font-size:.85rem;color:#475569;">Conservation : A : 1+235 = 94+139+3×1 = 236 ✔ &nbsp;|&nbsp; Z : 0+92 = 38+54+0 = 92 ✔</span>
+    </div>
+
+    <h3>Animation – Fission de l'uranium-235</h3>
+    <div class="anim-wrap">
+      <canvas id="canvasFission" width="520" height="200" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
+      <button class="anim-btn" id="btnFission">▶ Animer la fission</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONGLET 4 : FUSION ===== -->
+<section class="panel" id="t4">
+  <div class="card">
+    <h2>La fusion nucléaire</h2>
+    <div class="def">
+      La <b>fusion nucléaire</b> consiste à mettre en contact <b>deux noyaux légers</b> pour donner <b>un noyau plus lourd</b>. Elle libère de l'énergie.
+    </div>
+    <div class="warn">
+      ⚠ Cette réaction nécessite une <b>température de plusieurs millions de degrés</b> pour être initiée. Cette condition est réalisée dans les <b>étoiles</b>. Sur Terre, des laboratoires de recherche étudient la possibilité de contrôler la fusion nucléaire (<b>projet international ITER</b> et Mégajoule en France).
+    </div>
+    <p>L'énergie libérée par notre <b>Soleil</b> provient de réactions de fusion nucléaire. C'est la première réaction pour la création d'hélium dans notre Soleil :</p>
+
+    <div class="activite">Vidéo – Vie et mort d'une étoile</div>
+    <div class="pastilles">
+      <a href="https://www.pearltrees.com/private/id104964762/item801677633?paccess=47d1fbc40d8.2fc8a141.b67cb22733682c339ead98cff1f8c924" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fusion nucléaire</a>
+    </div>
+
+    <h3>Équation de fusion dans le Soleil</h3>
+    <div class="info" style="text-align:center;font-size:1.05rem;line-height:2.6;">
+      <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>1</span></span><span class="nuc-sym">H</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>1</span></span><span class="nuc-sym">H</span></span>
+      &nbsp;→&nbsp;
+      <span class="nuc-notation"><span class="nuc-az"><span>2</span><span>1</span></span><span class="nuc-sym">H</span></span>
+      + <span class="nuc-notation"><span class="nuc-az"><span>0</span><span>+1</span></span><span class="nuc-sym">e</span></span>
+      <br><span style="font-size:.85rem;color:#475569;">Conservation : A : 1+1 = 2+0 = 2 ✔ &nbsp;|&nbsp; Z : 1+1 = 1+1 = 2 ✔</span>
+    </div>
+
+    <h3>Animation – Fusion nucléaire</h3>
+    <div class="anim-wrap">
+      <canvas id="canvasFusion" width="520" height="200" style="max-width:100%;border-radius:6px;background:#fff;"></canvas><br>
+      <button class="anim-btn" id="btnFusion">▶ Animer la fusion</button>
+    </div>
+
+    <h3>Exercice – Compléter l'équation de fusion</h3>
+    <p>Dans la réaction de fusion ci-dessus, identifier A et Z du noyau de deutérium produit :</p>
+    <div class="exo-box" data-clear-selector=".fus-sel">
+      <p style="font-size:1.05rem;text-align:center;line-height:2.8;">
+        <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>1</span></span><span class="nuc-sym">H</span></span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>1</span><span>1</span></span><span class="nuc-sym">H</span></span>
+        → <span class="nuc-notation">
+          <span class="nuc-az">
+            <select class="exo-select fus-sel" data-answers="2" style="font-size:.85em;min-width:3.5em;">
+              <option value="">A=?</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            </select>
+            <select class="exo-select fus-sel" data-answers="1" style="font-size:.85em;min-width:3.5em;">
+              <option value="">Z=?</option><option value="0">0</option><option value="1">1</option><option value="2">2</option>
+            </select>
+          </span>
+          <span class="nuc-sym">H</span>
+        </span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>0</span><span>+1</span></span><span class="nuc-sym">e</span></span>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".fus-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        Conservation de A : 1 + 1 = A + 0 → <b>A = 2</b>.<br>
+        Conservation de Z : 1 + 1 = Z + 1 → <b>Z = 1</b>.<br>
+        Le noyau produit est le deutérium : <span class="nuc-notation"><span class="nuc-az"><span>2</span><span>1</span></span><span class="nuc-sym">H</span></span>.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONGLET 5 : APPLICATION CURIE ===== -->
+<section class="panel" id="t5">
+  <div class="card">
+    <h2>Application : Découverte des isotopes – Marie et Pierre Curie</h2>
+    <p>Marie Curie, alors doctorante dans le laboratoire d'Henri Becquerel, a travaillé sur le rayonnement émis par des minerais d'uranium. Elle remarque avec son mari Pierre qu'après avoir séparé l'uranium de toutes les impuretés, celles-ci émettaient encore un rayonnement plus intense que celui de l'uranium isolé. Plus tard, ils identifieront deux éléments responsables de ce rayonnement : le <b>radium</b> et le <b>polonium</b>.</p>
+
+    <div class="warn">
+      Le radium-226 (<span class="nuc-notation"><span class="nuc-az"><span>226</span><span>88</span></span><span class="nuc-sym">Ra</span></span>) subit <b>deux désintégrations successives</b>. La seconde est une désintégration de type <b>α</b> (production d'un noyau d'hélium-4). Après les deux désintégrations, le noyau obtenu est le <b>polonium-218</b> : <span class="nuc-notation"><span class="nuc-az"><span>218</span><span>84</span></span><span class="nuc-sym">Po</span></span>.
+    </div>
+
+    <h3>Question 1 – Schéma de la chaîne radioactive</h3>
+    <p>Représenter sous forme de schéma la chaîne radioactive allant du radium au polonium. On notera <span class="nuc-notation"><span class="nuc-az"><span>A</span><span>Z</span></span><span class="nuc-sym">X</span></span> le noyau intermédiaire. Compléter A et Z de ce noyau :</p>
+
+    <div class="exo-box" data-clear-selector=".chain-sel">
+      <div style="overflow-x:auto;margin:14px 0;">
+        <svg viewBox="0 0 520 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;margin:0 auto;background:#fff;border:1px solid #d9d3c6;border-radius:8px;padding:8px;">
+          <defs>
+            <marker id="arr1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c9622a"/></marker>
+            <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#d1495b"/></marker>
+          </defs>
+          <!-- Ra -->
+          <rect x="8" y="28" width="90" height="44" rx="8" fill="#e6f1ee" stroke="#2f6f5e" stroke-width="2"/>
+          <text x="53" y="48" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#2f6f5e" text-anchor="middle">²²⁶Ra</text>
+          <text x="53" y="64" font-family="Arial" font-size="10" fill="#2f6f5e" text-anchor="middle">Z=88</text>
+          <!-- Flèche 1 -->
+          <line x1="98" y1="50" x2="178" y2="50" stroke="#c9622a" stroke-width="2" marker-end="url(#arr1)"/>
+          <text x="138" y="44" font-family="Arial" font-size="10" fill="#c9622a" text-anchor="middle">1ère désint.</text>
+          <!-- Noyau X -->
+          <rect x="180" y="28" width="90" height="44" rx="8" fill="#fdf3e2" stroke="#e0a52e" stroke-width="2"/>
+          <text x="225" y="42" font-family="Arial" font-size="10" fill="#a9690f" text-anchor="middle">ᴬZ X</text>
+          <foreignObject x="182" y="46" width="86" height="24">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;gap:3px;align-items:center;justify-content:center;">
+              <select class="exo-select chain-sel" data-answers="222" style="font-size:.7rem;padding:2px 3px;min-width:48px;border-radius:4px;">
+                <option value="">A=?</option><option value="218">218</option><option value="222">222</option><option value="224">224</option>
+              </select>
+              <select class="exo-select chain-sel" data-answers="86" style="font-size:.7rem;padding:2px 3px;min-width:42px;border-radius:4px;">
+                <option value="">Z=?</option><option value="84">84</option><option value="86">86</option><option value="88">88</option>
+              </select>
+            </div>
+          </foreignObject>
+          <!-- Flèche 2 -->
+          <line x1="270" y1="50" x2="350" y2="50" stroke="#d1495b" stroke-width="2" marker-end="url(#arr2)"/>
+          <text x="310" y="44" font-family="Arial" font-size="10" fill="#d1495b" text-anchor="middle">désint. α</text>
+          <text x="310" y="58" font-family="Arial" font-size="9" fill="#d1495b" text-anchor="middle">(+ ⁴He)</text>
+          <!-- Po -->
+          <rect x="352" y="28" width="90" height="44" rx="8" fill="#fbe9e0" stroke="#c9622a" stroke-width="2"/>
+          <text x="397" y="48" font-family="Georgia,serif" font-size="14" font-weight="bold" fill="#c9622a" text-anchor="middle">²¹⁸Po</text>
+          <text x="397" y="64" font-family="Arial" font-size="10" fill="#c9622a" text-anchor="middle">Z=84</text>
+          <!-- He -->
+          <circle cx="468" cy="38" r="10" fill="#2D5F8A" opacity=".7"/>
+          <text x="468" y="42" font-family="Arial" font-size="9" font-weight="bold" fill="#fff" text-anchor="middle">⁴He</text>
+          <text x="468" y="56" font-family="Arial" font-size="8" fill="#2D5F8A" text-anchor="middle">α</text>
+        </svg>
+      </div>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".chain-sel">✔ Vérifier A et Z de X</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        La 2ème désintégration est α : X → ²¹⁸Po + ⁴He.<br>
+        Conservation de A : A(X) = 218 + 4 = <b>222</b>.<br>
+        Conservation de Z : Z(X) = 84 + 2 = <b>86</b>.<br>
+        Le noyau intermédiaire est le <b>radon-222</b> : <span class="nuc-notation"><span class="nuc-az"><span>222</span><span>86</span></span><span class="nuc-sym">Rn</span></span>.
+      </div>
+    </div>
+
+    <h3>Question 2 – Nature de la première désintégration</h3>
+    <p>À l'aide des lois de conservation, identifier la nature de la première désintégration (Ra → X) :</p>
+    <div class="exo-box" data-clear-selector=".nat1-sel">
+      <p><b>Données :</b> Ra → A=226, Z=88 &nbsp;|&nbsp; X → A=222, Z=86 (trouvé question 1)</p>
+      <p>Variation du nombre de masse : ΔA = 226 − 222 =
+        <select class="exo-select nat1-sel" data-answers="4"><option value="">?</option><option value="0">0</option><option value="2">2</option><option value="4">4</option></select>
+      </p>
+      <p>Variation du numéro atomique : ΔZ = 88 − 86 =
+        <select class="exo-select nat1-sel" data-answers="2"><option value="">?</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select>
+      </p>
+      <p>La particule émise est un noyau d'hélium-4 (<span class="nuc-notation"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>) : la première désintégration est donc aussi de type :
+        <select class="exo-select nat1-sel" data-answers="alpha"><option value="">?</option><option value="alpha">α</option><option value="beta">β</option><option value="gamma">γ</option></select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".nat1-sel">✔ Vérifier</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="correction">
+        ΔA = 4 et ΔZ = 2 correspondent exactement à l'émission d'un noyau d'hélium-4 : <b>désintégration α</b>.<br><br>
+        Équation complète :<br>
+        <span class="nuc-notation"><span class="nuc-az"><span>226</span><span>88</span></span><span class="nuc-sym">Ra</span></span>
+        → <span class="nuc-notation"><span class="nuc-az"><span>222</span><span>86</span></span><span class="nuc-sym">Rn</span></span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+        <br>puis :<br>
+        <span class="nuc-notation"><span class="nuc-az"><span>222</span><span>86</span></span><span class="nuc-sym">Rn</span></span>
+        → <span class="nuc-notation"><span class="nuc-az"><span>218</span><span>84</span></span><span class="nuc-sym">Po</span></span>
+        + <span class="nuc-notation"><span class="nuc-az"><span>4</span><span>2</span></span><span class="nuc-sym">He</span></span>
+      </div>
+    </div>
+
+    <h3>Synthèse rédigée</h3>
+    <p>Rédiger en quelques lignes : quel est le noyau intermédiaire X, quelle est la nature des deux désintégrations, quelles lois a-t-on utilisées ?</p>
+    <div class="exo-box">
+      <textarea class="exo-input block tall keyword-check" rows="5"
+        placeholder="Écris ta réponse ici…"
+        data-keywords="radon,222,86|soddy,conservation|alpha,α,hélium,helium|deux désintégrations,deux desintegrations,successives"
+        data-min-required="3"></textarea>
+      <div class="exo-actions">
+        <button class="keyword-check-btn">✔ Vérifier les mots-clés</button>
+        <button class="toggle-btn">Voir la correction</button>
+        <button class="reset-btn">🔄 Recommencer</button>
+      </div>
+      <div class="keyword-feedback"></div>
+      <div class="correction">
+        Le radium-226 subit deux désintégrations successives de type <b>α</b>. En appliquant les <b>lois de conservation de Soddy</b> (conservation de A et Z), on identifie le noyau intermédiaire comme le <b>radon-222</b> (<span class="nuc-notation"><span class="nuc-az"><span>222</span><span>86</span></span><span class="nuc-sym">Rn</span></span>). Chaque désintégration émet un noyau d'hélium-4.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ONGLET 6 : RESSOURCES ===== -->
+<section class="panel" id="t6">
+  <div class="card">
+    <h2>📎 Ressources</h2>
+    <h3>Vidéos</h3>
+    <div class="pastilles">
+      <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – Les isotopes</a>
+      <a href="https://www.pearltrees.com/private/id104964762/item801677305?paccess=47d1fbbe2c5.2fc89ff9.915d092ae4760b962943645e9b45586a" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fission</a>
+      <a href="https://www.pearltrees.com/private/id104964762/item801677633?paccess=47d1fbc40d8.2fc8a141.b67cb22733682c339ead98cff1f8c924" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fusion</a>
+    </div>
+    <h3>Simulateur & ressources externes</h3>
+    <div class="pastilles">
+      <a href="https://segree.web-labosims.org/" target="_blank" rel="noopener" class="pastille">🔬 Simulateur Ségré (web-labosims.org)</a>
+      <a href="https://www.cea.fr/multimedia/Documents/publications/les-essentiels/la-radioactivite.pdf" target="_blank" rel="noopener" class="pastille alt">📄 Livret CEA – Radioactivité</a>
+      <a href="seq09/ASN-Guide-radon-collectivites-territoriales.pdf" target="_blank" rel="noopener" class="pastille alt">📄 ASN – Guide radon (collectivités territoriales)</a>
+      <a href="https://www.iter.org/fr" target="_blank" rel="noopener" class="pastille">⚛ Projet ITER</a>
+      <a href="https://www.hatier-clic.fr/" target="_blank" rel="noopener" class="pastille alt">📝 QCM Hatier-clic (ch. 9)</a>
+    </div>
+    <h3>Exercices du manuel</h3>
+    <span class="exo-tag">p157 n°11-12</span>
+    <span class="exo-tag">p158 n°18</span>
+    <span class="exo-tag">p160 n°26-27-28</span>
+    <span class="exo-tag">p162 n°35-36-37</span>
+
+    <h3>Capacités exigibles (B.O.)</h3>
+    <table class="tab" style="margin-top:8px;">
+      <tr><th>Capacité</th><th>Traité dans</th></tr>
+      <tr><td>Identifier des isotopes</td><td>Onglet 1</td></tr>
+      <tr><td>Établir l'équation de réaction nucléaire</td><td>Onglets 2 et 5</td></tr>
+      <tr><td>Relier l'énergie du Soleil / centrale à des réactions nucléaires</td><td>Onglets 3 et 4</td></tr>
+      <tr><td>Identifier la nature d'une transformation</td><td>Onglet 1</td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+<button id="backToTop" title="Revenir en haut">↑</button>
+
+<script>
+/* ====== TABS ====== */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ====== CAPS ====== */
+const capToggle=document.getElementById('capToggle');
+const capPanel=document.getElementById('capPanel');
+capToggle.addEventListener('click',()=>{
+  capPanel.classList.toggle('open');
+  capToggle.textContent=capPanel.classList.contains('open')?'✕ Fermer':'📋 Capacités exigibles';
+});
+
+/* ====== BACK TO TOP ====== */
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>btt.classList.toggle('show',window.scrollY>300));
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ====== NORMALIZE ====== */
+function normalize(str){
+  return str.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ');
+}
+
+/* ====== CHECK SELECTS / INPUTS ====== */
+document.querySelectorAll('.check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const fields=document.querySelectorAll(btn.dataset.checkSelector);
+    let total=0,filled=0,correct=0;
+    fields.forEach(inp=>{
+      const answers=(inp.dataset.answers||'').split('|').map(normalize).filter(a=>a.length);
+      if(!answers.length) return;
+      total++;
+      const val=normalize(inp.value);
+      inp.classList.remove('correct','incorrect');
+      if(!val.length) return;
+      filled++;
+      if(answers.includes(val)){inp.classList.add('correct');correct++;}
+      else inp.classList.add('incorrect');
+    });
+    const box=btn.closest('.exo-box');
+    const fb=box&&box.querySelector('.keyword-feedback');
+    if(fb&&total>0){
+      fb.classList.remove('show','kw-good','kw-partial','kw-empty');
+      if(filled===0){fb.textContent=`Aucune réponse saisie (0/${total}).`;fb.classList.add('show','kw-empty');}
+      else if(correct===total){fb.textContent=`Bravo, tout est correct (${correct}/${total}) !`;fb.classList.add('show','kw-good');}
+      else{fb.textContent=`${correct}/${total} réponses correctes.`;fb.classList.add('show','kw-partial');}
+    }
+  });
+});
+
+/* ====== KEYWORD CHECK ====== */
+document.querySelectorAll('.keyword-check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const box=btn.closest('.exo-box');
+    const ta=box.querySelector('.keyword-check');
+    const fb=box.querySelector('.keyword-feedback');
+    if(!ta||!fb) return;
+    const text=normalize(ta.value);
+    fb.classList.remove('show','kw-good','kw-partial','kw-empty');
+    ta.classList.remove('correct','incorrect');
+    if(!text.length){fb.textContent='Écris ta réponse avant de vérifier.';fb.classList.add('show','kw-empty');return;}
+    const groups=(ta.dataset.keywords||'').split('|').map(g=>g.split(',').map(normalize));
+    let found=0;
+    groups.forEach(g=>{if(g.some(kw=>kw.length&&text.includes(kw)))found++;});
+    const total=groups.length,min=parseInt(ta.dataset.minRequired||total);
+    if(found>=min){fb.textContent=`${found}/${total} éléments clés présents, c'est suffisant !`;fb.classList.add('show','kw-good');ta.classList.add('correct');}
+    else if(found>0){fb.textContent=`${found}/${total} éléments clés (min. ${min} attendus). Complète ta réponse.`;fb.classList.add('show','kw-partial');}
+    else{fb.textContent=`Aucun élément clé détecté. Relis le cours.`;fb.classList.add('show','kw-empty');ta.classList.add('incorrect');}
+  });
+});
+
+/* ====== TOGGLE + RESET ====== */
+document.querySelectorAll('.exo-box').forEach(box=>{
+  const corr=box.querySelector('.correction');
+  const tog=box.querySelector('.toggle-btn');
+  const res=box.querySelector('.reset-btn');
+  const fb=box.querySelector('.keyword-feedback');
+  if(tog&&corr) tog.addEventListener('click',()=>{
+    corr.classList.toggle('show');
+    tog.textContent=corr.classList.contains('show')?'Masquer la correction':'Voir la correction';
+  });
+  if(res) res.addEventListener('click',()=>{
+    box.querySelectorAll('.exo-input,.keyword-check').forEach(i=>{i.value='';i.classList.remove('correct','incorrect');});
+    box.querySelectorAll('.exo-select').forEach(s=>{s.value='';s.classList.remove('correct','incorrect');});
+    if(box.dataset.clearSelector) document.querySelectorAll(box.dataset.clearSelector).forEach(i=>{i.value='';i.classList.remove('correct','incorrect');});
+    if(fb){fb.classList.remove('show','kw-good','kw-partial','kw-empty');fb.textContent='';}
+    if(corr){corr.classList.remove('show');if(tog)tog.textContent='Voir la correction';}
+  });
+});
+
+/* ====== ANIMATION FISSION ====== */
+(function(){
+  const canvas=document.getElementById('canvasFission');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  let running=false, animId=null;
+
+  // Couleurs
+  const cP='#d1495b', cN='#8d99ae', cU='#c9622a', cSr='#2f6f5e', cXe='#2D5F8A', cNt='#8d99ae', cE='#f4c430';
+
+  function drawNucleon(x,y,r,col){
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle=col;ctx.fill();
+  }
+  function drawNucleus(x,y,r,label,col1,col2){
+    // Noyau = amas de nucléons
+    const offsets=[[-r*.4,-r*.4],[r*.3,-r*.35],[-r*.35,r*.3],[r*.35,r*.3],[0,0],[-r*.1,-r*.55],[r*.1,r*.5]];
+    offsets.forEach((o,i)=>drawNucleon(x+o[0],y+o[1],r*.38,i%2===0?col1:col2));
+    ctx.font=`bold ${r*.55}px Arial`;ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(label,x,y+r*.05);
+  }
+  function drawNeutron(x,y,r){
+    drawNucleon(x,y,r,cNt);
+    ctx.font=`bold ${r*.9}px Arial`;ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('n',x,y);
+  }
+
+  function drawScene(t){
+    ctx.clearRect(0,0,W,H);
+    // Fond blanc garanti
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+    const phase1=0.35, phase2=0.55, phase3=0.75;
+
+    if(t<phase1){
+      // Neutron s'approche de l'uranium
+      const p=t/phase1;
+      const nx=60+p*(W/2-60-40);
+      drawNeutron(nx,H/2,10);
+      drawNucleus(W/2+30,H/2,36,'²³⁵U',cP,cN);
+      // Étiquette
+      ctx.font='13px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
+      ctx.fillText('neutron',60,H/2+22);
+      ctx.fillText('uranium-235',W/2+30,H/2+54);
+    } else if(t<phase2){
+      // Impact : uranium instable, grossit
+      const p=(t-phase1)/(phase2-phase1);
+      const r=36+10*Math.sin(p*Math.PI);
+      drawNucleus(W/2+10,H/2,r,'U*',cP,cN);
+      ctx.font='12px Arial';ctx.fillStyle='#c9622a';ctx.textAlign='center';
+      ctx.fillText('noyau excité !',W/2+10,H/2+r+18);
+    } else if(t<phase3){
+      // Scission : 2 fragments + neutrons apparaissent
+      const p=(t-phase2)/(phase3-phase2);
+      const dx=p*70, dy=p*40;
+      drawNucleus(W/2-20-dx,H/2-dy,22,'Sr',cSr,cN);
+      drawNucleus(W/2+20+dx,H/2+dy,26,'Xe',cXe,cN);
+      // 3 neutrons s'éjectent
+      const npos=[[W/2+80+p*80,H/2-50-p*30],[W/2+90+p*90,H/2],[W/2+85+p*75,H/2+50+p*25]];
+      npos.forEach(np=>drawNeutron(np[0],np[1],8));
+      ctx.font='11px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
+      ctx.fillText('⁹⁴Sr',W/2-20-dx,H/2-dy+38);
+      ctx.fillText('¹³⁹Xe',W/2+20+dx,H/2+dy+44);
+      ctx.fillText('3 neutrons',W/2+130,H/2-10);
+    } else {
+      // Final + énergie
+      const p=Math.min(1,(t-phase3)/(1-phase3));
+      drawNucleus(W/2-90,H/2-40,22,'Sr',cSr,cN);
+      drawNucleus(W/2+50,H/2+40,26,'Xe',cXe,cN);
+      [[W/2+150,H/2-55],[W/2+160,H/2],[W/2+155,H/2+45]].forEach(np=>drawNeutron(np[0],np[1],8));
+      // Flash énergie
+      ctx.globalAlpha=p;
+      ctx.font='bold 16px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
+      ctx.fillText('⚡ Énergie libérée !',W/2-20,H-28);
+      ctx.globalAlpha=1;
+      ctx.font='11px Arial';ctx.fillStyle='#475569';ctx.textAlign='center';
+      ctx.fillText('⁹⁴Sr',W/2-90,H/2+(-40)+38);
+      ctx.fillText('¹³⁹Xe',W/2+50,H/2+40+44);
+    }
+  }
+
+  let start=null;
+  const dur=3500;
+  function loop(ts){
+    if(!start) start=ts;
+    const t=Math.min((ts-start)/dur,1);
+    drawScene(t);
+    if(t<1) animId=requestAnimationFrame(loop);
+    else{running=false;document.getElementById('btnFission').disabled=false;document.getElementById('btnFission').textContent='▶ Rejouer la fission';}
+  }
+
+  // Dessin initial
+  drawScene(0);
+
+  document.getElementById('btnFission').addEventListener('click',()=>{
+    if(running) return;
+    running=true;
+    if(animId) cancelAnimationFrame(animId);
+    document.getElementById('btnFission').disabled=true;
+    start=null;
+    animId=requestAnimationFrame(loop);
+  });
+})();
+
+/* ====== ANIMATION FUSION ====== */
+(function(){
+  const canvas=document.getElementById('canvasFusion');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  let running=false, animId=null;
+
+  const cH='#2D5F8A', cD='#2f6f5e', cPos='#d1495b', cE='#f4c430';
+
+  function drawProton(x,y,r,col){
+    ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+  }
+  function drawLabel(x,y,txt,col,size){
+    ctx.font=`${size||12}px Arial`;ctx.fillStyle=col||'#333';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,x,y);
+  }
+  // Noyau d'hydrogène : 1 proton
+  function drawH(x,y,label,col){
+    drawProton(x,y,14,col);
+    ctx.font='bold 11px Arial';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,x,y);
+  }
+  // Deutérium : 1 proton + 1 neutron
+  function drawD(x,y,scale){
+    const r=(scale||1)*12;
+    drawProton(x-r*.4,y,r*.65,'#d1495b');
+    drawProton(x+r*.4,y,r*.65,'#8d99ae');
+    ctx.font=`bold ${r*.8}px Arial`;ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('²H',x,y);
+  }
+  // Positron
+  function drawPositron(x,y){
+    ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fillStyle='#d1495b';ctx.fill();
+    ctx.font='bold 11px Arial';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('e⁺',x,y);
+  }
+
+  function drawScene(t){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+    const phase1=0.35, phase2=0.6, phase3=0.8;
+    const cx=W/2, cy=H/2;
+
+    if(t<phase1){
+      // Deux protons (¹H) s'approchent
+      const p=t/phase1;
+      const d=120-p*90;
+      // Températures élevées : petits éclairs autour
+      const flarR=18+5*Math.sin(t*20);
+      ctx.strokeStyle='#f4c430';ctx.lineWidth=1.5;ctx.globalAlpha=.5;
+      for(let i=0;i<6;i++){
+        const a=i*Math.PI/3+t*4;
+        ctx.beginPath();ctx.moveTo(cx-d+Math.cos(a)*flarR,cy+Math.sin(a)*flarR);
+        ctx.lineTo(cx-d+Math.cos(a)*(flarR+7),cy+Math.sin(a)*(flarR+7));ctx.stroke();
+        ctx.beginPath();ctx.moveTo(cx+d+Math.cos(a)*flarR,cy+Math.sin(a)*flarR);
+        ctx.lineTo(cx+d+Math.cos(a)*(flarR+7),cy+Math.sin(a)*(flarR+7));ctx.stroke();
+      }
+      ctx.globalAlpha=1;ctx.lineWidth=1;
+      drawH(cx-d,cy,'¹H',cH);
+      drawH(cx+d,cy,'¹H',cH);
+      drawLabel(cx,cy-55,'Très haute température nécessaire…','#a9690f',11);
+      drawLabel(cx-d,cy+28,'¹₁H','#2D5F8A',10);
+      drawLabel(cx+d,cy+28,'¹₁H','#2D5F8A',10);
+    } else if(t<phase2){
+      // Collision / fusion : flash
+      const p=(t-phase1)/(phase2-phase1);
+      const sc=1+0.4*Math.sin(p*Math.PI);
+      ctx.save();ctx.translate(cx,cy);ctx.scale(sc,sc);
+      drawProton(0,0,20,'#e8a07a');
+      ctx.restore();
+      // Flash
+      ctx.globalAlpha=Math.sin(p*Math.PI)*.6;
+      ctx.beginPath();ctx.arc(cx,cy,50*p+10,0,Math.PI*2);
+      ctx.fillStyle='#f4c430';ctx.fill();
+      ctx.globalAlpha=1;
+      drawLabel(cx,cy+52,'Fusion !','#c9622a',14);
+    } else if(t<phase3){
+      // Produits apparaissent : ²H + e⁺
+      const p=(t-phase2)/(phase3-phase2);
+      const dx=p*80;
+      drawD(cx-dx*.6,cy,1);
+      drawPositron(cx+60+dx*.8,cy-20*p);
+      drawLabel(cx-dx*.6,cy+36,'²₁H','#2f6f5e',10);
+      drawLabel(cx+60+dx*.8,cy-20*p+22,'e⁺','#d1495b',10);
+    } else {
+      // Final + énergie libérée
+      const p=Math.min(1,(t-phase3)/(1-phase3));
+      drawD(cx-80,cy,1);
+      drawPositron(cx+80,cy-30);
+      drawLabel(cx-80,cy+36,'deutérium ²₁H','#2f6f5e',10);
+      drawLabel(cx+80,cy-10,'positron e⁺','#d1495b',10);
+      ctx.globalAlpha=p;
+      ctx.font='bold 15px Arial';ctx.fillStyle=cE;ctx.textAlign='center';
+      ctx.fillText('⚡ Énergie libérée !',cx,H-28);
+      ctx.globalAlpha=1;
+    }
+  }
+
+  let start=null;
+  const dur=3800;
+  function loop(ts){
+    if(!start) start=ts;
+    const t=Math.min((ts-start)/dur,1);
+    drawScene(t);
+    if(t<1) animId=requestAnimationFrame(loop);
+    else{running=false;document.getElementById('btnFusion').disabled=false;document.getElementById('btnFusion').textContent='▶ Rejouer la fusion';}
+  }
+
+  drawScene(0);
+
+  document.getElementById('btnFusion').addEventListener('click',()=>{
+    if(running) return;
+    running=true;
+    if(animId) cancelAnimationFrame(animId);
+    document.getElementById('btnFusion').disabled=true;
+    start=null;
+    animId=requestAnimationFrame(loop);
+  });
+})();
+</script>
+</body>
+</html>

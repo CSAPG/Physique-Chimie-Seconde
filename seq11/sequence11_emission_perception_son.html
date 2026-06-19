@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Émission et perception d'un son – Séquence 11 – 2nde</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf9f4;
+  --paper:#ffffff;
+  --ink:#1f2a24;
+  --accent:#2f6f5e;
+  --accent-light:#e6f1ee;
+  --accent2:#c9622a;
+  --accent2-light:#fbe9e0;
+  --line:#d9d3c6;
+  --blue:#2D5F8A;
+  --blue-light:#E8F1F8;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:"Georgia","Iowan Old Style","Times New Roman",serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+}
+.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+
+/* HEADER */
+.header{
+  background:#ffffff;
+  border:1px solid #E3E8EE;
+  border-bottom:3px solid #2D5F8A;
+  border-radius:14px;
+  padding:18px 24px 14px;
+  margin-bottom:24px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(45,95,138,0.10);
+}
+.header-top{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.header-left{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.header-badge{
+  background:#2D5F8A;
+  color:#fff;
+  font-family:"Outfit",sans-serif;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.08em;
+  padding:4px 10px;
+  border-radius:20px;
+  white-space:nowrap;
+}
+.header-titles{flex:1;min-width:200px;}
+.header-titles h1{
+  font-family:"Outfit",sans-serif;
+  font-size:1.45rem;
+  font-weight:800;
+  color:#2D5F8A;
+  margin:0 0 4px;
+  line-height:1.2;
+}
+.header-titles p{
+  font-family:"Nunito",sans-serif;
+  font-size:0.85rem;
+  color:#5A6B7A;
+  margin:0;
+}
+.header-titles p span{color:#E8783A;font-weight:700;}
+
+/* Animation icône : onde sonore */
+.sound-icon{
+  display:inline-block;
+  position:relative;
+  width:60px;
+  height:60px;
+  flex-shrink:0;
+}
+.sound-icon svg{width:60px;height:60px;}
+.sound-arc{
+  fill:none;
+  stroke:#2D5F8A;
+  stroke-width:2.5;
+  stroke-linecap:round;
+  opacity:0;
+}
+.sound-arc-1{animation:sound-pulse 1.8s ease-out infinite;}
+.sound-arc-2{animation:sound-pulse 1.8s ease-out 0.4s infinite;}
+.sound-arc-3{animation:sound-pulse 1.8s ease-out 0.8s infinite;}
+.sound-source{fill:#E8783A;}
+@keyframes sound-pulse{
+  0%{opacity:0;stroke-width:2.5;}
+  20%{opacity:0.9;}
+  100%{opacity:0;stroke-width:1;}
+}
+@media(prefers-reduced-motion:reduce){
+  .sound-arc{animation:none;opacity:0.3;}
+}
+@media(max-width:600px){
+  .sound-icon{width:46px;height:46px;}
+  .sound-icon svg{width:46px;height:46px;}
+}
+
+/* CAPACITÉS EXIGIBLES */
+button.cap-toggle{
+  background:#2D5F8A;color:#fff;border:none;
+  padding:5px 12px;border-radius:999px;
+  font-family:"Nunito",sans-serif;font-size:0.74rem;font-weight:700;
+  cursor:pointer;white-space:nowrap;
+}
+button.cap-toggle:hover{background:#1e4466;}
+.cap-panel{
+  display:none;margin:0 0 14px;
+  background:#fff;border:1px solid #B8D4EC;border-radius:12px;
+  padding:16px 20px;text-align:left;font-size:0.88rem;color:#1A2A3A;
+}
+.cap-panel.open{display:block;}
+.cap-panel ul{margin:0;padding-left:1.3rem;}
+.cap-panel li{margin-bottom:5px;line-height:1.6;}
+
+/* TABS */
+.tabs-nav{
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs-nav::-webkit-scrollbar{display:none;}
+.tab-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+  min-width:0;
+  padding:10px 16px 12px;
+  background:transparent;
+  border:none;
+  border-bottom:3px solid transparent;
+  border-radius:0;
+  font-family:"Nunito",sans-serif;
+  font-size:0.85rem;
+  font-weight:600;
+  color:#5A6B7A;
+  text-align:left;
+  cursor:pointer;
+  white-space:nowrap;
+  position:relative;
+  bottom:-3px;
+  transition:all .15s ease;
+}
+.tab-btn .tab-num{
+  width:22px;height:22px;
+  border-radius:50%;
+  background:#DDE3EC;
+  color:#5A6B7A;
+  font-size:0.75rem;
+  font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:all .15s ease;
+}
+.tab-btn:hover{color:#2D5F8A;}
+.tab-btn.active{
+  background:#E8F1F8;
+  color:#2D5F8A;
+  border-bottom-color:#2D5F8A;
+  border-radius:6px 6px 0 0;
+}
+.tab-btn.active .tab-num{background:#2D5F8A;color:#fff;}
+
+/* PANELS */
+.panel{display:none;animation:fade .35s ease;}
+.panel.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* CARDS */
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:20px 22px;
+  margin-bottom:18px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.03);
+}
+.card h2{
+  font-size:1.25rem;
+  margin-top:0;
+  color:var(--accent);
+  border-bottom:2px solid var(--accent-light);
+  padding-bottom:8px;
+}
+.card h3{
+  font-size:1.05rem;
+  color:var(--accent2);
+  margin:18px 0 8px;
+}
+.def{
+  background:var(--accent-light);
+  border-left:4px solid var(--accent);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+}
+.def b{color:var(--accent);}
+.warn{
+  background:#fef9e7;
+  border-left:4px solid #f39c12;
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-size:0.92rem;
+}
+.info{
+  background:var(--blue-light);
+  border-left:4px solid var(--blue);
+  border-radius:6px;
+  padding:12px 16px;
+  margin:10px 0;
+  font-size:0.92rem;
+}
+.formula-box{
+  background:#f8f5ff;
+  border:2px solid #8e6bbf;
+  border-radius:10px;
+  padding:14px 18px;
+  margin:14px 0;
+  text-align:center;
+  font-size:1.1rem;
+  font-family:"Georgia",serif;
+}
+.formula-box .formula-legend{
+  font-size:0.82rem;
+  color:#6b5a8a;
+  margin-top:8px;
+  text-align:left;
+}
+
+/* EXERCICE INTERACTIF */
+.exo-box{margin:10px 0 18px;}
+.activite{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#9aa39d;
+  margin-bottom:4px;
+}
+.exo-input{
+  width:100%;
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;
+  color:var(--ink);
+  border:2px dashed var(--line);
+  border-radius:8px;
+  padding:10px 12px;
+  background:#fdfcf9;
+  resize:vertical;
+  box-sizing:border-box;
+}
+.exo-input::placeholder{color:#aab3ad;font-style:italic;}
+.exo-input:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-input.line{min-height:1.4em;height:42px;}
+.exo-input.block{min-height:70px;}
+.exo-input.correct{
+  border-color:var(--accent)!important;
+  background:var(--accent-light)!important;
+  color:var(--accent);
+}
+.exo-input.incorrect{
+  border-color:#c0392b!important;
+  background:#fbe6e4!important;
+  color:#c0392b;
+}
+.exo-actions{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.check-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.check-btn:hover{background:#255a4c;}
+.toggle-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent2-light);color:var(--accent2);
+  border:1px solid var(--accent2);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.toggle-btn:hover{background:var(--accent2);color:#fff;}
+.reset-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:#f1efe6;color:#7a8079;
+  border:1px solid var(--line);
+  border-radius:20px;padding:6px 14px;cursor:pointer;
+}
+.reset-btn:hover{background:#e6e2d4;color:var(--ink);}
+.correction{
+  display:none;
+  background:var(--accent2-light);
+  border-left:4px solid var(--accent2);
+  border-radius:6px;padding:10px 14px;margin-top:8px;font-size:0.92rem;
+}
+.correction.show{display:block;}
+.keyword-feedback{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.85rem;font-weight:700;
+  margin-top:6px;padding:8px 12px;border-radius:6px;display:none;
+}
+.keyword-feedback.show{display:block;}
+.keyword-feedback.kw-good{background:#e6f1ee;color:var(--accent);}
+.keyword-feedback.kw-partial{background:#fef9e7;color:#c27d00;}
+.keyword-feedback.kw-empty{background:#fbe6e4;color:#c0392b;}
+.keyword-check-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);
+  border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;
+}
+.keyword-check-btn:hover{background:#255a4c;}
+.exo-select{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.92rem;color:var(--ink);
+  border:2px dashed var(--line);border-radius:6px;padding:5px 8px;background:#fdfcf9;cursor:pointer;
+}
+.exo-select:focus{outline:none;border-color:var(--accent);background:#fff;}
+.exo-select.correct{border-color:var(--accent)!important;background:var(--accent-light)!important;color:var(--accent);font-weight:700;}
+.exo-select.incorrect{border-color:#c0392b!important;background:#fbe6e4!important;color:#c0392b;font-weight:700;}
+.quiz-options{display:flex;flex-direction:column;gap:6px;}
+.quiz-options label{
+  display:flex;gap:8px;align-items:center;font-size:0.92rem;cursor:pointer;
+  padding:6px 10px;border-radius:6px;border:1px solid var(--line);
+}
+.quiz-options label:hover{border-color:var(--accent);}
+.quiz-options label.opt-correct{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:700;}
+.quiz-options label.opt-incorrect{border-color:#c0392b;background:#fbe6e4;color:#c0392b;font-weight:700;}
+.check-radio-btn{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+  font-size:0.8rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border:1px solid var(--accent);border-radius:20px;padding:6px 14px;cursor:pointer;margin-top:6px;
+}
+.check-radio-btn:hover{background:#255a4c;}
+
+/* TABLEAU */
+table.data{
+  width:100%;border-collapse:collapse;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.88rem;margin:10px 0;
+}
+table.data th,table.data td{border:1px solid var(--line);padding:8px 10px;text-align:left;}
+table.data th{background:var(--accent-light);color:var(--accent);}
+table.data tr:nth-child(even) td{background:#f9f8f4;}
+
+/* PASTILLES */
+.pastilles{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px;}
+.pastille{
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.85rem;font-weight:700;
+  text-decoration:none;padding:9px 16px;border-radius:999px;
+  border:2px solid var(--accent);color:var(--accent);background:var(--accent-light);transition:all .15s ease;
+}
+.pastille:hover{background:var(--accent);color:#fff;}
+.pastille.alt{border-color:var(--accent2);color:var(--accent2);background:var(--accent2-light);}
+.pastille.alt:hover{background:var(--accent2);color:#fff;}
+.pastille.violet{border-color:#7c4dba;color:#7c4dba;background:rgba(124,77,186,0.08);}
+.pastille.violet:hover{background:#7c4dba;color:#fff;}
+
+/* BADGE DOMAINE */
+.badge{
+  display:inline-block;
+  font-family:"Nunito",sans-serif;font-size:0.75rem;font-weight:700;
+  padding:3px 10px;border-radius:12px;margin-right:6px;margin-bottom:4px;
+}
+.badge-infra{background:#e8eaf6;color:#3949ab;}
+.badge-audio{background:#e6f1ee;color:#2f6f5e;}
+.badge-ultra{background:#fce4ec;color:#c62828;}
+
+/* SIGNAL VISUALISATION */
+.signal-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;
+}
+.signal-controls{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.88rem;
+}
+.signal-controls label{font-weight:700;color:var(--accent);}
+.signal-controls input[type=range]{width:120px;accent-color:var(--accent);}
+
+/* BILAN RECAP */
+.bilan-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;margin:14px 0;
+}
+.bilan-card{
+  background:var(--accent-light);border-radius:10px;padding:14px 16px;
+  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.9rem;
+}
+.bilan-card .bc-title{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:0.95rem;}
+.bilan-card.orange{background:var(--accent2-light);}
+.bilan-card.orange .bc-title{color:var(--accent2);}
+.bilan-card.blue{background:var(--blue-light);}
+.bilan-card.blue .bc-title{color:var(--blue);}
+.bilan-card.violet{background:rgba(124,77,186,0.10);}
+.bilan-card.violet .bc-title{color:#7c4dba;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <span class="header-badge">SÉQUENCE 11</span>
+      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+    </div>
+    <div class="header-titles">
+      <h1>Émission et perception d'un son</h1>
+      <p>Thème : <span>Ondes et signaux</span> — Physique-Chimie 2nde — ©C.Poirault-Gauvin</p>
+    </div>
+    <!-- Icône onde sonore animée — à droite -->
+    <div class="sound-icon" aria-hidden="true">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="sound-source" points="8,22 8,38 18,38 28,46 28,14 18,22"/>
+        <path class="sound-arc sound-arc-1" d="M32,20 Q42,30 32,40"/>
+        <path class="sound-arc sound-arc-2" d="M36,15 Q50,30 36,45"/>
+        <path class="sound-arc sound-arc-3" d="M40,10 Q58,30 40,50"/>
+      </svg>
+    </div>
+  </div>
+  <nav class="tabs-nav" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" onclick="showTab(0)">
+      <span class="tab-num">1</span> Émission d'un son
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(1)">
+      <span class="tab-num">2</span> Propagation
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(2)">
+      <span class="tab-num">3</span> Signaux périodiques
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(3)">
+      <span class="tab-num">4</span> Perception d'un son
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(4)">
+      <span class="tab-num">5</span> Bilan &amp; ressources
+    </button>
+  </nav>
+
+  <div class="cap-panel" id="capPanel">
+    <ul>
+      <li>Décrire le principe de l'émission d'un signal sonore par la mise en vibration d'un objet et l'intérêt de la présence d'une caisse de résonance.</li>
+      <li>Expliquer le rôle joué par le milieu matériel dans le phénomène de propagation d'un signal sonore.</li>
+      <li>Citer une valeur approchée de la vitesse de propagation d'un signal sonore dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
+      <li>Mesurer la vitesse d'un signal sonore. Appliquer la relation v = d / Δt.</li>
+      <li>Définir et déterminer la période et la fréquence d'un signal sonore, notamment à partir de sa représentation temporelle. Appliquer f = 1/T.</li>
+      <li>Utiliser une chaîne de mesure pour obtenir des informations sur les vibrations d'un objet émettant un signal sonore.</li>
+      <li>Utiliser un dispositif comportant un microcontrôleur pour produire un signal sonore.</li>
+      <li>Citer les domaines de fréquences des sons audibles, des infrasons et des ultrasons.</li>
+      <li>Relier qualitativement la fréquence à la hauteur d'un son audible.</li>
+      <li>Relier qualitativement intensité sonore et niveau d'intensité sonore. Exploiter une échelle de niveau d'intensité sonore et citer les dangers inhérents à l'exposition sonore.</li>
+      <li>Enregistrer et caractériser un son (hauteur, timbre, niveau d'intensité sonore) à l'aide d'un dispositif expérimental dédié ou d'un smartphone.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ONGLET 1 : Émission d'un signal sonore -->
+<!-- ================================================================ -->
+<div class="panel active" id="panel-0">
+
+  <div class="card">
+    <h2>🔊 Émission d'un signal sonore</h2>
+
+    <h3>1. Vibration et production du son</h3>
+    <div class="def">
+      Un signal sonore est produit par la <b>vibration</b> d'un objet.<br>
+      Sans vibration → pas de son.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — vibration</div>
+      <p>Un élève pince une corde de guitare. Qu'est-ce qui produit le son ?</p>
+      <select class="exo-select p0s1" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Le bois de la guitare qui chauffe</option>
+        <option value="b">La vibration de la corde</option>
+        <option value="c">Le déplacement de l'air par la main</option>
+        <option value="d">Le contact des doigts sur la corde</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p0s1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">C'est la <strong>vibration de la corde</strong> qui met en mouvement l'air environnant et produit le son.</div>
+    </div>
+
+    <h3>2. Rôle de la caisse de résonance</h3>
+    <div class="def">
+      La <b>caisse de résonance</b> est une enceinte creuse qui entre en vibration avec la source et <b>amplifie</b> le son — sans apport d'énergie supplémentaire.
+    </div>
+
+    <!-- Animation caisse de résonance interactive -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Animation : effet de la longueur de la caisse sur la vibration</strong><br>
+        <span style="font-size:0.78rem;">Fais glisser le curseur pour changer la taille de la caisse</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:10px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
+        <span style="color:#7a5230;font-weight:700;">Caisse courte</span>
+        <input type="range" id="sl-caisse" min="120" max="440" value="280" step="10"
+          style="width:160px;accent-color:#7a5230;">
+        <span style="color:#7a5230;font-weight:700;">Caisse longue</span>
+      </div>
+      <canvas id="cvCorde" width="520" height="120" style="width:100%;max-width:520px;display:block;margin:0 auto;background:#f9f8f4;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div id="caisse-info" style="text-align:center;margin-top:8px;font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:var(--accent);font-weight:700;"></div>
+      <div style="text-align:center;margin-top:6px;">
+        <button onclick="toggleCorde()" id="btnCorde"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;font-weight:700;
+          background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 18px;cursor:pointer;">
+          ▶ Lancer la vibration
+        </button>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — caisse de résonance</div>
+      <p>Pourquoi une guitare <em>acoustique</em> est-elle plus forte qu'une simple corde tendue ?</p>
+      <select class="exo-select p0s2" data-answers="c">
+        <option value="">— Choisir —</option>
+        <option value="a">La guitare vibre à une fréquence plus élevée</option>
+        <option value="b">La corde de guitare est plus longue</option>
+        <option value="c">La caisse de résonance amplifie les vibrations</option>
+        <option value="d">Le bois produit un son supplémentaire</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p0s2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">La <strong>caisse de résonance</strong> entre en vibration sympathique avec la corde et amplifie le son sans consommer d'énergie supplémentaire.</div>
+    </div>
+
+    <h3>3. Chaîne de mesure</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;">
+      <div style="background:var(--accent-light);border-radius:8px;padding:7px 12px;text-align:center;"><strong>Source sonore</strong></div>
+      <div style="color:var(--accent);font-size:1.2rem;">→</div>
+      <div style="background:var(--accent-light);border-radius:8px;padding:7px 12px;text-align:center;"><strong>Microphone</strong></div>
+      <div style="color:var(--accent);font-size:1.2rem;">→</div>
+      <div style="background:var(--accent-light);border-radius:8px;padding:7px 12px;text-align:center;"><strong>Oscilloscope / Audacity</strong></div>
+      <div style="color:var(--accent);font-size:1.2rem;">→</div>
+      <div style="background:var(--accent-light);border-radius:8px;padding:7px 12px;text-align:center;"><strong>Analyse (T, f…)</strong></div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — chaîne de mesure</div>
+      <p>Dans une chaîne de mesure, quel est le rôle du microphone ?</p>
+      <select class="exo-select p0s3" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Produire le signal sonore</option>
+        <option value="b">Convertir le signal sonore en signal électrique</option>
+        <option value="c">Afficher la forme du signal</option>
+        <option value="d">Amplifier le son</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p0s3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Le microphone est un <strong>capteur</strong> : il convertit le signal sonore (pression) en signal électrique exploitable par l'oscilloscope ou le logiciel.</div>
+    </div>
+
+  </div>
+
+</div><!-- /panel-0 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 2 : Propagation d'un signal sonore -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-1">
+
+  <div class="card">
+    <h2>🌊 Propagation d'un signal sonore</h2>
+
+    <h3>1. Milieu de propagation</h3>
+    <div class="def">
+      Un signal sonore a besoin d'un <b>milieu matériel</b> pour se propager.<br>
+      Il ne se propage <b>pas dans le vide</b>.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — milieu de propagation</div>
+      <p>Dans lequel de ces milieux le son <strong>ne peut pas</strong> se propager ?</p>
+      <select class="exo-select p1s1" data-answers="d">
+        <option value="">— Choisir —</option>
+        <option value="a">L'air</option>
+        <option value="b">L'eau</option>
+        <option value="c">L'acier</option>
+        <option value="d">Le vide</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p1s1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Le son est une vibration mécanique : il a besoin d'un milieu matériel élastique. Dans le <strong>vide</strong>, il n'y a pas de molécules à faire vibrer — le son ne se propage pas.</div>
+    </div>
+
+    <!-- Animation propagation -->
+    <div class="signal-wrap">
+      <canvas id="cvPropag" width="500" height="90" style="width:100%;max-width:500px;display:block;margin:0 auto;"></canvas>
+      <div style="text-align:center;margin-top:8px;">
+        <button onclick="togglePropag()" id="btnPropag"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;font-weight:700;
+          background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 18px;cursor:pointer;">
+          ▶ Lancer l'animation
+        </button>
+      </div>
+    </div>
+
+    <h3>2. Vitesse de propagation</h3>
+    <div class="formula-box">
+      <strong><em>v</em> = <em>d</em> / Δ<em>t</em></strong>
+      <div class="formula-legend">
+        <strong>v</strong> : vitesse (m·s⁻¹) &nbsp;|&nbsp; <strong>d</strong> : distance (m) &nbsp;|&nbsp; <strong>Δt</strong> : durée (s)
+      </div>
+    </div>
+
+    <div class="def">
+      Plus le milieu est <b>dense</b>, plus la vitesse est grande :<br>
+      v<sub>solide</sub> &gt; v<sub>liquide</sub> &gt; v<sub>gaz</sub> &nbsp;|&nbsp; Dans l'air : <b>v ≈ 340 m·s⁻¹</b>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — vitesse dans les milieux</div>
+      <p>Dans quel milieu le son se propage-t-il le plus vite ?</p>
+      <select class="exo-select p1s2" data-answers="c">
+        <option value="">— Choisir —</option>
+        <option value="a">Dans l'air</option>
+        <option value="b">Dans l'eau</option>
+        <option value="c">Dans l'acier</option>
+        <option value="d">Dans le vide</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p1s2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Dans l'<strong>acier</strong> : v ≈ 5 900 m·s⁻¹. Comparaison : air ≈ 340 m·s⁻¹ | eau ≈ 1 480 m·s⁻¹ | acier ≈ 5 900 m·s⁻¹. Plus le milieu est dense et rigide, plus la vibration se transmet rapidement.</div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — éclair et tonnerre</div>
+      <p>On voit l'éclair <em>avant</em> d'entendre le tonnerre. Pourquoi ?</p>
+      <select class="exo-select p1s3" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">La lumière part avant le son</option>
+        <option value="b">La lumière se propage beaucoup plus vite que le son</option>
+        <option value="c">Le son ne se propage pas dans l'air humide</option>
+        <option value="d">L'éclair est plus proche que le tonnerre</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p1s3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">La lumière se propage à 3×10⁸ m·s⁻¹, soit <strong>près d'un million de fois plus vite</strong> que le son (340 m·s⁻¹). Le délai entre éclair et tonnerre permet même de calculer la distance de l'orage.</div>
+    </div>
+
+    <h3>3. Animation : calculer v = d / Δt</h3>
+    <div class="signal-wrap">
+      <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;margin-bottom:14px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <label style="font-weight:700;color:var(--accent);">Distance d</label>
+          <input type="range" id="sl-dist" min="34" max="1700" value="340" step="17" style="width:140px;accent-color:var(--accent);">
+          <span id="dist-val" style="color:var(--accent);font-weight:700;">340 m</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <label style="font-weight:700;color:var(--accent2);">Durée Δt</label>
+          <input type="range" id="sl-dt" min="0.1" max="5" value="1" step="0.1" style="width:140px;accent-color:var(--accent2);">
+          <span id="dt-val" style="color:var(--accent2);font-weight:700;">1,0 s</span>
+        </div>
+      </div>
+      <canvas id="cvVitesse" width="560" height="130" style="width:100%;max-width:560px;display:block;margin:0 auto;background:#f9f8f4;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div id="vitesse-result" style="text-align:center;margin-top:12px;font-family:'Helvetica Neue',sans-serif;">
+        <span style="font-size:1.05rem;font-weight:700;color:#1f2a24;">v = d / Δt = </span>
+        <span id="v-calc" style="font-size:1.2rem;font-weight:800;color:var(--blue);">340,0 m·s⁻¹</span>
+        <span id="v-milieu" style="margin-left:12px;font-size:0.88rem;padding:4px 12px;border-radius:20px;background:var(--accent-light);color:var(--accent);font-weight:700;">≈ Son dans l'air 🌬️</span>
+      </div>
+      <div style="text-align:center;margin-top:10px;">
+        <button onclick="lancerSon()" id="btnVitesse"
+          style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;font-weight:700;
+          background:var(--accent);color:#fff;border:none;border-radius:20px;padding:6px 20px;cursor:pointer;">
+          ▶ Lancer le son
+        </button>
+      </div>
+    </div>
+
+    <h3>4. Application numérique</h3>
+    <div class="exo-box">
+      <div class="activite">calcul guidé — distance de l'orage</div>
+      <p>Le tonnerre est entendu <strong>6 s</strong> après l'éclair. La vitesse du son dans l'air est v = 340 m·s⁻¹.<br>
+      À quelle distance <em>d</em> s'est produit l'éclair ?</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Quelle formule utiliser ?</p>
+      <select class="exo-select p1calc1" data-answers="b">
+        <option value="">— Choisir la formule —</option>
+        <option value="a">d = v / Δt</option>
+        <option value="b">d = v × Δt</option>
+        <option value="c">d = Δt / v</option>
+        <option value="d">v = d × Δt</option>
+      </select>
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector=".p1calc1">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 —</strong> Application numérique (calcul) :</p>
+      <input type="text" class="exo-input line" id="p1calc2" data-answers="340 × 6|340×6|340 x 6"
+        placeholder="d = … × … = …" style="max-width:320px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#p1calc2">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 3 —</strong> Résultat avec unité :</p>
+      <input type="text" class="exo-input line" id="p1calc3" data-answers="2040 m|2040m|2 040 m|2040"
+        placeholder="d = … m" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#p1calc3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        <strong>Formule :</strong> d = v × Δt (issue de v = d/Δt)<br>
+        <strong>Application :</strong> d = 340 × 6 = <strong>2 040 m ≈ 2 km</strong>
+      </div>
+    </div>
+
+    <h3>5. Simulation PhET — Ondes sonores</h3>
+    <div class="signal-wrap" style="padding:10px;">
+      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
+        <iframe src="https://phet.colorado.edu/sims/html/sound-waves/latest/sound-waves_all.html?locale=fr"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
+          allowfullscreen title="Simulation PhET — Ondes sonores"></iframe>
+      </div>
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;color:#5A6B7A;margin-top:8px;text-align:center;">
+        💡 Explore les onglets « Mesure » et « Interférence »
+      </p>
+    </div>
+
+  </div>
+
+</div><!-- /panel-1 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 3 : Signaux sonores périodiques -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-2">
+
+  <div class="card">
+    <h2>📈 Signaux sonores périodiques</h2>
+
+    <h3>1. Signal périodique</h3>
+    <div class="def">
+      Un signal sonore est <b>périodique</b> si son enregistrement présente la répétition régulière d'un <b>même motif</b>.
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — signal périodique</div>
+      <p>Sur un oscilloscope, on observe un signal qui se répète toutes les 2 ms. Ce signal est-il périodique ?</p>
+      <select class="exo-select p2s1" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">Oui, car le même motif se répète régulièrement</option>
+        <option value="b">Non, car 2 ms est trop court pour être une période</option>
+        <option value="c">Oui, seulement si l'amplitude est constante</option>
+        <option value="d">Non, un signal périodique ne peut pas être sonore</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p2s1">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Oui. Un signal est périodique dès lors que le <strong>même motif se répète identiquement et régulièrement</strong>, quelle que soit la valeur de la période.</div>
+    </div>
+
+    <h3>2. Période T et fréquence f</h3>
+    <div class="def">
+      <b>Période T</b> : durée d'un motif — unité : seconde (s)<br>
+      <b>Fréquence f</b> : nombre de motifs par seconde — unité : hertz (Hz)
+    </div>
+    <div class="formula-box">
+      <strong><em>f</em> = 1 / <em>T</em> &nbsp;&nbsp;|&nbsp;&nbsp; T = 1 / <em>f</em></strong>
+      <div class="formula-legend">f en Hz &nbsp;|&nbsp; T en s</div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — relation f et T</div>
+      <p>Que se passe-t-il pour la fréquence si on <strong>divise la période par 2</strong> ?</p>
+      <select class="exo-select p2s2" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">La fréquence est divisée par 2</option>
+        <option value="b">La fréquence est multipliée par 2</option>
+        <option value="c">La fréquence ne change pas</option>
+        <option value="d">La fréquence devient nulle</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p2s2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">f = 1/T : si T est divisé par 2, alors f est <strong>multiplié par 2</strong>. f et T sont inversement proportionnels.</div>
+    </div>
+
+    <!-- Oscilloscope virtuel -->
+    <div class="signal-wrap">
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Oscilloscope virtuel</strong> — modifie la fréquence et l'amplitude
+      </div>
+      <div class="signal-controls">
+        <label for="sl-freq">Fréquence :</label>
+        <input type="range" id="sl-freq" min="1" max="10" value="3" step="0.5">
+        <span id="freq-val" style="min-width:70px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">f = 3 Hz</span>
+        <label for="sl-amp">Amplitude :</label>
+        <input type="range" id="sl-amp" min="5" max="35" value="20" step="1">
+        <span id="amp-val" style="min-width:60px;font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">A = 20</span>
+      </div>
+      <canvas id="cvOscillo" width="600" height="160" style="width:100%;max-width:600px;display:block;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.82rem;color:#5A6B7A;text-align:center;margin-top:6px;" id="oscillo-info">T = … ms &nbsp;|&nbsp; f = … Hz</div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — oscilloscope</div>
+      <p>Sur l'oscilloscope ci-dessus, si tu augmentes la fréquence avec le curseur, que vois-tu ?</p>
+      <select class="exo-select p2s3" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Les motifs s'élargissent et deviennent moins nombreux</option>
+        <option value="b">Les motifs se resserrent et deviennent plus nombreux</option>
+        <option value="c">L'amplitude du signal augmente</option>
+        <option value="d">Le signal devient une droite horizontale</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p2s3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Quand f augmente, T diminue : les motifs sont <strong>plus resserrés</strong> (durée plus courte) et donc plus nombreux sur la même fenêtre de temps.</div>
+    </div>
+
+    <h3>3. Calculs T ↔ f</h3>
+
+    <div class="exo-box">
+      <div class="activite">calcul guidé — note La (f = 440 Hz → T = ?)</div>
+      <p>La note « La » a une fréquence f = 440 Hz. Calcule sa période T.</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Formule à utiliser :</p>
+      <select class="exo-select p2calc1a" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">T = f × 1</option>
+        <option value="b">T = 1 / f</option>
+        <option value="c">T = f / 2</option>
+        <option value="d">f = T × 2</option>
+      </select>
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector=".p2calc1a">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 —</strong> Application numérique :</p>
+      <input type="text" class="exo-input line" id="p2calc1b" data-answers="1/440|1 / 440"
+        placeholder="T = 1 / … = …" style="max-width:280px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#p2calc1b">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 3 —</strong> Résultat avec unité :</p>
+      <input type="text" class="exo-input line" id="p2calc1c" data-answers="2,27 ms|2.27 ms|2,27 × 10⁻³ s|2.27e-3 s|0.00227 s"
+        placeholder="T ≈ … ms" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#p2calc1c">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        <strong>Formule :</strong> T = 1 / f<br>
+        <strong>Application :</strong> T = 1 / 440 ≈ <strong>2,27 × 10⁻³ s = 2,27 ms</strong>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">calcul guidé — T = 5 ms → f = ?</div>
+      <p>Un signal a une période T = 5 ms. Calcule sa fréquence f.</p>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 1 —</strong> Conversion de l'unité :</p>
+      <input type="text" class="exo-input line" id="p2calc2a" data-answers="5 × 10⁻³ s|5e-3 s|0,005 s|0.005 s|5×10⁻³ s"
+        placeholder="T = 5 ms = … s" style="max-width:280px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#p2calc2a">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 2 —</strong> Application numérique :</p>
+      <input type="text" class="exo-input line" id="p2calc2b" data-answers="1/0,005|1/0.005|1/(5×10⁻³)|1 / 0,005"
+        placeholder="f = 1 / T = 1 / … = …" style="max-width:300px;">
+      <div class="exo-actions" style="margin-bottom:8px;">
+        <button class="check-btn" data-check-selector="#p2calc2b">✓ Vérifier</button>
+      </div>
+
+      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.9rem;margin:10px 0 4px;"><strong>Étape 3 —</strong> Résultat avec unité :</p>
+      <input type="text" class="exo-input line" id="p2calc2c" data-answers="200 Hz|200Hz|200"
+        placeholder="f = … Hz" style="max-width:200px;">
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector="#p2calc2c">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        <strong>Conversion :</strong> T = 5 ms = 5 × 10⁻³ s<br>
+        <strong>Formule :</strong> f = 1 / T<br>
+        <strong>Application :</strong> f = 1 / (5 × 10⁻³) = <strong>200 Hz</strong>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /panel-2 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 4 : Perception d'un son -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-3">
+
+  <div class="card">
+    <h2>👂 Perception d'un son</h2>
+
+    <h3>1. Domaines de fréquence</h3>
+    <div class="def">
+      Audibilité <b>pour l'être humain</b> : <b>20 Hz → 20 000 Hz</b><br>
+      En dessous de 20 Hz → <b>infrason</b> (inaudible pour l'homme) &nbsp;|&nbsp; Au-dessus de 20 kHz → <b>ultrason</b> (inaudible pour l'homme)
+    </div>
+
+    <!-- Frise -->
+    <div style="margin:12px 0;">
+      <svg viewBox="0 0 580 70" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;font-family:'Helvetica Neue',sans-serif;">
+        <line x1="20" y1="40" x2="560" y2="40" stroke="#d9d3c6" stroke-width="2"/>
+        <rect x="20" y="25" width="110" height="22" rx="6" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+        <text x="75" y="40" text-anchor="middle" font-size="12" fill="#3949ab" font-weight="700">Infrasons</text>
+        <text x="75" y="55" text-anchor="middle" font-size="10" fill="#3949ab">&lt; 20 Hz</text>
+        <rect x="135" y="20" width="290" height="30" rx="6" fill="#e6f1ee" stroke="#2f6f5e" stroke-width="2"/>
+        <text x="280" y="39" text-anchor="middle" font-size="13" fill="#2f6f5e" font-weight="700">Sons audibles (homme)</text>
+        <text x="135" y="58" text-anchor="middle" font-size="10" fill="#2f6f5e">20 Hz</text>
+        <text x="425" y="58" text-anchor="middle" font-size="10" fill="#2f6f5e">20 000 Hz</text>
+        <rect x="430" y="25" width="130" height="22" rx="6" fill="#fce4ec" stroke="#c62828" stroke-width="1.5"/>
+        <text x="495" y="40" text-anchor="middle" font-size="12" fill="#c62828" font-weight="700">Ultrasons</text>
+        <text x="495" y="55" text-anchor="middle" font-size="10" fill="#c62828">&gt; 20 kHz</text>
+      </svg>
+    </div>
+
+    <!-- Exemples animaux -->
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 14px;font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;">
+      <div style="background:#e8eaf6;border-radius:8px;padding:10px 14px;flex:1 1 180px;">
+        <div style="font-weight:700;color:#3949ab;margin-bottom:4px;">🐘 Infrasons — exemples</div>
+        Éléphant : communique à ~14–35 Hz<br>
+        Baleine bleue : chants à ~10–40 Hz<br>
+        Rhinocéros : ~8 Hz<br>
+        <em style="color:#7a86a0;font-size:0.78rem;">Inaudibles pour l'homme, ils se propagent sur des dizaines de km</em>
+      </div>
+      <div style="background:#e6f1ee;border-radius:8px;padding:10px 14px;flex:1 1 180px;">
+        <div style="font-weight:700;color:#2f6f5e;margin-bottom:4px;">👂 Sons audibles — exemples</div>
+        Voix humaine : 80–1 100 Hz<br>
+        Piano (gamme) : 27,5 Hz – 4 186 Hz<br>
+        Note La : 440 Hz<br>
+        <em style="color:#7a86a0;font-size:0.78rem;">Perçus par l'oreille humaine entre 20 Hz et 20 kHz</em>
+      </div>
+      <div style="background:#fce4ec;border-radius:8px;padding:10px 14px;flex:1 1 180px;">
+        <div style="font-weight:700;color:#c62828;margin-bottom:4px;">🦇 Ultrasons — exemples</div>
+        Chauve-souris : 20 000–100 000 Hz (écholocation)<br>
+        Dauphin : 7 000–120 000 Hz<br>
+        Chien : entend jusqu'à ~65 000 Hz<br>
+        <em style="color:#7a86a0;font-size:0.78rem;">Utilisés aussi en médecine (échographie) et en industrie</em>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">application — classer des situations</div>
+      <p>Indique si chaque son est un infrason, un son audible pour l'homme ou un ultrason :</p>
+      <p>① Un éléphant émet un son à <strong>18 Hz</strong> pour communiquer avec son troupeau →
+        <select class="exo-select p3s1a" data-answers="infrason">
+          <option value="">—</option><option value="infrason">Infrason</option>
+          <option value="audible">Son audible (homme)</option><option value="ultrason">Ultrason</option>
+        </select>
+      </p>
+      <p>② Une chauve-souris utilise des sons à <strong>80 000 Hz</strong> pour naviguer →
+        <select class="exo-select p3s1b" data-answers="ultrason">
+          <option value="">—</option><option value="infrason">Infrason</option>
+          <option value="audible">Son audible (homme)</option><option value="ultrason">Ultrason</option>
+        </select>
+      </p>
+      <p>③ La note La du diapason à <strong>440 Hz</strong> →
+        <select class="exo-select p3s1c" data-answers="audible">
+          <option value="">—</option><option value="infrason">Infrason</option>
+          <option value="audible">Son audible (homme)</option><option value="ultrason">Ultrason</option>
+        </select>
+      </p>
+      <p>④ Un sifflet pour chien émet à <strong>25 000 Hz</strong>, inaudible pour l'homme →
+        <select class="exo-select p3s1d" data-answers="ultrason">
+          <option value="">—</option><option value="infrason">Infrason</option>
+          <option value="audible">Son audible (homme)</option><option value="ultrason">Ultrason</option>
+        </select>
+      </p>
+      <p>⑤ Une baleine bleue chante à <strong>12 Hz</strong> →
+        <select class="exo-select p3s1e" data-answers="infrason">
+          <option value="">—</option><option value="infrason">Infrason</option>
+          <option value="audible">Son audible (homme)</option><option value="ultrason">Ultrason</option>
+        </select>
+      </p>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p3s1a,.p3s1b,.p3s1c,.p3s1d,.p3s1e">✓ Vérifier tout</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">
+        ① 18 Hz &lt; 20 Hz → <strong>infrason</strong> (éléphant : inaudible pour l'homme)<br>
+        ② 80 000 Hz &gt; 20 000 Hz → <strong>ultrason</strong> (écholocation des chauves-souris)<br>
+        ③ 440 Hz entre 20 Hz et 20 000 Hz → <strong>son audible</strong><br>
+        ④ 25 000 Hz &gt; 20 000 Hz → <strong>ultrason</strong> (inaudible pour l'homme, perçu par le chien)<br>
+        ⑤ 12 Hz &lt; 20 Hz → <strong>infrason</strong> (baleine : propagation sur des centaines de km)
+      </div>
+    </div>
+
+    <h3>2. Hauteur — fréquence</h3>
+    <div class="def">
+      <b>Hauteur</b> d'un son ↔ sa <b>fréquence</b><br>
+      f élevée → son <b>aigu</b> &nbsp;|&nbsp; f faible → son <b>grave</b>
+    </div>
+
+    <div class="signal-wrap">
+      <canvas id="cvHauteur" width="560" height="140" style="width:100%;max-width:560px;display:block;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div style="display:flex;justify-content:space-around;font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;margin-top:6px;">
+        <span style="color:#c9622a;">— Son grave (f basse)</span>
+        <span style="color:#2f6f5e;">— Son aigu (f élevée)</span>
+      </div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — hauteur et fréquence</div>
+      <p>En montant les touches d'un piano de gauche à droite, le son devient plus aigu. Que se passe-t-il pour la fréquence ?</p>
+      <select class="exo-select p3s2" data-answers="a">
+        <option value="">— Choisir —</option>
+        <option value="a">La fréquence augmente</option>
+        <option value="b">La fréquence diminue</option>
+        <option value="c">La fréquence ne change pas</option>
+        <option value="d">La période augmente</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p3s2">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Plus un son est <strong>aigu</strong>, plus sa <strong>fréquence est élevée</strong>. À droite du piano, les cordes sont plus courtes → vibrations plus rapides → fréquence plus haute.</div>
+    </div>
+
+    <h3>3. Timbre et intensité</h3>
+    <div class="def">
+      <b>Timbre</b> : identité sonore d'un instrument → dépend de la <b>forme du signal</b><br>
+      <b>Intensité sonore</b> : liée à l'<b>amplitude</b> du signal — mesurée en <b>dB</b> avec un sonomètre
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — timbre</div>
+      <p>Un violon et une flûte jouent la même note (même hauteur). Comment les distingue-t-on ?</p>
+      <select class="exo-select p3s3" data-answers="c">
+        <option value="">— Choisir —</option>
+        <option value="a">Par leur fréquence différente</option>
+        <option value="b">Par leur amplitude différente</option>
+        <option value="c">Par la forme de leur signal (timbre)</option>
+        <option value="d">Par leur période différente</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p3s3">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">Même note = même fréquence et même période. Mais la <strong>forme du motif</strong> (timbre) est différente selon l'instrument : c'est ce qui permet de les distinguer à l'oreille.</div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — danger sonore</div>
+      <p>À partir de quelle valeur une exposition sonore prolongée risque-t-elle d'endommager l'audition de façon irréversible ?</p>
+      <select class="exo-select p3s4" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">60 dB</option>
+        <option value="b">85 dB</option>
+        <option value="c">100 dB</option>
+        <option value="d">120 dB</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p3s4">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">À partir de <strong>85 dB</strong>, une exposition prolongée peut provoquer une perte d'audition <em>irréversible</em>. Les cellules ciliées de l'oreille interne sont détruites et ne se régénèrent pas. Source : <a href="https://www.inserm.fr/information-en-sante/dossiers-dinformation/troubles-de-laudition-surdites" target="_blank" style="color:var(--accent2);">INSERM</a></div>
+    </div>
+
+    <div class="exo-box">
+      <div class="activite">comprendre — intensité et amplitude</div>
+      <p>Sur un oscilloscope, deux sons ont la même fréquence mais des amplitudes différentes. Lequel est le plus fort ?</p>
+      <select class="exo-select p3s5" data-answers="b">
+        <option value="">— Choisir —</option>
+        <option value="a">Celui dont l'amplitude est la plus petite</option>
+        <option value="b">Celui dont l'amplitude est la plus grande</option>
+        <option value="c">Ils ont la même intensité car même fréquence</option>
+        <option value="d">On ne peut pas le savoir avec l'oscilloscope</option>
+      </select>
+      <div class="exo-actions">
+        <button class="check-btn" data-check-selector=".p3s5">✓ Vérifier</button>
+        <button class="toggle-btn" onclick="toggleCorr(this)">Voir la correction</button>
+        <button class="reset-btn" onclick="resetBox(this)">Recommencer</button>
+      </div>
+      <div class="correction">L'intensité sonore est liée à l'<strong>amplitude</strong> du signal. Plus l'amplitude est grande sur l'oscilloscope, plus le son est fort (niveau en dB élevé).</div>
+    </div>
+
+  </div>
+
+</div><!-- /panel-3 -->
+
+<!-- ================================================================ -->
+<!-- ONGLET 5 : Bilan & Ressources -->
+<!-- ================================================================ -->
+<div class="panel" id="panel-4">
+
+  <div class="card">
+    <h2>📝 Bilan de la séquence</h2>
+    <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;color:#5A6B7A;margin-top:0;">
+      Thème <em>Ondes et signaux</em> — Physique-Chimie 2nde — ©C.Poirault-Gauvin
+    </p>
+
+    <h3>Récapitulatif des formules</h3>
+    <table class="data">
+      <thead>
+        <tr><th>Grandeur</th><th>Symbole</th><th>Unité</th><th>Formule</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Vitesse de propagation</td><td>v</td><td>m·s⁻¹</td><td>v = d / Δt</td></tr>
+        <tr><td>Période</td><td>T</td><td>s (ou ms)</td><td>T = durée d'un motif</td></tr>
+        <tr><td>Fréquence</td><td>f</td><td>Hz</td><td>f = 1 / T</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📹 Vidéos de cours</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;">
+
+      <!-- Vidéo 1 : Qu'est-ce qu'un son ? -->
+      <div style="flex:1 1 280px;">
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent);margin-bottom:6px;">
+          🔊 Qu'est-ce qu'un son ?
+        </div>
+        <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
+          <iframe
+            src="https://www.pearltrees.com/private/id104964797/item802616561?paccess=47d20972c4f.2fd6f4f1.6ffbdbe4942eaa7ae3e5eb06fc84461f"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
+            allowfullscreen
+            title="Qu'est-ce qu'un son ?">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Vidéo 2 : Le signal sonore -->
+      <div style="flex:1 1 280px;">
+        <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent);margin-bottom:6px;">
+          📈 Le signal sonore
+        </div>
+        <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
+          <iframe
+            src="https://www.pearltrees.com/private/id104964797/item802619381?paccess=47d20a11469.2fd6fff5.8f3d2967c546d61fb47ca9a0e7919fb4"
+            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
+            allowfullscreen
+            title="Le signal sonore">
+          </iframe>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+    <h2>📚 Toutes les ressources</h2>
+    <h3>Logiciels</h3>
+    <div class="pastilles">
+      <a class="pastille" href="https://audacityteam.org/download/" target="_blank">⬇ Audacity (enregistrement son)</a>
+      <a class="pastille alt" href="http://www.01net.com/telecharger/windows/Loisirs/musique/fiches/36729.html" target="_blank">⬇ Piano Virtuel</a>
+    </div>
+    <h3>Vidéos</h3>
+    <div class="pastilles">
+      <a class="pastille" href="https://www.youtube.com/watch?v=dFX91Kzqkwk" target="_blank">▶ Casser un verre avec un son ?</a>
+      <a class="pastille" href="https://www.youtube.com/watch?v=GkNJLnQdYjI" target="_blank">▶ Mesure vitesse du son (5'20)</a>
+      <a class="pastille" href="https://www.youtube.com/watch?v=rJ8Nk0ZkPeA" target="_blank">▶ TP vitesse du son (10'32)</a>
+      <a class="pastille alt" href="https://www.youtube.com/watch?v=ZU1qvLiPDCM" target="_blank">▶ Dangers de la musique forte</a>
+    </div>
+    <h3>Références web</h3>
+    <div class="pastilles">
+      <a class="pastille violet" href="https://www.inserm.fr/information-en-sante/dossiers-dinformation/troubles-de-laudition-surdites" target="_blank">🔗 INSERM — Troubles de l'audition</a>
+    </div>
+    <h3>Exercices du manuel</h3>
+    <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
+      <strong>Propagation :</strong> n°23 p.244 – n°29 p.245 – n°47 p.249 – n°43 p.248<br>
+      <strong>Signaux périodiques :</strong> n°30 p.246 – n°36 p.246 – QCM p.246 – n°41 p.247 – n°48 p.250<br>
+      <strong>Perception :</strong> p.260 n°14-15 – p.261 n°22 – p.263 n°30 – p.264 n°32 – p.265 n°34
+    </p>
+  </div>
+
+</div><!-- /panel-4 -->
+
+</div><!-- /wrap -->
+
+<script>
+/* ============== NAVIGATION ONGLETS ============== */
+function showTab(i){
+  document.querySelectorAll('.panel').forEach((p,j)=>{
+    p.classList.toggle('active',j===i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((b,j)=>{
+    b.classList.toggle('active',j===i);
+    b.setAttribute('aria-selected',j===i);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============== CAPACITÉS EXIGIBLES ============== */
+document.getElementById('capToggle').addEventListener('click',function(){
+  const panel=document.getElementById('capPanel');
+  panel.classList.toggle('open');
+  this.textContent=panel.classList.contains('open')?'✕ Fermer':'📋 Capacités exigibles';
+});
+
+/* ============== ANIMATION CAISSE DE RÉSONANCE ============== */
+let cordeRunning=false, cordeRaf=null, cordeT=0;
+const cvC=document.getElementById('cvCorde');
+const ctxC=cvC&&cvC.getContext('2d');
+const slCaisse=document.getElementById('sl-caisse');
+const caisseInfo=document.getElementById('caisse-info');
+
+function getCaisseLen(){return slCaisse?parseInt(slCaisse.value):280;}
+
+function drawCorde(){
+  if(!cvC) return;
+  const W=cvC.width, H=cvC.height;
+  const cLen=getCaisseLen();
+  // Centres des chevalets selon la longueur de la caisse
+  const cx=(W-cLen)/2; // x gauche
+  const dx=cx+cLen;    // x droite
+  // Fréquence : inversement proportionnelle à la longueur (λ/2 = L)
+  const freqFactor=280/cLen; // normalisé à 280px
+  // Amplitude : amplifie légèrement avec la caisse longue
+  const amp=14+8*(cLen-120)/320;
+
+  ctxC.clearRect(0,0,W,H);
+  ctxC.fillStyle='#f9f8f4'; ctxC.fillRect(0,0,W,H);
+
+  // Caisse (rectangle bois)
+  ctxC.fillStyle='rgba(201,98,42,0.12)';
+  ctxC.fillRect(cx,18,cLen,H-36);
+  ctxC.strokeStyle='#7a5230'; ctxC.lineWidth=1.5;
+  ctxC.strokeRect(cx,18,cLen,H-36);
+
+  // Chevalets gauche / droite
+  ctxC.fillStyle='#7a5230';
+  ctxC.fillRect(cx-5,14,7,H-28);
+  ctxC.fillRect(dx-2,14,7,H-28);
+
+  // Label caisse
+  ctxC.fillStyle='#7a5230';
+  ctxC.font='bold 11px "Helvetica Neue",Arial,sans-serif';
+  ctxC.textAlign='center';
+  ctxC.fillText('Caisse de résonance',W/2,H-4);
+
+  // Corde vibrante entre les chevalets
+  ctxC.beginPath();
+  ctxC.strokeStyle='#2D5F8A'; ctxC.lineWidth=2.5;
+  for(let x=cx;x<=dx;x++){
+    const t=(x-cx)/cLen;
+    const y=H/2+amp*Math.sin(Math.PI*t)*Math.sin(2*Math.PI*freqFactor*cordeT/40);
+    x===cx?ctxC.moveTo(x,y):ctxC.lineTo(x,y);
+  }
+  ctxC.stroke();
+  ctxC.textAlign='left';
+
+  // Info dynamique
+  if(caisseInfo){
+    const label=cLen<180?'Caisse courte → son aigu (f élevée)':
+                cLen>360?'Caisse longue → son grave (f basse)':
+                'Longueur intermédiaire';
+    caisseInfo.textContent=label;
+  }
+}
+function animCorde(){
+  if(!cordeRunning) return;
+  cordeT++;
+  drawCorde();
+  cordeRaf=requestAnimationFrame(animCorde);
+}
+function toggleCorde(){
+  cordeRunning=!cordeRunning;
+  document.getElementById('btnCorde').textContent=cordeRunning?'⏸ Pause':'▶ Lancer la vibration';
+  if(cordeRunning) animCorde();
+  else cancelAnimationFrame(cordeRaf);
+}
+if(slCaisse) slCaisse.addEventListener('input',()=>{if(!cordeRunning) drawCorde();});
+drawCorde();
+
+/* ============== ANIMATION PROPAGATION ============== */
+let propagRunning=false, propagRaf=null, propagT=0;
+const cvP=document.getElementById('cvPropag');
+const ctxP=cvP.getContext('2d');
+function drawPropag(){
+  const W=cvP.width, H=cvP.height;
+  ctxP.clearRect(0,0,W,H);
+  ctxP.fillStyle='#f9f8f4'; ctxP.fillRect(0,0,W,H);
+  // Molécules
+  const n=30;
+  for(let i=0;i<n;i++){
+    const baseX=(i+0.5)*(W/n);
+    const dx=14*Math.sin(2*Math.PI*(i/n-propagT/120));
+    const x=baseX+dx;
+    const radius=3.5+1.5*Math.sin(2*Math.PI*(i/n-propagT/120));
+    ctxP.beginPath();
+    const alpha=0.4+0.6*Math.max(0,Math.sin(2*Math.PI*(i/n-propagT/120)));
+    ctxP.fillStyle=`rgba(45,95,138,${alpha.toFixed(2)})`;
+    ctxP.arc(x,H/2,radius,0,Math.PI*2);
+    ctxP.fill();
+  }
+  // Labels
+  ctxP.fillStyle='#5A6B7A';
+  ctxP.font='11px "Helvetica Neue",Arial,sans-serif';
+  ctxP.fillText('compression',W*0.12,H-6);
+  ctxP.fillText('raréfaction',W*0.55,H-6);
+  ctxP.fillText('→ propagation',W-90,H/2-12);
+}
+function animPropag(){
+  if(!propagRunning) return;
+  propagT++;
+  drawPropag();
+  propagRaf=requestAnimationFrame(animPropag);
+}
+function togglePropag(){
+  propagRunning=!propagRunning;
+  document.getElementById('btnPropag').textContent=propagRunning?'⏸ Pause':'▶ Lancer l\'animation';
+  if(propagRunning) animPropag();
+  else cancelAnimationFrame(propagRaf);
+}
+drawPropag();
+
+/* ============== ANIMATION CALCUL VITESSE ============== */
+const cvV=document.getElementById('cvVitesse');
+const ctxV=cvV&&cvV.getContext('2d');
+const slDist=document.getElementById('sl-dist');
+const slDt=document.getElementById('sl-dt');
+let sonX=0, sonRunning=false, sonRaf=null;
+
+function getMilieu(v){
+  if(v<50) return 'Très lent…';
+  if(v<380) return '≈ Son dans l\'air 🌬️';
+  if(v<600) return 'Plus rapide que l\'air';
+  if(v<2000) return '≈ Son dans l\'eau 💧';
+  return '≈ Son dans un solide 🪨';
+}
+function getMilieuColor(v){
+  if(v<380) return '#2f6f5e';
+  if(v<2000) return '#2D5F8A';
+  return '#7c4dba';
+}
+
+function drawVitesse(progress){
+  if(!cvV) return;
+  const W=cvV.width, H=cvV.height;
+  const d=parseFloat(slDist.value);
+  const dt=parseFloat(slDt.value);
+  const v=d/dt;
+  // Fond
+  ctxV.fillStyle='#f9f8f4'; ctxV.fillRect(0,0,W,H);
+  // Sol
+  ctxV.fillStyle='#e8e3da'; ctxV.fillRect(0,H-18,W,18);
+  // Flèche distance
+  const xSrc=40, xMic=W-50;
+  const arrowY=H-30;
+  ctxV.strokeStyle='#c9622a'; ctxV.lineWidth=1.5; ctxV.setLineDash([5,4]);
+  ctxV.beginPath(); ctxV.moveTo(xSrc,arrowY); ctxV.lineTo(xMic,arrowY); ctxV.stroke();
+  ctxV.setLineDash([]);
+  // Pointes flèche
+  [[xSrc,arrowY,1],[xMic,arrowY,-1]].forEach(([x,y,dir])=>{
+    ctxV.beginPath(); ctxV.fillStyle='#c9622a';
+    ctxV.moveTo(x,y); ctxV.lineTo(x+dir*10,y-4); ctxV.lineTo(x+dir*10,y+4); ctxV.fill();
+  });
+  // Label distance
+  ctxV.fillStyle='#c9622a'; ctxV.font='bold 12px "Helvetica Neue",sans-serif';
+  ctxV.textAlign='center';
+  ctxV.fillText('d = '+d+' m', (xSrc+xMic)/2, arrowY-6);
+  // Source sonore (haut-parleur)
+  ctxV.fillStyle='#E8783A';
+  ctxV.beginPath(); ctxV.moveTo(xSrc-12,H-45); ctxV.lineTo(xSrc-12,H-25);
+  ctxV.lineTo(xSrc-2,H-25); ctxV.lineTo(xSrc+8,H-55); ctxV.lineTo(xSrc+8,H-15);
+  ctxV.lineTo(xSrc-2,H-25); ctxV.closePath(); ctxV.fill();
+  // Microphone
+  ctxV.fillStyle='#2D5F8A';
+  ctxV.beginPath(); ctxV.roundRect(xMic-4,H-55,12,28,4); ctxV.fill();
+  ctxV.beginPath(); ctxV.arc(xMic+2,H-56,7,Math.PI,0); ctxV.fillStyle='#2D5F8A'; ctxV.fill();
+  ctxV.strokeStyle='#2D5F8A'; ctxV.lineWidth=2; ctxV.beginPath();
+  ctxV.moveTo(xMic+2,H-27); ctxV.lineTo(xMic+2,H-18); ctxV.stroke();
+  ctxV.beginPath(); ctxV.moveTo(xMic-8,H-18); ctxV.lineTo(xMic+12,H-18); ctxV.stroke();
+  // Onde sonore (cercles se propageant)
+  if(progress>0){
+    const xWave=xSrc+(xMic-xSrc)*Math.min(progress,1);
+    for(let i=0;i<3;i++){
+      const p=Math.max(0,progress-i*0.12);
+      if(p<=0) continue;
+      const r=Math.min(p,1)*(xMic-xSrc)*0.18*(1+i*0.3);
+      const alpha=Math.max(0,1-p*1.2);
+      ctxV.beginPath();
+      ctxV.strokeStyle=`rgba(45,95,138,${(alpha*0.7).toFixed(2)})`;
+      ctxV.lineWidth=2.5-i*0.5;
+      ctxV.arc(xSrc+(xMic-xSrc)*Math.min(p,1)*0.95, H-38, r, -Math.PI/2, Math.PI/2);
+      ctxV.stroke();
+    }
+    // Point d'onde principal
+    if(progress<1){
+      ctxV.beginPath();
+      ctxV.fillStyle='rgba(45,95,138,0.85)';
+      ctxV.arc(xWave, H-38, 6, 0, Math.PI*2);
+      ctxV.fill();
+    } else {
+      // Arrivée au micro : flash vert
+      ctxV.fillStyle='rgba(47,111,94,0.25)';
+      ctxV.beginPath(); ctxV.arc(xMic+2,H-40,18,0,Math.PI*2); ctxV.fill();
+      ctxV.fillStyle='var(--accent)';
+      ctxV.font='bold 13px "Helvetica Neue",sans-serif';
+      ctxV.textAlign='center';
+      ctxV.fillText('Δt = '+dt.toFixed(1)+' s', xMic+2, H-62);
+    }
+  }
+  // Labels source / micro
+  ctxV.fillStyle='#E8783A'; ctxV.font='11px "Helvetica Neue",sans-serif'; ctxV.textAlign='center';
+  ctxV.fillText('Source', xSrc, H-4);
+  ctxV.fillStyle='#2D5F8A';
+  ctxV.fillText('Micro', xMic+2, H-4);
+  ctxV.textAlign='left';
+}
+
+function animSon(){
+  if(!sonRunning) return;
+  const d=parseFloat(slDist.value);
+  const dt=parseFloat(slDt.value);
+  // durée réelle animée : max 3s pour toutes les distances
+  sonX+=1/(60*2);
+  drawVitesse(sonX);
+  if(sonX>=1){
+    sonRunning=false;
+    document.getElementById('btnVitesse').textContent='▶ Lancer le son';
+    drawVitesse(1);
+    return;
+  }
+  sonRaf=requestAnimationFrame(animSon);
+}
+
+function lancerSon(){
+  if(sonRunning){cancelAnimationFrame(sonRaf);sonRunning=false;sonX=0;drawVitesse(0);document.getElementById('btnVitesse').textContent='▶ Lancer le son';return;}
+  sonX=0; sonRunning=true;
+  document.getElementById('btnVitesse').textContent='⏹ Arrêter';
+  animSon();
+}
+
+function updateVitesse(){
+  const d=parseFloat(slDist.value);
+  const dt=parseFloat(slDt.value);
+  const v=d/dt;
+  document.getElementById('dist-val').textContent=d+' m';
+  document.getElementById('dt-val').textContent=dt.toFixed(1)+' s';
+  document.getElementById('v-calc').textContent=v.toFixed(1)+' m·s⁻¹';
+  const mil=document.getElementById('v-milieu');
+  mil.textContent=getMilieu(v);
+  mil.style.color=getMilieuColor(v);
+  mil.style.background=getMilieuColor(v)+'18';
+  sonX=0; sonRunning=false; cancelAnimationFrame(sonRaf);
+  document.getElementById('btnVitesse').textContent='▶ Lancer le son';
+  drawVitesse(0);
+}
+
+if(slDist){
+  slDist.addEventListener('input',updateVitesse);
+  slDt.addEventListener('input',updateVitesse);
+  updateVitesse();
+}
+
+/* ============== OSCILLOSCOPE VIRTUEL ============== */
+const cvO=document.getElementById('cvOscillo');
+const ctxO=cvO.getContext('2d');
+const slFreq=document.getElementById('sl-freq');
+const slAmp=document.getElementById('sl-amp');
+const freqVal=document.getElementById('freq-val');
+const ampVal=document.getElementById('amp-val');
+const oscilloInfo=document.getElementById('oscillo-info');
+
+function drawOscillo(){
+  const W=cvO.width, H=cvO.height;
+  const f=parseFloat(slFreq.value);
+  const A=parseFloat(slAmp.value);
+  ctxO.clearRect(0,0,W,H);
+  ctxO.fillStyle='#ffffff'; ctxO.fillRect(0,0,W,H);
+  // Grille
+  ctxO.strokeStyle='#e8e3da'; ctxO.lineWidth=1;
+  for(let x=0;x<=W;x+=50){ctxO.beginPath();ctxO.moveTo(x,0);ctxO.lineTo(x,H);ctxO.stroke();}
+  for(let y=0;y<=H;y+=20){ctxO.beginPath();ctxO.moveTo(0,y);ctxO.lineTo(W,y);ctxO.stroke();}
+  // Axe central
+  ctxO.strokeStyle='#aaa'; ctxO.lineWidth=1.5;
+  ctxO.beginPath(); ctxO.moveTo(0,H/2); ctxO.lineTo(W,H/2); ctxO.stroke();
+  // Signal
+  ctxO.beginPath(); ctxO.strokeStyle='#2D5F8A'; ctxO.lineWidth=2.5;
+  for(let x=0;x<=W;x++){
+    const t=x/W*2; // 2 secondes affichées
+    const y=H/2-A*Math.sin(2*Math.PI*f*t);
+    x===0?ctxO.moveTo(x,y):ctxO.lineTo(x,y);
+  }
+  ctxO.stroke();
+  // Indicateur de période
+  const T=1/f;
+  const px=T/2*W/2; // pixels pour une période sur 2s
+  if(px<W){
+    ctxO.strokeStyle='#c9622a'; ctxO.lineWidth=1.5; ctxO.setLineDash([4,3]);
+    ctxO.beginPath(); ctxO.moveTo(30,H/2-A-10); ctxO.lineTo(30,H/2+A+10); ctxO.stroke();
+    ctxO.beginPath(); ctxO.moveTo(30+px,H/2-A-10); ctxO.lineTo(30+px,H/2+A+10); ctxO.stroke();
+    ctxO.beginPath(); ctxO.moveTo(30,H/2-A-6); ctxO.lineTo(30+px,H/2-A-6); ctxO.stroke();
+    ctxO.setLineDash([]);
+    ctxO.fillStyle='#c9622a'; ctxO.font='bold 11px "Helvetica Neue",sans-serif';
+    ctxO.fillText('T',30+px/2-4,H/2-A-10);
+  }
+  // Mise à jour info
+  freqVal.textContent='f = '+f+' Hz';
+  ampVal.textContent='A = '+A;
+  oscilloInfo.textContent='T = '+(1000/f).toFixed(1)+' ms  |  f = '+f+' Hz';
+}
+slFreq.addEventListener('input',drawOscillo);
+slAmp.addEventListener('input',drawOscillo);
+drawOscillo();
+
+/* ============== ANIMATION HAUTEUR ============== */
+const cvH=document.getElementById('cvHauteur');
+const ctxH=cvH.getContext('2d');
+function drawHauteur(){
+  const W=cvH.width, H=cvH.height;
+  ctxH.clearRect(0,0,W,H);
+  ctxH.fillStyle='#ffffff'; ctxH.fillRect(0,0,W,H);
+  // Grille légère
+  ctxH.strokeStyle='#ece8e0'; ctxH.lineWidth=1;
+  for(let y=0;y<H;y+=20){ctxH.beginPath();ctxH.moveTo(0,y);ctxH.lineTo(W,y);ctxH.stroke();}
+  // Son grave (basse fréquence) — en haut
+  ctxH.beginPath(); ctxH.strokeStyle='#c9622a'; ctxH.lineWidth=2.5;
+  for(let x=0;x<=W;x++){
+    const y=H/4+22*Math.sin(2*Math.PI*1.5*(x/W));
+    x===0?ctxH.moveTo(x,y):ctxH.lineTo(x,y);
+  }
+  ctxH.stroke();
+  ctxH.fillStyle='#c9622a'; ctxH.font='bold 11px "Helvetica Neue",sans-serif';
+  ctxH.fillText('Son grave — f basse',8,H/4-26);
+  // Son aigu (haute fréquence) — en bas
+  ctxH.beginPath(); ctxH.strokeStyle='#2f6f5e'; ctxH.lineWidth=2.5;
+  for(let x=0;x<=W;x++){
+    const y=3*H/4+18*Math.sin(2*Math.PI*5*(x/W));
+    x===0?ctxH.moveTo(x,y):ctxH.lineTo(x,y);
+  }
+  ctxH.stroke();
+  ctxH.fillStyle='#2f6f5e';
+  ctxH.fillText('Son aigu — f élevée',8,3*H/4-22);
+}
+drawHauteur();
+
+/* ============== EXERCICES : CORRECTION & RESET ============== */
+function normalize(str){
+  return str.trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ');
+}
+
+document.querySelectorAll('.check-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const selector=btn.dataset.checkSelector;
+    const fields=document.querySelectorAll(selector);
+    let total=0,filled=0,correct=0;
+    fields.forEach(input=>{
+      const answers=(input.dataset.answers||'').split('|').map(normalize).filter(a=>a.length);
+      if(!answers.length) return;
+      total++;
+      const value=normalize(input.value||input.options?.[input.selectedIndex]?.value||'');
+      input.classList.remove('correct','incorrect');
+      if(!value.length) return;
+      filled++;
+      if(answers.includes(value)){input.classList.add('correct');correct++;}
+      else input.classList.add('incorrect');
+    });
+    const box=btn.closest('.exo-box');
+    const fb=box?box.querySelector('.keyword-feedback'):null;
+    if(fb&&total>0){
+      fb.classList.remove('show','kw-good','kw-partial','kw-empty');
+      if(filled===0){fb.textContent='Aucune réponse saisie.';fb.classList.add('show','kw-empty');}
+      else if(correct===total){fb.textContent='Bravo, tout est correct ('+correct+'/'+total+') !';fb.classList.add('show','kw-good');}
+      else{fb.textContent=correct+'/'+total+' réponses correctes.';fb.classList.add('show','kw-partial');}
+    }
+  });
+});
+
+document.querySelectorAll('.check-radio-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const name=btn.dataset.radioName;
+    const radios=document.querySelectorAll(`input[name="${name}"]`);
+    let checked=null;
+    radios.forEach(r=>{r.closest('label').classList.remove('opt-correct','opt-incorrect');if(r.checked)checked=r;});
+    if(!checked) return;
+    radios.forEach(r=>{
+      const label=r.closest('label');
+      const ok=r.dataset.correct==='true';
+      if(r===checked) label.classList.add(ok?'opt-correct':'opt-incorrect');
+      else if(ok) label.classList.add('opt-correct');
+    });
+  });
+});
+
+function toggleCorr(btn){
+  const box=btn.closest('.exo-box');
+  const corr=box.querySelector('.correction');
+  corr.classList.toggle('show');
+  btn.textContent=corr.classList.contains('show')?'Masquer la correction':'Voir la correction';
+}
+
+function resetBox(btn){
+  const box=btn.closest('.exo-box');
+  box.querySelectorAll('.exo-input').forEach(i=>{i.value='';i.classList.remove('correct','incorrect');});
+  box.querySelectorAll('.exo-select').forEach(s=>{s.value='';s.classList.remove('correct','incorrect');});
+  box.querySelectorAll('input[type=radio]').forEach(r=>{r.checked=false;r.closest('label').classList.remove('opt-correct','opt-incorrect');});
+  const fb=box.querySelector('.keyword-feedback');
+  if(fb){fb.textContent='';fb.classList.remove('show','kw-good','kw-partial','kw-empty');}
+  const corr=box.querySelector('.correction');
+  if(corr){corr.classList.remove('show');}
+  const tb=box.querySelector('.toggle-btn');
+  if(tb) tb.textContent='Voir la correction';
+}
+
+function checkKw(btn){
+  const box=btn.closest('.exo-box');
+  const ta=box.querySelector('.keyword-check');
+  const fb=box.querySelector('.keyword-feedback');
+  if(!ta||!fb) return;
+  const text=normalize(ta.value);
+  fb.classList.remove('show','kw-good','kw-partial','kw-empty');
+  ta.classList.remove('correct','incorrect');
+  if(!text.length){fb.textContent='Écris ta réponse avant de vérifier.';fb.classList.add('show','kw-empty');return;}
+  const groups=(ta.dataset.keywords||'').split('|').map(g=>g.split(',').map(normalize));
+  let found=0;
+  groups.forEach(group=>{if(group.some(kw=>kw.length&&text.includes(kw)))found++;});
+  const total=groups.length;
+  const min=parseInt(ta.dataset.minRequired||total);
+  if(found>=min){fb.textContent='Ta réponse contient '+found+'/'+total+' éléments clés attendus, c\'est bon !';fb.classList.add('show','kw-good');ta.classList.add('correct');}
+  else if(found>0){fb.textContent='Ta réponse contient '+found+'/'+total+' éléments clés attendus (minimum '+min+').';fb.classList.add('show','kw-partial');}
+  else{fb.textContent='Aucun élément clé repéré (0/'+total+'). Relis le cours.';fb.classList.add('show','kw-empty');ta.classList.add('incorrect');}
+}
+</script>
+</body>
+</html>

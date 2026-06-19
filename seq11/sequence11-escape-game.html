@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Game – Le Signal Perdu – Séquence 11</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2D5F8A;
+  --blue-light:#E8F1F8;
+  --blue-dark:#1e4466;
+  --orange:#E8783A;
+  --orange-light:#FBE9E0;
+  --green:#2f6f5e;
+  --green-light:#e6f1ee;
+  --red:#c0392b;
+  --red-light:#fbe6e4;
+  --gold:#b8860b;
+  --gold-light:#fff9e6;
+  --purple:#7c4dba;
+  --purple-light:#f0e8ff;
+  --line:#d9d3c6;
+  --ink:#1f2a24;
+  --bg:#f6f8fb;
+  --paper:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Nunito",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+/* ============ HEADER ============ */
+.site-header{
+  background:#fff;
+  border-bottom:3px solid var(--blue);
+  border-radius:0 0 14px 14px;
+  padding:14px 24px 12px;
+  box-shadow:0 2px 12px rgba(45,95,138,0.10);
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  position:sticky;top:0;z-index:200;
+}
+.hdr-badge{
+  background:var(--blue);color:#fff;
+  font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.08em;padding:4px 10px;border-radius:20px;white-space:nowrap;
+}
+.hdr-title{font-family:"Outfit",sans-serif;font-size:1.3rem;font-weight:800;color:var(--blue);}
+.hdr-sub{font-size:0.8rem;color:#5A6B7A;}
+.hdr-sub span{color:var(--orange);font-weight:700;}
+.sound-icon{width:48px;height:48px;flex-shrink:0;}
+.sound-icon svg{width:48px;height:48px;}
+.sound-arc{fill:none;stroke:var(--blue);stroke-width:2.5;stroke-linecap:round;opacity:0;}
+.sound-arc-1{animation:spulse 1.8s ease-out infinite;}
+.sound-arc-2{animation:spulse 1.8s ease-out 0.4s infinite;}
+.sound-arc-3{animation:spulse 1.8s ease-out 0.8s infinite;}
+@keyframes spulse{0%{opacity:0;}20%{opacity:0.9;}100%{opacity:0;}}
+
+/* ============ MAIN WRAPPER ============ */
+.wrap{max-width:860px;margin:0 auto;padding:28px 16px 80px;}
+
+/* ============ SCREENS ============ */
+.screen{display:none;animation:fadeIn .4s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ============ ACCUEIL ============ */
+.accueil-hero{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--blue);
+  border-radius:16px;
+  padding:32px 28px;
+  text-align:center;
+  margin-bottom:24px;
+  box-shadow:0 4px 20px rgba(45,95,138,0.08);
+}
+.accueil-hero h1{
+  font-family:"Outfit",sans-serif;font-size:1.9rem;font-weight:800;
+  color:var(--blue);margin-bottom:8px;
+}
+.accueil-hero .subtitle{
+  font-size:1rem;color:#5A6B7A;margin-bottom:20px;line-height:1.5;
+}
+.scenario-box{
+  background:var(--blue-light);border-left:4px solid var(--blue);
+  border-radius:10px;padding:16px 20px;text-align:left;
+  font-size:0.92rem;line-height:1.6;margin:0 auto 24px;max-width:620px;
+}
+.scenario-box strong{color:var(--blue);}
+
+.mode-cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:28px;}
+.mode-card{
+  background:#fff;border:2px solid var(--line);border-radius:16px;
+  padding:24px 22px;flex:1 1 220px;max-width:280px;
+  cursor:pointer;transition:all .2s ease;text-align:center;
+  position:relative;
+}
+.mode-card:hover{border-color:var(--blue);box-shadow:0 6px 24px rgba(45,95,138,0.12);transform:translateY(-2px);}
+.mode-card.selected{border-color:var(--blue);background:var(--blue-light);}
+.mode-card .mode-icon{font-size:2.4rem;margin-bottom:10px;}
+.mode-card .mode-title{font-family:"Outfit",sans-serif;font-size:1.1rem;font-weight:800;color:var(--blue);margin-bottom:6px;}
+.mode-card .mode-desc{font-size:0.84rem;color:#5A6B7A;line-height:1.5;}
+.mode-card .mode-badge{
+  position:absolute;top:-10px;right:12px;
+  background:var(--orange);color:#fff;
+  font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;
+}
+.secret-lock{
+  background:#f1eff8;border:2px dashed #9e8fc4;border-radius:12px;
+  padding:14px 18px;margin:0 auto 8px;max-width:360px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  transition:all .2s;
+}
+.secret-lock:hover{background:#e8e0f8;border-color:var(--purple);}
+.secret-lock .lock-icon{font-size:1.8rem;}
+.secret-lock .lock-text{font-size:0.82rem;color:#6a5c8a;}
+.secret-lock .lock-text strong{color:var(--purple);}
+.secret-input-wrap{
+  display:none;text-align:center;margin-top:10px;
+}
+.secret-input-wrap.open{display:block;}
+
+.btn-start{
+  font-family:"Outfit",sans-serif;font-size:1rem;font-weight:700;
+  background:var(--blue);color:#fff;border:none;
+  border-radius:999px;padding:14px 36px;cursor:pointer;
+  transition:background .2s;box-shadow:0 4px 14px rgba(45,95,138,0.25);
+}
+.btn-start:hover{background:var(--blue-dark);}
+.btn-start:disabled{background:#aaa;cursor:not-allowed;box-shadow:none;}
+
+/* ============ PROGRESS BAR ============ */
+.progress-bar-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:14px 20px;margin-bottom:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+.progress-label{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:0.82rem;color:#5A6B7A;margin-bottom:8px;font-weight:700;
+}
+.progress-track{background:#e8edf4;border-radius:999px;height:10px;overflow:hidden;}
+.progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--blue),var(--orange));
+  border-radius:999px;transition:width .5s ease;
+}
+.room-dots{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.room-dot{
+  width:28px;height:28px;border-radius:50%;
+  border:2px solid var(--line);background:#f0f0f0;
+  font-size:0.75rem;font-weight:700;color:#aaa;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.room-dot.done{background:var(--green);border-color:var(--green);color:#fff;}
+.room-dot.active{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 3px rgba(45,95,138,0.2);}
+.room-dot.secret{background:#f1eff8;border-color:#9e8fc4;color:var(--purple);}
+.room-dot.secret.done{background:var(--purple);border-color:var(--purple);color:#fff;}
+
+/* ============ ROOM CARD ============ */
+.room-card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:24px 24px 20px;margin-bottom:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+}
+.room-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;
+  padding-bottom:14px;border-bottom:2px solid var(--blue-light);
+}
+.room-num{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--blue);color:#fff;
+  font-family:"Outfit",sans-serif;font-size:1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.room-num.secret{background:var(--purple);}
+.room-title{font-family:"Outfit",sans-serif;font-size:1.1rem;font-weight:800;color:var(--blue);}
+.room-title.secret{color:var(--purple);}
+.room-context{
+  background:var(--blue-light);border-left:3px solid var(--blue);
+  border-radius:8px;padding:12px 16px;font-size:0.9rem;
+  line-height:1.6;margin-bottom:16px;
+}
+.room-context.secret{background:var(--purple-light);border-color:var(--purple);}
+
+/* énigme */
+.enigme-block{margin-bottom:16px;}
+.enigme-label{
+  font-size:0.72rem;font-weight:700;letter-spacing:0.1em;
+  text-transform:uppercase;color:#9aa39d;margin-bottom:6px;
+}
+.enigme-text{font-size:0.95rem;line-height:1.6;margin-bottom:10px;}
+
+/* choix */
+.choices{display:flex;flex-direction:column;gap:7px;margin-bottom:10px;}
+.choice-label{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 14px;border-radius:8px;border:1.5px solid var(--line);
+  cursor:pointer;font-size:0.9rem;line-height:1.4;transition:all .15s;
+}
+.choice-label:hover{border-color:var(--blue);background:var(--blue-light);}
+.choice-label input{margin-top:2px;accent-color:var(--blue);flex-shrink:0;}
+.choice-label.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green);font-weight:700;}
+.choice-label.incorrect{border-color:var(--red)!important;background:var(--red-light)!important;color:var(--red);}
+
+/* input texte */
+.enigme-input{
+  width:100%;max-width:340px;
+  font-family:"Nunito",sans-serif;font-size:1rem;font-weight:700;
+  border:2px dashed var(--line);border-radius:8px;
+  padding:10px 14px;background:#fdfcf9;color:var(--ink);
+}
+.enigme-input:focus{outline:none;border-color:var(--blue);background:#fff;}
+.enigme-input.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green);}
+.enigme-input.incorrect{border-color:var(--red)!important;background:var(--red-light)!important;color:var(--red);}
+
+/* code lock */
+.code-section{
+  background:#f4f7fb;border:2px solid var(--blue-light);
+  border-radius:12px;padding:18px 20px;margin-top:18px;
+}
+.code-section h4{
+  font-family:"Outfit",sans-serif;font-size:0.9rem;font-weight:700;
+  color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.code-input-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.code-input{
+  font-family:"Outfit",sans-serif;font-size:1.3rem;font-weight:800;
+  letter-spacing:0.15em;text-transform:uppercase;
+  width:160px;text-align:center;
+  border:2px solid var(--line);border-radius:10px;
+  padding:10px 14px;background:#fff;color:var(--ink);
+}
+.code-input:focus{outline:none;border-color:var(--blue);}
+.code-input.correct{border-color:var(--green)!important;background:var(--green-light)!important;color:var(--green);}
+.code-input.incorrect{border-color:var(--red)!important;background:var(--red-light)!important;color:var(--red);}
+
+/* boutons */
+.btn{
+  font-family:"Nunito",sans-serif;font-size:0.85rem;font-weight:700;
+  padding:8px 18px;border-radius:999px;border:none;cursor:pointer;
+  transition:all .15s;
+}
+.btn-check{background:var(--blue);color:#fff;}
+.btn-check:hover{background:var(--blue-dark);}
+.btn-hint{background:var(--orange-light);color:var(--orange);border:1px solid var(--orange);}
+.btn-hint:hover{background:var(--orange);color:#fff;}
+.btn-next{
+  background:var(--green);color:#fff;
+  font-family:"Outfit",sans-serif;font-size:0.95rem;font-weight:700;
+  padding:10px 24px;border-radius:999px;border:none;cursor:pointer;
+  display:none;margin-top:14px;
+  box-shadow:0 4px 14px rgba(47,111,94,0.25);transition:all .2s;
+}
+.btn-next:hover{background:#255a4c;}
+.btn-next.visible{display:inline-flex;align-items:center;gap:8px;}
+
+/* feedback */
+.fb{
+  font-size:0.88rem;font-weight:700;margin-top:8px;
+  padding:8px 14px;border-radius:8px;display:none;
+}
+.fb.show{display:block;}
+.fb.good{background:var(--green-light);color:var(--green);}
+.fb.bad{background:var(--red-light);color:var(--red);}
+.fb.warn{background:#fff9e6;color:var(--gold);}
+
+/* correction */
+.correction-block{
+  display:none;background:var(--orange-light);border-left:3px solid var(--orange);
+  border-radius:8px;padding:12px 16px;font-size:0.88rem;line-height:1.6;margin-top:8px;
+}
+.correction-block.show{display:block;}
+
+/* hint compteur */
+.hint-count{font-size:0.75rem;color:#9aa39d;margin-left:8px;}
+
+/* indice caché */
+.hidden-clue{
+  display:inline;color:var(--blue);font-style:italic;
+  border-bottom:1px dashed var(--blue-light);
+  cursor:default;
+  /* Le fragment est visible mais discret */
+}
+
+/* ============ SECRET BANNER ============ */
+.secret-banner{
+  background:linear-gradient(135deg,#f1eff8,#e8e0f8);
+  border:2px solid #9e8fc4;border-radius:14px;
+  padding:16px 20px;margin-bottom:20px;
+  display:flex;align-items:center;gap:14px;
+}
+.secret-banner .sb-icon{font-size:2rem;}
+.secret-banner .sb-text{font-size:0.88rem;color:#5a4a7a;line-height:1.5;}
+.secret-banner .sb-text strong{color:var(--purple);}
+
+/* ============ VICTOIRE ============ */
+.victoire-card{
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:40px 28px;text-align:center;
+  box-shadow:0 8px 40px rgba(45,95,138,0.10);
+}
+.victoire-card h2{
+  font-family:"Outfit",sans-serif;font-size:2rem;font-weight:800;
+  color:var(--blue);margin-bottom:12px;
+}
+.victoire-card .stars{font-size:2.5rem;margin-bottom:16px;}
+.victoire-card p{font-size:1rem;color:#5A6B7A;line-height:1.6;margin-bottom:20px;}
+.score-recap{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  margin:20px 0;
+}
+.score-item{
+  background:var(--blue-light);border-radius:12px;
+  padding:14px 20px;text-align:center;
+}
+.score-item .si-val{
+  font-family:"Outfit",sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);
+}
+.score-item .si-label{font-size:0.78rem;color:#5A6B7A;margin-top:2px;}
+.badge-elite{
+  display:none;
+  background:linear-gradient(135deg,var(--purple-light),#e8e0f8);
+  border:2px solid var(--purple);border-radius:14px;
+  padding:14px 20px;margin:16px auto;max-width:400px;
+  font-size:0.9rem;color:#5a4a7a;
+}
+.badge-elite.show{display:block;}
+.badge-elite strong{color:var(--purple);}
+
+.btn-restart{
+  font-family:"Outfit",sans-serif;font-size:0.95rem;font-weight:700;
+  background:var(--blue);color:#fff;border:none;
+  border-radius:999px;padding:12px 30px;cursor:pointer;
+  transition:background .2s;margin-top:10px;
+}
+.btn-restart:hover{background:var(--blue-dark);}
+
+/* ============ TIMER ============ */
+.timer-wrap{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:10px 16px;margin-bottom:16px;font-family:"Outfit",sans-serif;
+}
+.timer-icon{font-size:1.1rem;}
+.timer-val{font-size:1.1rem;font-weight:800;color:var(--blue);}
+.timer-val.warn{color:var(--orange);}
+.timer-val.danger{color:var(--red);}
+.timer-label{font-size:0.78rem;color:#5A6B7A;}
+
+/* formule box */
+.formula{
+  background:#f8f5ff;border:2px solid #9e8fc4;border-radius:10px;
+  padding:12px 18px;margin:10px 0;text-align:center;
+  font-size:1rem;font-family:"Georgia",serif;
+}
+
+/* nav-back */
+.nav-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.btn-home{
+  font-size:0.82rem;font-weight:700;color:var(--blue);
+  background:var(--blue-light);border:1px solid var(--blue-light);
+  border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .15s;
+}
+.btn-home:hover{background:var(--blue);color:#fff;}
+
+/* Oscilloscope SVG */
+.oscillo-img{
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:12px;margin:12px 0;overflow-x:auto;
+}
+
+@media(max-width:600px){
+  .mode-cards{flex-direction:column;align-items:center;}
+  .accueil-hero h1{font-size:1.4rem;}
+  .room-card{padding:18px 14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ======== HEADER ======== -->
+<header class="site-header">
+  <div class="sound-icon">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="18" cy="30" rx="7" ry="10" fill="#E8783A"/>
+      <line x1="25" y1="30" x2="32" y2="30" stroke="#2D5F8A" stroke-width="2.5" stroke-linecap="round"/>
+      <path class="sound-arc sound-arc-1" d="M34,20 Q42,30 34,40"/>
+      <path class="sound-arc sound-arc-2" d="M38,15 Q50,30 38,45"/>
+      <path class="sound-arc sound-arc-3" d="M42,10 Q58,30 42,50"/>
+    </svg>
+  </div>
+  <div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px;">
+      <span class="hdr-badge">2NDE</span>
+      <span class="hdr-badge" style="background:var(--orange);">SÉQUENCE 11</span>
+      <span class="hdr-badge" style="background:var(--green);">ESCAPE GAME</span>
+    </div>
+    <div class="hdr-title">🔐 Le Signal Perdu</div>
+    <div class="hdr-sub">Émission et perception d'un son — <span>C. Poirault-Gauvin</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ========================================================== -->
+<!-- SCREEN : ACCUEIL -->
+<!-- ========================================================== -->
+<div class="screen active" id="screen-accueil">
+
+  <div class="accueil-hero">
+    <h1>🔐 Le Signal Perdu</h1>
+    <div class="subtitle">Un escape game sur l'émission et la perception du son</div>
+    <div class="scenario-box">
+      <strong>📡 Mission :</strong> Un chercheur du labo a capté un signal sonore inexpliqué. Tous ses instruments sont verrouillés par des codes de sécurité. Pour débloquer le matériel et identifier l'origine du signal, tu dois résoudre des énigmes sur la physique du son. Chaque code trouvé déverrouille un instrument. <strong>Le laboratoire compte sur toi !</strong>
+    </div>
+
+    <div class="mode-cards">
+      <div class="mode-card" id="card-court" onclick="selectMode('court')">
+        <div class="mode-badge">⚡ Flash</div>
+        <div class="mode-icon">⏱️</div>
+        <div class="mode-title">Mission Rapide</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--orange);margin:8px 0;">15 min</div>
+        <div class="mode-desc">3 énigmes essentielles · 1 code final · Idéal en fin de séance</div>
+      </div>
+      <div class="mode-card" id="card-long" onclick="selectMode('long')">
+        <div class="mode-icon">🔬</div>
+        <div class="mode-title">Enquête Complète</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--blue);margin:8px 0;">50 min</div>
+        <div class="mode-desc">7 salles + pièce secrète · Toute la séquence 11 · Badge chercheur·se</div>
+      </div>
+    </div>
+
+    <!-- CADENAS MYSTÉRIEUX -->
+    <div class="secret-lock" onclick="toggleSecretInput()" title="Quelque chose se cache ici...">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-text"><strong>???</strong> — Un cadenas grisé. Rien d'écrit. Étrange...</div>
+    </div>
+    <div class="secret-input-wrap" id="secret-input-wrap">
+      <input type="text" id="secret-code-input" class="code-input" maxlength="4"
+        placeholder="?????" style="letter-spacing:0.2em;text-transform:uppercase;"
+        oninput="checkSecretDirect()">
+      <div class="fb" id="fb-secret"></div>
+    </div>
+
+    <br>
+    <button class="btn-start" id="btn-start" onclick="startGame()" disabled>
+      Choisir un mode pour commencer
+    </button>
+  </div>
+
+</div><!-- /screen-accueil -->
+
+
+<!-- ========================================================== -->
+<!-- SCREEN : JEU COURT (15 min) -->
+<!-- ========================================================== -->
+<div class="screen" id="screen-court">
+
+  <div class="nav-bar">
+    <button class="btn-home" onclick="goHome()">← Accueil</button>
+    <div class="timer-wrap" style="margin-bottom:0;">
+      <span class="timer-icon">⏱️</span>
+      <div>
+        <div class="timer-val" id="timer-court">15:00</div>
+        <div class="timer-label">temps restant</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Progression</span>
+      <span id="prog-court-txt">0 / 3 instruments débloqués</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-court-fill" style="width:0%"></div></div>
+    <div class="room-dots">
+      <div class="room-dot active" id="dot-c1" title="Énigme 1">1</div>
+      <div class="room-dot" id="dot-c2" title="Énigme 2">2</div>
+      <div class="room-dot" id="dot-c3" title="Énigme 3">3</div>
+    </div>
+  </div>
+
+  <!-- ENIGME COURTE 1 -->
+  <div class="room-card" id="court-room-1">
+    <div class="room-header">
+      <div class="room-num">1</div>
+      <div>
+        <div class="room-title">🌩️ Le Sonomètre de la Tempête</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Propagation du son — v = d / Δt</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Le sonomètre du labo est verrouillé. Le code est la distance entre le laboratoire et un éclair capté à <strong>5 secondes</strong> d'intervalle. La vitesse du son dans l'air est <strong>v = 340 m·s⁻¹</strong>.
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Étape 1 — Formule</div>
+      <div class="enigme-text">Quelle formule permet de trouver la distance <em>d</em> à partir de v et Δt ?</div>
+      <div class="choices" id="court-q1">
+        <label class="choice-label"><input type="radio" name="cq1" value="a"> d = v / Δt</label>
+        <label class="choice-label"><input type="radio" name="cq1" value="b"> d = v × Δt</label>
+        <label class="choice-label"><input type="radio" name="cq1" value="c"> d = Δt / v</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('cq1','b','fb-cq1','court-q1','c1s1')">✓ Vérifier</button>
+      <div class="fb" id="fb-cq1"></div>
+    </div>
+
+    <div class="enigme-block" id="c1s2" style="display:none;">
+      <div class="enigme-label">Étape 2 — Application numérique</div>
+      <div class="formula">d = 340 × 5 = <strong>?</strong> m</div>
+      <div class="enigme-text">Calcule d en mètres :</div>
+      <input type="text" class="enigme-input" id="c1calc" placeholder="d = … m" data-answer="1700">
+      <div class="exo-actions" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkInput('c1calc','fb-c1calc','c1s3')">✓ Vérifier</button>
+        <button class="btn btn-hint" onclick="showHint('hint-c1')">💡 Indice</button>
+      </div>
+      <div class="fb" id="fb-c1calc"></div>
+      <div class="correction-block" id="hint-c1">d = 340 × 5 = <strong>1 700 m</strong> — le code du sonomètre est ce résultat en mètres !</div>
+    </div>
+
+    <div class="code-section" id="c1s3" style="display:none;">
+      <h4>🔓 Code du sonomètre</h4>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-c1" maxlength="4" placeholder="????">
+        <button class="btn btn-check" onclick="checkCode('code-c1','1700','fb-code-c1','dot-c1','court',1)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-c1"></div>
+      <button class="btn-next" id="next-c1" onclick="nextCourtRoom(2)">Instrument suivant →</button>
+    </div>
+  </div>
+
+  <!-- ENIGME COURTE 2 -->
+  <div class="room-card" id="court-room-2" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">2</div>
+      <div>
+        <div class="room-title">🎵 L'Oscilloscope Bloqué</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Période et fréquence — f = 1/T</div>
+      </div>
+    </div>
+    <div class="room-context">
+      L'oscilloscope est verrouillé par un code numérique. Le chercheur a laissé une note : <em>« La note La vaut 440 Hz. Le code est la période en microsecondes, arrondie à l'entier. »</em>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Étape 1 — Période en secondes</div>
+      <div class="formula">T = 1 / f = 1 / 440 ≈ <strong>?</strong></div>
+      <div class="enigme-text">Quelle est la période T en ms (arrondie à 2 décimales) ?</div>
+      <div class="choices" id="court-q2">
+        <label class="choice-label"><input type="radio" name="cq2" value="a"> T ≈ 4,40 ms</label>
+        <label class="choice-label"><input type="radio" name="cq2" value="b"> T ≈ 2,27 ms</label>
+        <label class="choice-label"><input type="radio" name="cq2" value="c"> T ≈ 0,44 ms</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('cq2','b','fb-cq2','court-q2','c2s2')">✓ Vérifier</button>
+      <div class="fb" id="fb-cq2"></div>
+    </div>
+
+    <div class="enigme-block" id="c2s2" style="display:none;">
+      <div class="enigme-label">Étape 2 — Conversion en microsecondes</div>
+      <div class="enigme-text">T ≈ 2,27 ms = 2,27 × 10⁻³ s. Convertis en microsecondes (μs) : 1 ms = 1 000 μs</div>
+      <div class="choices" id="court-q2b">
+        <label class="choice-label"><input type="radio" name="cq2b" value="a"> 227 μs</label>
+        <label class="choice-label"><input type="radio" name="cq2b" value="b"> 22 700 μs</label>
+        <label class="choice-label"><input type="radio" name="cq2b" value="c"> 2 270 μs</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('cq2b','c','fb-cq2b','court-q2b','c2s3')">✓ Vérifier</button>
+      <div class="fb" id="fb-cq2b"></div>
+    </div>
+
+    <div class="code-section" id="c2s3" style="display:none;">
+      <h4>🔓 Code de l'oscilloscope</h4>
+      <div style="font-size:0.85rem;color:#5A6B7A;margin-bottom:8px;">Le code est T en μs : <strong>2 270</strong></div>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-c2" maxlength="4" placeholder="????">
+        <button class="btn btn-check" onclick="checkCode('code-c2','2270','fb-code-c2','dot-c2','court',2)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-c2"></div>
+      <button class="btn-next" id="next-c2" onclick="nextCourtRoom(3)">Instrument suivant →</button>
+    </div>
+  </div>
+
+  <!-- ENIGME COURTE 3 -->
+  <div class="room-card" id="court-room-3" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">3</div>
+      <div>
+        <div class="room-title">🦇 Le Classifieur de Fréquences</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Domaines de fréquence — infrasons / sons audibles / ultrasons</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Le classifieur contient 4 signaux codés par des lettres. Pour le déverrouiller, classe chaque signal dans la bonne catégorie. Le code final est la suite des 4 lettres correspondant aux bonnes réponses (dans l'ordre A→B→C→D).
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Signal A — Éléphant : f = 14 Hz</div>
+      <div class="choices" id="q3a">
+        <label class="choice-label"><input type="radio" name="q3a" value="I"> I — Infrason</label>
+        <label class="choice-label"><input type="radio" name="q3a" value="A"> A — Audible</label>
+        <label class="choice-label"><input type="radio" name="q3a" value="U"> U — Ultrason</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('q3a','I','fb-q3a','q3a',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-q3a"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Signal B — Voix humaine : f = 350 Hz</div>
+      <div class="choices" id="q3b">
+        <label class="choice-label"><input type="radio" name="q3b" value="I"> I — Infrason</label>
+        <label class="choice-label"><input type="radio" name="q3b" value="A"> A — Audible</label>
+        <label class="choice-label"><input type="radio" name="q3b" value="U"> U — Ultrason</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('q3b','A','fb-q3b','q3b',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-q3b"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Signal C — Dauphin : f = 80 000 Hz</div>
+      <div class="choices" id="q3c">
+        <label class="choice-label"><input type="radio" name="q3c" value="I"> I — Infrason</label>
+        <label class="choice-label"><input type="radio" name="q3c" value="A"> A — Audible</label>
+        <label class="choice-label"><input type="radio" name="q3c" value="U"> U — Ultrason</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('q3c','U','fb-q3c','q3c',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-q3c"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Signal D — Note La : f = 440 Hz</div>
+      <div class="choices" id="q3d">
+        <label class="choice-label"><input type="radio" name="q3d" value="I"> I — Infrason</label>
+        <label class="choice-label"><input type="radio" name="q3d" value="A"> A — Audible</label>
+        <label class="choice-label"><input type="radio" name="q3d" value="U"> U — Ultrason</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('q3d','A','fb-q3d','q3d',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-q3d"></div>
+    </div>
+
+    <div style="background:var(--gold-light);border:1px solid var(--gold);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:0.88rem;line-height:1.6;">
+      📋 Le code est formé des 4 lettres dans l'ordre A→B→C→D : <strong>Infrason=I, Audible=A, Ultrason=U</strong>
+    </div>
+
+    <div class="code-section">
+      <h4>🔓 Code du classifieur de fréquences</h4>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-c3" maxlength="4" placeholder="????" style="width:200px;">
+        <button class="btn btn-check" onclick="checkCode('code-c3','IAUA','fb-code-c3','dot-c3','court',3)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-c3"></div>
+      <button class="btn-next visible" id="next-c3" style="display:none;" onclick="victoireCourt()">🏆 Terminer la mission !</button>
+    </div>
+  </div>
+
+</div><!-- /screen-court -->
+
+
+<!-- ========================================================== -->
+<!-- SCREEN : JEU LONG (50 min) -->
+<!-- ========================================================== -->
+<div class="screen" id="screen-long">
+
+  <div class="nav-bar">
+    <button class="btn-home" onclick="goHome()">← Accueil</button>
+    <div class="timer-wrap" style="margin-bottom:0;">
+      <span class="timer-icon">⏱️</span>
+      <div>
+        <div class="timer-val" id="timer-long">50:00</div>
+        <div class="timer-label">temps restant</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span>Progression</span>
+      <span id="prog-long-txt">0 / 7 salles débloquées</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-long-fill" style="width:0%"></div></div>
+    <div class="room-dots">
+      <div class="room-dot active" id="dot-l1" title="Salle 1">1</div>
+      <div class="room-dot" id="dot-l2" title="Salle 2">2</div>
+      <div class="room-dot" id="dot-l3" title="Salle 3">3</div>
+      <div class="room-dot" id="dot-l4" title="Salle 4">4</div>
+      <div class="room-dot" id="dot-l5" title="Salle 5">5</div>
+      <div class="room-dot" id="dot-l6" title="Salle 6">6</div>
+      <div class="room-dot" id="dot-l7" title="Salle 7">7</div>
+      <div class="room-dot secret" id="dot-ls" title="???" style="font-size:0.9rem;">🔒</div>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 1 ---- -->
+  <div class="room-card" id="long-room-1">
+    <div class="room-header">
+      <div class="room-num">1</div>
+      <div>
+        <div class="room-title">🎸 La Source Mystérieuse</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Émission d'un son — vibration, chaîne de mesure</div>
+      </div>
+    </div>
+    <div class="room-context">
+      La première salle contient le générateur de signaux. Il est protégé par un mot-code à 4 lettres. Un post-it dit : <em>« Ce mot désigne ce qu'une corde de guitare doit faire pour produire un son. »</em>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 1 — Production du son</div>
+      <div class="enigme-text">Un son est produit lorsqu'un objet entre en :</div>
+      <div class="choices" id="lq1a">
+        <label class="choice-label"><input type="radio" name="lq1a" value="a"> rotation rapide</label>
+        <label class="choice-label"><input type="radio" name="lq1a" value="b"> vibration</label>
+        <label class="choice-label"><input type="radio" name="lq1a" value="c"> fusion</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq1a','b','fb-lq1a','lq1a',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-lq1a"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 2 — Chaîne de mesure</div>
+      <div class="enigme-text">Dans la chaîne de mesure, quel instrument convertit le signal sonore en signal électrique ?</div>
+      <div class="choices" id="lq1b">
+        <label class="choice-label"><input type="radio" name="lq1b" value="a"> L'oscilloscope</label>
+        <label class="choice-label"><input type="radio" name="lq1b" value="b"> Le haut-parleur</label>
+        <label class="choice-label"><input type="radio" name="lq1b" value="c"> Le microphone</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq1b','c','fb-lq1b','lq1b','l1-code')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq1b"></div>
+    </div>
+
+    <div class="code-section" id="l1-code" style="display:none;">
+      <h4>🔓 Mot-code du générateur</h4>
+      <div style="font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;">
+        Le mot-code est le nom du phénomène physique à l'origine du son (4 lettres, en majuscules).
+      </div>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l1" maxlength="4" placeholder="????" style="width:180px;">
+        <button class="btn btn-check" onclick="checkCode('code-l1','VIBR','fb-code-l1','dot-l1','long',1)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l1"></div>
+      <button class="btn-next" id="next-l1" onclick="nextLongRoom(2)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 2 ---- -->
+  <div class="room-card" id="long-room-2" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">2</div>
+      <div>
+        <div class="room-title">🌊 Le Couloir de Propagation</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Propagation du son — milieu matériel, vitesse selon le milieu</div>
+      </div>
+    </div>
+    <div class="room-context">
+      La porte de cette salle porte une frise de vitesses brouillée. Pour entrer, il faut connaître le milieu dans lequel le son va le plus vite. Le code est le nom de ce matériau en 5 lettres majuscules.
+      <br><br>
+      <em style="color:#4a7a6a;">🔍 Indice fragmenté : quelque part dans cet énoncé, la lettre <span class="hidden-clue" title="Fragment 1/3 : E">E</span> est le premier fragment du code secret.</em>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 1 — Milieu de propagation</div>
+      <div class="enigme-text">Le son peut-il se propager dans le vide ?</div>
+      <div class="choices" id="lq2a">
+        <label class="choice-label"><input type="radio" name="lq2a" value="a"> Oui, comme la lumière</label>
+        <label class="choice-label"><input type="radio" name="lq2a" value="b"> Non, il faut un milieu matériel</label>
+        <label class="choice-label"><input type="radio" name="lq2a" value="c"> Oui, mais très lentement</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq2a','b','fb-lq2a','lq2a',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-lq2a"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 2 — Classement des vitesses</div>
+      <div class="enigme-text">Classe ces milieux du plus lent au plus rapide pour la propagation du son :</div>
+      <div style="background:var(--blue-light);border-radius:8px;padding:12px 16px;font-size:0.9rem;margin-bottom:10px;">
+        🌬️ Air : <strong>340 m·s⁻¹</strong> &nbsp;|&nbsp; 💧 Eau : <strong>1 480 m·s⁻¹</strong> &nbsp;|&nbsp; 🔩 Acier : <strong>5 900 m·s⁻¹</strong>
+      </div>
+      <div class="choices" id="lq2b">
+        <label class="choice-label"><input type="radio" name="lq2b" value="a"> Eau &lt; Air &lt; Acier</label>
+        <label class="choice-label"><input type="radio" name="lq2b" value="b"> Air &lt; Eau &lt; Acier</label>
+        <label class="choice-label"><input type="radio" name="lq2b" value="c"> Acier &lt; Air &lt; Eau</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq2b','b','fb-lq2b','lq2b','l2-code')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq2b"></div>
+    </div>
+
+    <div class="code-section" id="l2-code" style="display:none;">
+      <h4>🔓 Code de la porte</h4>
+      <div style="font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;">Le milieu le plus rapide, en 5 lettres majuscules :</div>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l2" maxlength="5" placeholder="?????" style="width:200px;">
+        <button class="btn btn-check" onclick="checkCode('code-l2','ACIER','fb-code-l2','dot-l2','long',2)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l2"></div>
+      <button class="btn-next" id="next-l2" onclick="nextLongRoom(3)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 3 ---- -->
+  <div class="room-card" id="long-room-3" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">3</div>
+      <div>
+        <div class="room-title">⚡ L'Orage du Chercheur</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Calcul de distance — v = d / Δt</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Le chercheur a noté dans son carnet : <em>« L'éclair a été capté. Le tonnerre a été entendu <strong>8 secondes</strong> plus tard. v_son = 340 m·s⁻¹. »</em> Le code du verrou est la distance en mètres.
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Étape 1 — Formule</div>
+      <div class="enigme-text">On sait que v = d/Δt. Comment exprime-t-on d ?</div>
+      <div class="choices" id="lq3a">
+        <label class="choice-label"><input type="radio" name="lq3a" value="a"> d = v / Δt</label>
+        <label class="choice-label"><input type="radio" name="lq3a" value="b"> d = v × Δt</label>
+        <label class="choice-label"><input type="radio" name="lq3a" value="c"> d = Δt × f</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq3a','b','fb-lq3a','lq3a','l3s2')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq3a"></div>
+    </div>
+
+    <div class="enigme-block" id="l3s2" style="display:none;">
+      <div class="enigme-label">Étape 2 — Application numérique</div>
+      <div class="formula">d = 340 × 8 = <strong>?</strong> m</div>
+      <input type="text" class="enigme-input" id="l3calc" placeholder="d = … m" data-answer="2720">
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkInput('l3calc','fb-l3calc','l3-code')">✓ Vérifier</button>
+        <button class="btn btn-hint" onclick="showHint('hint-l3')">💡 Indice</button>
+      </div>
+      <div class="fb" id="fb-l3calc"></div>
+      <div class="correction-block" id="hint-l3">d = 340 × 8 = <strong>2 720 m</strong></div>
+    </div>
+
+    <div class="code-section" id="l3-code" style="display:none;">
+      <h4>🔓 Code du verrou</h4>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l3" maxlength="4" placeholder="????">
+        <button class="btn btn-check" onclick="checkCode('code-l3','2720','fb-code-l3','dot-l3','long',3)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l3"></div>
+      <button class="btn-next" id="next-l3" onclick="nextLongRoom(4)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 4 ---- -->
+  <div class="room-card" id="long-room-4" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">4</div>
+      <div>
+        <div class="room-title">📊 L'Oscilloscope Fantôme</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Lecture d'un oscilloscope — T, f</div>
+      </div>
+    </div>
+    <div class="room-context">
+      L'écran de l'oscilloscope affiche un signal. La sensibilité temporelle est <strong>2,5 ms/div</strong>. Mesure la période T sur l'écran, puis calcule f. Le code est la fréquence arrondie en Hz.
+      <br><br>
+      <em style="color:#4a7a6a;">🔍 Dans ce texte, les deux lettres <span class="hidden-clue" title="Fragment 2/3 : CH">CH</span> sont le deuxième fragment du code secret.</em>
+    </div>
+
+    <!-- Oscilloscope SVG -->
+    <div class="oscillo-img">
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;display:block;background:#fff;font-family:'Helvetica Neue',sans-serif;">
+        <!-- grille -->
+        <rect x="0" y="0" width="480" height="180" fill="#ffffff"/>
+        <g stroke="#e0e8f0" stroke-width="1">
+          <line x1="60" y1="0" x2="60" y2="180"/>
+          <line x1="120" y1="0" x2="120" y2="180"/>
+          <line x1="180" y1="0" x2="180" y2="180"/>
+          <line x1="240" y1="0" x2="240" y2="180"/>
+          <line x1="300" y1="0" x2="300" y2="180"/>
+          <line x1="360" y1="0" x2="360" y2="180"/>
+          <line x1="420" y1="0" x2="420" y2="180"/>
+          <line x1="0" y1="45" x2="480" y2="45"/>
+          <line x1="0" y1="90" x2="480" y2="90"/>
+          <line x1="0" y1="135" x2="480" y2="135"/>
+        </g>
+        <!-- axe central -->
+        <line x1="0" y1="90" x2="480" y2="90" stroke="#aabccc" stroke-width="1.5"/>
+        <!-- signal : T = 2 div = 120px → à 2.5ms/div, T=5ms → f=200Hz -->
+        <path d="M0,90 C15,90 15,30 30,30 C45,30 45,150 60,150 C75,150 75,30 90,30 C105,30 105,150 120,150 C135,150 135,30 150,30 C165,30 165,150 180,150 C195,150 195,30 210,30 C225,30 225,150 240,150 C255,150 255,30 270,30 C285,30 285,150 300,150 C315,150 315,30 330,30 C345,30 345,150 360,150 C375,150 375,30 390,30 C405,30 405,150 420,150 C435,150 435,30 450,30 C465,30 465,150 480,150" fill="none" stroke="#2D5F8A" stroke-width="2.5"/>
+        <!-- flèches de période -->
+        <line x1="30" y1="20" x2="90" y2="20" stroke="#c9622a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow)" marker-start="url(#arrowrev)"/>
+        <text x="60" y="14" text-anchor="middle" font-size="11" fill="#c9622a" font-weight="700">T = ? div</text>
+        <!-- labels div -->
+        <text x="0" y="175" font-size="9" fill="#8a9aaa">0</text>
+        <text x="57" y="175" font-size="9" fill="#8a9aaa">1</text>
+        <text x="117" y="175" font-size="9" fill="#8a9aaa">2</text>
+        <text x="177" y="175" font-size="9" fill="#8a9aaa">3</text>
+        <text x="237" y="175" font-size="9" fill="#8a9aaa">4</text>
+        <text x="297" y="175" font-size="9" fill="#8a9aaa">5</text>
+        <text x="357" y="175" font-size="9" fill="#8a9aaa">6</text>
+        <text x="417" y="175" font-size="9" fill="#8a9aaa">7 div</text>
+        <defs>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c9622a"/></marker>
+          <marker id="arrowrev" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse"><path d="M0,0 L6,3 L0,6 Z" fill="#c9622a"/></marker>
+        </defs>
+      </svg>
+      <div style="font-size:0.8rem;color:#5A6B7A;text-align:center;margin-top:6px;">Sensibilité temporelle : <strong>2,5 ms / div</strong></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Étape 1 — Mesure de la période</div>
+      <div class="enigme-text">Combien de divisions occupe une période T du signal sur l'écran ?</div>
+      <div class="choices" id="lq4a">
+        <label class="choice-label"><input type="radio" name="lq4a" value="a"> 1 div</label>
+        <label class="choice-label"><input type="radio" name="lq4a" value="b"> 2 div</label>
+        <label class="choice-label"><input type="radio" name="lq4a" value="c"> 4 div</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq4a','b','fb-lq4a','lq4a','l4s2')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq4a"></div>
+    </div>
+
+    <div class="enigme-block" id="l4s2" style="display:none;">
+      <div class="enigme-label">Étape 2 — Calcul de T</div>
+      <div class="enigme-text">T = nombre de div × sensibilité = 2 × 2,5 ms = ?</div>
+      <div class="choices" id="lq4b">
+        <label class="choice-label"><input type="radio" name="lq4b" value="a"> T = 2,5 ms</label>
+        <label class="choice-label"><input type="radio" name="lq4b" value="b"> T = 5 ms</label>
+        <label class="choice-label"><input type="radio" name="lq4b" value="c"> T = 10 ms</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq4b','b','fb-lq4b','lq4b','l4s3')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq4b"></div>
+    </div>
+
+    <div class="enigme-block" id="l4s3" style="display:none;">
+      <div class="enigme-label">Étape 3 — Calcul de f</div>
+      <div class="formula">f = 1 / T = 1 / (5 × 10⁻³) = <strong>?</strong> Hz</div>
+      <input type="text" class="enigme-input" id="l4calc" placeholder="f = … Hz" data-answer="200">
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkInput('l4calc','fb-l4calc','l4-code')">✓ Vérifier</button>
+        <button class="btn btn-hint" onclick="showHint('hint-l4')">💡 Indice</button>
+      </div>
+      <div class="fb" id="fb-l4calc"></div>
+      <div class="correction-block" id="hint-l4">f = 1/T = 1/(5×10⁻³) = <strong>200 Hz</strong></div>
+    </div>
+
+    <div class="code-section" id="l4-code" style="display:none;">
+      <h4>🔓 Code de l'oscilloscope fantôme</h4>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l4" maxlength="3" placeholder="???" style="width:160px;">
+        <button class="btn btn-check" onclick="checkCode('code-l4','200','fb-code-l4','dot-l4','long',4)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l4"></div>
+      <button class="btn-next" id="next-l4" onclick="nextLongRoom(5)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 5 ---- -->
+  <div class="room-card" id="long-room-5" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">5</div>
+      <div>
+        <div class="room-title">🔁 Le Convertisseur d'Unités</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Conversion T ↔ f — µs / ms / s</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Une étiquette collée sur le convertisseur indique : <em>« Un signal a une fréquence f = 200 Hz. Le code est sa période T en microsecondes (µs). »</em>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Étape 1 — T en secondes</div>
+      <div class="formula">T = 1 / f = 1 / 200 = <strong>?</strong> s</div>
+      <div class="choices" id="lq5a">
+        <label class="choice-label"><input type="radio" name="lq5a" value="a"> T = 0,2 s</label>
+        <label class="choice-label"><input type="radio" name="lq5a" value="b"> T = 5 × 10⁻³ s</label>
+        <label class="choice-label"><input type="radio" name="lq5a" value="c"> T = 0,02 s</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq5a','b','fb-lq5a','lq5a','l5s2')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq5a"></div>
+    </div>
+
+    <div class="enigme-block" id="l5s2" style="display:none;">
+      <div class="enigme-label">Étape 2 — Conversion en µs</div>
+      <div class="enigme-text">Sachant que 1 s = 1 000 000 µs, convertis T = 5 × 10⁻³ s en µs :</div>
+      <div class="choices" id="lq5b">
+        <label class="choice-label"><input type="radio" name="lq5b" value="a"> T = 500 µs</label>
+        <label class="choice-label"><input type="radio" name="lq5b" value="b"> T = 50 000 µs</label>
+        <label class="choice-label"><input type="radio" name="lq5b" value="c"> T = 5 000 µs</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq5b','c','fb-lq5b','lq5b','l5-code')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq5b"></div>
+    </div>
+
+    <div class="code-section" id="l5-code" style="display:none;">
+      <h4>🔓 Code du convertisseur</h4>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l5" maxlength="4" placeholder="????" style="width:180px;">
+        <button class="btn btn-check" onclick="checkCode('code-l5','5000','fb-code-l5','dot-l5','long',5)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l5"></div>
+      <button class="btn-next" id="next-l5" onclick="nextLongRoom(6)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 6 ---- -->
+  <div class="room-card" id="long-room-6" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">6</div>
+      <div>
+        <div class="room-title">🦇 Le Zoo Sonore</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Domaines de fréquence — infrasons / audibles / ultrasons</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Trois signaux animaux ont été captés. Le code est formé des initiales de leur catégorie dans l'ordre : Ultrason (U), Audible (A), Infrason (I). Trouve la bonne combinaison de 3 lettres.
+      <br><br>
+      <em style="color:#4a7a6a;">🔍 Regarde attentivement les initiales de cette phrase : <span class="hidden-clue" title="Fragment 3/3 : O">Ordre</span> des catégories — le dernier fragment du code secret est la première lettre de ce mot.</em>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0;font-size:0.88rem;">
+      <div style="background:#fce4ec;border-radius:8px;padding:10px 14px;flex:1 1 140px;">
+        <div style="font-weight:700;color:#c62828;margin-bottom:4px;">🦇 Chauve-souris</div>
+        f = 45 000 Hz<br>
+        <span style="font-size:0.78rem;color:#9aa39d;">Rappel : sons audibles = 20–20 000 Hz</span>
+      </div>
+      <div style="background:#e6f1ee;border-radius:8px;padding:10px 14px;flex:1 1 140px;">
+        <div style="font-weight:700;color:#2f6f5e;margin-bottom:4px;">🎹 Piano (note La)</div>
+        f = 440 Hz
+      </div>
+      <div style="background:#e8eaf6;border-radius:8px;padding:10px 14px;flex:1 1 140px;">
+        <div style="font-weight:700;color:#3949ab;margin-bottom:4px;">🐘 Éléphant</div>
+        f = 18 Hz
+      </div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Classe chaque animal</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+
+        <div>
+          <div style="font-size:0.88rem;font-weight:700;margin-bottom:6px;">🦇 Chauve-souris (45 000 Hz) :</div>
+          <div class="choices" id="lq6a">
+            <label class="choice-label"><input type="radio" name="lq6a" value="U"> U — Ultrason</label>
+            <label class="choice-label"><input type="radio" name="lq6a" value="A"> A — Audible</label>
+            <label class="choice-label"><input type="radio" name="lq6a" value="I"> I — Infrason</label>
+          </div>
+          <button class="btn btn-check" onclick="checkRadio('lq6a','U','fb-lq6a','lq6a',null)">✓ Vérifier</button>
+          <div class="fb" id="fb-lq6a"></div>
+        </div>
+
+        <div>
+          <div style="font-size:0.88rem;font-weight:700;margin-bottom:6px;">🎹 Piano La (440 Hz) :</div>
+          <div class="choices" id="lq6b">
+            <label class="choice-label"><input type="radio" name="lq6b" value="U"> U — Ultrason</label>
+            <label class="choice-label"><input type="radio" name="lq6b" value="A"> A — Audible</label>
+            <label class="choice-label"><input type="radio" name="lq6b" value="I"> I — Infrason</label>
+          </div>
+          <button class="btn btn-check" onclick="checkRadio('lq6b','A','fb-lq6b','lq6b',null)">✓ Vérifier</button>
+          <div class="fb" id="fb-lq6b"></div>
+        </div>
+
+        <div>
+          <div style="font-size:0.88rem;font-weight:700;margin-bottom:6px;">🐘 Éléphant (18 Hz) :</div>
+          <div class="choices" id="lq6c">
+            <label class="choice-label"><input type="radio" name="lq6c" value="U"> U — Ultrason</label>
+            <label class="choice-label"><input type="radio" name="lq6c" value="A"> A — Audible</label>
+            <label class="choice-label"><input type="radio" name="lq6c" value="I"> I — Infrason</label>
+          </div>
+          <button class="btn btn-check" onclick="checkRadio('lq6c','I','fb-lq6c','lq6c','l6-code')">✓ Vérifier</button>
+          <div class="fb" id="fb-lq6c"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-section" id="l6-code" style="display:none;">
+      <h4>🔓 Code du Zoo Sonore</h4>
+      <div style="font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;">Initiales dans l'ordre 🦇 🎹 🐘 (3 lettres) :</div>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l6" maxlength="3" placeholder="???" style="width:160px;">
+        <button class="btn btn-check" onclick="checkCode('code-l6','UAI','fb-code-l6','dot-l6','long',6)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l6"></div>
+      <button class="btn-next" id="next-l6" onclick="nextLongRoom(7)">Salle suivante →</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE 7 ---- -->
+  <div class="room-card" id="long-room-7" style="display:none;">
+    <div class="room-header">
+      <div class="room-num">7</div>
+      <div>
+        <div class="room-title">🎙️ Le Décodeur Final</div>
+        <div style="font-size:0.78rem;color:#9aa39d;">Bilan — hauteur, timbre, intensité sonore</div>
+      </div>
+    </div>
+    <div class="room-context">
+      Dernière étape ! Pour libérer le signal perdu, le décodeur demande le nom de la branche de la physique qui étudie les sons. Le code est 4 lettres.
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 1 — Hauteur d'un son</div>
+      <div class="enigme-text">La hauteur d'un son (grave/aigu) dépend de :</div>
+      <div class="choices" id="lq7a">
+        <label class="choice-label"><input type="radio" name="lq7a" value="a"> son amplitude</label>
+        <label class="choice-label"><input type="radio" name="lq7a" value="b"> sa fréquence</label>
+        <label class="choice-label"><input type="radio" name="lq7a" value="c"> son timbre</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq7a','b','fb-lq7a','lq7a',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-lq7a"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 2 — Timbre</div>
+      <div class="enigme-text">Deux instruments jouent la même note au même volume. On les distingue grâce à :</div>
+      <div class="choices" id="lq7b">
+        <label class="choice-label"><input type="radio" name="lq7b" value="a"> la fréquence</label>
+        <label class="choice-label"><input type="radio" name="lq7b" value="b"> l'amplitude</label>
+        <label class="choice-label"><input type="radio" name="lq7b" value="c"> le timbre</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq7b','c','fb-lq7b','lq7b',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-lq7b"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Question 3 — Intensité sonore</div>
+      <div class="enigme-text">L'intensité sonore (fort/faible) est liée à :</div>
+      <div class="choices" id="lq7c">
+        <label class="choice-label"><input type="radio" name="lq7c" value="a"> la fréquence du signal</label>
+        <label class="choice-label"><input type="radio" name="lq7c" value="b"> l'amplitude du signal</label>
+        <label class="choice-label"><input type="radio" name="lq7c" value="c"> la période du signal</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('lq7c','b','fb-lq7c','lq7c','l7-code')">✓ Vérifier</button>
+      <div class="fb" id="fb-lq7c"></div>
+    </div>
+
+    <div class="code-section" id="l7-code" style="display:none;">
+      <h4>🔓 Code du Décodeur Final</h4>
+      <div style="font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;">
+        La branche de la physique qui étudie les sons (4 lettres) — indice : même racine que « sonore » :
+      </div>
+      <div class="code-input-row">
+        <input type="text" class="code-input" id="code-l7" maxlength="4" placeholder="????" style="width:180px;">
+        <button class="btn btn-check" onclick="checkCode('code-l7','SONO','fb-code-l7','dot-l7','long',7)">🔓 Déverrouiller</button>
+      </div>
+      <div class="fb" id="fb-code-l7"></div>
+      <button class="btn-next" id="next-l7" onclick="victoireLong()">🏆 Signal libéré !</button>
+    </div>
+  </div>
+
+  <!-- ---- SALLE SECRÈTE ---- -->
+  <div class="room-card" id="long-room-secret" style="display:none;border:2px solid var(--purple);">
+    <div class="secret-banner">
+      <div class="sb-icon">🔮</div>
+      <div class="sb-text"><strong>Pièce secrète débloquée !</strong><br>Tu as trouvé les 3 fragments cachés dans les salles 2, 4 et 6. Bienvenue dans le laboratoire des chercheurs d'élite !</div>
+    </div>
+    <div class="room-header">
+      <div class="room-num secret">🔮</div>
+      <div>
+        <div class="room-title secret">🌀 L'Effet Doppler — Zone Secrète</div>
+        <div style="font-size:0.78rem;color:#9e8fc4;">Culture scientifique — hors programme Seconde</div>
+      </div>
+    </div>
+    <div class="room-context" style="background:var(--purple-light);border-color:var(--purple);">
+      <strong>Bonus culture scientifique :</strong> Tu as peut-être remarqué que le son d'une ambulance change en passant devant toi — plus aigu en approchant, plus grave en s'éloignant. C'est <strong>l'effet Doppler</strong>, découvert par le physicien autrichien Christian Doppler en 1842.
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Énigme Bonus 1 — L'ambulance</div>
+      <div class="enigme-text">Une ambulance s'approche de toi à grande vitesse. Comment perçois-tu sa sirène par rapport à quand elle est à l'arrêt ?</div>
+      <div class="choices" id="sq1">
+        <label class="choice-label"><input type="radio" name="sq1" value="a"> Plus grave (fréquence perçue plus basse)</label>
+        <label class="choice-label"><input type="radio" name="sq1" value="b"> Plus aiguë (fréquence perçue plus haute)</label>
+        <label class="choice-label"><input type="radio" name="sq1" value="c"> Identique</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('sq1','b','fb-sq1','sq1',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-sq1">
+      </div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Énigme Bonus 2 — Explication</div>
+      <div class="enigme-text">Lorsque la source s'approche, les fronts d'onde sonores sont :</div>
+      <div class="choices" id="sq2">
+        <label class="choice-label"><input type="radio" name="sq2" value="a"> Espacés → période plus grande → son plus grave</label>
+        <label class="choice-label"><input type="radio" name="sq2" value="b"> Comprimés → période plus courte → son plus aigu</label>
+        <label class="choice-label"><input type="radio" name="sq2" value="c"> Inchangés → même fréquence</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('sq2','b','fb-sq2','sq2',null)">✓ Vérifier</button>
+      <div class="fb" id="fb-sq2"></div>
+    </div>
+
+    <div class="enigme-block">
+      <div class="enigme-label">Énigme Bonus 3 — Applications</div>
+      <div class="enigme-text">L'effet Doppler est utilisé dans plusieurs domaines. Lequel N'est PAS une application réelle ?</div>
+      <div class="choices" id="sq3">
+        <label class="choice-label"><input type="radio" name="sq3" value="a"> Radar de vitesse de la police</label>
+        <label class="choice-label"><input type="radio" name="sq3" value="b"> Mesure de la vitesse des étoiles (décalage spectral)</label>
+        <label class="choice-label"><input type="radio" name="sq3" value="c"> Mesure de la fréquence d'un son dans le vide</label>
+        <label class="choice-label"><input type="radio" name="sq3" value="d"> Échographie Doppler pour mesurer la vitesse du sang</label>
+      </div>
+      <button class="btn btn-check" onclick="checkRadio('sq3','c','fb-sq3','sq3','secret-finish')">✓ Vérifier</button>
+      <div class="fb" id="fb-sq3"></div>
+    </div>
+
+    <div id="secret-finish" style="display:none;">
+      <div style="background:linear-gradient(135deg,var(--purple-light),#e8e0f8);border:2px solid var(--purple);border-radius:14px;padding:20px;text-align:center;margin-top:16px;">
+        <div style="font-size:2rem;margin-bottom:8px;">🏅</div>
+        <div style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--purple);margin-bottom:8px;">Badge Chercheur·se d'Élite débloqué !</div>
+        <div style="font-size:0.9rem;color:#5a4a7a;line-height:1.6;">Tu maîtrises non seulement le programme de Seconde, mais aussi un phénomène de physique avancée. L'effet Doppler est utilisé en astronomie, en médecine et en physique des particules !</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /screen-long -->
+
+
+<!-- ========================================================== -->
+<!-- SCREEN : VICTOIRE COURTE -->
+<!-- ========================================================== -->
+<div class="screen" id="screen-victoire-court">
+  <div class="victoire-card">
+    <div class="stars">⭐⭐⭐</div>
+    <h2>Mission accomplie !</h2>
+    <p>Tu as débloqué les 3 instruments du laboratoire et identifié l'origine du signal mystérieux. Le chercheur peut reprendre ses travaux !</p>
+    <div class="score-recap">
+      <div class="score-item">
+        <div class="si-val" id="score-court-time">—</div>
+        <div class="si-label">Temps utilisé</div>
+      </div>
+      <div class="score-item">
+        <div class="si-val">3/3</div>
+        <div class="si-label">Instruments débloqués</div>
+      </div>
+    </div>
+    <div style="background:var(--blue-light);border-radius:12px;padding:16px 20px;font-size:0.9rem;text-align:left;max-width:500px;margin:0 auto 20px;">
+      <strong style="color:var(--blue);">📚 Capacités mobilisées :</strong><br>
+      ✅ Calculer une distance à partir de v = d/Δt<br>
+      ✅ Calculer f et T, convertir les unités<br>
+      ✅ Distinguer infrason, son audible et ultrason
+    </div>
+    <button class="btn-restart" onclick="goHome()">🔄 Rejouer</button>
+  </div>
+</div>
+
+<!-- ========================================================== -->
+<!-- SCREEN : VICTOIRE LONGUE -->
+<!-- ========================================================== -->
+<div class="screen" id="screen-victoire-long">
+  <div class="victoire-card">
+    <div class="stars">🏆🏆🏆</div>
+    <h2>Signal libéré !</h2>
+    <p>Les 7 salles du laboratoire sont débloquées. Le signal mystérieux a été identifié : c'était un son produit par une baleine bleue — un infrason à 18 Hz, propagé sur des centaines de kilomètres dans l'océan !</p>
+    <div class="score-recap">
+      <div class="score-item">
+        <div class="si-val" id="score-long-time">—</div>
+        <div class="si-label">Temps utilisé</div>
+      </div>
+      <div class="score-item">
+        <div class="si-val">7/7</div>
+        <div class="si-label">Salles débloquées</div>
+      </div>
+      <div class="score-item" id="score-secret-item" style="display:none;">
+        <div class="si-val">🔮</div>
+        <div class="si-label">Pièce secrète</div>
+      </div>
+    </div>
+
+    <div class="badge-elite" id="badge-elite-final">
+      🏅 <strong>Badge Chercheur·se d'Élite</strong> — Tu as découvert la pièce secrète et maîtrisé l'effet Doppler, bien au-delà du programme de Seconde !
+    </div>
+
+    <div style="background:var(--blue-light);border-radius:12px;padding:16px 20px;font-size:0.9rem;text-align:left;max-width:540px;margin:0 auto 20px;">
+      <strong style="color:var(--blue);">📚 Capacités mobilisées :</strong><br>
+      ✅ Émission d'un son — vibration, chaîne de mesure<br>
+      ✅ Propagation — milieu matériel, vitesse selon le milieu<br>
+      ✅ Calculer v, d, Δt<br>
+      ✅ Lire une oscillogramme — mesurer T, calculer f<br>
+      ✅ Convertir T ↔ f, ms ↔ µs<br>
+      ✅ Classer infrasons / sons audibles / ultrasons<br>
+      ✅ Hauteur, timbre, intensité sonore
+    </div>
+    <button class="btn-restart" onclick="goHome()">🔄 Rejouer</button>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+let currentMode = null;
+let timerInterval = null;
+let startTime = null;
+let secretUnlocked = false;
+let eliteUnlocked = false;
+let longRoomsCompleted = 0;
+let courtRoomsCompleted = 0;
+
+/* ============================================================
+   ACCUEIL
+   ============================================================ */
+function selectMode(mode){
+  currentMode = mode;
+  document.getElementById('card-court').classList.toggle('selected', mode==='court');
+  document.getElementById('card-long').classList.toggle('selected', mode==='long');
+  const btn = document.getElementById('btn-start');
+  btn.disabled = false;
+  btn.textContent = mode==='court' ? '⚡ Démarrer la Mission Rapide (15 min)' : '🔬 Démarrer l\'Enquête Complète (50 min)';
+}
+
+function toggleSecretInput(){
+  const wrap = document.getElementById('secret-input-wrap');
+  wrap.classList.toggle('open');
+  if(wrap.classList.contains('open')) document.getElementById('secret-code-input').focus();
+}
+
+function checkSecretDirect(){
+  const val = document.getElementById('secret-code-input').value.toUpperCase().trim();
+  const fb = document.getElementById('fb-secret');
+  if(val.length < 4) { fb.className='fb'; return; }
+  if(val === 'ECHO'){
+    fb.textContent = '🔮 Code secret accepté ! Lance la version longue pour accéder à la pièce cachée.';
+    fb.className = 'fb show good';
+    secretUnlocked = true;
+  } else {
+    fb.textContent = 'Code incorrect. Continue à chercher...';
+    fb.className = 'fb show bad';
+  }
+}
+
+function startGame(){
+  if(!currentMode) return;
+  resetGame();
+  if(currentMode === 'court'){
+    showScreen('screen-court');
+    startTimer('timer-court', 15*60);
+  } else {
+    showScreen('screen-long');
+    startTimer('timer-long', 50*60);
+    if(secretUnlocked) showSecretBannerInLong();
+  }
+  startTime = Date.now();
+}
+
+function showSecretBannerInLong(){
+  // Le cadenas dans la barre de progression est déjà visible
+  document.getElementById('dot-ls').style.opacity='1';
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+function startTimer(id, seconds){
+  clearInterval(timerInterval);
+  let remaining = seconds;
+  const el = document.getElementById(id);
+  function tick(){
+    remaining--;
+    const m = Math.floor(remaining/60);
+    const s = remaining%60;
+    el.textContent = m+':'+(s<10?'0':'')+s;
+    el.className = 'timer-val';
+    if(remaining <= 300) el.classList.add('warn');
+    if(remaining <= 60) el.classList.add('danger');
+    if(remaining <= 0){ clearInterval(timerInterval); el.textContent = '⏰ Temps écoulé !'; }
+  }
+  timerInterval = setInterval(tick, 1000);
+}
+
+function getElapsedTime(){
+  if(!startTime) return '—';
+  const s = Math.floor((Date.now()-startTime)/1000);
+  const m = Math.floor(s/60);
+  const sec = s%60;
+  return m+'min '+sec+'s';
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  clearInterval(timerInterval);
+  showScreen('screen-accueil');
+  resetGame();
+}
+
+function resetGame(){
+  longRoomsCompleted = 0;
+  courtRoomsCompleted = 0;
+  eliteUnlocked = false;
+  // reset dots
+  document.querySelectorAll('.room-dot').forEach(d=>{d.classList.remove('done','active'); d.classList.remove('active');});
+  ['dot-c1','dot-l1'].forEach(id=>{ const d=document.getElementById(id); if(d) d.classList.add('active'); });
+  // reset progress
+  ['prog-court-fill','prog-long-fill'].forEach(id=>{ const e=document.getElementById(id); if(e) e.style.width='0%'; });
+  // hide all rooms except first
+  document.querySelectorAll('[id^="court-room-"], [id^="long-room-"]').forEach(r=>{
+    r.style.display='none';
+  });
+  const cr1 = document.getElementById('court-room-1');
+  const lr1 = document.getElementById('long-room-1');
+  if(cr1) cr1.style.display='block';
+  if(lr1) lr1.style.display='block';
+  // reset all inputs, radios, feedbacks
+  document.querySelectorAll('.enigme-input,.code-input').forEach(i=>{ i.value=''; i.classList.remove('correct','incorrect'); });
+  document.querySelectorAll('input[type=radio]').forEach(r=>{ r.checked=false; r.closest('label').classList.remove('correct','incorrect'); });
+  document.querySelectorAll('.fb').forEach(f=>{ f.textContent=''; f.className='fb'; });
+  document.querySelectorAll('.correction-block').forEach(c=>c.classList.remove('show'));
+  document.querySelectorAll('.btn-next').forEach(b=>b.classList.remove('visible'));
+  // hide step 2+ blocks
+  ['c1s2','c1s3','c2s2','c2s3',
+   'l1-code','l2-code','l3s2','l3-code','l4s2','l4s3','l4-code','l5s2','l5-code','l6-code','l7-code','l7c','secret-finish'
+  ].forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display='none'; });
+  const sf = document.getElementById('secret-finish');
+  if(sf) sf.style.display='none';
+}
+
+/* ============================================================
+   CHECK FUNCTIONS
+   ============================================================ */
+function checkRadio(name, correct, fbId, groupId, nextId){
+  const radios = document.querySelectorAll(`input[name="${name}"]`);
+  let checked = null;
+  radios.forEach(r=>{ r.closest('label').classList.remove('correct','incorrect'); if(r.checked) checked=r; });
+  if(!checked){
+    showFb(fbId,'Sélectionne une réponse avant de vérifier.','warn');
+    return;
+  }
+  radios.forEach(r=>{
+    const label = r.closest('label');
+    const isCorrect = r.value===correct;
+    if(r===checked) label.classList.add(isCorrect?'correct':'incorrect');
+    else if(isCorrect) label.classList.add('correct');
+  });
+  if(checked.value===correct){
+    showFb(fbId,'✅ Correct !','good');
+    if(nextId) setTimeout(()=>reveal(nextId), 600);
+  } else {
+    showFb(fbId,'❌ Pas tout à fait. Relis le cours et réessaie.','bad');
+  }
+}
+
+function checkInput(inputId, fbId, nextId){
+  const input = document.getElementById(inputId);
+  const val = input.value.trim().replace(/\s/g,'').replace(',','.');
+  const answer = (input.dataset.answer||'').replace(/\s/g,'');
+  if(!val){ showFb(fbId,'Entre ta réponse avant de vérifier.','warn'); return; }
+  if(val===answer){
+    input.classList.add('correct'); input.classList.remove('incorrect');
+    showFb(fbId,'✅ Correct !','good');
+    if(nextId) setTimeout(()=>reveal(nextId), 600);
+  } else {
+    input.classList.add('incorrect'); input.classList.remove('correct');
+    showFb(fbId,'❌ Vérifie ton calcul et réessaie.','bad');
+  }
+}
+
+function checkCode(inputId, correct, fbId, dotId, mode, roomNum){
+  const input = document.getElementById(inputId);
+  const val = input.value.trim().toUpperCase().replace(/\s/g,'');
+  if(!val){ showFb(fbId,'Entre le code avant de déverrouiller.','warn'); return; }
+  if(val===correct.toUpperCase()){
+    input.classList.add('correct');
+    showFb(fbId,'🔓 Code accepté ! Instrument déverrouillé !','good');
+    // dot
+    const dot = document.getElementById(dotId);
+    if(dot){ dot.classList.remove('active'); dot.classList.add('done'); }
+    // next dot active
+    const nextDot = document.getElementById(dotId.replace(/\d+$/, m=>parseInt(m)+1));
+    if(nextDot) nextDot.classList.add('active');
+    // progress
+    if(mode==='court'){
+      courtRoomsCompleted++;
+      updateProgress('prog-court-fill','prog-court-txt', courtRoomsCompleted, 3, 'instruments débloqués');
+    } else {
+      longRoomsCompleted++;
+      updateProgress('prog-long-fill','prog-long-txt', longRoomsCompleted, 7, 'salles débloquées');
+    }
+    // show next button
+    const nextBtn = document.getElementById('next-'+dotId.replace('dot-',''));
+    if(nextBtn) setTimeout(()=>nextBtn.classList.add('visible'), 500);
+  } else {
+    input.classList.add('incorrect');
+    showFb(fbId,'❌ Code incorrect. Vérifie tes calculs.','bad');
+  }
+}
+
+function updateProgress(fillId, txtId, done, total, label){
+  const fill = document.getElementById(fillId);
+  const txt = document.getElementById(txtId);
+  if(fill) fill.style.width = (done/total*100)+'%';
+  if(txt) txt.textContent = done+' / '+total+' '+label;
+}
+
+function reveal(id){
+  const el = document.getElementById(id);
+  if(el){ el.style.display='block'; el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+}
+
+function showFb(id, msg, type){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'fb show '+type;
+}
+
+function showHint(id){
+  const el = document.getElementById(id);
+  if(el) el.classList.toggle('show');
+}
+
+/* ============================================================
+   NAVIGATION COURT
+   ============================================================ */
+function nextCourtRoom(n){
+  document.getElementById('court-room-'+n).style.display='block';
+  document.getElementById('court-room-'+n).scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ============================================================
+   NAVIGATION LONG
+   ============================================================ */
+function nextLongRoom(n){
+  const room = document.getElementById('long-room-'+n);
+  if(room){ room.style.display='block'; room.scrollIntoView({behavior:'smooth',block:'start'}); }
+  // Afficher salle secrète après salle 7 si débloqué
+  if(n===8 && secretUnlocked){
+    const sr = document.getElementById('long-room-secret');
+    if(sr){ sr.style.display='block'; sr.scrollIntoView({behavior:'smooth',block:'start'}); }
+    document.getElementById('dot-ls').classList.add('active');
+  }
+}
+
+/* ============================================================
+   VICTOIRES
+   ============================================================ */
+function victoireCourt(){
+  clearInterval(timerInterval);
+  document.getElementById('score-court-time').textContent = getElapsedTime();
+  showScreen('screen-victoire-court');
+}
+
+function victoireLong(){
+  clearInterval(timerInterval);
+  document.getElementById('score-long-time').textContent = getElapsedTime();
+  // Check secret
+  if(secretUnlocked){
+    document.getElementById('score-secret-item').style.display='block';
+    document.getElementById('badge-elite-final').classList.add('show');
+  }
+  showScreen('screen-victoire-long');
+}
+
+/* ============================================================
+   SALLE SECRÈTE — vérification via cadenas accueil
+   ============================================================ */
+// Si code entré depuis l'accueil, la salle s'affiche en mode long
+// Le nextLongRoom(8) est appelé par next-l7 si secretUnlocked
+// Correction : on surcharge victoire pour inclure salle secrète d'abord
+const origVictoireLong = victoireLong;
+window.victoireLong = function(){
+  if(secretUnlocked){
+    // Afficher salle secrète avant victoire
+    const sr = document.getElementById('long-room-secret');
+    const nextL7 = document.getElementById('next-l7');
+    if(sr && sr.style.display==='none'){
+      sr.style.display='block';
+      sr.scrollIntoView({behavior:'smooth',block:'start'});
+      document.getElementById('dot-ls').classList.remove('active');
+      document.getElementById('dot-ls').classList.add('done');
+      // Changer bouton next-l7
+      if(nextL7){
+        nextL7.textContent='🏆 Signal libéré !';
+        nextL7.onclick=function(){
+          eliteUnlocked=true;
+          origVictoireLong();
+        };
+      }
+      return;
+    }
+  }
+  origVictoireLong();
+};
+
+/* ============================================================
+   INIT
+   ============================================================ */
+// Dot c1 et l1 déjà active par CSS class dans HTML
+</script>
+</body>
+</html>

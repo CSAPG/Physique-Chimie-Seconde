@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Transformation physique : changements d'état & énergie</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(244,246,250,0.70);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(244,246,250,0.75);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+}
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.facile .level-name { color: var(--facile); }
+.inter .level-name { color: var(--inter); }
+.diff .level-name { color: var(--diff); }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block;
+  margin-top: 10px;
+  background: var(--gris-clair);
+  border-radius: 12px;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.quiz-header {
+  background: var(--blanc);
+  border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.quiz-back {
+  background: none;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--texte-2);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter { color: var(--inter); }
+.quiz-level-label.diff { color: var(--diff); }
+
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-track {
+  flex: 1;
+  height: 9px;
+  background: var(--gris-bord);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 9px;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter { background: var(--inter); }
+.progress-fill.diff { background: var(--diff); }
+.progress-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texte-2);
+  white-space: nowrap;
+}
+
+.score-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--gris-clair);
+  border-radius: 8px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 16px 60px;
+}
+
+.question-card {
+  background: var(--blanc);
+  border-radius: 14px;
+  border: 1.5px solid var(--gris-bord);
+  width: 100%;
+  max-width: 680px;
+  overflow: hidden;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header {
+  padding: 16px 22px 14px;
+  border-bottom: 1.5px solid var(--gris-bord);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--texte);
+}
+
+.q-illustration {
+  padding: 16px 22px 0;
+  display: flex;
+  justify-content: center;
+}
+.q-illustration svg, .q-illustration canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid var(--gris-bord);
+}
+
+.q-options {
+  padding: 16px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blanc);
+  border: 2px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 11px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert); background: var(--vert-bg); color: var(--vert); font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert); background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+.q-feedback {
+  margin: 0 22px 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  display: none;
+  border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+.q-next-wrap {
+  padding: 16px 22px 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--inter);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  flex-direction: column;
+}
+
+.result-card {
+  background: var(--blanc);
+  border-radius: 16px;
+  border: 1.5px solid var(--gris-bord);
+  max-width: 520px;
+  width: 100%;
+  padding: 36px 32px;
+  text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+.recap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.recap-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  margin: 0 auto;
+}
+.recap-dot.ok  { background: var(--vert); }
+.recap-dot.ko  { background: var(--rouge); }
+
+.ill-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 11px;
+}
+
+/* ══ GLAÇONS QUI FONDENT EN FOND ══ */
+#ice-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Chaque glaçon = un bloc positionné en absolu */
+.ice-cube {
+  position: absolute;
+  border-radius: 12px;
+  background: linear-gradient(135deg,
+    rgba(220, 242, 255, 0.55) 0%,
+    rgba(180, 225, 250, 0.38) 45%,
+    rgba(200, 235, 255, 0.28) 100%
+  );
+  border: 1.5px solid rgba(160, 215, 245, 0.40);
+  box-shadow:
+    inset 4px 4px 10px rgba(255,255,255,0.45),
+    inset -3px -3px 8px rgba(140,200,240,0.20),
+    0 2px 12px rgba(130,195,240,0.12);
+}
+
+/* Reflet interne sur chaque glaçon */
+.ice-cube::before {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 10%;
+  width: 28%;
+  height: 45%;
+  background: linear-gradient(160deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 6px 6px 0 0;
+}
+
+/* Flaque sous chaque glaçon */
+.ice-puddle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(180, 225, 250, 0.32) 0%,
+    rgba(200, 235, 255, 0.12) 60%,
+    transparent 100%
+  );
+}
+
+/* Goutte qui tombe */
+.ice-drip {
+  position: absolute;
+  width: 5px;
+  border-radius: 0 0 50% 50%;
+  background: linear-gradient(180deg, rgba(180,225,250,0.45) 0%, rgba(200,240,255,0.25) 100%);
+  transform-origin: top center;
+  animation: drip-fall linear infinite;
+}
+
+@keyframes drip-fall {
+  0%   { transform: scaleY(0); opacity: 0; }
+  15%  { opacity: 1; }
+  80%  { transform: scaleY(1); opacity: 0.7; }
+  100% { transform: scaleY(1.3); opacity: 0; }
+}
+
+/* Animation de fonte lente (légère réduction de hauteur) */
+@keyframes ice-melt {
+  0%   { transform: scaleY(1)   scaleX(1); }
+  50%  { transform: scaleY(0.88) scaleX(1.04); }
+  100% { transform: scaleY(1)   scaleX(1); }
+}
+@keyframes ice-melt-b {
+  0%   { transform: scaleY(1)   scaleX(1); }
+  50%  { transform: scaleY(0.92) scaleX(1.03); }
+  100% { transform: scaleY(1)   scaleX(1); }
+}
+
+/* Positionnement et taille de chacun des 8 glaçons */
+.ic1 { width:90px;  height:110px; top:6%;  left:4%;   animation: ice-melt   18s ease-in-out infinite; }
+.ic2 { width:70px;  height:85px;  top:12%; right:6%;  animation: ice-melt-b 22s ease-in-out infinite 3s; }
+.ic3 { width:110px; height:130px; top:38%; left:2%;   animation: ice-melt   25s ease-in-out infinite 5s; }
+.ic4 { width:60px;  height:75px;  top:32%; right:3%;  animation: ice-melt-b 20s ease-in-out infinite 1s; }
+.ic5 { width:80px;  height:95px;  top:68%; left:5%;   animation: ice-melt   16s ease-in-out infinite 8s; }
+.ic6 { width:65px;  height:78px;  top:72%; right:5%;  animation: ice-melt-b 21s ease-in-out infinite 2s; }
+.ic7 { width:55px;  height:65px;  top:55%; left:1%;   animation: ice-melt   19s ease-in-out infinite 6s; }
+.ic8 { width:75px;  height:90px;  top:85%; right:2%;  animation: ice-melt-b 23s ease-in-out infinite 4s; }
+
+/* Flaques associées */
+.ip1 { width:110px; height:22px; top:calc(6% + 108px);  left:calc(4% - 10px); }
+.ip2 { width:88px;  height:18px; top:calc(12% + 83px); right:calc(6% - 9px); }
+.ip3 { width:135px; height:26px; top:calc(38% + 128px); left:calc(2% - 12px); }
+.ip4 { width:76px;  height:15px; top:calc(32% + 73px); right:calc(3% - 8px); }
+.ip5 { width:100px; height:20px; top:calc(68% + 93px); left:calc(5% - 10px); }
+.ip6 { width:80px;  height:16px; top:calc(72% + 76px); right:calc(5% - 8px); }
+.ip7 { width:70px;  height:14px; top:calc(55% + 63px); left:calc(1% - 8px); }
+.ip8 { width:92px;  height:18px; top:calc(85% + 88px); right:calc(2% - 9px); }
+
+/* Gouttes associées à 4 glaçons */
+.id1 { height:28px; top:calc(6% + 80px);   left:calc(4% + 42px); animation-duration:4.5s; animation-delay:0.5s; }
+.id2 { height:22px; top:calc(12% + 60px);  right:calc(6% + 30px); animation-duration:5.2s; animation-delay:2s; }
+.id3 { height:32px; top:calc(38% + 100px); left:calc(2% + 52px); animation-duration:3.8s; animation-delay:1s; }
+.id5 { height:26px; top:calc(68% + 70px);  left:calc(5% + 38px); animation-duration:4.8s; animation-delay:3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ice-cube, .ice-drip { animation: none; }
+}
+/* ══ FIN GLAÇONS ══ */
+
+</style>
+</head>
+<body>
+<div id="ice-bg" aria-hidden="true">
+  <!-- Glaçons -->
+  <div class="ice-cube ic1"></div>
+  <div class="ice-cube ic2"></div>
+  <div class="ice-cube ic3"></div>
+  <div class="ice-cube ic4"></div>
+  <div class="ice-cube ic5"></div>
+  <div class="ice-cube ic6"></div>
+  <div class="ice-cube ic7"></div>
+  <div class="ice-cube ic8"></div>
+  <!-- Flaques -->
+  <div class="ice-puddle ip1"></div>
+  <div class="ice-puddle ip2"></div>
+  <div class="ice-puddle ip3"></div>
+  <div class="ice-puddle ip4"></div>
+  <div class="ice-puddle ip5"></div>
+  <div class="ice-puddle ip6"></div>
+  <div class="ice-puddle ip7"></div>
+  <div class="ice-puddle ip8"></div>
+  <!-- Gouttes -->
+  <div class="ice-drip id1"></div>
+  <div class="ice-drip id2"></div>
+  <div class="ice-drip id3"></div>
+  <div class="ice-drip id5"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 08 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Transformation physique : changements d'état & énergie · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Vocabulaire, changements d'état, définitions de base</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Calculs Q = m × L, lecture de courbes, signes</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Raisonnement, calculs inverses, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title" id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="recap-grid" id="r-dots"></div>
+
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG inline (retournées comme strings)
+═══════════════════════════════════════════════ */
+
+function svgFlecheFusion() {
+  return `<svg width="340" height="190" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="190" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Quel est ce changement d'état ?</text>
+    <defs><marker id="arrA" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#d4690a"/></marker></defs>
+    <rect x="20" y="32" width="120" height="120" rx="6" fill="#f0eaf8" stroke="#6b3fa0" stroke-width="1.5"/>
+    <text x="80" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#6b3fa0">SOLIDE</text>
+    <circle cx="45" cy="70" r="6" fill="#6b3fa0"/><circle cx="65" cy="70" r="6" fill="#6b3fa0"/><circle cx="85" cy="70" r="6" fill="#6b3fa0"/><circle cx="105" cy="70" r="6" fill="#6b3fa0"/>
+    <circle cx="45" cy="90" r="6" fill="#6b3fa0"/><circle cx="65" cy="90" r="6" fill="#6b3fa0"/><circle cx="85" cy="90" r="6" fill="#6b3fa0"/><circle cx="105" cy="90" r="6" fill="#6b3fa0"/>
+    <circle cx="45" cy="110" r="6" fill="#6b3fa0"/><circle cx="65" cy="110" r="6" fill="#6b3fa0"/><circle cx="85" cy="110" r="6" fill="#6b3fa0"/><circle cx="105" cy="110" r="6" fill="#6b3fa0"/>
+    <text x="80" y="140" text-anchor="middle" font-size="8" fill="#6b3fa0">compactes, ordonnées</text>
+    <line x1="148" y1="92" x2="192" y2="92" stroke="#d4690a" stroke-width="3" marker-end="url(#arrA)"/>
+    <text x="170" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#d4690a">?</text>
+    <rect x="200" y="32" width="120" height="120" rx="6" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="260" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">LIQUIDE</text>
+    <circle cx="225" cy="65" r="6" fill="#1a5fa8"/><circle cx="250" cy="60" r="6" fill="#1a5fa8"/><circle cx="275" cy="70" r="6" fill="#1a5fa8"/><circle cx="297" cy="62" r="6" fill="#1a5fa8"/>
+    <circle cx="230" cy="90" r="6" fill="#1a5fa8"/><circle cx="260" cy="95" r="6" fill="#1a5fa8"/><circle cx="287" cy="88" r="6" fill="#1a5fa8"/>
+    <circle cx="240" cy="115" r="6" fill="#1a5fa8"/><circle cx="270" cy="118" r="6" fill="#1a5fa8"/><circle cx="300" cy="112" r="6" fill="#1a5fa8"/>
+    <text x="260" y="140" text-anchor="middle" font-size="8" fill="#1a5fa8">proches, mobiles</text>
+  </svg>`;
+}
+
+function svgFlecheVaporisation() {
+  return `<svg width="340" height="190" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="190" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Quel est ce changement d'état ?</text>
+    <defs><marker id="arrB" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#d4690a"/></marker></defs>
+    <rect x="20" y="32" width="120" height="120" rx="6" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="80" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">LIQUIDE</text>
+    <circle cx="45" cy="65" r="6" fill="#1a5fa8"/><circle cx="70" cy="60" r="6" fill="#1a5fa8"/><circle cx="95" cy="70" r="6" fill="#1a5fa8"/><circle cx="115" cy="62" r="6" fill="#1a5fa8"/>
+    <circle cx="50" cy="90" r="6" fill="#1a5fa8"/><circle cx="80" cy="95" r="6" fill="#1a5fa8"/><circle cx="105" cy="88" r="6" fill="#1a5fa8"/>
+    <circle cx="60" cy="115" r="6" fill="#1a5fa8"/><circle cx="90" cy="118" r="6" fill="#1a5fa8"/><circle cx="115" cy="112" r="6" fill="#1a5fa8"/>
+    <text x="80" y="140" text-anchor="middle" font-size="8" fill="#1a5fa8">proches, mobiles</text>
+    <line x1="148" y1="92" x2="192" y2="92" stroke="#d4690a" stroke-width="3" marker-end="url(#arrB)"/>
+    <text x="170" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#d4690a">?</text>
+    <rect x="200" y="32" width="120" height="120" rx="6" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="260" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">GAZ</text>
+    <circle cx="218" cy="58" r="5" fill="#e07b2a"/><circle cx="255" cy="68" r="5" fill="#e07b2a"/><circle cx="300" cy="55" r="5" fill="#e07b2a"/>
+    <circle cx="235" cy="95" r="5" fill="#e07b2a"/><circle cx="285" cy="100" r="5" fill="#e07b2a"/>
+    <circle cx="222" cy="128" r="5" fill="#e07b2a"/><circle cx="270" cy="132" r="5" fill="#e07b2a"/><circle cx="305" cy="118" r="5" fill="#e07b2a"/>
+    <text x="260" y="140" text-anchor="middle" font-size="8" fill="#e07b2a">éloignées, libres</text>
+  </svg>`;
+}
+
+function svgFlecheLiquefaction() {
+  return `<svg width="340" height="190" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="190" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Quel est ce changement d'état ?</text>
+    <defs><marker id="arrC" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#d4690a"/></marker></defs>
+    <rect x="20" y="32" width="120" height="120" rx="6" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="80" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">GAZ</text>
+    <circle cx="38" cy="58" r="5" fill="#e07b2a"/><circle cx="75" cy="68" r="5" fill="#e07b2a"/><circle cx="120" cy="55" r="5" fill="#e07b2a"/>
+    <circle cx="55" cy="95" r="5" fill="#e07b2a"/><circle cx="105" cy="100" r="5" fill="#e07b2a"/>
+    <circle cx="42" cy="128" r="5" fill="#e07b2a"/><circle cx="90" cy="132" r="5" fill="#e07b2a"/><circle cx="125" cy="118" r="5" fill="#e07b2a"/>
+    <text x="80" y="140" text-anchor="middle" font-size="8" fill="#e07b2a">éloignées, libres</text>
+    <line x1="148" y1="92" x2="192" y2="92" stroke="#d4690a" stroke-width="3" marker-end="url(#arrC)"/>
+    <text x="170" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#d4690a">?</text>
+    <rect x="200" y="32" width="120" height="120" rx="6" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="260" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">LIQUIDE</text>
+    <circle cx="225" cy="65" r="6" fill="#1a5fa8"/><circle cx="250" cy="60" r="6" fill="#1a5fa8"/><circle cx="275" cy="70" r="6" fill="#1a5fa8"/><circle cx="297" cy="62" r="6" fill="#1a5fa8"/>
+    <circle cx="230" cy="90" r="6" fill="#1a5fa8"/><circle cx="260" cy="95" r="6" fill="#1a5fa8"/><circle cx="287" cy="88" r="6" fill="#1a5fa8"/>
+    <circle cx="240" cy="115" r="6" fill="#1a5fa8"/><circle cx="270" cy="118" r="6" fill="#1a5fa8"/><circle cx="300" cy="112" r="6" fill="#1a5fa8"/>
+    <text x="260" y="140" text-anchor="middle" font-size="8" fill="#1a5fa8">proches, mobiles</text>
+  </svg>`;
+}
+
+function svgFlecheSublimation() {
+  return `<svg width="340" height="190" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="190" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Quel est ce changement d'état direct ?</text>
+    <defs><marker id="arrD" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#8b2fc9"/></marker></defs>
+    <rect x="20" y="32" width="120" height="120" rx="6" fill="#f0eaf8" stroke="#6b3fa0" stroke-width="1.5"/>
+    <text x="80" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#6b3fa0">SOLIDE</text>
+    <circle cx="45" cy="70" r="6" fill="#6b3fa0"/><circle cx="65" cy="70" r="6" fill="#6b3fa0"/><circle cx="85" cy="70" r="6" fill="#6b3fa0"/><circle cx="105" cy="70" r="6" fill="#6b3fa0"/>
+    <circle cx="45" cy="90" r="6" fill="#6b3fa0"/><circle cx="65" cy="90" r="6" fill="#6b3fa0"/><circle cx="85" cy="90" r="6" fill="#6b3fa0"/><circle cx="105" cy="90" r="6" fill="#6b3fa0"/>
+    <circle cx="45" cy="110" r="6" fill="#6b3fa0"/><circle cx="65" cy="110" r="6" fill="#6b3fa0"/><circle cx="85" cy="110" r="6" fill="#6b3fa0"/><circle cx="105" cy="110" r="6" fill="#6b3fa0"/>
+    <text x="80" y="140" text-anchor="middle" font-size="8" fill="#6b3fa0">compactes, ordonnées</text>
+    <line x1="148" y1="92" x2="192" y2="92" stroke="#8b2fc9" stroke-width="3" marker-end="url(#arrD)"/>
+    <text x="170" y="60" text-anchor="middle" font-size="9" fill="#8b2fc9" font-weight="bold">directement,</text>
+    <text x="170" y="100" text-anchor="middle" font-size="9" fill="#8b2fc9" font-weight="bold">sans étape liquide</text>
+    <text x="170" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#8b2fc9">?</text>
+    <rect x="200" y="32" width="120" height="120" rx="6" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="260" y="46" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">GAZ</text>
+    <circle cx="218" cy="58" r="5" fill="#e07b2a"/><circle cx="255" cy="68" r="5" fill="#e07b2a"/><circle cx="300" cy="55" r="5" fill="#e07b2a"/>
+    <circle cx="235" cy="95" r="5" fill="#e07b2a"/><circle cx="285" cy="100" r="5" fill="#e07b2a"/>
+    <circle cx="222" cy="128" r="5" fill="#e07b2a"/><circle cx="270" cy="132" r="5" fill="#e07b2a"/><circle cx="305" cy="118" r="5" fill="#e07b2a"/>
+    <text x="260" y="140" text-anchor="middle" font-size="8" fill="#e07b2a">éloignées, libres</text>
+  </svg>`;
+}
+
+function svgEtatsMolec3() {
+  return `<svg width="360" height="130" viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="360" height="130" fill="#f8faff" rx="6"/>
+    <text x="180" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Organisation des entités dans les 3 états</text>
+    <rect x="10" y="22" width="100" height="80" rx="5" fill="#f0eaf8" stroke="#6b3fa0" stroke-width="1.5"/>
+    <text x="60" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#6b3fa0">Solide</text>
+    <circle cx="30" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="50" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="70" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="90" cy="50" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="30" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="50" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="70" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="90" cy="70" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <circle cx="30" cy="90" r="7" fill="#6b3fa0" opacity="0.8"/><circle cx="50" cy="90" r="7" fill="#6b3fa0" opacity="0.8"/>
+    <rect x="125" y="22" width="110" height="80" rx="5" fill="#ddf4ff" stroke="#1a5fa8" stroke-width="1.5"/>
+    <text x="180" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Liquide</text>
+    <circle cx="145" cy="55" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="168" cy="48" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="188" cy="60" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="210" cy="50" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <circle cx="150" cy="78" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="175" cy="84" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="198" cy="75" r="7" fill="#1a5fa8" opacity="0.8"/><circle cx="220" cy="85" r="7" fill="#1a5fa8" opacity="0.8"/>
+    <rect x="250" y="22" width="100" height="80" rx="5" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="300" y="35" text-anchor="middle" font-size="10" font-weight="bold" fill="#e07b2a">Gazeux</text>
+    <circle cx="265" cy="50" r="6" fill="#e07b2a" opacity="0.8"/><circle cx="320" cy="46" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="280" cy="78" r="6" fill="#e07b2a" opacity="0.8"/><circle cx="335" cy="68" r="6" fill="#e07b2a" opacity="0.8"/>
+    <circle cx="260" cy="92" r="6" fill="#e07b2a" opacity="0.8"/>
+  </svg>`;
+}
+
+function svgPalierUnique() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Courbe de chauffage d'un échantillon</text>
+    <line x1="40" y1="20" x2="40" y2="150" stroke="#555" stroke-width="1.5"/>
+    <line x1="40" y1="150" x2="360" y2="150" stroke="#555" stroke-width="1.5"/>
+    <text x="190" y="165" text-anchor="middle" font-size="10" fill="#666">Temps</text>
+    <text x="12" y="90" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90 12 90)">T (°C)</text>
+    <polyline points="40,135 110,135 150,90 230,90 270,90 320,45" fill="none" stroke="#1a5fa8" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="150" y1="90" x2="270" y2="90" stroke="#d4690a" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="210" y="83" text-anchor="middle" font-size="10" fill="#d4690a" font-weight="bold">Palier net à 0 °C</text>
+    <text x="70" y="148" font-size="9" fill="#6b3fa0" font-weight="bold">Solide</text>
+    <text x="295" y="40" font-size="9" fill="#1a5fa8" font-weight="bold">Liquide</text>
+  </svg>`;
+}
+
+function svgPalierDouble() {
+  return `<svg width="380" height="170" viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="170" fill="#f8faff" rx="6"/>
+    <text x="190" y="14" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Courbe de chauffage d'un échantillon inconnu</text>
+    <line x1="40" y1="20" x2="40" y2="150" stroke="#555" stroke-width="1.5"/>
+    <line x1="40" y1="150" x2="360" y2="150" stroke="#555" stroke-width="1.5"/>
+    <text x="190" y="165" text-anchor="middle" font-size="10" fill="#666">Temps</text>
+    <text x="12" y="90" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90 12 90)">T (°C)</text>
+    <polyline points="40,140 70,140 95,118 130,118 155,118 180,70 215,70 240,70 280,35 340,18" fill="none" stroke="#1a5fa8" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="95" y1="118" x2="155" y2="118" stroke="#d4690a" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="125" y="111" text-anchor="middle" font-size="9" fill="#d4690a" font-weight="bold">Palier 1 : −10 °C</text>
+    <line x1="180" y1="70" x2="240" y2="70" stroke="#8b2fc9" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="210" y="63" text-anchor="middle" font-size="9" fill="#8b2fc9" font-weight="bold">Palier 2 : 60 °C</text>
+    <text x="55" y="148" font-size="8" fill="#6b3fa0" font-weight="bold">Solide</text>
+    <text x="160" y="113" font-size="8" fill="#1a5fa8" font-weight="bold">Liquide</text>
+    <text x="300" y="30" font-size="8" fill="#e07b2a" font-weight="bold">Gaz</text>
+  </svg>`;
+}
+
+function svgTableauL() {
+  return `<svg width="380" height="165" viewBox="0 0 380 165" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="165" fill="#f8faff" rx="6"/>
+    <text x="190" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Énergies massiques de changement d'état</text>
+    <rect x="10" y="22" width="360" height="22" rx="3" fill="#1a5fa8"/>
+    <text x="95" y="36" text-anchor="middle" font-size="9.5" font-weight="bold" fill="white">Espèce</text>
+    <text x="225" y="36" text-anchor="middle" font-size="9.5" font-weight="bold" fill="white">L_fus (J·kg⁻¹)</text>
+    <text x="325" y="36" text-anchor="middle" font-size="9.5" font-weight="bold" fill="white">L_vap (J·kg⁻¹)</text>
+    <rect x="10" y="44" width="360" height="22" fill="#e8f1fb"/>
+    <text x="95" y="59" text-anchor="middle" font-size="10" fill="#333">Dioxygène</text>
+    <text x="225" y="59" text-anchor="middle" font-size="10" fill="#333">1,4 × 10⁴</text>
+    <text x="325" y="59" text-anchor="middle" font-size="10" fill="#333">2,1 × 10⁵</text>
+    <rect x="10" y="66" width="360" height="22" fill="white"/>
+    <text x="95" y="81" text-anchor="middle" font-size="10" fill="#333">Eau</text>
+    <text x="225" y="81" text-anchor="middle" font-size="10" fill="#333">3,3 × 10⁵</text>
+    <text x="325" y="81" text-anchor="middle" font-size="10" fill="#333">2,3 × 10⁶</text>
+    <rect x="10" y="88" width="360" height="22" fill="#e8f1fb"/>
+    <text x="95" y="103" text-anchor="middle" font-size="10" fill="#333">Carbone diamant</text>
+    <text x="225" y="103" text-anchor="middle" font-size="10" fill="#333">8,8 × 10⁶</text>
+    <text x="325" y="103" text-anchor="middle" font-size="10" fill="#333">6,0 × 10⁷</text>
+    <rect x="10" y="110" width="360" height="22" fill="white"/>
+    <text x="95" y="125" text-anchor="middle" font-size="10" fill="#333">Éthanol</text>
+    <text x="225" y="125" text-anchor="middle" font-size="10" fill="#333">1,1 × 10⁵</text>
+    <text x="325" y="125" text-anchor="middle" font-size="10" fill="#333">8,6 × 10⁵</text>
+    <text x="190" y="150" text-anchor="middle" font-size="9" fill="#888">L dépend de l'espèce ET du changement d'état considéré</text>
+  </svg>`;
+}
+
+function svgBecherAcide() {
+  return `<svg width="320" height="180" viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="180" fill="#f8faff" rx="6"/>
+    <text x="160" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Vaporisation de l'acide acétique</text>
+    <rect x="50" y="35" width="120" height="115" rx="4" fill="#fff3e0" stroke="#e07b2a" stroke-width="1.5"/>
+    <text x="110" y="100" text-anchor="middle" font-size="10" fill="#a8530f" font-weight="bold">Acide acétique</text>
+    <text x="110" y="115" text-anchor="middle" font-size="9" fill="#a8530f">ℓ → gaz</text>
+    <text x="110" y="22" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">V = 250 mL</text>
+    <rect x="195" y="60" width="14" height="70" rx="7" fill="white" stroke="#c0392b" stroke-width="1.5"/>
+    <rect x="195" y="100" width="14" height="30" rx="7" fill="#c0392b"/>
+    <circle cx="202" cy="135" r="9" fill="#c0392b"/>
+    <text x="202" y="150" text-anchor="middle" font-size="9" fill="#c0392b" font-weight="bold">118 °C</text>
+    <text x="260" y="70" text-anchor="middle" font-size="9" fill="#333">ρ = 1,049</text>
+    <text x="260" y="83" text-anchor="middle" font-size="9" fill="#333">g·mL⁻¹</text>
+    <text x="260" y="105" text-anchor="middle" font-size="9" fill="#888">L_vap = 395</text>
+    <text x="260" y="118" text-anchor="middle" font-size="9" fill="#888">kJ·kg⁻¹</text>
+  </svg>`;
+}
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+const QUESTIONS = {
+  facile: [
+    {
+      q: "Qu'est-ce qu'une transformation physique ?",
+      ill: null,
+      opts: [
+        "Une transformation où la nature chimique de l'espèce change",
+        "Une transformation où l'espèce chimique change d'état physique sans changer de nature",
+        "Une transformation qui change uniquement la couleur d'une espèce",
+        "Une transformation qui produit toujours de nouvelles espèces chimiques"
+      ],
+      ans: 1,
+      expl: "Une transformation physique a lieu quand une espèce chimique passe d'un état physique (solide, liquide, gaz) à un autre, sans changer de nature : seules les interactions entre les entités sont modifiées."
+    },
+    {
+      q: "Comment nomme-t-on le passage de l'état solide à l'état liquide ?",
+      ill: svgFlecheFusion(),
+      opts: ["Fusion", "Solidification", "Vaporisation", "Sublimation"],
+      ans: 0,
+      expl: "Le passage de l'état solide à l'état liquide s'appelle la fusion. La transformation inverse (liquide → solide) est la solidification."
+    },
+    {
+      q: "Comment nomme-t-on le passage de l'état liquide à l'état gazeux ?",
+      ill: svgFlecheVaporisation(),
+      opts: ["Liquéfaction", "Vaporisation", "Sublimation", "Condensation"],
+      ans: 1,
+      expl: "Le passage de l'état liquide à l'état gazeux s'appelle la vaporisation. La transformation inverse (gaz → liquide) est la liquéfaction."
+    },
+    {
+      q: "Comment nomme-t-on le passage de l'état gazeux à l'état liquide ?",
+      ill: svgFlecheLiquefaction(),
+      opts: ["Vaporisation", "Sublimation", "Liquéfaction", "Fusion"],
+      ans: 2,
+      expl: "Le passage de l'état gazeux à l'état liquide s'appelle la liquéfaction. C'est la transformation inverse de la vaporisation."
+    },
+    {
+      q: "Comment nomme-t-on le passage direct de l'état solide à l'état gazeux, sans passer par l'état liquide ?",
+      ill: svgFlecheSublimation(),
+      opts: ["Fusion", "Sublimation", "Vaporisation", "Condensation"],
+      ans: 1,
+      expl: "Le passage direct de l'état solide à l'état gazeux s'appelle la sublimation. La transformation inverse (gaz → solide) est parfois appelée condensation solide."
+    },
+    {
+      q: "Du sucre versé dans un café chaud disparaît. De quel type de transformation s'agit-il ?",
+      ill: null,
+      opts: ["Une fusion", "Une dissolution", "Une sublimation", "Une vaporisation"],
+      ans: 1,
+      expl: "Le sucre ne subit pas un changement d'état au sens propre : il s'entoure de molécules d'eau et se disperse dans le café. Il s'agit d'une dissolution, à ne pas confondre avec une fusion."
+    },
+    {
+      q: "Lors d'un changement d'état, un corps pur change d'état à…",
+      ill: null,
+      opts: [
+        "Une température qui varie continuellement",
+        "Une température constante (palier)",
+        "Une pression qui varie en permanence",
+        "Une masse qui diminue progressivement"
+      ],
+      ans: 1,
+      expl: "Les changements d'état d'un corps pur s'effectuent à température constante, sous une pression donnée : c'est le palier de température observé sur une courbe T = f(temps)."
+    },
+    {
+      q: "Une transformation endothermique est une transformation qui…",
+      ill: null,
+      opts: [
+        "Libère de l'énergie par transfert thermique (Q < 0)",
+        "Capte de l'énergie par transfert thermique (Q > 0)",
+        "N'échange aucune énergie avec le milieu extérieur",
+        "Modifie la masse de l'espèce chimique"
+      ],
+      ans: 1,
+      expl: "Une transformation endothermique correspond à une espèce qui capte (reçoit) de l'énergie par transfert thermique : Q > 0. C'est le cas de la fusion, de la vaporisation et de la sublimation."
+    },
+    {
+      q: "Une transformation exothermique est une transformation qui…",
+      ill: null,
+      opts: [
+        "Capte de l'énergie par transfert thermique (Q > 0)",
+        "Libère de l'énergie par transfert thermique (Q < 0)",
+        "N'a jamais de signe défini pour Q",
+        "Fait toujours disparaître l'espèce chimique"
+      ],
+      ans: 1,
+      expl: "Une transformation exothermique correspond à une espèce qui libère de l'énergie par transfert thermique : Q < 0. C'est le cas de la solidification, de la liquéfaction et de la condensation."
+    },
+    {
+      q: "Quelle relation relie le transfert thermique Q, la masse m de l'espèce et l'énergie massique de changement d'état L ?",
+      ill: null,
+      opts: ["Q = m × L", "Q = m / L", "Q = L / m", "Q = m + L"],
+      ans: 0,
+      expl: "La relation à connaître est Q = m × L, avec Q en joule (J), m en kilogramme (kg) et L en joule par kilogramme (J·kg⁻¹)."
+    }
+  ],
+  inter: [
+    {
+      q: "Quelle équation symbolique correspond à la fusion de la glace ?",
+      ill: svgFlecheFusion(),
+      opts: ["H₂O(ℓ) → H₂O(s)", "H₂O(s) → H₂O(ℓ)", "H₂O(g) → H₂O(ℓ)", "H₂O(s) → H₂O(g)"],
+      ans: 1,
+      expl: "La fusion correspond au passage de l'état solide à l'état liquide : l'équation de changement d'état s'écrit H₂O(s) → H₂O(ℓ)."
+    },
+    {
+      q: "Dans le modèle moléculaire, à l'état gazeux, les entités sont…",
+      ill: svgEtatsMolec3(),
+      opts: [
+        "Compactes et ordonnées",
+        "Proches, désordonnées et mobiles (elles glissent)",
+        "Éloignées, désordonnées et libres de se déplacer dans tout l'espace",
+        "Immobiles et parfaitement alignées"
+      ],
+      ans: 2,
+      expl: "À l'état gazeux, les entités sont très éloignées les unes des autres, désordonnées, et libres de se déplacer rapidement dans tout l'espace disponible : c'est l'état le plus agité des trois."
+    },
+    {
+      q: "La sublimation est le passage direct de l'état solide à l'état gazeux. Cette transformation est-elle endothermique ou exothermique ?",
+      ill: null,
+      opts: [
+        "Endothermique (Q > 0), comme la fusion et la vaporisation",
+        "Exothermique (Q < 0), comme la solidification",
+        "Ni l'une ni l'autre, le signe de Q n'est pas défini",
+        "Cela dépend uniquement de la masse de l'échantillon"
+      ],
+      ans: 0,
+      expl: "La sublimation fait passer l'espèce vers un état plus désordonné (solide → gaz), comme la fusion et la vaporisation : elle nécessite de capter de l'énergie. Elle est donc endothermique, Q > 0."
+    },
+    {
+      q: "On chauffe régulièrement un échantillon. La courbe température = f(temps) présente un palier net à 0 °C. Que peut-on en conclure ?",
+      ill: svgPalierUnique(),
+      opts: [
+        "L'échantillon est un mélange",
+        "L'échantillon est probablement un corps pur (par exemple de l'eau)",
+        "L'échantillon ne change pas d'état",
+        "Il est impossible de conclure quoi que ce soit"
+      ],
+      ans: 1,
+      expl: "Un palier net (température constante pendant le changement d'état) est la signature d'un corps pur. Le palier observé à 0 °C correspond à la fusion de l'eau pure."
+    },
+    {
+      q: "On réalise la fusion de 2 kg de glace. Donnée : L_fusion(eau) = 3,3 × 10⁵ J·kg⁻¹. Quelle est l'énergie Q nécessaire ?",
+      ill: null,
+      opts: ["Q = 6,6 × 10⁵ J", "Q = 1,65 × 10⁵ J", "Q = 6,6 × 10² J", "Q = 3,3 × 10⁵ J"],
+      ans: 0,
+      expl: "Q = m × L = 2 × 3,3 × 10⁵ = 6,6 × 10⁵ J. Q est positif car la fusion est endothermique."
+    },
+    {
+      q: "Quel est le signe du transfert thermique Q lors de la solidification de l'eau ?",
+      ill: null,
+      opts: [
+        "Q > 0, car l'eau capte de l'énergie",
+        "Q < 0, car l'eau libère de l'énergie",
+        "Q = 0, car aucun échange n'a lieu",
+        "Le signe de Q dépend uniquement de la masse"
+      ],
+      ans: 1,
+      expl: "La solidification (liquide → solide) est une transformation exothermique : l'eau libère de l'énergie par transfert thermique vers le milieu extérieur, donc Q < 0."
+    },
+    {
+      q: "L'acide acétique pur a θ_fusion = 17 °C et θ_vaporisation = 118 °C. Quel est son état physique à température ambiante (≈ 20 °C) ?",
+      ill: null,
+      opts: ["Solide", "Liquide", "Gazeux", "On ne peut pas savoir"],
+      ans: 1,
+      expl: "Comme θ_fusion (17 °C) < 20 °C < θ_vaporisation (118 °C), l'acide acétique se trouve à l'état liquide à température ambiante."
+    },
+    {
+      q: "Pour calculer l'énergie nécessaire à la vaporisation de l'eau, quelle valeur du tableau ci-dessous doit-on utiliser ?",
+      ill: svgTableauL(),
+      opts: [
+        "L_fus(eau) = 3,3 × 10⁵ J·kg⁻¹",
+        "L_vap(eau) = 2,3 × 10⁶ J·kg⁻¹",
+        "La moyenne des deux valeurs précédentes",
+        "L_fus(éthanol) = 1,1 × 10⁵ J·kg⁻¹"
+      ],
+      ans: 1,
+      expl: "Pour une vaporisation, on utilise l'énergie massique de vaporisation de l'espèce concernée, ici L_vap(eau) = 2,3 × 10⁶ J·kg⁻¹. L dépend en effet à la fois de l'espèce chimique et du changement d'état considéré."
+    },
+    {
+      q: "On vaporise 0,2 kg d'éthanol. Donnée : L_vap(éthanol) = 8,6 × 10⁵ J·kg⁻¹. Quelle est l'énergie Q transférée ?",
+      ill: null,
+      opts: ["Q = 1,72 × 10⁵ J", "Q = 4,3 × 10⁶ J", "Q = 1,72 × 10⁴ J", "Q = 8,6 × 10⁵ J"],
+      ans: 0,
+      expl: "Q = m × L = 0,2 × 8,6 × 10⁵ = 1,72 × 10⁵ J."
+    },
+    {
+      q: "Lorsqu'on transpire, l'eau présente sur la peau s'évapore, ce qui procure une sensation de fraîcheur. Comment l'expliquer ?",
+      ill: null,
+      opts: [
+        "La vaporisation est exothermique : elle réchauffe la peau",
+        "La vaporisation est endothermique : elle capte de l'énergie thermique à la peau",
+        "L'eau change de nature chimique en s'évaporant",
+        "La masse de l'eau augmente pendant l'évaporation"
+      ],
+      ans: 1,
+      expl: "L'évaporation de la sueur est une vaporisation, donc une transformation endothermique : elle capte de l'énergie thermique au corps, ce qui procure la sensation de fraîcheur."
+    }
+  ],
+  diff: [
+    {
+      q: "On vaporise 250 mL d'acide acétique à 118 °C. Donnée : ρ = 1,049 g·mL⁻¹ et L_vap(acide acétique) = 395 kJ·kg⁻¹. Quelle est l'énergie Q transférée ?",
+      ill: svgBecherAcide(),
+      opts: ["Q = 1,04 × 10⁵ J", "Q = 2,62 × 10² J", "Q = 395 J", "Q = 1,04 × 10⁸ J"],
+      ans: 0,
+      expl: "m = ρ × V = 1,049 × 250 = 262,25 g = 0,26225 kg. Q = m × L = 0,26225 × 395 × 10³ = 1,04 × 10⁵ J (≈ 104 kJ), valeur positive car la vaporisation est endothermique."
+    },
+    {
+      q: "Du sel de cuisine (NaCl) disparaît totalement lorsqu'on le verse dans l'eau d'une casserole à température ambiante. S'agit-il d'une fusion ou d'une dissolution ?",
+      ill: null,
+      opts: [
+        "Une fusion, car le NaCl change d'état physique",
+        "Une dissolution, car le NaCl se disperse et s'entoure de molécules d'eau",
+        "Une sublimation, car le NaCl passe directement à l'état gazeux",
+        "Aucune transformation n'a lieu"
+      ],
+      ans: 1,
+      expl: "Le sel se disperse dans l'eau et s'entoure de molécules d'eau : NaCl(s) → NaCl(aq). Il ne s'agit pas d'une fusion, qui nécessiterait d'atteindre la température de fusion du sel (très élevée), mais d'une dissolution."
+    },
+    {
+      q: "À 25 °C et pression atmosphérique normale, l'éthane est gazeux alors que l'éthanol est liquide. Dans lequel des deux composés les liaisons intermoléculaires sont-elles les plus fortes à cette température ?",
+      ill: null,
+      opts: [
+        "Dans l'éthane, car il est le plus désordonné",
+        "Dans l'éthanol, car il reste liquide à cette température",
+        "Les liaisons sont identiques dans les deux cas",
+        "On ne peut pas comparer sans connaître la masse molaire"
+      ],
+      ans: 1,
+      expl: "L'éthanol reste liquide à 25 °C : ses entités restent proches et liées, ce qui signifie que les liaisons intermoléculaires y sont plus fortes. L'éthane, dont les liaisons sont plus faibles, est déjà passé à l'état gazeux à cette température (entités libres et éloignées)."
+    },
+    {
+      q: "On donne L_vap(eau) = 2,3 × 10⁶ J·kg⁻¹. Quelle est la valeur de l'énergie massique de liquéfaction de l'eau, L_liq(eau) ?",
+      ill: null,
+      opts: [
+        "L_liq = 2,3 × 10⁶ J·kg⁻¹ (même valeur, même signe)",
+        "L_liq = −2,3 × 10⁶ J·kg⁻¹ (même valeur absolue, signe opposé)",
+        "L_liq = 0 J·kg⁻¹",
+        "Impossible à déterminer sans donnée supplémentaire"
+      ],
+      ans: 1,
+      expl: "La vaporisation et la liquéfaction sont deux transformations inverses entre les mêmes états : elles mettent en jeu la même énergie en valeur absolue, mais de signe opposé. La vaporisation est endothermique (L_vap > 0), donc la liquéfaction est exothermique avec L_liq = −L_vap < 0."
+    },
+    {
+      q: "On chauffe un échantillon inconnu. La courbe température = f(temps) présente un premier palier net à −10 °C, puis un second palier net à 60 °C. Que peut-on en conclure ?",
+      ill: svgPalierDouble(),
+      opts: [
+        "L'échantillon est forcément un mélange de deux corps purs différents",
+        "L'échantillon est probablement un corps pur, présentant successivement sa fusion puis sa vaporisation",
+        "La courbe est incorrecte : un seul palier devrait apparaître",
+        "Il est impossible de tirer une conclusion de cette courbe"
+      ],
+      ans: 1,
+      expl: "Les deux paliers nets correspondent à deux changements d'état à température constante : le premier (température la plus basse) à la fusion (solide → liquide), le second (température plus élevée) à la vaporisation (liquide → gaz). Le fait que chaque palier soit net (et non un intervalle de températures) est compatible avec un corps pur."
+    },
+    {
+      q: "On transfère Q = 6,0 × 10⁵ J à un échantillon d'eau liquide pour le vaporiser entièrement. Donnée : L_vap(eau) = 2,3 × 10⁶ J·kg⁻¹. Quelle est la masse d'eau vaporisée ?",
+      ill: null,
+      opts: ["m = 0,26 kg", "m = 2,6 kg", "m = 1,38 × 10¹² kg", "m = 3,8 × 10⁶ kg"],
+      ans: 0,
+      expl: "À partir de Q = m × L, on isole la masse : m = Q / L = 6,0 × 10⁵ / 2,3 × 10⁶ ≈ 0,26 kg."
+    },
+    {
+      q: "Un échantillon d'éthanol fond entièrement. On mesure Q = 5,5 × 10⁴ J. Donnée : L_fusion(éthanol) = 1,1 × 10⁵ J·kg⁻¹. Quelle masse d'éthanol a fondu ?",
+      ill: null,
+      opts: ["m = 0,5 kg", "m = 5,0 kg", "m = 2,0 kg", "m = 6,05 × 10⁹ kg"],
+      ans: 0,
+      expl: "m = Q / L = 5,5 × 10⁴ / 1,1 × 10⁵ = 0,5 kg."
+    },
+    {
+      q: "Un glaçon d'eau de masse m = 50 g fond entièrement à 0 °C. Donnée : L_fusion(eau) = 3,3 × 10⁵ J·kg⁻¹. Quelle énergie le milieu extérieur a-t-il dû fournir au glaçon ?",
+      ill: null,
+      opts: ["Q = 1,65 × 10⁴ J", "Q = 1,65 × 10⁷ J", "Q = 6,6 × 10³ J", "Q = 16,5 J"],
+      ans: 0,
+      expl: "m = 50 g = 0,050 kg. Q = m × L = 0,050 × 3,3 × 10⁵ = 1,65 × 10⁴ J. La fusion étant endothermique (Q > 0), cette énergie a été captée par le glaçon, donc fournie par le milieu extérieur."
+    },
+    {
+      q: "Lors des nuits de gel, certains viticulteurs aspergent leurs vignes d'eau. Pourquoi cela protège-t-il les bourgeons du gel ?",
+      ill: null,
+      opts: [
+        "L'eau, en gelant (solidification), capte de l'énergie qui refroidit encore plus les bourgeons",
+        "L'eau, en gelant (solidification), libère de l'énergie thermique qui limite la baisse de température autour des bourgeons",
+        "L'eau empêche tout transfert thermique entre l'air et les bourgeons",
+        "L'eau se sublime instantanément autour des bourgeons"
+      ],
+      ans: 1,
+      expl: "La solidification de l'eau est exothermique (Q < 0 pour l'eau) : en gelant sur les bourgeons, l'eau libère de l'énergie thermique vers le milieu extérieur, ce qui limite la chute de température et protège les bourgeons du gel."
+    },
+    {
+      q: "Un système (une espèce chimique) reçoit de l'énergie par transfert thermique lors d'une vaporisation. Que peut-on dire de l'énergie du milieu extérieur, qui lui fournit cette énergie ?",
+      ill: null,
+      opts: [
+        "Le milieu extérieur reçoit également de l'énergie",
+        "L'énergie du milieu extérieur diminue : il se refroidit",
+        "L'énergie du milieu extérieur ne change pas",
+        "Le milieu extérieur devient lui-même endothermique"
+      ],
+      ans: 1,
+      expl: "Si l'espèce qui se vaporise reçoit de l'énergie par transfert thermique (Q > 0 pour elle), cette énergie est nécessairement fournie par le milieu extérieur, qui en perd autant : son énergie diminue, il se refroidit."
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx = 0;
+let score = { ok: 0, ko: 0 };
+let answers = [];
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx = 0;
+  score = { ok: 0, ko: 0 };
+  answers = [];
+
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'flex';
+
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display = 'flex';
+}
+
+function retryLevel() {
+  startQuiz(currentLevel);
+}
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  const qs = QUESTIONS[currentLevel];
+  const q  = qs[currentIdx];
+  const total = qs.length;
+
+  const pct = Math.round(currentIdx / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let illHTML = '';
+  if (q.ill) {
+    illHTML = `<div class="q-illustration">${q.ill}</div>`;
+  }
+
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>
+  `).join('');
+
+  const html = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 📝'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quiz-main').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+let answered = false;
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk) el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct) el.classList.add('reveal');
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  document.getElementById('btn-next').classList.add('show');
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  answered = false;
+  currentIdx++;
+  const total = QUESTIONS[currentLevel].length;
+  if (currentIdx >= total) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct = Math.round(score.ok / total * 100);
+
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les notions de cette séquence. Passe au niveau suivant !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points où tu as hésité.'
+    : 'Reprends la fiche de cours et recommence. Tu vas progresser !';
+
+  const levelLabel = { facile: '🌱 Niveau Facile', inter: '⚗️ Niveau Intermédiaire', diff: '🔬 Niveau Difficile' }[currentLevel];
+
+  document.getElementById('r-emoji').textContent = emoji;
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent = score.ok + ' / ' + total;
+  document.getElementById('r-score').className = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-pct').textContent = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

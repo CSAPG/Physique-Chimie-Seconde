@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Game – Transmettre un signal à travers les époques – Séquence 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8;
+  --paper:#ffffff;
+  --ink:#1f2a24;
+  --blue:#2D5F8A;
+  --blue-light:#E8F1F8;
+  --orange:#E8590C;
+  --orange-light:#FBE9E0;
+  --green:#2f6f5e;
+  --green-light:#e6f1ee;
+  --gold:#c9870a;
+  --gold-light:#fdf3dc;
+  --line:#d9d3c6;
+  --shadow:rgba(45,95,138,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:"Nunito",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+}
+
+/* ====== ÉCRAN D'ACCUEIL ====== */
+#screen-home{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;padding:20px;text-align:center;
+  background:linear-gradient(160deg,#f5f0e8 0%,#e8f1f8 100%);
+}
+.home-badge{
+  background:var(--blue);color:#fff;
+  font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;
+  padding:4px 14px;border-radius:20px;margin-bottom:16px;
+}
+.home-title{
+  font-family:"Outfit",sans-serif;font-size:2rem;font-weight:800;
+  color:var(--blue);line-height:1.15;margin-bottom:8px;
+  max-width:600px;
+}
+.home-subtitle{
+  font-size:1rem;color:#5A6B7A;margin-bottom:28px;max-width:500px;line-height:1.5;
+}
+.home-epoque-strip{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;
+}
+.epoque-tag{
+  background:#fff;border:2px solid var(--blue-light);border-radius:12px;
+  padding:10px 18px;font-size:0.85rem;font-weight:700;color:var(--blue);
+  display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px var(--shadow);
+}
+.mode-cards{
+  display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;
+}
+.mode-card{
+  background:#fff;border-radius:18px;padding:28px 30px;
+  box-shadow:0 4px 20px var(--shadow);
+  max-width:280px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+  border:3px solid transparent;
+}
+.mode-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px var(--shadow);}
+.mode-card.blue-card{border-color:var(--blue);}
+.mode-card.orange-card{border-color:var(--orange);}
+.mode-card h2{
+  font-family:"Outfit",sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:6px;
+}
+.mode-card.blue-card h2{color:var(--blue);}
+.mode-card.orange-card h2{color:var(--orange);}
+.mode-card p{font-size:0.86rem;color:#5A6B7A;line-height:1.5;margin-bottom:14px;}
+.mode-card .mode-info{
+  font-size:0.78rem;font-weight:700;padding:4px 10px;border-radius:20px;
+  display:inline-block;margin-bottom:14px;
+}
+.blue-card .mode-info{background:var(--blue-light);color:var(--blue);}
+.orange-card .mode-info{background:var(--orange-light);color:var(--orange);}
+.mode-btn{
+  width:100%;padding:10px;border:none;border-radius:10px;
+  font-family:"Outfit",sans-serif;font-size:0.95rem;font-weight:700;
+  cursor:pointer;transition:filter 0.15s;
+}
+.blue-card .mode-btn{background:var(--blue);color:#fff;}
+.orange-card .mode-btn{background:var(--orange);color:#fff;}
+.mode-btn:hover{filter:brightness(1.1);}
+.home-footer{font-size:0.78rem;color:#8a9aaa;margin-top:8px;}
+
+/* ====== LAYOUT JEU ====== */
+#screen-game{display:none;min-height:100vh;background:var(--bg);}
+.game-header{
+  background:#fff;border-bottom:3px solid var(--blue);
+  padding:10px 18px;display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:50;flex-wrap:wrap;
+  box-shadow:0 2px 10px var(--shadow);
+}
+.gh-badge{
+  background:var(--blue);color:#fff;font-family:"Outfit",sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:0.1em;padding:3px 10px;border-radius:16px;
+  white-space:nowrap;
+}
+.gh-title{
+  font-family:"Outfit",sans-serif;font-weight:800;font-size:1rem;color:var(--blue);flex:1;
+}
+.timer-box{
+  background:var(--blue-light);border:2px solid var(--blue);border-radius:10px;
+  padding:4px 14px;font-family:"Outfit",sans-serif;font-size:1.1rem;
+  font-weight:800;color:var(--blue);white-space:nowrap;
+}
+.timer-box.urgent{background:#fde8e8;border-color:#c0392b;color:#c0392b;}
+.progress-strip{
+  background:var(--blue-light);height:6px;
+  border-radius:0 0 4px 4px;overflow:hidden;
+}
+.progress-bar{height:6px;background:var(--blue);transition:width 0.5s;border-radius:0;}
+
+.game-wrap{max-width:800px;margin:0 auto;padding:20px 16px 80px;}
+
+/* ====== PIÈCES / ROOMS ====== */
+.room{display:none;}
+.room.active{display:block;}
+.room-header{
+  text-align:center;margin-bottom:22px;
+}
+.room-era{
+  display:inline-block;background:var(--blue);color:#fff;
+  font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;
+  padding:3px 12px;border-radius:16px;margin-bottom:8px;
+}
+.room-title{
+  font-family:"Outfit",sans-serif;font-size:1.5rem;font-weight:800;color:var(--blue);margin-bottom:6px;
+}
+.room-narration{
+  background:#fff;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;
+  padding:14px 16px;font-size:0.9rem;line-height:1.55;color:#3a4a5a;
+  margin-bottom:20px;font-style:italic;
+}
+.room-narration strong{font-style:normal;color:var(--orange);}
+
+/* ====== ÉNIGMES ====== */
+.enigme-card{
+  background:#fff;border-radius:14px;padding:20px;margin-bottom:18px;
+  box-shadow:0 2px 10px var(--shadow);border:1px solid var(--line);
+}
+.enigme-num{
+  font-family:"Outfit",sans-serif;font-size:0.75rem;font-weight:800;
+  color:var(--blue);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
+}
+.enigme-q{font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:14px;line-height:1.45;}
+.enigme-context{
+  background:var(--blue-light);border-radius:8px;padding:10px 12px;
+  font-size:0.85rem;color:#3a4a5a;margin-bottom:12px;line-height:1.45;
+}
+.enigme-context .data{
+  font-family:"Outfit",sans-serif;font-weight:800;color:var(--blue);font-size:0.95rem;
+}
+
+/* QCM */
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.choice-btn{
+  background:#f5f7fa;border:2px solid var(--line);border-radius:10px;
+  padding:10px 14px;text-align:left;cursor:pointer;
+  font-family:"Nunito",sans-serif;font-size:0.88rem;font-weight:600;color:var(--ink);
+  transition:all 0.15s;
+}
+.choice-btn:hover{border-color:var(--blue);background:var(--blue-light);}
+.choice-btn.correct{background:#e6f4ea;border-color:#27ae60;color:#1a6b38;}
+.choice-btn.wrong{background:#fde8e8;border-color:#c0392b;color:#a02020;}
+
+/* Saisie */
+.enigme-input-wrap{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+.enigme-input{
+  border:2px solid var(--line);border-radius:8px;padding:8px 12px;
+  font-family:"Nunito",sans-serif;font-size:0.95rem;flex:1;min-width:120px;max-width:220px;
+  outline:none;transition:border-color 0.15s;
+}
+.enigme-input:focus{border-color:var(--blue);}
+.enigme-input.correct{border-color:#27ae60;background:#e6f4ea;}
+.enigme-input.wrong{border-color:#c0392b;background:#fde8e8;}
+
+.check-btn{
+  background:var(--blue);color:#fff;border:none;border-radius:8px;
+  padding:8px 18px;font-family:"Outfit",sans-serif;font-size:0.9rem;font-weight:700;
+  cursor:pointer;transition:filter 0.15s;white-space:nowrap;
+}
+.check-btn:hover{filter:brightness(1.1);}
+.check-btn:disabled{background:#aaa;cursor:default;}
+
+.feedback{
+  font-size:0.85rem;font-weight:700;padding:8px 12px;border-radius:8px;
+  display:none;margin-top:6px;line-height:1.4;
+}
+.feedback.ok{background:#e6f4ea;color:#1a6b38;display:block;}
+.feedback.ko{background:#fde8e8;color:#a02020;display:block;}
+
+/* Code indice */
+.code-fragment{
+  display:inline-block;background:var(--gold-light);border:2px solid var(--gold);
+  border-radius:8px;padding:4px 12px;font-family:"Outfit",sans-serif;
+  font-size:1.1rem;font-weight:800;color:var(--gold);letter-spacing:0.12em;
+  margin:6px 4px;
+}
+.enigme-locked{
+  opacity:0.45;pointer-events:none;position:relative;
+}
+.enigme-locked::after{
+  content:"🔒 Résolvez d'abord l'énigme précédente";
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.55);border-radius:14px;
+  font-size:0.85rem;font-weight:700;color:#5A6B7A;text-align:center;padding:10px;
+}
+
+/* ====== VERROU DE SALLE ====== */
+.room-lock{
+  background:#fff;border-radius:16px;padding:28px;text-align:center;
+  box-shadow:0 2px 14px var(--shadow);border:2px solid var(--gold);margin-bottom:24px;
+}
+.room-lock h3{
+  font-family:"Outfit",sans-serif;font-size:1.1rem;font-weight:800;color:var(--gold);margin-bottom:8px;
+}
+.room-lock p{font-size:0.88rem;color:#5A6B7A;margin-bottom:14px;}
+.code-display{
+  display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;
+}
+.code-slot{
+  width:44px;height:52px;background:var(--blue-light);border:2px solid var(--blue);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:"Outfit",sans-serif;font-size:1.3rem;font-weight:800;color:var(--blue);
+}
+.code-slot.filled{background:var(--gold-light);border-color:var(--gold);color:var(--gold);}
+.lock-input{
+  border:2px solid var(--line);border-radius:8px;padding:8px 14px;
+  font-family:"Outfit",sans-serif;font-size:1.1rem;font-weight:700;
+  text-align:center;width:160px;letter-spacing:0.2em;outline:none;
+  text-transform:uppercase;
+}
+.lock-input:focus{border-color:var(--blue);}
+.unlock-btn{
+  background:var(--gold);color:#fff;border:none;border-radius:8px;
+  padding:10px 24px;font-family:"Outfit",sans-serif;font-size:0.95rem;font-weight:700;
+  cursor:pointer;transition:filter 0.15s;margin-top:8px;
+}
+.unlock-btn:hover{filter:brightness(1.1);}
+
+/* ====== PIÈCE SECRÈTE EDISON ====== */
+.secret-room{
+  display:none;
+  background:linear-gradient(135deg,#fdf3dc 0%,#fff 100%);
+  border:3px solid var(--gold);border-radius:18px;
+  padding:28px;margin-top:24px;
+}
+.secret-room.revealed{display:block;}
+.secret-badge{
+  background:var(--gold);color:#fff;font-family:"Outfit",sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:0.1em;padding:4px 14px;
+  border-radius:20px;margin-bottom:12px;display:inline-block;
+}
+.secret-title{
+  font-family:"Outfit",sans-serif;font-size:1.3rem;font-weight:800;color:var(--gold);margin-bottom:14px;
+}
+.edison-fact{
+  background:#fff;border-left:4px solid var(--gold);border-radius:0 10px 10px 0;
+  padding:12px 16px;margin-bottom:10px;font-size:0.88rem;line-height:1.5;
+}
+.edison-fact strong{color:var(--gold);}
+
+/* ====== VICTOIRE ====== */
+#screen-victory{
+  display:none;min-height:100vh;
+  background:linear-gradient(160deg,#e8f4ea 0%,#f5f0e8 100%);
+  align-items:center;justify-content:center;flex-direction:column;
+  text-align:center;padding:30px;
+}
+#screen-victory.active{display:flex;}
+.victory-emoji{font-size:5rem;margin-bottom:16px;animation:bounce 1s infinite alternate;}
+@keyframes bounce{from{transform:translateY(0);}to{transform:translateY(-10px);}}
+.victory-title{
+  font-family:"Outfit",sans-serif;font-size:2rem;font-weight:800;
+  color:var(--green);margin-bottom:8px;
+}
+.victory-time{
+  background:#fff;border:2px solid var(--green);border-radius:12px;
+  padding:12px 24px;font-family:"Outfit",sans-serif;font-size:1.1rem;
+  font-weight:700;color:var(--green);margin-bottom:20px;
+}
+.restart-btn{
+  background:var(--blue);color:#fff;border:none;border-radius:10px;
+  padding:12px 28px;font-family:"Outfit",sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:filter 0.15s;
+}
+.restart-btn:hover{filter:brightness(1.1);}
+
+/* ====== NAVIGATION ====== */
+.nav-btns{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:24px;flex-wrap:wrap;gap:10px;
+}
+.nav-btn{
+  background:#fff;border:2px solid var(--blue);border-radius:10px;
+  padding:9px 20px;font-family:"Outfit",sans-serif;font-size:0.9rem;font-weight:700;
+  color:var(--blue);cursor:pointer;transition:all 0.15s;
+}
+.nav-btn:hover{background:var(--blue);color:#fff;}
+.nav-btn.next{background:var(--blue);color:#fff;}
+.nav-btn.next:hover{filter:brightness(1.1);}
+.nav-btn:disabled{opacity:0.35;cursor:default;}
+
+/* ====== AIDE ====== */
+.hint-btn{
+  background:none;border:none;font-size:0.82rem;color:#8a9aaa;cursor:pointer;
+  text-decoration:underline;padding:0;margin-top:4px;
+}
+.hint-box{
+  background:#fffde7;border:1px solid #f0c040;border-radius:8px;
+  padding:8px 12px;font-size:0.82rem;color:#6d5800;margin-top:6px;
+  display:none;line-height:1.45;
+}
+.hint-box.open{display:block;}
+
+/* Responsive */
+@media(max-width:520px){
+  .home-title{font-size:1.55rem;}
+  .mode-cards{flex-direction:column;align-items:center;}
+  .mode-card{max-width:96vw;}
+  .room-title{font-size:1.2rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================ -->
+<!-- ÉCRAN D'ACCUEIL -->
+<!-- ================================================================ -->
+<div id="screen-home">
+  <div class="home-badge">SÉQUENCE 12 — SIGNAUX ET CAPTEURS</div>
+  <div class="home-title">📡 Transmettre un signal<br>à travers les époques</div>
+  <p class="home-subtitle">
+    Une mystérieuse machine temporelle a déréglé les grandes inventions de la communication !<br>
+    Voyage de l'Antiquité à nos jours pour remettre chaque signal à sa place.
+  </p>
+  <div class="home-epoque-strip">
+    <div class="epoque-tag">🏛️ Antiquité</div>
+    <div class="epoque-tag">⚡ XIXᵉ siècle</div>
+    <div class="epoque-tag">📻 XXᵉ siècle</div>
+    <div class="epoque-tag">📡 Époque actuelle</div>
+  </div>
+  <div class="mode-cards">
+    <div class="mode-card blue-card" onclick="startGame(15)">
+      <div class="mode-info">⏱️ 15 minutes</div>
+      <h2>Mode Flash</h2>
+      <p>L'essentiel du cours en 3 énigmes par époque. Idéal pour réviser rapidement avant un contrôle.</p>
+      <button class="mode-btn">Démarrer ⚡</button>
+    </div>
+    <div class="mode-card orange-card" onclick="startGame(50)">
+      <div class="mode-info">⏱️ 50 minutes</div>
+      <h2>Mode Explorateur</h2>
+      <p>5 énigmes par époque, calculs approfondis et… une pièce secrète réservée aux plus perspicaces !</p>
+      <button class="mode-btn">Démarrer 🔍</button>
+    </div>
+  </div>
+  <p class="home-footer">©C.Poirault-Gauvin — Physique-Chimie 2nde</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- ÉCRAN DE JEU -->
+<!-- ================================================================ -->
+<div id="screen-game">
+  <div class="game-header">
+    <div class="gh-badge" id="gh-badge">MODE</div>
+    <div class="gh-title" id="gh-title">Transmettre un signal à travers les époques</div>
+    <div class="timer-box" id="timer">⏱ 00:00</div>
+  </div>
+  <div class="progress-strip">
+    <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+  </div>
+
+  <div class="game-wrap">
+
+    <!-- ============================================================ -->
+    <!-- PIÈCE 1 : Antiquité — Les signaux de feu -->
+    <!-- ============================================================ -->
+    <div class="room active" id="room-0">
+      <div class="room-header">
+        <div class="room-era">🏛️ Pièce 1 / 4 — Antiquité, ~500 av. J.-C.</div>
+        <div class="room-title">Les signaux de feu</div>
+      </div>
+      <div class="room-narration">
+        Tu arrives dans la salle de guet d'une forteresse grecque. Des soldats allument des feux sur les collines pour transmettre des messages à distance. <strong>C'est l'un des premiers systèmes de transmission de signal !</strong> Mais la machine temporelle a brouillé les réglages électriques du système de contrôle moderne. Aide-les à rétablir les mesures.
+      </div>
+
+      <!-- Énigme 1 -->
+      <div class="enigme-card" id="r0e0">
+        <div class="enigme-num">Énigme 1 · Mesure de tension</div>
+        <div class="enigme-q">Le capteur de flamme est relié à un circuit. Comment branche-t-on un voltmètre pour mesurer la tension aux bornes du capteur ?</div>
+        <div class="choices" id="r0e0-choices">
+          <button class="choice-btn" onclick="checkQCM('r0e0',this,'b')">A — En série, dans le fil du circuit</button>
+          <button class="choice-btn" onclick="checkQCM('r0e0',this,'b')">B — En dérivation (parallèle) aux bornes du capteur</button>
+          <button class="choice-btn" onclick="checkQCM('r0e0',this,'b')">C — N'importe où dans le circuit</button>
+          <button class="choice-btn" onclick="checkQCM('r0e0',this,'b')">D — En série avec l'ampèremètre</button>
+        </div>
+        <div class="feedback" id="r0e0-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r0e0-hint')">💡 Indice</button>
+        <div class="hint-box" id="r0e0-hint">Le voltmètre mesure une <em>différence de potentiel</em> entre deux points : il doit donc être placé entre ces deux points, en parallèle.</div>
+      </div>
+
+      <!-- Énigme 2 -->
+      <div class="enigme-card enigme-locked" id="r0e1">
+        <div class="enigme-num">Énigme 2 · Mesure d'intensité</div>
+        <div class="enigme-q">Pour mesurer l'intensité du courant qui alimente le capteur de flamme, comment positionne-t-on l'ampèremètre ?</div>
+        <div class="choices" id="r0e1-choices">
+          <button class="choice-btn" onclick="checkQCM('r0e1',this,'a')">A — En série dans le circuit</button>
+          <button class="choice-btn" onclick="checkQCM('r0e1',this,'a')">B — En dérivation aux bornes du capteur</button>
+          <button class="choice-btn" onclick="checkQCM('r0e1',this,'a')">C — Entre les deux bornes du générateur</button>
+          <button class="choice-btn" onclick="checkQCM('r0e1',this,'a')">D — En parallèle avec le voltmètre</button>
+        </div>
+        <div class="feedback" id="r0e1-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r0e1-hint')">💡 Indice</button>
+        <div class="hint-box" id="r0e1-hint">L'ampèremètre laisse passer le courant <em>à travers</em> lui : il doit se trouver sur le même fil que l'élément à mesurer.</div>
+      </div>
+
+      <!-- Énigme 3 -->
+      <div class="enigme-card enigme-locked" id="r0e2">
+        <div class="enigme-num">Énigme 3 · Loi des nœuds</div>
+        <div class="enigme-q">Dans le circuit de contrôle, au niveau d'un nœud, deux courants arrivent : I₁ = 120 mA et I₂ = 85 mA. Quelle est l'intensité I₃ qui repart ?</div>
+        <div class="enigme-context">
+          Loi des nœuds : <span class="data">ΣI entrants = ΣI sortants</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r0e2-inp" type="text" placeholder="I₃ = … mA">
+          <button class="check-btn" onclick="checkInput('r0e2','205','mA')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r0e2-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r0e2-hint')">💡 Indice</button>
+        <div class="hint-box" id="r0e2-hint">I₃ = I₁ + I₂ = 120 + 85 = ?</div>
+      </div>
+
+      <!-- Énigmes supplémentaires mode 50 min -->
+      <div class="enigme-card enigme-locked mode-50" id="r0e3">
+        <div class="enigme-num">Énigme 4 · Convention générateur/récepteur</div>
+        <div class="enigme-q">La pile qui alimente le signal de feu fonctionne en convention générateur. Que signifie cela pour les orientations de U et I ?</div>
+        <div class="choices" id="r0e3-choices">
+          <button class="choice-btn" onclick="checkQCM('r0e3',this,'b')">A — U et I sont dans des sens opposés</button>
+          <button class="choice-btn" onclick="checkQCM('r0e3',this,'b')">B — U et I sont dans le même sens</button>
+          <button class="choice-btn" onclick="checkQCM('r0e3',this,'b')">C — I est nul dans un générateur</button>
+          <button class="choice-btn" onclick="checkQCM('r0e3',this,'b')">D — U est toujours négatif</button>
+        </div>
+        <div class="feedback" id="r0e3-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r0e3-hint')">💡 Indice</button>
+        <div class="hint-box" id="r0e3-hint">En convention générateur, le courant <em>sort</em> de la borne +. U et I pointent dans le même sens.</div>
+      </div>
+
+      <div class="enigme-card enigme-locked mode-50" id="r0e4">
+        <div class="enigme-num">Énigme 5 · Loi des mailles</div>
+        <div class="enigme-q">Le circuit de signalisation contient une pile U_pile = 9 V, une résistance R₁ avec U₁ = 3,5 V et un capteur avec U₂ = ?. Quelle est U₂ ?</div>
+        <div class="enigme-context">
+          Loi des mailles : <span class="data">ΣU = 0 (algébrique)</span><br>
+          U_pile − U₁ − U₂ = 0
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r0e4-inp" type="text" placeholder="U₂ = … V">
+          <button class="check-btn" onclick="checkInput('r0e4','5.5','V')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r0e4-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r0e4-hint')">💡 Indice</button>
+        <div class="hint-box" id="r0e4-hint">U₂ = U_pile − U₁ = 9 − 3,5 = ?</div>
+      </div>
+
+      <!-- Code fragment -->
+      <div id="r0-code" style="display:none;text-align:center;margin:18px 0;">
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--gold);font-size:0.9rem;margin-bottom:6px;">🔥 Fragment de code récupéré !</div>
+        <span class="code-fragment" id="r0-codefrag">FEU</span>
+      </div>
+
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="gotoRoom(-1)" disabled>← Retour</button>
+        <button class="nav-btn next" id="r0-next" onclick="gotoRoom(1)" disabled>Pièce 2 : XIXe siècle →</button>
+      </div>
+    </div><!-- /room-0 -->
+
+
+    <!-- ============================================================ -->
+    <!-- PIÈCE 2 : XIXe siècle — Le télégraphe et la résistance -->
+    <!-- ============================================================ -->
+    <div class="room" id="room-1">
+      <div class="room-header">
+        <div class="room-era">⚡ Pièce 2 / 4 — XIXᵉ siècle, 1844</div>
+        <div class="room-title">Le télégraphe de Samuel Morse</div>
+      </div>
+      <div class="room-narration">
+        Tu arrives dans le bureau de Samuel Morse à Washington. Il vient d'envoyer le premier message télégraphique ! Mais les circuits électriques de son télégraphe sont à recalibrer. <strong>Applique la loi d'Ohm pour aider Morse à transmettre son signal.</strong>
+      </div>
+
+      <!-- Énigme 1 -->
+      <div class="enigme-card" id="r1e0">
+        <div class="enigme-num">Énigme 1 · Conducteur ohmique</div>
+        <div class="enigme-q">La caractéristique U = f(I) du fil télégraphique est une droite passant par l'origine. Que peut-on conclure ?</div>
+        <div class="choices" id="r1e0-choices">
+          <button class="choice-btn" onclick="checkQCM('r1e0',this,'b')">A — C'est une diode</button>
+          <button class="choice-btn" onclick="checkQCM('r1e0',this,'b')">B — C'est un conducteur ohmique : U et I sont proportionnels</button>
+          <button class="choice-btn" onclick="checkQCM('r1e0',this,'b')">C — Le dipôle est défectueux</button>
+          <button class="choice-btn" onclick="checkQCM('r1e0',this,'b')">D — La résistance est nulle</button>
+        </div>
+        <div class="feedback" id="r1e0-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r1e1-hint0')">💡 Indice</button>
+        <div class="hint-box" id="r1e1-hint0">Une droite passant par l'origine dans une caractéristique U = f(I) signifie que U = R × I, ce qui est la définition d'un conducteur ohmique.</div>
+      </div>
+
+      <!-- Énigme 2 -->
+      <div class="enigme-card enigme-locked" id="r1e1">
+        <div class="enigme-num">Énigme 2 · Loi d'Ohm — calcul de U</div>
+        <div class="enigme-q">Le fil télégraphique a une résistance R = 25 Ω. Le courant mesuré est I = 80 mA. Quelle est la tension U aux bornes de ce fil ?</div>
+        <div class="enigme-context">
+          Loi d'Ohm : <span class="data">U = R × I</span><br>
+          Attention : convertir mA en A !
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r1e1-inp" type="text" placeholder="U = … V">
+          <button class="check-btn" onclick="checkInput('r1e1','2','V')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r1e1-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r1e1-hint')">💡 Indice</button>
+        <div class="hint-box" id="r1e1-hint">80 mA = 0,080 A. U = 25 × 0,080 = ?</div>
+      </div>
+
+      <!-- Énigme 3 -->
+      <div class="enigme-card enigme-locked" id="r1e2">
+        <div class="enigme-num">Énigme 3 · Loi d'Ohm — calcul de R</div>
+        <div class="enigme-q">Un autre segment du réseau télégraphique a U = 12 V et I = 400 mA. Calculer sa résistance R en ohms.</div>
+        <div class="enigme-context">
+          <span class="data">R = U / I</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r1e2-inp" type="text" placeholder="R = … Ω">
+          <button class="check-btn" onclick="checkInput('r1e2','30','Ω')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r1e2-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r1e2-hint')">💡 Indice</button>
+        <div class="hint-box" id="r1e2-hint">400 mA = 0,4 A. R = 12 / 0,4 = ?</div>
+      </div>
+
+      <!-- Mode 50 min -->
+      <div class="enigme-card enigme-locked mode-50" id="r1e3">
+        <div class="enigme-num">Énigme 4 · Limites de fonctionnement</div>
+        <div class="enigme-q">Le solénoïde du télégraphe supporte une intensité maximale I_max = 200 mA. Si on lui impose U = 9 V alors que R = 30 Ω, le composant risque-t-il d'être détruit ?</div>
+        <div class="enigme-context">
+          Calculer I = U / R, puis comparer à I_max.
+        </div>
+        <div class="choices" id="r1e3-choices">
+          <button class="choice-btn" onclick="checkQCM('r1e3',this,'b')">A — Non : I = 300 mA > 200 mA, c'est correct</button>
+          <button class="choice-btn" onclick="checkQCM('r1e3',this,'b')">B — Oui : I = 300 mA > 200 mA, le solénoïde risque d'être détruit</button>
+          <button class="choice-btn" onclick="checkQCM('r1e3',this,'b')">C — Non : I = 0,3 mA, bien en dessous</button>
+          <button class="choice-btn" onclick="checkQCM('r1e3',this,'b')">D — I = 200 mA, on est exactement à la limite</button>
+        </div>
+        <div class="feedback" id="r1e3-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r1e3-hint')">💡 Indice</button>
+        <div class="hint-box" id="r1e3-hint">I = 9 / 30 = 0,3 A = 300 mA. Comparer à I_max = 200 mA.</div>
+      </div>
+
+      <div class="enigme-card enigme-locked mode-50" id="r1e4">
+        <div class="enigme-num">Énigme 5 · Pente de la caractéristique</div>
+        <div class="enigme-q">Sur la caractéristique du fil télégraphique, on lit deux points : (I=0,5 A ; U=15 V) et (I=0 ; U=0). Quelle est la résistance R déduite de la pente ?</div>
+        <div class="enigme-context">
+          <span class="data">R = pente = ΔU / ΔI</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r1e4-inp" type="text" placeholder="R = … Ω">
+          <button class="check-btn" onclick="checkInput('r1e4','30','Ω')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r1e4-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r1e4-hint')">💡 Indice</button>
+        <div class="hint-box" id="r1e4-hint">R = (15 − 0) / (0,5 − 0) = 15 / 0,5 = ?</div>
+      </div>
+
+      <div id="r1-code" style="display:none;text-align:center;margin:18px 0;">
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--gold);font-size:0.9rem;margin-bottom:6px;">⚡ Fragment de code récupéré !</div>
+        <span class="code-fragment" id="r1-codefrag">OHM</span>
+      </div>
+
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="gotoRoom(0)">← Pièce 1</button>
+        <button class="nav-btn next" id="r1-next" onclick="gotoRoom(2)" disabled>Pièce 3 : XXe siècle →</button>
+      </div>
+    </div><!-- /room-1 -->
+
+
+    <!-- ============================================================ -->
+    <!-- PIÈCE 3 : XXe siècle — La radio et la CTN -->
+    <!-- ============================================================ -->
+    <div class="room" id="room-2">
+      <div class="room-header">
+        <div class="room-era">📻 Pièce 3 / 4 — XXᵉ siècle, 1920</div>
+        <div class="room-title">La radio et les capteurs</div>
+      </div>
+      <div class="room-narration">
+        Tu débarques dans un studio de radio des années 1920. Le présentateur est sur le point d'émettre le premier programme radiophonique, mais le circuit de régulation thermique de l'émetteur est déréglé. <strong>Il utilise une thermistance CTN pour surveiller la température des tubes électroniques.</strong>
+      </div>
+
+      <!-- Énigme 1 -->
+      <div class="enigme-card" id="r2e0">
+        <div class="enigme-num">Énigme 1 · Principe du capteur résistif</div>
+        <div class="enigme-q">La CTN est un capteur résistif. Que convertit-elle ?</div>
+        <div class="choices" id="r2e0-choices">
+          <button class="choice-btn" onclick="checkQCM('r2e0',this,'c')">A — Une tension en une variation de résistance</button>
+          <button class="choice-btn" onclick="checkQCM('r2e0',this,'c')">B — Un courant en une variation de température</button>
+          <button class="choice-btn" onclick="checkQCM('r2e0',this,'c')">C — Une grandeur physique (température) en une variation de résistance</button>
+          <button class="choice-btn" onclick="checkQCM('r2e0',this,'c')">D — Une résistance en une tension électrique directement</button>
+        </div>
+        <div class="feedback" id="r2e0-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r2e0-hint')">💡 Indice</button>
+        <div class="hint-box" id="r2e0-hint">Le mot « résistif » indique que c'est la résistance qui varie. La grandeur captée est physique (ici thermique).</div>
+      </div>
+
+      <!-- Énigme 2 -->
+      <div class="enigme-card enigme-locked" id="r2e1">
+        <div class="enigme-num">Énigme 2 · CTN — sens de variation</div>
+        <div class="enigme-q">La CTN de l'émetteur radio vaut R = 8 kΩ à 25°C. Les tubes électroniques chauffent. Que se passe-t-il pour R ?</div>
+        <div class="choices" id="r2e1-choices">
+          <button class="choice-btn" onclick="checkQCM('r2e1',this,'b')">A — R augmente car la chaleur dilate le matériau</button>
+          <button class="choice-btn" onclick="checkQCM('r2e1',this,'b')">B — R diminue : CTN = Coefficient de Température Négatif</button>
+          <button class="choice-btn" onclick="checkQCM('r2e1',this,'b')">C — R reste constante, seule la tension change</button>
+          <button class="choice-btn" onclick="checkQCM('r2e1',this,'b')">D — R oscille entre 0 et 8 kΩ</button>
+        </div>
+        <div class="feedback" id="r2e1-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r2e1-hint')">💡 Indice</button>
+        <div class="hint-box" id="r2e1-hint">CTN = Coefficient de Température <em>Négatif</em>. Négatif signifie que quand T monte, R descend.</div>
+      </div>
+
+      <!-- Énigme 3 -->
+      <div class="enigme-card enigme-locked" id="r2e2">
+        <div class="enigme-num">Énigme 3 · Calcul avec CTN</div>
+        <div class="enigme-q">La CTN a R = 500 Ω à 80°C. La tension mesurée est U = 3 V. Calculer l'intensité I traversant la CTN.</div>
+        <div class="enigme-context">
+          <span class="data">I = U / R</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r2e2-inp" type="text" placeholder="I = … mA">
+          <button class="check-btn" onclick="checkInput('r2e2','6','mA')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r2e2-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r2e2-hint')">💡 Indice</button>
+        <div class="hint-box" id="r2e2-hint">I = 3 / 500 = 0,006 A. Convertir en mA : × 1000.</div>
+      </div>
+
+      <!-- Mode 50 min -->
+      <div class="enigme-card enigme-locked mode-50" id="r2e3">
+        <div class="enigme-num">Énigme 4 · LDR et détecteur de lumière</div>
+        <div class="enigme-q">Le pilote automatique de l'émetteur utilise une LDR. Quand l'éclairement diminue (nuit tombante), que se passe-t-il pour la résistance de la LDR ?</div>
+        <div class="choices" id="r2e3-choices">
+          <button class="choice-btn" onclick="checkQCM('r2e3',this,'b')">A — R diminue car moins de lumière = moins d'énergie</button>
+          <button class="choice-btn" onclick="checkQCM('r2e3',this,'b')">B — R augmente car LDR = Light Dependent Resistor (résistance dépendante de la lumière)</button>
+          <button class="choice-btn" onclick="checkQCM('r2e3',this,'b')">C — R reste constante la nuit</button>
+          <button class="choice-btn" onclick="checkQCM('r2e3',this,'b')">D — R devient nulle car pas de photons</button>
+        </div>
+        <div class="feedback" id="r2e3-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r2e3-hint')">💡 Indice</button>
+        <div class="hint-box" id="r2e3-hint">Plus de lumière → moins de résistance. Moins de lumière → plus de résistance. La LDR varie en sens inverse de l'éclairement.</div>
+      </div>
+
+      <div class="enigme-card enigme-locked mode-50" id="r2e4">
+        <div class="enigme-num">Énigme 5 · LDR — Calcul de U</div>
+        <div class="enigme-q">La LDR a R_LDR = 2 kΩ la nuit. Le courant la traversant est I = 2,5 mA. Calculer la tension U_LDR.</div>
+        <div class="enigme-context">
+          <span class="data">U = R × I</span> — Attention aux conversions !
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r2e4-inp" type="text" placeholder="U = … V">
+          <button class="check-btn" onclick="checkInput('r2e4','5','V')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r2e4-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r2e4-hint')">💡 Indice</button>
+        <div class="hint-box" id="r2e4-hint">2 kΩ = 2000 Ω. 2,5 mA = 0,0025 A. U = 2000 × 0,0025 = ?</div>
+      </div>
+
+      <div id="r2-code" style="display:none;text-align:center;margin:18px 0;">
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--gold);font-size:0.9rem;margin-bottom:6px;">📻 Fragment de code récupéré !</div>
+        <span class="code-fragment" id="r2-codefrag">CTN</span>
+      </div>
+
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="gotoRoom(1)">← Pièce 2</button>
+        <button class="nav-btn next" id="r2-next" onclick="gotoRoom(3)" disabled>Pièce 4 : Époque actuelle →</button>
+      </div>
+    </div><!-- /room-2 -->
+
+
+    <!-- ============================================================ -->
+    <!-- PIÈCE 4 : Époque actuelle — Capteurs numériques -->
+    <!-- ============================================================ -->
+    <div class="room" id="room-3">
+      <div class="room-header">
+        <div class="room-era">📡 Pièce 4 / 4 — Époque actuelle</div>
+        <div class="room-title">Le satellite de communication</div>
+      </div>
+      <div class="room-narration">
+        Tu arrives au centre de contrôle d'un satellite de communication. Des capteurs résistifs collectent des données sur la température des panneaux solaires et l'intensité lumineuse. <strong>C'est le dernier verrou avant de réparer la machine temporelle !</strong>
+      </div>
+
+      <!-- Énigme 1 -->
+      <div class="enigme-card" id="r3e0">
+        <div class="enigme-num">Énigme 1 · Identification de capteur</div>
+        <div class="enigme-q">Un capteur résistif du satellite mesure la déformation des panneaux solaires par la pression du vent solaire. Sa résistance augmente quand la déformation augmente. Quel type de capteur est-ce ?</div>
+        <div class="choices" id="r3e0-choices">
+          <button class="choice-btn" onclick="checkQCM('r3e0',this,'c')">A — Une thermistance CTN</button>
+          <button class="choice-btn" onclick="checkQCM('r3e0',this,'c')">B — Une photorésistance LDR</button>
+          <button class="choice-btn" onclick="checkQCM('r3e0',this,'c')">C — Une jauge de contrainte</button>
+          <button class="choice-btn" onclick="checkQCM('r3e0',this,'c')">D — Un voltmètre résistif</button>
+        </div>
+        <div class="feedback" id="r3e0-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r3e0-hint')">💡 Indice</button>
+        <div class="hint-box" id="r3e0-hint">CTN → température. LDR → lumière. Jauge de contrainte → déformation/pression.</div>
+      </div>
+
+      <!-- Énigme 2 -->
+      <div class="enigme-card enigme-locked" id="r3e1">
+        <div class="enigme-num">Énigme 2 · Calcul d'intensité</div>
+        <div class="enigme-q">Le circuit de la jauge a R = 470 Ω et U = 9,4 V. Calculer I en mA.</div>
+        <div class="enigme-context">
+          <span class="data">I = U / R</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r3e1-inp" type="text" placeholder="I = … mA">
+          <button class="check-btn" onclick="checkInput('r3e1','20','mA')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r3e1-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r3e1-hint')">💡 Indice</button>
+        <div class="hint-box" id="r3e1-hint">I = 9,4 / 470 = 0,020 A = ? mA</div>
+      </div>
+
+      <!-- Énigme 3 -->
+      <div class="enigme-card enigme-locked" id="r3e2">
+        <div class="enigme-num">Énigme 3 · Synthèse des capteurs</div>
+        <div class="enigme-q">La LDR du satellite passe de R = 50 Ω en plein soleil à R = 500 kΩ dans l'ombre. Quelle phrase résume cela ?</div>
+        <div class="choices" id="r3e2-choices">
+          <button class="choice-btn" onclick="checkQCM('r3e2',this,'b')">A — Quand l'éclairement augmente, R augmente</button>
+          <button class="choice-btn" onclick="checkQCM('r3e2',this,'b')">B — Quand l'éclairement augmente, R diminue</button>
+          <button class="choice-btn" onclick="checkQCM('r3e2',this,'b')">C — R est constante, seule la tension varie</button>
+          <button class="choice-btn" onclick="checkQCM('r3e2',this,'b')">D — La LDR ne fonctionne pas dans l'espace</button>
+        </div>
+        <div class="feedback" id="r3e2-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r3e2-hint')">💡 Indice</button>
+        <div class="hint-box" id="r3e2-hint">En plein soleil : R = 50 Ω (petit). Dans l'ombre : R = 500 kΩ (grand). L'éclairement augmente → R diminue.</div>
+      </div>
+
+      <!-- Mode 50 min -->
+      <div class="enigme-card enigme-locked mode-50" id="r3e3">
+        <div class="enigme-num">Énigme 4 · Thermistance du satellite</div>
+        <div class="enigme-q">La CTN du satellite vaut R = 1 200 Ω à 60°C. U = 6 V. Le courant maximal admissible est I_max = 8 mA. Le composant est-il en sécurité ?</div>
+        <div class="enigme-context">
+          Calculer I = U / R, comparer à I_max.
+        </div>
+        <div class="choices" id="r3e3-choices">
+          <button class="choice-btn" onclick="checkQCM('r3e3',this,'a')">A — Oui : I = 5 mA &lt; 8 mA, c'est dans les limites</button>
+          <button class="choice-btn" onclick="checkQCM('r3e3',this,'a')">B — Non : I = 5 mA dépasse I_max = 8 mA</button>
+          <button class="choice-btn" onclick="checkQCM('r3e3',this,'a')">C — I = 7,2 A, destruction assurée</button>
+          <button class="choice-btn" onclick="checkQCM('r3e3',this,'a')">D — On ne peut pas conclure sans la tension maximale</button>
+        </div>
+        <div class="feedback" id="r3e3-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r3e3-hint')">💡 Indice</button>
+        <div class="hint-box" id="r3e3-hint">I = 6 / 1200 = 0,005 A = 5 mA. Comparer à 8 mA.</div>
+      </div>
+
+      <div class="enigme-card enigme-locked mode-50" id="r3e4">
+        <div class="enigme-num">Énigme 5 · Code final — Résistance totale</div>
+        <div class="enigme-q">Le circuit final du satellite comporte deux conducteurs ohmiques en série : R₁ = 330 Ω et R₂ = 120 Ω. La tension totale est U = 4,5 V. Calculer l'intensité I du circuit en mA.</div>
+        <div class="enigme-context">
+          En série : <span class="data">R_tot = R₁ + R₂</span> puis <span class="data">I = U / R_tot</span>
+        </div>
+        <div class="enigme-input-wrap">
+          <input class="enigme-input" id="r3e4-inp" type="text" placeholder="I = … mA">
+          <button class="check-btn" onclick="checkInput('r3e4','10','mA')">✓ Vérifier</button>
+        </div>
+        <div class="feedback" id="r3e4-fb"></div>
+        <button class="hint-btn" onclick="toggleHint('r3e4-hint')">💡 Indice</button>
+        <div class="hint-box" id="r3e4-hint">R_tot = 330 + 120 = 450 Ω. I = 4,5 / 450 = 0,010 A = ? mA</div>
+      </div>
+
+      <div id="r3-code" style="display:none;text-align:center;margin:18px 0;">
+        <div style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--gold);font-size:0.9rem;margin-bottom:6px;">📡 Fragment de code récupéré !</div>
+        <span class="code-fragment" id="r3-codefrag">LDR</span>
+      </div>
+
+      <!-- VERROU FINAL -->
+      <div class="room-lock" id="final-lock" style="display:none;">
+        <h3>🔐 Verrou final de la machine temporelle</h3>
+        <p>Assemble les 4 fragments récupérés (dans l'ordre des pièces) pour former le code de déverrouillage !</p>
+        <div class="code-display" id="code-slots"></div>
+        <div style="margin:10px 0;">
+          <input class="lock-input" id="final-input" type="text" placeholder="CODE" maxlength="20">
+        </div>
+        <button class="unlock-btn" onclick="checkFinalCode()">🔓 Déverrouiller</button>
+        <div class="feedback" id="final-fb"></div>
+      </div>
+
+      <!-- PIÈCE SECRÈTE EDISON (mode 50 min seulement) -->
+      <div class="secret-room" id="secret-edison">
+        <div class="secret-badge">⭐ PIÈCE SECRÈTE — CULTURE PHYSIQUE</div>
+        <div class="secret-title">🧪 Thomas Edison et la transmission du signal</div>
+        <p style="font-size:0.9rem;color:#3a4a5a;margin-bottom:16px;line-height:1.5;">
+          Félicitations, explorateur ! Tu as accédé à la pièce secrète réservée aux plus perspicaces. Découvre le rôle méconnu de Thomas Edison dans l'histoire de la transmission des signaux électriques.
+        </p>
+        <div class="edison-fact">
+          <strong>🕯️ L'inventeur de la lumière électrique (1879)</strong><br>
+          Edison invente la lampe à incandescence en 1879, rendant possible l'électrification des villes. Cette infrastructure électrique deviendra le substrat indispensable à toutes les communications électriques.
+        </div>
+        <div class="edison-fact">
+          <strong>📡 L'effet Edison (1883) — Premier phénomène électronique</strong><br>
+          En cherchant à améliorer ses lampes, Edison observe que dans une ampoule vide, un courant peut circuler entre le filament et une plaquette métallique sans contact physique. C'est le premier phénomène électronique connu. Il le note soigneusement sans en comprendre l'origine. Ce phénomène, redécouvert par Fleming en 1904, donnera naissance à la diode et à l'électronique moderne — dont les capteurs CTN et LDR que vous étudiez !
+        </div>
+        <div class="edison-fact">
+          <strong>📞 Le téléphone et la transmission vocale</strong><br>
+          En 1876, Edison améliore le microphone à charbon de Graham Bell. Sa version du récepteur téléphonique transforme les vibrations sonores en variations de résistance électrique — un <strong>capteur résistif avant l'heure !</strong> Le charbon comprimé par la membrane voit sa résistance varier selon la pression acoustique : exactement le principe d'une jauge de contrainte.
+        </div>
+        <div class="edison-fact">
+          <strong>📼 Le phonographe (1877) — Encoder un signal sonore</strong><br>
+          Edison invente le phonographe : il encode mécaniquement un signal sonore sur un cylindre de cire. C'est la première fois qu'un signal physique (sonore) est converti, stocké et reproduit. Ce principe de transduction (conversion d'une grandeur physique en signal électrique ou mécanique) est exactement celui des capteurs résistifs du programme !
+        </div>
+        <div class="edison-fact">
+          <strong>💡 Le lien avec votre cours</strong><br>
+          Edison a compris avant tout le monde que <strong>mesurer</strong>, c'est convertir une grandeur physique en un signal manipulable. Ses expériences sur la résistance des matériaux aux variations de température (filaments de lampe) annoncent directement les thermistances CTN. Sa devise : <em>"Le génie, c'est 1% d'inspiration et 99% de transpiration."</em> — autant dire : appliquer la loi d'Ohm encore et encore jusqu'à ce que ça marche !
+        </div>
+
+        <!-- Quiz Edison -->
+        <div style="background:#fff;border-radius:12px;padding:18px;margin-top:18px;border:2px solid var(--gold-light);">
+          <div style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--gold);margin-bottom:12px;">📝 Quiz Edison — 3 questions bonus</div>
+
+          <div style="margin-bottom:14px;">
+            <p style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">1. L'effet Edison (1883) est à l'origine de quel composant fondamental de l'électronique ?</p>
+            <div class="choices" id="edi0-choices">
+              <button class="choice-btn" onclick="checkQCM('edi0',this,'b')">A — Le transistor (1947)</button>
+              <button class="choice-btn" onclick="checkQCM('edi0',this,'b')">B — La diode (valve Fleming, 1904)</button>
+              <button class="choice-btn" onclick="checkQCM('edi0',this,'b')">C — La CTN (1930)</button>
+              <button class="choice-btn" onclick="checkQCM('edi0',this,'b')">D — Le condensateur</button>
+            </div>
+            <div class="feedback" id="edi0-fb"></div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <p style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">2. Le microphone à charbon d'Edison est un capteur résistif : quelle grandeur physique convertit-il en variation de résistance ?</p>
+            <div class="choices" id="edi1-choices">
+              <button class="choice-btn" onclick="checkQCM('edi1',this,'a')">A — La pression acoustique (son)</button>
+              <button class="choice-btn" onclick="checkQCM('edi1',this,'a')">B — La température</button>
+              <button class="choice-btn" onclick="checkQCM('edi1',this,'a')">C — L'éclairement</button>
+              <button class="choice-btn" onclick="checkQCM('edi1',this,'a')">D — La vitesse du courant</button>
+            </div>
+            <div class="feedback" id="edi1-fb"></div>
+          </div>
+
+          <div>
+            <p style="font-size:0.88rem;font-weight:700;margin-bottom:8px;">3. Un filament de lampe Edison a R = 60 Ω à froid. Sous U = 6 V, quel courant I le traverse ?</p>
+            <div class="enigme-input-wrap">
+              <input class="enigme-input" id="edi2-inp" type="text" placeholder="I = … mA">
+              <button class="check-btn" onclick="checkInput('edi2','100','mA')">✓ Vérifier</button>
+            </div>
+            <div class="feedback" id="edi2-fb"></div>
+            <button class="hint-btn" onclick="toggleHint('edi2-hint')">💡 Indice</button>
+            <div class="hint-box" id="edi2-hint">I = U / R = 6 / 60 = 0,1 A = ? mA</div>
+          </div>
+        </div>
+      </div><!-- /secret-edison -->
+
+      <div class="nav-btns">
+        <button class="nav-btn" onclick="gotoRoom(2)">← Pièce 3</button>
+        <button class="nav-btn next" id="r3-next" onclick="triggerVictory()" disabled>🏆 Terminer la mission !</button>
+      </div>
+    </div><!-- /room-3 -->
+
+  </div><!-- /game-wrap -->
+</div><!-- /screen-game -->
+
+<!-- ================================================================ -->
+<!-- ÉCRAN VICTOIRE -->
+<!-- ================================================================ -->
+<div id="screen-victory">
+  <div class="victory-emoji">🎉</div>
+  <div class="victory-title">Mission accomplie !</div>
+  <p style="font-size:0.95rem;color:#3a4a5a;margin-bottom:16px;max-width:480px;line-height:1.5;">
+    Tu as traversé les époques et remis en marche la machine temporelle.<br>
+    Les signaux circulent à nouveau à travers les âges !
+  </p>
+  <div class="victory-time" id="victory-time-display">⏱ Temps : --:--</div>
+  <p style="font-size:0.85rem;color:#5A6B7A;margin-bottom:20px;max-width:400px;line-height:1.5;" id="victory-msg"></p>
+  <button class="restart-btn" onclick="location.reload()">↩ Rejouer</button>
+  <p style="font-size:0.75rem;color:#8a9aaa;margin-top:14px;">©C.Poirault-Gauvin — Séquence 12 Physique-Chimie 2nde</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- JAVASCRIPT -->
+<!-- ================================================================ -->
+<script>
+/* ========== CONFIG ========== */
+let MODE = 15; // 15 ou 50
+let timerInterval = null;
+let elapsedSeconds = 0;
+let roomUnlocked = [true, false, false, false];
+
+// Codes par pièce
+const CODES = ['FEU', 'OHM', 'CTN', 'LDR'];
+const FINAL_CODE = 'FEUOHMCTNLDR';
+
+// Nombre d'énigmes par pièce selon le mode
+const ENIGMES_COUNT = { 15: 3, 50: 5 };
+
+// Suivi de résolution
+let roomSolved = [
+  [false, false, false, false, false], // room 0
+  [false, false, false, false, false], // room 1
+  [false, false, false, false, false], // room 2
+  [false, false, false, false, false], // room 3
+];
+let roomComplete = [false, false, false, false];
+
+/* ========== DÉMARRAGE ========== */
+function startGame(mode) {
+  MODE = mode;
+  document.getElementById('screen-home').style.display = 'none';
+  document.getElementById('screen-game').style.display = 'block';
+
+  const badge = document.getElementById('gh-badge');
+  badge.textContent = mode === 15 ? 'MODE FLASH ⚡' : 'MODE EXPLORATEUR 🔍';
+  badge.style.background = mode === 15 ? '#2D5F8A' : '#E8590C';
+
+  // Afficher/masquer les énigmes mode 50
+  document.querySelectorAll('.mode-50').forEach(el => {
+    el.style.display = mode === 50 ? 'block' : 'none';
+  });
+
+  // Pièce secrète Edison visible seulement en mode 50
+  // (révélée après résolution complète de la pièce 4)
+
+  startTimer();
+  updateProgress();
+  gotoRoom(0);
+}
+
+/* ========== TIMER ========== */
+function startTimer() {
+  elapsedSeconds = 0;
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const m = Math.floor(elapsedSeconds / 60).toString().padStart(2,'0');
+  const s = (elapsedSeconds % 60).toString().padStart(2,'0');
+  const el = document.getElementById('timer');
+  el.textContent = `⏱ ${m}:${s}`;
+  const limit = MODE * 60;
+  el.classList.toggle('urgent', elapsedSeconds > limit * 0.8);
+}
+function formatTime(s) {
+  const m = Math.floor(s / 60).toString().padStart(2,'0');
+  const sec = (s % 60).toString().padStart(2,'0');
+  return `${m}:${sec}`;
+}
+
+/* ========== NAVIGATION ========== */
+function gotoRoom(n) {
+  document.querySelectorAll('.room').forEach((r,i) => r.classList.toggle('active', i===n));
+  window.scrollTo(0, 0);
+}
+
+/* ========== QCM ========== */
+function checkQCM(id, btn, correctLetter) {
+  // Trouver l'index du bouton cliqué dans son groupe
+  const choices = btn.parentElement.querySelectorAll('.choice-btn');
+  const letters = ['a','b','c','d'];
+  let clickedIdx = 0;
+  choices.forEach((b, i) => { if(b === btn) clickedIdx = i; });
+  const clicked = letters[clickedIdx];
+
+  const fb = document.getElementById(id + '-fb');
+  // Désactiver les boutons
+  choices.forEach(b => b.style.pointerEvents='none');
+
+  const correctIdx = letters.indexOf(correctLetter);
+  if(clicked === correctLetter) {
+    btn.classList.add('correct');
+    showFeedback(fb, '✅ Bonne réponse !', 'ok');
+  } else {
+    btn.classList.add('wrong');
+    if(correctIdx >= 0 && choices[correctIdx]) choices[correctIdx].classList.add('correct');
+    showFeedback(fb, '❌ Pas tout à fait. La bonne réponse est surlignée en vert.', 'ko');
+  }
+  markSolved(id);
+}
+
+/* ========== INPUT NUMÉRIQUE ========== */
+function checkInput(id, correct, unit) {
+  const inp = document.getElementById(id + '-inp');
+  const fb = document.getElementById(id + '-fb');
+  if(!inp) return;
+
+  // Normaliser : supprimer espaces, remplacer virgule par point
+  let val = inp.value.trim().replace(',','.').replace(/[^0-9.]/g,'');
+  let ref = correct.toString().replace(',','.');
+
+  inp.disabled = true;
+  const checkBtn = inp.parentElement.querySelector('.check-btn');
+  if(checkBtn) checkBtn.disabled = true;
+
+  if(parseFloat(val) === parseFloat(ref)) {
+    inp.classList.add('correct');
+    showFeedback(fb, `✅ Correct ! ${correct} ${unit}`, 'ok');
+    markSolved(id);
+  } else {
+    inp.classList.add('wrong');
+    showFeedback(fb, `❌ Pas tout à fait. La bonne réponse est ${correct} ${unit}.`, 'ko');
+    markSolved(id); // on déverrouille quand même pour avancer
+  }
+}
+
+/* ========== FEEDBACK ========== */
+function showFeedback(el, msg, type) {
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'feedback ' + type;
+}
+
+/* ========== DÉVERROUILLAGE SÉQUENTIEL ========== */
+function markSolved(enigmeId) {
+  // Identifier pièce et numéro d'énigme
+  // id format : "r0e0", "r1e2", "edi0", etc.
+  const match = enigmeId.match(/^r(\d)e(\d)$/);
+  if(!match) {
+    // Quiz Edison — pas de déverrouillage de pièce
+    return;
+  }
+  const r = parseInt(match[1]);
+  const e = parseInt(match[2]);
+  roomSolved[r][e] = true;
+
+  // Déverrouiller la prochaine énigme visible
+  let nextIdx = e + 1;
+  while(nextIdx <= 4) {
+    const nextEl = document.getElementById('r'+r+'e'+nextIdx);
+    if(nextEl && nextEl.style.display !== 'none') {
+      nextEl.classList.remove('enigme-locked');
+      break;
+    }
+    nextIdx++;
+  }
+
+  checkRoomComplete(r);
+}
+
+function checkRoomComplete(r) {
+  const needed = MODE === 15 ? 3 : 5;
+  let count = 0;
+  for(let i=0; i<needed; i++) { if(roomSolved[r][i]) count++; }
+
+  if(count >= needed) {
+    roomComplete[r] = true;
+    // Afficher fragment de code
+    const codeEl = document.getElementById(`r${r}-code`);
+    if(codeEl) codeEl.style.display = 'block';
+    // Activer bouton suivant
+    const nextBtn = document.getElementById(`r${r}-next`);
+    if(nextBtn) nextBtn.disabled = false;
+
+    if(r === 3) {
+      // Afficher verrou final
+      const lock = document.getElementById('final-lock');
+      if(lock) lock.style.display = 'block';
+      // Afficher pièce secrète si mode 50
+      if(MODE === 50) {
+        document.getElementById('secret-edison').classList.add('revealed');
+      }
+    }
+    updateProgress();
+  }
+}
+
+/* ========== CODE FINAL ========== */
+function checkFinalCode() {
+  const inp = document.getElementById('final-input');
+  const fb = document.getElementById('final-fb');
+  const val = inp.value.trim().toUpperCase();
+
+  if(val === FINAL_CODE) {
+    showFeedback(fb, '🔓 Code correct ! La machine temporelle est réparée !', 'ok');
+    document.getElementById('r3-next').disabled = false;
+  } else {
+    showFeedback(fb, '❌ Code incorrect. Assemble les 4 fragments dans l\'ordre des pièces.', 'ko');
+  }
+}
+
+/* ========== VICTOIRE ========== */
+function triggerVictory() {
+  clearInterval(timerInterval);
+  document.getElementById('screen-game').style.display = 'none';
+  const vScreen = document.getElementById('screen-victory');
+  vScreen.classList.add('active');
+  document.getElementById('victory-time-display').textContent = `⏱ Temps écoulé : ${formatTime(elapsedSeconds)}`;
+
+  const limit = MODE * 60;
+  let msg = '';
+  if(elapsedSeconds <= limit * 0.7) {
+    msg = '⭐⭐⭐ Excellent ! Tu as résolu l\'escape game bien avant la limite de temps. Les signaux n\'ont aucun secret pour toi !';
+  } else if(elapsedSeconds <= limit) {
+    msg = '⭐⭐ Bien joué ! Tu as terminé dans le temps imparti. Continue comme ça !';
+  } else {
+    msg = '⭐ Mission accomplie ! Le temps était dépassé mais tu as persévéré. Revois les points difficiles et retente ta chance !';
+  }
+  document.getElementById('victory-msg').textContent = msg;
+}
+
+/* ========== PROGRESS BAR ========== */
+function updateProgress() {
+  const total = 4;
+  const done = roomComplete.filter(Boolean).length;
+  document.getElementById('progress-bar').style.width = (done/total*100) + '%';
+}
+
+/* ========== HINTS ========== */
+function toggleHint(id) {
+  const el = document.getElementById(id);
+  if(el) el.classList.toggle('open');
+}
+
+/* ========== INIT MODE 50 : déverrouiller e3 et e4 quand e2 est résolu ========== */
+// On surveille la résolution de l'énigme 2 (index 2) pour débloquer 3 et 4
+// déjà géré dans markSolved
+
+</script>
+</body>
+</html>

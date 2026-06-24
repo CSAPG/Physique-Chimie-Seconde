@@ -1,0 +1,161 @@
+/* ═══════════════════════════════════════════════
+   index.css — Styles de la page d'accueil
+   Physique-Chimie Seconde · Mme Poirault-Gauvin
+═══════════════════════════════════════════════ */
+
+body { background: #f0f7ff; }
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #0f3460 0%, #16527a 50%, #0e7490 100%);
+  padding: 18px 24px 4px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 3px solid #1a6b8a;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-title { position:relative;z-index:2;font-size:1.5rem;font-weight:800;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,0.25);margin-bottom:2px; }
+.hero-sub   { position:relative;z-index:2;font-size:0.9rem;color:#bae6fd;margin-bottom:4px; }
+.hero-badge { position:relative;z-index:2;display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:3px 14px;font-size:0.8rem;color:#e0f2fe;margin-top:4px; }
+
+/* ── Bandeau d'icônes animées ── */
+.hero-icons-strip {
+  position: relative; z-index: 1;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: clamp(6px, 1.6vw, 22px);
+  flex-wrap: nowrap; overflow: hidden;
+  padding-top: 6px; margin-bottom: -10px;
+  opacity: 0.9;
+}
+.hero-icons-strip > div {
+  flex-shrink: 0;
+  transform: scale(1.1); transform-origin: center;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+.hero-icons-strip .badge-dispo { display: none; }
+@media (max-width: 760px) { .hero-icons-strip > div:nth-child(n+9)  { display: none; } }
+@media (max-width: 520px) { .hero-icons-strip > div:nth-child(n+7)  { display: none; }
+                             .hero-icons-strip > div { transform: scale(0.84); } }
+
+/* ── Navigation ── */
+.main-nav {
+  background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 12px 24px; display: flex; align-items: center;
+  justify-content: center; gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 100;
+}
+.dropdown-wrapper { position: relative; display: inline-block; }
+.dropdown-btn {
+  color: #0e7490; font-size: 1.1rem; font-weight: 700;
+  background: none; border: 2px solid #0e7490; border-radius: 8px;
+  cursor: pointer; padding: 8px 18px;
+  display: flex; align-items: center; gap: 8px; transition: background 0.15s;
+}
+.dropdown-btn:hover { background: #ecfeff; }
+.dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 6px); left: 0;
+  background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12); z-index: 1000;
+  min-width: 340px; padding: 6px 0; list-style: none;
+}
+.dropdown-menu li button {
+  width: 100%; text-align: left; padding: 10px 20px;
+  background: none; border: none; cursor: pointer;
+  color: #1e293b; font-size: 0.92rem; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+}
+.dropdown-menu li button:hover { background: #ecfeff; color: #0e7490; }
+.seq-num {
+  display: inline-block; background: #0e7490; color: white;
+  border-radius: 6px; padding: 1px 7px; font-size: 0.78rem;
+  font-weight: 700; min-width: 28px; text-align: center; flex-shrink: 0;
+}
+.dropdown-menu li button.disabled-seq { color: #94a3b8; cursor: default; }
+.dropdown-menu li button.disabled-seq:hover { background: none; color: #94a3b8; }
+.dropdown-menu li button.disabled-seq .seq-num { background: #cbd5e1; }
+
+/* ── Contenu ── */
+.content-area { max-width: 900px; margin: 0 auto; padding: 32px 16px; }
+
+/* ── Bloc bienvenue ── */
+.welcome-block {
+  background: white; border-radius: 16px; padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; margin-bottom: 24px;
+}
+.welcome-block h2 { font-size: 1.4rem; font-weight: 700; color: #0e7490; margin-bottom: 12px; }
+.welcome-block p  { color: #475569; line-height: 1.7; }
+
+/* ── Grille de séquences ── */
+.seq-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(200px,1fr)); gap: 16px; margin-top: 24px; }
+.seq-card {
+  background: white; border-radius: 12px; padding: 20px 16px;
+  text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1.5px solid #e0f2fe; cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-decoration: none; color: inherit; display: block;
+}
+.seq-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(14,116,144,0.15); border-color: #0e7490; }
+.seq-card.coming-soon { opacity: 0.45; cursor: default; pointer-events: none; }
+.seq-card .seq-icon  { font-size: 2.4rem; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; min-height: 60px; }
+.seq-card .seq-num-badge { display: inline-block; background: #0e7490; color: white; border-radius: 8px; padding: 4px 14px; font-size: 0.95rem; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.03em; }
+.seq-card.coming-soon .seq-num-badge { background: #94a3b8; }
+.seq-card .seq-title { font-size: 1rem; font-weight: 700; color: #1e293b; line-height: 1.4; }
+.seq-card.coming-soon .seq-title { color: #94a3b8; }
+
+/* ── Panneaux de séquence ── */
+.seq-panel { display: none; background: white; border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.seq-panel.active { display: block; }
+.seq-panel-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #e0f2fe;
+}
+.seq-panel-header .big-num { font-size: 2.5rem; font-weight: 800; color: #0e7490; line-height: 1; }
+.seq-panel-header h3 { font-size: 1.3rem; font-weight: 700; color: #0f3460; }
+.seq-panel-header p  { font-size: 0.88rem; color: #64748b; }
+
+/* ── Libellé de sous-section ── */
+.section-label {
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; padding-left: 4px;
+}
+
+/* ── Liens ressources ── */
+.resource-link {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; background: #f0f9ff;
+  border: 1.5px solid #bae6fd; border-radius: 10px;
+  text-decoration: none; color: #0e7490; font-weight: 600;
+  transition: background 0.15s, border-color 0.15s; margin-bottom: 10px;
+}
+.resource-link:hover { background: #e0f2fe; border-color: #0e7490; }
+.resource-link .icon  { font-size: 1.4rem; }
+.resource-link .label { font-size: 0.95rem; }
+.resource-link .sub   { font-size: 0.78rem; color: #64748b; font-weight: 400; }
+
+/* ── Bouton retour ── */
+.btn-back {
+  background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px;
+  cursor: pointer; font-size: 0.85rem; font-weight: 600; color: #475569;
+  padding: 6px 14px; transition: background 0.15s;
+}
+.btn-back:hover { background: #e2e8f0; }
+
+/* ── Footer ── */
+footer { text-align: center; padding: 24px; color: #94a3b8; font-size: 0.82rem; margin-top: 48px; }
+
+/* ── Overlay d'authentification ── */
+#auth-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0f3460 0%, #16527a 50%, #0e7490 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden; padding: 16px;
+}
+#auth-overlay .hero-icons-strip {
+  position: absolute; top: 0; left: 0; right: 0;
+  width: 100%; margin: 0; padding-top: 14px; opacity: 0.85;
+}

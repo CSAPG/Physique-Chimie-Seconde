@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Séquence 07 – Transformation chimique et synthèse</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #2D5F8A;
+    --bleu-clair: #E8F1F8;
+    --bleu-moyen: #5B8FB9;
+    --bleu-activite: #EEF5FB;
+    --bleu-activite-bord: #B8D4EC;
+    --orange: #E8783A;
+    --orange-clair: #FDF0E8;
+    --vert: #3A8A6E;
+    --vert-clair: #E8F5F0;
+    --vert-exo: #F0FAF6;
+    --vert-exo-bord: #B2DDD0;
+    --rouge: #C0392B;
+    --rouge-clair: #FDEDEC;
+    --violet: #7B4FA6;
+    --violet-clair: #F3EDF9;
+    --gris-fond: #F5F7FA;
+    --gris-bord: #DDE3EC;
+    --texte: #1A2A3A;
+    --texte-léger: #5A6B7A;
+    --blanc: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #F0F4F8; color: var(--texte); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--blanc);
+    border: 1px solid #E3E8EE;
+    border-bottom: 3px solid var(--bleu);
+    border-radius: 14px;
+    padding: 18px 24px 14px;
+    max-width: 860px;
+    margin: 0 auto 24px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(45,95,138,0.10);
+  }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .header-left { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; flex-shrink: 0; margin-top: 2px; }
+  .header-badge { background: var(--bleu); color: white; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  button.cap-toggle { background: var(--bleu); color: #fff; border: none; padding: 5px 12px; border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.74rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  button.cap-toggle:hover { background: #1e4466; }
+  .cap-panel { display: none; margin: 0 0 14px; background: #fff; border: 1px solid #B8D4EC; border-radius: 12px; padding: 16px 20px; font-size: 0.88rem; color: var(--texte); }
+  .cap-panel.open { display: block; }
+  .cap-panel ul { margin: 0; padding-left: 1.3rem; }
+  .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+  .header-titles h1 { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--bleu); line-height: 1.2; }
+  .header-titles p { font-size: 0.82rem; color: var(--texte-léger); margin-top: 2px; }
+  .header-titles p span { color: var(--orange); font-weight: 700; }
+
+  /* ── ONGLETS ── */
+  .tabs-nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+  .tab-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px 12px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--texte-léger); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; position: relative; bottom: -3px; }
+  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn.active { color: var(--bleu); border-bottom-color: var(--bleu); background: var(--bleu-clair); border-radius: 6px 6px 0 0; }
+  .tab-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gris-bord); color: var(--texte-léger); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .tab-btn.active .tab-num { background: var(--bleu); color: white; }
+
+  /* ── CONTENU ── */
+  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── BLOCS ── */
+  .def-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-left: 4px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
+  .def-card::before { content: 'COURS'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--bleu-moyen); opacity: 0.6; }
+  .def-card h3 { font-family: 'Outfit', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .def-card p, .def-card ul { font-size: 0.92rem; line-height: 1.65; color: var(--texte); }
+  .def-card ul { padding-left: 18px; }
+  .def-card ul li { margin-bottom: 5px; }
+
+  .activite-card { background: var(--bleu-activite); border: 1.5px solid var(--bleu-activite-bord); border-left: 4px solid var(--bleu-moyen); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
+  .activite-card::before { content: 'ACTIVITÉ'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--bleu-moyen); opacity: 0.8; }
+  .activite-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; }
+
+  .exo-card { background: var(--vert-exo); border: 1.5px solid var(--vert-exo-bord); border-left: 4px solid var(--vert); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
+  .exo-card::before { content: 'APPLICATION'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--vert); opacity: 0.7; }
+  .exo-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); margin-bottom: 10px; }
+
+  .section-title { font-family: 'Outfit', sans-serif; font-size: 1.18rem; font-weight: 800; color: var(--bleu); margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bleu-clair); }
+
+  .formule-box { background: var(--orange-clair); border: 2px solid var(--orange); border-radius: 10px; padding: 14px 20px; margin: 14px 0; text-align: center; font-size: 1.05rem; font-weight: 700; color: var(--texte); }
+  .formule-box .legend { font-size: 0.80rem; font-weight: 500; color: var(--texte-léger); margin-top: 6px; text-align: left; }
+
+  .exemple-box { background: var(--vert-clair); border-left: 4px solid var(--vert); border-radius: 0 8px 8px 0; padding: 11px 16px; margin: 10px 0; font-size: 0.88rem; color: var(--texte); }
+  .exemple-box strong { color: var(--vert); }
+
+  .remarque-box { background: var(--violet-clair); border-left: 4px solid var(--violet); border-radius: 0 8px 8px 0; padding: 11px 16px; margin: 10px 0; font-size: 0.88rem; color: var(--texte); }
+  .remarque-box strong { color: var(--violet); }
+
+  .intro-box { background: #FFFBF7; border-left: 4px solid var(--orange); border-radius: 0 10px 10px 0; padding: 14px 18px; margin-bottom: 22px; font-size: 0.93rem; line-height: 1.65; color: var(--texte); font-style: italic; }
+
+  /* ── BOUTONS ── */
+  .btn-verif { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 9px 20px; background: var(--bleu); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .btn-verif:hover { background: #1e4466; transform: translateY(-1px); }
+  .btn-correction { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 9px 20px; background: var(--vert); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-reset { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 9px 20px; background: var(--gris-fond); color: var(--texte-léger); border: 1.5px solid var(--gris-bord); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .btn-reset:hover { background: var(--gris-bord); }
+
+  .feedback { display: none; border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.88rem; line-height: 1.7; }
+  .feedback.visible { display: block; animation: fadeIn 0.2s ease; }
+  .feedback.ok { background: var(--vert-exo); border: 1.5px solid var(--vert); }
+  .feedback.erreur { background: var(--rouge-clair); border: 1.5px solid var(--rouge); }
+  .feedback.info { background: var(--bleu-clair); border: 1.5px solid var(--bleu-moyen); }
+
+  /* ── ÉQUILIBREUR ── */
+  .eq-display { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700; text-align: center; padding: 14px; background: var(--gris-fond); border-radius: 10px; margin: 14px 0; line-height: 2.2; }
+  .eq-coeff-zone { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 14px 0; }
+  .eq-coeff-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .eq-coeff-label { font-size: 0.78rem; color: var(--texte-léger); font-weight: 600; }
+  .eq-coeff-input { width: 56px; padding: 7px; border: 2px solid var(--gris-bord); border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; text-align: center; background: white; color: var(--texte); transition: border-color 0.2s; }
+  .eq-coeff-input:focus { outline: none; border-color: var(--bleu); }
+  .eq-coeff-input.correct { border-color: var(--vert); background: var(--vert-clair); }
+  .eq-coeff-input.wrong { border-color: var(--rouge); background: var(--rouge-clair); }
+  .atom-counter { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+  .atom-chip { padding: 5px 12px; border-radius: 20px; font-family: 'Outfit', sans-serif; font-size: 0.84rem; font-weight: 700; border: 2px solid; transition: all 0.2s; }
+  .atom-chip.balanced { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .atom-chip.unbalanced { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+  .atom-chip.neutral { background: var(--gris-fond); border-color: var(--gris-bord); color: var(--texte-léger); }
+
+  /* ── SLIDER RÉACTIF LIMITANT ── */
+  .slider-wrap { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; margin: 14px 0; }
+  .slider-label { font-size: 0.88rem; font-weight: 700; color: var(--texte); margin-bottom: 8px; display: flex; justify-content: space-between; }
+  input[type=range] { width: 100%; accent-color: var(--bleu); cursor: pointer; margin: 8px 0; }
+  .ratio-display { text-align: center; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--bleu); margin: 8px 0; }
+  .cas-badge { display: inline-block; padding: 5px 16px; border-radius: 20px; font-family: 'Outfit', sans-serif; font-size: 0.88rem; font-weight: 700; margin: 4px auto; }
+  .cas-stoechio { background: var(--vert-clair); color: var(--vert); border: 2px solid var(--vert); }
+  .cas-a-limitant { background: var(--rouge-clair); color: var(--rouge); border: 2px solid var(--rouge); }
+  .cas-b-limitant { background: var(--orange-clair); color: var(--orange); border: 2px solid var(--orange); }
+  .tableau-avancement { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; background: var(--blanc); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .tableau-avancement th { background: var(--bleu); color: white; padding: 9px 10px; text-align: center; font-family: 'Outfit', sans-serif; font-size: 0.80rem; font-weight: 700; }
+  .tableau-avancement td { padding: 8px 10px; border-bottom: 1px solid var(--gris-bord); text-align: center; }
+  .tableau-avancement tr:last-child td { border-bottom: none; }
+  .tableau-avancement tr:nth-child(even) td { background: var(--gris-fond); }
+  .highlight-limitant { background: #FDEDEC !important; color: var(--rouge); font-weight: 700; }
+  .highlight-exces { background: #FFF8E8 !important; color: #8A6E1A; font-weight: 600; }
+
+  /* ── CHOIX BOUTONS ── */
+  .choix-btn { width: 100%; padding: 10px 16px; border-radius: 8px; border: 2px solid var(--gris-bord); background: var(--gris-fond); font-family: 'Nunito', sans-serif; font-size: 0.90rem; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.18s; color: var(--texte); margin-bottom: 8px; }
+  .choix-btn:hover { border-color: var(--bleu); background: var(--bleu-clair); }
+  .choix-btn.correct { border-color: var(--vert); background: var(--vert-clair); color: var(--vert); }
+  .choix-btn.wrong { border-color: var(--rouge); background: var(--rouge-clair); color: var(--rouge); }
+  .choix-btn.selected-multi { border-color: var(--bleu); background: var(--bleu-clair); color: var(--bleu); }
+  .choix-btn:disabled { cursor: default; }
+
+  /* ── ÉTAPES SYNTHÈSE CLIQUABLES ── */
+  .etapes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 14px 0; }
+  .etape-card {
+    background: var(--blanc);
+    border: 2px solid var(--gris-bord);
+    border-radius: 14px;
+    padding: 18px 12px 14px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  }
+  .etape-card:hover { box-shadow: 0 4px 18px rgba(45,95,138,0.15); transform: translateY(-3px); border-color: var(--bleu); }
+  .etape-card.active { border-color: var(--bleu); background: var(--bleu-clair); box-shadow: 0 4px 18px rgba(45,95,138,0.18); }
+  .etape-num { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; background: var(--bleu); color: white; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; }
+  .etape-icon { font-size: 2.2rem; margin: 10px 0 8px; }
+  .etape-title { font-family: 'Outfit', sans-serif; font-size: 0.90rem; font-weight: 700; color: var(--bleu); margin-bottom: 4px; }
+  .etape-hint { font-size: 0.75rem; color: var(--texte-léger); font-style: italic; }
+
+  .etape-detail {
+    display: none;
+    background: var(--blanc);
+    border: 2px solid var(--bleu);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 4px 0 16px;
+    animation: fadeIn 0.2s ease;
+  }
+  .etape-detail.visible { display: block; }
+  .etape-detail h4 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 800; color: var(--bleu); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .etape-detail ul { padding-left: 18px; font-size: 0.88rem; line-height: 1.7; color: var(--texte); }
+  .etape-detail ul li { margin-bottom: 5px; }
+  .etape-detail .detail-section { margin-top: 10px; }
+  .etape-detail .detail-section strong { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--bleu-moyen); }
+  .etape-close { float: right; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--texte-léger); margin-top: -4px; }
+  .etape-close:hover { color: var(--rouge); }
+
+  /* ── TABLEAU ESPÈCES ── */
+  .especes-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: 14px 0; background: var(--blanc); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .especes-table th { background: var(--bleu); color: white; padding: 9px 12px; text-align: left; font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 700; }
+  .especes-table td { padding: 9px 12px; border-bottom: 1px solid var(--gris-bord); vertical-align: middle; }
+  .especes-table tr:last-child td { border-bottom: none; }
+  .especes-table tr:nth-child(even) td { background: var(--gris-fond); }
+  .badge-nat { background: var(--vert-clair); color: var(--vert); font-weight: 700; padding: 2px 10px; border-radius: 12px; font-size: 0.80rem; white-space: nowrap; }
+  .badge-syn { background: var(--bleu-clair); color: var(--bleu); font-weight: 700; padding: 2px 10px; border-radius: 12px; font-size: 0.80rem; white-space: nowrap; }
+  .badge-art { background: var(--violet-clair); color: var(--violet); font-weight: 700; padding: 2px 10px; border-radius: 12px; font-size: 0.80rem; white-space: nowrap; }
+
+  /* ── APPLICATION MENTHONE ── */
+  .question-step { display: none; }
+  .question-step.active { display: block; animation: fadeIn 0.25s ease; }
+  .step-progress { display: flex; gap: 6px; margin-bottom: 18px; }
+  .step-dot { width: 32px; height: 8px; border-radius: 4px; background: var(--gris-bord); transition: background 0.3s; }
+  .step-dot.done { background: var(--vert); }
+  .step-dot.current { background: var(--bleu); }
+  .question-enonce { background: var(--blanc); border-radius: 10px; padding: 14px 18px; font-size: 0.90rem; line-height: 1.7; margin-bottom: 12px; border: 1px solid var(--gris-bord); }
+  .question-label { font-size: 0.88rem; font-weight: 700; color: var(--texte); padding-left: 8px; border-left: 3px solid var(--vert); margin-bottom: 8px; }
+  .rep-zone { width: 100%; min-height: 52px; padding: 10px 14px; border: 1.5px solid var(--vert-exo-bord); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; background: var(--blanc); color: var(--texte); resize: vertical; transition: border-color 0.2s; }
+  .rep-zone:focus { outline: none; border-color: var(--vert); }
+  .correction-block { display: none; background: var(--vert-exo); border: 1.5px solid var(--vert); border-radius: 10px; padding: 14px 18px; margin-top: 8px; font-size: 0.88rem; line-height: 1.7; }
+  .correction-block.visible { display: block; animation: fadeIn 0.2s ease; }
+  .correction-block strong { color: var(--vert); }
+  .correction-block .calc-step { background: white; border-radius: 6px; padding: 8px 12px; margin: 6px 0; font-family: 'Outfit', sans-serif; font-size: 0.90rem; border-left: 3px solid var(--vert); }
+  .btn-next { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 9px 20px; background: var(--orange); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .btn-next:hover { background: #C9622A; }
+  .score-final { display: none; text-align: center; padding: 28px 20px; background: var(--blanc); border: 2px solid var(--bleu); border-radius: 14px; }
+  .score-final h3 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--bleu); margin-bottom: 8px; }
+
+  /* ── BILAN RESSOURCES ── */
+  .bilan-video-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; transition: box-shadow 0.2s, transform 0.15s; }
+  .bilan-video-card:hover { box-shadow: 0 4px 16px rgba(45,95,138,0.12); transform: translateY(-2px); }
+  .bilan-video-icon { width: 56px; height: 56px; border-radius: 12px; background: var(--bleu); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
+  .bilan-video-title { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--bleu); margin-bottom: 4px; }
+  .bilan-video-sub { font-size: 0.82rem; color: var(--texte-léger); }
+  .ressource-link { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--gris-fond); border: 1.5px solid var(--gris-bord); border-radius: 10px; text-decoration: none; color: inherit; margin-bottom: 10px; transition: background 0.15s, border-color 0.15s, transform 0.15s; }
+  .ressource-link:hover { background: var(--bleu-clair); border-color: var(--bleu); transform: translateY(-1px); }
+  .ressource-link .r-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .ressource-link .r-label { font-weight: 700; font-size: 0.95rem; color: var(--bleu); }
+  .ressource-link .r-sub { font-size: 0.78rem; color: var(--texte-léger); margin-top: 2px; }
+
+  .ke-list { list-style: none; padding: 0; }
+  .ke-list li { padding: 7px 10px 7px 30px; position: relative; font-size: 0.86rem; border-bottom: 1px solid var(--gris-bord); line-height: 1.6; }
+  .ke-list li:last-child { border-bottom: none; }
+  .ke-list li::before { content: "✓"; position: absolute; left: 8px; color: var(--vert); font-weight: 800; }
+
+  .bilan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  .bilan-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; }
+  .bilan-card h4 { font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gris-bord); }
+
+  .footer-note { text-align: center; font-size: 0.78rem; color: var(--texte-léger); padding: 20px; border-top: 1px solid var(--gris-bord); margin-top: 30px; }
+  sup { font-size: 0.65em; }
+  sub { font-size: 0.65em; }
+</style>
+</head>
+<body>
+
+<div style="max-width:860px;margin:24px auto 0;padding:0 20px;">
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <span class="header-badge">SÉQ. 07</span>
+      <button class="cap-toggle" onclick="toggleCap()">📋 Capacités</button>
+    </div>
+    <div class="header-titles">
+      <h1>Transformation chimique et synthèse</h1>
+      <p>Thème : <span>Constitution et transformations de la matière</span> · 2<sup>nde</sup></p>
+    </div>
+  </div>
+  <div class="cap-panel" id="cap-panel">
+    <ul class="ke-list">
+      <li>Modéliser, à partir de données expérimentales, une transformation par une réaction, établir l'équation de réaction associée et l'ajuster.</li>
+      <li>Identifier le réactif limitant à partir des quantités de matière des réactifs et de l'équation de réaction.</li>
+      <li>Déterminer le réactif limitant lors d'une transformation chimique totale, à partir de l'identification des espèces chimiques dans l'état final.</li>
+      <li>Modéliser par l'écriture d'une équation de réaction : combustion du carbone et du méthane, corrosion d'un métal par un acide, action d'un acide sur le calcaire, action de HCl sur NaOH.</li>
+      <li>Mesurer une variation de température pour déterminer le caractère endothermique ou exothermique et étudier l'influence de la masse du réactif limitant.</li>
+      <li>Établir qu'une espèce synthétisée au laboratoire peut être identique à une espèce naturelle. Réaliser le schéma légendé d'un montage à reflux et d'une CCM.</li>
+      <li>Mettre en œuvre un montage à reflux pour synthétiser une espèce chimique présente dans la nature.</li>
+      <li>Capacité mathématique : utiliser la proportionnalité.</li>
+    </ul>
+  </div>
+  <div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-num">1</span>Transformation chimique</button>
+    <button class="tab-btn" onclick="switchTab(1)"><span class="tab-num">2</span>Synthèse chimique</button>
+    <button class="tab-btn" onclick="switchTab(2)"><span class="tab-num">3</span>Bilan &amp; Ressources</button>
+  </div>
+</div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════ -->
+<!-- ONGLET 1 — TRANSFORMATION CHIMIQUE -->
+<!-- ══════════════════════════════════ -->
+<div class="tab-content active" id="tab-0">
+
+  <div class="intro-box">
+    L'étude des transformations chimiques est complétée par les notions de stœchiométrie, d'espèce spectatrice et de réactif limitant. L'analyse de l'évolution d'un système pour modéliser sa transformation chimique illustre une démarche de modélisation au niveau macroscopique.
+  </div>
+
+  <div class="section-title">⚗️ I. Définitions</div>
+
+  <div class="def-card">
+    <h3>Transformation chimique</h3>
+    <p>Une <strong>transformation chimique</strong> est le passage d'un système chimique d'un <strong>état initial</strong> à un <strong>état final</strong> avec formation de nouvelles espèces chimiques.</p>
+    <ul style="margin-top:8px;">
+      <li>Les <strong>réactifs</strong> sont les espèces chimiques <em>consommées</em>.</li>
+      <li>Les <strong>produits</strong> sont les espèces chimiques <em>formées</em>.</li>
+      <li>Les <strong>espèces spectatrices</strong> ne réagissent pas et n'apparaissent pas dans l'équation.</li>
+    </ul>
+  </div>
+
+  <div class="def-card">
+    <h3>Équation de réaction</h3>
+    <p>L'équation de réaction traduit la <strong>conservation des éléments</strong> et de la <strong>charge électrique</strong> entre les réactifs et les produits.</p>
+    <div class="formule-box">
+      a A + b B → c C + d D
+      <div class="legend">a, b, c, d : coefficients stœchiométriques &nbsp;·&nbsp; A, B : réactifs &nbsp;·&nbsp; C, D : produits</div>
+    </div>
+    <p style="font-size:0.88rem;margin-top:8px;">Les coefficients assurent que le nombre d'atomes de chaque élément est identique de part et d'autre de la flèche.</p>
+  </div>
+
+  <!-- ── ÉQUILIBREUR ── -->
+  <div class="section-title">⚖️ II. Équilibrer une équation — activité interactive</div>
+
+  <div class="activite-card">
+    <h3>🔥 Combustion du propane C₃H₈</h3>
+    <p style="font-size:0.88rem;margin-bottom:12px;">Le propane brûle dans le dioxygène pour former du dioxyde de carbone et de l'eau. Trouve les bons coefficients stœchiométriques en modifiant les valeurs ci-dessous.</p>
+
+    <div class="eq-display">
+      <span id="eq-a" style="color:var(--rouge);font-size:1.2rem;">?</span> C₃H₈ &nbsp;+&nbsp;
+      <span id="eq-b" style="color:var(--bleu);font-size:1.2rem;">?</span> O₂ &nbsp;→&nbsp;
+      <span id="eq-c" style="color:var(--vert);font-size:1.2rem;">?</span> CO₂ &nbsp;+&nbsp;
+      <span id="eq-d" style="color:var(--orange);font-size:1.2rem;">?</span> H₂O
+    </div>
+
+    <div class="eq-coeff-zone">
+      <div class="eq-coeff-item">
+        <span class="eq-coeff-label" style="color:var(--rouge);">coeff. C₃H₈</span>
+        <input class="eq-coeff-input" id="coeff-a" type="number" min="1" max="10" value="1" oninput="updateEq()">
+      </div>
+      <div class="eq-coeff-item">
+        <span class="eq-coeff-label" style="color:var(--bleu);">coeff. O₂</span>
+        <input class="eq-coeff-input" id="coeff-b" type="number" min="1" max="20" value="1" oninput="updateEq()">
+      </div>
+      <div class="eq-coeff-item">
+        <span class="eq-coeff-label" style="color:var(--vert);">coeff. CO₂</span>
+        <input class="eq-coeff-input" id="coeff-c" type="number" min="1" max="20" value="1" oninput="updateEq()">
+      </div>
+      <div class="eq-coeff-item">
+        <span class="eq-coeff-label" style="color:var(--orange);">coeff. H₂O</span>
+        <input class="eq-coeff-input" id="coeff-d" type="number" min="1" max="20" value="1" oninput="updateEq()">
+      </div>
+    </div>
+
+    <div class="atom-counter" id="atom-counter">
+      <span class="atom-chip neutral" id="chip-C">C : ?/?</span>
+      <span class="atom-chip neutral" id="chip-H">H : ?/?</span>
+      <span class="atom-chip neutral" id="chip-O">O : ?/?</span>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+      <button class="btn-verif" onclick="verifierEq()">✔ Vérifier</button>
+      <button class="btn-correction" onclick="corrigerEq()">👁 Correction</button>
+      <button class="btn-reset" onclick="resetEq()">↺ Recommencer</button>
+    </div>
+    <div class="feedback" id="fb-eq"></div>
+  </div>
+
+  <div class="remarque-box">
+    <strong>Méthode :</strong> On équilibre d'abord les éléments qui n'apparaissent que d'un seul côté (ici C puis H), puis on ajuste O₂ en dernier.
+  </div>
+
+  <!-- ── RÉACTIF LIMITANT ── -->
+  <div class="section-title">📊 III. Réactif limitant</div>
+
+  <div class="def-card">
+    <h3>Réactif limitant</h3>
+    <p>Lors d'une <strong>transformation chimique totale</strong>, l'un au moins des réactifs est entièrement consommé : c'est le <strong>réactif limitant</strong>.</p>
+    <ul style="margin-top:8px;">
+      <li>Si n<sub>A</sub>/n<sub>B</sub> = a/b → <strong>mélange stœchiométrique</strong> : tous les réactifs sont consommés.</li>
+      <li>Si n<sub>A</sub>/n<sub>B</sub> &lt; a/b → <strong>A est limitant</strong>, B est en excès.</li>
+      <li>Si n<sub>A</sub>/n<sub>B</sub> &gt; a/b → <strong>B est limitant</strong>, A est en excès.</li>
+    </ul>
+    <div class="exemple-box" style="margin-top:10px;">
+      <strong>Identifier le réactif limitant depuis l'état final :</strong> si une espèce chimique est encore présente dans l'état final, elle était en excès — l'autre réactif est le limitant.
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>🎚 Simulation — Réactif limitant (synthèse de l'aspirine)</h3>
+    <p style="font-size:0.87rem;margin-bottom:12px;">
+      Réaction : acide salicylique (A) + anhydride éthanoïque (B) → aspirine (C) + acide éthanoïque (D) &nbsp;·&nbsp; <em>a = b = 1</em><br>
+      Fais varier le ratio n(A)/n(B) et observe le réactif limitant ainsi que le tableau d'avancement.
+    </p>
+    <div class="slider-wrap">
+      <div class="slider-label"><span>Ratio n(A) / n(B)</span><span id="ratio-val">1,00</span></div>
+      <input type="range" id="slider-ratio" min="20" max="200" value="100" step="5" oninput="updateSlider()">
+      <div style="display:flex;justify-content:space-between;font-size:0.76rem;color:var(--texte-léger);margin-top:2px;">
+        <span>0,20</span><span>← stœchiométrique : 1,00 →</span><span>2,00</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin:10px 0;">
+      <div class="ratio-display" id="ratio-display">n(A)/n(B) = 1,00 = a/b</div>
+      <span class="cas-badge cas-stoechio" id="cas-badge">Mélange stœchiométrique ✓</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="tableau-avancement">
+        <thead>
+          <tr>
+            <th>État</th>
+            <th>n(A) acide salicylique</th>
+            <th>n(B) anhydride éthanoïque</th>
+            <th>n(C) aspirine</th>
+            <th>n(D) acide éthanoïque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Initial</strong></td><td id="t-nAi">1,00 mol</td><td id="t-nBi">1,00 mol</td><td>0</td><td>0</td></tr>
+          <tr><td><strong>Final</strong></td><td id="t-nAf">0</td><td id="t-nBf">0</td><td id="t-nCf">1,00 mol</td><td id="t-nDf">1,00 mol</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="feedback info visible" id="fb-slider">⚖️ Mélange stœchiométrique : les deux réactifs sont entièrement consommés. Il ne reste que les produits C et D.</div>
+  </div>
+
+  <!-- ── APPLICATION CORROSION ── -->
+  <div class="exo-card">
+    <h3>🔩 Application — Corrosion du zinc par l'acide chlorhydrique</h3>
+    <p style="font-size:0.88rem;line-height:1.68;margin-bottom:6px;">
+      On fait réagir du zinc solide Zn avec une solution d'acide chlorhydrique. L'équation de réaction est :<br><br>
+      <span style="font-family:'Outfit',sans-serif;font-size:1.02rem;font-weight:700;">Zn (s) + 2 HCl (aq) → ZnCl₂ (aq) + H₂ (g)</span>
+    </p>
+    <div class="question-enonce" style="margin-top:10px;">
+      On introduit <strong>n(Zn) = 0,5 mol</strong> et <strong>n(HCl) = 0,8 mol</strong> dans un récipient.<br>
+      À la fin de la réaction, on observe qu'il reste encore du <strong>zinc solide</strong> visible dans le récipient.
+    </div>
+    <p style="font-size:0.88rem;font-weight:700;margin:10px 0 8px;">Quel est le réactif limitant ? Justifie.</p>
+    <div id="corrosion-choices">
+      <button class="choix-btn" onclick="repCorrosion(this,'A')">A) Le zinc Zn est le réactif limitant</button>
+      <button class="choix-btn" onclick="repCorrosion(this,'B')">B) L'acide chlorhydrique HCl est le réactif limitant</button>
+      <button class="choix-btn" onclick="repCorrosion(this,'C')">C) Les deux réactifs sont limitants (mélange stœchiométrique)</button>
+    </div>
+    <div class="feedback" id="fb-corrosion"></div>
+  </div>
+
+</div><!-- /tab-0 -->
+
+
+<!-- ══════════════════════════════════ -->
+<!-- ONGLET 2 — SYNTHÈSE CHIMIQUE -->
+<!-- ══════════════════════════════════ -->
+<div class="tab-content" id="tab-1">
+
+  <div class="section-title">🌿 I. Espèces naturelles, synthétiques et artificielles</div>
+
+  <div class="def-card">
+    <h3>Définitions</h3>
+    <ul>
+      <li>Une <strong>espèce chimique naturelle</strong> est issue de la nature (plantes, minéraux, animaux…).</li>
+      <li>Une <strong>espèce chimique synthétique</strong> est fabriquée par l'Homme — qu'elle existe ou non dans la nature.</li>
+      <li>Si elle n'existe <em>pas</em> dans la nature, on parle d'<strong>espèce artificielle</strong>.</li>
+      <li>Une espèce synthétisée au laboratoire <strong>peut être identique</strong> à une espèce naturelle (mêmes propriétés physiques et chimiques).</li>
+    </ul>
+  </div>
+
+  <div class="activite-card">
+    <h3>🍬 Les colorants des Dragibus</h3>
+    <p style="font-size:0.87rem;margin-bottom:12px;">Les bonbons Dragibus contiennent les colorants suivants. Identifie leur origine.</p>
+    <div style="overflow-x:auto;">
+      <table class="especes-table">
+        <thead><tr><th>Code</th><th>Nom</th><th>Couleur</th><th>Origine</th></tr></thead>
+        <tbody>
+          <tr><td><strong>E100</strong></td><td>Curcumine</td><td>🟡 Jaune</td><td><span class="badge-nat">Naturelle</span> — extrait du curcuma</td></tr>
+          <tr><td><strong>E131</strong></td><td>Bleu patenté V</td><td>🔵 Bleu</td><td><span class="badge-art">Artificielle</span> — colorant de synthèse inexistant dans la nature</td></tr>
+          <tr><td><strong>E153</strong></td><td>Charbon végétal</td><td>⚫ Noir</td><td><span class="badge-nat">Naturelle</span> — charbon d'origine végétale</td></tr>
+          <tr><td><strong>E160a</strong></td><td>Bêta-carotène</td><td>🟠 Orange</td><td><span class="badge-syn">Synthétique</span> — identique au naturel (carotte) · non artificielle</td></tr>
+          <tr><td><strong>E163</strong></td><td>Anthocyanes</td><td>🟣 Violet/rouge</td><td><span class="badge-nat">Naturelle</span> — extrait de fruits rouges</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="remarque-box">
+      <strong>Conclusion :</strong> Les Dragibus ne sont pas entièrement <em>artificiels</em> car la plupart des colorants sont naturels. Attention : <em>synthétique ≠ artificiel</em> — le bêta-carotène (E160a) est synthétisé mais identique à la molécule naturelle.
+    </div>
+  </div>
+
+  <!-- ── 4 ÉTAPES CLIQUABLES ── -->
+  <div class="section-title">🧪 II. Les étapes d'une synthèse chimique</div>
+  <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:14px;">👆 Clique sur une étape pour afficher les détails.</p>
+
+  <div class="etapes-grid">
+    <div class="etape-card" id="etape-1" onclick="toggleEtape(1)">
+      <div class="etape-num">1</div>
+      <div class="etape-icon">⚖️</div>
+      <div class="etape-title">Prélèvement des réactifs</div>
+      <div class="etape-hint">Cliquer pour les détails →</div>
+    </div>
+    <div class="etape-card" id="etape-2" onclick="toggleEtape(2)">
+      <div class="etape-num">2</div>
+      <div class="etape-icon">🔥</div>
+      <div class="etape-title">Transformation chimique</div>
+      <div class="etape-hint">Cliquer pour les détails →</div>
+    </div>
+    <div class="etape-card" id="etape-3" onclick="toggleEtape(3)">
+      <div class="etape-num">3</div>
+      <div class="etape-icon">🧫</div>
+      <div class="etape-title">Isolement du produit</div>
+      <div class="etape-hint">Cliquer pour les détails →</div>
+    </div>
+    <div class="etape-card" id="etape-4" onclick="toggleEtape(4)">
+      <div class="etape-num">4</div>
+      <div class="etape-icon">🔍</div>
+      <div class="etape-title">Analyse du produit brut</div>
+      <div class="etape-hint">Cliquer pour les détails →</div>
+    </div>
+  </div>
+
+  <!-- Panneaux détails étapes -->
+  <div class="etape-detail" id="detail-1">
+    <h4>⚖️ Étape 1 — Prélèvement des réactifs <button class="etape-close" onclick="toggleEtape(1)">✕</button></h4>
+    <div class="detail-section">
+      <strong>Selon l'état physique du réactif :</strong>
+      <ul style="margin-top:6px;">
+        <li>Réactif <strong>solide</strong> → on <strong>pèse une masse</strong> à l'aide d'une balance et d'un récipient de pesée.</li>
+        <li>Réactif <strong>liquide</strong> → on <strong>mesure un volume</strong> à l'aide d'une éprouvette graduée, d'une pipette jaugée ou d'une burette.</li>
+        <li>Réactif <strong>en solution</strong> → on <strong>mesure un volume de solution</strong> à la concentration connue.</li>
+      </ul>
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Points de vigilance :</strong>
+      <ul style="margin-top:6px;">
+        <li>Consulter impérativement les <strong>fiches de données de sécurité (FDS)</strong> et les <strong>pictogrammes de danger</strong> avant manipulation.</li>
+        <li>Porter les équipements de protection individuelle (EPI) adaptés : lunettes, gants, blouse.</li>
+        <li>Travailler sous hotte aspirante si les réactifs sont volatils ou toxiques.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="etape-detail" id="detail-2">
+    <h4>🔥 Étape 2 — Transformation chimique <button class="etape-close" onclick="toggleEtape(2)">✕</button></h4>
+    <div class="detail-section">
+      <strong>Principe :</strong>
+      <ul style="margin-top:6px;">
+        <li>Le produit se forme au cours de cette étape. Les réactifs sont mélangés dans le récipient de réaction (ballon, erlenmeyer…).</li>
+        <li>Certaines réactions nécessitent un <strong>chauffage</strong> pour s'accélérer. On utilise alors un <strong>montage à reflux</strong>.</li>
+      </ul>
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>🔄 Chauffage à reflux — principe :</strong>
+      <ul style="margin-top:6px;">
+        <li>Le chauffe-ballon chauffe le mélange réactionnel → les réactifs (souvent volatils) se <strong>vaporisent</strong>.</li>
+        <li>Les vapeurs montent dans le réfrigérant à eau : elles sont <strong>refroidies et condensées</strong>, puis retombent dans le ballon.</li>
+        <li>On chauffe ainsi <strong>sans perdre de matière</strong> : la réaction est accélérée et le rendement est préservé.</li>
+        <li>Une <strong>pierre ponce</strong> (ou quelques grains de pierre ponce) régule l'ébullition et évite les projections.</li>
+      </ul>
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Durée et température :</strong>
+      <ul style="margin-top:6px;">
+        <li>La durée de chauffage et la température sont précisées dans le protocole expérimental.</li>
+        <li>Ne jamais fermer hermétiquement le haut du réfrigérant (risque de surpression).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="etape-detail" id="detail-3">
+    <h4>🧫 Étape 3 — Isolement du produit <button class="etape-close" onclick="toggleEtape(3)">✕</button></h4>
+    <div class="detail-section">
+      <strong>But :</strong> Séparer l'espèce synthétisée du mélange réactionnel (qui contient aussi des réactifs en excès, des solvants, des sous-produits…).
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Techniques selon les propriétés du produit :</strong>
+      <ul style="margin-top:6px;">
+        <li><strong>Extraction liquide-liquide</strong> (ampoule à décanter) : si le produit est soluble dans un solvant non miscible à l'eau. Le solvant le plus dense se retrouve dans la phase inférieure.</li>
+        <li><strong>Filtration</strong> (entonnoir + papier filtre ou Büchner) : si le produit est solide et insoluble dans le mélange réactionnel.</li>
+        <li><strong>Distillation</strong> : si le produit est liquide et présente un point d'ébullition bien différent des autres constituants.</li>
+        <li>Un <strong>lavage</strong> est souvent nécessaire pour éliminer les impuretés restantes.</li>
+      </ul>
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Résultat :</strong>
+      <ul style="margin-top:6px;">
+        <li>On obtient le <strong>produit brut</strong>, qui peut encore contenir des impuretés → étape 4.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="etape-detail" id="detail-4">
+    <h4>🔍 Étape 4 — Analyse du produit brut <button class="etape-close" onclick="toggleEtape(4)">✕</button></h4>
+    <div class="detail-section">
+      <strong>But :</strong> Identifier l'espèce synthétisée et vérifier qu'elle est identique à l'espèce naturelle en comparant leurs caractéristiques physiques.
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Techniques d'identification :</strong>
+      <ul style="margin-top:6px;">
+        <li><strong>Chromatographie sur couche mince (CCM)</strong> : compare le Rf du produit brut avec celui d'un témoin (espèce naturelle). Même Rf → même espèce.</li>
+        <li><strong>Température de fusion</strong> (banc Kofler) : comparée à la valeur tabulée.</li>
+        <li><strong>Température d'ébullition</strong> : mesurée lors de la distillation.</li>
+        <li><strong>Indice de réfraction</strong> (réfractomètre) : caractéristique d'un liquide pur.</li>
+        <li><strong>Densité</strong> : comparée à la valeur tabulée.</li>
+      </ul>
+    </div>
+    <div class="detail-section" style="margin-top:10px;">
+      <strong>Conclusion possible :</strong>
+      <ul style="margin-top:6px;">
+        <li>Si toutes les caractéristiques correspondent → l'espèce synthétisée est <strong>identique</strong> à l'espèce naturelle.</li>
+        <li>Si elles diffèrent → le produit est impur ou la synthèse n'a pas donné le bon produit.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── MONTAGE À REFLUX ── -->
+  <div class="section-title">♨️ III. Montage à reflux</div>
+
+  <div class="def-card">
+    <h3>Principe du montage à reflux</h3>
+    <p>Le montage à reflux permet de <strong>chauffer le milieu réactionnel</strong> pour accélérer la transformation chimique <em>sans perte de matière</em> : les vapeurs qui se dégagent du ballon sont condensées par le réfrigérant à eau et retombent dans le ballon.</p>
+    <div class="exemple-box" style="margin-top:10px;">
+      <strong>Éléments du montage (à connaître et à schématiser) :</strong> support élévateur · chauffe-ballon · pierre ponce · ballon réacteur · réfrigérant à eau (entrée eau froide en bas, sortie en haut) · pinces serrée et ouverte · statif.
+    </div>
+  </div>
+
+  <a class="ressource-link" href="https://www.pearltrees.com/private/id104964411/item801674745?paccess=47d1d5b6c4d.2fc895f9.fee5bf4ab0a44753f96b355b2723d80d" target="_blank" style="margin-bottom:20px;">
+    <span class="r-icon">▶️</span>
+    <div>
+      <div class="r-label">Animation — Montage à reflux</div>
+      <div class="r-sub">Pearltrees · Comprendre le principe et les éléments du montage</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <div style="border-radius:14px;overflow:hidden;border:2px solid var(--bleu-activite-bord);margin-bottom:20px;box-shadow:0 2px 12px rgba(45,95,138,0.10);">
+    <div style="background:var(--bleu);padding:10px 18px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.1rem;">🔬</span>
+      <span style="font-family:'Outfit',sans-serif;font-weight:700;color:white;font-size:0.92rem;">Activité interactive — Légende le montage à reflux</span>
+    </div>
+    <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;background:var(--bleu-activite);">
+      <iframe
+        src="https://view.genially.com/6a3ad812c96068868932692d"
+        title="Montage à reflux — schéma légendé interactif"
+        allowfullscreen
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+        loading="lazy">
+      </iframe>
+    </div>
+    <div style="background:var(--bleu-activite);padding:8px 18px;font-size:0.78rem;color:var(--texte-léger);display:flex;align-items:center;gap:6px;">
+      <span>💡</span> Glisser les éléments pour légender chaque partie du schéma.
+    </div>
+  </div>
+
+  <!-- ── APPLICATION GUIDÉE MENTHONE ── -->
+  <div class="section-title">📝 IV. Application guidée — Synthèse de la menthone</div>
+
+  <div class="exo-card">
+    <h3>🌿 Synthèse de la menthone à partir du menthol</h3>
+
+    <div class="question-enonce">
+      La menthone est une molécule présente naturellement dans de nombreuses huiles essentielles. On peut la synthétiser au laboratoire à partir du <strong>menthol</strong> (C₁₀H₂₀O, M = 156 g·mol⁻¹) par oxydation avec du <strong>permanganate de potassium</strong> (KMnO₄) en solution aqueuse. On obtient de la <strong>menthone</strong> (C₁₀H₁₈O, M = 154 g·mol⁻¹).<br><br>
+      <strong>Données :</strong> On introduit 6,24 g de menthol et un excès de KMnO₄. La réaction est réalisée dans un montage à reflux pendant 15 minutes. La menthone est ensuite extraite par du cyclohexane (ρ = 0,78 g·mL⁻¹, non miscible à l'eau).
+    </div>
+
+    <!-- Barre de progression -->
+    <div class="step-progress" id="step-progress">
+      <div class="step-dot current" id="dot-0"></div>
+      <div class="step-dot" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+      <div class="step-dot" id="dot-4"></div>
+    </div>
+
+    <!-- ── QUESTION 1 ── -->
+    <div class="question-step active" id="q-0">
+      <div class="question-label">Question 1 / 5 — Identifier les réactifs et le produit</div>
+      <p style="font-size:0.87rem;margin-bottom:12px;">Parmi les propositions suivantes, laquelle décrit correctement les réactifs et le produit de cette synthèse ?</p>
+      <div id="qcm-0">
+        <button class="choix-btn" onclick="repQcm(0,this,'A')">A) Réactifs : menthone + KMnO₄ · Produit : menthol</button>
+        <button class="choix-btn" onclick="repQcm(0,this,'B')">B) Réactifs : menthol + KMnO₄ · Produit : menthone</button>
+        <button class="choix-btn" onclick="repQcm(0,this,'C')">C) Réactifs : menthol + cyclohexane · Produit : menthone</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+        <button class="btn-correction" onclick="corrQcm(0)">👁 Correction</button>
+        <button class="btn-next" onclick="nextQuestion(0)" style="display:none;" id="next-0">Question suivante →</button>
+      </div>
+      <div class="correction-block" id="corr-0">
+        <strong>✅ Réponse B.</strong><br>
+        Les <strong>réactifs</strong> sont le <strong>menthol</strong> (C₁₀H₂₀O) et le <strong>permanganate de potassium</strong> KMnO₄ (en excès).<br>
+        Le <strong>produit</strong> principal est la <strong>menthone</strong> (C₁₀H₁₈O).<br>
+        Le cyclohexane n'est pas un réactif : c'est le <em>solvant d'extraction</em> utilisé à l'étape 3.<br>
+        <em>La menthone synthétisée est identique à l'espèce naturelle : mêmes propriétés physiques et chimiques.</em>
+      </div>
+    </div>
+
+    <!-- ── QUESTION 2 ── -->
+    <div class="question-step" id="q-1">
+      <div class="question-label">Question 2 / 5 — Calcul de la quantité de matière</div>
+      <p style="font-size:0.87rem;margin-bottom:12px;">Quelle est la quantité de matière de menthol introduite ? (M = 156 g·mol⁻¹, m = 6,24 g)</p>
+      <div id="qcm-1">
+        <button class="choix-btn" onclick="repQcm(1,this,'A')">A) n = 0,024 mol</button>
+        <button class="choix-btn" onclick="repQcm(1,this,'B')">B) n = 0,040 mol</button>
+        <button class="choix-btn" onclick="repQcm(1,this,'C')">C) n = 0,975 mol</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+        <button class="btn-correction" onclick="corrQcm(1)">👁 Correction</button>
+        <button class="btn-next" onclick="nextQuestion(1)" style="display:none;" id="next-1">Question suivante →</button>
+      </div>
+      <div class="correction-block" id="corr-1">
+        <strong>✅ Réponse B.</strong>
+        <div class="calc-step">n = m / M = 6,24 / 156 = <strong>0,040 mol</strong></div>
+        Le KMnO₄ étant introduit en excès, le <strong>menthol est le réactif limitant</strong>.<br>
+        <em>Proposition A : erreur de formule (m/M inversé ou mauvaise valeur). Proposition C : résultat de m × M.</em>
+      </div>
+    </div>
+
+    <!-- ── QUESTION 3 ── -->
+    <div class="question-step" id="q-2">
+      <div class="question-label">Question 3 / 5 — Rôle du montage à reflux</div>
+      <p style="font-size:0.87rem;margin-bottom:12px;">Pourquoi utilise-t-on un montage à reflux pour cette synthèse ? Choisis la meilleure réponse.</p>
+      <div id="qcm-2">
+        <button class="choix-btn" onclick="repQcm(2,this,'A')">A) Pour refroidir le milieu réactionnel et éviter toute évaporation des réactifs</button>
+        <button class="choix-btn" onclick="repQcm(2,this,'B')">B) Pour chauffer le milieu réactionnel et accélérer la réaction, sans perte de matière grâce à la condensation des vapeurs</button>
+        <button class="choix-btn" onclick="repQcm(2,this,'C')">C) Pour séparer la menthone du mélange réactionnel par distillation</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+        <button class="btn-correction" onclick="corrQcm(2)">👁 Correction</button>
+        <button class="btn-next" onclick="nextQuestion(2)" style="display:none;" id="next-2">Question suivante →</button>
+      </div>
+      <div class="correction-block" id="corr-2">
+        <strong>✅ Réponse B.</strong><br>
+        Le montage à reflux permet de <strong>chauffer le milieu réactionnel</strong> (accélération de la réaction) <strong>sans perte de matière</strong> : les vapeurs qui se dégagent du ballon sont <strong>condensées par le réfrigérant à eau</strong> et retombent dans le ballon.<br>
+        <em>A : le reflux chauffe, il ne refroidit pas. C : la séparation est faite à l'étape 3 (extraction), pas pendant la réaction.</em>
+      </div>
+    </div>
+
+    <!-- ── QUESTION 4 ── -->
+    <div class="question-step" id="q-3">
+      <div class="question-label">Question 4 / 5 — Isolement par extraction liquide-liquide</div>
+      <p style="font-size:0.87rem;margin-bottom:12px;">On verse du cyclohexane (ρ = 0,78 g·mL⁻¹) dans l'ampoule à décanter contenant le mélange réactionnel aqueux. Sachant que seule la menthone est soluble dans le cyclohexane, dans quelle phase se trouve-t-elle ?</p>
+      <div id="qcm-3">
+        <button class="choix-btn" onclick="repQcm(3,this,'A')">A) Dans la phase inférieure, car le cyclohexane est plus dense que l'eau</button>
+        <button class="choix-btn" onclick="repQcm(3,this,'B')">B) Dans la phase supérieure, car le cyclohexane est moins dense que l'eau</button>
+        <button class="choix-btn" onclick="repQcm(3,this,'C')">C) La menthone se répartit dans les deux phases car elle est soluble partout</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+        <button class="btn-correction" onclick="corrQcm(3)">👁 Correction</button>
+        <button class="btn-next" onclick="nextQuestion(3)" style="display:none;" id="next-3">Question suivante →</button>
+      </div>
+      <div class="correction-block" id="corr-3">
+        <strong>✅ Réponse B.</strong><br>
+        ρ(cyclohexane) = 0,78 g·mL⁻¹ &lt; ρ(eau) = 1,0 g·mL⁻¹ → le cyclohexane est <strong>moins dense que l'eau</strong> : il forme la <strong>phase supérieure</strong>.<br>
+        La menthone, soluble uniquement dans le cyclohexane, se retrouve donc dans la <strong>phase supérieure (phase organique)</strong>.<br>
+        <em>On récupère cette phase supérieure pour isoler la menthone.</em>
+      </div>
+    </div>
+
+    <!-- ── QUESTION 5 ── -->
+    <div class="question-step" id="q-4">
+      <div class="question-label">Question 5 / 5 — Identification du produit (plusieurs réponses possibles)</div>
+      <p style="font-size:0.87rem;margin-bottom:12px;">Parmi les techniques suivantes, lesquelles peuvent permettre de vérifier que la menthone synthétisée est identique à la menthone naturelle ? <strong>Coche toutes les bonnes réponses.</strong></p>
+      <div id="qcm-4">
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">A) Chromatographie sur couche mince (CCM) — comparaison des Rf</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">B) Mesure de la température d'ébullition — comparaison à la valeur tabulée</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">C) Mesure de la masse de menthone obtenue</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">D) Mesure de l'indice de réfraction — comparaison à la valeur tabulée</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">E) Mesure du volume du ballon réacteur</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+        <button class="btn-verif" onclick="verifierMulti(4)">✔ Vérifier</button>
+        <button class="btn-correction" onclick="corrQcm(4)">👁 Correction</button>
+        <button class="btn-next" onclick="showScore()" style="display:none;" id="next-4">📊 Voir le bilan →</button>
+      </div>
+      <div class="correction-block" id="corr-4">
+        <strong>✅ Réponses A, B et D.</strong><br>
+        Pour prouver qu'une espèce synthétisée est identique à l'espèce naturelle, on compare leurs <strong>caractéristiques physiques</strong> avec les valeurs tabulées :
+        <div class="calc-step">A ✓ — CCM : même Rf que la menthone naturelle (témoin) → même espèce.</div>
+        <div class="calc-step">B ✓ — Température d'ébullition (ou de fusion au banc Kofler) : identique à la valeur de référence.</div>
+        <div class="calc-step">D ✓ — Indice de réfraction (réfractomètre) : caractéristique d'un liquide pur, comparé au tabulé.</div>
+        <em>C : la masse obtenue renseigne sur le rendement, pas sur l'identité du produit. E : le volume du ballon n'est pas une caractéristique physique de l'espèce.</em>
+      </div>
+    </div>
+
+    <!-- Score final -->
+    <div class="score-final" id="score-final">
+      <div style="font-size:3rem;margin-bottom:10px;">🌿</div>
+      <h3>Application terminée !</h3>
+      <p style="font-size:0.90rem;color:var(--texte-léger);margin:8px 0 8px;">Tu as parcouru les 5 questions sur la synthèse de la menthone.</p>
+      <p id="score-txt" style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;color:var(--bleu);margin-bottom:20px;"></p>
+      <button class="btn-reset" onclick="resetMenthone()" style="margin:0 auto;">↺ Recommencer l'application</button>
+    </div>
+
+  </div><!-- /exo-card -->
+
+</div><!-- /tab-1 -->
+
+
+<!-- ══════════════════════════════════ -->
+<!-- ONGLET 3 — BILAN & RESSOURCES -->
+<!-- ══════════════════════════════════ -->
+<div class="tab-content" id="tab-2">
+
+  <div class="section-title">📺 Vidéo bilan</div>
+
+  <a class="bilan-video-card" href="https://www.pearltrees.com/private/id104964411/item801674569?paccess=47d1d580203.2fc89549.6cbd35141306a2d6110643cadd87fca2" target="_blank">
+    <div class="bilan-video-icon">▶️</div>
+    <div>
+      <div class="bilan-video-title">Vidéo bilan — Transformation chimique et synthèse</div>
+      <div class="bilan-video-sub">Pearltrees · Résumé complet de la séquence 07</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <div class="section-title">🔗 Ressources complémentaires</div>
+
+  <a class="ressource-link" href="https://www.pearltrees.com/private/id104964411/item801674745?paccess=47d1d5b6c4d.2fc895f9.fee5bf4ab0a44753f96b355b2723d80d" target="_blank">
+    <span class="r-icon">♨️</span>
+    <div>
+      <div class="r-label">Animation — Montage à reflux</div>
+      <div class="r-sub">Pearltrees · Comprendre le principe du reflux</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <a class="ressource-link" href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank">
+    <span class="r-icon">⚖️</span>
+    <div>
+      <div class="r-label">Ajuster des équations — PCCL</div>
+      <div class="r-sub">Exercice interactif · Stœchiométrie · Niveau Seconde</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <a class="ressource-link" href="https://physique-chimie.ac-normandie.fr/spip.php?article222" target="_blank">
+    <span class="r-icon">⚗️</span>
+    <div>
+      <div class="r-label">Ajuster des équations — Académie de Normandie</div>
+      <div class="r-sub">Exercice interactif · Équilibrage d'équations chimiques</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <a class="ressource-link" href="seq07/fiche-de-cours-07.pdf" target="_blank">
+    <span class="r-icon">📄</span>
+    <div>
+      <div class="r-label">Fiche de cours PDF — Transformation chimique et synthèse</div>
+      <div class="r-sub">PDF · Cours complet · C. Poirault-Gauvin</div>
+    </div>
+    <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+  </a>
+
+  <!-- Notions essentielles -->
+  <div class="section-title">📋 Notions essentielles à retenir</div>
+
+  <div class="bilan-grid">
+    <div class="bilan-card">
+      <h4>⚗️ Équation de réaction</h4>
+      <ul class="ke-list">
+        <li>Conservation des atomes et des charges</li>
+        <li>Réactifs → Produits (espèces spectatrices exclues)</li>
+        <li>Coefficients stœchiométriques à ajuster</li>
+        <li>Exemples : combustion, corrosion acide, action sur calcaire</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>📊 Réactif limitant</h4>
+      <ul class="ke-list">
+        <li>Entièrement consommé en fin de réaction</li>
+        <li>Comparer n<sub>A</sub>/n<sub>B</sub> à a/b</li>
+        <li>Identifiable via les espèces présentes dans l'état final</li>
+        <li>Utiliser la proportionnalité pour les calculs</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>🌿 Espèces chimiques</h4>
+      <ul class="ke-list">
+        <li>Naturelle : issue de la nature</li>
+        <li>Synthétique : fabriquée par l'Homme</li>
+        <li>Artificielle : n'existe pas dans la nature</li>
+        <li>Synthétique peut être identique au naturel</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>🔬 Synthèse — 4 étapes</h4>
+      <ul class="ke-list">
+        <li>Prélèvement des réactifs (masse ou volume)</li>
+        <li>Réaction (reflux si nécessaire)</li>
+        <li>Isolement (extraction, filtration…)</li>
+        <li>Analyse et identification (CCM, T°fusion…)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-note">Séquence 07 · Physique-Chimie 2<sup>nde</sup> · C. Poirault-Gauvin</div>
+</div><!-- /tab-2 -->
+
+</div><!-- /main -->
+
+<script>
+// ── TABS ──
+function switchTab(n) {
+  document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+}
+function toggleCap() { document.getElementById('cap-panel').classList.toggle('open'); }
+
+// ── ÉQUILIBREUR : C3H8 + 5O2 → 3CO2 + 4H2O ──
+function updateEq() {
+  const a=+document.getElementById('coeff-a').value||0, b=+document.getElementById('coeff-b').value||0;
+  const c=+document.getElementById('coeff-c').value||0, d=+document.getElementById('coeff-d').value||0;
+  document.getElementById('eq-a').textContent = a||'?';
+  document.getElementById('eq-b').textContent = b||'?';
+  document.getElementById('eq-c').textContent = c||'?';
+  document.getElementById('eq-d').textContent = d||'?';
+  setChip('chip-C', a*3, c*1, 'C');
+  setChip('chip-H', a*8, d*2, 'H');
+  setChip('chip-O', b*2, c*2+d*1, 'O');
+}
+function setChip(id, g, dr, elem) {
+  const el = document.getElementById(id);
+  if (!g && !dr) { el.textContent=elem+' : ?/?'; el.className='atom-chip neutral'; return; }
+  el.textContent = elem+' : '+g+'/'+dr;
+  el.className = 'atom-chip '+(g===dr ? 'balanced' : 'unbalanced');
+}
+function gcd(a,b){return b?gcd(b,a%b):a;}
+function verifierEq() {
+  const vals=[+document.getElementById('coeff-a').value,+document.getElementById('coeff-b').value,+document.getElementById('coeff-c').value,+document.getElementById('coeff-d').value];
+  const g=vals.reduce(gcd);
+  const norm=vals.map(v=>v/g);
+  const sol=[1,5,3,4];
+  const ok=norm.join(',')===sol.join(',');
+  ['coeff-a','coeff-b','coeff-c','coeff-d'].forEach((id,i)=>{
+    document.getElementById(id).className='eq-coeff-input '+(norm[i]===sol[i]?'correct':'wrong');
+  });
+  const fb=document.getElementById('fb-eq');
+  fb.className='feedback visible '+(ok?'ok':'erreur');
+  fb.innerHTML=ok
+    ?'✅ Bravo ! Équation équilibrée : <strong>C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</strong><br>Vérification : C 3=3 ✓ · H 8=8 ✓ · O 10=10 ✓'
+    :'❌ Pas encore équilibré. Vérifie le nombre d\'atomes de chaque élément des deux côtés.';
+}
+function corrigerEq() {
+  ['coeff-a','coeff-b','coeff-c','coeff-d'].forEach((id,i)=>{
+    document.getElementById(id).value=[1,5,3,4][i];
+    document.getElementById(id).className='eq-coeff-input correct';
+  });
+  updateEq();
+  const fb=document.getElementById('fb-eq');
+  fb.className='feedback visible ok';
+  fb.innerHTML='✅ Correction : <strong>C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O</strong> · C 3=3 ✓ · H 8=8 ✓ · O 10=10 ✓';
+}
+function resetEq() {
+  ['coeff-a','coeff-b','coeff-c','coeff-d'].forEach(id=>{document.getElementById(id).value=1;document.getElementById(id).className='eq-coeff-input';});
+  updateEq();
+  document.getElementById('fb-eq').className='feedback';
+  ['chip-C','chip-H','chip-O'].forEach(id=>{document.getElementById(id).className='atom-chip neutral';document.getElementById(id).textContent=id.replace('chip-','')+' : ?/?';});
+}
+
+// ── SLIDER RÉACTIF LIMITANT ──
+function updateSlider() {
+  const raw=+document.getElementById('slider-ratio').value;
+  const ratio=raw/100;
+  document.getElementById('ratio-val').textContent=ratio.toFixed(2).replace('.',',');
+  const nA=ratio, nB=1.0;
+  document.getElementById('t-nAi').textContent=nA.toFixed(2).replace('.',',')+' mol';
+  document.getElementById('t-nBi').textContent=nB.toFixed(2).replace('.',',')+' mol';
+  const fb=document.getElementById('fb-slider');
+  const badge=document.getElementById('cas-badge');
+  const rd=document.getElementById('ratio-display');
+  if(Math.abs(ratio-1.0)<0.04){
+    badge.className='cas-badge cas-stoechio'; badge.textContent='Mélange stœchiométrique ✓';
+    rd.innerHTML='n(A)/n(B) = '+ratio.toFixed(2).replace('.',',')+ ' = a/b = 1';
+    document.getElementById('t-nAf').textContent='0'; document.getElementById('t-nAf').className='';
+    document.getElementById('t-nBf').textContent='0'; document.getElementById('t-nBf').className='';
+    document.getElementById('t-nCf').textContent=nA.toFixed(2).replace('.',',')+' mol';
+    document.getElementById('t-nDf').textContent=nA.toFixed(2).replace('.',',')+' mol';
+    fb.className='feedback info visible'; fb.textContent='⚖️ Mélange stœchiométrique : les deux réactifs sont entièrement consommés.';
+  } else if(ratio<1.0){
+    badge.className='cas-badge cas-a-limitant'; badge.textContent='A (acide salicylique) est limitant';
+    rd.innerHTML='n(A)/n(B) = '+ratio.toFixed(2).replace('.',',')+" &lt; a/b = 1";
+    const x=nA;
+    document.getElementById('t-nAf').textContent='0 — épuisé'; document.getElementById('t-nAf').className='highlight-limitant';
+    document.getElementById('t-nBf').textContent=(nB-x).toFixed(2).replace('.',',')+' mol — excès'; document.getElementById('t-nBf').className='highlight-exces';
+    document.getElementById('t-nCf').textContent=x.toFixed(2).replace('.',',')+' mol';
+    document.getElementById('t-nDf').textContent=x.toFixed(2).replace('.',',')+' mol';
+    fb.className='feedback erreur visible'; fb.innerHTML='🔴 A est limitant : il est entièrement consommé. B est en excès ('+((nB-x).toFixed(2).replace('.',','))+' mol restant).';
+  } else {
+    badge.className='cas-badge cas-b-limitant'; badge.textContent='B (anhydride éthanoïque) est limitant';
+    rd.innerHTML='n(A)/n(B) = '+ratio.toFixed(2).replace('.',',')+" &gt; a/b = 1";
+    const x=nB;
+    document.getElementById('t-nAf').textContent=(nA-x).toFixed(2).replace('.',',')+' mol — excès'; document.getElementById('t-nAf').className='highlight-exces';
+    document.getElementById('t-nBf').textContent='0 — épuisé'; document.getElementById('t-nBf').className='highlight-limitant';
+    document.getElementById('t-nCf').textContent=x.toFixed(2).replace('.',',')+' mol';
+    document.getElementById('t-nDf').textContent=x.toFixed(2).replace('.',',')+' mol';
+    fb.className='feedback erreur visible'; fb.innerHTML='🟠 B est limitant : il est entièrement consommé. A est en excès ('+((nA-x).toFixed(2).replace('.',','))+' mol restant).';
+  }
+}
+
+// ── CORROSION ──
+function repCorrosion(btn, rep) {
+  document.querySelectorAll('#corrosion-choices .choix-btn').forEach(b=>{b.className='choix-btn';});
+  const fb=document.getElementById('fb-corrosion');
+  if(rep==='B'){
+    btn.className='choix-btn correct';
+    fb.className='feedback visible ok';
+    fb.innerHTML='✅ Correct ! L\'acide chlorhydrique HCl est le réactif limitant.<br>'
+      +'<strong>Justification :</strong> À la fin de la réaction, il reste encore du zinc solide → le zinc n\'a pas été entièrement consommé, il est donc en excès. C\'est HCl qui a été entièrement consommé en premier : c\'est le réactif limitant.<br>'
+      +'<em>Vérification par le ratio :</em> Pour a=1, b=2 : n(Zn)/n(HCl) = 0,5/0,8 = 0,625 &gt; a/b = 0,5 → HCl est limitant ✓';
+  } else {
+    btn.className='choix-btn wrong';
+    fb.className='feedback visible erreur';
+    if(rep==='A'){
+      fb.innerHTML='❌ Non. Il reste du zinc solide dans l\'état final → le zinc n\'est <em>pas</em> entièrement consommé. Il est donc en excès. C\'est HCl qui a été entièrement consommé en premier.';
+    } else {
+      fb.innerHTML='❌ Non. Le mélange n\'est pas stœchiométrique : on peut le vérifier en comparant n(Zn)/n(HCl) = 0,5/0,8 = 0,625 avec a/b = 1/2 = 0,5 → 0,625 ≠ 0,5, le mélange n\'est pas stœchiométrique.';
+    }
+  }
+}
+
+// ── ÉTAPES CLIQUABLES ──
+let etapeOuverte = null;
+function toggleEtape(n) {
+  const card = document.getElementById('etape-'+n);
+  const detail = document.getElementById('detail-'+n);
+  if(etapeOuverte && etapeOuverte !== n){
+    document.getElementById('etape-'+etapeOuverte).classList.remove('active');
+    document.getElementById('detail-'+etapeOuverte).classList.remove('visible');
+  }
+  const isOpen = detail.classList.contains('visible');
+  card.classList.toggle('active', !isOpen);
+  detail.classList.toggle('visible', !isOpen);
+  etapeOuverte = isOpen ? null : n;
+  if(!isOpen) detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ── APPLICATION MENTHONE QCM ──
+// Bonnes réponses Q1-Q4 (mono-choix), Q5 = multi
+const BONNES = { 0:'B', 1:'B', 2:'B', 3:'B' };
+let score = 0;
+let scoreMax = 5; // 4 mono + 1 multi
+let questionsDone = [false,false,false,false,false];
+
+function repQcm(qNum, btn, rep) {
+  // Ne rien faire si déjà répondu
+  if(questionsDone[qNum]) return;
+  const zone = document.getElementById('qcm-'+qNum);
+  zone.querySelectorAll('.choix-btn').forEach(b => b.disabled = true);
+  const correct = (rep === BONNES[qNum]);
+  btn.className = 'choix-btn ' + (correct ? 'correct' : 'wrong');
+  // Colorer aussi la bonne réponse si mauvais choix
+  if(!correct){
+    zone.querySelectorAll('.choix-btn').forEach(b => {
+      if(b.textContent.trim().startsWith(BONNES[qNum]+')')) b.className='choix-btn correct';
+    });
+  }
+  questionsDone[qNum] = true;
+  if(correct) score++;
+  document.getElementById('dot-'+qNum).className = 'step-dot done';
+  // Afficher correction + bouton suivant
+  corrQcm(qNum);
+}
+
+function corrQcm(qNum) {
+  document.getElementById('corr-'+qNum).classList.add('visible');
+  const nx = document.getElementById('next-'+qNum);
+  if(nx) nx.style.display = 'inline-flex';
+  document.getElementById('dot-'+qNum).className = 'step-dot done';
+  // Désactiver les boutons si pas encore répondu
+  const zone = document.getElementById('qcm-'+qNum);
+  if(zone) zone.querySelectorAll('.choix-btn').forEach(b => b.disabled = true);
+  questionsDone[qNum] = true;
+}
+
+function nextQuestion(n) {
+  document.getElementById('q-'+n).classList.remove('active');
+  const next = n+1;
+  if(document.getElementById('q-'+next)){
+    document.getElementById('q-'+next).classList.add('active');
+    if(!questionsDone[next]) document.getElementById('dot-'+next).className='step-dot current';
+  }
+}
+
+// ── Q5 MULTI-CHOIX ──
+function toggleMulti(btn) {
+  if(btn.disabled) return;
+  btn.classList.toggle('selected-multi');
+}
+
+function verifierMulti(qNum) {
+  if(questionsDone[qNum]) return;
+  const zone = document.getElementById('qcm-'+qNum);
+  const btns = zone.querySelectorAll('.choix-btn.multi');
+  let correctCount = 0, totalCorrect = 3; // A, B, D sont correctes
+  btns.forEach(b => {
+    b.disabled = true;
+    const isCorrect = b.dataset.correct === 'true';
+    const isSelected = b.classList.contains('selected-multi');
+    b.classList.remove('selected-multi');
+    if(isCorrect && isSelected){ b.className='choix-btn correct'; correctCount++; }
+    else if(!isCorrect && isSelected){ b.className='choix-btn wrong'; }
+    else if(isCorrect && !isSelected){ b.className='choix-btn multi'; b.style.borderColor='var(--vert)'; b.style.color='var(--vert)'; }
+    else { b.className='choix-btn multi'; }
+  });
+  questionsDone[qNum] = true;
+  if(correctCount === totalCorrect) score++;
+  corrQcm(qNum);
+}
+
+function showScore() {
+  document.getElementById('q-4').classList.remove('active');
+  const sf = document.getElementById('score-final');
+  sf.style.display = 'block';
+  const pct = Math.round(score / scoreMax * 100);
+  let emoji = pct >= 80 ? '🌟' : pct >= 60 ? '👍' : '💪';
+  document.getElementById('score-txt').textContent = emoji + ' Score : ' + score + ' / ' + scoreMax + ' (' + pct + '%)';
+}
+
+function resetMenthone() {
+  score = 0;
+  questionsDone = [false,false,false,false,false];
+  for(let i=0;i<5;i++){
+    const q=document.getElementById('q-'+i);
+    const c=document.getElementById('corr-'+i);
+    const nx=document.getElementById('next-'+i);
+    if(q) q.classList.toggle('active', i===0);
+    if(c) c.classList.remove('visible');
+    if(nx) nx.style.display='none';
+    const dot=document.getElementById('dot-'+i);
+    if(dot) dot.className='step-dot'+(i===0?' current':'');
+    // Réactiver les boutons
+    const zone=document.getElementById('qcm-'+i);
+    if(zone) zone.querySelectorAll('.choix-btn').forEach(b=>{
+      b.disabled=false;
+      b.className='choix-btn'+(b.classList.contains('multi')?' multi':'');
+      b.style.borderColor=''; b.style.color=''; b.style.background='';
+    });
+  }
+  document.getElementById('score-final').style.display='none';
+}
+
+// Init
+updateEq();
+updateSlider();
+</script>
+</body>
+</html>

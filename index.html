@@ -912,9 +912,18 @@
     <div id="seq-panel-10" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">10</div>
-        <div>
+        <div style="flex:1;">
           <h3>Vision et Images</h3>
           <p>Propagation · Snell-Descartes · Spectres · Lentilles · Modèle de l'œil</p>
+        </div>
+        <div class="eye-icon" style="flex-shrink:0;" title="Œil : vision et images">
+          <svg class="eye-svg" viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg">
+            <path class="eye-white" d="M5,35 Q50,2 95,35 Q50,68 5,35 Z" />
+            <g class="eye-iris-group">
+              <circle class="eye-iris" cx="50" cy="35" r="15" />
+              <circle class="eye-pupil" cx="50" cy="35" r="6" />
+            </g>
+          </svg>
         </div>
       </div>
       <div style="margin-bottom:18px;">
@@ -960,10 +969,18 @@
     <div id="seq-panel-3" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">03</div>
-        <div>
+        <div style="flex:1;">
           <h3>Modélisation de la matière à l'échelle microscopique</h3>
           <p>Atome · Noyau · Cortège électronique · Ions · Molécules · Schéma de Lewis</p>
         </div>
+               <div class="atom-icon" style="flex-shrink:0;" title="Atome : modélisation de la matière">
+        <div class="atom-orbit atom-orbit-1"></div>
+        <div class="atom-orbit atom-orbit-2"></div>
+        <div class="atom-orbit atom-orbit-3"></div>
+        <div class="atom-electron atom-e1"></div>
+        <div class="atom-electron atom-e2"></div>
+        <div class="atom-nucleus"></div>
+         </div>
       </div>
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
@@ -985,7 +1002,7 @@
           <span class="type-dot"></span>
         </a>
       </div>
-
+  <!-- Sous-section : Jeux -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux interactifs</div>
         <a class="resource-link" data-type="jeu" href="seq03/jeu-tableau-periodique.html" target="_blank">
@@ -997,7 +1014,7 @@
           <span class="type-dot"></span>
         </a>
       </div>
-
+  <!-- Sous-section : Flashcards, exercices et quiz -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>
         <a class="resource-link" data-type="jeu" href="seq03/sequence03_quiz_revision.html" target="_blank">
@@ -1107,7 +1124,7 @@
           <span class="type-dot"></span>
         </a>
       </div>
-
+<!-- Sous-section : Flashcards, exercices et quiz -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>
         <a class="resource-link" data-type="jeu" href="seq04/sequence04_quiz_revision.html" target="_blank">
@@ -1135,10 +1152,15 @@
     <div id="seq-panel-5" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">05</div>
-        <div>
+        <div style="flex:1;">
           <h3>Forces et principe d'inertie</h3>
           <p>Modélisation des forces · Principe d'inertie · Chute libre · Actions réciproques</p>
         </div>
+              <div class="apple-icon">
+        <div class="apple-canopy"></div>
+        <div class="apple-trunk"></div>
+        <div class="apple-fruit"></div>
+      </div>
       </div>
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
@@ -1201,10 +1223,27 @@
     <div id="seq-panel-6" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">06</div>
-        <div>
+        <div style="flex:1;">
           <h3>Compter les entités dans un échantillon de matière</h3>
           <p>Masse d'une entité · Nombre d'entités · Quantité de matière · Mole</p>
         </div>
+              <div class="hourglass-icon">
+        <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <rect class="hourglass-cap" x="22" y="6"  width="56" height="8" rx="2" />
+          <rect class="hourglass-cap" x="22" y="106" width="56" height="8" rx="2" />
+          <path class="hourglass-frame" d="M28,14 L72,14 L72,30 Q72,50 50,60 Q28,50 28,30 Z" />
+          <path class="hourglass-frame" d="M28,106 L72,106 L72,90 Q72,70 50,60 Q28,70 28,90 Z" />
+          <clipPath id="topClip-hero">
+            <path d="M30,16 L70,16 L70,30 Q70,48 50,58 Q30,48 30,30 Z" />
+          </clipPath>
+          <clipPath id="bottomClip-hero">
+            <path d="M30,104 L70,104 L70,90 Q70,72 50,62 Q30,72 30,90 Z" />
+          </clipPath>
+          <rect class="sand-top" clip-path="url(#topClip-hero)" x="30" y="16" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-bottom" clip-path="url(#bottomClip-hero)" x="30" y="62" width="40" height="42" fill="#FAC775" />
+          <rect class="sand-stream" x="49" y="58" width="2" height="6" fill="#FAC775" />
+        </svg>
+      </div>
       </div>
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
@@ -1238,7 +1277,7 @@
           <span class="type-dot"></span>
         </a>
       </div>
-
+<!-- Sous-section : Flashcards, exercices et quiz -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>
         <a class="resource-link" data-type="jeu" href="seq06/sequence06_quiz_revision.html" target="_blank">
@@ -1256,13 +1295,32 @@
     <div id="seq-panel-7" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">07</div>
-        <div>
+        <div style="flex:1;">
           <h3>Transformation chimique</h3>
           <p>Équation de réaction · Réactif limitant · Endothermique/exothermique · Synthèse</p>
         </div>
+              <div class="reflux-icon">
+        <svg class="reflux-svg" viewBox="0 0 100 135" xmlns="http://www.w3.org/2000/svg">
+          <line x1="50" y1="4" x2="50" y2="58" stroke="#7dd3fc" stroke-width="3" />
+          <circle class="reflux-glass" cx="50" cy="14" r="9" />
+          <circle class="reflux-glass" cx="50" cy="32" r="9" />
+          <circle class="reflux-glass" cx="50" cy="50" r="9" />
+          <circle class="reflux-vapor reflux-vapor-1" cx="50" cy="60" r="3.5" />
+          <circle class="reflux-vapor reflux-vapor-2" cx="50" cy="60" r="3" />
+          <circle class="reflux-drop" cx="50" cy="54" r="3" />
+          <path class="reflux-glass" d="M42,60 L42,72 L58,72 L58,60" />
+          <circle class="reflux-glass" cx="50" cy="94" r="26" />
+          <clipPath id="ballonClip-hero">
+            <circle cx="50" cy="94" r="25" />
+          </clipPath>
+          <rect class="reflux-liquid" clip-path="url(#ballonClip-hero)" x="24" y="86" width="52" height="34" />
+          <circle class="reflux-bubble reflux-bubble-1" cx="42" cy="110" r="3" />
+          <circle class="reflux-bubble reflux-bubble-2" cx="54" cy="113" r="2.5" />
+          <circle class="reflux-bubble reflux-bubble-3" cx="62" cy="108" r="3" />
+          <rect x="14" y="124" width="72" height="7" rx="2" fill="#94a3b8" />
+        </svg>
       </div>
-
-      <!-- Sous-section : Cours -->
+      </div>
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
         <a class="resource-link" data-type="pdf" href="seq07/fiche-de-cours-07.pdf" target="_blank">
@@ -1275,18 +1333,28 @@
           <span class="type-dot"></span>
         </a>
         <a class="resource-link" data-type="cours" href="seq07/sequence07_transformation_chimique.html" target="_blank">
-          <span class="icon">🎓</span>
-          <div>
-            <div class="label">Cours interactif — Transformation chimique</div>
-          </div>
-          <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
-          <span class="type-dot"></span>
-        </a>
+      <span class="icon">🎓</span>
+      <div>
+        <div class="label">Cours interactif — Transformation chimique</div>
+      </div>
+      <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
+      <span class="type-dot"></span>
+    </a>
       </div>
 
-      <!-- Sous-section : Jeux interactifs -->
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux interactifs</div>
+        <div class="resource-link" data-type="jeu" style="opacity:0.5;cursor:default;">
+          <span class="icon">🔜</span>
+          <div>
+            <div class="label">Jeu interactif — Transformation chimique</div>
+            <div class="sub">À venir</div>
+          </div>
+        </div>
+      </div>
+<!-- Sous-section : Flashcards, exercices et quiz -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>
         <a class="resource-link" data-type="jeu" href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank">
           <span class="icon">⚖️</span>
           <div>
@@ -1305,41 +1373,27 @@
           <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
           <span class="type-dot"></span>
         </a>
-        <a class="resource-link" data-type="jeu" href="https://phet.colorado.edu/sims/html/reactants-products-and-leftovers/latest/reactants-products-and-leftovers_all.html?locale=fr" target="_blank">
-          <span class="icon">⚖️</span>
-          <div>
-            <div class="label">PhET — Réactifs, Produits et Restes</div>
-            <div class="sub">Simulation interactive · Équations chimiques et réactif limitant</div>
-          </div>
-          <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
-          <span class="type-dot"></span>
-        </a>
       </div>
-
-      <!-- Sous-section : Flashcards, exercices et quiz -->
-      <div style="margin-bottom:18px;">
-        <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>
-        <a class="resource-link" data-type="jeu" href="seq07/sequence07_quiz_revision.html" target="_blank">
-          <span class="icon">📝</span>
-          <div>
-            <div class="label">Quiz de révision — 3 niveaux</div>
-            <div class="sub">30 questions · Facile · Intermédiaire · Difficile</div>
-          </div>
-          <span style="margin-left:auto;font-size:0.85rem;color:#0e7490;">Ouvrir →</span>
-          <span class="type-dot"></span>
-        </a>
       </div>
-    </div>
 
     <!-- Séquence 08 -->
     <div id="seq-panel-8" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">08</div>
-        <div>
+        <div style="flex:1;">
           <h3>Transformation physique</h3>
           <p>Changement d'état · Transfert thermique · Énergie massique de changement d'état</p>
         </div>
+         <div class="melt-icon" style="flex-shrink:0;">
+        <svg class="melt-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="melt-puddle" cx="50" cy="78" rx="34" ry="8" />
+          <rect class="ice-cube ice-1" x="14" y="44" width="26" height="26" rx="4" />
+          <rect class="ice-cube ice-2" x="42" y="50" width="20" height="20" rx="4" />
+          <rect class="ice-cube ice-3" x="64" y="56" width="16" height="16" rx="3" />
+        </svg>
       </div>
+         </div>
+
       <div style="margin-bottom:18px;">
         <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">📖 Cours</div>
         <a class="resource-link" data-type="pdf" href="seq08/fiche-de-cours-08.pdf" target="_blank">
@@ -1492,9 +1546,18 @@
     <div id="seq-panel-11" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">11</div>
-        <div>
+        <div style="flex:1;">
           <h3>Émission et perception d'un son</h3>
           <p>Signal sonore · Période · Fréquence · Hauteur · Timbre · Intensité sonore</p>
+        </div>
+        <div class="wave-icon" style="flex-shrink:0;" title="Ondes sonores : émission et perception">
+          <svg class="wave-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle class="wave-ring wave-ring-3" cx="50" cy="50" r="40" />
+            <circle class="wave-ring wave-ring-2" cx="50" cy="50" r="40" />
+            <circle class="wave-ring wave-ring-1" cx="50" cy="50" r="40" />
+            <circle class="wave-source" cx="50" cy="50" r="6" />
+            <circle class="wave-receiver" cx="85" cy="50" r="5" />
+          </svg>
         </div>
       </div>
       <div style="margin-bottom:18px;">
@@ -1548,9 +1611,31 @@
     <div id="seq-panel-12" class="seq-panel">
       <div class="seq-panel-header">
         <div class="big-num">12</div>
-        <div>
+        <div style="flex:1;">
           <h3>Signaux et capteurs</h3>
           <p>Tension · Intensité · Loi des mailles · Loi des nœuds · Loi d'Ohm · Capteurs</p>
+        </div>
+        <div class="sat-icon" style="flex-shrink:0;" title="Satellite : signaux et capteurs">
+          <svg class="sat-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <rect class="sat-body" x="58" y="10" width="16" height="16" rx="2" />
+              <rect class="sat-panel" x="38" y="14" width="16" height="8" rx="1" />
+              <rect class="sat-panel" x="78" y="14" width="16" height="8" rx="1" />
+              <line class="sat-antenna-line" x1="54" y1="18" x2="58" y2="18" />
+              <line class="sat-antenna-line" x1="74" y1="18" x2="78" y2="18" />
+              <line class="sat-antenna-line" x1="66" y1="10" x2="66" y2="4" />
+              <circle class="sat-body" cx="66" cy="3" r="2" />
+            </g>
+            <circle class="sat-signal sat-signal-1" cx="62" cy="30" r="3" />
+            <circle class="sat-signal sat-signal-2" cx="62" cy="30" r="3" />
+            <circle class="sat-signal sat-signal-3" cx="62" cy="30" r="3" />
+            <rect class="sat-ground" x="0" y="92" width="100" height="8" />
+            <g>
+              <path class="sat-antenna-line" d="M22,92 L32,68" />
+              <path class="sat-antenna-line" d="M20,92 Q32,76 44,92 Z" />
+              <circle class="sat-body" cx="32" cy="68" r="2.5" />
+            </g>
+          </svg>
         </div>
       </div>
       <div style="margin-bottom:18px;">

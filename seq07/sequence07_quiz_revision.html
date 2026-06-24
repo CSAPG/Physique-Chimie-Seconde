@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz – Transformation chimique et synthèse</title>
+<style>
+:root {
+  --blanc: #ffffff;
+  --gris-clair: #f4f6fa;
+  --gris-bord: #dde2ea;
+  --texte: #1e2330;
+  --texte-2: #5a6478;
+
+  /* Facile */
+  --facile: #2e7d52;
+  --facile-clair: #e6f4ec;
+  --facile-mid: #5aad7e;
+
+  /* Intermédiaire */
+  --inter: #1a5fa8;
+  --inter-clair: #e8f1fb;
+  --inter-mid: #4a90d9;
+
+  /* Difficile */
+  --diff: #8b2fc9;
+  --diff-clair: #f2e8fb;
+  --diff-mid: #b06ee0;
+
+  /* Feedback */
+  --vert: #1e8a4a;
+  --vert-bg: #e6f6ed;
+  --rouge: #c0392b;
+  --rouge-bg: #fdecea;
+  --orange: #d4690a;
+  --orange-bg: #fff3e0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: rgba(240,247,255,0.72);
+  color: var(--texte);
+  min-height: 100vh;
+  position: relative;
+}
+
+#screen-home,
+#screen-quiz,
+#screen-result { position: relative; z-index: 1; }
+
+/* ── ÉCRAN D'ACCUEIL ── */
+#screen-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(240,247,255,0.76);
+}
+
+.home-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texte-2);
+  background: var(--gris-clair);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+
+.home-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--texte);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 500px;
+  margin-bottom: 6px;
+}
+
+.home-sub {
+  font-size: 0.9rem;
+  color: var(--texte-2);
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.level-cards {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.level-card {
+  background: var(--blanc);
+  border: 2.5px solid var(--gris-bord);
+  border-radius: 14px;
+  padding: 24px 22px 20px;
+  width: 190px;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  text-align: center;
+  user-select: none;
+}
+.level-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
+.level-card.facile { border-color: var(--facile); }
+.level-card.facile:hover { box-shadow: 0 8px 28px rgba(46,125,82,0.2); }
+.level-card.inter { border-color: var(--inter); }
+.level-card.inter:hover { box-shadow: 0 8px 28px rgba(26,95,168,0.2); }
+.level-card.diff { border-color: var(--diff); }
+.level-card.diff:hover { box-shadow: 0 8px 28px rgba(139,47,201,0.2); }
+
+.level-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.level-name { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.facile .level-name { color: var(--facile); }
+.inter  .level-name { color: var(--inter);  }
+.diff   .level-name { color: var(--diff);   }
+.level-desc { font-size: 0.78rem; color: var(--texte-2); line-height: 1.4; }
+.level-count {
+  display: inline-block; margin-top: 10px;
+  background: var(--gris-clair); border-radius: 12px;
+  padding: 3px 10px; font-size: 0.75rem; font-weight: 700; color: var(--texte-2);
+}
+
+/* ── QUIZ SCREEN ── */
+#screen-quiz { display: none; min-height: 100vh; flex-direction: column; }
+
+.quiz-header {
+  background: var(--blanc); border-bottom: 2px solid var(--gris-bord);
+  padding: 12px 24px; display: flex; align-items: center; gap: 14px;
+  position: sticky; top: 0; z-index: 10;
+}
+.quiz-back {
+  background: none; border: 1.5px solid var(--gris-bord); border-radius: 8px;
+  padding: 5px 12px; font-size: 0.8rem; font-weight: 700; cursor: pointer;
+  color: var(--texte-2); transition: background 0.15s; white-space: nowrap;
+}
+.quiz-back:hover { background: var(--gris-clair); }
+.quiz-header-info { flex: 1; min-width: 0; }
+.quiz-level-label {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.quiz-level-label.facile { color: var(--facile); }
+.quiz-level-label.inter  { color: var(--inter);  }
+.quiz-level-label.diff   { color: var(--diff);   }
+
+.progress-wrap { display: flex; align-items: center; gap: 10px; }
+.progress-track { flex: 1; height: 9px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.progress-fill { height: 9px; border-radius: 20px; transition: width 0.4s ease; }
+.progress-fill.facile { background: var(--facile); }
+.progress-fill.inter  { background: var(--inter);  }
+.progress-fill.diff   { background: var(--diff);   }
+.progress-label { font-size: 0.78rem; font-weight: 700; color: var(--texte-2); white-space: nowrap; }
+
+.score-live {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; font-weight: 700;
+  background: var(--gris-clair); border-radius: 8px; padding: 5px 12px; white-space: nowrap;
+}
+.score-live .s-ok { color: var(--vert); }
+.score-live .s-ko { color: var(--rouge); }
+
+/* ── QUESTION CARD ── */
+.quiz-main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 28px 16px 60px; }
+
+.question-card {
+  background: var(--blanc); border-radius: 14px; border: 1.5px solid var(--gris-bord);
+  width: 100%; max-width: 680px; overflow: hidden; animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-header { padding: 16px 22px 14px; border-bottom: 1.5px solid var(--gris-bord); display: flex; align-items: flex-start; gap: 12px; }
+.q-num { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texte-2); flex-shrink: 0; padding-top: 2px; }
+.q-text { font-size: 1rem; font-weight: 700; line-height: 1.5; color: var(--texte); }
+
+.q-illustration { padding: 16px 22px 0; display: flex; justify-content: center; }
+.q-illustration svg { max-width: 100%; border-radius: 8px; border: 1.5px solid var(--gris-bord); }
+
+.q-options { padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 9px; }
+.q-option {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--blanc); border: 2px solid var(--gris-bord); border-radius: 10px;
+  padding: 11px 16px; cursor: pointer; font-size: 0.9rem; line-height: 1.4;
+  transition: border-color 0.15s, background 0.15s; user-select: none;
+}
+.q-option:hover:not(.locked) { border-color: var(--inter-mid); background: var(--inter-clair); }
+.q-option.correct   { border-color: var(--vert);  background: var(--vert-bg);  color: var(--vert);  font-weight: 600; }
+.q-option.incorrect { border-color: var(--rouge); background: var(--rouge-bg); color: var(--rouge); }
+.q-option.reveal    { border-color: var(--vert);  background: var(--vert-bg); }
+.q-option.locked    { cursor: default; }
+
+.opt-letter {
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gris-bord);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s; color: var(--texte-2);
+}
+.q-option.correct   .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+.q-option.incorrect .opt-letter { background: var(--rouge); border-color: var(--rouge); color: white; }
+.q-option.reveal    .opt-letter { background: var(--vert);  border-color: var(--vert);  color: white; }
+
+.q-feedback {
+  margin: 0 22px 0; padding: 10px 14px; border-radius: 8px;
+  font-size: 0.86rem; line-height: 1.55; display: none; border-left: 4px solid transparent;
+}
+.q-feedback.correct  { display: block; background: var(--vert-bg);  border-color: var(--vert);  color: #155a33; }
+.q-feedback.incorrect{ display: block; background: var(--rouge-bg); border-color: var(--rouge); color: #8b1a10; }
+
+.q-next-wrap { padding: 16px 22px 22px; display: flex; justify-content: flex-end; }
+.btn-next {
+  background: var(--inter); color: white; border: none; border-radius: 8px;
+  padding: 10px 28px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  display: none; transition: background 0.15s, transform 0.1s;
+}
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next.facile { background: var(--facile); }
+.btn-next.inter  { background: var(--inter);  }
+.btn-next.diff   { background: var(--diff);   }
+.btn-next.show   { display: block; }
+
+/* ── RÉSULTAT FINAL ── */
+#screen-result {
+  display: none; min-height: 100vh; align-items: center; justify-content: center;
+  padding: 32px 16px; flex-direction: column;
+}
+.result-card {
+  background: var(--blanc); border-radius: 16px; border: 1.5px solid var(--gris-bord);
+  max-width: 520px; width: 100%; padding: 36px 32px; text-align: center;
+}
+.result-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+.result-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+.result-score-big { font-size: 3rem; font-weight: 900; line-height: 1; margin: 16px 0 6px; }
+.result-score-big.facile { color: var(--facile); }
+.result-score-big.inter  { color: var(--inter);  }
+.result-score-big.diff   { color: var(--diff);   }
+.result-msg { font-size: 0.9rem; color: var(--texte-2); margin-bottom: 24px; }
+
+.result-bar-wrap { margin: 20px 0; text-align: left; }
+.result-bar-label { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--texte-2); display: flex; justify-content: space-between; }
+.result-bar-track { height: 12px; background: var(--gris-bord); border-radius: 20px; overflow: hidden; }
+.result-bar-fill  { height: 12px; border-radius: 20px; transition: width 1s ease 0.3s; width: 0%; }
+.result-bar-fill.facile { background: var(--facile); }
+.result-bar-fill.inter  { background: var(--inter);  }
+.result-bar-fill.diff   { background: var(--diff);   }
+
+.result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+.btn-retry { padding: 10px 24px; border-radius: 8px; border: none; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: transform 0.1s; }
+.btn-retry:hover { transform: translateY(-2px); }
+.btn-retry.primary   { background: var(--inter); color: white; }
+.btn-retry.secondary { background: var(--gris-clair); color: var(--texte); border: 1.5px solid var(--gris-bord); }
+
+.recap-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 16px 0; }
+.recap-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; color: white; margin: 0 auto; }
+.recap-dot.ok { background: var(--vert); }
+.recap-dot.ko { background: var(--rouge); }
+
+/* SVG illustrations */
+.ill-label { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; }
+
+/* ══ MONTAGE À REFLUX EN FOND ══ */
+#reflux-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Réfrigérant — colonne centrale */
+.rlb-col {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: calc(100vh - 260px);
+  min-height: 300px;
+  background: linear-gradient(180deg,
+    rgba(125,211,252,0.10) 0%,
+    rgba(147,197,253,0.13) 50%,
+    rgba(125,211,252,0.09) 100%
+  );
+  border-radius: 16px;
+  border-left:  2px solid rgba(125,211,252,0.16);
+  border-right: 2px solid rgba(125,211,252,0.16);
+  overflow: hidden;
+}
+/* Reflet latéral */
+.rlb-col::after {
+  content: '';
+  position: absolute;
+  top: 6%; left: 10px;
+  width: 12px; height: 55%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%);
+  border-radius: 8px;
+}
+
+/* Disques de verre du réfrigérant */
+.rlb-disc {
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+  width: 110px; height: 22px;
+  background: rgba(186,230,253,0.18);
+  border: 1.5px solid rgba(125,211,252,0.22);
+  border-radius: 50%;
+}
+.rlb-disc:nth-child(1) { top:  8%; }
+.rlb-disc:nth-child(2) { top: 28%; }
+.rlb-disc:nth-child(3) { top: 48%; }
+.rlb-disc:nth-child(4) { top: 68%; }
+
+/* Ballon */
+.rlb-ballon {
+  position: absolute;
+  bottom: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px; height: 180px;
+  background: radial-gradient(ellipse at 38% 38%,
+    rgba(186,230,253,0.22) 0%,
+    rgba(56,189,248,0.16) 55%,
+    rgba(14,116,144,0.12) 100%
+  );
+  border: 2px solid rgba(125,211,252,0.20);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Liquide dans le ballon */
+.rlb-liquid {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, rgba(56,189,248,0.28) 0%, rgba(14,116,144,0.22) 100%);
+  border-radius: 0 0 50% 50%;
+  animation: rlb-slosh 4s ease-in-out infinite;
+}
+@keyframes rlb-slosh {
+  0%,100% { height: 45%; }
+  50%      { height: 48%; }
+}
+
+/* Bulles */
+.rlb-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(186,230,253,0.50);
+  bottom: 8%;
+  animation: rlb-bubble 3s ease-in-out infinite;
+}
+.rlb-b1 { width: 18px; height: 18px; left: 28%; animation-delay: 0s;    animation-duration: 3.2s; }
+.rlb-b2 { width: 14px; height: 14px; left: 52%; animation-delay: 1.1s;  animation-duration: 2.8s; }
+.rlb-b3 { width: 10px; height: 10px; left: 68%; animation-delay: 0.6s;  animation-duration: 3.6s; }
+.rlb-b4 { width: 12px; height: 12px; left: 18%; animation-delay: 1.8s;  animation-duration: 2.6s; }
+@keyframes rlb-bubble {
+  0%   { opacity: 0;   transform: translateY(0) scale(1); }
+  25%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translateY(-80px) scale(0.6); }
+}
+
+/* Vapeurs montantes */
+.rlb-vapor {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(186,230,253,0.55) 0%, transparent 70%);
+  animation: rlb-vapor 3.5s ease-out infinite;
+}
+.rlb-v1 { width: 36px; height: 36px; bottom: 58%; left: 44%; animation-delay: 0s; }
+.rlb-v2 { width: 28px; height: 28px; bottom: 58%; left: 48%; animation-delay: 1.2s; }
+.rlb-v3 { width: 22px; height: 22px; bottom: 58%; left: 42%; animation-delay: 2.1s; }
+@keyframes rlb-vapor {
+  0%   { opacity: 0;   transform: translateY(0)   scale(1); }
+  30%  { opacity: 0.65; }
+  100% { opacity: 0;   transform: translateY(-180px) scale(2.2); }
+}
+
+/* Goutte qui redescend */
+.rlb-drop {
+  position: absolute;
+  width: 10px; height: 14px;
+  border-radius: 50% 50% 60% 60%;
+  background: rgba(56,189,248,0.55);
+  left: 50%; transform: translateX(-50%);
+  animation: rlb-drop 4s ease-in infinite;
+}
+@keyframes rlb-drop {
+  0%   { opacity: 0; bottom: 75%; }
+  15%  { opacity: 0.8; }
+  85%  { opacity: 0.8; }
+  100% { opacity: 0; bottom: 55%; }
+}
+
+/* Chauffe-ballon */
+.rlb-heater {
+  position: absolute;
+  bottom: 44px;
+  left: 50%; transform: translateX(-50%);
+  width: 220px; height: 22px;
+  background: linear-gradient(180deg, rgba(148,163,184,0.20) 0%, rgba(100,116,139,0.14) 100%);
+  border-radius: 10px;
+  border: 1.5px solid rgba(125,211,252,0.12);
+}
+
+/* Lueur chaude sous le ballon */
+.rlb-glow {
+  position: absolute;
+  bottom: 55px; left: 50%; transform: translateX(-50%);
+  width: 170px; height: 70px;
+  background: radial-gradient(ellipse, rgba(56,189,248,0.14) 0%, transparent 70%);
+  animation: rlb-glow-pulse 4s ease-in-out infinite;
+}
+@keyframes rlb-glow-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+/* Entrée/sortie eau réfrigérant */
+.rlb-water-in {
+  position: absolute;
+  bottom: 35%; left: calc(50% - 66px);
+  width: 14px; height: 40px;
+  background: rgba(125,211,252,0.16);
+  border: 1.5px solid rgba(125,211,252,0.18);
+  border-radius: 6px;
+}
+.rlb-water-out {
+  position: absolute;
+  top: 18%; left: calc(50% - 66px);
+  width: 14px; height: 40px;
+  background: rgba(125,211,252,0.12);
+  border: 1.5px solid rgba(125,211,252,0.16);
+  border-radius: 6px;
+}
+
+/* Support / statif */
+.rlb-stand {
+  position: absolute;
+  bottom: 44px; left: calc(50% + 64px);
+  width: 8px;
+  height: calc(100vh - 180px);
+  background: rgba(100,116,139,0.13);
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rlb-liquid, .rlb-bubble, .rlb-vapor, .rlb-drop, .rlb-glow { animation: none; }
+}
+/* ══ FIN REFLUX BG ══ */
+</style>
+</head>
+<body>
+
+<!-- ══ MONTAGE À REFLUX EN FOND ══ -->
+<div id="reflux-bg" aria-hidden="true">
+  <div class="rlb-stand"></div>
+  <div class="rlb-water-in"></div>
+  <div class="rlb-water-out"></div>
+  <div class="rlb-col">
+    <div class="rlb-disc"></div>
+    <div class="rlb-disc"></div>
+    <div class="rlb-disc"></div>
+    <div class="rlb-disc"></div>
+  </div>
+  <div class="rlb-vapor rlb-v1"></div>
+  <div class="rlb-vapor rlb-v2"></div>
+  <div class="rlb-vapor rlb-v3"></div>
+  <div class="rlb-drop"></div>
+  <div class="rlb-ballon">
+    <div class="rlb-liquid"></div>
+    <div class="rlb-bubble rlb-b1"></div>
+    <div class="rlb-bubble rlb-b2"></div>
+    <div class="rlb-bubble rlb-b3"></div>
+    <div class="rlb-bubble rlb-b4"></div>
+  </div>
+  <div class="rlb-heater"></div>
+  <div class="rlb-glow"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+════════════════════════════════════════════════ -->
+<div id="screen-home" style="position:relative;z-index:1;">
+  <div class="home-badge">2nde · Séquence 07 · Physique-Chimie</div>
+  <h1 class="home-title">Quiz de révision</h1>
+  <p class="home-sub">Transformation chimique et synthèse · 10 questions par niveau</p>
+
+  <div class="level-cards">
+    <div class="level-card facile" onclick="startQuiz('facile')">
+      <div class="level-icon">🌱</div>
+      <div class="level-name">Facile</div>
+      <div class="level-desc">Définitions, vocabulaire, réactions du quotidien</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card inter" onclick="startQuiz('inter')">
+      <div class="level-icon">⚗️</div>
+      <div class="level-name">Intermédiaire</div>
+      <div class="level-desc">Équations, stœchiométrie, réactif limitant</div>
+      <span class="level-count">10 questions</span>
+    </div>
+    <div class="level-card diff" onclick="startQuiz('diff')">
+      <div class="level-icon">🔬</div>
+      <div class="level-name">Difficile</div>
+      <div class="level-desc">Calculs avancés, synthèse, rendement, situations nouvelles</div>
+      <span class="level-count">10 questions</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN QUIZ
+════════════════════════════════════════════════ -->
+<div id="screen-quiz" style="position:relative;z-index:1;">
+  <div class="quiz-header">
+    <button class="quiz-back" onclick="goHome()">← Accueil</button>
+    <div class="quiz-header-info">
+      <div class="quiz-level-label" id="hdr-level">Facile</div>
+      <div class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill facile" id="progress-fill" style="width:0%"></div>
+        </div>
+        <span class="progress-label" id="progress-label">0 / 10</span>
+      </div>
+    </div>
+    <div class="score-live">
+      <span class="s-ok" id="live-ok">✓ 0</span>
+      <span style="color:var(--gris-bord)">|</span>
+      <span class="s-ko" id="live-ko">✗ 0</span>
+    </div>
+  </div>
+  <div class="quiz-main" id="quiz-main"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     ÉCRAN RÉSULTAT
+════════════════════════════════════════════════ -->
+<div id="screen-result" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px;position:relative;z-index:1;">
+  <div class="result-card">
+    <div class="result-emoji" id="r-emoji">🎉</div>
+    <div class="result-title"  id="r-title">Bravo !</div>
+    <div style="font-size:0.85rem;color:var(--texte-2);margin-bottom:4px;" id="r-level-label">Niveau Facile</div>
+    <div class="result-score-big facile" id="r-score">8 / 10</div>
+    <div class="result-msg" id="r-msg"></div>
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span>Progression</span><span id="r-pct">80%</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill facile" id="r-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="recap-grid" id="r-dots"></div>
+    <div class="result-btns">
+      <button class="btn-retry secondary" onclick="goHome()">← Changer de niveau</button>
+      <button class="btn-retry primary" id="btn-retry-same" onclick="retryLevel()">Recommencer ce niveau</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   ILLUSTRATIONS SVG
+═══════════════════════════════════════════════ */
+
+function svgEquation() {
+  return `<svg width="400" height="130" viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="130" fill="#f8faff" rx="6"/>
+    <text x="200" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Équation de réaction — Combustion du méthane</text>
+    <!-- réactifs -->
+    <rect x="20" y="34" width="80" height="50" rx="8" fill="#e8f1fb" stroke="#4a90d9" stroke-width="1.5"/>
+    <text x="60" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a5fa8">CH₄</text>
+    <text x="60" y="72" text-anchor="middle" font-size="9" fill="#1a5fa8">méthane</text>
+    <text x="115" y="65" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">+</text>
+    <rect x="135" y="34" width="80" height="50" rx="8" fill="#e8f1fb" stroke="#4a90d9" stroke-width="1.5"/>
+    <text x="175" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a5fa8">2 O₂</text>
+    <text x="175" y="72" text-anchor="middle" font-size="9" fill="#1a5fa8">dioxygène</text>
+    <!-- flèche -->
+    <line x1="228" y1="59" x2="270" y2="59" stroke="#c0392b" stroke-width="2"/>
+    <polygon points="270,54 280,59 270,64" fill="#c0392b"/>
+    <!-- produits -->
+    <rect x="288" y="34" width="50" height="50" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="313" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#2e7d52">CO₂</text>
+    <text x="313" y="72" text-anchor="middle" font-size="8" fill="#2e7d52">dioxyde</text>
+    <text x="348" y="65" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">+</text>
+    <rect x="360" y="34" width="30" height="50" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="375" y="55" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d52">2H₂O</text>
+    <text x="375" y="71" text-anchor="middle" font-size="8" fill="#2e7d52">eau</text>
+    <!-- légende -->
+    <text x="115" y="110" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">Réactifs</text>
+    <text x="330" y="110" text-anchor="middle" font-size="10" fill="#2e7d52" font-weight="bold">Produits</text>
+  </svg>`;
+}
+
+function svgTableauAvancement() {
+  return `<svg width="420" height="150" viewBox="0 0 420 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="420" height="150" fill="#f8faff" rx="6"/>
+    <text x="210" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Tableau d'avancement — A + 2B → C</text>
+    <!-- tableau -->
+    <rect x="10" y="24" width="400" height="116" rx="4" fill="white" stroke="#dde2ea" stroke-width="1"/>
+    <!-- header -->
+    <rect x="10" y="24" width="400" height="26" rx="4" fill="#1a5fa8"/>
+    <text x="80"  y="41" text-anchor="middle" font-size="10" font-weight="bold" fill="white">État</text>
+    <text x="180" y="41" text-anchor="middle" font-size="10" font-weight="bold" fill="white">n(A)</text>
+    <text x="260" y="41" text-anchor="middle" font-size="10" font-weight="bold" fill="white">n(B)</text>
+    <text x="350" y="41" text-anchor="middle" font-size="10" font-weight="bold" fill="white">n(C)</text>
+    <!-- ligne 1 -->
+    <text x="80"  y="66" text-anchor="middle" font-size="10" fill="#333">Initial</text>
+    <text x="180" y="66" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">n₀(A)</text>
+    <text x="260" y="66" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">n₀(B)</text>
+    <text x="350" y="66" text-anchor="middle" font-size="10" fill="#1a5fa8" font-weight="bold">0</text>
+    <!-- ligne 2 -->
+    <rect x="10" y="73" width="400" height="22" fill="#f4f6fa"/>
+    <text x="80"  y="88" text-anchor="middle" font-size="10" fill="#333">En cours (x)</text>
+    <text x="180" y="88" text-anchor="middle" font-size="10" fill="#333">n₀(A) − x</text>
+    <text x="260" y="88" text-anchor="middle" font-size="10" fill="#333">n₀(B) − 2x</text>
+    <text x="350" y="88" text-anchor="middle" font-size="10" fill="#333">x</text>
+    <!-- ligne 3 -->
+    <text x="80"  y="114" text-anchor="middle" font-size="10" fill="#333">Final (x_max)</text>
+    <text x="180" y="114" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="bold">n₀(A) − x_max</text>
+    <text x="260" y="114" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="bold">n₀(B) − 2x_max</text>
+    <text x="350" y="114" text-anchor="middle" font-size="10" fill="#2e7d52" font-weight="bold">x_max</text>
+    <!-- légende -->
+    <text x="210" y="138" text-anchor="middle" font-size="9" fill="#888">x = avancement de la réaction</text>
+  </svg>`;
+}
+
+function svgReactifLimitant() {
+  return `<svg width="380" height="150" viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="150" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Identification du réactif limitant</text>
+    <!-- barre A -->
+    <text x="60" y="38" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a5fa8">Réactif A</text>
+    <rect x="20" y="44" width="200" height="22" rx="4" fill="#e8f1fb" stroke="#4a90d9" stroke-width="1.5"/>
+    <rect x="20" y="44" width="140" height="22" rx="4" fill="#1a5fa8"/>
+    <text x="90" y="59" text-anchor="middle" font-size="10" fill="white" font-weight="bold">n(A)/a = 0,040 mol</text>
+    <!-- barre B -->
+    <text x="60" y="88" text-anchor="middle" font-size="10" font-weight="bold" fill="#c0392b">Réactif B</text>
+    <rect x="20" y="94" width="200" height="22" rx="4" fill="#fdecea" stroke="#c0392b" stroke-width="1.5"/>
+    <rect x="20" y="94" width="80" height="22" rx="4" fill="#c0392b"/>
+    <text x="60" y="109" text-anchor="middle" font-size="10" fill="white" font-weight="bold">n(B)/b = 0,022</text>
+    <!-- flèche et label -->
+    <text x="240" y="109" font-size="10" fill="#c0392b" font-weight="bold">← Limitant !</text>
+    <text x="190" y="140" text-anchor="middle" font-size="9" fill="#888">Le réactif limitant est celui dont le ratio n/coeff est le plus petit</text>
+  </svg>`;
+}
+
+function svgRefluxSchema() {
+  return `<svg width="320" height="190" viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="190" fill="#f0f9ff" rx="6"/>
+    <text x="160" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#0e7490">Schéma — Montage à reflux</text>
+    <!-- Statif -->
+    <rect x="240" y="30" width="6" height="148" rx="2" fill="#94a3b8"/>
+    <rect x="220" y="172" width="60" height="8" rx="3" fill="#94a3b8"/>
+    <!-- Réfrigérant -->
+    <rect x="130" y="28" width="36" height="100" rx="10" fill="rgba(186,230,253,0.3)" stroke="#38bdf8" stroke-width="1.5"/>
+    <ellipse cx="148" cy="44"  rx="18" ry="8" fill="rgba(186,230,253,0.35)" stroke="#7dd3fc" stroke-width="1"/>
+    <ellipse cx="148" cy="64"  rx="18" ry="8" fill="rgba(186,230,253,0.35)" stroke="#7dd3fc" stroke-width="1"/>
+    <ellipse cx="148" cy="84"  rx="18" ry="8" fill="rgba(186,230,253,0.35)" stroke="#7dd3fc" stroke-width="1"/>
+    <text x="100" y="42"  text-anchor="end" font-size="8" fill="#0e7490">Sortie eau →</text>
+    <text x="100" y="88"  text-anchor="end" font-size="8" fill="#0e7490">Entrée eau →</text>
+    <line x1="100" y1="40"  x2="130" y2="40"  stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+    <line x1="100" y1="86"  x2="130" y2="86"  stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+    <!-- Col de ballon -->
+    <rect x="140" y="126" width="16" height="20" rx="3" fill="rgba(186,230,253,0.4)" stroke="#38bdf8" stroke-width="1.2"/>
+    <!-- Ballon -->
+    <circle cx="148" cy="158" r="24" fill="rgba(56,189,248,0.18)" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- Liquide -->
+    <path d="M126,162 Q148,170 170,162 L170,172 Q148,178 126,172 Z" fill="rgba(56,189,248,0.35)"/>
+    <!-- Chauffe-ballon -->
+    <rect x="118" y="180" width="60" height="8" rx="4" fill="#94a3b8"/>
+    <!-- Support élévateur -->
+    <rect x="108" y="178" width="80" height="4" rx="2" fill="#64748b" opacity="0.5"/>
+    <!-- Vapeurs -->
+    <circle cx="148" cy="120" r="4" fill="rgba(186,230,253,0.5)" opacity="0.7">
+      <animate attributeName="cy" values="120;108;120" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Labels -->
+    <text x="172" y="32"  font-size="8" fill="#0e7490" font-weight="bold">Réfrigérant</text>
+    <text x="172" y="155" font-size="8" fill="#0e7490" font-weight="bold">Ballon</text>
+    <text x="172" y="185" font-size="8" fill="#64748b">Chauffe-ballon</text>
+    <!-- Légende pierre ponce -->
+    <text x="80" y="165" text-anchor="middle" font-size="8" fill="#888">Pierre</text>
+    <text x="80" y="174" text-anchor="middle" font-size="8" fill="#888">ponce</text>
+    <line x1="95" y1="167" x2="125" y2="162" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+  </svg>`;
+}
+
+function svgSyntheseEtapes() {
+  return `<svg width="400" height="130" viewBox="0 0 400 130" xmlns="http://www.w3.org/2000/svg">
+    <rect width="400" height="130" fill="#f8faff" rx="6"/>
+    <text x="200" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Les 4 étapes d'une synthèse chimique</text>
+    <!-- étapes -->
+    <rect x="10"  y="30" width="80" height="70" rx="8" fill="#e8f1fb" stroke="#4a90d9" stroke-width="1.5"/>
+    <text x="50"  y="55" text-anchor="middle" font-size="18">⚖️</text>
+    <text x="50"  y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#1a5fa8">Prélèvement</text>
+    <text x="50"  y="84" text-anchor="middle" font-size="8" fill="#1a5fa8">des réactifs</text>
+    <polygon points="94,65 104,60 104,70" fill="#64748b"/>
+    <rect x="108" y="30" width="80" height="70" rx="8" fill="#fff3e0" stroke="#d4690a" stroke-width="1.5"/>
+    <text x="148" y="55" text-anchor="middle" font-size="18">🔥</text>
+    <text x="148" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#d4690a">Transforma-</text>
+    <text x="148" y="84" text-anchor="middle" font-size="8" fill="#d4690a">tion chimique</text>
+    <polygon points="192,65 202,60 202,70" fill="#64748b"/>
+    <rect x="206" y="30" width="80" height="70" rx="8" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.5"/>
+    <text x="246" y="55" text-anchor="middle" font-size="18">🧫</text>
+    <text x="246" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#2e7d52">Isolement</text>
+    <text x="246" y="84" text-anchor="middle" font-size="8" fill="#2e7d52">du produit</text>
+    <polygon points="290,65 300,60 300,70" fill="#64748b"/>
+    <rect x="304" y="30" width="80" height="70" rx="8" fill="#f2e8fb" stroke="#8b2fc9" stroke-width="1.5"/>
+    <text x="344" y="55" text-anchor="middle" font-size="18">🔍</text>
+    <text x="344" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#8b2fc9">Analyse</text>
+    <text x="344" y="84" text-anchor="middle" font-size="8" fill="#8b2fc9">du produit</text>
+    <text x="200" y="120" text-anchor="middle" font-size="9" fill="#888">Chaque étape a ses propres techniques expérimentales</text>
+  </svg>`;
+}
+
+function svgRendement() {
+  return `<svg width="380" height="140" viewBox="0 0 380 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="380" height="140" fill="#f8faff" rx="6"/>
+    <text x="190" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Rendement d'une synthèse</text>
+    <!-- formule -->
+    <rect x="80" y="28" width="220" height="40" rx="8" fill="#fff3e0" stroke="#d4690a" stroke-width="1.5"/>
+    <text x="190" y="44" text-anchor="middle" font-size="13" font-weight="bold" fill="#d4690a">τ = m_obtenue / m_théorique</text>
+    <text x="190" y="60" text-anchor="middle" font-size="10" fill="#d4690a">× 100 (%)</text>
+    <!-- exemple -->
+    <text x="190" y="90" text-anchor="middle" font-size="10" fill="#333">Exemple : m_théo = 5,00 g · m_obtenue = 3,80 g</text>
+    <rect x="110" y="100" width="160" height="26" rx="6" fill="#e6f4ec" stroke="#2e7d52" stroke-width="1.2"/>
+    <text x="190" y="118" text-anchor="middle" font-size="11" font-weight="bold" fill="#2e7d52">τ = 3,80/5,00 × 100 = 76%</text>
+  </svg>`;
+}
+
+function svgExtraction() {
+  return `<svg width="340" height="180" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="180" fill="#f8faff" rx="6"/>
+    <text x="170" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Extraction liquide-liquide — Ampoule à décanter</text>
+    <!-- ampoule -->
+    <path d="M120,30 L220,30 L220,80 Q220,110 170,140 Q120,110 120,80 Z" fill="rgba(186,230,253,0.3)" stroke="#38bdf8" stroke-width="1.5"/>
+    <!-- phase inférieure (eau) -->
+    <path d="M126,105 Q170,120 214,105 L214,138 Q170,148 126,138 Z" fill="rgba(56,189,248,0.45)"/>
+    <!-- interface -->
+    <line x1="124" y1="105" x2="216" y2="105" stroke="#0e7490" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <!-- phase supérieure (organique) -->
+    <path d="M120,80 L220,80 L220,105 L120,105 Z" fill="rgba(250,204,21,0.35)"/>
+    <!-- robinet -->
+    <rect x="162" y="138" width="16" height="18" rx="3" fill="#94a3b8" stroke="#64748b" stroke-width="1"/>
+    <!-- labels -->
+    <text x="245" y="96"  font-size="9" fill="#ca8a04" font-weight="bold">Phase organique</text>
+    <text x="245" y="108" font-size="8" fill="#64748b">(produit dissous)</text>
+    <text x="245" y="126" font-size="9" fill="#0e7490" font-weight="bold">Phase aqueuse</text>
+    <text x="245" y="138" font-size="8" fill="#64748b">(plus dense = bas)</text>
+    <line x1="242" y1="93"  x2="222" y2="93"  stroke="#ca8a04" stroke-width="1" stroke-dasharray="2,2"/>
+    <line x1="242" y1="123" x2="222" y2="120" stroke="#0e7490" stroke-width="1" stroke-dasharray="2,2"/>
+    <text x="170" y="168" text-anchor="middle" font-size="9" fill="#888">On récupère la phase organique par le robinet</text>
+  </svg>`;
+}
+
+/* ══════════════════════════════════════════════
+   BANQUE DE QUESTIONS
+═══════════════════════════════════════════════ */
+const QUESTIONS = {
+
+  /* ──────── FACILE ──────── */
+  facile: [
+    {
+      q: "Qu'est-ce qu'une réaction chimique ?",
+      ill: null,
+      opts: [
+        "Un changement d'état de la matière (fusion, vaporisation…)",
+        "Une transformation au cours de laquelle des espèces chimiques disparaissent (réactifs) et de nouvelles apparaissent (produits)",
+        "Un mélange de deux solutions sans modification des molécules",
+        "Un phénomène physique réversible"
+      ],
+      ans: 1,
+      expl: "Une réaction chimique est une transformation au cours de laquelle des réactifs se consomment pour former de nouveaux produits. Les liaisons chimiques sont rompues et formées — c'est fondamentalement différent d'un changement d'état (physique)."
+    },
+    {
+      q: "Dans l'équation : CH₄ + 2 O₂ → CO₂ + 2 H₂O, que représentent CH₄ et O₂ ?",
+      ill: svgEquation(),
+      opts: [
+        "Les produits de la réaction",
+        "Les réactifs de la réaction",
+        "Les espèces spectatrices",
+        "Les catalyseurs"
+      ],
+      ans: 1,
+      expl: "Dans une équation de réaction, les espèces à gauche de la flèche sont les réactifs (ici CH₄ = méthane et O₂ = dioxygène). Les produits sont à droite de la flèche (CO₂ et H₂O)."
+    },
+    {
+      q: "Que signifie le coefficient stœchiométrique 2 devant O₂ dans CH₄ + 2 O₂ → CO₂ + 2 H₂O ?",
+      ill: null,
+      opts: [
+        "La réaction se produit en 2 étapes",
+        "Il y a 2 atomes d'oxygène dans O₂",
+        "On consomme 2 moles de O₂ pour 1 mole de CH₄",
+        "La température est multipliée par 2"
+      ],
+      ans: 2,
+      expl: "Les coefficients stœchiométriques indiquent les proportions molaires. Ici, 1 mol de CH₄ réagit avec 2 mol de O₂ pour former 1 mol de CO₂ et 2 mol de H₂O."
+    },
+    {
+      q: "Qu'est-ce qu'une espèce spectatrice dans une réaction chimique ?",
+      ill: null,
+      opts: [
+        "Un réactif qui se consomme entièrement",
+        "Une espèce chimique présente dans le milieu réactionnel mais qui ne participe pas à la transformation",
+        "Un produit obtenu en grande quantité",
+        "Un catalyseur qui s'use progressivement"
+      ],
+      ans: 1,
+      expl: "Une espèce spectatrice est présente dans le milieu mais n'apparaît ni dans les réactifs ni dans les produits de la réaction. Par exemple, les ions Na⁺ lors d'une réaction acide-base entre HCl et NaOH : ils restent inchangés en solution."
+    },
+    {
+      q: "Lors d'une combustion du méthane (CH₄ + 2O₂ → CO₂ + 2H₂O), quels sont les produits ?",
+      ill: null,
+      opts: [
+        "CH₄ et O₂",
+        "CO₂ et H₂O",
+        "CO et H₂",
+        "C et H₂O₂"
+      ],
+      ans: 1,
+      expl: "La combustion complète du méthane produit du dioxyde de carbone CO₂ et de l'eau H₂O. Ces espèces se trouvent à droite de la flèche dans l'équation."
+    },
+    {
+      q: "Pourquoi utilise-t-on un montage à reflux lors d'une synthèse ?",
+      ill: svgRefluxSchema(),
+      opts: [
+        "Pour refroidir le milieu réactionnel et éviter tout dégagement de vapeur",
+        "Pour chauffer le milieu réactionnel et accélérer la réaction sans perte de matière",
+        "Pour filtrer le produit solide obtenu",
+        "Pour mesurer le volume des gaz dégagés"
+      ],
+      ans: 1,
+      expl: "Le montage à reflux permet de chauffer le milieu réactionnel (ce qui accélère la réaction) tout en condensant les vapeurs qui remontent dans le réfrigérant. Les vapeurs condensées retombent dans le ballon : on chauffe sans perdre de matière."
+    },
+    {
+      q: "Qu'est-ce qu'une espèce chimique synthétique ?",
+      ill: null,
+      opts: [
+        "Une espèce qui n'existe que dans la nature",
+        "Une espèce fabriquée par l'Homme (qu'elle existe ou non dans la nature)",
+        "Une espèce qui disparaît lors d'une réaction",
+        "Un mélange de plusieurs corps purs"
+      ],
+      ans: 1,
+      expl: "Une espèce synthétique est fabriquée par l'Homme en laboratoire ou en industrie. Elle peut être identique à une espèce naturelle (mêmes propriétés) ou ne pas exister dans la nature (espèce artificielle)."
+    },
+    {
+      q: "Quelle technique permet d'identifier une espèce chimique obtenue par synthèse ?",
+      ill: null,
+      opts: [
+        "La pesée de l'échantillon sur une balance",
+        "La comparaison de propriétés physiques (T° de fusion, indice de réfraction, Rf en CCM…) avec des valeurs tabulées",
+        "La mesure du volume du ballon utilisé",
+        "La couleur du réfrigérant pendant le chauffage"
+      ],
+      ans: 1,
+      expl: "On identifie une espèce synthétisée en comparant ses propriétés physiques caractéristiques (température de fusion ou d'ébullition, indice de réfraction, rapport frontal Rf en CCM) aux valeurs de l'espèce de référence dans des tables ou bases de données."
+    },
+    {
+      q: "La pierre ponce dans un montage à reflux sert à :",
+      ill: null,
+      opts: [
+        "Accélérer la réaction chimique en tant que catalyseur",
+        "Réguler l'ébullition et éviter les projections (ébullition brutale)",
+        "Filtrer les impuretés du produit final",
+        "Absorber les gaz toxiques dégagés"
+      ],
+      ans: 1,
+      expl: "La pierre ponce (ou quelques grains de pierre ponce / billes de verre) crée des sites d'amorçage pour les bulles : cela régularise l'ébullition et évite les phénomènes d'ébullition brusque (projections violentes du liquide). Elle n'est pas un catalyseur."
+    },
+    {
+      q: "Dans un montage à reflux, comment circule l'eau dans le réfrigérant ?",
+      ill: svgRefluxSchema(),
+      opts: [
+        "L'eau entre par le haut et sort par le bas (même sens que les vapeurs)",
+        "L'eau entre par le bas et sort par le haut (sens contraire aux vapeurs)",
+        "L'eau ne circule pas, elle est statique dans le réfrigérant",
+        "L'eau entre et sort par le même orifice en bas"
+      ],
+      ans: 1,
+      expl: "L'eau froide entre par l'orifice du bas et ressort par l'orifice du haut. Ce sens à contre-courant par rapport aux vapeurs (qui montent) maximise l'efficacité du refroidissement et assure une condensation optimale."
+    }
+  ],
+
+  /* ──────── INTERMÉDIAIRE ──────── */
+  inter: [
+    {
+      q: "On mélange 2 mol de H₂ et 1 mol de O₂. L'équation est 2H₂ + O₂ → 2H₂O. Quel est le réactif limitant ?",
+      ill: svgReactifLimitant(),
+      opts: [
+        "H₂ est le réactif limitant",
+        "O₂ est le réactif limitant",
+        "Les deux réactifs sont limitants (mélange stœchiométrique)",
+        "Impossible à déterminer sans les masses"
+      ],
+      ans: 2,
+      expl: "Ratios : n(H₂)/2 = 2/2 = 1 mol ; n(O₂)/1 = 1/1 = 1 mol. Les deux ratios sont égaux → le mélange est stœchiométrique : les deux réactifs se consomment exactement en même temps. Il n'y a pas de réactif limitant."
+    },
+    {
+      q: "On mélange 0,5 mol de Zn et 0,8 mol de HCl. Réaction : Zn + 2HCl → ZnCl₂ + H₂. Quel est le réactif limitant ?",
+      ill: null,
+      opts: [
+        "Zn est le réactif limitant car n(Zn)/1 = 0,5 < n(HCl)/2 = 0,4",
+        "HCl est le réactif limitant car n(HCl)/2 = 0,4 < n(Zn)/1 = 0,5",
+        "Les deux réactifs sont limitants",
+        "Zn est le réactif limitant car sa masse molaire est plus faible"
+      ],
+      ans: 1,
+      expl: "Ratios : n(Zn)/1 = 0,5 mol ; n(HCl)/2 = 0,8/2 = 0,4 mol. Le ratio de HCl (0,4) est plus petit → HCl est le réactif limitant. Zn sera en excès. La réaction s'arrête quand tout HCl est consommé."
+    },
+    {
+      q: "Quelle est la masse de CO₂ produite par combustion complète de 4,0 g de CH₄ ? (M(CH₄) = 16 g/mol ; M(CO₂) = 44 g/mol ; CH₄ + 2O₂ → CO₂ + 2H₂O)",
+      ill: svgEquation(),
+      opts: [
+        "4,0 g de CO₂",
+        "7,0 g de CO₂",
+        "11 g de CO₂",
+        "44 g de CO₂"
+      ],
+      ans: 2,
+      expl: "n(CH₄) = 4,0/16 = 0,25 mol. D'après l'équation, 1 mol CH₄ → 1 mol CO₂, donc n(CO₂) = 0,25 mol. m(CO₂) = 0,25 × 44 = 11 g."
+    },
+    {
+      q: "Pour la réaction : Fe + 2HCl → FeCl₂ + H₂. On introduit n(Fe) = 0,10 mol et n(HCl) = 0,15 mol. Quelle est la quantité de H₂ produite ?",
+      ill: null,
+      opts: [
+        "n(H₂) = 0,15 mol",
+        "n(H₂) = 0,10 mol",
+        "n(H₂) = 0,075 mol",
+        "n(H₂) = 0,05 mol"
+      ],
+      ans: 2,
+      expl: "Ratios : n(Fe)/1 = 0,10 ; n(HCl)/2 = 0,15/2 = 0,075. HCl est limitant (ratio le plus faible). D'après l'équation : 2 mol HCl → 1 mol H₂ → n(H₂) = n(HCl)/2 = 0,075 mol."
+    },
+    {
+      q: "Lors d'une extraction liquide-liquide avec une ampoule à décanter, dans quelle phase se trouve le produit organique si le solvant d'extraction a une densité de 0,78 ?",
+      ill: svgExtraction(),
+      opts: [
+        "Dans la phase inférieure car le solvant est dense",
+        "Dans la phase supérieure car le solvant (ρ = 0,78 < 1) est moins dense que l'eau",
+        "Le produit se répartit dans les deux phases",
+        "Le produit précipite au fond de l'ampoule"
+      ],
+      ans: 1,
+      expl: "ρ_solvant = 0,78 g/mL < ρ_eau = 1,00 g/mL → le solvant organique moins dense forme la phase supérieure. Le produit soluble dans ce solvant se retrouve donc dans la phase supérieure (phase organique)."
+    },
+    {
+      q: "Qu'est-ce que le tableau d'avancement d'une réaction ?",
+      ill: svgTableauAvancement(),
+      opts: [
+        "Un tableau qui donne la vitesse de réaction à chaque instant",
+        "Un tableau qui décrit l'évolution des quantités de matière des réactifs et produits en fonction de l'avancement x",
+        "Un tableau donnant les températures d'ébullition des réactifs",
+        "Un tableau listant les équipements de sécurité à utiliser"
+      ],
+      ans: 1,
+      expl: "Le tableau d'avancement permet de suivre l'évolution des quantités de matière de chaque espèce (réactifs et produits) en fonction de l'avancement x de la réaction, de l'état initial à l'état final."
+    },
+    {
+      q: "Quelles sont les 4 étapes d'une synthèse chimique dans l'ordre ?",
+      ill: svgSyntheseEtapes(),
+      opts: [
+        "Analyse → Isolement → Transformation → Prélèvement",
+        "Prélèvement des réactifs → Transformation chimique → Isolement du produit → Analyse du produit",
+        "Distillation → Filtration → Chauffage → CCM",
+        "Pesée → Reflux → CCM → Recristallisation"
+      ],
+      ans: 1,
+      expl: "Les 4 étapes sont : 1) Prélèvement des réactifs (pesée, mesure de volume), 2) Transformation chimique (souvent par reflux), 3) Isolement du produit brut (filtration, extraction, distillation), 4) Analyse du produit (CCM, T° fusion, indice de réfraction…)."
+    },
+    {
+      q: "On synthétise de l'aspirine. On obtient 3,60 g alors que la masse théorique est 5,00 g. Quel est le rendement de la synthèse ?",
+      ill: svgRendement(),
+      opts: [
+        "36 %",
+        "72 %",
+        "28 %",
+        "139 %"
+      ],
+      ans: 1,
+      expl: "τ = m_obtenue / m_théorique × 100 = 3,60 / 5,00 × 100 = 72 %. Un rendement < 100 % s'explique par des pertes lors de la manipulation, des réactions secondaires, ou une purification incomplète."
+    },
+    {
+      q: "Dans la réaction acide-base : HCl + NaOH → NaCl + H₂O, quelles sont les espèces spectatrices ?",
+      ill: null,
+      opts: [
+        "H⁺ et OH⁻",
+        "Na⁺ et Cl⁻",
+        "NaCl et H₂O",
+        "HCl et NaOH"
+      ],
+      ans: 1,
+      expl: "L'équation ionique réelle est H⁺ + OH⁻ → H₂O. Na⁺ et Cl⁻ sont présents avant et après la réaction, inchangés : ce sont les espèces spectatrices. Elles ne participent pas à la transformation."
+    },
+    {
+      q: "Lors de la corrosion du zinc par l'acide : Zn + 2HCl → ZnCl₂ + H₂. On constate qu'il reste du zinc solide à la fin. Quelle conclusion tire-t-on ?",
+      ill: null,
+      opts: [
+        "HCl est en excès, Zn est le réactif limitant",
+        "Zn est en excès, HCl est le réactif limitant",
+        "La réaction n'est pas terminée, il faut chauffer davantage",
+        "Le mélange est stœchiométrique"
+      ],
+      ans: 1,
+      expl: "Si Zn solide est encore visible en fin de réaction, c'est que tout HCl a été consommé avant tout Zn. HCl est donc le réactif limitant (épuisé en premier) et Zn est en excès. On retrouve HCl limitant car Zn reste."
+    }
+  ],
+
+  /* ──────── DIFFICILE ──────── */
+  diff: [
+    {
+      q: "On introduit n₀(A) = 0,060 mol et n₀(B) = 0,100 mol pour la réaction : 2A + 3B → C + D. Quel est le réactif limitant et quelle est la valeur de x_max ?",
+      ill: svgTableauAvancement(),
+      opts: [
+        "A limitant ; x_max = 0,030 mol",
+        "B limitant ; x_max = 0,033 mol",
+        "A limitant ; x_max = 0,060 mol",
+        "Mélange stœchiométrique ; x_max = 0,030 mol"
+      ],
+      ans: 0,
+      expl: "Ratios : n(A)/2 = 0,030 ; n(B)/3 = 0,033. A a le ratio le plus faible → A est limitant. x_max est atteint quand A est épuisé : n₀(A) − 2x_max = 0 → x_max = 0,060/2 = 0,030 mol."
+    },
+    {
+      q: "On synthétise du menthol (M = 156 g/mol) à partir de 9,36 g de réactif. On obtient 5,46 g de produit. Quel est le rendement ? Quelle est la masse théorique si le rendement était 100 % ?",
+      ill: svgRendement(),
+      opts: [
+        "Rendement = 58,3 % ; m_théo = 9,36 g",
+        "Rendement = 58,3 % ; m_théo ne peut pas être calculée sans l'équation",
+        "Rendement = 100 % car toute la masse est conservée",
+        "Rendement = 41,7 % ; m_théo = 9,36 g"
+      ],
+      ans: 0,
+      expl: "La masse théorique ici est la masse maximale qu'on aurait pu obtenir si la réaction était totale et sans perte : m_théo = 9,36 g (cas simplifié 1:1). τ = 5,46/9,36 × 100 = 58,3 %. Le rendement est < 100 % à cause des pertes lors des manipulations."
+    },
+    {
+      q: "L'équation est : C₆H₅OH + (CH₃CO)₂O → C₈H₈O₃ + CH₃COOH. On part de 9,40 g de phénol (M = 94,0 g/mol) et d'un excès d'anhydride acétique. Masse molaire de C₈H₈O₃ = 136 g/mol. Quelle masse théorique d'aspirine obtient-on ?",
+      ill: null,
+      opts: [
+        "9,40 g",
+        "13,6 g",
+        "6,80 g",
+        "27,2 g"
+      ],
+      ans: 1,
+      expl: "n(phénol) = 9,40/94,0 = 0,100 mol. Rapport molaire 1:1 → n(aspirine) = 0,100 mol. m_théo = 0,100 × 136 = 13,6 g."
+    },
+    {
+      q: "Lors d'une CCM, le produit synthétisé donne un Rf = 0,42 et le témoin naturel donne Rf = 0,42. Quelle conclusion peut-on tirer avec certitude ?",
+      ill: null,
+      opts: [
+        "Le produit est identique au témoin naturel avec certitude absolue",
+        "Le produit et le témoin ont la même affinité pour la phase mobile dans ces conditions : c'est un indice fort d'identité, mais pas une preuve absolue. Il faut compléter par d'autres mesures",
+        "Le produit est plus pur que le témoin naturel",
+        "Le rendement est de 42 %"
+      ],
+      ans: 1,
+      expl: "Un Rf identique indique que les deux espèces ont le même comportement chromatographique dans ces conditions d'élution, ce qui est un fort indice qu'elles sont identiques. Mais la CCM ne permet pas à elle seule de conclure avec certitude : d'autres caractéristiques physiques (T° fusion, indice de réfraction, spectre IR…) sont nécessaires."
+    },
+    {
+      q: "Pour la réaction : N₂ + 3H₂ → 2NH₃. On introduit 2,80 g de N₂ (M = 28 g/mol) et 0,90 g de H₂ (M = 2 g/mol). Quelle masse de NH₃ (M = 17 g/mol) est produite ?",
+      ill: null,
+      opts: [
+        "5,10 g de NH₃",
+        "3,40 g de NH₃",
+        "1,70 g de NH₃",
+        "10,2 g de NH₃"
+      ],
+      ans: 1,
+      expl: "n(N₂) = 2,80/28 = 0,10 mol ; n(H₂) = 0,90/2 = 0,45 mol. Ratios : n(N₂)/1 = 0,10 ; n(H₂)/3 = 0,15. N₂ est limitant (ratio 0,10 < 0,15). D'après l'équation : 1 mol N₂ → 2 mol NH₃ → n(NH₃) = 0,20 mol. m(NH₃) = 0,20 × 17 = 3,40 g."
+    },
+    {
+      q: "Lors d'une synthèse, on chauffe à reflux pendant 20 min. Le réfrigérant est branché à l'envers (eau entrée en haut, sortie en bas). Quelle conséquence cela a-t-il ?",
+      ill: svgRefluxSchema(),
+      opts: [
+        "Aucune : la direction de l'eau n'a pas d'importance",
+        "La condensation est moins efficace car l'eau la plus froide est au bas du réfrigérant alors que les vapeurs les plus chaudes arrivent par le bas : on risque une perte de matière",
+        "L'eau monte par capillarité et le refroidissement est amélioré",
+        "La réaction chimique s'inverse"
+      ],
+      ans: 1,
+      expl: "Lorsque l'eau entre par le haut, la partie basse du réfrigérant (là où arrivent les vapeurs chaudes) est en contact avec l'eau déjà réchauffée, moins efficace pour condenser. Brancher l'eau entrée en bas / sortie en haut assure que la vapeur rencontre d'abord l'eau la plus froide, maximisant la condensation. Un branchement inversé peut laisser passer des vapeurs non condensées, causant des pertes de matière."
+    },
+    {
+      q: "On dispose d'un mélange réactionnel contenant de l'éthanol (miscible à l'eau) et un ester (non miscible à l'eau, ρ = 0,90 g/mL). Comment isoler l'ester ?",
+      ill: svgExtraction(),
+      opts: [
+        "Par filtration sur papier filtre, l'ester étant solide",
+        "Par extraction liquide-liquide avec un solvant organique non miscible à l'eau moins dense que l'eau, puis récupération de la phase supérieure",
+        "Par distillation directe sans solvant supplémentaire",
+        "Par CCM sur plaque de silice"
+      ],
+      ans: 1,
+      expl: "L'ester non miscible à l'eau peut être extrait par un solvant organique approprié (ou directement s'il se sépare déjà). On verse dans une ampoule à décanter : la phase organique (ρ < 1) monte en haut. On récupère la phase supérieure qui contient l'ester. L'éthanol reste en phase aqueuse."
+    },
+    {
+      q: "La masse molaire de l'acide acétylsalicylique (aspirine) est 180 g/mol. On part de 0,050 mol de réactif limitant (rapport 1:1). On obtient 6,48 g d'aspirine. Quel est le rendement ?",
+      ill: svgRendement(),
+      opts: [
+        "64,8 %",
+        "72,0 %",
+        "50,0 %",
+        "90,0 %"
+      ],
+      ans: 1,
+      expl: "m_théorique = n × M = 0,050 × 180 = 9,00 g. τ = m_obtenue / m_théorique × 100 = 6,48 / 9,00 × 100 = 72,0 %."
+    },
+    {
+      q: "Une réaction exothermique libère de la chaleur. Lors d'une dissolution de NaOH dans l'eau, la température augmente de 20°C. Que peut-on conclure ?",
+      ill: null,
+      opts: [
+        "La dissolution est endothermique car la température monte",
+        "La dissolution est exothermique : l'énergie libérée par la formation des liaisons ion-eau est supérieure à l'énergie absorbée pour dissocier le solide ionique",
+        "La température augmente car NaOH est un acide fort",
+        "La réaction est impossible à caractériser thermiquement sans calcul"
+      ],
+      ans: 1,
+      expl: "Une augmentation de température du milieu réactionnel indique que la réaction libère de l'énergie sous forme de chaleur → elle est exothermique. La dissolution de NaOH est bien exothermique : l'hydratation des ions Na⁺ et OH⁻ libère plus d'énergie que n'en requiert la rupture du réseau ionique."
+    },
+    {
+      q: "On veut équilibrer : C₃H₈ + O₂ → CO₂ + H₂O. Quels sont les coefficients stœchiométriques corrects ?",
+      ill: null,
+      opts: [
+        "C₃H₈ + 3 O₂ → 3 CO₂ + 4 H₂O",
+        "C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O",
+        "2 C₃H₈ + 7 O₂ → 6 CO₂ + 6 H₂O",
+        "C₃H₈ + 4 O₂ → 3 CO₂ + 3 H₂O"
+      ],
+      ans: 1,
+      expl: "C₃H₈ contient 3 C et 8 H. Produits : 3 CO₂ (3 C ✓) et 4 H₂O (8 H ✓). O₂ : côté produits = 3×2 + 4×1 = 10 atomes O → 5 O₂. Équation équilibrée : C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O. Vérification C : 3=3 ✓, H : 8=8 ✓, O : 10=10 ✓."
+    }
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   ÉTAT DU JEU
+═══════════════════════════════════════════════ */
+let currentLevel = 'facile';
+let currentIdx   = 0;
+let score        = { ok: 0, ko: 0 };
+let answers      = [];
+let answered     = false;
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════ */
+function startQuiz(level) {
+  currentLevel = level;
+  currentIdx   = 0;
+  score        = { ok: 0, ko: 0 };
+  answers      = [];
+  answered     = false;
+
+  document.getElementById('hdr-level').className = 'quiz-level-label ' + level;
+  document.getElementById('hdr-level').textContent = {
+    facile: '🌱 Niveau Facile',
+    inter:  '⚗️ Niveau Intermédiaire',
+    diff:   '🔬 Niveau Difficile'
+  }[level];
+  document.getElementById('progress-fill').className = 'progress-fill ' + level;
+
+  document.getElementById('screen-home').style.display   = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-quiz').style.display   = 'flex';
+  renderQuestion();
+}
+
+function goHome() {
+  document.getElementById('screen-quiz').style.display   = 'none';
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-home').style.display   = 'flex';
+}
+
+function retryLevel() { startQuiz(currentLevel); }
+
+/* ══════════════════════════════════════════════
+   RENDU QUESTION
+═══════════════════════════════════════════════ */
+function renderQuestion() {
+  answered = false;
+  const qs    = QUESTIONS[currentLevel];
+  const q     = qs[currentIdx];
+  const total = qs.length;
+  const pct   = Math.round(currentIdx / total * 100);
+
+  document.getElementById('progress-fill').style.width   = pct + '%';
+  document.getElementById('progress-label').textContent  = currentIdx + ' / ' + total;
+  document.getElementById('live-ok').textContent         = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent         = '✗ ' + score.ko;
+
+  const letters  = ['A', 'B', 'C', 'D'];
+  const illHTML  = q.ill ? `<div class="q-illustration">${q.ill}</div>` : '';
+  const optsHTML = q.opts.map((opt, i) => `
+    <div class="q-option" id="opt-${i}" onclick="selectAnswer(${i})">
+      <div class="opt-letter" id="letter-${i}">${letters[i]}</div>
+      <span>${opt}</span>
+    </div>`).join('');
+
+  document.getElementById('quiz-main').innerHTML = `
+    <div class="question-card" id="q-card">
+      <div class="q-header">
+        <span class="q-num">Q${currentIdx + 1} / ${total}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
+      ${illHTML}
+      <div class="q-options">${optsHTML}</div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="q-next-wrap">
+        <button class="btn-next ${currentLevel}" id="btn-next" onclick="nextQuestion()">
+          ${currentIdx < total - 1 ? 'Question suivante →' : 'Voir mes résultats 🎯'}
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   SÉLECTION RÉPONSE
+═══════════════════════════════════════════════ */
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q      = QUESTIONS[currentLevel][currentIdx];
+  const correct = q.ans;
+  const isOk   = chosen === correct;
+
+  if (isOk) score.ok++; else score.ko++;
+  answers.push(isOk);
+
+  document.querySelectorAll('.q-option').forEach((el, i) => {
+    el.classList.add('locked');
+    if (i === chosen && isOk)  el.classList.add('correct');
+    else if (i === chosen && !isOk) el.classList.add('incorrect');
+    else if (i === correct)    el.classList.add('reveal');
+  });
+
+  const fb = document.getElementById('q-feedback');
+  fb.className = 'q-feedback ' + (isOk ? 'correct' : 'incorrect');
+  fb.innerHTML = (isOk ? '✅ ' : '❌ ') + q.expl;
+
+  document.getElementById('btn-next').classList.add('show');
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct   = Math.round((currentIdx + 1) / total * 100);
+  document.getElementById('progress-fill').style.width  = pct + '%';
+  document.getElementById('progress-label').textContent = (currentIdx + 1) + ' / ' + total;
+  document.getElementById('live-ok').textContent = '✓ ' + score.ok;
+  document.getElementById('live-ko').textContent = '✗ ' + score.ko;
+}
+
+/* ══════════════════════════════════════════════
+   QUESTION SUIVANTE
+═══════════════════════════════════════════════ */
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= QUESTIONS[currentLevel].length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+/* ══════════════════════════════════════════════
+   RÉSULTATS
+═══════════════════════════════════════════════ */
+function showResults() {
+  document.getElementById('screen-quiz').style.display   = 'none';
+  document.getElementById('screen-result').style.display = 'flex';
+
+  const total = QUESTIONS[currentLevel].length;
+  const pct   = Math.round(score.ok / total * 100);
+  const emoji = pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  const title = pct >= 80 ? 'Excellent !' : pct >= 50 ? 'Bien joué !' : 'Continue tes révisions !';
+  const msg   = pct >= 80
+    ? 'Tu maîtrises bien les réactions chimiques et la synthèse. Passe au niveau supérieur !'
+    : pct >= 50
+    ? 'Tu as de bonnes bases. Relis les points sur lesquels tu as hésité.'
+    : 'Reprends la fiche de cours sur les transformations chimiques et recommence !';
+
+  const levelLabel = {
+    facile: '🌱 Niveau Facile',
+    inter:  '⚗️ Niveau Intermédiaire',
+    diff:   '🔬 Niveau Difficile'
+  }[currentLevel];
+
+  document.getElementById('r-emoji').textContent       = emoji;
+  document.getElementById('r-title').textContent       = title;
+  document.getElementById('r-level-label').textContent = levelLabel;
+  document.getElementById('r-score').textContent       = score.ok + ' / ' + total;
+  document.getElementById('r-score').className         = 'result-score-big ' + currentLevel;
+  document.getElementById('r-msg').textContent         = msg;
+  document.getElementById('r-pct').textContent         = pct + '%';
+
+  const barFill = document.getElementById('r-bar');
+  barFill.className = 'result-bar-fill ' + currentLevel;
+  setTimeout(() => { barFill.style.width = pct + '%'; }, 100);
+
+  const dotsHTML = answers.map((ok, i) =>
+    `<div class="recap-dot ${ok ? 'ok' : 'ko'}" title="Q${i+1} : ${ok ? '✓' : '✗'}">${i + 1}</div>`
+  ).join('');
+  document.getElementById('r-dots').innerHTML = dotsHTML;
+
+  document.getElementById('btn-retry-same').style.background =
+    currentLevel === 'facile' ? 'var(--facile)' :
+    currentLevel === 'inter'  ? 'var(--inter)'  : 'var(--diff)';
+}
+</script>
+</body>
+</html>

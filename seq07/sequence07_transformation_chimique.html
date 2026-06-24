@@ -246,6 +246,39 @@
   .footer-note { text-align: center; font-size: 0.78rem; color: var(--texte-léger); padding: 20px; border-top: 1px solid var(--gris-bord); margin-top: 30px; }
   sup { font-size: 0.65em; }
   sub { font-size: 0.65em; }
+
+  /* ── ANIMATION REFLUX HEADER ── */
+  .reflux-icon { width: 72px; height: 97px; flex-shrink: 0; margin-left: auto; }
+  .reflux-svg { width: 100%; height: 100%; }
+  .reflux-glass { fill: none; stroke: #7dd3fc; stroke-width: 2.5; }
+  .reflux-liquid { fill: #38bdf8; opacity: 0.55; animation: reflux-slosh 3s ease-in-out infinite; }
+  .reflux-bubble-1 { fill: #7dd3fc; opacity: 0; animation: reflux-bubble 2.4s ease-in-out 0.2s infinite; }
+  .reflux-bubble-2 { fill: #7dd3fc; opacity: 0; animation: reflux-bubble 2.4s ease-in-out 0.9s infinite; }
+  .reflux-bubble-3 { fill: #7dd3fc; opacity: 0; animation: reflux-bubble 2.4s ease-in-out 1.5s infinite; }
+  .reflux-vapor-1 { fill: #bae6fd; opacity: 0; animation: reflux-vapor 2s ease-out 0s infinite; }
+  .reflux-vapor-2 { fill: #e0f2fe; opacity: 0; animation: reflux-vapor 2s ease-out 1s infinite; }
+  .reflux-drop { fill: #38bdf8; opacity: 0; animation: reflux-drop 2s ease-in 0.5s infinite; }
+
+  @keyframes reflux-slosh {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-3px); }
+  }
+  @keyframes reflux-bubble {
+    0%   { opacity: 0; transform: translateY(0); }
+    20%  { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(-18px); }
+  }
+  @keyframes reflux-vapor {
+    0%   { opacity: 0; transform: translateY(0) scale(1); }
+    30%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-28px) scale(1.8); }
+  }
+  @keyframes reflux-drop {
+    0%   { opacity: 0; transform: translateY(-22px); }
+    40%  { opacity: 0.9; }
+    100% { opacity: 0; transform: translateY(8px); }
+  }
+  @media (max-width: 480px) { .reflux-icon { width: 52px; height: 70px; } }
 </style>
 </head>
 <body>
@@ -260,6 +293,28 @@
     <div class="header-titles">
       <h1>Transformation chimique et synthèse</h1>
       <p>Thème : <span>Constitution et transformations de la matière</span> · 2<sup>nde</sup></p>
+    </div>
+    <!-- Animation montage à reflux -->
+    <div class="reflux-icon" aria-hidden="true">
+      <svg class="reflux-svg" viewBox="0 0 100 135" xmlns="http://www.w3.org/2000/svg">
+        <line x1="50" y1="4" x2="50" y2="58" stroke="#7dd3fc" stroke-width="3" />
+        <circle class="reflux-glass" cx="50" cy="14" r="9" />
+        <circle class="reflux-glass" cx="50" cy="32" r="9" />
+        <circle class="reflux-glass" cx="50" cy="50" r="9" />
+        <circle class="reflux-vapor reflux-vapor-1" cx="50" cy="60" r="3.5" />
+        <circle class="reflux-vapor reflux-vapor-2" cx="50" cy="60" r="3" />
+        <circle class="reflux-drop" cx="50" cy="54" r="3" />
+        <path class="reflux-glass" d="M42,60 L42,72 L58,72 L58,60" />
+        <circle class="reflux-glass" cx="50" cy="94" r="26" />
+        <clipPath id="ballonClip-seq07">
+          <circle cx="50" cy="94" r="25" />
+        </clipPath>
+        <rect class="reflux-liquid" clip-path="url(#ballonClip-seq07)" x="24" y="86" width="52" height="34" />
+        <circle class="reflux-bubble reflux-bubble-1" cx="42" cy="110" r="3" />
+        <circle class="reflux-bubble reflux-bubble-2" cx="54" cy="113" r="2.5" />
+        <circle class="reflux-bubble reflux-bubble-3" cx="62" cy="108" r="3" />
+        <rect x="14" y="124" width="72" height="7" rx="2" fill="#94a3b8" />
+      </svg>
     </div>
   </div>
   <div class="cap-panel" id="cap-panel">
@@ -639,7 +694,7 @@
       </iframe>
     </div>
     <div style="background:var(--bleu-activite);padding:8px 18px;font-size:0.78rem;color:var(--texte-léger);display:flex;align-items:center;gap:6px;">
-      <span>💡</span> Glisser les éléments pour légender chaque partie du schéma.
+      <span>💡</span> Clique sur les zones du schéma pour légender chaque élément du montage.
     </div>
   </div>
 

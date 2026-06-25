@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sections = panel.querySelectorAll('div[style*="margin-bottom:18px"]');
     let targetSection = null;
     sections.forEach(function (sec) {
-      const header = sec.querySelector('div[style*="text-transform:uppercase"]');
+      const header = sec.querySelector('.section-label');
       if (header && header.textContent.includes('Flashcards')) {
         targetSection = sec;
       }
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!targetSection) {
       targetSection = document.createElement('div');
       targetSection.style.marginBottom = '18px';
-      targetSection.innerHTML = '<div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">✏️ Flashcards, exercices et quiz</div>';
+      targetSection.innerHTML = '<div class="section-label">✏️ Flashcards, exercices et quiz</div>';
       panel.appendChild(targetSection);
     }
 

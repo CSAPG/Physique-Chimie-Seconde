@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let flashcardsSection = null;
 
     sections.forEach(function (sec) {
-      const header = sec.querySelector('div[style*="text-transform:uppercase"]');
+      const header = sec.querySelector('.section-label');
       if (!header) return;
       if (header.textContent.includes('Jeux interactifs') || header.textContent.includes('Jeux et exercices')) {
         targetSection = sec;
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!targetSection) {
       targetSection = document.createElement('div');
       targetSection.style.marginBottom = '18px';
-      targetSection.innerHTML = '<div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#64748b;margin-bottom:10px;padding-left:4px;">🎮 Jeux interactifs</div>';
+      targetSection.innerHTML = '<div class="section-label">🎮 Jeux interactifs</div>';
 
       if (flashcardsSection) {
         // Insérer avant la section Flashcards pour respecter l'ordre habituel

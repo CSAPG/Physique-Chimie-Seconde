@@ -710,6 +710,54 @@
         <strong>3.</strong> Une fois lâchée, la balle n'est plus soumise qu'à son poids (chute libre) : aucune force horizontale n'agit sur elle, donc d'après le principe d'inertie sa vitesse horizontale reste constante — seule sa vitesse verticale augmente sous l'effet du poids.
       </div>
 
+      <h3>🚀 Application — simulation PhET « Forces and Motion: Basics »</h3>
+      <p style="font-size:0.92rem;">Va dans l'onglet <strong>« Mouvement »</strong> de la simulation ci-dessous. Place un personnage ou un objet sur le chariot, choisis <strong>« Aucun »</strong> frottement, pousse-le brièvement puis relâche : observe l'aiguille du compteur de vitesse et le vecteur vitesse. Recommence ensuite avec un frottement réglé sur « Beaucoup ».</p>
+      <div class="canvas-frame" style="padding:6px;">
+        <iframe src="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" width="100%" height="520" style="border:none; display:block;" loading="lazy" title="Simulation PhET — Forces and Motion: Basics"></iframe>
+      </div>
+      <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-top:6px;">
+        Simulation réalisée par PhET Interactive Simulations, université du Colorado Boulder — <a href="https://phet.colorado.edu/fr/simulations/forces-and-motion-basics" target="_blank" rel="noopener">phet.colorado.edu</a> (CC BY).
+        Si elle ne s'affiche pas ci-dessus, <a href="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" target="_blank" rel="noopener">ouvre-la dans un nouvel onglet ↗</a>.
+      </p>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Onglet « Mouvement », sans frottement : une fois la poussée terminée, comment évolue la vitesse de l'objet ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elle diminue progressivement jusqu'à l'arrêt.</option>
+          <option value="b">Elle reste constante : le mouvement se poursuit en ligne droite à vitesse constante.</option>
+          <option value="c">Elle augmente continuellement.</option>
+          <option value="d">Elle s'annule dès que la main arrête de pousser.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Une fois la poussée terminée et sans frottement, que peut-on dire des forces qui s'exercent sur l'objet ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet2" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elles se compensent : le poids et la réaction du support s'annulent, et aucune force horizontale n'agit.</option>
+          <option value="b">La force de poussée continue d'agir seule.</option>
+          <option value="c">Le poids l'emporte sur la réaction du support.</option>
+          <option value="d">Une force de frottement freine encore l'objet.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Règle maintenant le frottement sur « Beaucoup » et pousse à nouveau brièvement : que se passe-t-il après la poussée, et pourquoi (principe d'inertie) ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet3" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">La vitesse reste constante car les forces se compensent toujours.</option>
+          <option value="b">L'objet accélère car le frottement s'ajoute à la poussée.</option>
+          <option value="c">La vitesse diminue jusqu'à l'arrêt, car le frottement empêche les forces horizontales de se compenser (vecteur vitesse qui varie → forces non compensées, d'après la réciproque du principe d'inertie).</option>
+          <option value="d">L'objet repart instantanément en sens inverse.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkPhet">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackPhet"></div>
+      <div class="qa-correction" id="correctionPhet">
+        <strong>1.</strong> Sans frottement, une fois la poussée terminée, plus aucune force horizontale n'agit sur l'objet : d'après le principe d'inertie, il conserve la vitesse qu'il avait et continue en ligne droite à vitesse constante.<br><br>
+        <strong>2.</strong> Verticalement, le poids et la réaction du support se compensent (l'objet ne s'enfonce pas et ne décolle pas) ; horizontalement, sans frottement, aucune force ne s'exerce une fois la poussée relâchée : les forces se compensent globalement, ce qui est cohérent avec la vitesse constante observée.<br><br>
+        <strong>3.</strong> Avec du frottement, une force de frottement horizontale s'oppose au mouvement même après la fin de la poussée : les forces ne se compensent plus. D'après la réciproque du principe d'inertie, le vecteur vitesse varie donc — l'objet ralentit jusqu'à l'arrêt.
+      </div>
+
       <h3>🧠 Questions guidées — activité « Découvrir le principe d'inertie »</h3>
       <div class="info-box" style="text-align:center; border-style:solid; max-width:420px; margin:0 auto 18px;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📄 Activité documentaire — Découvrir le principe d'inertie</p>
@@ -1367,6 +1415,27 @@ if (btnOstralo){
     fb.textContent = score + " / " + selects.length + " bonnes réponses.";
     fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
     document.getElementById("correctionOstralo").classList.add("open");
+  });
+}
+
+// ===================== Principe d'inertie : QCM simulation PhET "Forces and Motion: Basics" =====================
+var btnPhet = document.getElementById("checkPhet");
+if (btnPhet){
+  btnPhet.addEventListener("click", function(){
+    var score = 0;
+    var selects = document.querySelectorAll("#qcmPhet1, #qcmPhet2, #qcmPhet3");
+    selects.forEach(function(sel){
+      sel.classList.remove("correct","wrong");
+      if (sel.value === sel.dataset.correct){
+        sel.classList.add("correct"); score++;
+      } else {
+        sel.classList.add("wrong");
+      }
+    });
+    var fb = document.getElementById("feedbackPhet");
+    fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+    fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+    document.getElementById("correctionPhet").classList.add("open");
   });
 }
 

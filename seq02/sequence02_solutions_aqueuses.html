@@ -1089,7 +1089,7 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="qcm-feedback" id="fb-q1"></div>
         </div>
         <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
+          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un corps pur','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
           <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
           <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
         </div>
@@ -1198,7 +1198,7 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="btn-group-exo">
       <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
-      <button class="btn-reset-exo" onclick="resetExo('exo-glucose',['gl1-val'],[{'id':'gl2-sel','corrVal':'diluee'}],['gl1-fb','gl2-fb'],'corr-glucose')">↺ Recommencer</button>
+      <button class="btn-reset-exo" onclick="resetExoFull('exo-glucose','corr-glucose')">↺ Recommencer</button>
     </div>
     <div class="correction" id="corr-glucose">
       <strong>1. Titre massique de la solution :</strong>
@@ -1291,8 +1291,12 @@ button.cap-toggle:hover { background: #1e4466; }
       <span class="exo-pill">INTERACTIF</span>
     </div>
     <div class="exo-enonce">
-      Une solution commerciale d'eau oxygénée (H₂O₂) à 30 volumes a une masse volumique <strong>ρ = 1 100 g·L⁻¹</strong> et contient <strong>30 % en masse</strong> de peroxyde d'hydrogène H₂O₂.<br>
+      Une solution commerciale d'eau oxygénée (H₂O₂) à 30 volumes a une masse volumique <strong>ρ = 1 100 g·L⁻¹</strong> et contient <strong>9 % en masse</strong> de peroxyde d'hydrogène H₂O₂.<br>
       On souhaite déterminer la concentration en masse C<sub>m</sub> de H₂O₂ dans cette solution.
+    </div>
+
+    <div class="remarque-box" style="margin-bottom:14px;">
+      <strong>⚠ Attention à ne pas confondre :</strong> l'appellation « <strong>30 volumes</strong> » ne signifie pas 30 % en masse ! Elle indique que <strong>1 L</strong> de cette eau oxygénée libère <strong>30 L</strong> de dioxygène gazeux lors de sa décomposition complète (2 H₂O₂ → 2 H₂O + O₂). Cette échelle « en volumes » est une ancienne unité commerciale, encore utilisée en pharmacie et en cosmétique, qui correspond en réalité à une composition d'environ <strong>9 % en masse</strong> de H₂O₂.
     </div>
 
     <!-- Étape A : masse de solution pour 1 L -->
@@ -1310,15 +1314,15 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <!-- Étape B : masse de H2O2 dans 1 L -->
     <div class="question-block">
-      <div class="question-label">Étape 2. Parmi cette masse totale, 30 % correspond à la masse de H₂O₂. Calculer la masse de H₂O₂ dans 1 L de solution (en g).</div>
+      <div class="question-label">Étape 2. Parmi cette masse totale, 9 % correspond à la masse de H₂O₂. Calculer la masse de H₂O₂ dans 1 L de solution (en g).</div>
       <div class="interactif-row">
         <span class="interactif-hint">m(H₂O₂) =</span>
         <input type="number" step="1" class="num-input" id="rg2-val" placeholder="…">
         <span class="interactif-hint">g</span>
-        <button class="btn-verif" onclick="verifierNum('rg2','rg2-val',330,1,'rg2-fb')">✔ Vérifier</button>
+        <button class="btn-verif" onclick="verifierNum('rg2','rg2-val',99,1,'rg2-fb')">✔ Vérifier</button>
       </div>
       <div class="verif-feedback" id="rg2-fb"></div>
-      <div class="aide-box">💡 m(H₂O₂) = 30/100 × m<sub>solution</sub></div>
+      <div class="aide-box">💡 m(H₂O₂) = 9/100 × m<sub>solution</sub></div>
     </div>
 
     <!-- Étape C : Cm -->
@@ -1328,7 +1332,7 @@ button.cap-toggle:hover { background: #1e4466; }
         <span class="interactif-hint">C<sub>m</sub> =</span>
         <input type="number" step="1" class="num-input" id="rg3-val" placeholder="…">
         <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('rg3','rg3-val',330,1,'rg3-fb')">✔ Vérifier</button>
+        <button class="btn-verif" onclick="verifierNum('rg3','rg3-val',99,1,'rg3-fb')">✔ Vérifier</button>
       </div>
       <div class="verif-feedback" id="rg3-fb"></div>
       <div class="aide-box">💡 C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> = m(H₂O₂) dans 1 L / 1 L</div>
@@ -1357,11 +1361,11 @@ button.cap-toggle:hover { background: #1e4466; }
       <strong>Étape 1 – Masse d'un litre de solution :</strong>
       <div class="calc-step">ρ = m<sub>solution</sub> / V  →  m<sub>solution</sub> = ρ × V = 1 100 × 1 = <strong>1 100 g</strong></div>
       <strong>Étape 2 – Masse de H₂O₂ dans 1 L :</strong>
-      <div class="calc-step">m(H₂O₂) = 30/100 × 1 100 = <strong>330 g</strong></div>
+      <div class="calc-step">m(H₂O₂) = 9/100 × 1 100 = <strong>99 g</strong></div>
       <strong>Étape 3 – Concentration en masse :</strong>
-      <div class="calc-step">C<sub>m</sub>(H₂O₂) = m(H₂O₂) / V<sub>solution</sub> = 330 / 1 = <strong>330 g·L⁻¹</strong></div>
+      <div class="calc-step">C<sub>m</sub>(H₂O₂) = m(H₂O₂) / V<sub>solution</sub> = 99 / 1 = <strong>99 g·L⁻¹</strong></div>
       <strong>Étape 4 – Comparaison :</strong>
-      <div class="calc-step">C<sub>m</sub>(H₂O₂) = 330 g·L⁻¹ &lt; ρ<sub>solution</sub> = 1 100 g·L⁻¹</div>
+      <div class="calc-step">C<sub>m</sub>(H₂O₂) = 99 g·L⁻¹ &lt; ρ<sub>solution</sub> = 1 100 g·L⁻¹</div>
       C'est cohérent : la masse volumique tient compte de la totalité de la solution (solvant + soluté), alors que C<sub>m</sub> ne comptabilise que la masse de <em>soluté</em>. On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.
     </div>
   </div><!-- fin niveau guidé -->
@@ -1538,7 +1542,7 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="qcm-feedback" id="fb-v2"></div>
         </div>
         <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
+          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
           <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
         </div>
       </div>

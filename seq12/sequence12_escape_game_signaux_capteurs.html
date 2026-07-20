@@ -864,7 +864,7 @@ body{
 
       <div class="nav-btns">
         <button class="nav-btn" onclick="gotoRoom(2)">← Pièce 3</button>
-        <button class="nav-btn next" id="r3-next" onclick="triggerVictory()" disabled>🏆 Terminer la mission !</button>
+        <button class="nav-btn next" id="r3-finish" onclick="triggerVictory()" disabled>🏆 Terminer la mission !</button>
       </div>
     </div><!-- /room-3 -->
 
@@ -1072,18 +1072,34 @@ function checkRoomComplete(r) {
       }
     }
     updateProgress();
+    renderCodeSlots();
   }
+}
+
+/* ========== AFFICHAGE DES CASES DU CODE ========== */
+function renderCodeSlots() {
+  const container = document.getElementById('code-slots');
+  if(!container) return;
+  container.innerHTML = '';
+  CODES.forEach((frag, r) => {
+    for(let i = 0; i < frag.length; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'code-slot' + (roomComplete[r] ? ' filled' : '');
+      slot.textContent = roomComplete[r] ? frag[i] : '?';
+      container.appendChild(slot);
+    }
+  });
 }
 
 /* ========== CODE FINAL ========== */
 function checkFinalCode() {
   const inp = document.getElementById('final-input');
   const fb = document.getElementById('final-fb');
-  const val = inp.value.trim().toUpperCase();
+  const val = inp.value.trim().toUpperCase().replace(/\s+/g, '');
 
   if(val === FINAL_CODE) {
     showFeedback(fb, '🔓 Code correct ! La machine temporelle est réparée !', 'ok');
-    document.getElementById('r3-next').disabled = false;
+    document.getElementById('r3-finish').disabled = false;
   } else {
     showFeedback(fb, '❌ Code incorrect. Assemble les 4 fragments dans l\'ordre des pièces.', 'ko');
   }

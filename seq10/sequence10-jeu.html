@@ -833,7 +833,7 @@ body {
 
     <div class="room-nav">
       <button class="nav-btn ghost" onclick="goRoom(1)">← Salle 2</button>
-      <button class="nav-btn" id="next-r2" onclick="goRoom(3)" disabled>
+      <button class="nav-btn" id="next-r2" onclick="handleNextR2()" disabled>
         <span id="next-r2-label">Salle suivante →</span>
       </button>
     </div>
@@ -1134,6 +1134,9 @@ body {
       </p>
       <div style="display:flex;justify-content:center;gap:12px;margin-bottom:20px;" id="final-fragments-15">
       </div>
+      <div style="background:rgba(26,107,90,0.06);border:1px solid rgba(26,107,90,0.2);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:0.85rem;color:#2a2218;line-height:1.6;text-align:left;">
+        💡 <strong>4ᵉ chiffre manquant :</strong> au Cabinet de Snell &amp; Descartes, vous avez retenu l'indice de réfraction du vide (et de l'air, en très bonne approximation). C'est ce nombre entier qui complète le code.
+      </div>
       <div style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">
         Code à 4 chiffres
       </div>
@@ -1309,6 +1312,14 @@ function goRoom(idx) {
 
 function updateRoomIndicator() {
   document.getElementById('roomIndicator').textContent = `Salle ${currentRoom + 1} / ${totalRooms}`;
+}
+
+function handleNextR2() {
+  if (gameMode === 15) {
+    showFinalLock15();
+  } else {
+    goRoom(3);
+  }
 }
 
 function buildProgressDots() {

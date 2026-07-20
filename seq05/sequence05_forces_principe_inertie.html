@@ -1095,7 +1095,7 @@ function bindAccordions(){
   if (btnPissenlit){
     btnPissenlit.addEventListener("click", function(){
       var score = 0;
-      var selects = document.querySelectorAll(".qcm-select");
+      var selects = document.querySelectorAll("#qcmPissenlit1, #qcmPissenlit2");
       selects.forEach(function(sel){
         sel.classList.remove("correct","wrong");
         if (sel.value === sel.dataset.correct){

@@ -3907,13 +3907,13 @@ const questions = [
 
 let current = 0, score = 0, answered = false;
 let scoreHistory = [];
-try { scoreHistory = JSON.parse(localStorage.getItem('quizHistory_seq09') || '[]'); } catch(e){}
+try { scoreHistory = JSON.parse(localStorage.getItem('quizHistory_seq10') || '[]'); } catch(e){}
 
 function saveHistory(s, total) {
   const date = new Date().toLocaleDateString('fr-FR');
   scoreHistory.push({ date, score: s, total });
   if(scoreHistory.length > 5) scoreHistory.shift();
-  try { localStorage.setItem('quizHistory_seq09', JSON.stringify(scoreHistory)); } catch(e){}
+  try { localStorage.setItem('quizHistory_seq10', JSON.stringify(scoreHistory)); } catch(e){}
   renderHistory();
 }
 

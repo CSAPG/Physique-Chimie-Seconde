@@ -295,7 +295,14 @@ function fmtSci(n){
   const m=(n/Math.pow(10,e)).toFixed(2);
   return m+'×10<sup>'+e+'</sup>';
 }
-function parseVal(s){return parseFloat(String(s).replace(',','.').replace(/[×x]/g,'e').replace(/\s/g,''));}
+function parseVal(s){
+  s=String(s).trim().replace(',','.');
+  const supMap={'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁻':'-','⁺':'+'};
+  s=s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺]/g,ch=>supMap[ch]);
+  s=s.replace(/\s*[×x\*]\s*10\s*\^?\s*/gi,'e');
+  s=s.replace(/\s+/g,'');
+  return parseFloat(s);
+}
 function approxEq(a,b,pct){
   pct=pct||0.015;
   return !isNaN(a)&&b!==0&&Math.abs(a-b)/Math.abs(b)<pct;

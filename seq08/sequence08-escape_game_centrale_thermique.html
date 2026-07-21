@@ -1608,7 +1608,9 @@ function showVictory15() {
     const ps4=document.getElementById('a_ps4'); ps4.className='prog-step done'; ps4.innerHTML='🔓';
     const elapsed=Math.round((Date.now()-st15.startTime)/1000);
     document.getElementById('a_timeResult').textContent='Temps : '+Math.floor(elapsed/60)+' min '+elapsed%60+' s';
-    document.getElementById('a_finalCode').textContent='FUAGSC · 100 · 13';
+    const bits15=st15.e3Ans.map(a=>a?'1':'0').join('');
+    const dec15=parseInt(bits15,2);
+    document.getElementById('a_finalCode').textContent='FUAGSC · 100 · '+dec15;
     document.getElementById('a_victory').classList.add('show');
   },600);
 }
@@ -1622,7 +1624,9 @@ function showVictory50() {
     const ps7=document.getElementById('b_ps7'); ps7.className='prog-step done'; ps7.innerHTML='🔓';
     const elapsed=Math.round((Date.now()-st50.startTime)/1000);
     document.getElementById('b_timeResult').textContent='Temps : '+Math.floor(elapsed/60)+' min '+elapsed%60+' s';
-    document.getElementById('b_finalCode').textContent='FUAGSC · 100 · 0DLE · 5 · 8';
+    const bits50=st50.e3Ans.map(a=>a?'1':'0').join('');
+    const dec50=parseInt(bits50,2);
+    document.getElementById('b_finalCode').textContent='FUAGSC · 100 · '+dec50+' · 0DLE · 5 · 8';
     document.getElementById('b_victory').classList.add('show');
   },700);
 }

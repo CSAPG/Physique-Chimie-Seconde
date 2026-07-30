@@ -22,12 +22,13 @@
 *{box-sizing:border-box;}
 body{
   margin:0;
+  padding:14px;
   font-family:"Georgia","Iowan Old Style","Times New Roman",serif;
   background:var(--bg);
   color:var(--ink);
   line-height:1.55;
 }
-.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+.wrap{max-width:1300px;margin:0 auto;padding:24px 18px 80px;}
 
 /* HEADER (style aligné séq.01/02 : fond blanc, bleu/orange, Nunito/Outfit) */
 .header{
@@ -249,6 +250,86 @@ body{
   margin-bottom:18px;
   box-shadow:0 2px 6px rgba(0,0,0,0.03);
 }
+.card-title{
+  font-weight:700;
+  font-size:0.95rem;
+  color:var(--accent);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.ke-list{ list-style:none; padding:0; }
+.ke-list li{
+  padding:6px 10px 6px 28px;
+  position:relative;
+  font-size:0.88rem;
+  border-bottom:1px solid var(--line);
+  line-height:1.5;
+}
+.ke-list li:last-child{ border-bottom:none; }
+.ke-list li::before{
+  content:"✓";
+  position:absolute;
+  left:8px;
+  color:var(--accent);
+  font-weight:800;
+}
+.sub-tabs-nav{
+  display:flex;
+  gap:6px;
+  margin-bottom:18px;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+}
+.sub-tab-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 18px;
+  border:none;
+  background:var(--accent-light);
+  color:var(--accent);
+  font-size:0.84rem;
+  font-weight:700;
+  cursor:pointer;
+  border-radius:999px;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.sub-tab-btn.active{ background:var(--accent); color:#fff; }
+.sub-tab-content{ display:none; }
+.sub-tab-content.active{ display:block; animation:fade 0.2s ease; }
+.gloss-search{
+  width:100%;
+  padding:10px 14px;
+  border:1.5px solid var(--line);
+  border-radius:20px;
+  font-size:0.88rem;
+  margin-bottom:16px;
+}
+.gloss-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:14px 0;
+  list-style:none;
+  padding:0;
+}
+@media (max-width:600px){ .gloss-grid{ grid-template-columns:1fr; } }
+.gloss-item{
+  background:var(--paper);
+  border:1.5px solid var(--line);
+  border-radius:10px;
+  padding:12px 16px;
+}
+.gloss-item dt{
+  font-weight:800;
+  color:var(--accent);
+  font-size:0.9rem;
+  margin-bottom:4px;
+}
+.gloss-item dd{ font-size:0.84rem; color:var(--ink); line-height:1.55; }
 .card h2{
   font-size:1.25rem;
   margin-top:0;
@@ -258,6 +339,7 @@ body{
 }
 .card h3{
   font-size:1.05rem;
+
   color:var(--accent2);
   margin:18px 0 8px;
 }
@@ -754,6 +836,8 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
   .header{padding:14px 16px 10px;}
   .header-titles h1{font-size:1.1rem;}
   .tab-btn{padding:8px 12px 10px;font-size:0.80rem;}
+  body{padding:6px;}
+  .wrap{padding:18px 12px 50px;}
 }
 /* ---- Capacités exigibles : pastille compacte en haut à gauche + panneau ---- */
 button.cap-toggle {
@@ -1978,23 +2062,62 @@ button.cap-toggle:hover { background: #1e4466; }
 
 <!-- ================= ONGLET 5 : BILAN & RESSOURCES ================= -->
 <section class="panel" id="t5">
-  <div class="card">
-    <h2>Bilans et ressources</h2>
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
 
-    <h3>Bilans</h3>
-    <div class="pastilles">
-      <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640928?paccess=47d0774997c.2fc811e0.8cc3d8423b25b01a0da08f7ec1dcb67f" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — L'atome : noyau et cortège</a>
-      <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640343?paccess=47d07755025.2fc80f97.7c52443959f04eb99d45653aff7ce424" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — Entités chimiques stables</a>
-    </div>
-
-    <h3>Ressources</h3>
-    <div class="pastilles">
-      <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225324" target="_blank" rel="noopener">Cours du livre scolaire — Le cortège électronique de l'atome</a>
-      <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225388" target="_blank" rel="noopener">Cours du livre scolaire — La stabilité des entités</a>
-      <a class="pastille ostralo" href="https://chimie.ostralo.net/structure_electronique/" target="_blank" rel="noopener">Animation Ostralo — Structure électronique</a>
-      <a class="pastille ostralo" href="https://chimie.ostralo.net/entites_chimiques/" target="_blank" rel="noopener">Animation Ostralo — Entités chimiques</a>
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">✅</span>Capacités exigibles — synthèse</div>
+      <ul class="ke-list">
+        <li>Identifier les entités chimiques (atomes, ions, molécules, composés ioniques) et les relier à l'espèce chimique correspondante.</li>
+        <li>Décrire la structure de l'atome et du noyau, et relier les notions de nucléons, isotopes et masse atomique.</li>
+        <li>Identifier le cortège électronique d'un atome et le relier à sa position dans le tableau périodique.</li>
+        <li>Utiliser les symboles chimiques et la notation nucléaire pour représenter les entités chimiques.</li>
+      </ul>
     </div>
   </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>À l'échelle macroscopique, collection d'un très grand nombre d'entités chimiques identiques.</dd></div>
+      <div class="gloss-item" data-term="entite chimique"><dt>Entité chimique</dt><dd>À l'échelle microscopique : un atome, un ion, une molécule ou un composé ionique.</dd></div>
+      <div class="gloss-item" data-term="atome"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique.</dd></div>
+      <div class="gloss-item" data-term="ion cation anion"><dt>Ion</dt><dd>Entité chargée positivement (cation) ou négativement (anion), issue de la perte ou du gain d'électrons par un atome.</dd></div>
+      <div class="gloss-item" data-term="molecule"><dt>Molécule</dt><dd>Assemblage d'atomes en nombre limité, liés entre eux.</dd></div>
+      <div class="gloss-item" data-term="compose ionique"><dt>Composé ionique</dt><dd>Assemblage compact et ordonné d'ions positifs et négatifs dont les charges se compensent (électroneutralité).</dd></div>
+      <div class="gloss-item" data-term="element chimique isotopes"><dt>Élément chimique</dt><dd>Ensemble des atomes et des ions qui possèdent le même numéro atomique Z (même nombre de protons). Des atomes de même Z mais de nombre de neutrons différent sont des isotopes.</dd></div>
+      <div class="gloss-item" data-term="gaz noble stabilite"><dt>Stabilité des gaz nobles</dt><dd>Les gaz nobles sont chimiquement stables car leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium).</dd></div>
+      <div class="gloss-item" data-term="couche valence electronique"><dt>Couche de valence</dt><dd>Dernière couche électronique occupée d'un atome ; elle détermine sa réactivité chimique et sa position dans le tableau périodique.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <div class="card">
+      <h3>Bilans</h3>
+      <div class="pastilles">
+        <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640928?paccess=47d0774997c.2fc811e0.8cc3d8423b25b01a0da08f7ec1dcb67f" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — L'atome : noyau et cortège</a>
+        <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640343?paccess=47d07755025.2fc80f97.7c52443959f04eb99d45653aff7ce424" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — Entités chimiques stables</a>
+      </div>
+
+      <h3>Ressources</h3>
+      <div class="pastilles">
+        <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225324" target="_blank" rel="noopener">Cours du livre scolaire — Le cortège électronique de l'atome</a>
+        <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225388" target="_blank" rel="noopener">Cours du livre scolaire — La stabilité des entités</a>
+        <a class="pastille ostralo" href="https://chimie.ostralo.net/structure_electronique/" target="_blank" rel="noopener">Animation Ostralo — Structure électronique</a>
+        <a class="pastille ostralo" href="https://chimie.ostralo.net/entites_chimiques/" target="_blank" rel="noopener">Animation Ostralo — Entités chimiques</a>
+      </div>
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
 </section>
 
 </div>
@@ -2003,6 +2126,24 @@ button.cap-toggle:hover { background: #1e4466; }
 
 <script>
 // ===== Capacités exigibles =====
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Glossaire recherchable ──
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
 document.getElementById("capToggle").addEventListener("click", function () {
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");

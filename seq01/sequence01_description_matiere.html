@@ -34,6 +34,7 @@
   body {
     font-family: 'Nunito', sans-serif;
     background: #F0F4F8;
+    padding: 14px;
     color: var(--texte);
     min-height: 100vh;
   }
@@ -45,7 +46,7 @@
     border-bottom: 3px solid var(--bleu);
     border-radius: 14px;
     padding: 18px 24px 14px;
-    max-width: 860px;
+    max-width: 1300px;
     margin: 0 auto 24px;
     position: sticky;
     top: 0;
@@ -57,6 +58,7 @@
     align-items: center;
     gap: 14px;
     margin-bottom: 14px;
+    flex-wrap: wrap;
   }
   .header-left {
     display: flex;
@@ -172,7 +174,7 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
@@ -284,26 +286,26 @@
   /* ── Section title ── */
   .section-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.18rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: var(--bleu);
-    margin: 28px 0 14px;
+    margin: 24px 0 14px;
     display: flex;
     align-items: center;
     gap: 10px;
     padding-bottom: 8px;
     border-bottom: 2px solid var(--bleu-clair);
   }
-  .section-title .icon { font-size: 1.3rem; }
+  .section-title .icon { font-size: 1.2rem; }
 
   .intro-box {
     background: #FFFBF7;
     border-left: 4px solid var(--orange);
     border-radius: 0 10px 10px 0;
     padding: 14px 18px;
-    margin-bottom: 22px;
-    font-size: 0.93rem;
-    line-height: 1.65;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: var(--texte);
     font-style: italic;
   }
@@ -378,10 +380,10 @@
     background: var(--blanc);
     border-radius: 8px;
     padding: 12px 16px;
-    font-size: 0.90rem;
-    line-height: 1.65;
+    font-size: 0.88rem;
+    line-height: 1.6;
     margin-bottom: 12px;
-    border: 1px solid var(--vert-exo-bord);
+    border: 1px solid var(--gris-bord);
   }
 
   .question-block { margin-bottom: 14px; }
@@ -410,39 +412,39 @@
   }
   .rep-zone:focus { outline: none; border-color: var(--vert); }
 
-  .btn-correction {
+  .btn-reveal {
     display: inline-flex;
     align-items: center;
     gap: 7px;
     margin-top: 12px;
-    padding: 9px 20px;
-    background: var(--vert);
+    padding: 8px 16px;
+    background: var(--orange);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 7px;
     font-family: 'Nunito', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
   }
-  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
-  .btn-correction:active { transform: translateY(0); }
+  .btn-reveal:hover { background: #c8602a; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
 
-  .correction {
+  .reveal-body {
     display: none;
-    background: #F0FAF6;
+    background: #fff;
     border: 1.5px solid var(--vert);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 8px;
-    font-size: 0.88rem;
-    line-height: 1.7;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.86rem;
+    line-height: 1.6;
   }
-  .correction.visible { display: block; animation: fadeIn 0.2s ease; }
-  .correction strong { color: var(--vert); }
-  .correction .calc-step {
-    background: white;
+  .reveal-body.open { display: block; animation: fadeIn 0.2s ease; }
+  .reveal-body strong { color: var(--vert); }
+  .reveal-body .calc-step {
+    background: var(--gris-fond);
     border-radius: 6px;
     padding: 8px 12px;
     margin: 7px 0;
@@ -469,22 +471,69 @@
     transition: border-color 0.2s;
   }
   .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
-  .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
-  .qcm-btn {
-    padding: 5px 14px;
-    border: 1.5px solid var(--gris-bord);
-    border-radius: 20px;
-    background: var(--gris-fond);
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: var(--bleu-moyen);
+    margin-bottom: 2px;
     font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.01em;
+  }
+  .qcm-opt {
+    background: #fff;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    padding: 7px 13px;
     font-size: 0.82rem;
     font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texte);
     cursor: pointer;
     transition: all 0.15s;
-    color: var(--texte);
   }
-  .qcm-btn:hover { border-color: var(--vert); color: var(--vert); background: var(--vert-exo); }
-  .qcm-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
-  .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+
+  /* ── Structure FCR (Formule / Calcul / Résultat) ── */
+  .fcr-step { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--gris-bord); }
+  .fcr-step:first-of-type { border-top: none; padding-top: 0; }
+  .fcr-label {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--orange);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .blank-in {
+    padding: 6px 9px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    width: 130px;
+  }
+  .exo-btn {
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .exo-btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+  .exo-fb { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.6; display: none; }
+  .exo-fb.ok { display: block; background: var(--vert-clair); border-left: 4px solid var(--vert); color: #1a5a3a; }
+  .exo-fb.ko { display: block; background: var(--rouge-clair); border-left: 4px solid var(--rouge); color: #7a2418; }
   .qcm-feedback {
     font-size: 0.80rem;
     margin-top: 4px;
@@ -722,6 +771,81 @@
     font-weight: 800;
     font-size: 0.90rem;
   }
+
+  /* ── Onglet Bilan & Ressources : sous-onglets, glossaire, carte capacités ── */
+  .card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--bleu);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sub-tabs-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .sub-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: none;
+    background: #b8cfe0;
+    color: var(--bleu);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .sub-tab-btn.active { background: #1e4466; color: #fff; }
+  .sub-tab-content { display: none; }
+  .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  .gloss-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .gloss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
+  .gloss-item {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .gloss-item dt {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: var(--bleu);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .gloss-item dd { font-size: 0.84rem; color: var(--texte); line-height: 1.55; }
 
   /* ── CHANGEMENTS D'ÉTAT ── */
   .schema-etats {
@@ -1192,7 +1316,7 @@
       <span class="tab-num">4</span> CCM & Composition
     </button>
     <button class="tab-btn" onclick="switchTab(4)">
-      <span class="tab-num">5</span> Bilan vidéo
+      <span class="tab-num">5</span> Bilan & Ressources
     </button>
   </nav>
   <div class="cap-panel" id="capPanel">
@@ -1263,51 +1387,46 @@
         <div class="substance">a. Jus d'orange</div>
         <div class="qcm-feedback" id="fb-q1"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q1','Mélange','Corps pur','Mélange hétérogène – il contient de l\'eau, des sucres, des acides… et la pulpe en suspension le rend hétérogène.','fb-q1')">Corps pur</button>
-        <button class="qcm-btn" onclick="repondreQCM('q1','Mélange','Mélange','Mélange hétérogène – il contient de l\'eau, des sucres, des acides… et la pulpe en suspension le rend hétérogène.','fb-q1')">Mélange</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q1','Mélange','Corps pur','Mélange hétérogène – il contient de l\'eau, des sucres, des acides… et la pulpe en suspension le rend hétérogène.','fb-q1')">Corps pur</div>
+        <div class="qcm-opt" onclick="repondreQCM('q1','Mélange','Mélange','Mélange hétérogène – il contient de l\'eau, des sucres, des acides… et la pulpe en suspension le rend hétérogène.','fb-q1')">Mélange</div>
       </div>
     </div>
     <div id="q2" class="qcm-item">
       <div>
-        <div class="substance">b. Charbon (graphite pur)</div>
-        <div class="qcm-feedback" id="fb-q2"></div>
+        <div class="substance">b. Charbon (graphite pur)</div><div class="qcm-feedback" id="fb-q2"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q2','Corps pur','Corps pur','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Corps pur</button>
-        <button class="qcm-btn" onclick="repondreQCM('q2','Corps pur','Mélange','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Mélange</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q2','Corps pur','Corps pur','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Corps pur</div>
+        <div class="qcm-opt" onclick="repondreQCM('q2','Corps pur','Mélange','Corps pur simple – constitué uniquement d\'atomes de carbone C.','fb-q2')">Mélange</div>
       </div>
     </div>
     <div id="q3" class="qcm-item">
       <div>
-        <div class="substance">c. Acier</div>
-        <div class="qcm-feedback" id="fb-q3"></div>
+        <div class="substance">c. Acier</div><div class="qcm-feedback" id="fb-q3"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q3','Mélange','Corps pur','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Corps pur</button>
-        <button class="qcm-btn" onclick="repondreQCM('q3','Mélange','Mélange','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Mélange</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q3','Mélange','Corps pur','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Corps pur</div>
+        <div class="qcm-opt" onclick="repondreQCM('q3','Mélange','Mélange','Mélange homogène – alliage de fer et de carbone (≈ 0,2–2 % de C).','fb-q3')">Mélange</div>
       </div>
     </div>
     <div id="q4" class="qcm-item">
       <div>
-        <div class="substance">d. Pépite d'or pur</div>
-        <div class="qcm-feedback" id="fb-q4"></div>
+        <div class="substance">d. Pépite d'or pur</div><div class="qcm-feedback" id="fb-q4"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q4','Corps pur','Corps pur','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Corps pur</button>
-        <button class="qcm-btn" onclick="repondreQCM('q4','Corps pur','Mélange','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Mélange</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q4','Corps pur','Corps pur','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Corps pur</div>
+        <div class="qcm-opt" onclick="repondreQCM('q4','Corps pur','Mélange','Corps pur simple – uniquement des atomes d\'or Au.','fb-q4')">Mélange</div>
       </div>
     </div>
     <div id="q5" class="qcm-item">
       <div>
-        <div class="substance">e. Eau de Javel</div>
-        <div class="qcm-feedback" id="fb-q5"></div>
+        <div class="substance">e. Eau de Javel</div><div class="qcm-feedback" id="fb-q5"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q5','Mélange','Corps pur','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Corps pur</button>
-        <button class="qcm-btn" onclick="repondreQCM('q5','Mélange','Mélange','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Mélange</button>
-      </div>
-    </div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q5','Mélange','Corps pur','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Corps pur</div>
+        <div class="qcm-opt" onclick="repondreQCM('q5','Mélange','Mélange','Mélange homogène – eau + hypochlorite de sodium NaClO.','fb-q5')">Mélange</div>
+      </div></div>
   </div>
 
   <p style="font-size:0.88rem;color:var(--texte-léger);margin:18px 0 10px;">Les mélanges ci-dessous sont-ils <strong>homogènes</strong> ou <strong>hétérogènes</strong> ?</p>
@@ -1318,35 +1437,32 @@
         <div class="substance">Eau + huile</div>
         <div class="qcm-feedback" id="fb-q6"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q6','Hétérogène','Homogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Homogène</button>
-        <button class="qcm-btn" onclick="repondreQCM('q6','Hétérogène','Hétérogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Hétérogène</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q6','Hétérogène','Homogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Homogène</div>
+        <div class="qcm-opt" onclick="repondreQCM('q6','Hétérogène','Hétérogène','Hétérogène – l\'huile et l\'eau ne sont pas miscibles, on voit deux phases distinctes.','fb-q6')">Hétérogène</div>
       </div>
     </div>
     <div id="q7" class="qcm-item">
       <div>
-        <div class="substance">Eau + sel</div>
-        <div class="qcm-feedback" id="fb-q7"></div>
+        <div class="substance">Eau + sel</div><div class="qcm-feedback" id="fb-q7"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q7','Homogène','Homogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Homogène</button>
-        <button class="qcm-btn" onclick="repondreQCM('q7','Homogène','Hétérogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Hétérogène</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q7','Homogène','Homogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Homogène</div>
+        <div class="qcm-opt" onclick="repondreQCM('q7','Homogène','Hétérogène','Homogène – le sel se dissout complètement dans l\'eau, une seule phase visible.','fb-q7')">Hétérogène</div>
       </div>
     </div>
     <div id="q8" class="qcm-item">
       <div>
-        <div class="substance">Eau + sable</div>
-        <div class="qcm-feedback" id="fb-q8"></div>
+        <div class="substance">Eau + sable</div><div class="qcm-feedback" id="fb-q8"></div>
       </div>
-      <div class="qcm-choices">
-        <button class="qcm-btn" onclick="repondreQCM('q8','Hétérogène','Homogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Homogène</button>
-        <button class="qcm-btn" onclick="repondreQCM('q8','Hétérogène','Hétérogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Hétérogène</button>
-      </div>
-    </div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="repondreQCM('q8','Hétérogène','Homogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Homogène</div>
+        <div class="qcm-opt" onclick="repondreQCM('q8','Hétérogène','Hétérogène','Hétérogène – le sable ne se dissout pas, on distingue les grains après agitation.','fb-q8')">Hétérogène</div>
+      </div></div>
   </div>
 
   <div style="text-align:center;margin-top:16px;">
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="recommencer('exo-corps-purs')">↺ Recommencer</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencer('exo-corps-purs')">↺ Recommencer</button>
   </div>
   </div><!-- fin exo-card -->
 
@@ -1372,56 +1488,40 @@
 
   <div class="dropdown-qcm">
     <div class="dq-question">1. L'eau du robinet est un…</div>
-    <div class="dq-row">
-      <select id="dq-cp1" onchange="checkDropdown('dq-cp1','mélange','dqf-cp1','corps pur simple','corps pur composé','mélange')">
-        <option value="">— Choisir —</option>
-        <option value="corps pur simple">corps pur simple</option>
-        <option value="corps pur composé">corps pur composé</option>
-        <option value="mélange">mélange</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-cp1','mélange','dqf-cp1','corps pur simple','corps pur composé','mélange')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps pur simple','dqf-cp1')">corps pur simple</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps pur composé','dqf-cp1')">corps pur composé</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'mélange','dqf-cp1')">mélange</div>
     </div>
     <div class="dq-feedback" id="dqf-cp1"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">2. Le dioxygène O₂ est un…</div>
-    <div class="dq-row">
-      <select id="dq-cp2" onchange="checkDropdown('dq-cp2','corps pur simple','dqf-cp2','corps pur simple','corps pur composé','mélange homogène')">
-        <option value="">— Choisir —</option>
-        <option value="corps pur simple">corps pur simple</option>
-        <option value="corps pur composé">corps pur composé</option>
-        <option value="mélange homogène">mélange homogène</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-cp2','corps pur simple','dqf-cp2','corps pur simple','corps pur composé','mélange homogène')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'corps pur simple','dqf-cp2')">corps pur simple</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps pur composé','dqf-cp2')">corps pur composé</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'mélange homogène','dqf-cp2')">mélange homogène</div>
     </div>
     <div class="dq-feedback" id="dqf-cp2"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">3. L'air atmosphérique est un mélange…</div>
-    <div class="dq-row">
-      <select id="dq-cp3" onchange="checkDropdown('dq-cp3','homogène','dqf-cp3','homogène','hétérogène','de corps purs simples uniquement')">
-        <option value="">— Choisir —</option>
-        <option value="homogène">homogène (une seule phase visible)</option>
-        <option value="hétérogène">hétérogène (plusieurs phases visibles)</option>
-        <option value="de corps purs simples uniquement">de corps purs simples uniquement</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-cp3','homogène','dqf-cp3','homogène','hétérogène','de corps purs simples uniquement')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'homogène','dqf-cp3')">homogène (une seule phase visible)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'hétérogène','dqf-cp3')">hétérogène (plusieurs phases visibles)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'de corps purs simples uniquement','dqf-cp3')">de corps purs simples uniquement</div>
     </div>
     <div class="dq-feedback" id="dqf-cp3"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">4. Pour identifier un corps pur, on peut mesurer sa température de changement d'état. Pour un corps pur, cette température est…</div>
-    <div class="dq-row">
-      <select id="dq-cp4" onchange="checkDropdown('dq-cp4','unique et fixe','dqf-cp4','unique et fixe','variable selon la masse','différente à chaque mesure')">
-        <option value="">— Choisir —</option>
-        <option value="unique et fixe">unique et fixe (caractéristique de l'espèce)</option>
-        <option value="variable selon la masse">variable selon la masse de l'échantillon</option>
-        <option value="différente à chaque mesure">différente à chaque mesure</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-cp4','unique et fixe','dqf-cp4','unique et fixe','variable selon la masse','différente à chaque mesure')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'unique et fixe','dqf-cp4')">unique et fixe (caractéristique de l'espèce)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'variable selon la masse','dqf-cp4')">variable selon la masse de l'échantillon</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'différente à chaque mesure','dqf-cp4')">différente à chaque mesure</div>
     </div>
     <div class="dq-feedback" id="dqf-cp4"></div>
   </div>
@@ -1723,8 +1823,8 @@
     <textarea class="rep-zone" id="r-ac3" placeholder="Rédigez votre réponse…"></textarea>
   </div>
 
-  <button class="btn-correction" onclick="toggleCorr('corr-acetone')">▶ Voir la correction</button>
-  <div class="correction" id="corr-acetone">
+  <button class="btn-reveal" onclick="toggleCorr('corr-acetone')">▶ Voir la correction</button>
+  <div class="reveal-body" id="corr-acetone">
     <strong>1. Justification corps pur :</strong><br>
     La courbe présente des <em>paliers horizontaux</em> lors des changements d'état (températures constantes). C'est la caractéristique d'un corps pur : ses changements d'état se font à une température fixe et bien définie.
     <div class="calc-step">Deux paliers nets → deux températures de changement d'état caractéristiques → corps pur ✓</div>
@@ -1749,56 +1849,40 @@
 
   <div class="dropdown-qcm">
     <div class="dq-question">1. On chauffe de l'eau solide (glace). La température reste à 0 °C pendant un moment. Comment appelle-t-on ce phénomène ?</div>
-    <div class="dq-row">
-      <select id="dqs1" onchange="checkDropdown('dqs1','fusion','dqf1','fusion','solidification','vaporisation')">
-        <option value="">— Choisir —</option>
-        <option value="fusion">Fusion</option>
-        <option value="solidification">Solidification</option>
-        <option value="vaporisation">Vaporisation</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dqs1','fusion','dqf1','fusion','solidification','vaporisation')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fusion','dqf1')">Fusion</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'solidification','dqf1')">Solidification</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'vaporisation','dqf1')">Vaporisation</div>
     </div>
     <div class="dq-feedback" id="dqf1"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">2. La température de fusion de l'eau est 0 °C. Qu'est-ce que cela signifie pour un mélange eau + sel dont la température de changement d'état est −10 °C ?</div>
-    <div class="dq-row">
-      <select id="dqs2" onchange="checkDropdown('dqs2','mélange','dqf2','corps pur','mélange','impossible')">
-        <option value="">— Choisir —</option>
-        <option value="corps pur">C'est tout de même un corps pur, car il ne contient que de l'eau</option>
-        <option value="mélange">C'est un mélange : sa température de changement d'état diffère de celle d'un corps pur</option>
-        <option value="impossible">Ce changement d'état est impossible</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dqs2','mélange','dqf2','corps pur','mélange','impossible')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps pur','dqf2')">C'est tout de même un corps pur, car il ne contient que de l'eau</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'mélange','dqf2')">C'est un mélange : sa température de changement d'état diffère de celle d'un corps pur</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'impossible','dqf2')">Ce changement d'état est impossible</div>
     </div>
     <div class="dq-feedback" id="dqf2"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">3. Lors de la vaporisation d'un corps pur, la température…</div>
-    <div class="dq-row">
-      <select id="dqs3" onchange="checkDropdown('dqs3','constante','dqf3','augmente','constante','diminue')">
-        <option value="">— Choisir —</option>
-        <option value="augmente">augmente progressivement</option>
-        <option value="constante">reste constante (palier)</option>
-        <option value="diminue">diminue</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dqs3','constante','dqf3','augmente','constante','diminue')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'augmente','dqf3')">augmente progressivement</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'constante','dqf3')">reste constante (palier)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'diminue','dqf3')">diminue</div>
     </div>
     <div class="dq-feedback" id="dqf3"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">4. La condensation (passage gaz → liquide) s'effectue à la même température que…</div>
-    <div class="dq-row">
-      <select id="dqs4" onchange="checkDropdown('dqs4','vaporisation','dqf4','fusion','solidification','vaporisation')">
-        <option value="">— Choisir —</option>
-        <option value="fusion">la fusion</option>
-        <option value="solidification">la solidification</option>
-        <option value="vaporisation">la vaporisation (même palier, sens inverse)</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dqs4','vaporisation','dqf4','fusion','solidification','vaporisation')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fusion','dqf4')">la fusion</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'solidification','dqf4')">la solidification</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'vaporisation','dqf4')">la vaporisation (même palier, sens inverse)</div>
     </div>
     <div class="dq-feedback" id="dqf4"></div>
   </div>
@@ -1869,14 +1953,29 @@
   <!-- Q1 -->
   <div class="question-block">
     <div class="question-label">1. Calculer la masse volumique de l'éthanol en g·cm<sup>−3</sup>.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">ρ =</span>
-      <input type="number" id="eth-r1" class="calc-input" placeholder="?" step="0.01" style="width:90px;">
-      <span class="calc-unit">g·cm<sup>−3</sup></span>
-      <button class="btn-check-dq" onclick="verifierNum('eth-r1', 0.80, 0.01, 'eth-fb1', 'eth-corr1')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('eth1',this,true)">ρ = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth1',this,false)">ρ = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth1',this,false)">ρ = m × V</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="eth-fb1"></div>
-    <div class="correction" id="eth-corr1">
+
+    <div class="fcr-step" id="eth1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="eth1-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('eth1', 0.8, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="eth1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="eth1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="eth1-result" class="blank-in" placeholder="en g·cm⁻³">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('eth1', 0.8, 0.02, 'ρ = 0,80 g·cm⁻³')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="eth1-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="eth-corr1">
       <div class="calc-step">ρ = m / V = 12 g / 15 cm³ = <strong>0,80 g·cm<sup>−3</sup></strong></div>
     </div>
   </div>
@@ -1884,28 +1983,58 @@
   <!-- Q2 -->
   <div class="question-block">
     <div class="question-label">2a. Exprimer la masse en kg.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m =</span>
-      <input type="number" id="eth-r2a" class="calc-input" placeholder="?" step="0.001" style="width:90px;">
-      <span class="calc-unit">kg</span>
-      <button class="btn-check-dq" onclick="verifierNum('eth-r2a', 0.012, 0.001, 'eth-fb2a', 'eth-corr2a')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('eth2a',this,true)">m(kg) = m(g) × 10⁻³</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth2a',this,false)">m(kg) = m(g) × 10³</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth2a',this,false)">m(kg) = m(g) × 10⁻²</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="eth-fb2a"></div>
-    <div class="correction" id="eth-corr2a">
+
+    <div class="fcr-step" id="eth2a-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="eth2a-calc" class="blank-in" placeholder="ton calcul (ex : nombre×10^-3)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('eth2a', 0.012, 0.08)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="eth2a-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="eth2a-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="eth2a-result" class="blank-in" placeholder="en kg">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('eth2a', 0.012, 0.08, 'm = 0,012 kg')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="eth2a-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="eth-corr2a">
       <div class="calc-step">m = 12 g = 12 × 10<sup>−3</sup> kg = <strong>0,012 kg</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">2b. Exprimer le volume en m<sup>3</sup>. <em style="font-weight:400;">(1 m³ = 10<sup>6</sup> cm³)</em></div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">V =</span>
-      <input type="number" id="eth-r2b" class="calc-input" placeholder="?" step="1e-7" style="width:120px;">
-      <span class="calc-unit">× 10<sup>−5</sup> m<sup>3</sup></span>
-      <button class="btn-check-dq" onclick="verifierNum('eth-r2b', 1.5, 0.05, 'eth-fb2b', 'eth-corr2b')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('eth2b',this,true)">V(m³) = V(cm³) × 10⁻⁶</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth2b',this,false)">V(m³) = V(cm³) × 10⁶</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth2b',this,false)">V(m³) = V(cm³) × 10⁻³</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="eth-fb2b"></div>
-    <div class="correction" id="eth-corr2b">
+
+    <div class="fcr-step" id="eth2b-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="eth2b-calc" class="blank-in" placeholder="ton calcul (ex : nombre×10^-6)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('eth2b', 1.5, 0.04)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="eth2b-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="eth2b-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="eth2b-result" class="blank-in" placeholder="en m³ (notation scientifique)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('eth2b', 1.5, 0.04, 'V = 1,5 × 10⁻⁵ m³')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="eth2b-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="eth-corr2b">
       <div class="calc-step">V = 15 cm³ = 15 × 10<sup>−6</sup> m³ = <strong>1,5 × 10<sup>−5</sup> m³</strong></div>
     </div>
   </div>
@@ -1913,22 +2042,37 @@
   <!-- Q3 -->
   <div class="question-block">
     <div class="question-label">3. En déduire la masse volumique en kg·m<sup>−3</sup>.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">ρ =</span>
-      <input type="number" id="eth-r3" class="calc-input" placeholder="?" step="1" style="width:90px;">
-      <span class="calc-unit">kg·m<sup>−3</sup></span>
-      <button class="btn-check-dq" onclick="verifierNum('eth-r3', 800, 5, 'eth-fb3', 'eth-corr3')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('eth3',this,true)">ρ = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth3',this,false)">ρ = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('eth3',this,false)">ρ = m + V</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="eth-fb3"></div>
-    <div class="correction" id="eth-corr3">
+
+    <div class="fcr-step" id="eth3-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="eth3-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('eth3', 800, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="eth3-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="eth3-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="eth3-result" class="blank-in" placeholder="en kg·m⁻³">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('eth3', 800, 0.01, 'ρ = 800 kg·m⁻³')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="eth3-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="eth-corr3">
       <div class="calc-step">ρ = 0,012 / (1,5 × 10<sup>−5</sup>) = <strong>800 kg·m<sup>−3</sup></strong></div>
       <span style="font-size:0.82rem;color:var(--texte-léger);">Valeur tabulée : 789 kg·m<sup>−3</sup> — résultat cohérent ✓</span>
     </div>
   </div>
 
   <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-    <button class="btn-correction" onclick="toggleCorrMulti(['eth-corr1','eth-corr2a','eth-corr2b','eth-corr3'], this)">▶ Voir la correction</button>
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="recommencer('exo-ethanol')">↺ Recommencer</button>
+    <button class="btn-reveal" onclick="toggleCorrMulti(['eth-corr1','eth-corr2a','eth-corr2b','eth-corr3'], this)">▶ Voir la correction</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencer('exo-ethanol')">↺ Recommencer</button>
   </div>
   </div><!-- fin exo-card éthanol -->
 
@@ -1946,14 +2090,29 @@
   <!-- Q1 -->
   <div class="question-block">
     <div class="question-label">1. Calculer le volume du cube de laiton.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">V =</span>
-      <input type="number" id="lait-r1" class="calc-input" placeholder="?" step="0.1" style="width:80px;">
-      <span class="calc-unit">cm<sup>3</sup></span>
-      <button class="btn-check-dq" onclick="verifierNum('lait-r1', 1, 0.05, 'lait-fb1', 'lait-corr1')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('lait1',this,true)">V = a³</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait1',this,false)">V = a²</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait1',this,false)">V = 3 × a</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="lait-fb1"></div>
-    <div class="correction" id="lait-corr1">
+
+    <div class="fcr-step" id="lait1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="lait1-calc" class="blank-in" placeholder="ton calcul (ex : nombre**3)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('lait1', 1, 0.05)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="lait1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="lait1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="lait1-result" class="blank-in" placeholder="en cm³">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('lait1', 1, 0.05, 'V = 1 cm³')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="lait1-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="lait-corr1">
       <div class="calc-step">V = a³ = (1 cm)³ = <strong>1 cm³</strong></div>
     </div>
   </div>
@@ -1961,14 +2120,29 @@
   <!-- Q2 -->
   <div class="question-block">
     <div class="question-label">2. En déduire la masse totale du cube.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m =</span>
-      <input type="number" id="lait-r2" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('lait-r2', 8.39, 0.05, 'lait-fb2', 'lait-corr2')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('lait2',this,true)">m = ρ × V</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait2',this,false)">m = ρ / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait2',this,false)">m = ρ + V</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="lait-fb2"></div>
-    <div class="correction" id="lait-corr2">
+
+    <div class="fcr-step" id="lait2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="lait2-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('lait2', 8.39, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="lait2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="lait2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="lait2-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('lait2', 8.39, 0.01, 'm = 8,39 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="lait2-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="lait-corr2">
       <div class="calc-step">m = ρ × V = 8,39 × 1 = <strong>8,39 g</strong></div>
     </div>
   </div>
@@ -1976,36 +2150,66 @@
   <!-- Q3 -->
   <div class="question-block">
     <div class="question-label">3a. Calculer la masse de zinc dans ce cube.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m<sub>Zn</sub> =</span>
-      <input type="number" id="lait-r3a" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('lait-r3a', 2.52, 0.05, 'lait-fb3a', 'lait-corr3a')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('lait3a',this,true)">m_Zn = %Zn × m_total</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait3a',this,false)">m_Zn = m_total / %Zn</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait3a',this,false)">m_Zn = %Zn / m_total</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="lait-fb3a"></div>
-    <div class="correction" id="lait-corr3a">
+
+    <div class="fcr-step" id="lait3a-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="lait3a-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('lait3a', 2.52, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="lait3a-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="lait3a-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="lait3a-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('lait3a', 2.52, 0.02, 'm_Zn = 2,52 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="lait3a-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="lait-corr3a">
       <div class="calc-step">m<sub>Zn</sub> = 0,30 × 8,39 = <strong>2,52 g</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">3b. Calculer la masse de cuivre.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m<sub>Cu</sub> =</span>
-      <input type="number" id="lait-r3b" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('lait-r3b', 5.87, 0.05, 'lait-fb3b', 'lait-corr3b')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('lait3b',this,true)">m_Cu = %Cu × m_total</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait3b',this,false)">m_Cu = m_total − %Cu</div>
+        <div class="qcm-opt" onclick="fcrFormule('lait3b',this,false)">m_Cu = %Cu / m_total</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="lait-fb3b"></div>
-    <div class="correction" id="lait-corr3b">
+
+    <div class="fcr-step" id="lait3b-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="lait3b-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('lait3b', 5.87, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="lait3b-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="lait3b-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="lait3b-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('lait3b', 5.87, 0.01, 'm_Cu = 5,87 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="lait3b-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="lait-corr3b">
       <div class="calc-step">m<sub>Cu</sub> = 0,70 × 8,39 = <strong>5,87 g</strong></div>
       <div class="calc-step" style="color:var(--vert);">Vérif : 2,52 + 5,87 = 8,39 g ✓</div>
     </div>
   </div>
 
   <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-    <button class="btn-correction" onclick="toggleCorrMulti(['lait-corr1','lait-corr2','lait-corr3a','lait-corr3b'], this)">▶ Voir la correction</button>
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="recommencer('exo-laiton')">↺ Recommencer</button>
+    <button class="btn-reveal" onclick="toggleCorrMulti(['lait-corr1','lait-corr2','lait-corr3a','lait-corr3b'], this)">▶ Voir la correction</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencer('exo-laiton')">↺ Recommencer</button>
   </div>
 
   <!-- BILAN UNITÉS -->
@@ -2029,56 +2233,40 @@
 
   <div class="dropdown-qcm">
     <div class="dq-question">1. Un cube de laiton de 2 cm d'arête a une masse de 62,8 g. Quelle est sa masse volumique ?</div>
-    <div class="dq-row">
-      <select id="dq-mv1" onchange="checkDropdown('dq-mv1','7850','dqfmv1')">
-        <option value="">— Choisir —</option>
-        <option value="7850">7 850 kg·m⁻³ (soit 7,85 g·cm⁻³)</option>
-        <option value="62800">62 800 kg·m⁻³</option>
-        <option value="3,14">3,14 g·cm⁻³</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-mv1','7850','dqfmv1')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'7850','dqfmv1')">7 850 kg·m⁻³ (soit 7,85 g·cm⁻³)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'62800','dqfmv1')">62 800 kg·m⁻³</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'3,14','dqfmv1')">3,14 g·cm⁻³</div>
     </div>
     <div class="dq-feedback" id="dqfmv1"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">2. On verse de l'éthanol (d ≈ 0,79) dans de l'eau. Que se passe-t-il ?</div>
-    <div class="dq-row">
-      <select id="dq-mv2" onchange="checkDropdown('dq-mv2','miscible','dqfmv2')">
-        <option value="">— Choisir —</option>
-        <option value="flotte">Il flotte à la surface (comme l'huile)</option>
-        <option value="fond">Il coule au fond</option>
-        <option value="miscible">Il se mélange intimement à l'eau (miscible)</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-mv2','miscible','dqfmv2')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'flotte','dqfmv2')">Il flotte à la surface (comme l'huile)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fond','dqfmv2')">Il coule au fond</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'miscible','dqfmv2')">Il se mélange intimement à l'eau (miscible)</div>
     </div>
     <div class="dq-feedback" id="dqfmv2"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">3. Le dioxyde de carbone CO₂ a une densité d ≈ 1,52 par rapport à l'air. Que peut-on en déduire ?</div>
-    <div class="dq-row">
-      <select id="dq-mv3" onchange="checkDropdown('dq-mv3','lourd','dqfmv3')">
-        <option value="">— Choisir —</option>
-        <option value="lourd">Le CO₂ est plus lourd que l'air : il s'accumule dans les points bas (caves, fosses…)</option>
-        <option value="léger">Le CO₂ est plus léger que l'air : il s'élève</option>
-        <option value="insoluble">Le CO₂ est insoluble dans l'air</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-mv3','lourd','dqfmv3')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'lourd','dqfmv3')">Le CO₂ est plus lourd que l'air : il s'accumule dans les points bas (caves, fosses…)</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'léger','dqfmv3')">Le CO₂ est plus léger que l'air : il s'élève</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'insoluble','dqfmv3')">Le CO₂ est insoluble dans l'air</div>
     </div>
     <div class="dq-feedback" id="dqfmv3"></div>
   </div>
 
   <div class="dropdown-qcm">
     <div class="dq-question">4. Quel est l'ordre de grandeur de la masse volumique de l'eau ?</div>
-    <div class="dq-row">
-      <select id="dq-mv4" onchange="checkDropdown('dq-mv4','1000','dqfmv4')">
-        <option value="">— Choisir —</option>
-        <option value="1000">1 000 kg·m⁻³</option>
-        <option value="100">100 kg·m⁻³</option>
-        <option value="10000">10 000 kg·m⁻³</option>
-      </select>
-      <button class="btn-check-dq" onclick="checkDropdown('dq-mv4','1000','dqfmv4')">Valider</button>
+    <div class="qcm-opts">
+      <div class="qcm-opt" onclick="qcmOptCheck(this,true,'1000','dqfmv4')">1 000 kg·m⁻³</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'100','dqfmv4')">100 kg·m⁻³</div>
+      <div class="qcm-opt" onclick="qcmOptCheck(this,false,'10000','dqfmv4')">10 000 kg·m⁻³</div>
     </div>
     <div class="dq-feedback" id="dqfmv4"></div>
   </div>
@@ -2257,11 +2445,11 @@
 
     <div style="display:flex;gap:10px;flex-wrap:wrap;">
       <button class="btn-check-dq" onclick="verifierCCM()">✔ Vérifier</button>
-      <button class="btn-correction" onclick="corrigerCCM()">▶ Voir la correction</button>
-      <button class="btn-correction" style="background:var(--texte-léger);" onclick="recommencerCCM()">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="corrigerCCM()">▶ Voir la correction</button>
+      <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencerCCM()">↺ Recommencer</button>
     </div>
 
-    <div class="correction" id="corr-ccm-global" style="margin-top:12px;">
+    <div class="reveal-body" id="corr-ccm-global" style="margin-top:12px;">
       <div class="calc-step"><strong>HEC :</strong> 3 taches → limonène (y=75), linalol (y=105), géraniol (y=140) — c'est un <em>mélange</em>.</div>
       <div class="calc-step"><strong>HEO :</strong> 2 taches → limonène (y=75, majoritaire), linalol (y=105) — aucune tache au niveau du géraniol ni du citral.</div>
       <div class="calc-step"><strong>Espèces communes :</strong> limonène et linalol — présents dans les deux chromatogrammes à la même hauteur.</div>
@@ -2304,78 +2492,153 @@
 
   <div class="question-block">
     <div class="question-label">1. Calculer le volume du cube.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">V =</span>
-      <input type="number" id="comp-r1" class="calc-input" placeholder="?" step="0.1" style="width:80px;">
-      <span class="calc-unit">cm<sup>3</sup></span>
-      <button class="btn-check-dq" onclick="verifierNum('comp-r1',8,0.1,'comp-fb1','comp-corr1')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('comp1',this,true)">V = a³</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp1',this,false)">V = a²</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp1',this,false)">V = 3 × a</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="comp-fb1"></div>
-    <div class="correction" id="comp-corr1">
+
+    <div class="fcr-step" id="comp1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="comp1-calc" class="blank-in" placeholder="ton calcul (ex : nombre**3)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('comp1', 8, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="comp1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="comp1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="comp1-result" class="blank-in" placeholder="en cm³">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('comp1', 8, 0.02, 'V = 8 cm³')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="comp1-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="comp-corr1">
       <div class="calc-step">V = a³ = (2 cm)³ = <strong>8 cm³</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">2. Calculer la masse totale du cube.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m =</span>
-      <input type="number" id="comp-r2" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('comp-r2',68,0.1,'comp-fb2','comp-corr2')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('comp2',this,true)">m = ρ × V</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp2',this,false)">m = ρ / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp2',this,false)">m = V / ρ</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="comp-fb2"></div>
-    <div class="correction" id="comp-corr2">
+
+    <div class="fcr-step" id="comp2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="comp2-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('comp2', 68, 0.005)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="comp2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="comp2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="comp2-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('comp2', 68, 0.005, 'm = 68 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="comp2-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="comp-corr2">
       <div class="calc-step">m = ρ × V = 8,50 × 8 = <strong>68 g</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">3a. Calculer la fraction massique de zinc.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">f<sub>Zn</sub> =</span>
-      <input type="number" id="comp-r3a" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">(sans unité)</span>
-      <button class="btn-check-dq" onclick="verifierNum('comp-r3a',0.35,0.01,'comp-fb3a','comp-corr3a')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('comp3a',this,true)">f_Zn = m%_Zn / 100</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3a',this,false)">f_Zn = m%_Zn × 100</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3a',this,false)">f_Zn = 100 / m%_Zn</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="comp-fb3a"></div>
-    <div class="correction" id="comp-corr3a">
+
+    <div class="fcr-step" id="comp3a-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="comp3a-calc" class="blank-in" placeholder="ton calcul (ex : nombre/100)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('comp3a', 0.35, 0.03)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="comp3a-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="comp3a-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="comp3a-result" class="blank-in" placeholder="(sans unité)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('comp3a', 0.35, 0.03, 'f_Zn = 0,35')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="comp3a-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="comp-corr3a">
       <div class="calc-step">f<sub>Zn</sub> = 35 % = <strong>0,35</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">3b. En déduire la masse de zinc.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m<sub>Zn</sub> =</span>
-      <input type="number" id="comp-r3b" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('comp-r3b',23.8,0.1,'comp-fb3b','comp-corr3b')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('comp3b',this,true)">m_Zn = f_Zn × m_total</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3b',this,false)">m_Zn = m_total / f_Zn</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3b',this,false)">m_Zn = f_Zn / m_total</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="comp-fb3b"></div>
-    <div class="correction" id="comp-corr3b">
+
+    <div class="fcr-step" id="comp3b-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="comp3b-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('comp3b', 23.8, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="comp3b-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="comp3b-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="comp3b-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('comp3b', 23.8, 0.01, 'm_Zn = 23,8 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="comp3b-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="comp-corr3b">
       <div class="calc-step">m<sub>Zn</sub> = 0,35 × 68 = <strong>23,8 g</strong></div>
     </div>
   </div>
 
   <div class="question-block">
     <div class="question-label">3c. Calculer la masse de cuivre.</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px;">
-      <span style="font-size:0.88rem;">m<sub>Cu</sub> =</span>
-      <input type="number" id="comp-r3c" class="calc-input" placeholder="?" step="0.01" style="width:80px;">
-      <span class="calc-unit">g</span>
-      <button class="btn-check-dq" onclick="verifierNum('comp-r3c',44.2,0.1,'comp-fb3c','comp-corr3c')">Vérifier</button>
+    <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('comp3c',this,true)">m_Cu = f_Cu × m_total</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3c',this,false)">m_Cu = m_total / f_Cu</div>
+        <div class="qcm-opt" onclick="fcrFormule('comp3c',this,false)">m_Cu = m_total − f_Zn</div>
+      </div>
     </div>
-    <div class="dq-feedback" id="comp-fb3c"></div>
-    <div class="correction" id="comp-corr3c">
+
+    <div class="fcr-step" id="comp3c-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="comp3c-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('comp3c', 44.2, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="comp3c-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="comp3c-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="comp3c-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('comp3c', 44.2, 0.01, 'm_Cu = 44,2 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="comp3c-result-fb"></div>
+    </div>
+    <div class="reveal-body" id="comp-corr3c">
       <div class="calc-step">m<sub>Cu</sub> = 0,65 × 68 = <strong>44,2 g</strong></div>
       <div class="calc-step" style="color:var(--vert);">Vérif : 23,8 + 44,2 = 68 g ✓</div>
     </div>
   </div>
 
   <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
-    <button class="btn-correction" onclick="toggleCorrMulti(['comp-corr1','comp-corr2','comp-corr3a','comp-corr3b','comp-corr3c'], this)">▶ Voir la correction</button>
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="recommencer('exo-comp-laiton')">↺ Recommencer</button>
+    <button class="btn-reveal" onclick="toggleCorrMulti(['comp-corr1','comp-corr2','comp-corr3a','comp-corr3b','comp-corr3c'], this)">▶ Voir la correction</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencer('exo-comp-laiton')">↺ Recommencer</button>
   </div>
   </div><!-- fin exo-card composition laiton -->
 
@@ -2385,33 +2648,105 @@
      ONGLET 5 – Bilan vidéo de cours
 ══════════════════════════════════════ -->
 <div class="tab-content" id="tab-4">
-  <div class="section-title">
-    <span class="icon">🎬</span> Bilan vidéo de cours
-  </div>
-  <p style="margin-bottom:24px; color:var(--texte-léger); font-size:0.9rem;">
-    Vidéo de synthèse du chapitre – à regarder pour consolider vos connaissances.
-  </p>
-  <div style="display:flex; flex-direction:column; align-items:center; gap:16px; padding:12px 0 32px;">
-    <a href="https://www.pearltrees.com/private/id104931546/item801423132?paccess=47cf8867a9d.2fc4bf1c.ab0430fc2a7d78b893ee0382c3042a9b"
-       target="_blank"
-       style="display:inline-flex; align-items:center; gap:10px; background:var(--bleu); color:white; padding:16px 32px; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem; box-shadow:0 3px 10px rgba(45,95,138,0.20); transition:opacity 0.15s;">
-      ▶&nbsp; Ouvrir la vidéo
-    </a>
-    <p style="font-size:0.82rem; color:var(--texte-léger); text-align:center; max-width:420px;">
-      La vidéo s'ouvre dans un nouvel onglet (accès Pearltrees requis).
-    </p>
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
   </div>
 
-  <!-- BOUTON JEU -->
-  <div class="game-link-card">
-    <div class="game-link-icon">🧪</div>
-    <div class="game-link-text">
-      <h3>Tests sur les Tests</h3>
-      <p>Entraîne-toi à identifier les espèces chimiques grâce aux tests de reconnaissance : eau, ions, dioxygène, dioxyde de carbone… Un jeu interactif pour réviser les tests chimiques du chapitre.</p>
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="section-title"><span class="icon">📋</span>Bilan de la séquence</div>
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Masse volumique</h4>
+        <ul class="ke-list">
+          <li>ρ = m / V</li>
+          <li>Unités : kg·m⁻³, g·cm⁻³ ou g·L⁻¹</li>
+          <li>ρ<sub>eau</sub> = 1 000 kg·m⁻³ = 1 g·cm⁻³ (valeur de référence)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Densité d</h4>
+        <ul class="ke-list">
+          <li>Rapport sans dimension de deux masses volumiques</li>
+          <li>d &lt; 1 : le corps flotte sur l'eau (solides/liquides)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Composition massique</h4>
+        <ul class="ke-list">
+          <li>f = m<sub>espèce</sub> / m<sub>échantillon</sub></li>
+          <li>m% = f × 100</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Composition volumique</h4>
+        <ul class="ke-list">
+          <li>f = v<sub>espèce</sub> / v<sub>échantillon</sub> (mélanges gazeux)</li>
+          <li>v% = f × 100</li>
+        </ul>
+      </div>
     </div>
-    <a href="seq01-jeu.html" target="_blank" class="btn-jeu">🕹️ Jouer</a>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">✅</span>Capacités exigibles — synthèse</div>
+      <ul class="ke-list">
+        <li>Citer des exemples courants de corps purs et de mélanges homogènes et hétérogènes.</li>
+        <li>Identifier une espèce chimique par ses températures de changement d'état, sa masse volumique ou des tests chimiques.</li>
+        <li>Citer la valeur de ρ<sub>eau</sub> et la comparer à d'autres corps purs et mélanges.</li>
+        <li>Distinguer un mélange d'un corps pur à partir de données expérimentales.</li>
+        <li>Mesurer une température de changement d'état, déterminer la masse volumique d'un échantillon.</li>
+        <li>Réaliser une CCM, mettre en œuvre des tests chimiques pour identifier une espèce chimique.</li>
+        <li>Citer la composition approchée de l'air et l'ordre de grandeur de sa masse volumique.</li>
+        <li>Établir et mesurer la composition d'un échantillon (fractions massique et volumique).</li>
+      </ul>
+    </div>
   </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="corps pur"><dt>Corps pur</dt><dd>Constitué d'une seule espèce chimique. Corps pur simple : un seul type d'atomes (O₂, Fe, Au…). Corps pur composé : plusieurs types d'atomes en proportions définies (H₂O, CO₂…).</dd></div>
+      <div class="gloss-item" data-term="melange"><dt>Mélange</dt><dd>Constitué de plusieurs espèces chimiques. Homogène : constituants indiscernables à l'œil nu après agitation. Hétérogène : au moins deux phases visibles.</dd></div>
+      <div class="gloss-item" data-term="changement etat"><dt>Changement d'état</dt><dd>Transformation physique correspondant au passage d'un état (solide, liquide, gazeux) à un autre, à température fixe pour un corps pur donné.</dd></div>
+      <div class="gloss-item" data-term="mesure experimentale temperature"><dt>Mesure expérimentale</dt><dd>Température d'ébullition mesurée au thermomètre ; température de fusion déterminée avec un banc Kofler.</dd></div>
+      <div class="gloss-item" data-term="masse volumique"><dt>Masse volumique ρ</dt><dd>Quotient de la masse d'un échantillon par son volume : ρ = m / V.</dd></div>
+      <div class="gloss-item" data-term="densite"><dt>Densité d</dt><dd>Nombre sans dimension, rapport de masses volumiques (corps étudié / référence).</dd></div>
+      <div class="gloss-item" data-term="chromatographie ccm"><dt>Chromatographie sur couche mince (CCM)</dt><dd>Technique de séparation et d'identification des espèces chimiques par migration sur une phase stationnaire (silice).</dd></div>
+      <div class="gloss-item" data-term="composition massique"><dt>Composition massique</dt><dd>f = m<sub>espèce</sub> / m<sub>échantillon</sub> ; m% = f × 100.</dd></div>
+      <div class="gloss-item" data-term="composition volumique"><dt>Composition volumique</dt><dd>f = v<sub>espèce</sub> / v<sub>échantillon</sub> ; v% = f × 100 (mélanges gazeux).</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <div class="section-title"><span class="icon">🎬</span>Vidéo</div>
+    <a href="https://www.pearltrees.com/private/id104931546/item801423132?paccess=47cf8867a9d.2fc4bf1c.ab0430fc2a7d78b893ee0382c3042a9b" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);max-width:340px" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--rouge);">🎬 Vidéo de synthèse du chapitre</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Accès Pearltrees requis</p>
+      </div>
+    </a>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🎮</span>Jeu</div>
+    <div class="game-link-card">
+      <div class="game-link-icon">🧪</div>
+      <div class="game-link-text">
+        <h3>Tests sur les Tests</h3>
+        <p>Entraîne-toi à identifier les espèces chimiques grâce aux tests de reconnaissance : eau, ions, dioxygène, dioxyde de carbone… Un jeu interactif pour réviser les tests chimiques du chapitre.</p>
+      </div>
+      <a href="seq01-jeu.html" target="_blank" class="btn-jeu">🕹️ Jouer</a>
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
 </div><!-- fin tab-4 -->
+
+
 
 <div class="footer-note">
   2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 1A – Fiche de cours n°01 – C. Poirault-Gauvin
@@ -2442,19 +2777,88 @@ function switchTab(n) {
   });
 }
 
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-content');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Glossaire recherchable ──
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+// ── Structure FCR (Formule / Calcul / Résultat) ──
+function safeEvalExpr(str) {
+  if (!str) return null;
+  const s = str.replace(/,/g, '.').replace(/×/g, '*').replace(/·/g, '*').replace(/÷/g, '/')
+                .replace(/²/g, '**2').replace(/³/g, '**3').replace(/\s+/g, '');
+  if (!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try {
+    const v = Function('"use strict";return (' + s + ')')();
+    if (typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch (e) { return null; }
+}
+function fcrFormule(id, el, isCorrect) {
+  const opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if (isCorrect) {
+    const step = document.getElementById(id + '-calc-step');
+    if (step) step.style.display = 'block';
+  }
+}
+function fcrCalc(id, expected, tol) {
+  const raw = document.getElementById(id + '-calc').value;
+  const val = safeEvalExpr(raw);
+  const fb = document.getElementById(id + '-calc-fb');
+  if (val === null) {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  ³ uniquement).';
+    return;
+  }
+  const ok = Math.abs(val - expected) / Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if (ok) {
+    const step = document.getElementById(id + '-result-step');
+    if (step) step.style.display = 'block';
+  }
+}
+function fcrResult(id, expected, tol, resultText) {
+  const raw = document.getElementById(id + '-result').value.replace(',', '.').trim();
+  const v = parseFloat(raw);
+  const fb = document.getElementById(id + '-result-fb');
+  if (isNaN(v)) {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  const ok = Math.abs(v - expected) / Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+
 // ── QCM Corps purs ──
 function repondreQCM(id, correct, choix, explication, fbId) {
   const item = document.getElementById(id);
   const fb = document.getElementById(fbId);
-  if (item.dataset.done) return;
-  item.dataset.done = '1';
   const ok = choix === correct;
   fb.textContent = ok ? '✓ ' + explication : '✗ La bonne réponse est : ' + correct + '. ' + explication;
   fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
-  // Colorer les boutons
-  item.querySelectorAll('.qcm-btn').forEach(btn => {
+  // Colorer les boutons (réinitialisés à chaque nouvel essai)
+  item.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
+  item.querySelectorAll('.qcm-opt').forEach(btn => {
     if (btn.textContent === correct) btn.classList.add('correct');
-    else if (btn.textContent === choix && !ok) btn.classList.add('wrong');
+    else if (btn.textContent === choix && !ok) btn.classList.add('incorrect');
   });
   item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
 }
@@ -2462,10 +2866,10 @@ function repondreQCM(id, correct, choix, explication, fbId) {
 // ── Correction multiple (une correction par question) ──
 function toggleCorrMulti(ids, btn) {
   const first = document.getElementById(ids[0]);
-  const show = !first.classList.contains('visible');
+  const show = !first.classList.contains('open');
   ids.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.toggle('visible', show);
+    if (el) el.classList.toggle('open', show);
   });
   btn.textContent = show ? '▼ Masquer la correction' : '▶ Voir la correction';
 }
@@ -2473,9 +2877,9 @@ function toggleCorrMulti(ids, btn) {
 // ── Correction toggle ──
 function toggleCorr(id) {
   const el = document.getElementById(id);
-  el.classList.toggle('visible');
+  el.classList.toggle('open');
   const btn = el.previousElementSibling;
-  if (el.classList.contains('visible')) {
+  if (el.classList.contains('open')) {
     btn.textContent = '▼ Masquer la correction';
   } else {
     btn.textContent = '▶ Voir la correction';
@@ -2523,20 +2927,25 @@ function recommencer(cardId) {
     fb.textContent = '';
     fb.className = 'dq-feedback';
   });
-  card.querySelectorAll('.correction').forEach(corr => {
-    corr.classList.remove('visible');
+  card.querySelectorAll('.reveal-body').forEach(corr => {
+    corr.classList.remove('open');
   });
-  card.querySelectorAll('.btn-correction').forEach(btn => {
+  card.querySelectorAll('.btn-reveal').forEach(btn => {
     if (btn.textContent.includes('Masquer') || btn.textContent.includes('correction')) {
       btn.textContent = '▶ Voir la correction';
     }
   });
   // Réinitialiser les QCM à boutons (repondreQCM)
   card.querySelectorAll('.qcm-item').forEach(item => {
-    delete item.dataset.done;
     item.style.borderColor = '';
-    item.querySelectorAll('.qcm-btn').forEach(btn => {
-      btn.classList.remove('correct', 'wrong');
+    item.querySelectorAll('.qcm-opt').forEach(btn => {
+      btn.classList.remove('correct', 'incorrect');
+    });
+  });
+  // Réinitialiser les QCM issus des anciens menus déroulants
+  card.querySelectorAll('.dropdown-qcm .qcm-opts').forEach(group => {
+    group.querySelectorAll('.qcm-opt').forEach(btn => {
+      btn.classList.remove('correct', 'incorrect');
     });
   });
   card.querySelectorAll('.qcm-feedback').forEach(fb => {
@@ -2944,7 +3353,7 @@ function corrigerCCM() {
     fb.textContent = '✓ Correction affichée';
     fb.className = 'dq-feedback';
   });
-  document.getElementById('corr-ccm-global').classList.add('visible');
+  document.getElementById('corr-ccm-global').classList.add('open');
 }
 
 function recommencerCCM() {
@@ -2959,7 +3368,7 @@ function recommencerCCM() {
     fb.textContent = '';
     fb.className = 'dq-feedback';
   });
-  document.getElementById('corr-ccm-global').classList.remove('visible');
+  document.getElementById('corr-ccm-global').classList.remove('open');
   buildCCMPool();
 }
 
@@ -3066,6 +3475,19 @@ const DQ_FEEDBACK = {
     wrong: { 'variable selon la masse': '✗ La masse ne change pas la température de changement d\'état d\'un corps pur.', 'différente à chaque mesure': '✗ Elle est reproductible : c\'est justement ce qui permet d\'identifier un corps pur !' }
   }
 };
+
+// ── QCM cliquable (remplace l'ancien système à menu déroulant) ──
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = DQ_FEEDBACK[feedbackId];
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
+}
 
 function checkDropdown(selectId, correctVal, feedbackId) {
   const sel = document.getElementById(selectId);

@@ -34,6 +34,7 @@
   body {
     font-family: 'Nunito', sans-serif;
     background: #F0F4F8;
+    padding: 14px;
     color: var(--texte);
     min-height: 100vh;
   }
@@ -45,7 +46,7 @@
     border-bottom: 3px solid var(--bleu);
     border-radius: 14px;
     padding: 18px 24px 14px;
-    max-width: 860px;
+    max-width: 1300px;
     margin: 0 auto 24px;
     position: sticky;
     top: 0;
@@ -57,6 +58,7 @@
     align-items: center;
     gap: 14px;
     margin-bottom: 14px;
+    flex-wrap: wrap;
   }
   .header-left {
     display: flex;
@@ -208,7 +210,7 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
@@ -438,39 +440,39 @@
   }
   .rep-zone:focus { outline: none; border-color: var(--vert); }
 
-  .btn-correction {
+  .btn-reveal {
     display: inline-flex;
     align-items: center;
     gap: 7px;
     margin-top: 12px;
-    padding: 9px 20px;
-    background: var(--vert);
+    padding: 8px 16px;
+    background: var(--orange);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 7px;
     font-family: 'Nunito', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 700;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
   }
-  .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
-  .btn-correction:active { transform: translateY(0); }
+  .btn-reveal:hover { background: #c8602a; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
 
-  .correction {
+  .reveal-body {
     display: none;
-    background: #F0FAF6;
+    background: #fff;
     border: 1.5px solid var(--vert);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 8px;
-    font-size: 0.88rem;
-    line-height: 1.7;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.86rem;
+    line-height: 1.6;
   }
-  .correction.visible { display: block; animation: fadeIn 0.2s ease; }
-  .correction strong { color: var(--vert); }
-  .correction .calc-step {
-    background: white;
+  .reveal-body.open { display: block; animation: fadeIn 0.2s ease; }
+  .reveal-body strong { color: var(--vert); }
+  .reveal-body .calc-step {
+    background: var(--gris-fond);
     border-radius: 6px;
     padding: 8px 12px;
     margin: 7px 0;
@@ -498,22 +500,69 @@
     transition: border-color 0.2s;
   }
   .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
-  .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
-  .qcm-btn {
-    padding: 5px 14px;
-    border: 1.5px solid var(--gris-bord);
-    border-radius: 20px;
-    background: var(--gris-fond);
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: var(--bleu-moyen);
+    margin-bottom: 2px;
     font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.01em;
+  }
+  .qcm-opt {
+    background: #fff;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    padding: 7px 13px;
     font-size: 0.82rem;
     font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texte);
     cursor: pointer;
     transition: all 0.15s;
-    color: var(--texte);
   }
-  .qcm-btn:hover { border-color: var(--vert); color: var(--vert); background: var(--vert-exo); }
-  .qcm-btn.correct { background: var(--vert); color: white; border-color: var(--vert); }
-  .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+
+  /* ── Structure FCR (Formule / Calcul / Résultat) ── */
+  .fcr-step { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--gris-bord); }
+  .fcr-step:first-of-type { border-top: none; padding-top: 0; }
+  .fcr-label {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: var(--orange);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .blank-in {
+    padding: 6px 9px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    width: 130px;
+  }
+  .exo-btn {
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .exo-btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+  .exo-fb { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; line-height: 1.6; display: none; }
+  .exo-fb.ok { display: block; background: var(--vert-clair); border-left: 4px solid var(--vert); color: #1a5a3a; }
+  .exo-fb.ko { display: block; background: var(--rouge-clair); border-left: 4px solid var(--rouge); color: #7a2418; }
   .qcm-feedback {
     font-size: 0.80rem;
     margin-top: 4px;
@@ -642,7 +691,14 @@
     gap: 14px;
     margin: 14px 0;
   }
-  @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) {
+    .bilan-grid { grid-template-columns: 1fr; }
+    body { padding: 6px; }
+    .header { padding: 12px 16px 10px; }
+    .header-titles h1 { font-size: 1.05rem; }
+    .main { padding: 18px 12px 50px; }
+    .exo-card { padding: 12px; }
+  }
   .bilan-card {
     background: var(--blanc);
     border: 1.5px solid var(--gris-bord);
@@ -682,6 +738,81 @@
     font-weight: 800;
     font-size: 0.90rem;
   }
+
+  /* ── Onglet Bilan & Ressources : sous-onglets, glossaire, carte capacités ── */
+  .card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--bleu);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sub-tabs-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .sub-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: none;
+    background: #b8cfe0;
+    color: var(--bleu);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .sub-tab-btn.active { background: #1e4466; color: #fff; }
+  .sub-tab-content { display: none; }
+  .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  .gloss-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .gloss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 14px 0;
+  }
+  @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
+  .gloss-item {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .gloss-item dt {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: var(--bleu);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .gloss-item dd { font-size: 0.84rem; color: var(--texte); line-height: 1.55; }
 
   /* ── VERRERIE drag & drop ── */
   .verrerie-wrap {
@@ -1021,12 +1152,11 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="substance">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
           <div class="qcm-feedback" id="fb-qcrit"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</button>
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</button>
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</button>
-        </div>
-      </div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</div>
+          <div class="qcm-opt" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</div>
+          <div class="qcm-opt" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</div>
+        </div></div>
     </div>
   </div>
 
@@ -1060,8 +1190,8 @@ button.cap-toggle:hover { background: #1e4466; }
       </tbody>
     </table>
 
-    <button class="btn-correction" onclick="toggleCorr('corr-tableau1')">▶ Voir la correction</button>
-    <div class="correction" id="corr-tableau1">
+    <button class="btn-reveal" onclick="toggleCorr('corr-tableau1')">▶ Voir la correction</button>
+    <div class="reveal-body" id="corr-tableau1">
       <table class="ions-table" style="margin:0;">
         <thead><tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr></thead>
         <tbody>
@@ -1088,37 +1218,34 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="substance">a. Une solution est toujours...</div>
           <div class="qcm-feedback" id="fb-q1"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un corps pur','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('q1','Un mélange homogène','Un corps pur','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</div>
+          <div class="qcm-opt" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</div>
+          <div class="qcm-opt" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</div>
         </div>
       </div>
       <div id="q2" class="qcm-item">
         <div>
-          <div class="substance">b. Dans une solution sucrée, le sucre est...</div>
-          <div class="qcm-feedback" id="fb-q2"></div>
+          <div class="substance">b. Dans une solution sucrée, le sucre est...</div><div class="qcm-feedback" id="fb-q2"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</button>
-          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</button>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</div>
+          <div class="qcm-opt" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</div>
         </div>
       </div>
       <div id="q3" class="qcm-item">
         <div>
-          <div class="substance">c. Un soluté peut être...</div>
-          <div class="qcm-feedback" id="fb-q3"></div>
+          <div class="substance">c. Un soluté peut être...</div><div class="qcm-feedback" id="fb-q3"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</button>
-          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</button>
-        </div>
-      </div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</div>
+          <div class="qcm-opt" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</div>
+        </div></div>
     </div>
   </div><!-- fin exo-card quiz -->
 
   <div style="text-align:center;margin-top:8px;">
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-0')">↺ Réinitialiser les réponses</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-0')">↺ Réinitialiser les réponses</button>
   </div>
 
 </div><!-- fin tab-0 -->
@@ -1173,34 +1300,47 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="question-block">
       <div class="question-label">1. Calculer le titre massique t de la solution de glucose (en g·L⁻¹).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">t =</span>
-        <input type="number" step="0.1" class="num-input" id="gl1-val" placeholder="ex : 5,0">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('gl1','gl1-val',5.0,0.1,'gl1-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('gl1',this,true)">t = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('gl1',this,false)">t = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('gl1',this,false)">t = m × V</div>
       </div>
-      <div class="verif-feedback" id="gl1-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="gl1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="gl1-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('gl1', 5.0, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="gl1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="gl1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="gl1-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('gl1', 5.0, 0.02, 't = 5,0 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="gl1-result-fb"></div>
+    </div>
     </div>
 
     <div class="question-block">
       <div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure sur le caractère de la solution.</div>
       <div class="interactif-row">
-        <select class="sel-input" id="gl2-sel">
-          <option value="">— Choisir une conclusion —</option>
-          <option value="diluee">t ≪ ρ(glucose) : la solution est très diluée</option>
-          <option value="saturee">t ≈ ρ(glucose) : la solution est saturée</option>
-          <option value="concentree">t > ρ(glucose) : la solution est très concentrée</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('gl2','gl2-sel','diluee','gl2-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'gl2-fb')">t ≪ ρ(glucose) : la solution est très diluée</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'gl2-fb')">t ≈ ρ(glucose) : la solution est saturée</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'gl2-fb')">t > ρ(glucose) : la solution est très concentrée</div>
+      </div>
       </div>
       <div class="verif-feedback" id="gl2-fb"></div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-glucose','corr-glucose')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-glucose">
+    <div class="reveal-body" id="corr-glucose">
       <strong>1. Titre massique de la solution :</strong>
       <div class="calc-step">V<sub>solution</sub> = 500 mL = 0,500 L</div>
       <div class="calc-step">t = m<sub>glucose</sub> / V<sub>solution</sub> = 2,5 / 0,500 = <strong>5,0 g·L⁻¹</strong></div>
@@ -1224,13 +1364,11 @@ button.cap-toggle:hover { background: #1e4466; }
     <div class="question-block">
       <div class="question-label">1. Quelle est la formule reliant la concentration en masse C<sub>m</sub>, la masse de soluté m et le volume de solution V ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="vgr1-sel">
-          <option value="">— Choisir la bonne formule —</option>
-          <option value="bon">C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub></option>
-          <option value="m1">C<sub>m</sub> = V<sub>solution</sub> / m<sub>soluté</sub></option>
-          <option value="m2">C<sub>m</sub> = m<sub>solution</sub> / V<sub>solution</sub></option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('vgr1','vgr1-sel','bon','vgr1-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'vgr1-fb')">C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub></div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'vgr1-fb')">C<sub>m</sub> = V<sub>solution</sub> / m<sub>soluté</sub></div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'vgr1-fb')">C<sub>m</sub> = m<sub>solution</sub> / V<sub>solution</sub></div>
+      </div>
       </div>
       <div class="verif-feedback" id="vgr1-fb"></div>
     </div>
@@ -1238,32 +1376,62 @@ button.cap-toggle:hover { background: #1e4466; }
     <!-- Q2 : calcul vinaigre de table -->
     <div class="question-block">
       <div class="question-label">2. Calculer la concentration en masse C<sub>m</sub> du vinaigre de <strong>table</strong> (en g·L⁻¹).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">C<sub>m</sub> =</span>
-        <input type="number" step="0.1" class="num-input" id="vgr2-val" placeholder="…">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('vgr2','vgr2-val',60.0,1.0,'vgr2-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('vgr2',this,true)">Cm = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('vgr2',this,false)">Cm = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('vgr2',this,false)">Cm = m × V</div>
       </div>
-      <div class="verif-feedback" id="vgr2-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="vgr2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="vgr2-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('vgr2', 60.0, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="vgr2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="vgr2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="vgr2-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('vgr2', 60.0, 0.02, 'Cm = 60,0 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="vgr2-result-fb"></div>
+    </div>
     </div>
 
     <!-- Q3 : calcul vinaigre de ménage -->
     <div class="question-block">
       <div class="question-label">3. Calculer la concentration en masse C<sub>m</sub> du vinaigre de <strong>ménage</strong> (en g·L⁻¹). <em>Attention à l'unité du volume !</em></div>
-      <div class="interactif-row">
-        <span class="interactif-hint">C<sub>m</sub> =</span>
-        <input type="number" step="0.1" class="num-input" id="vgr3-val" placeholder="…">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('vgr3','vgr3-val',300.0,2.0,'vgr3-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('vgr3',this,true)">Cm = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('vgr3',this,false)">Cm = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('vgr3',this,false)">Cm = m × V</div>
       </div>
-      <div class="verif-feedback" id="vgr3-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="vgr3-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="vgr3-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('vgr3', 300.0, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="vgr3-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="vgr3-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="vgr3-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('vgr3', 300.0, 0.01, 'Cm = 300 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="vgr3-result-fb"></div>
+    </div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-vinaigre')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-vinaigre')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-vinaigre','corr-vinaigre')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-vinaigre">
+    <div class="reveal-body" id="corr-vinaigre">
       <strong>1. Formule :</strong>
       <div class="calc-step">C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></div>
       <strong>2. Vinaigre de table :</strong>
@@ -1302,62 +1470,105 @@ button.cap-toggle:hover { background: #1e4466; }
     <!-- Étape A : masse de solution pour 1 L -->
     <div class="question-block">
       <div class="question-label">Étape 1. Quelle est la masse d'un litre de solution (en g) ? <em>Utilisez la définition de ρ.</em></div>
-      <div class="interactif-row">
-        <span class="interactif-hint">m<sub>solution</sub> =</span>
-        <input type="number" step="1" class="num-input" id="rg1-val" placeholder="…">
-        <span class="interactif-hint">g</span>
-        <button class="btn-verif" onclick="verifierNum('rg1','rg1-val',1100,1,'rg1-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('rg1',this,true)">m = ρ × V</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg1',this,false)">m = ρ / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg1',this,false)">m = ρ + V</div>
       </div>
-      <div class="verif-feedback" id="rg1-fb"></div>
-      <div class="aide-box">💡 ρ = m<sub>solution</sub> / V<sub>solution</sub>, donc m<sub>solution</sub> = ρ × V. Ici V = 1 L.</div>
+    </div>
+
+    <div class="fcr-step" id="rg1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="rg1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="aide-box" style="margin-top:8px;">💡 ρ = m<sub>solution</sub> / V<sub>solution</sub>, donc m<sub>solution</sub> = ρ × V. Ici V = 1 L.</div>
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('rg1', 1100, 0.005)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="rg1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="rg1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="rg1-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('rg1', 1100, 0.005, 'm = 1 100 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="rg1-result-fb"></div>
+    </div>
     </div>
 
     <!-- Étape B : masse de H2O2 dans 1 L -->
     <div class="question-block">
       <div class="question-label">Étape 2. Parmi cette masse totale, 9 % correspond à la masse de H₂O₂. Calculer la masse de H₂O₂ dans 1 L de solution (en g).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">m(H₂O₂) =</span>
-        <input type="number" step="1" class="num-input" id="rg2-val" placeholder="…">
-        <span class="interactif-hint">g</span>
-        <button class="btn-verif" onclick="verifierNum('rg2','rg2-val',99,1,'rg2-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('rg2',this,true)">m = (%/100) × m_total</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg2',this,false)">m = m_total / (%/100)</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg2',this,false)">m = % × m_total</div>
       </div>
-      <div class="verif-feedback" id="rg2-fb"></div>
-      <div class="aide-box">💡 m(H₂O₂) = 9/100 × m<sub>solution</sub></div>
+    </div>
+
+    <div class="fcr-step" id="rg2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="rg2-calc" class="blank-in" placeholder="ton calcul (ex : nombre/100×nombre)">
+      <div class="aide-box" style="margin-top:8px;">💡 m(H₂O₂) = 9/100 × m<sub>solution</sub></div>
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('rg2', 99, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="rg2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="rg2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="rg2-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('rg2', 99, 0.02, 'm(H₂O₂) = 99 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="rg2-result-fb"></div>
+    </div>
     </div>
 
     <!-- Étape C : Cm -->
     <div class="question-block">
       <div class="question-label">Étape 3. En déduire la concentration en masse C<sub>m</sub>(H₂O₂) (en g·L⁻¹). <em>Attention : vous avez calculé la masse de soluté <u>dans 1 L</u> de solution.</em></div>
-      <div class="interactif-row">
-        <span class="interactif-hint">C<sub>m</sub> =</span>
-        <input type="number" step="1" class="num-input" id="rg3-val" placeholder="…">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('rg3','rg3-val',99,1,'rg3-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('rg3',this,true)">Cm = m / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg3',this,false)">Cm = V / m</div>
+        <div class="qcm-opt" onclick="fcrFormule('rg3',this,false)">Cm = m × V</div>
       </div>
-      <div class="verif-feedback" id="rg3-fb"></div>
-      <div class="aide-box">💡 C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> = m(H₂O₂) dans 1 L / 1 L</div>
+    </div>
+
+    <div class="fcr-step" id="rg3-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="rg3-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="aide-box" style="margin-top:8px;">💡 C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> = m(H₂O₂) dans 1 L / 1 L</div>
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('rg3', 99, 0.02)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="rg3-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="rg3-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="rg3-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('rg3', 99, 0.02, 'Cm = 99 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="rg3-result-fb"></div>
+    </div>
     </div>
 
     <!-- Étape D : comparaison Cm vs ρ -->
     <div class="question-block">
       <div class="question-label">Étape 4. Comparer C<sub>m</sub>(H₂O₂) et ρ<sub>solution</sub>. Que remarque-t-on ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="rg4-sel">
-          <option value="">— Choisir —</option>
-          <option value="bon">C<sub>m</sub> &lt; ρ : normal, C<sub>m</sub> ne compte que le soluté</option>
-          <option value="m1">C<sub>m</sub> = ρ : les deux grandeurs sont toujours égales</option>
-          <option value="m2">C<sub>m</sub> &gt; ρ : le soluté est plus dense que la solution</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('rg4','rg4-sel','bon','rg4-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'rg4-fb')">C<sub>m</sub> &lt; ρ : normal, C<sub>m</sub> ne compte que le soluté</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'rg4-fb')">C<sub>m</sub> = ρ : les deux grandeurs sont toujours égales</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'rg4-fb')">C<sub>m</sub> &gt; ρ : le soluté est plus dense que la solution</div>
+      </div>
       </div>
       <div class="verif-feedback" id="rg4-fb"></div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-rho-guide')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-rho-guide')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-rho-guide','corr-rho-guide')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-rho-guide">
+    <div class="reveal-body" id="corr-rho-guide">
       <strong>Étape 1 – Masse d'un litre de solution :</strong>
       <div class="calc-step">ρ = m<sub>solution</sub> / V  →  m<sub>solution</sub> = ρ × V = 1 100 × 1 = <strong>1 100 g</strong></div>
       <strong>Étape 2 – Masse de H₂O₂ dans 1 L :</strong>
@@ -1383,20 +1594,35 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="question-block">
       <div class="question-label">Donner directement C<sub>m</sub>(H₂SO₄) (en g·L⁻¹).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">C<sub>m</sub> =</span>
-        <input type="number" step="1" class="num-input" id="rd1-val" placeholder="…">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('rd1','rd1-val',1766.4,5,'rd1-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('rd1',this,true)">Cm = (%/100) × ρ</div>
+        <div class="qcm-opt" onclick="fcrFormule('rd1',this,false)">Cm = ρ / (%/100)</div>
+        <div class="qcm-opt" onclick="fcrFormule('rd1',this,false)">Cm = % × ρ</div>
       </div>
-      <div class="verif-feedback" id="rd1-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="rd1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="rd1-calc" class="blank-in" placeholder="ton calcul (ex : nombre/100×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('rd1', 1766.4, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="rd1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="rd1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="rd1-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('rd1', 1766.4, 0.01, 'Cm = 1 766 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="rd1-result-fb"></div>
+    </div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-rho-diff')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-rho-diff')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-rho-diff','corr-rho-diff')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-rho-diff">
+    <div class="reveal-body" id="corr-rho-diff">
       <strong>Démarche en une étape :</strong>
       <div class="calc-step">m<sub>solution</sub> pour 1 L = ρ × V = 1 840 × 1 = 1 840 g</div>
       <div class="calc-step">m(H₂SO₄) = 96/100 × 1 840 = 1 766,4 g</div>
@@ -1418,7 +1644,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <div style="text-align:center;margin-top:8px;">
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-1')">↺ Réinitialiser les réponses</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-1')">↺ Réinitialiser les réponses</button>
   </div>
 
 </div><!-- fin tab-1 -->
@@ -1472,40 +1698,68 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="question-block">
       <div class="question-label">1. Est-il possible de dissoudre 68 g de NaCl dans de l'eau pour obtenir 200 mL de solution ? (Calculez d'abord m<sub>max</sub> en g)</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">m<sub>max</sub> =</span>
-        <input type="number" step="0.1" class="num-input" id="na1-val" placeholder="ex : 71.6">
-        <span class="interactif-hint">g</span>
-        <button class="btn-verif" onclick="verifierNum('na1','na1-val',71.6,0.5,'na1-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('na1',this,true)">m_max = Cmax × V</div>
+        <div class="qcm-opt" onclick="fcrFormule('na1',this,false)">m_max = Cmax / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('na1',this,false)">m_max = Cmax + V</div>
       </div>
-      <div class="verif-feedback" id="na1-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="na1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="na1-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('na1', 71.6, 0.01)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="na1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="na1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="na1-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('na1', 71.6, 0.01, 'm_max = 71,6 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="na1-result-fb"></div>
+    </div>
       <div class="interactif-row" style="margin-top:10px;">
-        <select class="sel-input" id="na1b-sel">
-          <option value="">— Conclusion —</option>
-          <option value="oui">Oui, c'est possible : 68 g &lt; m_max</option>
-          <option value="non">Non, ce n'est pas possible : 68 g &gt; m_max</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('na1b','na1b-sel','oui','na1b-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'na1b-fb')">Oui, c'est possible : 68 g &lt; m_max</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'na1b-fb')">Non, ce n'est pas possible : 68 g &gt; m_max</div>
+      </div>
       </div>
       <div class="verif-feedback" id="na1b-fb"></div>
     </div>
 
     <div class="question-block">
       <div class="question-label">2. Quelle masse maximale de NaCl peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ? (en g)</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">m<sub>max</sub> =</span>
-        <input type="number" step="0.1" class="num-input" id="na2-val" placeholder="ex : 17.9">
-        <span class="interactif-hint">g</span>
-        <button class="btn-verif" onclick="verifierNum('na2','na2-val',17.9,0.5,'na2-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('na2',this,true)">m_max = Cmax × V</div>
+        <div class="qcm-opt" onclick="fcrFormule('na2',this,false)">m_max = Cmax / V</div>
+        <div class="qcm-opt" onclick="fcrFormule('na2',this,false)">m_max = Cmax + V</div>
       </div>
-      <div class="verif-feedback" id="na2-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="na2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="na2-calc" class="blank-in" placeholder="ton calcul (ex : nombre×nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('na2', 17.9, 0.03)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="na2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="na2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="na2-result" class="blank-in" placeholder="en g">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('na2', 17.9, 0.03, 'm_max = 17,9 g')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="na2-result-fb"></div>
+    </div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-nacl','corr-nacl')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-nacl">
+    <div class="reveal-body" id="corr-nacl">
       <strong>1. Vérification de la possibilité :</strong>
       <div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
       <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,200 = <strong>71,6 g</strong></div>
@@ -1531,41 +1785,37 @@ button.cap-toggle:hover { background: #1e4466; }
           <div class="substance">Peser le solide (soluté)</div>
           <div class="qcm-feedback" id="fb-v1"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</button>
-          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</button>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</div>
+          <div class="qcm-opt" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</div>
         </div>
       </div>
       <div id="v2" class="qcm-item">
         <div>
-          <div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div>
-          <div class="qcm-feedback" id="fb-v2"></div>
+          <div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div><div class="qcm-feedback" id="fb-v2"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
-          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</div>
+          <div class="qcm-opt" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</div>
         </div>
       </div>
       <div id="v3" class="qcm-item">
         <div>
-          <div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
-          <div class="qcm-feedback" id="fb-v3"></div>
+          <div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div><div class="qcm-feedback" id="fb-v3"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</button>
-          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</button>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</div>
+          <div class="qcm-opt" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</div>
         </div>
       </div>
       <div id="v4" class="qcm-item">
         <div>
-          <div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div>
-          <div class="qcm-feedback" id="fb-v4"></div>
+          <div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div><div class="qcm-feedback" id="fb-v4"></div>
         </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</button>
-          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</button>
-        </div>
-      </div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</div>
+          <div class="qcm-opt" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</div>
+        </div></div>
     </div>
 
     <div class="remarque-box" style="margin-top:14px;">
@@ -1574,7 +1824,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div><!-- fin exo-card verrerie -->
 
   <div style="text-align:center;margin-top:8px;">
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-2')">↺ Réinitialiser les réponses</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-2')">↺ Réinitialiser les réponses</button>
   </div>
 
 </div><!-- fin tab-2 -->
@@ -1668,22 +1918,53 @@ button.cap-toggle:hover { background: #1e4466; }
     <!-- Q1 : F et t de Sf1 -->
     <div class="question-block">
       <div class="question-label">1a. Calculer le facteur de dilution F pour S<sub>f1</sub> (V<sub>m</sub> = 30 mL, V<sub>f</sub> = 50 mL).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">F =</span>
-        <input type="number" step="0.1" class="num-input" id="t1a-val" placeholder="ex : 1.6">
-        <button class="btn-verif" onclick="verifierNum('t1a','t1a-val',1.667,0.1,'t1a-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('t1a',this,true)">F = Vf / Vm</div>
+        <div class="qcm-opt" onclick="fcrFormule('t1a',this,false)">F = Vm / Vf</div>
+        <div class="qcm-opt" onclick="fcrFormule('t1a',this,false)">F = Vf × Vm</div>
       </div>
-      <div class="verif-feedback" id="t1a-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="t1a-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="t1a-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('t1a', 1.667, 0.06)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="t1a-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="t1a-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="t1a-result" class="blank-in" placeholder="(sans unité)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('t1a', 1.667, 0.06, 'F ≈ 1,67')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="t1a-result-fb"></div>
+    </div>
     </div>
     <div class="question-block">
       <div class="question-label">1b. En déduire la concentration en masse t de S<sub>f1</sub> (en g·L⁻¹).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">t<sub>f1</sub> =</span>
-        <input type="number" step="0.01" class="num-input" id="t1b-val" placeholder="ex : 0.60">
-        <span class="interactif-hint">g·L⁻¹</span>
-        <button class="btn-verif" onclick="verifierNum('t1b','t1b-val',0.6,0.05,'t1b-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('t1b',this,true)">t = tm / F</div>
+        <div class="qcm-opt" onclick="fcrFormule('t1b',this,false)">t = tm × F</div>
+        <div class="qcm-opt" onclick="fcrFormule('t1b',this,false)">t = F / tm</div>
       </div>
-      <div class="verif-feedback" id="t1b-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="t1b-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="t1b-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('t1b', 0.6, 0.08)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="t1b-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="t1b-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="t1b-result" class="blank-in" placeholder="en g·L⁻¹">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('t1b', 0.6, 0.08, 't = 0,60 g·L⁻¹')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="t1b-result-fb"></div>
+    </div>
     </div>
 
     <table class="ions-table">
@@ -1703,13 +1984,11 @@ button.cap-toggle:hover { background: #1e4466; }
     <div class="question-block" style="margin-top:14px;">
       <div class="question-label">2. La teinte de S' est comprise entre S<sub>f5</sub> et S<sub>f6</sub>. Quel est le bon encadrement de t<sub>S'</sub> ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="t2-sel">
-          <option value="">— Choisir l'encadrement —</option>
-          <option value="bon">0,05 g·L⁻¹ &lt; t(S') &lt; 0,10 g·L⁻¹</option>
-          <option value="mauvais1">0,10 g·L⁻¹ &lt; t(S') &lt; 0,20 g·L⁻¹</option>
-          <option value="mauvais2">0,025 g·L⁻¹ &lt; t(S') &lt; 0,05 g·L⁻¹</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('t2','t2-sel','bon','t2-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'t2-fb')">0,05 g·L⁻¹ &lt; t(S') &lt; 0,10 g·L⁻¹</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t2-fb')">0,10 g·L⁻¹ &lt; t(S') &lt; 0,20 g·L⁻¹</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t2-fb')">0,025 g·L⁻¹ &lt; t(S') &lt; 0,05 g·L⁻¹</div>
+      </div>
       </div>
       <div class="verif-feedback" id="t2-fb"></div>
     </div>
@@ -1718,26 +1997,22 @@ button.cap-toggle:hover { background: #1e4466; }
     <div class="question-block">
       <div class="question-label">3a. S' peut-elle être utilisée pour soigner les érythèmes (c ≈ 0,10 g·L⁻¹) ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="t3a-sel">
-          <option value="">— Réponse —</option>
-          <option value="oui">Oui, car t(S') est voisine de 0,10 g·L⁻¹</option>
-          <option value="non">Non, car t(S') est trop faible</option>
-          <option value="non2">Non, car t(S') est trop élevée</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('t3a','t3a-sel','oui','t3a-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'t3a-fb')">Oui, car t(S') est voisine de 0,10 g·L⁻¹</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t3a-fb')">Non, car t(S') est trop faible</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t3a-fb')">Non, car t(S') est trop élevée</div>
+      </div>
       </div>
       <div class="verif-feedback" id="t3a-fb"></div>
     </div>
     <div class="question-block">
       <div class="question-label">3b. S' peut-elle être utilisée pour désinfecter de l'eau de boisson (c ≈ 0,5 g·L⁻¹) ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="t3b-sel">
-          <option value="">— Réponse —</option>
-          <option value="oui">Oui, la concentration est suffisante</option>
-          <option value="non">Non, t(S') est trop faible pour cette utilisation</option>
-          <option value="non2">Non, t(S') serait trop concentrée</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('t3b','t3b-sel','non','t3b-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t3b-fb')">Oui, la concentration est suffisante</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'t3b-fb')">Non, t(S') est trop faible pour cette utilisation</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t3b-fb')">Non, t(S') serait trop concentrée</div>
+      </div>
       </div>
       <div class="verif-feedback" id="t3b-fb"></div>
     </div>
@@ -1746,22 +2021,20 @@ button.cap-toggle:hover { background: #1e4466; }
     <div class="question-block">
       <div class="question-label">4. Quelle est la première étape de la méthode par gamme d'étalonnage ?</div>
       <div class="interactif-row">
-        <select class="sel-input" id="t4-sel">
-          <option value="">— Choisir —</option>
-          <option value="bon">Préparer plusieurs solutions étalons de concentrations connues par dilution</option>
-          <option value="m1">Mesurer directement la concentration avec un appareil</option>
-          <option value="m2">Comparer la teinte à une seule solution étalon</option>
-        </select>
-        <button class="btn-verif" onclick="verifierSel('t4','t4-sel','bon','t4-fb')">✔ Vérifier</button>
+        <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmSelCheck(this,true,'t4-fb')">Préparer plusieurs solutions étalons de concentrations connues par dilution</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t4-fb')">Mesurer directement la concentration avec un appareil</div>
+        <div class="qcm-opt" onclick="qcmSelCheck(this,false,'t4-fb')">Comparer la teinte à une seule solution étalon</div>
+      </div>
       </div>
       <div class="verif-feedback" id="t4-fb"></div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-teinte','corr-teinte')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-teinte">
+    <div class="reveal-body" id="corr-teinte">
       <strong>1. Facteur de dilution et concentration de S<sub>f1</sub> :</strong>
       <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> = 50 / 30 = <strong>1,6</strong></div>
       <div class="calc-step">t<sub>f1</sub> = t<sub>m</sub> / F = 1,0 / 1,6 = <strong>0,6 g·L⁻¹</strong></div>
@@ -1789,30 +2062,61 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="question-block">
       <div class="question-label">1. Calculer le facteur de dilution F.</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">F =</span>
-        <input type="number" step="0.1" class="num-input" id="di1-val" placeholder="ex : 2.5">
-        <button class="btn-verif" onclick="verifierNum('di1','di1-val',2.5,0.1,'di1-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('di1',this,true)">F = tm / tf</div>
+        <div class="qcm-opt" onclick="fcrFormule('di1',this,false)">F = tf / tm</div>
+        <div class="qcm-opt" onclick="fcrFormule('di1',this,false)">F = tm × tf</div>
       </div>
-      <div class="verif-feedback" id="di1-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="di1-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="di1-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('di1', 2.5, 0.04)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="di1-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="di1-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="di1-result" class="blank-in" placeholder="(sans unité)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('di1', 2.5, 0.04, 'F = 2,5')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="di1-result-fb"></div>
+    </div>
     </div>
 
     <div class="question-block">
       <div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever (en mL).</div>
-      <div class="interactif-row">
-        <span class="interactif-hint">v<sub>m</sub> =</span>
-        <input type="number" step="1" class="num-input" id="di2-val" placeholder="ex : 80">
-        <span class="interactif-hint">mL</span>
-        <button class="btn-verif" onclick="verifierNum('di2','di2-val',80,2,'di2-fb')">✔ Vérifier</button>
+      <div class="fcr-step">
+      <label class="fcr-label">1. Formule — choisis la bonne expression</label>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="fcrFormule('di2',this,true)">vm = Vf / F</div>
+        <div class="qcm-opt" onclick="fcrFormule('di2',this,false)">vm = Vf × F</div>
+        <div class="qcm-opt" onclick="fcrFormule('di2',this,false)">vm = F / Vf</div>
       </div>
-      <div class="verif-feedback" id="di2-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="di2-calc-step" style="display:none;">
+      <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
+      <input type="text" id="di2-calc" class="blank-in" placeholder="ton calcul (ex : nombre/nombre)">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrCalc('di2', 80, 0.03)">Vérifier le calcul</button></div>
+      <div class="exo-fb" id="di2-calc-fb"></div>
+    </div>
+
+    <div class="fcr-step" id="di2-result-step" style="display:none;">
+      <label class="fcr-label">3. Résultat</label>
+      <input type="text" id="di2-result" class="blank-in" placeholder="en mL">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="fcrResult('di2', 80, 0.03, 'vm = 80 mL')">Vérifier le résultat</button></div>
+      <div class="exo-fb" id="di2-result-fb"></div>
+    </div>
     </div>
 
     <div class="btn-group-exo">
-      <button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
+      <button class="btn-reveal" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
       <button class="btn-reset-exo" onclick="resetExoFull('exo-diiode','corr-diiode')">↺ Recommencer</button>
     </div>
-    <div class="correction" id="corr-diiode">
+    <div class="reveal-body" id="corr-diiode">
       <strong>1. Facteur de dilution :</strong>
       <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 0,25 / 0,10 = <strong>2,5</strong></div>
       <strong>2. Volume de solution mère à prélever :</strong>
@@ -1853,7 +2157,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <div style="text-align:center;margin-top:8px;">
-    <button class="btn-correction" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-3')">↺ Réinitialiser les réponses</button>
+    <button class="btn-reveal" style="background:var(--texte-léger);" onclick="reinitialiserOnglet('tab-3')">↺ Réinitialiser les réponses</button>
   </div>
 
 </div><!-- fin tab-3 -->
@@ -1863,54 +2167,88 @@ button.cap-toggle:hover { background: #1e4466; }
      ONGLET 5 – Bilan
 ══════════════════════════════════════ -->
 <div class="tab-content" id="tab-4">
-
-  <div class="section-title">
-    <span class="icon">📋</span> Bilan de la séquence
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
   </div>
 
-  <div class="bilan-grid">
-    <div class="bilan-card">
-      <h4>Formules clés</h4>
-      <ul>
-        <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
-        <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
-        <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
-        <li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="section-title">
+      <span class="icon">📋</span> Bilan de la séquence
+    </div>
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Formules clés</h4>
+        <ul class="ke-list">
+          <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
+          <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
+          <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
+          <li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Vocabulaire</h4>
+        <ul class="ke-list">
+          <li><strong>Solvant</strong> : liquide majoritaire</li>
+          <li><strong>Soluté</strong> : espèce dissoute</li>
+          <li><strong>Saturation</strong> : limite de dissolution</li>
+          <li><strong>Solution mère / fille</strong> : avant / après dilution</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" style="background:var(--vert-clair)">✅</span>Capacités exigibles — synthèse</div>
+      <ul class="ke-list">
+        <li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
+        <li>Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.</li>
+        <li>Déterminer la valeur de la concentration d'un soluté (en g·L⁻¹) à partir du mode opératoire de préparation d'une solution par dissolution ou par dilution.</li>
+        <li>Choisir et utiliser la verrerie adaptée pour préparer une solution par dissolution ou par dilution.</li>
+        <li>Déterminer la valeur d'une concentration et d'une concentration maximale à partir de résultats expérimentaux.</li>
+        <li>Déterminer la valeur d'une concentration à l'aide d'une gamme d'étalonnage (échelle de teinte, mesure de conductance ou mesure de masse volumique).</li>
+        <li>Capacité mathématique : utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
       </ul>
     </div>
-    <div class="bilan-card">
-      <h4>Vocabulaire</h4>
-      <ul>
-        <li><strong>Solvant</strong> : liquide majoritaire</li>
-        <li><strong>Soluté</strong> : espèce dissoute</li>
-        <li><strong>Saturation</strong> : limite de dissolution</li>
-        <li><strong>Solution mère / fille</strong> : avant / après dilution</li>
-      </ul>
+
+    <div class="def-card">
+      <h3>📚 Exercices à faire en autonomie</h3>
+      <p>p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
     </div>
   </div>
+  <!-- /bilan-sub-0 -->
 
-  <div class="section-title" style="margin-top:28px;">
-    <span class="icon">🎬</span> Bilan vidéo de cours
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="concentration masse titre massique"><dt>Concentration en masse (titre massique)</dt><dd>Cm(soluté) = m(soluté) / V(solution) : masse de soluté dissoute par litre de solution, en g·L⁻¹.</dd></div>
+      <div class="gloss-item" data-term="masse volumique solution"><dt>Masse volumique de la solution</dt><dd>ρ(solution) = m(solution) / V(solution) : même unité que Cm, mais tient compte de la masse totale de la solution (solvant + soluté).</dd></div>
+      <div class="gloss-item" data-term="dissolution"><dt>Dissolution</dt><dd>Processus par lequel une substance solide, liquide ou gazeuse se disperse de façon homogène dans un solvant.</dd></div>
+      <div class="gloss-item" data-term="solution saturee"><dt>Solution saturée</dt><dd>Solution qui ne peut plus dissoudre de soluté supplémentaire ; la concentration correspondante est la concentration maximale Cmax.</dd></div>
+      <div class="gloss-item" data-term="dilution"><dt>Dilution</dt><dd>Préparation d'une solution fille moins concentrée à partir d'une solution mère, par ajout de solvant.</dd></div>
+      <div class="gloss-item" data-term="facteur dilution"><dt>Facteur de dilution F</dt><dd>F = tm / tf = Vf / Vm : rapport entre concentration mère et fille (ou volume fille et volume mère prélevé).</dd></div>
+      <div class="gloss-item" data-term="echelle teinte"><dt>Échelle de teinte</dt><dd>Série de solutions de concentrations connues et croissantes, permettant de déterminer par comparaison visuelle la concentration approximative d'une solution inconnue.</dd></div>
+      <div class="gloss-item" data-term="grandeurs dilution"><dt>Grandeurs lors d'une dilution</dt><dd>Ne change pas : la masse de soluté dissous. Change : le volume total (augmente) et la concentration en masse (diminue).</dd></div>
+      <div class="gloss-item" data-term="grandeurs caracteristiques solution"><dt>Grandeurs caractéristiques d'une solution</dt><dd>Concentration en masse Cm, masse volumique ρ, et grandeurs liées comme la couleur (échelle de teinte) ou la conductance.</dd></div>
+    </dl>
   </div>
-  <p style="margin-bottom:24px; color:var(--texte-léger); font-size:0.9rem;">
-    Vidéo de synthèse du chapitre – à regarder pour consolider vos connaissances.
-  </p>
-  <div style="display:flex; flex-direction:column; align-items:center; gap:16px; padding:12px 0 32px;">
-    <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d"
-       target="_blank"
-       style="display:inline-flex; align-items:center; gap:10px; background:var(--bleu); color:white; padding:16px 32px; border-radius:10px; font-weight:700; text-decoration:none; font-size:1rem; box-shadow:0 3px 10px rgba(45,95,138,0.20); transition:opacity 0.15s;">
-      ▶&nbsp; Ouvrir la vidéo
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <div class="section-title"><span class="icon">🎬</span>Vidéo</div>
+    <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);max-width:340px" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--rouge);">🎬 Vidéo de synthèse du chapitre</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Accès Pearltrees requis</p>
+      </div>
     </a>
-    <p style="font-size:0.82rem; color:var(--texte-léger); text-align:center; max-width:420px;">
-      La vidéo s'ouvre dans un nouvel onglet (accès Pearltrees requis).
-    </p>
   </div>
-
-  <div class="def-card">
-    <h3>📚 Exercices à faire en autonomie</h3>
-    <p>p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
-  </div>
-
+  <!-- /bilan-sub-2 -->
 </div><!-- fin tab-4 -->
 
 <div class="footer-note">
@@ -1941,6 +2279,76 @@ function switchTab(n) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-content');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Glossaire recherchable ──
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
+// ── Structure FCR (Formule / Calcul / Résultat) ──
+function safeEvalExpr(str) {
+  if (!str) return null;
+  const s = str.replace(/,/g, '.').replace(/×/g, '*').replace(/·/g, '*').replace(/÷/g, '/')
+                .replace(/²/g, '**2').replace(/³/g, '**3').replace(/\s+/g, '');
+  if (!s || !/^[0-9.eE+\-*/().]+$/.test(s)) return null;
+  try {
+    const v = Function('"use strict";return (' + s + ')')();
+    if (typeof v !== 'number' || isNaN(v) || !isFinite(v)) return null;
+    return v;
+  } catch (e) { return null; }
+}
+function fcrFormule(id, el, isCorrect) {
+  const opts = el.parentElement.querySelectorAll('.qcm-opt');
+  opts.forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if (isCorrect) {
+    const step = document.getElementById(id + '-calc-step');
+    if (step) step.style.display = 'block';
+  }
+}
+function fcrCalc(id, expected, tol) {
+  const raw = document.getElementById(id + '-calc').value;
+  const val = safeEvalExpr(raw);
+  const fb = document.getElementById(id + '-calc-fb');
+  if (val === null) {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Écris un calcul numérique valide (chiffres et ×  /  ²  ³ uniquement).';
+    return;
+  }
+  const ok = Math.abs(val - expected) / Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = ok ? '✓ Calcul correct !' : '✗ Vérifie les valeurs que tu as substituées dans la formule.';
+  if (ok) {
+    const step = document.getElementById(id + '-result-step');
+    if (step) step.style.display = 'block';
+  }
+}
+function fcrResult(id, expected, tol, resultText) {
+  const raw = document.getElementById(id + '-result').value.replace(',', '.').trim();
+  const v = parseFloat(raw);
+  const fb = document.getElementById(id + '-result-fb');
+  if (isNaN(v)) {
+    fb.className = 'exo-fb ko';
+    fb.innerHTML = 'Merci de saisir une valeur numérique.';
+    return;
+  }
+  const ok = Math.abs(v - expected) / Math.abs(expected) < tol;
+  fb.className = ok ? 'exo-fb ok' : 'exo-fb ko';
+  fb.innerHTML = (ok ? '✓ ' : '✗ ') + resultText;
+}
+
 // ── QCM générique ──
 // ── Réinitialisation générique d'un onglet ──
 function reinitialiserOnglet(tabId) {
@@ -1953,26 +2361,29 @@ function reinitialiserOnglet(tabId) {
     inp.value = '';
     inp.classList.remove('correct', 'incorrect');
   });
-  // Réinitialiser les listes déroulantes interactives
-  tab.querySelectorAll('.sel-input').forEach(sel => {
-    sel.selectedIndex = 0;
-    sel.classList.remove('correct', 'incorrect');
-  });
   // Masquer les feedbacks de vérification
   tab.querySelectorAll('.verif-feedback').forEach(fb => {
     fb.textContent = '';
     fb.className = 'verif-feedback';
   });
   // Masquer toutes les corrections et remettre le texte des boutons associés
-  tab.querySelectorAll('.correction').forEach(corr => {
-    corr.classList.remove('visible');
+  tab.querySelectorAll('.reveal-body').forEach(corr => {
+    corr.classList.remove('open');
     // Cherche le bouton correction (peut être dans btn-group-exo ou directement avant)
     let btn = corr.previousElementSibling;
     if (btn && btn.classList.contains('btn-group-exo')) {
-      btn = btn.querySelector('.btn-correction');
+      btn = btn.querySelector('.btn-reveal');
     }
-    if (btn && btn.classList.contains('btn-correction')) btn.textContent = '▶ Voir la correction';
+    if (btn && btn.classList.contains('btn-reveal')) btn.textContent = '▶ Voir la correction';
   });
+  // Réinitialiser les QCM issus des anciens menus déroulants
+  tab.querySelectorAll('.qcm-opts').forEach(group => {
+    group.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
+  });
+  // Réinitialiser les champs et étapes de la structure FCR
+  tab.querySelectorAll('.blank-in').forEach(inp => { inp.value = ''; });
+  tab.querySelectorAll('.fcr-step[id$="-calc-step"], .fcr-step[id$="-result-step"]').forEach(step => { step.style.display = 'none'; });
+  tab.querySelectorAll('.exo-fb').forEach(fb => { fb.className = 'exo-fb'; fb.innerHTML = ''; });
   // Masquer les résultats de calcul
   tab.querySelectorAll('.calc-result').forEach(res => {
     res.classList.remove('visible');
@@ -1980,10 +2391,9 @@ function reinitialiserOnglet(tabId) {
   });
   // Réinitialiser tous les QCM de l'onglet
   tab.querySelectorAll('.qcm-item').forEach(item => {
-    delete item.dataset.done;
     item.style.borderColor = '';
-    item.querySelectorAll('.qcm-btn').forEach(btn => {
-      btn.classList.remove('correct','wrong');
+    item.querySelectorAll('.qcm-opt').forEach(btn => {
+      btn.classList.remove('correct','incorrect');
     });
     const fb = item.querySelector('.qcm-feedback');
     if (fb) {
@@ -1996,29 +2406,40 @@ function reinitialiserOnglet(tabId) {
 function repondreQCM(id, correct, choix, explication, fbId) {
   const item = document.getElementById(id);
   const fb = document.getElementById(fbId);
-  if (item.dataset.done) return;
-  item.dataset.done = '1';
   const ok = choix === correct;
   fb.textContent = ok ? '✓ ' + explication : '✗ La bonne réponse est : ' + correct + '. ' + explication;
   fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
-  item.querySelectorAll('.qcm-btn').forEach(btn => {
+  item.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
+  item.querySelectorAll('.qcm-opt').forEach(btn => {
     if (btn.textContent === correct) btn.classList.add('correct');
-    else if (btn.textContent === choix && !ok) btn.classList.add('wrong');
+    else if (btn.textContent === choix && !ok) btn.classList.add('incorrect');
   });
   item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
+}
+
+// ── QCM cliquable (remplace l'ancien système à menu déroulant) ──
+function qcmSelCheck(el, isCorrect, fbId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(fbId);
+  if (fb) {
+    fb.textContent = isCorrect ? '✓ Bonne réponse !' : '✗ Ce n\'est pas la bonne réponse. Relisez l\'énoncé et réessayez.';
+    fb.className = 'verif-feedback show ' + (isCorrect ? 'ok' : 'ko');
+  }
 }
 
 // ── Correction toggle ──
 function toggleCorr(id) {
   const el = document.getElementById(id);
-  el.classList.toggle('visible');
+  el.classList.toggle('open');
   // Le bouton peut être dans un btn-group-exo ou directement avant
   let btn = el.previousElementSibling;
   if (btn && btn.classList.contains('btn-group-exo')) {
-    btn = btn.querySelector('.btn-correction');
+    btn = btn.querySelector('.btn-reveal');
   }
-  if (btn && btn.classList.contains('btn-correction')) {
-    btn.textContent = el.classList.contains('visible') ? '▼ Masquer la correction' : '▶ Voir la correction';
+  if (btn && btn.classList.contains('btn-reveal')) {
+    btn.textContent = el.classList.contains('open') ? '▼ Masquer la correction' : '▶ Voir la correction';
   }
 }
 
@@ -2103,11 +2524,14 @@ function resetExoFull(exoId, corrId) {
     inp.value = '';
     inp.classList.remove('correct', 'incorrect');
   });
-  // Listes déroulantes
-  exo.querySelectorAll('.sel-input').forEach(sel => {
-    sel.selectedIndex = 0;
-    sel.classList.remove('correct', 'incorrect');
+  // QCM cliquables (anciens boutons et anciens menus déroulants)
+  exo.querySelectorAll('.qcm-opts').forEach(group => {
+    group.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
   });
+  // Réinitialiser les champs et étapes de la structure FCR
+  exo.querySelectorAll('.blank-in').forEach(inp => { inp.value = ''; });
+  exo.querySelectorAll('.fcr-step[id$="-calc-step"], .fcr-step[id$="-result-step"]').forEach(step => { step.style.display = 'none'; });
+  exo.querySelectorAll('.exo-fb').forEach(fb => { fb.className = 'exo-fb'; fb.innerHTML = ''; });
   // Feedbacks
   exo.querySelectorAll('.verif-feedback').forEach(fb => {
     fb.textContent = '';
@@ -2116,10 +2540,10 @@ function resetExoFull(exoId, corrId) {
   // Correction
   const corr = document.getElementById(corrId);
   if (corr) {
-    corr.classList.remove('visible');
+    corr.classList.remove('open');
     const btn = corr.previousElementSibling;
     if (btn && btn.classList.contains('btn-group-exo')) {
-      const corrBtn = btn.querySelector('.btn-correction');
+      const corrBtn = btn.querySelector('.btn-reveal');
       if (corrBtn) corrBtn.textContent = '▶ Voir la correction';
     }
   }

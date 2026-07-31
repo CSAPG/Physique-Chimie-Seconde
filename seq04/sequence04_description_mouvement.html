@@ -19,6 +19,12 @@
     --gris:#f5f5f7;
     --texte:#222;
     --bordure:#ddd;
+    --violet:#7B4FA6;
+    --violet-clair:#F3EDF9;
+    --texte-léger:#5A6B7A;
+    --gris-fond:#F5F7FA;
+    --gris-bord:#DDE3EC;
+    --blanc:#FFFFFF;
   }
   *{box-sizing:border-box;}
   body{
@@ -111,6 +117,53 @@
   .gloss-item{background:#fff;border:1.5px solid var(--bordure);border-radius:10px;padding:12px 16px;}
   .gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:0.9rem;margin-bottom:4px;}
   .gloss-item dd{font-size:0.84rem;color:var(--texte);line-height:1.55;}
+
+  /* ── Système partagé Bilan / Ressources (aligné sur les autres séquences) ── */
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--bleu);
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bleu-clair);
+  }
+  .section-title .icon { font-size: 1.3rem; }
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+  @media (max-width: 560px) {
+    .bilan-grid { grid-template-columns: 1fr; }
+  }
+  .bilan-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .bilan-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--gris-bord);
+  }
+  .bilan-card ul { padding-left: 16px; margin:0; }
+  .bilan-card ul li {
+    font-size: 0.84rem;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    color: var(--texte);
+  }
   .box-rappel{background:var(--bleu-clair); border-color:var(--bleu);}
   .box-formule{
     background:#fff9c4;
@@ -638,25 +691,33 @@ button.cap-toggle:hover { background: #1e4466; }
 
   <!-- ===== BILAN ===== -->
   <div class="sub-tab-content active" id="bilan-sub-0">
-    <h2>📊 Bilan et ressources</h2>
-    <h3>Bilan</h3>
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
     <div class="box box-bilan">
       <p style="text-align:center; font-size:1.1em;"><strong>Décrire le mouvement d'un objet, c'est donner sa trajectoire et l'évolution de sa vitesse dans un référentiel choisi, ce qui implique la relativité du mouvement.</strong></p>
     </div>
 
-    <div class="box" style="margin-top:16px;">
-      <p><strong>✅ Capacités exigibles — synthèse</strong></p>
-      <ul>
-        <li>Identifier les échelles temporelles et spatiales pertinentes de description d'un mouvement.</li>
-        <li>Choisir un référentiel pour décrire le mouvement d'un système.</li>
-        <li>Expliquer, dans le cas de la translation, l'influence du choix du référentiel sur la description du mouvement d'un système.</li>
-        <li>Décrire le mouvement d'un système par celui d'un point et caractériser cette modélisation en termes de perte d'informations.</li>
-        <li>Caractériser différentes trajectoires.</li>
-        <li>Définir le vecteur vitesse moyenne d'un point.</li>
-        <li>Approcher le vecteur vitesse d'un point à l'aide du vecteur déplacement MM', où M et M' sont les positions successives à des instants voisins séparés de Δt ; le représenter.</li>
-        <li>Caractériser un mouvement rectiligne uniforme ou non uniforme.</li>
-        <li>Réaliser et exploiter une vidéo ou une chronophotographie d'un système en mouvement et représenter des vecteurs vitesse.</li>
-      </ul>
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Notions clés</h4>
+        <ul>
+          <li>Un système est décrit par sa trajectoire et sa vitesse dans un référentiel choisi</li>
+          <li>3 référentiels usuels : terrestre, géocentrique, héliocentrique</li>
+          <li>Le mouvement est relatif : il dépend du référentiel d'observation</li>
+          <li>Vecteur déplacement MM' entre deux positions successives</li>
+          <li>Vecteur vitesse : direction tangente à la trajectoire, sens du mouvement</li>
+          <li>Mouvement rectiligne uniforme (v constante) ou non uniforme (accéléré/décéléré)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Vocabulaire</h4>
+        <ul>
+          <li><strong>Référentiel</strong> : solide de référence + repères d'espace et de temps</li>
+          <li><strong>Trajectoire</strong> : ensemble des positions successives d'un point</li>
+          <li><strong>Chronophotographie</strong> : positions superposées à intervalles réguliers</li>
+          <li><strong>Vitesse instantanée</strong> : vitesse moyenne sur un intervalle très court</li>
+          <li><strong>v = MM'/Δt</strong> : formule du vecteur vitesse en un point M</li>
+        </ul>
+      </div>
     </div>
 
     <h3 style="margin-top:22px;">🏛️ Histoire des sciences</h3>
@@ -673,13 +734,21 @@ button.cap-toggle:hover { background: #1e4466; }
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="systeme"><dt>Système</dt><dd>Corps ou objet dont on étudie le mouvement, souvent modélisé par un point.</dd></div>
       <div class="gloss-item" data-term="referentiel systeme"><dt>Référentiel</dt><dd>Solide de référence par rapport auquel on étudie le mouvement, comportant un repère d'espace et un repère de temps.</dd></div>
+      <div class="gloss-item" data-term="referentiel terrestre"><dt>Référentiel terrestre</dt><dd>Référentiel constitué par la Terre ou tout corps fixe par rapport à elle (ex : mouvement d'une voiture, d'un skieur).</dd></div>
+      <div class="gloss-item" data-term="referentiel geocentrique"><dt>Référentiel géocentrique</dt><dd>Référentiel dont l'origine est le centre de la Terre, avec des étoiles considérées comme fixes (ex : mouvement de la Lune, des satellites).</dd></div>
+      <div class="gloss-item" data-term="referentiel heliocentrique"><dt>Référentiel héliocentrique</dt><dd>Référentiel dont l'origine est le centre du Soleil, avec 3 étoiles lointaines fixes (ex : mouvement des planètes du système solaire).</dd></div>
+      <div class="gloss-item" data-term="relativite mouvement"><dt>Relativité du mouvement</dt><dd>Le mouvement d'un système dépend du référentiel choisi pour l'observer : un même système peut être immobile dans un référentiel et en mouvement dans un autre.</dd></div>
       <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un point au cours du mouvement, dans un référentiel donné.</dd></div>
+      <div class="gloss-item" data-term="chronophotographie"><dt>Chronophotographie</dt><dd>Technique consistant à superposer les positions successives d'un système à intervalles de temps égaux, permettant d'en étudier le mouvement.</dd></div>
       <div class="gloss-item" data-term="vecteur deplacement"><dt>Vecteur déplacement MM'</dt><dd>Segment orienté joignant les positions successives M et M' d'un point ; direction du segment, sens de M vers M', norme égale à la distance MM'.</dd></div>
       <div class="gloss-item" data-term="vecteur vitesse moyenne"><dt>Vecteur vitesse moyenne</dt><dd>v_moy = MM' / Δt : rapport du vecteur déplacement par la durée du parcours ; colinéaire au vecteur déplacement.</dd></div>
       <div class="gloss-item" data-term="vitesse instantanee"><dt>Vitesse instantanée</dt><dd>Vitesse à un instant donné, approchée par la vitesse moyenne sur un intervalle de temps très court.</dd></div>
+      <div class="gloss-item" data-term="vecteur vitesse point M"><dt>Vecteur vitesse en un point M</dt><dd>v = MM' / Δt (Δt très court) : direction tangente à la trajectoire, sens du mouvement, valeur la vitesse en m·s⁻¹.</dd></div>
       <div class="gloss-item" data-term="mouvement rectiligne uniforme"><dt>Mouvement rectiligne uniforme</dt><dd>Trajectoire rectiligne (direction de v constante) et valeur de v constante.</dd></div>
       <div class="gloss-item" data-term="mouvement accelere decelere"><dt>Mouvement accéléré / décéléré</dt><dd>Mouvement rectiligne non uniforme : accéléré si la valeur de v augmente, décéléré si elle diminue.</dd></div>
     </dl>
@@ -688,22 +757,71 @@ button.cap-toggle:hover { background: #1e4466; }
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-    <h3>🎥 Vidéos et animations</h3>
-    <div class="box">
-      <p><strong>Bilan et animations interactives</strong></p>
-      <ul>
-        <li><a href="https://www.pearltrees.com/private/id104960065/item801645112?paccess=47d0cedc29b.2fc82238.7d46bb663f57d10051600b36109ceea8" target="_blank" rel="noopener">Bilan Hatier - Décrire un mouvement</a></li>
-        <li><a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener">Animation pour comprendre la relativité du mouvement</a></li>
-        <li><a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener">Animation pour visualiser différentes trajectoires</a></li>
-        <li><a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener">Rappel sur les vecteurs</a></li>
-        <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/referentiel_relativite_mouvement_train.htm" target="_blank" rel="noopener">Référentiel et relativité du mouvement — le train</a></li>
-      </ul>
-      <p><strong>Vidéos sur le vecteur vitesse</strong></p>
-      <ul>
-        <li><a href="https://www.pearltrees.com/private/id104960065/item801646356?paccess=47d0cee82a2.2fc82714.0fe577b815314e9e8c5f07bc0a291d2f" target="_blank" rel="noopener">Le vecteur vitesse</a></li>
-        <li><a href="https://www.pearltrees.com/private/id104960065/item801647939?paccess=47d0ceed119.2fc82d43.10e5abe82754b6cf0a1882c5c825f132" target="_blank" rel="noopener">Comment tracer le vecteur vitesse</a></li>
-        <li><a href="https://www.pearltrees.com/private/id104960065/item801648803?paccess=47d0ceeff39.2fc830a3.67a24fad28bd459f99cdcd09c347db86" target="_blank" rel="noopener">Exercice sur le vecteur vitesse</a></li>
-      </ul>
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104960065/item801645112?paccess=47d0cedc29b.2fc82238.7d46bb663f57d10051600b36109ceea8" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(198,40,40,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Bilan — Décrire un mouvement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104960065/item801646356?paccess=47d0cee82a2.2fc82714.0fe577b815314e9e8c5f07bc0a291d2f" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104960065/item801647939?paccess=47d0ceed119.2fc82d43.10e5abe82754b6cf0a1882c5c825f132" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Comment tracer le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104960065/item801648803?paccess=47d0ceeff39.2fc830a3.67a24fad28bd459f99cdcd09c347db86" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Exercice sur le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Relativité du mouvement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Différentes trajectoires</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Rappel sur les vecteurs</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/referentiel_relativite_mouvement_train.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Référentiel et relativité — le train</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
     </div>
   </div>
   <!-- /bilan-sub-2 -->

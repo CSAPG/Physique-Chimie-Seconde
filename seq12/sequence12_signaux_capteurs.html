@@ -17,6 +17,16 @@
   --line:#d9d3c6;
   --blue:#2D5F8A;
   --blue-light:#E8F1F8;
+  /* Système de couleurs partagé (Ressources) — aligné sur les autres séquences */
+  --bleu:#2D5F8A;--bleu-clair:#E8F1F8;
+  --vert:#3A8A6E;--vert-clair:#E8F5F0;
+  --rouge:#C0392B;--rouge-clair:#FDEDEC;
+  --violet:#7B4FA6;--violet-clair:#F3EDF9;
+  --rose:#C2508A;--rose-clair:#FBEAF2;
+  --jaune:#C9A227;--jaune-clair:#FBF6E3;
+  --texte:#1A2A3A;--texte-léger:#5A6B7A;
+  --gris-fond:#F5F7FA;--gris-bord:#DDE3EC;
+  --blanc:#FFFFFF;
 }
 *{box-sizing:border-box;}
 body{
@@ -397,23 +407,15 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 .signal-controls label{font-weight:700;color:var(--accent);}
 .signal-controls input[type=range]{width:120px;accent-color:var(--accent);}
 
-/* BILAN GRID */
-.bilan-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:14px;margin:14px 0;
-}
-.bilan-card{
-  background:var(--accent-light);border-radius:10px;padding:14px 16px;
-  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.9rem;
-}
-.bilan-card .bc-title{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:0.95rem;}
-.bilan-card.orange{background:var(--accent2-light);}
-.bilan-card.orange .bc-title{color:var(--accent2);}
-.bilan-card.blue{background:var(--blue-light);}
-.bilan-card.blue .bc-title{color:var(--blue);}
-.bilan-card.violet{background:rgba(124,77,186,0.10);}
-.bilan-card.violet .bc-title{color:#7c4dba;}
+/* BILAN / RESSOURCES — système partagé, aligné sur les autres séquences */
+.section-title { font-family: 'Outfit', sans-serif; font-size: 1.18rem; font-weight: 800; color: var(--bleu); margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bleu-clair); }
+.section-title .icon { font-size: 1.3rem; }
+.bilan-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0; }
+@media (max-width:560px){ .bilan-grid{ grid-template-columns:1fr; } }
+.bilan-card{ background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; font-family: 'Nunito', sans-serif; font-size: 0.84rem; line-height:1.6; color:var(--texte); }
+.bilan-card h4, .bilan-card .bc-title{ font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gris-bord); }
+.bilan-card p{ font-size:0.82rem; color:var(--texte-léger); margin-top:4px; line-height:1.5; }
+.exo-tag{display:inline-block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:.75rem;background:#f1efe6;border:1px solid var(--line);border-radius:14px;padding:3px 10px;margin:2px 4px 2px 0;color:#7a8079;}
 
 /* CIRCUIT SCHEMA */
 .circuit-wrap{
@@ -472,7 +474,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       <span class="tab-num">4</span> Capteurs
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(4)">
-      <span class="tab-num">5</span> Bilan &amp; ressources
+      <span class="tab-num">5</span> Bilan &amp; Ressources
     </button>
   </nav>
 
@@ -1093,7 +1095,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 </div><!-- /panel-3 -->
 
 <!-- ================================================================ -->
-<!-- ONGLET 5 : Bilan & ressources -->
+<!-- ONGLET 5 : Bilan & Ressources -->
 <!-- ================================================================ -->
 <div class="panel" id="panel-4">
 
@@ -1104,134 +1106,189 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
   </div>
 
   <div class="sub-tab-content active" id="bilan-sub-0">
-  <div class="card">
-    <h2>📝 Bilan de la séquence</h2>
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
 
     <div class="bilan-grid">
       <div class="bilan-card">
-        <div class="bc-title">⚡ Mesures électriques</div>
-        Voltmètre → en <strong>dérivation</strong> → mesure U (V)<br>
-        Ampèremètre → en <strong>série</strong> → mesure I (A)
-      </div>
-      <div class="bilan-card orange">
-        <div class="bc-title">🔗 Lois des circuits</div>
-        <strong>Loi des mailles :</strong> somme algébrique des U = 0<br>
-        <strong>Loi des nœuds :</strong> ΣI entrants = ΣI sortants
-      </div>
-      <div class="bilan-card blue">
-        <div class="bc-title">📈 Caractéristique U = f(I)</div>
-        Ensemble des points de fonctionnement (I ; U) d'un dipôle.<br>
-        Droite passant par l'origine → conducteur ohmique.
-      </div>
-      <div class="bilan-card violet">
-        <div class="bc-title">🔌 Loi d'Ohm</div>
-        <strong>U = R × I</strong><br>
-        R en Ω, U en V, I en A<br>
-        R = pente de la caractéristique.
+        <h4>⚡ Tension électrique &amp; voltmètre</h4>
+        Tension U<sub>AB</sub> (V), mesurée avec un voltmètre branché <strong>en dérivation</strong>.
       </div>
       <div class="bilan-card">
-        <div class="bc-title">🌡️ Capteurs résistifs</div>
+        <h4>🔵 Intensité &amp; ampèremètre</h4>
+        Intensité I (A), mesurée avec un ampèremètre branché <strong>en série</strong>.
+      </div>
+      <div class="bilan-card">
+        <h4>🔗 Lois en série</h4>
+        <strong>Unicité de l'intensité :</strong> même I partout dans la maille<br>
+        <strong>Additivité des tensions :</strong> U<sub>totale</sub> = ΣU (loi des mailles)
+      </div>
+      <div class="bilan-card">
+        <h4>🔀 Lois en dérivation</h4>
+        <strong>Unicité de la tension :</strong> même U aux bornes de chaque branche<br>
+        <strong>Additivité des intensités :</strong> I<sub>totale</sub> = ΣI (loi des nœuds)
+      </div>
+      <div class="bilan-card">
+        <h4>📈 Conventions &amp; caractéristique U = f(I)</h4>
+        Convention générateur (U, I même sens) / récepteur (sens opposés).<br>
+        Caractéristique = ensemble des points de fonctionnement (I ; U).
+      </div>
+      <div class="bilan-card">
+        <h4>🔌 Conducteur ohmique &amp; loi d'Ohm</h4>
+        Caractéristique = droite par l'origine.<br>
+        <strong>U = R × I</strong> &nbsp;|&nbsp; <strong>R = U / I</strong> &nbsp;|&nbsp; <strong>I = U / R</strong><br>
+        R en Ω, U en V, I en A — mA → A (×10⁻³), kΩ → Ω (×10³)
+      </div>
+      <div class="bilan-card">
+        <h4>🌡️ Capteurs résistifs</h4>
         <strong>CTN :</strong> R diminue si T augmente<br>
         <strong>LDR :</strong> R diminue si éclairement augmente
       </div>
-      <div class="bilan-card orange">
-        <div class="bc-title">⚠️ Limites de fonctionnement</div>
+      <div class="bilan-card">
+        <h4>⚠️ Limites de fonctionnement</h4>
         Ne jamais dépasser U<sub>max</sub> et I<sub>max</sub> d'un dipôle au risque de le détruire.
       </div>
     </div>
-
-    <h3>Formules à retenir</h3>
-    <div class="formula-box" style="font-size:1rem;text-align:left;line-height:2;">
-      <strong>U = R × I</strong> &nbsp;|&nbsp; <strong>R = U / I</strong> &nbsp;|&nbsp; <strong>I = U / R</strong><br>
-      <div class="formula-legend" style="margin-top:4px;">
-        U (V) &nbsp;|&nbsp; R (Ω) &nbsp;|&nbsp; I (A) — Penser à convertir mA → A (× 10⁻³) et kΩ → Ω (× 10³)
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>✅ Capacités exigibles — synthèse</h2>
-    <ul class="ke-list">
-      <li>Mesurer une tension et une intensité à l'aide d'un voltmètre et d'un ampèremètre. Schématiser un circuit électrique simple.</li>
-      <li>Utiliser les lois des circuits électriques (loi des mailles, loi des nœuds).</li>
-      <li>Tracer et exploiter la caractéristique tension-intensité d'un dipôle.</li>
-      <li>Identifier le comportement d'un conducteur ohmique et vérifier la loi d'Ohm : U = R × I.</li>
-      <li>Citer les limites de fonctionnement d'un dipôle. Lire les valeurs maximales sur une caractéristique.</li>
-      <li>Identifier qu'un capteur résistif convertit une grandeur physique (température, éclairement…) en une variation de résistance électrique.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>🎬 Bilan en vidéo</h2>
-    <div class="signal-wrap" style="padding:10px;">
-      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
-        <iframe src="https://www.pearltrees.com/private/id104964821/item802618804?paccess=47d25184ea6.2fd6fdb4.3f4216357ac0093068dd7f0d047c181b"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
-          allowfullscreen title="Bilan vidéo — Signaux et capteurs"></iframe>
-      </div>
-      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;color:#5A6B7A;margin-top:8px;text-align:center;">
-        📺 Vidéo bilan — Signaux et capteurs (Séquence 12)
-      </p>
-    </div>
-  </div>
   </div>
   <!-- /bilan-sub-0 -->
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
-      <div class="gloss-item" data-term="voltmetre ampermetre"><dt>Voltmètre / Ampèremètre</dt><dd>Le voltmètre se branche en dérivation pour mesurer une tension U (V). L'ampèremètre se branche en série pour mesurer une intensité I (A).</dd></div>
-      <div class="gloss-item" data-term="loi mailles noeuds"><dt>Lois des circuits</dt><dd>Loi des mailles : la somme algébrique des tensions le long d'une maille est nulle. Loi des nœuds : la somme des intensités entrantes égale la somme des intensités sortantes.</dd></div>
-      <div class="gloss-item" data-term="caracteristique dipole"><dt>Caractéristique U = f(I)</dt><dd>Ensemble des points de fonctionnement (I ; U) d'un dipôle. Une droite passant par l'origine indique un conducteur ohmique.</dd></div>
-      <div class="gloss-item" data-term="loi ohm resistance"><dt>Loi d'Ohm</dt><dd>U = R × I, avec R en ohms (Ω), U en volts (V), I en ampères (A). R correspond à la pente de la caractéristique.</dd></div>
-      <div class="gloss-item" data-term="capteur resistif ctn ldr"><dt>Capteur résistif</dt><dd>Convertit une grandeur physique en variation de résistance. CTN : la résistance diminue si la température augmente. LDR : la résistance diminue si l'éclairement augmente.</dd></div>
-      <div class="gloss-item" data-term="limites fonctionnement"><dt>Limites de fonctionnement</dt><dd>Valeurs maximales U_max et I_max à ne jamais dépasser pour un dipôle, sous peine de le détruire.</dd></div>
+      <div class="gloss-item" data-term="tension electrique U volt"><dt>Tension électrique</dt><dd>Notée U<sub>AB</sub> entre deux points A et B d'un circuit (différence de potentiel). Unité : le volt (V).</dd></div>
+      <div class="gloss-item" data-term="voltmetre derivation"><dt>Voltmètre</dt><dd>Appareil de mesure de la tension, branché en <strong>dérivation</strong> (en parallèle) aux bornes du dipôle à mesurer. Sa résistance interne très grande le rend non perturbateur pour le circuit.</dd></div>
+      <div class="gloss-item" data-term="intensite courant I ampere"><dt>Intensité du courant électrique</dt><dd>Notée I. Unité : l'ampère (A).</dd></div>
+      <div class="gloss-item" data-term="amperemetre serie"><dt>Ampèremètre</dt><dd>Appareil de mesure de l'intensité, branché <strong>en série</strong> dans le circuit (jamais en parallèle, au risque de court-circuit). Sa résistance interne très faible ne modifie pas le circuit.</dd></div>
+      <div class="gloss-item" data-term="unicite intensite serie"><dt>Loi d'unicité de l'intensité (série)</dt><dd>Dans un circuit en série, l'intensité du courant est la même en tout point de la maille.</dd></div>
+      <div class="gloss-item" data-term="additivite tensions serie loi mailles"><dt>Loi d'additivité des tensions (série)</dt><dd>Dans une maille, la tension totale est égale à la somme des tensions aux bornes de chaque dipôle (loi des mailles) : U<sub>totale</sub> = U₁ + U₂ + …</dd></div>
+      <div class="gloss-item" data-term="unicite tension derivation"><dt>Loi d'unicité de la tension (dérivation)</dt><dd>Des dipôles branchés en dérivation (en parallèle) entre les deux mêmes nœuds sont soumis à la même tension.</dd></div>
+      <div class="gloss-item" data-term="additivite intensites derivation loi noeuds"><dt>Loi d'additivité des intensités (dérivation)</dt><dd>À un nœud, la somme des intensités qui arrivent est égale à la somme des intensités qui repartent (loi des nœuds) : I = I₁ + I₂ + …</dd></div>
+      <div class="gloss-item" data-term="convention generateur"><dt>Convention générateur</dt><dd>Le courant sort par la borne + du dipôle : U et I sont orientés dans le même sens.</dd></div>
+      <div class="gloss-item" data-term="convention recepteur"><dt>Convention récepteur</dt><dd>Le courant entre par la borne + du dipôle : U et I sont orientés dans des sens opposés.</dd></div>
+      <div class="gloss-item" data-term="caracteristique U f I point fonctionnement"><dt>Caractéristique U = f(I)</dt><dd>Courbe représentant la tension U<sub>AB</sub> en fonction de l'intensité I<sub>AB</sub> d'un dipôle. Chaque couple mesuré (I ; U) est un point de fonctionnement.</dd></div>
+      <div class="gloss-item" data-term="limites fonctionnement Umax Imax"><dt>Limites de fonctionnement</dt><dd>Valeurs maximales U<sub>max</sub> et I<sub>max</sub> admissibles pour un dipôle, lues sur sa caractéristique ou sa notice. Les dépasser risque de détériorer ou détruire le dipôle.</dd></div>
+      <div class="gloss-item" data-term="conducteur ohmique"><dt>Conducteur ohmique</dt><dd>Dipôle dont la caractéristique U = f(I) est une droite passant par l'origine : U et I sont proportionnels.</dd></div>
+      <div class="gloss-item" data-term="resistance electrique R ohm"><dt>Résistance électrique (R)</dt><dd>Grandeur (en ohms, Ω) qui caractérise l'opposition d'un conducteur ohmique au passage du courant. Correspond à la pente de la caractéristique : R = U / I.</dd></div>
+      <div class="gloss-item" data-term="loi ohm U R I"><dt>Loi d'Ohm</dt><dd>U = R × I, avec U en volts (V), R en ohms (Ω), I en ampères (A).</dd></div>
+      <div class="gloss-item" data-term="capteur resistif"><dt>Capteur résistif</dt><dd>Dispositif dont la résistance varie en fonction d'une grandeur physique (température, éclairement…), convertissant ainsi cette grandeur en une variation de résistance électrique mesurable.</dd></div>
+      <div class="gloss-item" data-term="thermistance CTN"><dt>Thermistance (CTN)</dt><dd>Capteur résistif à coefficient de température négatif : sa résistance diminue quand la température augmente. Utilisée pour mesurer la température.</dd></div>
+      <div class="gloss-item" data-term="photoresistance LDR"><dt>Photorésistance (LDR)</dt><dd>Capteur résistif (Light Dependent Resistor) dont la résistance diminue quand l'éclairement augmente. Utilisée pour détecter la lumière (détecteurs crépusculaires, alarmes…).</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-  <div class="card">
-    <h2>📚 Ressources et exercices</h2>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div class="bilan-grid">
 
-    <h3>Exercices du manuel</h3>
-    <div class="pastilles">
-      <a class="pastille" href="#" onclick="return false;">p320 n°17-18 — Lois des circuits</a>
-      <a class="pastille" href="#" onclick="return false;">p321 n°26-27 — Loi d'Ohm</a>
-      <a class="pastille" href="#" onclick="return false;">p321 n°29 — Conducteur ohmique</a>
-      <a class="pastille" href="#" onclick="return false;">p321 n°31 — Caractéristique</a>
-      <a class="pastille alt" href="#" onclick="return false;">p322 n°32 — Dipôle</a>
-      <a class="pastille alt" href="#" onclick="return false;">p322 n°36 — Capteurs (corrigé)</a>
-      <a class="pastille alt" href="#" onclick="return false;">p328 n°53 — Exercice bilan</a>
-    </div>
-
-    <h3>Simulation PhET — Circuit électrique</h3>
-    <div class="signal-wrap" style="padding:10px;">
-      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
-        <iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html?locale=fr"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
-          allowfullscreen title="Simulation PhET — Circuits électriques"></iframe>
-      </div>
-      <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.8rem;color:#5A6B7A;margin-top:8px;text-align:center;">
-        💡 Construis un circuit, place un voltmètre et un ampèremètre, vérifie la loi d'Ohm
-      </p>
-    </div>
-
-    <h3>Vidéo ressource</h3>
-    <div class="pastilles">
-      <a class="pastille violet" href="https://www.youtube.com/results?search_query=loi+d%27ohm+seconde+physique" target="_blank">
-        📺 Loi d'Ohm — vidéos YouTube
+      <a href="https://www.pearltrees.com/private/id104964821/item802618866?paccess=47dfac797b7.2fd6fdf2.f1a97684ce07571b180a3ea11cfde272" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 L'intensité du courant</h4>
+          <p>Paul Olivier · 5 min 17</p>
+        </div>
       </a>
-      <a class="pastille violet" href="https://www.youtube.com/results?search_query=capteur+resistif+CTN+LDR+physique" target="_blank">
-        📺 Capteurs CTN et LDR
+
+      <a href="https://www.pearltrees.com/private/id104964821/item802619123?paccess=47dfac847e2.2fd6fef3.506063e01eff046656cd8be6b1e2b662" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Qu'est-ce que la tension électrique ?</h4>
+          <p>Paul Olivier · 4 min 18</p>
+        </div>
       </a>
+
+      <a href="https://www.pearltrees.com/private/id104964821/item802619167?paccess=47dfac8fa49.2fd6ff1f.345dfaa287e1e51024560ebb3dbd366b" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Ampèremètre ou voltmètre ?</h4>
+          <p>Paul Olivier · 2 min 59</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964821/item802618829?paccess=47dfac6d243.2fd6fdcd.108b5cfb140d17f40eb04824b45968ea" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Circuit électrique — Intensité, tension, loi des mailles, loi des nœuds</h4>
+          <p>Paul Olivier · 18 min 27</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964821/item802619046?paccess=47dfac9d9b5.2fd6fea6.28f5c4f6c92b6dd6c135c61ca75fe992" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 La loi d'Ohm : résistance, tension, intensité</h4>
+          <p>Paul Olivier · 3 min 56</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964821/item802618804?paccess=47d25184ea6.2fd6fdb4.3f4216357ac0093068dd7f0d047c181b" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Bilan vidéo — Signaux et capteurs</h4>
+          <p>Paul Olivier.</p>
+        </div>
+      </a>
+
     </div>
 
-  </div>
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div class="bilan-grid">
+
+      <a href="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Circuits électriques</h4>
+          <p>Construis un circuit, place un voltmètre et un ampèremètre, vérifie la loi d'Ohm.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div class="bilan-grid">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_17/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 17</h4>
+          <p>Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_18/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 18</h4>
+          <p>Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_17/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — Chapitre 17</h4>
+          <p>Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div class="bilan-grid">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_loisdescircuits/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🧩 Activité interactive — Lois des circuits</h4>
+          <p>Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <h3 style="margin-top:22px;">Exercices du manuel</h3>
+    <span class="exo-tag">p320 n°17-18 — Lois des circuits</span>
+    <span class="exo-tag">p321 n°26-27 — Loi d'Ohm</span>
+    <span class="exo-tag">p321 n°29 — Conducteur ohmique</span>
+    <span class="exo-tag">p321 n°31 — Caractéristique</span>
+    <span class="exo-tag">p322 n°32 — Dipôle</span>
+    <span class="exo-tag">p322 n°36 — Capteurs (corrigé)</span>
+    <span class="exo-tag">p328 n°53 — Exercice bilan</span>
+
   </div>
   <!-- /bilan-sub-2 -->
+
 </div><!-- /panel-4 -->
 
 </div><!-- /wrap -->

@@ -29,7 +29,7 @@
     --blanc: #FFFFFF;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Nunito', sans-serif; background: #F0F4F8; color: var(--texte); min-height: 100vh; }
+  body { font-family: 'Nunito', sans-serif; background: #F0F4F8; padding: 14px; color: var(--texte); min-height: 100vh; }
 
   /* ── HEADER ── */
   .header {
@@ -38,7 +38,7 @@
     border-bottom: 3px solid var(--bleu);
     border-radius: 14px;
     padding: 18px 24px 14px;
-    max-width: 860px;
+    max-width: 1300px;
     margin: 0 auto 24px;
     position: sticky; top: 0; z-index: 100;
     box-shadow: 0 2px 12px rgba(45,95,138,0.10);
@@ -66,7 +66,7 @@
   .tab-btn.active .tab-num { background: var(--bleu); color: white; }
 
   /* ── CONTENU ── */
-  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
@@ -240,8 +240,25 @@
 
   .bilan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
   @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    body { padding: 6px; }
+    .header { padding: 12px 16px 10px; }
+    .header-titles h1 { font-size: 1.05rem; }
+    .main { padding: 18px 12px 50px; }
+  }
   .bilan-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; }
   .bilan-card h4 { font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gris-bord); }
+  .sub-tabs-nav { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: nowrap; overflow-x: auto; }
+  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: var(--bleu-clair); color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
+  .sub-tab-btn.active { background: var(--bleu); color: #fff; }
+  .sub-tab-content { display: none; }
+  .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  .gloss-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gris-bord); border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; margin-bottom: 16px; }
+  .gloss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; list-style: none; padding: 0; }
+  @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
+  .gloss-item { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 10px; padding: 12px 16px; }
+  .gloss-item dt { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--bleu); font-size: 0.9rem; margin-bottom: 4px; }
+  .gloss-item dd { font-size: 0.84rem; color: var(--texte); line-height: 1.55; }
 
   .footer-note { text-align: center; font-size: 0.78rem; color: var(--texte-léger); padding: 20px; border-top: 1px solid var(--gris-bord); margin-top: 30px; }
   sup { font-size: 0.65em; }
@@ -283,7 +300,7 @@
 </head>
 <body>
 
-<div style="max-width:860px;margin:24px auto 0;padding:0 20px;">
+<div style="max-width:1300px;margin:24px auto 0;padding:0 20px;">
 <div class="header">
   <div class="header-top">
     <div class="header-left">
@@ -847,6 +864,90 @@
 <!-- ══════════════════════════════════ -->
 <div class="tab-content" id="tab-2">
 
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+
+  <!-- Notions essentielles -->
+  <div class="section-title">📋 Notions essentielles à retenir</div>
+
+  <div class="bilan-grid">
+    <div class="bilan-card">
+      <h4>⚗️ Équation de réaction</h4>
+      <ul class="ke-list">
+        <li>Conservation des atomes et des charges</li>
+        <li>Réactifs → Produits (espèces spectatrices exclues)</li>
+        <li>Coefficients stœchiométriques à ajuster</li>
+        <li>Exemples : combustion, corrosion acide, action sur calcaire</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>📊 Réactif limitant</h4>
+      <ul class="ke-list">
+        <li>Entièrement consommé en fin de réaction</li>
+        <li>Comparer n<sub>A</sub>/n<sub>B</sub> à a/b</li>
+        <li>Identifiable via les espèces présentes dans l'état final</li>
+        <li>Utiliser la proportionnalité pour les calculs</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>🌿 Espèces chimiques</h4>
+      <ul class="ke-list">
+        <li>Naturelle : issue de la nature</li>
+        <li>Synthétique : fabriquée par l'Homme</li>
+        <li>Artificielle : n'existe pas dans la nature</li>
+        <li>Synthétique peut être identique au naturel</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>🔬 Synthèse — 4 étapes</h4>
+      <ul class="ke-list">
+        <li>Prélèvement des réactifs (masse ou volume)</li>
+        <li>Réaction (reflux si nécessaire)</li>
+        <li>Isolement (extraction, filtration…)</li>
+        <li>Analyse et identification (CCM, T°fusion…)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:22px;">✅ Capacités exigibles — synthèse</div>
+  <div class="bilan-card">
+    <ul class="ke-list">
+      <li>Modéliser, à partir de données expérimentales, une transformation par une réaction, établir l'équation de réaction associée et l'ajuster.</li>
+      <li>Identifier le réactif limitant à partir des quantités de matière des réactifs et de l'équation de réaction.</li>
+      <li>Déterminer le réactif limitant lors d'une transformation chimique totale, à partir de l'identification des espèces chimiques dans l'état final.</li>
+      <li>Mesurer une variation de température pour déterminer le caractère endothermique ou exothermique et étudier l'influence de la masse du réactif limitant.</li>
+      <li>Établir qu'une espèce synthétisée au laboratoire peut être identique à une espèce naturelle. Réaliser le schéma légendé d'un montage à reflux et d'une CCM.</li>
+      <li>Mettre en œuvre un montage à reflux pour synthétiser une espèce chimique présente dans la nature.</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">Séquence 07 · Physique-Chimie 2<sup>nde</sup> · C. Poirault-Gauvin</div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="transformation chimique"><dt>Transformation chimique</dt><dd>Passage d'un système chimique d'un état initial à un état final avec formation de nouvelles espèces chimiques. Réactifs consommés, produits formés, espèces spectatrices inchangées.</dd></div>
+      <div class="gloss-item" data-term="equation reaction"><dt>Équation de réaction</dt><dd>aA + bB → cC + dD : traduit la conservation des éléments et de la charge électrique entre réactifs et produits, grâce aux coefficients stœchiométriques a, b, c, d.</dd></div>
+      <div class="gloss-item" data-term="reactif limitant"><dt>Réactif limitant</dt><dd>Réactif entièrement consommé en fin de transformation chimique totale. Si n_A/n_B < a/b, A est limitant et B en excès.</dd></div>
+      <div class="gloss-item" data-term="espece naturelle"><dt>Espèce naturelle</dt><dd>Espèce chimique issue de la nature (plantes, minéraux, animaux…).</dd></div>
+      <div class="gloss-item" data-term="espece synthetique artificielle"><dt>Espèce synthétique / artificielle</dt><dd>Synthétique : fabriquée par l'Homme, qu'elle existe ou non dans la nature. Artificielle : n'existe pas dans la nature.</dd></div>
+      <div class="gloss-item" data-term="montage reflux"><dt>Montage à reflux</dt><dd>Permet de chauffer le milieu réactionnel pour accélérer la transformation sans perte de matière : les vapeurs sont condensées par le réfrigérant et retombent dans le ballon.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+
   <div class="section-title">📺 Vidéo bilan</div>
 
   <a class="bilan-video-card" href="https://www.pearltrees.com/private/id104964411/item801674569?paccess=47d1d580203.2fc89549.6cbd35141306a2d6110643cadd87fca2" target="_blank">
@@ -895,55 +996,30 @@
     </div>
     <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
   </a>
-
-  <!-- Notions essentielles -->
-  <div class="section-title">📋 Notions essentielles à retenir</div>
-
-  <div class="bilan-grid">
-    <div class="bilan-card">
-      <h4>⚗️ Équation de réaction</h4>
-      <ul class="ke-list">
-        <li>Conservation des atomes et des charges</li>
-        <li>Réactifs → Produits (espèces spectatrices exclues)</li>
-        <li>Coefficients stœchiométriques à ajuster</li>
-        <li>Exemples : combustion, corrosion acide, action sur calcaire</li>
-      </ul>
-    </div>
-    <div class="bilan-card">
-      <h4>📊 Réactif limitant</h4>
-      <ul class="ke-list">
-        <li>Entièrement consommé en fin de réaction</li>
-        <li>Comparer n<sub>A</sub>/n<sub>B</sub> à a/b</li>
-        <li>Identifiable via les espèces présentes dans l'état final</li>
-        <li>Utiliser la proportionnalité pour les calculs</li>
-      </ul>
-    </div>
-    <div class="bilan-card">
-      <h4>🌿 Espèces chimiques</h4>
-      <ul class="ke-list">
-        <li>Naturelle : issue de la nature</li>
-        <li>Synthétique : fabriquée par l'Homme</li>
-        <li>Artificielle : n'existe pas dans la nature</li>
-        <li>Synthétique peut être identique au naturel</li>
-      </ul>
-    </div>
-    <div class="bilan-card">
-      <h4>🔬 Synthèse — 4 étapes</h4>
-      <ul class="ke-list">
-        <li>Prélèvement des réactifs (masse ou volume)</li>
-        <li>Réaction (reflux si nécessaire)</li>
-        <li>Isolement (extraction, filtration…)</li>
-        <li>Analyse et identification (CCM, T°fusion…)</li>
-      </ul>
-    </div>
   </div>
+  <!-- /bilan-sub-2 -->
 
-  <div class="footer-note">Séquence 07 · Physique-Chimie 2<sup>nde</sup> · C. Poirault-Gauvin</div>
 </div><!-- /tab-2 -->
 
 </div><!-- /main -->
 
 <script>
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-content');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
 // ── TABS ──
 function switchTab(n) {
   document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i===n));

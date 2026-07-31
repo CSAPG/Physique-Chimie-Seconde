@@ -19,6 +19,20 @@
   --color-border-primary:#cbd5e1;
   --color-border-secondary:#e2e8f0;
   --color-border-tertiary:#eef2f7;
+  /* Système de couleurs partagé (Bilan / Ressources) — aligné sur les autres séquences */
+  --bleu:#2D5F8A;
+  --bleu-clair:#E8F1F8;
+  --vert:#3A8A6E;
+  --vert-clair:#E8F5F0;
+  --rouge:#C0392B;
+  --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6;
+  --violet-clair:#F3EDF9;
+  --texte:#1A2A3A;
+  --texte-léger:#5A6B7A;
+  --gris-fond:#F5F7FA;
+  --gris-bord:#DDE3EC;
+  --blanc:#FFFFFF;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#f0f7ff}
@@ -63,6 +77,53 @@ h3{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;
 @media (max-width:600px){ .gloss-grid{grid-template-columns:1fr} }
 .gloss-item{background:var(--color-background-primary);border:1.5px solid var(--color-border-secondary);border-radius:10px;padding:12px 16px}
 .gloss-item dt{font-weight:800;color:#185FA5;font-size:0.9rem;margin-bottom:4px}
+
+/* ── Système partagé Bilan / Ressources (aligné sur les autres séquences) ── */
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--bleu);
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--bleu-clair);
+}
+.section-title .icon { font-size: 1.3rem; }
+.bilan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+@media (max-width: 560px) {
+  .bilan-grid { grid-template-columns: 1fr; }
+}
+.bilan-card {
+  background: var(--blanc);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Nunito', sans-serif;
+}
+.bilan-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--bleu);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--gris-bord);
+}
+.bilan-card ul { padding-left: 16px; margin:0; }
+.bilan-card ul li {
+  font-size: 0.84rem;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  color: var(--texte);
+}
 .gloss-item dd{font-size:0.84rem;color:var(--color-text-primary);line-height:1.55}
 .formule-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:10px}
 .formule-main{text-align:center;font-size:1.2em;font-weight:500;color:#A32D2D;background:#FCEBEB;padding:12px 16px;border-radius:8px;margin-bottom:10px}
@@ -435,19 +496,26 @@ button.cap-toggle:hover{background:#0d4a85}
 
   <!-- ===== BILAN ===== -->
   <div class="sub-tab-content active" id="bilan-sub-0">
-    <div class="formule-block">
-      <div class="formule-title">✅ Capacités exigibles — synthèse</div>
-      <div class="formule-vars" style="flex-direction:column;gap:6px;">
-        <span>Déterminer la masse d'une entité à partir de sa formule brute et des masses atomiques.</span>
-        <span>Calculer le nombre d'entités N dans un échantillon de masse m donnée.</span>
-        <span>Calculer la quantité de matière n à partir de N et de N<sub>A</sub>.</span>
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Masse &amp; Entités</h4>
+        <ul>
+          <li>Masse d'une entité = somme des masses de tous ses atomes</li>
+          <li>N = m<sub>échantillon</sub> / m<sub>entité</sub></li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Quantité de matière</h4>
+        <ul>
+          <li>n = N / N<sub>A</sub></li>
+          <li>N<sub>A</sub> = 6,02×10²³ mol⁻¹ (constante d'Avogadro)</li>
+          <li>Mole = lot de N<sub>A</sub> entités</li>
+        </ul>
       </div>
     </div>
-    <h3>Bilan vidéo</h3>
-    <a href="https://www.pearltrees.com/private/id104961755/item801654427?paccess=47d161775fe.2fc8469b.42ca52dd2f77ca92c5c0ed4ba90f7e2c" target="_blank" class="vid-box" style="display:block;text-decoration:none;cursor:pointer">
-      <span style="font-size:32px" aria-hidden="true">▶️</span>
-      <div style="font-size:14px;color:#185FA5;font-weight:500;margin-top:10px">Voir la vidéo de bilan — Quantité de matière</div>
-    </a>
+
     <h3>Histoire des sciences</h3>
     <a href="https://view.genially.com/6a326a04285f20a29c6e84b0" target="_blank" class="vid-box" style="display:block;text-decoration:none;cursor:pointer">
       <span style="font-size:32px" aria-hidden="true">🕰️</span>
@@ -458,6 +526,7 @@ button.cap-toggle:hover{background:#0d4a85}
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="masse entite"><dt>Masse d'une entité</dt><dd>Somme des masses de tous les atomes qui la composent ; si un atome apparaît plusieurs fois, on multiplie sa masse par ce nombre.</dd></div>
@@ -471,11 +540,76 @@ button.cap-toggle:hover{background:#0d4a85}
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-    <h3>Liens utiles</h3>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
-      <a href="https://www.hatier-clic.fr/pc2084" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">🔗</span>Prérequis — Hatier Clic</a>
-      <a href="https://iupac.org/new-definition-mole-arrived/" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">🔗</span>Nouvelle définition de la mole — IUPAC</a>
-      <a href="https://www.pearltrees.com/private/id104961755/item801654433?paccess=47d16191f18.2fc846a1.11cc1fb6fdf55ccaf980d694977666e6" target="_blank" style="font-size:14px;color:var(--color-text-info)"><span style="font-size:13px;margin-right:4px" aria-hidden="true">▶️</span>Vidéo complémentaire — Bilan quantité de matière</a>
+
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104961755/item809867926?paccess=47dfa3d3878.30459a96.68b66f2d8d30e6dfd0d4b4a4d8f38096" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Calculer une quantité de matière (mol) — Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 15</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104961755/item801654427?paccess=47d161775fe.2fc8469b.42ca52dd2f77ca92c5c0ed4ba90f7e2c" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Vidéo de bilan — Quantité de matière</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104961755/item801654433?paccess=47d16191f18.2fc846a1.11cc1fb6fdf55ccaf980d694977666e6" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Vidéo complémentaire — Bilan quantité de matière</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">e-profs.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_05/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_05/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/pc2084" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🔗 Prérequis</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier Clic.</p>
+        </div>
+      </a>
+
+      <a href="https://iupac.org/new-definition-mole-arrived/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔗 La nouvelle définition de la mole</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">IUPAC.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
     </div>
   </div>
   <!-- /bilan-sub-2 -->

@@ -1073,7 +1073,7 @@ button.cap-toggle:hover { background: #1e4466; }
       <span class="tab-num">4</span> Dilution & étalonnage
     </button>
     <button class="tab-btn" onclick="switchTab(4)">
-      <span class="tab-num">5</span> Bilan
+      <span class="tab-num">5</span> Bilan & Ressources
     </button>
   </nav>
   <div class="cap-panel" id="capPanel">
@@ -2181,21 +2181,33 @@ button.cap-toggle:hover { background: #1e4466; }
 
     <div class="bilan-grid">
       <div class="bilan-card">
-        <h4>Formules clés</h4>
+        <h4>Solution : solvant, soluté</h4>
         <ul class="ke-list">
-          <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
-          <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
-          <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
-          <li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
+          <li>Solution = solvant (liquide majoritaire) + soluté(s) (dissous, minoritaire)</li>
+          <li>Mélange liquide homogène</li>
         </ul>
       </div>
       <div class="bilan-card">
-        <h4>Vocabulaire</h4>
+        <h4>Concentration en masse</h4>
         <ul class="ke-list">
-          <li><strong>Solvant</strong> : liquide majoritaire</li>
-          <li><strong>Soluté</strong> : espèce dissoute</li>
-          <li><strong>Saturation</strong> : limite de dissolution</li>
-          <li><strong>Solution mère / fille</strong> : avant / après dilution</li>
+          <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
+          <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Dissolution &amp; verrerie</h4>
+        <ul class="ke-list">
+          <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
+          <li>Solution saturée : concentration maximale C<sub>max</sub> atteinte</li>
+          <li>Fiole jaugée / pipette jaugée : mesures de volume précises</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Dilution &amp; étalonnage</h4>
+        <ul class="ke-list">
+          <li><strong>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></strong> (facteur de dilution)</li>
+          <li>F = 10 → la concentration est divisée par 10</li>
+          <li>Gamme d'étalonnage : solutions de concentrations connues, pour comparaison (échelle de teinte…)</li>
         </ul>
       </div>
     </div>

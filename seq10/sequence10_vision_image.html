@@ -28,6 +28,28 @@
   --ff-serif:  'Crimson Pro', Georgia, serif;
   --ff-sans:   'Outfit', sans-serif;
   --ff-mono:   'DM Mono', monospace;
+
+  /* ── Variables séquence 01 (onglet Bilan & Ressources) ── */
+  --bleu: #2D5F8A;
+  --bleu-clair: #E8F1F8;
+  --bleu-moyen: #5B8FB9;
+  --bleu-activite: #EEF5FB;
+  --bleu-activite-bord: #B8D4EC;
+  --orange: #E8783A;
+  --orange-clair: #FDF0E8;
+  --vert: #3A8A6E;
+  --vert-clair: #E8F5F0;
+  --vert-exo: #F0FAF6;
+  --vert-exo-bord: #B2DDD0;
+  --gris-fond: #F5F7FA;
+  --gris-bord: #DDE3EC;
+  --texte: #1A2A3A;
+  --texte-léger: #5A6B7A;
+  --blanc: #FFFFFF;
+  --rouge: #C0392B;
+  --rouge-clair: #FDEDEC;
+  --violet: #7B4FA6;
+  --violet-clair: #F3EDF9;
 }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -54,7 +76,10 @@ body {
   border-radius: 14px;
   padding: 18px 24px 14px;
   max-width: 1300px;
-  margin: 20px auto 24px;
+  margin: 0 auto 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   box-shadow: 0 2px 12px rgba(45,95,138,0.10);
 }
 
@@ -63,7 +88,7 @@ body {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 0;
+  margin-bottom: 14px;
 }
 
 .header-left {
@@ -152,62 +177,224 @@ button.cap-toggle:hover { background: #1e4466; }
 }
 
 /* ══════════════════════════════════════════
-   BARRE D'ONGLETS
+   BARRE D'ONGLETS (identique séquence 01)
 ══════════════════════════════════════════ */
-.tab-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(250,250,247,0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-}
-
-.tab-bar-inner {
-  max-width: 1300px;
-  margin: 0 auto;
+.tabs-nav {
   display: flex;
-  align-items: stretch;
   gap: 0;
   overflow-x: auto;
   scrollbar-width: none;
 }
-
-.tab-bar-inner::-webkit-scrollbar { display: none; }
+.tabs-nav::-webkit-scrollbar { display: none; }
 
 .tab-btn {
-  font-family: var(--ff-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px 12px;
   border: none;
-  border-bottom: 3px solid transparent;
-  padding: 14px 18px 11px;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texte-léger);
   cursor: pointer;
-  transition: var(--tr);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
   white-space: nowrap;
-  flex-shrink: 0;
+  position: relative;
+  bottom: -3px;
   outline: none;
 }
+.tab-btn:hover { color: var(--bleu); }
+.tab-btn.active {
+  color: var(--bleu);
+  border-bottom-color: var(--bleu);
+  background: var(--bleu-clair);
+  border-radius: 6px 6px 0 0;
+}
+.tab-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--gris-bord);
+  color: var(--texte-léger);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.tab-btn.active .tab-num {
+  background: var(--bleu);
+  color: white;
+}
 
-.tab-btn:hover { color: var(--accent1); background: rgba(26,107,90,0.04); }
-.tab-btn.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+/* ══════════════════════════════════════════
+   ONGLET BILAN & RESSOURCES (identique séquence 01)
+══════════════════════════════════════════ */
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--bleu);
+  margin: 24px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--bleu-clair);
+}
+.section-title .icon { font-size: 1.2rem; }
 
-.tab-btn.t2:hover { color: var(--accent2); background: rgba(184,92,0,0.04); }
-.tab-btn.t2.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+.sub-tabs-nav {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.sub-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border: none;
+  background: #b8cfe0;
+  color: var(--bleu);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.sub-tab-btn.active { background: #1e4466; color: #fff; }
+.sub-tab-content { display: none; }
+.sub-tab-content.active { display: block; animation: tabFadeIn 0.2s ease; }
 
-.tab-btn.t3:hover { color: var(--gold); background: rgba(200,154,46,0.04); }
-.tab-btn.t3.active { color: var(--gold); border-bottom-color: var(--gold); }
+.gloss-search {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+.gloss-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+@media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
+.gloss-item {
+  background: var(--blanc);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.gloss-item dt {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  color: var(--bleu);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+.gloss-item dd { font-size: 0.84rem; color: var(--texte); line-height: 1.55; }
 
-.tab-btn.t4:hover { color: var(--accent4); background: rgba(139,26,58,0.04); }
-.tab-btn.t4.active { color: var(--accent4); border-bottom-color: var(--accent4); }
+.bilan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+@media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+.bilan-card {
+  background: var(--blanc);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 12px;
+  padding: 16px;
+}
+.bilan-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--bleu);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--gris-bord);
+}
+.bilan-card ul { padding-left: 16px; }
+.bilan-card ul li {
+  font-size: 0.84rem;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  color: var(--texte);
+}
+.ke-list { list-style: none; padding: 0; }
+.ke-list li {
+  padding: 6px 10px 6px 28px;
+  position: relative;
+  font-size: 0.84rem;
+  border-bottom: 1px solid var(--gris-bord);
+  line-height: 1.5;
+}
+.ke-list li:last-child { border-bottom: none; }
+.ke-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 8px;
+  color: var(--vert);
+  font-weight: 800;
+  font-size: 0.90rem;
+}
 
-.tab-btn.tq:hover { color: #7a5800; background: rgba(160,110,0,0.04); }
-.tab-btn.tq.active { color: #7a5800; border-bottom-color: #c89a2e; }
+.game-link-card {
+  background: linear-gradient(135deg, #EEF5FB 0%, #FDF0E8 100%);
+  border: 2px solid var(--bleu);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.game-link-icon { font-size: 2.4rem; flex-shrink: 0; }
+.game-link-text h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--bleu);
+  margin-bottom: 4px;
+}
+.game-link-text p {
+  font-size: 0.84rem;
+  color: var(--texte-léger);
+  line-height: 1.5;
+}
+.btn-jeu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 26px;
+  background: var(--orange);
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(232,120,58,0.30);
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.btn-jeu:hover { background: #C9622A; transform: translateY(-1px); }
+.btn-jeu:active { transform: translateY(0); }
 
 /* ══════════════════════════════════════════
    PANNEAUX D'ONGLETS
@@ -1183,7 +1370,27 @@ footer {
       </svg>
     </div>
   </div>
-</div>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="showTab('t1',this)">
+      <span class="tab-num">1</span> Propagation
+    </button>
+    <button class="tab-btn" onclick="showTab('t2',this)">
+      <span class="tab-num">2</span> Snell-Descartes
+    </button>
+    <button class="tab-btn" onclick="showTab('t3',this)">
+      <span class="tab-num">3</span> Spectres
+    </button>
+    <button class="tab-btn" onclick="showTab('t4',this)">
+      <span class="tab-num">4</span> Lentilles & œil
+    </button>
+    <button class="tab-btn" onclick="showTab('tq',this)">
+      <span class="tab-num">✦</span> Quiz
+    </button>
+    <button class="tab-btn" onclick="showTab('t5',this)">
+      <span class="tab-num">6</span> Bilan & Ressources
+    </button>
+  </nav>
 
 <div class="cap-panel" id="capPanel">
   <div class="cap-panel-title">⚑ Capacités exigibles du B.O. — vue d'ensemble</div>
@@ -1226,17 +1433,7 @@ footer {
     </ul>
   </div>
 </div>
-
-<!-- ══════ BARRE D'ONGLETS ══════ -->
-<nav class="tab-bar">
-  <div class="tab-bar-inner">
-    <button class="tab-btn active" onclick="showTab('t1',this)">01 · Propagation</button>
-    <button class="tab-btn t2"     onclick="showTab('t2',this)">02 · Snell-Descartes</button>
-    <button class="tab-btn t3"     onclick="showTab('t3',this)">03 · Spectres</button>
-    <button class="tab-btn t4"     onclick="showTab('t4',this)">04 · Lentilles &amp; œil</button>
-    <button class="tab-btn tq"     onclick="showTab('tq',this)">✦ Quiz</button>
-  </div>
-</nav>
+</div><!-- /fin .header -->
 
 <!-- ══════ CONTENU ══════ -->
 <main>
@@ -2522,6 +2719,336 @@ footer {
 </section>
 </div><!-- /tab-panel tq -->
 
+<!-- ─── PANNEAU 6 — Bilan & Ressources ─── -->
+<div class="tab-panel" id="t5">
+<section class="section" id="bilan">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="section-title"><span class="icon">📋</span>Bilan de la séquence</div>
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Propagation de la lumière</h4>
+        <ul class="ke-list">
+          <li>Propagation rectiligne dans un milieu transparent et homogène</li>
+          <li>c = 3,00 × 10⁸ m·s⁻¹ dans le vide (valeur max. de vitesse)</li>
+          <li>Indice de réfraction n = c / v, avec n ≥ 1 toujours</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Lois de Snell-Descartes</h4>
+        <ul class="ke-list">
+          <li>Réflexion : i<sub>r</sub> = i<sub>1</sub></li>
+          <li>Réfraction : n<sub>1</sub>·sin i<sub>1</sub> = n<sub>2</sub>·sin i<sub>2</sub></li>
+          <li>Angles mesurés par rapport à la normale au point d'incidence</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Dispersion et spectres</h4>
+        <ul class="ke-list">
+          <li>Lumière blanche = polychromatique (superposition de radiations)</li>
+          <li>n dépend de λ → dispersion par un prisme (violet plus dévié que rouge)</li>
+          <li>Lumière monochromatique caractérisée par sa longueur d'onde λ</li>
+          <li>Domaine visible ≈ 400–800 nm, encadré par l'UV et l'IR</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Lentilles convergentes</h4>
+        <ul class="ke-list">
+          <li>Foyers F et F' symétriques par rapport au centre optique O : OF = OF' = f'</li>
+          <li>Grandissement : γ = A'B' / AB = OA' / OA</li>
+          <li>Construction géométrique de l'image avec 2 rayons particuliers</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Modèle réduit de l'œil</h4>
+        <ul class="ke-list">
+          <li>Cornée + cristallin ≈ lentille convergente</li>
+          <li>Rétine ≈ écran, à distance fixe du cristallin</li>
+          <li>Accommodation : le cristallin fait varier f' pour former l'image sur la rétine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="propagation rectiligne"><dt>Propagation rectiligne</dt><dd>Dans un milieu transparent et homogène, la lumière se propage en ligne droite.</dd></div>
+      <div class="gloss-item" data-term="vitesse lumiere celerite"><dt>Célérité de la lumière c</dt><dd>Vitesse de la lumière dans le vide : c = 3,00 × 10⁸ m·s⁻¹. C'est la vitesse maximale possible.</dd></div>
+      <div class="gloss-item" data-term="indice de refraction"><dt>Indice de réfraction n</dt><dd>Grandeur sans dimension caractérisant un milieu transparent : n = c / v, toujours n ≥ 1.</dd></div>
+      <div class="gloss-item" data-term="reflexion"><dt>Réflexion</dt><dd>Renvoi d'un rayon lumineux par une surface, avec un angle de réflexion égal à l'angle d'incidence : i<sub>r</sub> = i<sub>1</sub>.</dd></div>
+      <div class="gloss-item" data-term="refraction"><dt>Réfraction</dt><dd>Changement de direction d'un rayon lumineux en traversant la surface séparant deux milieux transparents différents.</dd></div>
+      <div class="gloss-item" data-term="normale"><dt>Normale</dt><dd>Droite perpendiculaire à la surface au point d'incidence, servant de référence pour mesurer les angles.</dd></div>
+      <div class="gloss-item" data-term="angle incidence refraction"><dt>Angle d'incidence / de réfraction</dt><dd>Angles i₁ et i₂ formés entre les rayons incident/réfracté et la normale.</dd></div>
+      <div class="gloss-item" data-term="lumiere monochromatique"><dt>Lumière monochromatique</dt><dd>Lumière constituée d'une seule radiation, caractérisée par une longueur d'onde λ unique.</dd></div>
+      <div class="gloss-item" data-term="lumiere polychromatique blanche"><dt>Lumière polychromatique</dt><dd>Lumière constituée de plusieurs radiations de longueurs d'onde différentes ; la lumière blanche en est un exemple.</dd></div>
+      <div class="gloss-item" data-term="longueur onde"><dt>Longueur d'onde λ</dt><dd>Grandeur caractéristique d'une radiation monochromatique, exprimée en nanomètres (nm) dans le domaine visible.</dd></div>
+      <div class="gloss-item" data-term="dispersion prisme"><dt>Dispersion</dt><dd>Séparation des différentes radiations d'une lumière polychromatique par un système dispersif (prisme, réseau), car n dépend de λ.</dd></div>
+      <div class="gloss-item" data-term="spectre"><dt>Spectre lumineux</dt><dd>Ensemble des radiations composant une lumière, observées après dispersion (spectre continu ou spectre de raies).</dd></div>
+      <div class="gloss-item" data-term="infrarouge ir"><dt>Infrarouge (IR)</dt><dd>Rayonnement de longueur d'onde supérieure à celle du rouge visible (λ &gt; 800 nm environ), invisible à l'œil.</dd></div>
+      <div class="gloss-item" data-term="ultraviolet uv"><dt>Ultraviolet (UV)</dt><dd>Rayonnement de longueur d'onde inférieure à celle du violet visible (λ &lt; 400 nm environ), invisible à l'œil.</dd></div>
+      <div class="gloss-item" data-term="lentille convergente"><dt>Lentille convergente</dt><dd>Lentille plus épaisse au centre qu'aux bords, qui fait converger un faisceau de rayons parallèles vers un point.</dd></div>
+      <div class="gloss-item" data-term="centre optique"><dt>Centre optique O</dt><dd>Point de la lentille traversé par tout rayon lumineux sans déviation.</dd></div>
+      <div class="gloss-item" data-term="foyer image objet"><dt>Foyers F et F'</dt><dd>Foyer image F' : point où converge un faisceau de rayons incidents parallèles à l'axe optique. Foyer objet F : symétrique de F' par rapport à O.</dd></div>
+      <div class="gloss-item" data-term="distance focale"><dt>Distance focale f'</dt><dd>Distance OF' entre le centre optique et le foyer image, caractéristique de la lentille (en mètres).</dd></div>
+      <div class="gloss-item" data-term="grandissement"><dt>Grandissement γ</dt><dd>Rapport γ = A'B' / AB = OA' / OA, sans dimension. Il donne le sens (signe) et la taille relative de l'image par rapport à l'objet.</dd></div>
+      <div class="gloss-item" data-term="image reelle"><dt>Image réelle</dt><dd>Image qui se forme effectivement sur un écran, à l'intersection réelle des rayons lumineux émergents.</dd></div>
+      <div class="gloss-item" data-term="modele reduit oeil"><dt>Modèle réduit de l'œil</dt><dd>Modélisation de l'œil par une lentille convergente (cornée + cristallin) associée à un écran (rétine) à distance fixe.</dd></div>
+      <div class="gloss-item" data-term="accommodation"><dt>Accommodation</dt><dd>Mécanisme par lequel le cristallin change de courbure (donc de distance focale f') pour que l'image d'un objet se forme nette sur la rétine, quelle que soit la distance de l'objet.</dd></div>
+      <div class="gloss-item" data-term="cristallin"><dt>Cristallin</dt><dd>Lentille biconvexe naturelle et déformable de l'œil, dont la courbure varie sous l'action des muscles ciliaires.</dd></div>
+      <div class="gloss-item" data-term="retine"><dt>Rétine</dt><dd>Membrane photosensible au fond de l'œil, jouant le rôle d'écran dans le modèle réduit ; elle transmet le signal lumineux au cerveau.</dd></div>
+      <div class="gloss-item" data-term="theoreme thales optique"><dt>Théorème de Thalès (optique)</dt><dd>Outil mathématique utilisé pour établir la relation de grandissement γ = OA' / OA à partir des triangles semblables formés par les rayons lumineux.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://phet.colorado.edu/sims/html/bending-light/latest/bending-light_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Réfraction de la lumière (Bending Light)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/geometric-optics/latest/geometric-optics_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Optique géométrique (lentilles)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/lentilles/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Ostralo — Construction d'image par une lentille</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/refraction_dispersion_lumiere_prisme_flash_animation_interactive_physique.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 PCCL — Réfraction et dispersion par un prisme</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/refraction_loi_descartes_optique_seconde_lycee_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 PCCL — Réfraction et loi de Descartes</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/dispersion_prisme_spectre_emission_absorption_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 PCCL — Dispersion, prisme &amp; spectres d'émission/absorption</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/lentille_mince_convergente_construction_image_reforme_2019_2e_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 PCCL — Lentille mince convergente, construction d'image</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/geometric-optics-basics/latest/geometric-optics-basics_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Optique géométrique (version simplifiée)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/Simulateur_lentille_seconde_p279/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🔬 Simulateur de lentille (p.279)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/C16_2_SI/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🔬 Simulation interactive C16 (2)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM &amp; entraînement</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_14/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — chap. 14</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_15/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — chap. 15</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_16/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — chap. 16</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_14/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — chap. 14</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_15/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — chap. 15</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_16/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — chap. 16</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/cours_exercices_corriges/vision_image_lentilles_convergentes_oeil_cours.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">📘 Cours &amp; exercices corrigés</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL — Lentilles, œil, réfraction, dispersion.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/C16_SI/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎮 Légender le schéma de l'œil</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="seq10-jeu.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--orange);" onmouseover="this.style.boxShadow='0 4px 16px rgba(232,120,58,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--orange);">🕹️ Jeu — Œil et vision</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Légender le modèle réduit de l'œil et construire l'image formée par une lentille convergente.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🎥</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879101?paccess=47dfb9e4481.3045c63d.43cc24d582113fad93126d4a5ef27968" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Spectres continus et température — Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 4 min 27.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879108?paccess=47dfb9eb815.3045c644.ec3c903ac65573cc75b68439b473ecc4" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Spectres d'émission — Cours + Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 6 min 28.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879091?paccess=47dfb9f3d61.3045c633.59de877ab1a783db3085acb81bdbb560" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Réflexion et réfraction de la lumière</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 4 min 49.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879048?paccess=47dfb9faab8.3045c608.da3c2aa477656e7b347531e3b5585c46" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Lentille : construction image et grandissement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 6 min 38.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879035?paccess=47dfba02388.3045c5fb.dcb4064f608787ff7712d67b726f827e" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Lentille : tracé des rayons lumineux</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 3 min 34.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879027?paccess=47dfba0aff5.3045c5f3.5653229064745c04c2f9af717d78557b" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Lentille mince convergente</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 3 min 27.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879016?paccess=47dfba13385.3045c5e8.9b90a6f431b7b7433f28f8b1a22e7574" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎥 Construction de l'image d'un objet par une lentille</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier, 3 min 51.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809878921?paccess=47dfba1d926.3045c589.02774497db1ca9cf2cf9ac8eaf2604ed" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎥 Lentille mince convergente — 2/3 : Grandissement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL, 4 min 41.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809878940?paccess=47dfba25921.3045c59c.327c8e92035cfbf5d863829acdbd9c6c" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎥 Lentille convergente — 3/3 : Modèle de l'œil</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL, 4 min 26.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id106170628/item809879058?paccess=47dfba2f160.3045c612.e8f3c2ce1e10b6d2034fb710133a6961" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎥 Lentilles et modèle de l'œil</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier, 3 min 52.</p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
+
+</section>
+</div><!-- /tab-panel t5 -->
+
 </main>
 
 <footer>
@@ -2549,11 +3076,30 @@ function showTab(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   // Remonter en haut
-  window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 2, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   // Forcer le redraw du canvas lentille si on arrive sur l'onglet 4
   if(id === 't4') { setTimeout(function(){ if(window.p4Draw) p4Draw(); }, 80); }
   // Redémarrer le quiz si on arrive sur tq et qu'il n'est pas démarré
   if(id === 'tq') { if(typeof renderQuestion === 'function' && !document.querySelector('.quiz-question')) renderQuestion(); }
+}
+
+/* ─── Sous-onglets (Bilan & Ressources) ─── */
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ─── Recherche glossaire ─── */
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const txt = item.textContent.toLowerCase();
+    const term = (item.getAttribute('data-term') || '').toLowerCase();
+    item.style.display = (txt.includes(q) || term.includes(q)) ? '' : 'none';
+  });
 }
 
 /* ─── Animation A : source → objet → ombre (propagation rectiligne) ─── */

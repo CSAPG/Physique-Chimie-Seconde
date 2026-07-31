@@ -26,7 +26,7 @@
     background:#ffffff;
     color:var(--texte);
     margin:0;
-    padding:0;
+    padding:14px;
     line-height:1.55;
   }
   header{
@@ -35,7 +35,8 @@
     border-bottom:3px solid var(--bleu);
     border-radius:14px;
     padding:18px 24px 14px;
-    margin:16px 16px 20px;
+    max-width:1300px;
+    margin:16px auto 20px;
     position:sticky;
     top:0;
     z-index:100;
@@ -83,7 +84,7 @@
   .tab-btn:hover{color:var(--bleu);}
   .tab-btn.active{background:var(--bleu-clair); color:var(--bleu); border-bottom:3px solid var(--bleu); border-radius:6px 6px 0 0;}
 
-  .tab-content{display:none; padding:20px; max-width:980px; margin:0 auto;}
+  .tab-content{display:none; padding:20px; max-width:1300px; margin:0 auto;}
   .tab-content.active{display:block; animation:fadein 0.35s;}
   @keyframes fadein{from{opacity:0;} to{opacity:1;}}
 
@@ -99,6 +100,17 @@
   }
   .box-capacites{background:var(--orange-clair); border-color:var(--orange);}
   .box-bilan{background:var(--vert-clair); border-color:var(--vert);}
+  .sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto;}
+  .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:var(--bleu-clair);color:var(--bleu);font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+  .sub-tab-btn.active{background:var(--bleu);color:#fff;}
+  .sub-tab-content{display:none;}
+  .sub-tab-content.active{display:block;animation:fadein 0.3s ease;}
+  .gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--bordure);border-radius:20px;font-family:'Nunito',sans-serif;font-size:0.88rem;margin-bottom:16px;}
+  .gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;list-style:none;padding:0;}
+  @media (max-width:600px){ .gloss-grid{grid-template-columns:1fr;} }
+  .gloss-item{background:#fff;border:1.5px solid var(--bordure);border-radius:10px;padding:12px 16px;}
+  .gloss-item dt{font-family:'Outfit',sans-serif;font-weight:800;color:var(--bleu);font-size:0.9rem;margin-bottom:4px;}
+  .gloss-item dd{font-size:0.84rem;color:var(--texte);line-height:1.55;}
   .box-rappel{background:var(--bleu-clair); border-color:var(--bleu);}
   .box-formule{
     background:#fff9c4;
@@ -238,6 +250,8 @@
     .tab-btn{font-size:0.78em; padding:8px 10px 10px;}
     header{margin:10px 10px 16px; padding:14px 16px 10px;}
     header h1{font-size:1.1rem;}
+    body{padding:6px;}
+    .tab-content{padding:12px;}
   }
   /* ---- Capacités exigibles : pastille compacte en haut à gauche + panneau ---- */
 button.cap-toggle {
@@ -616,46 +630,106 @@ button.cap-toggle:hover { background: #1e4466; }
 
 <!-- ============ ONGLET 3 : BILAN ET RESSOURCES ============ -->
 <div class="tab-content" id="t3">
-  <h2>📊 Bilan et ressources</h2>
-
-  <h3>Bilan</h3>
-  <div class="box box-bilan">
-    <p style="text-align:center; font-size:1.1em;"><strong>Décrire le mouvement d'un objet, c'est donner sa trajectoire et l'évolution de sa vitesse dans un référentiel choisi, ce qui implique la relativité du mouvement.</strong></p>
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
   </div>
 
-  <h3>🎥 Vidéos et animations</h3>
-  <div class="box">
-    <p><strong>Bilan et animations interactives</strong></p>
-    <ul>
-      <li><a href="https://www.pearltrees.com/private/id104960065/item801645112?paccess=47d0cedc29b.2fc82238.7d46bb663f57d10051600b36109ceea8" target="_blank" rel="noopener">Bilan Hatier - Décrire un mouvement</a></li>
-      <li><a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener">Animation pour comprendre la relativité du mouvement</a></li>
-      <li><a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener">Animation pour visualiser différentes trajectoires</a></li>
-      <li><a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener">Rappel sur les vecteurs</a></li>
-      <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/referentiel_relativite_mouvement_train.htm" target="_blank" rel="noopener">Référentiel et relativité du mouvement — le train</a></li>
-    </ul>
-    <p><strong>Vidéos sur le vecteur vitesse</strong></p>
-    <ul>
-      <li><a href="https://www.pearltrees.com/private/id104960065/item801646356?paccess=47d0cee82a2.2fc82714.0fe577b815314e9e8c5f07bc0a291d2f" target="_blank" rel="noopener">Le vecteur vitesse</a></li>
-      <li><a href="https://www.pearltrees.com/private/id104960065/item801647939?paccess=47d0ceed119.2fc82d43.10e5abe82754b6cf0a1882c5c825f132" target="_blank" rel="noopener">Comment tracer le vecteur vitesse</a></li>
-      <li><a href="https://www.pearltrees.com/private/id104960065/item801648803?paccess=47d0ceeff39.2fc830a3.67a24fad28bd459f99cdcd09c347db86" target="_blank" rel="noopener">Exercice sur le vecteur vitesse</a></li>
-    </ul>
-  </div>
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <h2>📊 Bilan et ressources</h2>
+    <h3>Bilan</h3>
+    <div class="box box-bilan">
+      <p style="text-align:center; font-size:1.1em;"><strong>Décrire le mouvement d'un objet, c'est donner sa trajectoire et l'évolution de sa vitesse dans un référentiel choisi, ce qui implique la relativité du mouvement.</strong></p>
+    </div>
 
-  <h3>🏛️ Histoire des sciences</h3>
-  <div class="history-card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Nikolaus_Kopernikus.jpg/220px-Nikolaus_Kopernikus.jpg" alt="Copernic">
-    <div>
-      <h3 style="margin-top:0;">Nicolas Copernic (1473 – 1543)</h3>
-      <p>Médecin, mathématicien et astronome polonais. Il reprend l'hypothèse héliocentrique émise par le Grec <strong>Aristarque de Samos</strong> (310-230 av. J.-C.).</p>
-      <p>Au XVI<sup>e</sup> siècle, Copernic considère les orbites des planètes comme <strong>circulaires</strong> et tournant autour du <strong>Soleil</strong>.</p>
+    <div class="box" style="margin-top:16px;">
+      <p><strong>✅ Capacités exigibles — synthèse</strong></p>
+      <ul>
+        <li>Identifier les échelles temporelles et spatiales pertinentes de description d'un mouvement.</li>
+        <li>Choisir un référentiel pour décrire le mouvement d'un système.</li>
+        <li>Expliquer, dans le cas de la translation, l'influence du choix du référentiel sur la description du mouvement d'un système.</li>
+        <li>Décrire le mouvement d'un système par celui d'un point et caractériser cette modélisation en termes de perte d'informations.</li>
+        <li>Caractériser différentes trajectoires.</li>
+        <li>Définir le vecteur vitesse moyenne d'un point.</li>
+        <li>Approcher le vecteur vitesse d'un point à l'aide du vecteur déplacement MM', où M et M' sont les positions successives à des instants voisins séparés de Δt ; le représenter.</li>
+        <li>Caractériser un mouvement rectiligne uniforme ou non uniforme.</li>
+        <li>Réaliser et exploiter une vidéo ou une chronophotographie d'un système en mouvement et représenter des vecteurs vitesse.</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:22px;">🏛️ Histoire des sciences</h3>
+    <div class="history-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Nikolaus_Kopernikus.jpg/220px-Nikolaus_Kopernikus.jpg" alt="Copernic">
+      <div>
+        <h3 style="margin-top:0;">Nicolas Copernic (1473 – 1543)</h3>
+        <p>Médecin, mathématicien et astronome polonais. Il reprend l'hypothèse héliocentrique émise par le Grec <strong>Aristarque de Samos</strong> (310-230 av. J.-C.).</p>
+        <p>Au XVI<sup>e</sup> siècle, Copernic considère les orbites des planètes comme <strong>circulaires</strong> et tournant autour du <strong>Soleil</strong>.</p>
+      </div>
     </div>
   </div>
+  <!-- /bilan-sub-0 -->
 
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="referentiel systeme"><dt>Référentiel</dt><dd>Solide de référence par rapport auquel on étudie le mouvement, comportant un repère d'espace et un repère de temps.</dd></div>
+      <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un point au cours du mouvement, dans un référentiel donné.</dd></div>
+      <div class="gloss-item" data-term="vecteur deplacement"><dt>Vecteur déplacement MM'</dt><dd>Segment orienté joignant les positions successives M et M' d'un point ; direction du segment, sens de M vers M', norme égale à la distance MM'.</dd></div>
+      <div class="gloss-item" data-term="vecteur vitesse moyenne"><dt>Vecteur vitesse moyenne</dt><dd>v_moy = MM' / Δt : rapport du vecteur déplacement par la durée du parcours ; colinéaire au vecteur déplacement.</dd></div>
+      <div class="gloss-item" data-term="vitesse instantanee"><dt>Vitesse instantanée</dt><dd>Vitesse à un instant donné, approchée par la vitesse moyenne sur un intervalle de temps très court.</dd></div>
+      <div class="gloss-item" data-term="mouvement rectiligne uniforme"><dt>Mouvement rectiligne uniforme</dt><dd>Trajectoire rectiligne (direction de v constante) et valeur de v constante.</dd></div>
+      <div class="gloss-item" data-term="mouvement accelere decelere"><dt>Mouvement accéléré / décéléré</dt><dd>Mouvement rectiligne non uniforme : accéléré si la valeur de v augmente, décéléré si elle diminue.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+    <h3>🎥 Vidéos et animations</h3>
+    <div class="box">
+      <p><strong>Bilan et animations interactives</strong></p>
+      <ul>
+        <li><a href="https://www.pearltrees.com/private/id104960065/item801645112?paccess=47d0cedc29b.2fc82238.7d46bb663f57d10051600b36109ceea8" target="_blank" rel="noopener">Bilan Hatier - Décrire un mouvement</a></li>
+        <li><a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener">Animation pour comprendre la relativité du mouvement</a></li>
+        <li><a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener">Animation pour visualiser différentes trajectoires</a></li>
+        <li><a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener">Rappel sur les vecteurs</a></li>
+        <li><a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/referentiel_relativite_mouvement_train.htm" target="_blank" rel="noopener">Référentiel et relativité du mouvement — le train</a></li>
+      </ul>
+      <p><strong>Vidéos sur le vecteur vitesse</strong></p>
+      <ul>
+        <li><a href="https://www.pearltrees.com/private/id104960065/item801646356?paccess=47d0cee82a2.2fc82714.0fe577b815314e9e8c5f07bc0a291d2f" target="_blank" rel="noopener">Le vecteur vitesse</a></li>
+        <li><a href="https://www.pearltrees.com/private/id104960065/item801647939?paccess=47d0ceed119.2fc82d43.10e5abe82754b6cf0a1882c5c825f132" target="_blank" rel="noopener">Comment tracer le vecteur vitesse</a></li>
+        <li><a href="https://www.pearltrees.com/private/id104960065/item801648803?paccess=47d0ceeff39.2fc830a3.67a24fad28bd459f99cdcd09c347db86" target="_blank" rel="noopener">Exercice sur le vecteur vitesse</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
 </div>
 
 
 <script>
   // ===== Capacités exigibles =====
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-content');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Glossaire recherchable ──
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
 document.getElementById("capToggle").addEventListener("click", function () {
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");

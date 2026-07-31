@@ -1560,7 +1560,7 @@
   <!-- Schéma triangle interactif changements d'état -->
   <div class="activite-card" id="triangle-wrapper" style="padding:20px 16px 16px;">
     <p style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--texte-léger);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Schéma des changements d'état</p>
-    <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Glisse chaque étiquette sur la flèche correspondante ✦</p>
+    <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Associe chaque numéro du schéma au bon changement d'état ✦</p>
 
     <!-- Score -->
     <div id="tri-score" style="display:none;text-align:center;margin-bottom:10px;font-size:0.88rem;font-weight:700;color:var(--bleu);"></div>
@@ -1602,7 +1602,7 @@
         <text id="txt-solidification" x="280" y="385" text-anchor="middle" dominant-baseline="auto"
           font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0">Solidification</text>
 
-        <!-- Zones drop bas -->
+        <!-- Zones bas (repère visuel) -->
         <rect id="zone-fusion"         x="185" y="340" width="190" height="20" rx="3" fill="none" stroke="#3A8A6E" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
         <rect id="zone-solidification" x="185" y="372" width="190" height="18" rx="3" fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
 
@@ -1639,13 +1639,11 @@
           <tspan dy="18">Condensation solide</tspan>
         </text>
 
-        <!-- Zones drop gauche (rectangles inclinés) -->
-        <!-- Sublimation : extérieur, centré sur dy=-28 → y=-38 hauteur 20 -->
+        <!-- Zones gauche (repère visuel, rectangles inclinés) -->
         <rect id="zone-sublimation"
           x="-90" y="-40" width="180" height="22" rx="3"
           fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
           transform="translate(170,210) rotate(-55)"/>
-        <!-- Condensation : intérieur, centré sur dy=18 → y=8 -->
         <rect id="zone-condensation"
           x="-100" y="8" width="200" height="22" rx="3"
           fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
@@ -1681,17 +1679,36 @@
           <tspan dy="18">Liquéfaction</tspan>
         </text>
 
-        <!-- Zones drop droit -->
-        <!-- Vaporisation : extérieur, dy=-28 → y=-40 -->
+        <!-- Zones droit (repère visuel) -->
         <rect id="zone-vaporisation"
           x="-85" y="-40" width="170" height="22" rx="3"
           fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
           transform="translate(390,210) rotate(55)"/>
-        <!-- Liquéfaction : intérieur -->
         <rect id="zone-liquefaction"
           x="-80" y="8" width="160" height="22" rx="3"
           fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
           transform="translate(390,210) rotate(55)"/>
+
+        <!-- ══ Pastilles numérotées (repères fixes, ne dépendent d'aucun calcul de glissement) ══ -->
+        <g id="tri-badges">
+          <circle cx="280" cy="350" r="13" fill="#3A8A6E" stroke="white" stroke-width="2"/>
+          <text x="280" y="355" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">1</text>
+
+          <circle cx="280" cy="381" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+          <text x="280" y="386" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">2</text>
+
+          <circle cx="146" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
+          <text x="146" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">3</text>
+
+          <circle cx="186" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+          <text x="186" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">4</text>
+
+          <circle cx="414" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
+          <text x="414" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">5</text>
+
+          <circle cx="374" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+          <text x="374" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">6</text>
+        </g>
 
         <!-- ══ États (cercles par-dessus tout) ══ -->
         <circle cx="280" cy="55"  r="46" fill="#FEF3E2" stroke="#E8783A" stroke-width="2.5"/>
@@ -1708,13 +1725,11 @@
       </svg>
     </div>
 
-    <!-- Palette d'étiquettes à glisser -->
-    <div id="etiquettes-pool" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;min-height:44px;padding:10px;background:var(--gris-fond);border-radius:10px;border:1.5px dashed var(--gris-bord);">
-    </div>
+    <!-- QCM par numéro -->
+    <div id="tri-qcm-list" style="margin-top:16px;"></div>
 
     <!-- Boutons -->
     <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
-      <button onclick="verifierTriangle()" style="padding:8px 20px;background:var(--bleu);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Vérifier</button>
       <button onclick="reinitTriangle()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
       <button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--orange);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Voir la correction</button>
     </div>
@@ -2719,6 +2734,16 @@
       <div class="gloss-item" data-term="chromatographie ccm"><dt>Chromatographie sur couche mince (CCM)</dt><dd>Technique de séparation et d'identification des espèces chimiques par migration sur une phase stationnaire (silice).</dd></div>
       <div class="gloss-item" data-term="composition massique"><dt>Composition massique</dt><dd>f = m<sub>espèce</sub> / m<sub>échantillon</sub> ; m% = f × 100.</dd></div>
       <div class="gloss-item" data-term="composition volumique"><dt>Composition volumique</dt><dd>f = v<sub>espèce</sub> / v<sub>échantillon</sub> ; v% = f × 100 (mélanges gazeux).</dd></div>
+      <div class="gloss-item" data-term="fusion"><dt>Fusion</dt><dd>Passage de l'état solide à l'état liquide.</dd></div>
+      <div class="gloss-item" data-term="solidification"><dt>Solidification</dt><dd>Passage de l'état liquide à l'état solide.</dd></div>
+      <div class="gloss-item" data-term="vaporisation"><dt>Vaporisation</dt><dd>Passage de l'état liquide à l'état gazeux.</dd></div>
+      <div class="gloss-item" data-term="liquefaction"><dt>Liquéfaction</dt><dd>Passage de l'état gazeux à l'état liquide.</dd></div>
+      <div class="gloss-item" data-term="sublimation"><dt>Sublimation</dt><dd>Passage direct de l'état solide à l'état gazeux, sans passer par l'état liquide.</dd></div>
+      <div class="gloss-item" data-term="condensation solide"><dt>Condensation solide</dt><dd>Passage direct de l'état gazeux à l'état solide, sans passer par l'état liquide.</dd></div>
+      <div class="gloss-item" data-term="phase stationnaire ccm"><dt>Phase stationnaire</dt><dd>En chromatographie sur couche mince (CCM), support fixe (silice de la plaque) sur lequel migrent les espèces chimiques.</dd></div>
+      <div class="gloss-item" data-term="phase mobile eluant ccm"><dt>Phase mobile (éluant)</dt><dd>En CCM, solvant qui migre le long de la plaque et entraîne les espèces chimiques.</dd></div>
+      <div class="gloss-item" data-term="affinite ccm migration"><dt>Affinité</dt><dd>Caractère plus ou moins fort de l'interaction d'une espèce chimique avec la phase stationnaire ou la phase mobile, qui explique sa vitesse de migration en CCM.</dd></div>
+      <div class="gloss-item" data-term="banc kofler"><dt>Banc Kofler</dt><dd>Plaque métallique à gradient de température, utilisée pour déterminer expérimentalement une température de fusion.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -2793,6 +2818,20 @@
         <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
           <h4 style="color:var(--violet);">🔬 Animation — Chromatographie (éluant, phase fixe/mobile)</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/chromatographie/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Chromatographie — simulation interactive</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/density/latest/density_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Densité (masses et volumes)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
         </div>
       </a>
 
@@ -3064,156 +3103,56 @@ function recommencer(cardId) {
   });
 }
 
-// ── Triangle changements d'état ──
+// ── Triangle changements d'état — QCM par numéro (fiable, sans glisser-déposer) ──
 const TRI_LABELS = [
-  { id: 'fusion',              text: 'Fusion',             color: '#3A8A6E' },
-  { id: 'solidification',      text: 'Solidification',     color: '#2D5F8A' },
-  { id: 'vaporisation',        text: 'Vaporisation',       color: '#E8783A' },
-  { id: 'liquefaction',        text: 'Liquéfaction',       color: '#2D5F8A' },
-  { id: 'sublimation',         text: 'Sublimation',        color: '#E8783A' },
-  { id: 'condensation',        text: 'Condensation solide',color: '#2D5F8A' }
+  { id: 'fusion',              num: 1, text: 'Fusion',              color: '#3A8A6E' },
+  { id: 'solidification',      num: 2, text: 'Solidification',      color: '#2D5F8A' },
+  { id: 'sublimation',         num: 3, text: 'Sublimation',         color: '#E8783A' },
+  { id: 'condensation',        num: 4, text: 'Condensation solide', color: '#2D5F8A' },
+  { id: 'vaporisation',        num: 5, text: 'Vaporisation',        color: '#E8783A' },
+  { id: 'liquefaction',        num: 6, text: 'Liquéfaction',        color: '#2D5F8A' }
 ];
 
-let triState = {};
+let triAnswered = {};
 
-function buildEtiquettes() {
-  const pool = document.getElementById('etiquettes-pool');
-  pool.innerHTML = '';
-  const shuffled = [...TRI_LABELS].sort(() => Math.random() - 0.5);
-  shuffled.forEach(lab => {
-    if (triState[lab.id]) return;
-    const btn = document.createElement('button');
-    btn.id = 'etiq-' + lab.id;
-    btn.textContent = lab.text;
-    btn.dataset.labelId = lab.id;
-    btn.style.cssText = `
-      padding:6px 14px;
-      background:${lab.color}18;
-      border:2px solid ${lab.color};
-      border-radius:20px;
-      font-family:'Outfit',sans-serif;
-      font-size:0.84rem;
-      font-weight:700;
-      color:${lab.color};
-      cursor:grab;
-      touch-action:none;
-      user-select:none;
-    `;
-    btn.addEventListener('mousedown', startDrag);
-    btn.addEventListener('touchstart', startDrag, {passive:false});
-    pool.appendChild(btn);
+function buildTriQCM() {
+  const container = document.getElementById('tri-qcm-list');
+  container.innerHTML = '';
+  const sortedByNum = [...TRI_LABELS].sort((a, b) => a.num - b.num);
+  sortedByNum.forEach(lab => {
+    const optionsShuffled = [...TRI_LABELS].sort(() => Math.random() - 0.5);
+    const row = document.createElement('div');
+    row.className = 'dropdown-qcm';
+    row.id = 'tri-q-' + lab.num;
+    const question = document.createElement('div');
+    question.className = 'dq-question';
+    question.textContent = 'Zone n°' + lab.num + ' — quel changement d\'état ?';
+    const opts = document.createElement('div');
+    opts.className = 'qcm-opts';
+    optionsShuffled.forEach(opt => {
+      const btn = document.createElement('div');
+      btn.className = 'qcm-opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => triQcmCheck(btn, lab.num, opt.id);
+      opts.appendChild(btn);
+    });
+    row.appendChild(question);
+    row.appendChild(opts);
+    container.appendChild(row);
   });
-  if (pool.children.length === 0) {
-    pool.innerHTML = '<span style="font-size:0.82rem;color:var(--texte-léger);font-style:italic;">Toutes les étiquettes sont placées !</span>';
-  }
 }
 
-let dragEl = null, dragId = null, ghostEl = null;
-
-function startDrag(e) {
-  e.preventDefault();
-  const btn = e.currentTarget;
-  dragId = btn.dataset.labelId;
-  const lab = TRI_LABELS.find(l => l.id === dragId);
-  ghostEl = document.createElement('div');
-  ghostEl.textContent = btn.textContent;
-  ghostEl.style.cssText = `
-    position:fixed;pointer-events:none;z-index:9999;
-    padding:6px 14px;
-    background:${lab.color};
-    border-radius:20px;
-    font-family:'Outfit',sans-serif;font-size:0.84rem;font-weight:700;
-    color:white;opacity:0.92;
-    transform:translate(-50%,-50%);
-  `;
-  document.body.appendChild(ghostEl);
-  moveGhost(e);
-  document.addEventListener('mousemove', moveGhost);
-  document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchmove', moveGhost, {passive:false});
-  document.addEventListener('touchend', endDrag);
-}
-
-function moveGhost(e) {
-  if (!ghostEl) return;
-  const pt = e.touches ? e.touches[0] : e;
-  ghostEl.style.left = pt.clientX + 'px';
-  ghostEl.style.top = pt.clientY + 'px';
-}
-
-function endDrag(e) {
-  document.removeEventListener('mousemove', moveGhost);
-  document.removeEventListener('mouseup', endDrag);
-  document.removeEventListener('touchmove', moveGhost);
-  document.removeEventListener('touchend', endDrag);
-
-  if (ghostEl) { ghostEl.remove(); ghostEl = null; }
-  if (!dragId) return;
-
-  const pt = e.changedTouches ? e.changedTouches[0] : e;
-  const svg = document.getElementById('tri-svg');
-  const rect = svg.getBoundingClientRect();
-  const scaleX = 560 / rect.width;
-  const scaleY = 420 / rect.height;
-  const svgX = (pt.clientX - rect.left) * scaleX;
-  const svgY = (pt.clientY - rect.top) * scaleY;
-
-  const zones = {
-    fusion:        { x: [195, 325], y: [297, 330] },
-    solidification:{ x: [195, 325], y: [342, 380] },
-    vaporisation:  null,
-    liquefaction:  null,
-    sublimation:   null,
-    condensation:  null
-  };
-
-  let dropped = detectZone(svgX, svgY);
-  if (dropped) {
-    triState[dragId] = dropped;
-    if (dropped === dragId) {
-      afficherEtiquette(dragId);
-    } else {
-      triState[dragId] = dropped;
-      afficherEtiquette(dragId, false);
-    }
-    buildEtiquettes();
+function triQcmCheck(el, num, chosenId) {
+  const correctLab = TRI_LABELS.find(l => l.num === num);
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  const isCorrect = chosenId === correctLab.id;
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  if (isCorrect) {
+    triAnswered[num] = true;
+    afficherEtiquette(correctLab.id, true);
+    updateTriScore();
   }
-  dragId = null;
-}
-
-function detectZone(x, y) {
-  /* viewBox 560x420
-     Bas  : Fusion y≈358 (au-dessus), Solidification y≈372 (en-dessous)
-     Gauche Milieu (170,210), angle -55°  : Sublimation (extérieur=gauche), Condensation (intérieur=droite)
-     Droit  Milieu (390,210), angle +55°  : Vaporisation (extérieur=droit),  Liquéfaction (intérieur=gauche)
-  */
-  if (y >= 330 && y <= 398 && x >= 110 && x <= 450) {
-    if (y <= 365) return 'fusion';
-    return 'solidification';
-  }
-  /* Côté gauche : bande le long du segment S(60,365)→G(280,55)
-     Paramètre t = projection sur l'axe, distance perp.
-     Vecteur directeur normalisé u=(220,-310)/380
-     Point p=(x,y), référence A=(60,365)
-     Perp signée = ((x-60)*(-310) - (y-365)*(-220)) / 380  (positive = côté droit du vecteur = intérieur)
-  */
-  const dxG = 220, dyG = -310, lenG = Math.sqrt(dxG*dxG+dyG*dyG);
-  const perpG = ((x-60)*(-dyG) - (y-365)*dxG) / lenG;
-  const paraG = ((x-60)*dxG + (y-365)*dyG) / lenG;
-  if (paraG > 50 && paraG < lenG-50 && Math.abs(perpG) < 28) {
-    return perpG < 0 ? 'sublimation' : 'condensation';
-  }
-  /* Côté droit : bande le long du segment L(500,365)→G(280,55)
-     Vecteur directeur u=(-220,-310)/380
-     Perp signée > 0 = intérieur (gauche du vecteur L→G)
-  */
-  const dxD = -220, dyD = -310;
-  const perpD = ((x-500)*(-dyD) - (y-365)*dxD) / lenG;
-  const paraD = ((x-500)*dxD + (y-365)*dyD) / lenG;
-  if (paraD > 50 && paraD < lenG-50 && Math.abs(perpD) < 28) {
-    return perpD > 0 ? 'liquefaction' : 'vaporisation';
-  }
-  return null;
 }
 
 function afficherEtiquette(labelId, estCorrect) {
@@ -3221,55 +3160,46 @@ function afficherEtiquette(labelId, estCorrect) {
   if (!txtEl) return;
   const correct = (estCorrect === undefined) ? true : estCorrect;
   txtEl.setAttribute('opacity', '1');
-  txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l=>l.id===labelId).color : '#C0392B');
+  txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l => l.id === labelId).color : '#C0392B');
 }
 
-function verifierTriangle() {
-  let bon = 0, total = Object.keys(triState).length;
-  if (total === 0) {
-    document.getElementById('tri-score').textContent = 'Place au moins une étiquette !';
-    document.getElementById('tri-score').style.display = 'block';
-    return;
-  }
-  Object.entries(triState).forEach(([placed, zone]) => {
-    const ok = placed === zone;
-    const txtEl = document.getElementById('txt-' + placed);
-    if (txtEl) {
-      txtEl.setAttribute('fill', ok ? TRI_LABELS.find(l=>l.id===placed).color : '#C0392B');
-      txtEl.setAttribute('opacity', '1');
-    }
-    if (ok) bon++;
-  });
+function updateTriScore() {
+  const bon = Object.keys(triAnswered).length;
   const scoreEl = document.getElementById('tri-score');
   scoreEl.style.display = 'block';
   if (bon === 6) {
     scoreEl.style.color = 'var(--vert)';
-    scoreEl.textContent = '✓ Parfait ! Les 6 changements d\'état sont correctement placés.';
+    scoreEl.textContent = '✓ Parfait ! Les 6 changements d\'état sont trouvés.';
     document.getElementById('tri-consigne').textContent = '✓ Excellent travail !';
   } else {
     scoreEl.style.color = 'var(--orange)';
-    scoreEl.textContent = bon + '/6 correct' + (bon > 1 ? 's' : '') + ' — les étiquettes en rouge sont à corriger.';
+    scoreEl.textContent = bon + '/6 trouvé' + (bon > 1 ? 's' : '') + '.';
   }
 }
 
 function reinitTriangle() {
-  triState = {};
+  triAnswered = {};
   TRI_LABELS.forEach(lab => {
     const el = document.getElementById('txt-' + lab.id);
     if (el) el.setAttribute('opacity', '0');
   });
   document.getElementById('tri-score').style.display = 'none';
-  document.getElementById('tri-consigne').textContent = 'Glisse chaque étiquette sur la flèche correspondante ✦';
-  buildEtiquettes();
+  document.getElementById('tri-consigne').textContent = 'Associe chaque numéro du schéma au bon changement d\'état ✦';
+  buildTriQCM();
 }
 
 function corrigerTriangle() {
-  triState = {};
   TRI_LABELS.forEach(lab => {
-    triState[lab.id] = lab.id;
+    triAnswered[lab.num] = true;
     afficherEtiquette(lab.id, true);
+    const row = document.getElementById('tri-q-' + lab.num);
+    if (row) {
+      row.querySelectorAll('.qcm-opt').forEach(btn => {
+        btn.classList.remove('correct', 'incorrect');
+        if (btn.textContent === lab.text) btn.classList.add('correct');
+      });
+    }
   });
-  buildEtiquettes();
   const scoreEl = document.getElementById('tri-score');
   scoreEl.style.display = 'block';
   scoreEl.style.color = 'var(--bleu)';
@@ -3485,28 +3415,7 @@ function recommencerCCM() {
 // Init au chargement
 document.addEventListener('DOMContentLoaded', function() {
   buildCCMPool();
-  buildEtiquettes();
-  const svg = document.getElementById('tri-svg');
-  if (svg) {
-    svg.addEventListener('mouseup', function(e) {
-      if (!dragId) return;
-      const rect = svg.getBoundingClientRect();
-      const scaleX = 560 / rect.width;
-      const scaleY = 420 / rect.height;
-      const svgX = (e.clientX - rect.left) * scaleX;
-      const svgY = (e.clientY - rect.top) * scaleY;
-      const zone = detectZone(svgX, svgY);
-      if (zone) {
-        triState[dragId] = zone;
-        afficherEtiquette(dragId, dragId === zone);
-        buildEtiquettes();
-      }
-      if (ghostEl) { ghostEl.remove(); ghostEl = null; }
-      dragId = null;
-      document.removeEventListener('mousemove', moveGhost);
-      document.removeEventListener('mouseup', endDrag);
-    });
-  }
+  buildTriQCM();
 });
 
 // ── Tooltip CCM ──

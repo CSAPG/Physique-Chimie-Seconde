@@ -11,6 +11,16 @@
   --accent:#2f6f5e;--accent-light:#e6f1ee;
   --accent2:#c9622a;--accent2-light:#fbe9e0;
   --line:#d9d3c6;
+  /* Système de couleurs partagé (Bilan / Ressources) — aligné sur les autres séquences */
+  --bleu:#2D5F8A;--bleu-clair:#E8F1F8;
+  --vert:#3A8A6E;--vert-clair:#E8F5F0;
+  --rouge:#C0392B;--rouge-clair:#FDEDEC;
+  --violet:#7B4FA6;--violet-clair:#F3EDF9;
+  --rose:#C2508A;--rose-clair:#FBEAF2;
+  --jaune:#C9A227;--jaune-clair:#FBF6E3;
+  --texte:#1A2A3A;--texte-léger:#5A6B7A;
+  --gris-fond:#F5F7FA;--gris-bord:#DDE3EC;
+  --blanc:#FFFFFF;
 }
 *{box-sizing:border-box;}
 body{margin:0;padding:14px;font-family:"Georgia","Times New Roman",serif;background:var(--bg);color:var(--ink);line-height:1.55;}
@@ -67,6 +77,16 @@ body{margin:0;padding:14px;font-family:"Georgia","Times New Roman",serif;backgro
 .gloss-item{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;}
 .gloss-item dt{font-weight:800;color:var(--accent);font-size:0.9rem;margin-bottom:4px;}
 .gloss-item dd{font-size:0.84rem;color:var(--ink);line-height:1.55;}
+
+/* ── Système partagé Bilan / Ressources (aligné sur les autres séquences) ── */
+.section-title { font-family: 'Outfit', sans-serif; font-size: 1.18rem; font-weight: 800; color: var(--bleu); margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bleu-clair); }
+.section-title .icon { font-size: 1.3rem; }
+.bilan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
+.bilan-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; font-family: 'Nunito', sans-serif; }
+.bilan-card h4 { font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gris-bord); }
+.bilan-card ul { padding-left: 16px; margin:0; }
+.bilan-card ul li { font-size: 0.84rem; margin-bottom: 5px; line-height: 1.5; color: var(--texte); }
 .card h2{font-size:1.25rem;margin-top:0;color:var(--accent);border-bottom:2px solid var(--accent-light);padding-bottom:8px;}
 .card h3{font-size:1.05rem;color:var(--accent2);margin:18px 0 8px;}
 .def{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:10px 0;}
@@ -199,7 +219,7 @@ button.cap-toggle:hover{background:#1e4466;}
     <button class="tab-btn" data-tab="t3"><span class="tab-num">3</span> Fission</button>
     <button class="tab-btn" data-tab="t4"><span class="tab-num">4</span> Fusion</button>
     <button class="tab-btn" data-tab="t5"><span class="tab-num">5</span> Application – Curie</button>
-    <button class="tab-btn" data-tab="t6"><span class="tab-num">📎</span> Bilan et Ressources</button>
+    <button class="tab-btn" data-tab="t6"><span class="tab-num">📎</span> Bilan &amp; Ressources</button>
   </nav>
 
   <div class="cap-panel" id="capPanel">
@@ -921,7 +941,7 @@ button.cap-toggle:hover{background:#1e4466;}
 <!-- ===== ONGLET 6 : RESSOURCES ===== -->
 <section class="panel" id="t6">
   <div class="card">
-    <h2>📎 Bilan et ressources</h2>
+    <h2>📎 Bilan &amp; Ressources</h2>
 
     <div class="sub-tabs-nav">
       <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
@@ -930,22 +950,49 @@ button.cap-toggle:hover{background:#1e4466;}
     </div>
 
     <div class="sub-tab-content active" id="bilan-sub-0">
-      <div class="card">
-        <div class="card-title">✅ Capacités exigibles — synthèse</div>
-        <ul class="ke-list">
-          <li>Identifier des isotopes.</li>
-          <li>Établir, à partir des noyaux père et fils, l'équation de la réaction nucléaire associée.</li>
-          <li>Relier l'énergie convertie dans le Soleil et dans une centrale nucléaire à des réactions nucléaires.</li>
-          <li>Identifier la nature physique, chimique ou nucléaire d'une transformation à partir de sa description ou d'une écriture symbolique.</li>
-        </ul>
+      <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
+      <div class="bilan-grid">
+        <div class="bilan-card">
+          <h4>Radioactivité &amp; isotopes</h4>
+          <ul>
+            <li>Émission spontanée de particules par des noyaux instables (noyau père → noyau fils)</li>
+            <li>Isotopes : même Z, nombre de neutrons différent</li>
+          </ul>
+        </div>
+        <div class="bilan-card">
+          <h4>Équations nucléaires</h4>
+          <ul>
+            <li>Lois de Soddy : conservation de A et de Z</li>
+            <li>E<sub>libérée</sub> = |Δm| × c² (c = 3,00×10⁸ m·s⁻¹)</li>
+          </ul>
+        </div>
+        <div class="bilan-card">
+          <h4>Fission</h4>
+          <ul>
+            <li>Un noyau lourd se scinde en deux noyaux plus légers sous l'effet d'un neutron</li>
+            <li>Libère de l'énergie et des neutrons (réaction en chaîne)</li>
+          </ul>
+        </div>
+        <div class="bilan-card">
+          <h4>Fusion</h4>
+          <ul>
+            <li>Deux noyaux légers s'assemblent pour former un noyau plus lourd</li>
+            <li>Libère une grande quantité d'énergie (réaction du Soleil)</li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div class="sub-tab-content" id="bilan-sub-1">
+      <div class="section-title"><span class="icon">📖</span> Glossaire</div>
       <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
       <dl class="gloss-grid" id="glossGrid">
+        <div class="gloss-item" data-term="radioactivite"><dt>Radioactivité</dt><dd>Émission spontanée de particules de grande énergie par des noyaux instables, qui se transforment (désintégration radioactive).</dd></div>
+        <div class="gloss-item" data-term="desintegration noyau pere fils"><dt>Désintégration radioactive</dt><dd>Transformation spontanée d'un noyau père instable en un noyau fils, avec émission d'une particule et d'un rayonnement électromagnétique γ.</dd></div>
         <div class="gloss-item" data-term="isotopes"><dt>Isotopes</dt><dd>Noyaux ayant le même numéro atomique Z (même nombre de protons) mais un nombre de neutrons différent, donc un nombre de masse A différent.</dd></div>
         <div class="gloss-item" data-term="lois soddy conservation"><dt>Lois de conservation (lois de Soddy)</dt><dd>Lors d'une réaction nucléaire, il y a conservation du nombre de masse A (nucléons) et du numéro atomique Z (charge) entre les noyaux avant et après la réaction.</dd></div>
+        <div class="gloss-item" data-term="defaut masse delta m"><dt>Défaut de masse (Δm)</dt><dd>Perte de masse qui accompagne une réaction nucléaire : la masse totale des produits est légèrement inférieure à celle des réactifs.</dd></div>
+        <div class="gloss-item" data-term="energie liberee E delta m c2"><dt>Énergie libérée</dt><dd>E<sub>libérée</sub> = |Δm| × c², avec c = 3,00×10⁸ m·s⁻¹ (célérité de la lumière), Δm en kg et E en joules.</dd></div>
         <div class="gloss-item" data-term="fission"><dt>Fission nucléaire</dt><dd>Réaction au cours de laquelle un noyau lourd (ex : uranium-235) se scinde en deux noyaux plus légers sous l'effet d'un neutron, en libérant de l'énergie et des neutrons.</dd></div>
         <div class="gloss-item" data-term="fusion"><dt>Fusion nucléaire</dt><dd>Réaction au cours de laquelle deux noyaux légers s'assemblent pour former un noyau plus lourd, en libérant une grande quantité d'énergie (réaction se produisant dans le Soleil).</dd></div>
         <div class="gloss-item" data-term="transformation nucleaire"><dt>Transformation nucléaire</dt><dd>Transformation qui modifie la composition du noyau d'un atome (contrairement aux transformations physiques et chimiques, qui ne touchent pas le noyau).</dd></div>
@@ -953,19 +1000,93 @@ button.cap-toggle:hover{background:#1e4466;}
     </div>
 
     <div class="sub-tab-content" id="bilan-sub-2">
-    <h3>Vidéos</h3>
-    <div class="pastilles">
-      <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – Les isotopes</a>
-      <a href="https://www.pearltrees.com/private/id104964762/item801677305?paccess=47d1fbbe2c5.2fc89ff9.915d092ae4760b962943645e9b45586a" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fission</a>
-      <a href="https://www.pearltrees.com/private/id104964762/item801677633?paccess=47d1fbc40d8.2fc8a141.b67cb22733682c339ead98cff1f8c924" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – La fusion</a>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Les isotopes</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">e-profs · 2 min 35</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item809870178?paccess=47dfa81d344.3045a362.5ce6700988fa27cf579f28404b4364ec" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Transformations nucléaires</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 5 min 42</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item809870093?paccess=47dfa830f6d.3045a30d.56ab182cfaaa1d17557f949af264f09c" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 FISSION ou FUSION NUCLÉAIRE ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 09</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item801677305?paccess=47d1fbbe2c5.2fc89ff9.915d092ae4760b962943645e9b45586a" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 La fission nucléaire</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Autorité de sûreté nucléaire et de radioprotection · 9 min 50</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item809870197?paccess=47dfa80c3dd.3045a375.4f721d07d6715d9c670de8ed13c744ae" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 FISSION NUCLÉAIRE. Δm. Énergie libérée. Exercice corrigé</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 8 min 27</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item801677633?paccess=47d1fbc40d8.2fc8a141.b67cb22733682c339ead98cff1f8c924" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 La fusion nucléaire</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">CEA · 17 min 28</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964762/item809870079?paccess=47dfa83c503.3045a2ff.6fc1df6d190ef0438ab620c6e643a7cb" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 FUSION NUCLÉAIRE. Δm. Énergie libérée. Exercice corrigé</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 7 min 30</p>
+        </div>
+      </a>
+
     </div>
-    <h3>Simulateur & ressources externes</h3>
-    <div class="pastilles">
-      <a href="https://segree.web-labosims.org/" target="_blank" rel="noopener" class="pastille">🔬 Simulateur Ségré (web-labosims.org)</a>
-      <a href="https://www.cea.fr/multimedia/Documents/publications/les-essentiels/la-radioactivite.pdf" target="_blank" rel="noopener" class="pastille alt">📄 Livret CEA – Radioactivité</a>
-      <a href="https://www.iter.org/fr" target="_blank" rel="noopener" class="pastille">⚛ Projet ITER</a>
-      <a href="https://www.hatier-clic.fr/" target="_blank" rel="noopener" class="pastille alt">📝 QCM Hatier-clic (ch. 9)</a>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://segree.web-labosims.org/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Simulateur Ségré</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">web-labosims.org.</p>
+        </div>
+      </a>
+
+      <a href="https://www.cea.fr/multimedia/Documents/publications/les-essentiels/la-radioactivite.pdf" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">📄 Livret — La radioactivité</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">CEA · PDF.</p>
+        </div>
+      </a>
+
+      <a href="https://www.iter.org/fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">⚛ Projet ITER</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">iter.org.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM — Chapitre 9 <span style="font-size:0.7rem;font-weight:400;">(lien à vérifier)</span></h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier-clic.</p>
+        </div>
+      </a>
+
     </div>
+
     <h3>Exercices du manuel</h3>
     <span class="exo-tag">p157 n°11-12</span>
     <span class="exo-tag">p158 n°18</span>

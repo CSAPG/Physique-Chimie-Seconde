@@ -27,6 +27,8 @@
     --rouge-clair: #FDEDEC;
     --violet: #7B4FA6;
     --violet-clair: #F3EDF9;
+    --rose: #C2508A;
+    --rose-clair: #FBEAF2;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -958,7 +960,7 @@
       <span class="tab-num">5</span> Énergie massique
     </button>
     <button class="tab-btn" onclick="switchTab(5)">
-      <span class="tab-num">6</span> Bilan et ressources
+      <span class="tab-num">6</span> Bilan &amp; Ressources
     </button>
   </nav>
   <div class="cap-panel" id="capPanel">
@@ -1586,7 +1588,7 @@
 <div class="tab-content" id="tab-5">
   <div class="section-title">
     <span class="icon">📚</span>
-    <h2>Bilan et ressources</h2>
+    <h2>Bilan &amp; Ressources</h2>
   </div>
 
   <div class="sub-tabs-nav">
@@ -1596,6 +1598,45 @@
   </div>
 
   <div class="sub-tab-content active" id="bilan-sub-0">
+
+  <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
+  <div class="bilan-grid">
+    <div class="bilan-card">
+      <h4>Changements d'état</h4>
+      <ul class="ke-list">
+        <li>6 changements d'état : fusion, solidification, vaporisation, liquéfaction, sublimation, condensation</li>
+        <li>Équation de changement d'état, ex : NaCl(s) → NaCl(ℓ)</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Fusion vs dissolution</h4>
+      <ul class="ke-list">
+        <li>Fusion : changement d'état physique de l'espèce elle-même</li>
+        <li>Dissolution : dispersion dans un solvant, sans changement d'état</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Corps pur &amp; palier</h4>
+      <ul class="ke-list">
+        <li>Changement d'état d'un corps pur à température constante (palier)</li>
+        <li>Les deux états coexistent pendant tout le changement d'état</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Transfert thermique</h4>
+      <ul class="ke-list">
+        <li>Endothermique : le système capte de l'énergie (Q &gt; 0)</li>
+        <li>Exothermique : le système libère de l'énergie (Q &lt; 0)</li>
+      </ul>
+    </div>
+    <div class="bilan-card">
+      <h4>Énergie massique</h4>
+      <ul class="ke-list">
+        <li>Q = m × L</li>
+        <li>m en kg, L en J·kg⁻¹ (énergie massique / chaleur latente), Q en J</li>
+      </ul>
+    </div>
+  </div>
 
   <div class="activite-card">
     <h3>Schéma bilan à compléter</h3>
@@ -1773,48 +1814,54 @@
     </div>
   </div>
 
-  <div class="def-card">
-    <h3>Ce qu'il faut retenir</h3>
-    <ul class="ke-list">
-      <li>Une transformation physique change l'état d'une espèce sans changer sa nature (fusion, vaporisation, sublimation et leurs inverses).</li>
-      <li>La dissolution est différente de la fusion : l'espèce se disperse dans un solvant.</li>
-      <li>Un corps pur change d'état à température constante (palier).</li>
-      <li>Une transformation endothermique capte de l'énergie (Q &gt; 0) ; une transformation exothermique en libère (Q &lt; 0).</li>
-      <li>Q = m × L, avec m en kg, L en J·kg⁻¹ et Q en J.</li>
-    </ul>
-  </div>
-
-  <div class="def-card">
-    <h3>✅ Capacités exigibles — synthèse</h3>
-    <ul class="ke-list">
-      <li>Citer des exemples de changements d'état physique de la vie courante et dans l'environnement.</li>
-      <li>Établir l'écriture d'une équation pour un changement d'état.</li>
-      <li>Distinguer fusion et dissolution.</li>
-      <li>Identifier le sens du transfert thermique lors d'un changement d'état et le relier au terme exothermique ou endothermique.</li>
-      <li>Exploiter la relation entre l'énergie transférée lors d'un changement d'état et l'énergie massique de changement d'état de l'espèce.</li>
-      <li>Relier l'énergie échangée à la masse de l'espèce qui change d'état.</li>
-    </ul>
-  </div>
   </div>
   <!-- /bilan-sub-0 -->
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="transformation physique"><dt>Transformation physique</dt><dd>Change l'état d'une espèce chimique (solide, liquide, gaz) sans changer sa nature : fusion, vaporisation, sublimation et leurs transformations inverses.</dd></div>
+      <div class="gloss-item" data-term="equation changement etat"><dt>Équation de changement d'état</dt><dd>Écriture symbolique d'un changement d'état, précisant l'état initial et l'état final entre parenthèses : ex. NaCl(s) → NaCl(ℓ) pour une fusion.</dd></div>
       <div class="gloss-item" data-term="fusion dissolution"><dt>Fusion vs dissolution</dt><dd>La fusion est un changement d'état physique de l'espèce elle-même. La dissolution est différente : l'espèce se disperse dans un solvant sans changer d'état.</dd></div>
       <div class="gloss-item" data-term="palier temperature"><dt>Palier de changement d'état</dt><dd>Un corps pur change d'état à température constante : sa température reste stable tant que le changement d'état n'est pas terminé.</dd></div>
       <div class="gloss-item" data-term="endothermique exothermique"><dt>Endothermique / exothermique</dt><dd>Une transformation endothermique capte de l'énergie (transfert thermique Q > 0) ; une transformation exothermique en libère (Q < 0).</dd></div>
-      <div class="gloss-item" data-term="transfert thermique energie massique"><dt>Q = m × L</dt><dd>Q : transfert thermique lors du changement d'état (en J) ; m : masse de l'espèce (en kg) ; L : énergie massique de changement d'état, aussi appelée chaleur latente (en J·kg⁻¹).</dd></div>
+      <div class="gloss-item" data-term="energie thermique transfert Q m L"><dt>Énergie thermique de changement d'état</dt><dd>Notée Q, formule : <strong>Q = m × L</strong>. Q : transfert thermique lors du changement d'état (en J) ; m : masse de l'espèce (en kg) ; L : énergie massique de changement d'état (en J·kg⁻¹).</dd></div>
+      <div class="gloss-item" data-term="chaleur latente"><dt>Chaleur latente</dt><dd>Autre nom de l'énergie massique de changement d'état L (en J·kg⁻¹) : quantité d'énergie à apporter ou à retirer, par kg de matière, pour un changement d'état donné.</dd></div>
+      <div class="gloss-item" data-term="chaleur"><dt>Chaleur</dt><dd>Terme courant désignant le transfert thermique Q, énergie échangée entre deux systèmes de températures différentes (en J). À ne pas confondre avec la température.</dd></div>
+      <div class="gloss-item" data-term="temperature agitation"><dt>Température</dt><dd>Grandeur liée à l'agitation des entités d'un système (plus l'agitation est grande, plus la température est élevée) ; se mesure en °C ou K, à ne pas confondre avec la chaleur (Q, en J).</dd></div>
+      <div class="gloss-item" data-term="energie liberee captee"><dt>Énergie libérée / captée</dt><dd>Lors d'une transformation exothermique, le système libère de l'énergie vers l'extérieur (Q &lt; 0) ; lors d'une transformation endothermique, il capte de l'énergie (Q &gt; 0).</dd></div>
+      <div class="gloss-item" data-term="agitation thermique"><dt>Agitation thermique</dt><dd>Mouvement (vibration, déplacement) des entités d'un système, d'autant plus important que la température est élevée.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-  <div class="resource-card">
-    <h3 style="font-family:'Outfit',sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin-bottom:8px;">🔗 Ressource : transferts d'énergie thermique</h3>
+
+  <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+    <a href="https://www.pearltrees.com/private/id104964693/item809869654?paccess=47dfa6f8e48.3045a156.505b7f54b2c469597122a34e1a889d3b" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--vert);">🎬 Changement d'état et énergie (exothermique, endothermique)</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 52</p>
+      </div>
+    </a>
+
+    <a href="https://www.pearltrees.com/private/id104964693/item809869717?paccess=47dfa7259ed.3045a195.a54b0a1aa128f1baeba81452f62db7b4" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rose);" onmouseover="this.style.boxShadow='0 4px 16px rgba(194,80,138,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--rose);">🎬 Transformations endothermiques et exothermiques</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Florence Raffin · 4 min 19</p>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
+  <div class="resource-card" style="border-left:4px solid var(--bleu);">
+    <h3 style="font-family:'Outfit',sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin-bottom:8px;">🔬 Transferts d'énergie thermique</h3>
     <p style="font-size:0.88rem;line-height:1.6;color:var(--texte);">
       Cette simulation interactive (PhET, université du Colorado à Boulder) permet d'observer le transfert d'énergie thermique entre des objets de températures différentes, jusqu'à l'équilibre thermique. Place par exemple un bloc de fer chaud dans un bécher d'eau froide sur l'écran « Intro » : observe le sens des flèches d'énergie échangée, et relie cette observation au transfert thermique Q étudié dans ce chapitre (quel objet a Q &gt; 0, quel objet a Q &lt; 0 ?).
     </p>

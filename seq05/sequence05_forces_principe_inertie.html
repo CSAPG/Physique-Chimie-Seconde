@@ -22,6 +22,20 @@
     --blue:#1864ab;
     --blue-bg:#eaf4ff;
     --radius:14px;
+    /* Système de couleurs partagé (Ressources / Bilan) — aligné sur les autres séquences */
+    --bleu:#2D5F8A;
+    --bleu-clair:#E8F1F8;
+    --vert:#3A8A6E;
+    --vert-clair:#E8F5F0;
+    --rouge:#C0392B;
+    --rouge-clair:#FDEDEC;
+    --violet:#7B4FA6;
+    --violet-clair:#F3EDF9;
+    --texte:#1A2A3A;
+    --texte-léger:#5A6B7A;
+    --gris-fond:#F5F7FA;
+    --gris-bord:#DDE3EC;
+    --blanc:#FFFFFF;
   }
   *{box-sizing:border-box;}
   body{
@@ -178,6 +192,53 @@
   .gloss-item{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;}
   .gloss-item dt{font-weight:800;color:#2D5F8A;font-size:0.9rem;margin-bottom:4px;}
   .gloss-item dd{font-size:0.84rem;color:var(--black);line-height:1.55;}
+
+  /* ── Système partagé Bilan / Ressources (aligné sur les autres séquences) ── */
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 800;
+    color: var(--bleu);
+    margin: 28px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bleu-clair);
+  }
+  .section-title .icon { font-size: 1.3rem; }
+  .bilan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 14px 0;
+  }
+  @media (max-width: 560px) {
+    .bilan-grid { grid-template-columns: 1fr; }
+  }
+  .bilan-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: 'Nunito', sans-serif;
+  }
+  .bilan-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--gris-bord);
+  }
+  .bilan-card ul { padding-left: 16px; margin:0; }
+  .bilan-card ul li {
+    font-size: 0.84rem;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    color: var(--texte);
+  }
   .tab-btn:hover{color:#2D5F8A;}
 
   .tab-panel{display:none;}
@@ -963,28 +1024,27 @@
 
   <!-- ===== BILAN ===== -->
   <div class="sub-tab-content active" id="bilan-sub-0">
-    <section class="block">
-      <div class="info-box" style="border-style:solid;">
-        <p style="margin:0 0 8px; font-weight:700;">✅ Capacités exigibles — synthèse</p>
-        <p style="font-weight:600; margin:10px 0 4px;">Partie 1 — Modéliser une action sur un système</p>
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Modéliser une action</h4>
         <ul>
-          <li>Modéliser l'action d'un système extérieur sur le système étudié par une force ; représenter une force par un vecteur (norme, direction, sens).</li>
-          <li>Exploiter le principe des actions réciproques.</li>
-          <li>Distinguer actions à distance et actions de contact.</li>
-          <li>Identifier les actions modélisées par des forces dont les expressions mathématiques sont connues a priori.</li>
-          <li>Utiliser l'expression vectorielle de la force d'interaction gravitationnelle.</li>
-          <li>Utiliser l'expression vectorielle du poids d'un objet, approché par la force d'interaction gravitationnelle s'exerçant sur cet objet à la surface d'une planète.</li>
-          <li>Représenter qualitativement la force modélisant l'action d'un support dans des cas simples relevant de la statique.</li>
-        </ul>
-        <p style="font-weight:600; margin:14px 0 4px;">Partie 2 — Principe d'inertie</p>
-        <ul>
-          <li>Exploiter le principe d'inertie ou sa contraposée pour en déduire des informations soit sur la nature du mouvement, soit sur les forces.</li>
-          <li>Relier la variation entre deux instants voisins du vecteur vitesse à l'existence d'actions extérieures dont la somme est non nulle.</li>
-          <li>Relier la variation du vecteur vitesse dans le cas d'une chute libre à une dimension au sens du vecteur poids.</li>
-          <li>Réaliser et exploiter une vidéo ou une chronophotographie pour relier les variations du vecteur vitesse et la somme des forces appliquées.</li>
+          <li>Force = vecteur (norme, direction, sens) modélisant une action mécanique</li>
+          <li>Actions à distance (gravitationnelle…) ou de contact</li>
+          <li>Principe des actions réciproques : F(A/B) = −F(B/A)</li>
+          <li>Poids P = m × g ; F = G × (m<sub>A</sub> × m<sub>B</sub>) / d²</li>
         </ul>
       </div>
-    </section>
+      <div class="bilan-card">
+        <h4>Principe d'inertie</h4>
+        <ul>
+          <li>Forces qui se compensent ⟺ vitesse constante (repos ou MRU)</li>
+          <li>Contraposée : forces non compensées ⟹ la vitesse varie</li>
+          <li>Chute libre : seul le poids agit sur le système</li>
+        </ul>
+      </div>
+    </div>
 
     <section class="block" id="bloc-bilans-img">
       <h2>🖼️ Bilans visuels — Hatier</h2>
@@ -1015,14 +1075,19 @@
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="action mecanique"><dt>Action mécanique</dt><dd>Effet d'un système sur un autre, pouvant s'exercer à distance ou par contact.</dd></div>
       <div class="gloss-item" data-term="force"><dt>Force</dt><dd>Modélisation de l'action d'un système extérieur sur un système étudié, représentée par un vecteur (norme, direction, sens).</dd></div>
       <div class="gloss-item" data-term="actions reciproques troisieme loi newton"><dt>Principe des actions réciproques</dt><dd>Si un système A exerce une force sur un système B, alors B exerce sur A une force de même norme, même direction, de sens opposé (3ᵉ loi de Newton).</dd></div>
       <div class="gloss-item" data-term="poids"><dt>Poids</dt><dd>P = m × g : force verticale, dirigée vers le bas, approchant l'interaction gravitationnelle exercée sur un objet à la surface d'une planète.</dd></div>
       <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Force d'interaction gravitationnelle</dt><dd>F(A/B) = G × (m_A × m_B) / d² avec G = 6,67×10⁻¹¹ N·m²·kg⁻² : force d'attraction entre deux corps massifs.</dd></div>
+      <div class="gloss-item" data-term="champ pesanteur g"><dt>Champ de pesanteur (g)</dt><dd>Grandeur vectorielle caractérisant l'attraction terrestre en un point (g ≈ 9,8 N·kg⁻¹ au niveau du sol), diminuant avec l'altitude.</dd></div>
       <div class="gloss-item" data-term="principe inertie"><dt>Principe d'inertie</dt><dd>Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</dd></div>
       <div class="gloss-item" data-term="contraposee reciproque inertie"><dt>Contraposée du principe d'inertie</dt><dd>Si les forces appliquées à un système ne se compensent pas, alors son vecteur vitesse varie (en direction, sens ou valeur).</dd></div>
+      <div class="gloss-item" data-term="reciproque principe inertie"><dt>Réciproque du principe d'inertie</dt><dd>Si le vecteur vitesse d'un système ne varie pas (repos ou mouvement rectiligne uniforme), alors les forces qui s'exercent sur lui se compensent.</dd></div>
+      <div class="gloss-item" data-term="chute libre"><dt>Chute libre</dt><dd>Mouvement d'un objet soumis uniquement à son poids (aucune autre force, notamment pas de frottement).</dd></div>
       <div class="gloss-item" data-term="diagramme objet interactions"><dt>Diagramme objet-interactions</dt><dd>Schéma représentant le système étudié et l'ensemble des actions mécaniques (à distance ou de contact) qu'il subit de la part d'autres objets.</dd></div>
     </dl>
   </div>
@@ -1030,31 +1095,144 @@
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-    <section class="block" id="bloc-ressources">
-      <h2>📚 Ressources complémentaires</h2>
-      <p class="sub-label">Activités et vidéos pour aller plus loin</p>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
-      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📏 Mesure avec le dynamomètre</p>
-        <a href="https://www.pearltrees.com/private/id104961564/item801652852?paccess=47d210df351.2fc84074.93fce808df7cfae1ca4d544bc561efd3" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
-      </div>
+      <a href="https://www.pearltrees.com/private/id104961564/item801650885?paccess=47d210d362f.2fc838c5.be9fe0ee80b81174cce0b63fc259a9c2" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 La troisième loi de Newton</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
 
-      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🎬 Vidéo — La troisième loi de Newton</p>
-        <a href="https://www.pearltrees.com/private/id104961564/item801650885?paccess=47d210d362f.2fc838c5.be9fe0ee80b81174cce0b63fc259a9c2" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
-      </div>
+      <a href="https://www.pearltrees.com/private/id104961564/item801652926?paccess=47d210f284b.2fc840be.2be63b8cfacf6fbaa903a2ef85df7623" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Schématiser les forces</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        </div>
+      </a>
 
-      <div class="info-box" style="text-align:center; border-style:solid; margin-bottom:10px;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📐 Schématiser les forces</p>
-        <a href="https://www.pearltrees.com/private/id104961564/item801652926?paccess=47d210f284b.2fc840be.2be63b8cfacf6fbaa903a2ef85df7623" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Accéder à la ressource ↗</a>
-      </div>
+      <a href="https://www.pearltrees.com/private/id104961564/item801652852?paccess=47d210df351.2fc84074.93fce808df7cfae1ca4d544bc561efd3" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Mesure avec le dynamomètre</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Remy Besset.</p>
+        </div>
+      </a>
 
-      <div class="info-box" style="text-align:center; border-style:solid;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🚣 La barque de Constantin</p>
-        <p style="margin:0 0 12px; font-size:0.88rem;">Illustration du principe des actions réciproques (3<sup>ième</sup> loi de Newton).</p>
-        <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d211015cc.2fc834d6.2d4fca4140a2fac62bf6634e744a3d10" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
-      </div>
-    </section>
+      <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d211015cc.2fc834d6.2d4fca4140a2fac62bf6634e744a3d10" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🚣 La barque de Constantin</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Extrait de « Road to the Stars » (1957) · illustration du principe des actions réciproques.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104961564/item809838417?paccess=47dfa271053.30452751.f09798e79bd353636191d4a9dd2809ac" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 Gravitation Universelle, Attraction Universelle, Force d'interaction gravitationnelle, Pesanteur</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 6 min 20</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104961564/item809844050?paccess=47dfa288805.30453d52.f5c49e7d585c2fea5c2f81f3cf764a9e" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 1ère loi de Newton — Principe d'inertie</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 4 min 06</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/representation_force_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Représentation d'une force</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/masse_poids_dynamometre_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Masse, poids et dynamomètre</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/principe_inertie_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Principe d'inertie — simulation</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/masses-and-springs/latest/masses-and-springs_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Masses et ressorts</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Forces et mouvement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/fr/simulations/gravity-force-lab" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Force gravitationnelle</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_11/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 11</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_12/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 12</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_11/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — Chapitre 11</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_12/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — Chapitre 12</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
   </div>
   <!-- /bilan-sub-2 -->
 </div>

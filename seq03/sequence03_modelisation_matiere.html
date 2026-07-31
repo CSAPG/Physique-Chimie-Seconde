@@ -18,6 +18,22 @@
   --proton:#d1495b;
   --neutron:#8d99ae;
   --electron:#2f6f5e;
+  /* Système de couleurs partagé (Ressources / Bilan) — aligné sur les autres séquences */
+  --bleu:#2D5F8A;
+  --bleu-clair:#E8F1F8;
+  --orange:#E8783A;
+  --orange-clair:#FDF0E8;
+  --vert:#3A8A6E;
+  --vert-clair:#E8F5F0;
+  --gris-fond:#F5F7FA;
+  --gris-bord:#DDE3EC;
+  --texte:#1A2A3A;
+  --texte-léger:#5A6B7A;
+  --blanc:#FFFFFF;
+  --rouge:#C0392B;
+  --rouge-clair:#FDEDEC;
+  --violet:#7B4FA6;
+  --violet-clair:#F3EDF9;
 }
 *{box-sizing:border-box;}
 body{
@@ -730,6 +746,53 @@ table.particules th{background:var(--accent-light);color:var(--accent);}
   color:#fff;
 }
 .legend-swatch{width:16px;height:16px;border-radius:4px;border:1px solid var(--line);}
+
+/* ── Système partagé Bilan / Ressources (aligné sur les autres séquences) ── */
+.section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--bleu);
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--bleu-clair);
+}
+.section-title .icon { font-size: 1.3rem; }
+.bilan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+@media (max-width: 560px) {
+  .bilan-grid { grid-template-columns: 1fr; }
+}
+.bilan-card {
+  background: var(--blanc);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Nunito', sans-serif;
+}
+.bilan-card h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--bleu);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--gris-bord);
+}
+.bilan-card ul { padding-left: 16px; margin:0; }
+.bilan-card ul li {
+  font-size: 0.84rem;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  color: var(--texte);
+}
 
 /* QCM EXERCICES */
 .quiz-options{display:flex;flex-direction:column;gap:6px;}
@@ -2070,6 +2133,33 @@ button.cap-toggle:hover { background: #1e4466; }
 
   <!-- ===== BILAN ===== -->
   <div class="sub-tab-content active" id="bilan-sub-0">
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
+
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Notions clés</h4>
+        <ul>
+          <li>Espèce chimique (macroscopique) / entité chimique (microscopique)</li>
+          <li>Atome = noyau (Z protons, N neutrons) + cortège électronique (Z électrons)</li>
+          <li>Nombre de masse A = Z + N ; isotopes = même Z, N différent</li>
+          <li>Ion = atome ayant perdu (cation) ou gagné (anion) des électrons</li>
+          <li>Stabilité chimique : règle du duet/octet, gaz nobles stables</li>
+          <li>Structure électronique ↔ position dans le tableau périodique (couche de valence)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Vocabulaire</h4>
+        <ul>
+          <li><strong>Nucléon</strong> : proton ou neutron</li>
+          <li><strong>Numéro atomique Z</strong> : nombre de protons</li>
+          <li><strong>Cortège électronique</strong> : ensemble des électrons de l'atome</li>
+          <li><strong>Couche de valence</strong> : dernière couche électronique occupée</li>
+          <li><strong>Cation / anion</strong> : ion positif / négatif</li>
+          <li><strong>Molécule / composé ionique</strong> : assemblages d'atomes / d'ions</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title"><span class="icon" style="background:var(--vert-clair)">✅</span>Capacités exigibles — synthèse</div>
       <ul class="ke-list">
@@ -2084,37 +2174,253 @@ button.cap-toggle:hover { background: #1e4466; }
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>À l'échelle macroscopique, collection d'un très grand nombre d'entités chimiques identiques.</dd></div>
       <div class="gloss-item" data-term="entite chimique"><dt>Entité chimique</dt><dd>À l'échelle microscopique : un atome, un ion, une molécule ou un composé ionique.</dd></div>
-      <div class="gloss-item" data-term="atome"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique.</dd></div>
+      <div class="gloss-item" data-term="atome neutralite electrique"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique. La neutralité électrique impose autant d'électrons que de protons.</dd></div>
       <div class="gloss-item" data-term="ion cation anion"><dt>Ion</dt><dd>Entité chargée positivement (cation) ou négativement (anion), issue de la perte ou du gain d'électrons par un atome.</dd></div>
-      <div class="gloss-item" data-term="molecule"><dt>Molécule</dt><dd>Assemblage d'atomes en nombre limité, liés entre eux.</dd></div>
+      <div class="gloss-item" data-term="molecule"><dt>Molécule</dt><dd>Assemblage d'un nombre limité d'atomes qui mettent en commun des électrons afin de gagner en stabilité.</dd></div>
       <div class="gloss-item" data-term="compose ionique"><dt>Composé ionique</dt><dd>Assemblage compact et ordonné d'ions positifs et négatifs dont les charges se compensent (électroneutralité).</dd></div>
-      <div class="gloss-item" data-term="element chimique isotopes"><dt>Élément chimique</dt><dd>Ensemble des atomes et des ions qui possèdent le même numéro atomique Z (même nombre de protons). Des atomes de même Z mais de nombre de neutrons différent sont des isotopes.</dd></div>
-      <div class="gloss-item" data-term="gaz noble stabilite"><dt>Stabilité des gaz nobles</dt><dd>Les gaz nobles sont chimiquement stables car leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium).</dd></div>
+      <div class="gloss-item" data-term="nucleon"><dt>Nucléon</dt><dd>Nom générique désignant les constituants du noyau : proton et neutron. Proton et neutron ont des masses très proches (≈ 1,67 × 10⁻²⁷ kg).</dd></div>
+      <div class="gloss-item" data-term="proton"><dt>Proton</dt><dd>Nucléon chargé positivement (+e), présent dans le noyau ; son nombre définit le numéro atomique Z.</dd></div>
+      <div class="gloss-item" data-term="neutron"><dt>Neutron</dt><dd>Nucléon de charge électrique nulle, présent dans le noyau aux côtés des protons ; sa masse est très proche de celle du proton.</dd></div>
+      <div class="gloss-item" data-term="charge elementaire e"><dt>Charge élémentaire (e)</dt><dd>Charge électrique de référence, e ≈ 1,602 × 10⁻¹⁹ C ; le proton porte la charge +e, l'électron la charge −e.</dd></div>
+      <div class="gloss-item" data-term="electron"><dt>Électron</dt><dd>Particule du cortège électronique, chargée négativement (−e), de masse très faible (≈ 1836 fois plus légère qu'un nucléon), souvent négligée dans le calcul de la masse d'un atome.</dd></div>
+      <div class="gloss-item" data-term="proprietes physiques"><dt>Propriétés physiques</dt><dd>Caractéristiques mesurables d'une espèce chimique (masse volumique, température de changement d'état, couleur, etc.), sans transformation de la matière.</dd></div>
+      <div class="gloss-item" data-term="proprietes chimiques"><dt>Propriétés chimiques</dt><dd>Comportement d'une espèce chimique lors d'une transformation (réactivité, formation de liaisons, etc.), lié en particulier au nombre d'électrons de valence.</dd></div>
+      <div class="gloss-item" data-term="numero atomique Z"><dt>Numéro atomique Z</dt><dd>Nombre de protons dans le noyau d'un atome ; placé en bas dans la notation symbolique.</dd></div>
+      <div class="gloss-item" data-term="nombre de masse A nucleons"><dt>Nombre de masse A</dt><dd>Nombre total de nucléons (protons + neutrons) dans un noyau ; placé en haut dans la notation symbolique. Le nombre de neutrons se calcule par N = A − Z.</dd></div>
+      <div class="gloss-item" data-term="notation symbolique noyau"><dt>Notation symbolique d'un noyau</dt><dd>Écriture où X est le symbole de l'atome, A (nombre de masse) est placé en haut à gauche, et Z (numéro atomique) en bas à gauche.</dd></div>
+      <div class="gloss-item" data-term="element chimique"><dt>Élément chimique</dt><dd>Ensemble des atomes et des ions qui possèdent le même numéro atomique Z (même nombre de protons).</dd></div>
+      <div class="gloss-item" data-term="isotopes"><dt>Isotopes</dt><dd>Atomes ayant le même numéro atomique Z (même élément chimique) mais un nombre de neutrons différent, donc un nombre de masse A différent.</dd></div>
+      <div class="gloss-item" data-term="structure lacunaire matiere"><dt>Structure lacunaire</dt><dd>La matière est essentiellement constituée de vide : le noyau (≈ 10⁻¹⁵ m) est environ 100 000 fois plus petit que l'atome (≈ 10⁻¹⁰ m), qui concentre pourtant la quasi-totalité de sa masse.</dd></div>
+      <div class="gloss-item" data-term="masse atome"><dt>Masse de l'atome</dt><dd>m(atome) ≈ A × m(nucléon) : la masse de l'atome est pratiquement égale à celle de son noyau, la masse des électrons étant négligeable.</dd></div>
+      <div class="gloss-item" data-term="cortege electronique couche sous-couche"><dt>Cortège électronique</dt><dd>Ensemble des électrons de l'atome, répartis en couches numérotées (1, 2, 3…) puis en sous-couches (s, p…), chacune avec un nombre maximal d'électrons (2 pour s, 6 pour p).</dd></div>
+      <div class="gloss-item" data-term="configuration electronique"><dt>Configuration électronique</dt><dd>Répartition des électrons d'un atome dans les sous-couches, dans l'ordre de remplissage : 1s, puis 2s, 2p, puis 3s, 3p… (pour Z ≤ 18).</dd></div>
+      <div class="gloss-item" data-term="electron valence"><dt>Électron de valence</dt><dd>Électron de la dernière couche occupée (couche de valence) ; son nombre détermine la réactivité chimique et la position de l'atome dans le tableau périodique.</dd></div>
       <div class="gloss-item" data-term="couche valence electronique"><dt>Couche de valence</dt><dd>Dernière couche électronique occupée d'un atome ; elle détermine sa réactivité chimique et sa position dans le tableau périodique.</dd></div>
+      <div class="gloss-item" data-term="gaz noble stabilite"><dt>Stabilité des gaz nobles</dt><dd>Les gaz nobles sont chimiquement stables car leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium) : ils ne cherchent ni à gagner ni à perdre d'électrons.</dd></div>
+      <div class="gloss-item" data-term="famille chimique alcalins alcalino-terreux halogenes"><dt>Famille chimique</dt><dd>Ensemble des éléments d'une même colonne du tableau périodique, ayant le même nombre d'électrons de valence et des propriétés chimiques similaires : alcalins (col. 1, 1 e⁻ de valence), alcalino-terreux (col. 2, 2 e⁻), halogènes (col. 17, 7 e⁻), gaz nobles (col. 18, 8 e⁻ ou 2 pour l'hélium).</dd></div>
+      <div class="gloss-item" data-term="liaison covalente doublet liant"><dt>Liaison covalente (doublet liant)</dt><dd>Mise en commun de deux électrons de valence entre deux atomes (notée A—B), permettant à chacun d'acquérir une configuration électronique proche de celle d'un gaz noble.</dd></div>
+      <div class="gloss-item" data-term="doublet non liant"><dt>Doublet non liant</dt><dd>Paire d'électrons de valence d'un atome qui ne participe à aucune liaison, et reste propre à cet atome (représentée par un trait sur le symbole dans le schéma de Lewis).</dd></div>
+      <div class="gloss-item" data-term="schema de lewis"><dt>Schéma de Lewis</dt><dd>Représentation d'une molécule faisant apparaître tous les doublets liants (liaisons covalentes) et doublets non liants de chaque atome.</dd></div>
+      <div class="gloss-item" data-term="energie de liaison"><dt>Énergie de liaison</dt><dd>Énergie (en kJ/mol) nécessaire pour rompre une liaison covalente donnée ; l'énergie totale d'une molécule est la somme des énergies de chacune de ses liaisons.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-    <div class="card">
-      <h3>Bilans</h3>
-      <div class="pastilles">
-        <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640928?paccess=47d0774997c.2fc811e0.8cc3d8423b25b01a0da08f7ec1dcb67f" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — L'atome : noyau et cortège</a>
-        <a class="pastille" href="https://www.pearltrees.com/private/id104959327/item801640343?paccess=47d07755025.2fc80f97.7c52443959f04eb99d45653aff7ce424" target="_blank" rel="noopener">Bilan vidéo Clic Hatier — Entités chimiques stables</a>
-      </div>
 
-      <h3>Ressources</h3>
-      <div class="pastilles">
-        <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225324" target="_blank" rel="noopener">Cours du livre scolaire — Le cortège électronique de l'atome</a>
-        <a class="pastille alt" href="https://www.lelivrescolaire.fr/page/6225388" target="_blank" rel="noopener">Cours du livre scolaire — La stabilité des entités</a>
-        <a class="pastille ostralo" href="https://chimie.ostralo.net/structure_electronique/" target="_blank" rel="noopener">Animation Ostralo — Structure électronique</a>
-        <a class="pastille ostralo" href="https://chimie.ostralo.net/entites_chimiques/" target="_blank" rel="noopener">Animation Ostralo — Entités chimiques</a>
-      </div>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769364?paccess=47df9882798.30441994.1041166fb201e4218bff754b4f3a620e" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 ATOME ? MOLÉCULE ? ION ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 5 min 22</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769057?paccess=47df989bf7b.30441861.63376995fa0edca3cb33c7f9b4a8a83f" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Atome, masse et composition — Exercice</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 17</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769408?paccess=47df98a8b5d.304419c0.abc12d88fd95dca5f9e53fdaae6a3d41" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Comment CALCULER la MASSE d'un ATOME ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 5 min 50</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769242?paccess=47df98b2f09.3044191a.db26c7592094b9ac5385db48ab57f7c2" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Comment CALCULER la MASSE D'UN ATOME ? (2)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 04</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769294?paccess=47df98d1192.3044194e.d882b9d556ae09308886d6c97447099d" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Combien d'électrons de valence ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 2 min 39</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769165?paccess=47df98da8ab.304418cd.b1416525d89ed031ad2e2be75d06dfcc" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Comment écrire une CONFIGURATION ÉLECTRONIQUE ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 31</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769134?paccess=47df98e7b94.304418ae.7b5fff616f3052a3238cd5c68af8010b" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Configuration électronique d'un gaz noble</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 12</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item801640928?paccess=47d0774997c.2fc811e0.8cc3d8423b25b01a0da08f7ec1dcb67f" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Bilan vidéo — L'atome : noyau et cortège</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769600?paccess=47df98f48cb.30441a80.15000dacfe5e262956bfe704575bae0a" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Schéma de LEWIS d'un ATOME</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 27</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769507?paccess=47df98fe6e6.30441a23.484ec72462b0c83f477381d069327d5b" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Modèle de LEWIS : liaison covalente, doublet liant et non liant</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 40</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item801640343?paccess=47d07755025.2fc80f97.7c52443959f04eb99d45653aff7ce424" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Bilan vidéo — Entités chimiques stables</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769027?paccess=47df98be45d.30441843.6ae8ca9e374eaade28f87411eea473af" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 ATOME et Tableau périodique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 42</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104959327/item809769536?paccess=47df98c7f1f.30441a40.d68b88bc31e4ce4111a578daf273f23d" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Comprendre la CLASSIFICATION périodique de Mendeleïev</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 08</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/programme_rentree_2016/organisation_et_transformations_de_la_matiere/tableau_classification_periodique_elements_mendeleiev_proton_neutron_noyau_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Tableau périodique — protons, neutrons, noyau</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/tableau_classification_periodique_elements_mendeleiev_lewis_structure_electronique_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Tableau périodique — Lewis, structure électronique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/tableau_classification_periodique_atome_structure_configuration_electronique_sous_couches_spd_electrons_valence_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Tableau périodique — configuration électronique, sous-couches, valence</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/structure_electronique_spdf/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Structure électronique (s, p, d, f)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/entites_chimiques/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Entités chimiques</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+      <a href="https://chimie.ostralo.net/structure_electronique/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 Structure électronique</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Ostralo.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_03/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 3</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_04/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic — Chapitre 4</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_03/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — Chapitre 3</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_04/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions — Chapitre 4</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://view.genially.com/6075ac403291850dd60c3f64" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎮 Jeu interactif Genially</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.lelivrescolaire.fr/page/6225324" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">📘 Cours — Le cortège électronique de l'atome</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Le livre scolaire.</p>
+        </div>
+      </a>
+
+      <a href="https://www.lelivrescolaire.fr/page/6225388" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">📘 Cours — La stabilité des entités</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Le livre scolaire.</p>
+        </div>
+      </a>
+
     </div>
   </div>
   <!-- /bilan-sub-2 -->

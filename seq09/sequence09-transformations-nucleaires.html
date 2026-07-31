@@ -13,8 +13,8 @@
   --line:#d9d3c6;
 }
 *{box-sizing:border-box;}
-body{margin:0;font-family:"Georgia","Times New Roman",serif;background:var(--bg);color:var(--ink);line-height:1.55;}
-.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+body{margin:0;padding:14px;font-family:"Georgia","Times New Roman",serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+.wrap{max-width:1300px;margin:0 auto;padding:24px 18px 80px;}
 
 /* HEADER */
 .header{background:#fff;border:1px solid #E3E8EE;border-bottom:3px solid #2D5F8A;border-radius:14px;padding:18px 24px 14px;margin-bottom:24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(45,95,138,.10);}
@@ -51,6 +51,22 @@ body{margin:0;font-family:"Georgia","Times New Roman",serif;background:var(--bg)
 
 /* CARDS */
 .card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px;box-shadow:0 2px 6px rgba(0,0,0,.03);}
+.card-title{font-weight:700;font-size:0.95rem;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.ke-list{list-style:none;padding:0;}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:0.88rem;border-bottom:1px solid var(--line);line-height:1.5;}
+.ke-list li:last-child{border-bottom:none;}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--accent);font-weight:800;}
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto;}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:var(--accent-light);color:var(--accent);font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+.sub-tab-btn.active{background:var(--accent);color:#fff;}
+.sub-tab-content{display:none;}
+.sub-tab-content.active{display:block;animation:fade 0.2s ease;}
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:20px;font-size:0.88rem;margin-bottom:16px;}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;list-style:none;padding:0;}
+@media (max-width:600px){ .gloss-grid{grid-template-columns:1fr;} }
+.gloss-item{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;}
+.gloss-item dt{font-weight:800;color:var(--accent);font-size:0.9rem;margin-bottom:4px;}
+.gloss-item dd{font-size:0.84rem;color:var(--ink);line-height:1.55;}
 .card h2{font-size:1.25rem;margin-top:0;color:var(--accent);border-bottom:2px solid var(--accent-light);padding-bottom:8px;}
 .card h3{font-size:1.05rem;color:var(--accent2);margin:18px 0 8px;}
 .def{background:var(--accent-light);border-left:4px solid var(--accent);border-radius:6px;padding:12px 16px;margin:10px 0;}
@@ -134,7 +150,7 @@ button.cap-toggle:hover{background:#1e4466;}
 .nuclear-icon{position:relative;width:60px;height:60px;flex-shrink:0;}
 .nuclear-circle{position:absolute;inset:0;border-radius:50%;background:#facc15;box-shadow:0 0 10px rgba(250,204,21,.5);}
 .nuclear-svg{position:absolute;inset:0;width:100%;height:100%;}
-.nuclear-propeller{transform-origin:50px 50px;animation:nuclear-spin 3s linear infinite;}
+.nuclear-propeller{transform-origin:50px 50px;animation:nuclear-spin 10s linear infinite;}
 @keyframes nuclear-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 @media(prefers-reduced-motion:reduce){.nuclear-propeller{animation:none;}}
 
@@ -145,6 +161,8 @@ button.cap-toggle:hover{background:#1e4466;}
   .header{padding:14px 16px 10px;}
   .header-titles h1{font-size:1.1rem;}
   .tab-btn{padding:8px 10px 10px;font-size:.78rem;}
+  body{padding:6px;}
+  .wrap{padding:18px 12px 50px;}
 }
 </style>
 </head>
@@ -904,6 +922,37 @@ button.cap-toggle:hover{background:#1e4466;}
 <section class="panel" id="t6">
   <div class="card">
     <h2>📎 Bilan et ressources</h2>
+
+    <div class="sub-tabs-nav">
+      <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+      <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+      <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+    </div>
+
+    <div class="sub-tab-content active" id="bilan-sub-0">
+      <div class="card">
+        <div class="card-title">✅ Capacités exigibles — synthèse</div>
+        <ul class="ke-list">
+          <li>Identifier des isotopes.</li>
+          <li>Établir, à partir des noyaux père et fils, l'équation de la réaction nucléaire associée.</li>
+          <li>Relier l'énergie convertie dans le Soleil et dans une centrale nucléaire à des réactions nucléaires.</li>
+          <li>Identifier la nature physique, chimique ou nucléaire d'une transformation à partir de sa description ou d'une écriture symbolique.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub-tab-content" id="bilan-sub-1">
+      <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+      <dl class="gloss-grid" id="glossGrid">
+        <div class="gloss-item" data-term="isotopes"><dt>Isotopes</dt><dd>Noyaux ayant le même numéro atomique Z (même nombre de protons) mais un nombre de neutrons différent, donc un nombre de masse A différent.</dd></div>
+        <div class="gloss-item" data-term="lois soddy conservation"><dt>Lois de conservation (lois de Soddy)</dt><dd>Lors d'une réaction nucléaire, il y a conservation du nombre de masse A (nucléons) et du numéro atomique Z (charge) entre les noyaux avant et après la réaction.</dd></div>
+        <div class="gloss-item" data-term="fission"><dt>Fission nucléaire</dt><dd>Réaction au cours de laquelle un noyau lourd (ex : uranium-235) se scinde en deux noyaux plus légers sous l'effet d'un neutron, en libérant de l'énergie et des neutrons.</dd></div>
+        <div class="gloss-item" data-term="fusion"><dt>Fusion nucléaire</dt><dd>Réaction au cours de laquelle deux noyaux légers s'assemblent pour former un noyau plus lourd, en libérant une grande quantité d'énergie (réaction se produisant dans le Soleil).</dd></div>
+        <div class="gloss-item" data-term="transformation nucleaire"><dt>Transformation nucléaire</dt><dd>Transformation qui modifie la composition du noyau d'un atome (contrairement aux transformations physiques et chimiques, qui ne touchent pas le noyau).</dd></div>
+      </dl>
+    </div>
+
+    <div class="sub-tab-content" id="bilan-sub-2">
     <h3>Vidéos</h3>
     <div class="pastilles">
       <a href="https://www.pearltrees.com/private/id104964762/item801677194?paccess=47d1fbc8d72.2fc89f8a.48a0278dfdfb848bcaa4dc598ce42ced" target="_blank" rel="noopener" class="pastille blue">▶ Vidéo – Les isotopes</a>
@@ -922,6 +971,7 @@ button.cap-toggle:hover{background:#1e4466;}
     <span class="exo-tag">p158 n°18</span>
     <span class="exo-tag">p160 n°26-27-28</span>
     <span class="exo-tag">p162 n°35-36-37</span>
+    </div>
 
   </div>
 </section>
@@ -930,6 +980,22 @@ button.cap-toggle:hover{background:#1e4466;}
 <button id="backToTop" title="Revenir en haut">↑</button>
 
 <script>
+/* ====== Sous-onglets Bilan & Ressources ====== */
+function showSub(btn, id) {
+  const panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
 /* ====== TABS ====== */
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{

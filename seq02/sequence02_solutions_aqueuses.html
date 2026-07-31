@@ -684,7 +684,7 @@
     font-weight: 600;
   }
 
-  /* ── BILAN & Ressources ── */
+  /* ── BILAN ── */
   .bilan-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1073,7 +1073,7 @@ button.cap-toggle:hover { background: #1e4466; }
       <span class="tab-num">4</span> Dilution & étalonnage
     </button>
     <button class="tab-btn" onclick="switchTab(4)">
-      <span class="tab-num">5</span> Bilan & Ressources
+      <span class="tab-num">5</span> Bilan
     </button>
   </nav>
   <div class="cap-panel" id="capPanel">
@@ -2234,19 +2234,137 @@ button.cap-toggle:hover { background: #1e4466; }
       <div class="gloss-item" data-term="echelle teinte"><dt>Échelle de teinte</dt><dd>Série de solutions de concentrations connues et croissantes, permettant de déterminer par comparaison visuelle la concentration approximative d'une solution inconnue.</dd></div>
       <div class="gloss-item" data-term="grandeurs dilution"><dt>Grandeurs lors d'une dilution</dt><dd>Ne change pas : la masse de soluté dissous. Change : le volume total (augmente) et la concentration en masse (diminue).</dd></div>
       <div class="gloss-item" data-term="grandeurs caracteristiques solution"><dt>Grandeurs caractéristiques d'une solution</dt><dd>Concentration en masse Cm, masse volumique ρ, et grandeurs liées comme la couleur (échelle de teinte) ou la conductance.</dd></div>
+      <div class="gloss-item" data-term="solution aqueuse"><dt>Solution</dt><dd>Mélange liquide homogène obtenu en introduisant une ou plusieurs espèces chimiques dans un liquide majoritaire.</dd></div>
+      <div class="gloss-item" data-term="solvant"><dt>Solvant</dt><dd>Liquide majoritaire d'une solution.</dd></div>
+      <div class="gloss-item" data-term="solute"><dt>Soluté</dt><dd>Espèce chimique dissoute, minoritaire dans la solution.</dd></div>
+      <div class="gloss-item" data-term="solution mere fille"><dt>Solution mère / Solution fille</dt><dd>Solution mère : solution de départ. Solution fille : solution obtenue après dilution, moins concentrée que la solution mère.</dd></div>
+      <div class="gloss-item" data-term="fiole jaugee"><dt>Fiole jaugée</dt><dd>Verrerie de précision permettant d'ajuster un volume final exact au trait de jauge.</dd></div>
+      <div class="gloss-item" data-term="pipette jaugee"><dt>Pipette jaugée</dt><dd>Verrerie de précision (utilisée avec une poire à pipeter) permettant de prélever un volume exact de liquide.</dd></div>
+      <div class="gloss-item" data-term="trait de jauge"><dt>Trait de jauge</dt><dd>Repère gravé sur une verrerie précise (fiole ou pipette jaugée), indiquant le niveau à atteindre pour obtenir un volume exact.</dd></div>
+      <div class="gloss-item" data-term="solution etalon gamme etalonnage"><dt>Solution étalon / Gamme d'étalonnage</dt><dd>Série de solutions de concentrations connues, préparées par dilution, servant de référence pour déterminer par comparaison la concentration d'une solution inconnue.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
 
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
-    <div class="section-title"><span class="icon">🎬</span>Vidéo</div>
-    <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d" target="_blank" rel="noopener" style="text-decoration:none;">
-      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);max-width:340px" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-        <h4 style="color:var(--rouge);">🎬 Vidéo de synthèse du chapitre</h4>
-        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Accès Pearltrees requis</p>
-      </div>
-    </a>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809766761?paccess=47df95700a3.30440f69.d5a1b5a5f41de2b2ad0f5f3a711d4d93" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Qu'est-ce qu'une solution ? Soluté ? Solvant ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 2 min 25</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809766682?paccess=47df9551deb.30440f1a.17a8fd5adb502ce200bac0b75aabe926" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🎬 Dissolution ≠ Dilution ≠ Fusion</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 2 min 54</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809767780?paccess=47df960e270.30441364.f0ee96a306c2856008c1f86c2655316f" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Concentration en masse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 28</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809767625?paccess=47df95ec179.304412c9.5427c6e7efd77f6f8cfc5e75d3bb9c14" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Dilution &amp; dissolution</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 6 min 25</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809767360?paccess=47df95cf516.304411c0.d646fcffecacb110de42cd70583196b9" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Quel volume de solution mère prélever ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 56</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item809767166?paccess=47df95b4ad5.304410fe.390c7a0fa85a5d57b96f5701d10d009d" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Les solutions aqueuses (complet)</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 13 min 20</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🎬 Vidéo de synthèse du chapitre</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/cinquieme/chimie/dissolution_dilution_fusion_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--violet);">🔬 Dissolution, dilution, fusion — simulation</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔬 PhET — Concentration</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_02/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_02/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_concentrationenmasse/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🧩 Activité interactive — concentration en masse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc2_FM_num01_mesure.pdf" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📄 Fiche méthode — Mesurer une masse et un volume</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · PDF.</p>
+        </div>
+      </a>
+
+    </div>
   </div>
   <!-- /bilan-sub-2 -->
 </div><!-- fin tab-4 -->

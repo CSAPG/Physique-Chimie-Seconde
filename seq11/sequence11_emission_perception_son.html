@@ -21,12 +21,13 @@
 *{box-sizing:border-box;}
 body{
   margin:0;
+  padding:14px;
   font-family:"Georgia","Iowan Old Style","Times New Roman",serif;
   background:var(--bg);
   color:var(--ink);
   line-height:1.55;
 }
-.wrap{max-width:980px;margin:0 auto;padding:24px 18px 80px;}
+.wrap{max-width:1300px;margin:0 auto;padding:24px 18px 80px;}
 
 /* HEADER */
 .header{
@@ -115,6 +116,10 @@ body{
 @media(max-width:600px){
   .sound-icon{width:46px;height:46px;}
   .sound-icon svg{width:46px;height:46px;}
+  body{padding:6px;}
+  .wrap{padding:18px 12px 50px;}
+  .header{padding:14px 16px 10px;}
+  .header-titles h1{font-size:1.1rem;}
 }
 
 /* CAPACITÉS EXIGIBLES */
@@ -205,6 +210,21 @@ button.cap-toggle:hover{background:#1e4466;}
   border-bottom:2px solid var(--accent-light);
   padding-bottom:8px;
 }
+.ke-list{list-style:none;padding:0;}
+.ke-list li{padding:6px 10px 6px 28px;position:relative;font-size:0.88rem;border-bottom:1px solid var(--line);line-height:1.5;}
+.ke-list li:last-child{border-bottom:none;}
+.ke-list li::before{content:"✓";position:absolute;left:8px;color:var(--accent);font-weight:800;}
+.sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto;}
+.sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:var(--accent-light);color:var(--accent);font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+.sub-tab-btn.active{background:var(--accent);color:#fff;}
+.sub-tab-content{display:none;}
+.sub-tab-content.active{display:block;animation:fade 0.2s ease;}
+.gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:20px;font-size:0.88rem;margin-bottom:16px;}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;list-style:none;padding:0;}
+@media (max-width:600px){ .gloss-grid{grid-template-columns:1fr;} }
+.gloss-item{background:var(--paper);border:1.5px solid var(--line);border-radius:10px;padding:12px 16px;}
+.gloss-item dt{font-weight:800;color:var(--accent);font-size:0.9rem;margin-bottom:4px;}
+.gloss-item dd{font-size:0.84rem;color:var(--ink);line-height:1.55;}
 .card h3{
   font-size:1.05rem;
   color:var(--accent2);
@@ -1143,6 +1163,13 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 <!-- ================================================================ -->
 <div class="panel" id="panel-4">
 
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
   <div class="card">
     <h2>📝 Bilan de la séquence</h2>
     <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;color:#5A6B7A;margin-top:0;">
@@ -1199,6 +1226,38 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
   </div>
 
   <div class="card">
+    <h2>✅ Capacités exigibles — synthèse</h2>
+    <ul class="ke-list">
+      <li>Décrire le principe de l'émission d'un signal sonore par la mise en vibration d'un objet et l'intérêt de la présence d'une caisse de résonance.</li>
+      <li>Expliquer le rôle joué par le milieu matériel dans le phénomène de propagation d'un signal sonore.</li>
+      <li>Citer une valeur approchée de la vitesse de propagation d'un signal sonore dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
+      <li>Définir et déterminer la période et la fréquence d'un signal sonore, notamment à partir de sa représentation temporelle. Appliquer f = 1/T.</li>
+      <li>Citer les domaines de fréquences des sons audibles, des infrasons et des ultrasons.</li>
+      <li>Relier qualitativement la fréquence à la hauteur d'un son audible.</li>
+      <li>Relier qualitativement intensité sonore et niveau d'intensité sonore. Exploiter une échelle de niveau d'intensité sonore et citer les dangers inhérents à l'exposition sonore.</li>
+    </ul>
+  </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="vibration signal sonore"><dt>Signal sonore</dt><dd>Produit par la vibration d'un objet : sans vibration, pas de son.</dd></div>
+      <div class="gloss-item" data-term="milieu propagation"><dt>Milieu de propagation</dt><dd>Un signal sonore a besoin d'un milieu matériel pour se propager ; il ne se propage pas dans le vide.</dd></div>
+      <div class="gloss-item" data-term="signal periodique"><dt>Signal périodique</dt><dd>Signal sonore dont l'enregistrement présente la répétition régulière d'un même motif.</dd></div>
+      <div class="gloss-item" data-term="periode frequence"><dt>Période T et fréquence f</dt><dd>T : durée d'un motif (en s). f : nombre de motifs par seconde (en Hz). f = 1/T, T = 1/f.</dd></div>
+      <div class="gloss-item" data-term="infrason ultrason audible"><dt>Infrasons / ultrasons</dt><dd>Audibilité humaine : 20 Hz à 20 000 Hz. En dessous de 20 Hz : infrasons. Au-dessus de 20 kHz : ultrasons.</dd></div>
+      <div class="gloss-item" data-term="hauteur son"><dt>Hauteur d'un son</dt><dd>Liée à la fréquence : f élevée → son aigu ; f faible → son grave.</dd></div>
+      <div class="gloss-item" data-term="vitesse propagation"><dt>Vitesse de propagation</dt><dd>v = d / Δt : distance parcourue par le signal sonore divisée par la durée du trajet.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
+  <div class="card">
     <h2>📚 Toutes les ressources</h2>
     <h3>Logiciels</h3>
     <div class="pastilles">
@@ -1223,6 +1282,8 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       <strong>Perception :</strong> p.260 n°14-15 – p.261 n°22 – p.263 n°30 – p.264 n°32 – p.265 n°34
     </p>
   </div>
+  </div>
+  <!-- /bilan-sub-2 -->
 
 </div><!-- /panel-4 -->
 
@@ -1230,6 +1291,21 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 
 <script>
 /* ============== NAVIGATION ONGLETS ============== */
+function showSub(btn, id) {
+  const panel = btn.closest('.panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
+
 function showTab(i){
   document.querySelectorAll('.panel').forEach((p,j)=>{
     p.classList.toggle('active',j===i);

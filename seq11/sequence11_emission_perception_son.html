@@ -17,6 +17,16 @@
   --line:#d9d3c6;
   --blue:#2D5F8A;
   --blue-light:#E8F1F8;
+  /* Système de couleurs partagé (Bilan / Ressources) — aligné sur les autres séquences */
+  --bleu:#2D5F8A;--bleu-clair:#E8F1F8;
+  --vert:#3A8A6E;--vert-clair:#E8F5F0;
+  --rouge:#C0392B;--rouge-clair:#FDEDEC;
+  --violet:#7B4FA6;--violet-clair:#F3EDF9;
+  --rose:#C2508A;--rose-clair:#FBEAF2;
+  --jaune:#C9A227;--jaune-clair:#FBF6E3;
+  --texte:#1A2A3A;--texte-léger:#5A6B7A;
+  --gris-fond:#F5F7FA;--gris-bord:#DDE3EC;
+  --blanc:#FFFFFF;
 }
 *{box-sizing:border-box;}
 body{
@@ -423,23 +433,33 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 .signal-controls label{font-weight:700;color:var(--accent);}
 .signal-controls input[type=range]{width:120px;accent-color:var(--accent);}
 
-/* BILAN RECAP */
+/* BILAN / RESSOURCES — système partagé, aligné sur les autres séquences */
+.section-title { font-family: 'Outfit', sans-serif; font-size: 1.18rem; font-weight: 800; color: var(--bleu); margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bleu-clair); }
+.section-title .icon { font-size: 1.3rem; }
 .bilan-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:1fr 1fr;
   gap:14px;margin:14px 0;
 }
+@media (max-width:560px){ .bilan-grid{ grid-template-columns:1fr; } }
 .bilan-card{
-  background:var(--accent-light);border-radius:10px;padding:14px 16px;
-  font-family:"Helvetica Neue",Arial,sans-serif;font-size:0.9rem;
+  background: var(--blanc);
+  border: 1.5px solid var(--gris-bord);
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Nunito', sans-serif;
 }
-.bilan-card .bc-title{font-weight:700;color:var(--accent);margin-bottom:6px;font-size:0.95rem;}
-.bilan-card.orange{background:var(--accent2-light);}
-.bilan-card.orange .bc-title{color:var(--accent2);}
-.bilan-card.blue{background:var(--blue-light);}
-.bilan-card.blue .bc-title{color:var(--blue);}
-.bilan-card.violet{background:rgba(124,77,186,0.10);}
-.bilan-card.violet .bc-title{color:#7c4dba;}
+.bilan-card h4{
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--bleu);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid var(--gris-bord);
+}
+.bilan-card ul{ padding-left:16px; margin:0; }
+.bilan-card ul li{ font-size:0.84rem; margin-bottom:5px; line-height:1.5; color:var(--texte); }
 </style>
 </head>
 <body>
@@ -480,7 +500,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       <span class="tab-num">4</span> Perception d'un son
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab(4)">
-      <span class="tab-num">5</span> Bilan &amp; ressources
+      <span class="tab-num">5</span> Bilan &amp; Ressources
     </button>
   </nav>
 
@@ -1171,85 +1191,60 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 
   <div class="sub-tab-content active" id="bilan-sub-0">
   <div class="card">
-    <h2>📝 Bilan de la séquence</h2>
+    <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
     <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;color:#5A6B7A;margin-top:0;">
       Thème <em>Ondes et signaux</em> — Physique-Chimie 2nde — ©C.Poirault-Gauvin
     </p>
 
-    <h3>Récapitulatif des formules</h3>
-    <table class="data">
-      <thead>
-        <tr><th>Grandeur</th><th>Symbole</th><th>Unité</th><th>Formule</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Vitesse de propagation</td><td>v</td><td>m·s⁻¹</td><td>v = d / Δt</td></tr>
-        <tr><td>Période</td><td>T</td><td>s (ou ms)</td><td>T = durée d'un motif</td></tr>
-        <tr><td>Fréquence</td><td>f</td><td>Hz</td><td>f = 1 / T</td></tr>
-      </tbody>
-    </table>
-
-    <h3>📹 Vidéos de cours</h3>
-    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;">
-
-      <!-- Vidéo 1 : Qu'est-ce qu'un son ? -->
-      <div style="flex:1 1 280px;">
-        <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent);margin-bottom:6px;">
-          🔊 Qu'est-ce qu'un son ?
-        </div>
-        <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
-          <iframe
-            src="https://www.pearltrees.com/private/id104964797/item802616561?paccess=47d20972c4f.2fd6f4f1.6ffbdbe4942eaa7ae3e5eb06fc84461f"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
-            allowfullscreen
-            title="Qu'est-ce qu'un son ?">
-          </iframe>
-        </div>
+    <div class="bilan-grid">
+      <div class="bilan-card">
+        <h4>Émission d'un son</h4>
+        <ul>
+          <li>Un son est produit par la vibration d'un objet</li>
+          <li>La caisse de résonance amplifie le son sans apport d'énergie supplémentaire</li>
+        </ul>
       </div>
-
-      <!-- Vidéo 2 : Le signal sonore -->
-      <div style="flex:1 1 280px;">
-        <div style="font-family:'Helvetica Neue',sans-serif;font-size:0.85rem;font-weight:700;color:var(--accent);margin-bottom:6px;">
-          📈 Le signal sonore
-        </div>
-        <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;border:1px solid var(--line);">
-          <iframe
-            src="https://www.pearltrees.com/private/id104964797/item802619381?paccess=47d20a11469.2fd6fff5.8f3d2967c546d61fb47ca9a0e7919fb4"
-            style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:10px;"
-            allowfullscreen
-            title="Le signal sonore">
-          </iframe>
-        </div>
+      <div class="bilan-card">
+        <h4>Propagation</h4>
+        <ul>
+          <li>Besoin d'un milieu matériel ; ne se propage pas dans le vide</li>
+          <li>v = d / Δt</li>
+        </ul>
       </div>
-
+      <div class="bilan-card">
+        <h4>Signaux périodiques</h4>
+        <ul>
+          <li>Signal périodique : répétition régulière d'un même motif</li>
+          <li>T = durée d'un motif (s) ; f = 1/T (Hz)</li>
+        </ul>
+      </div>
+      <div class="bilan-card">
+        <h4>Perception d'un son</h4>
+        <ul>
+          <li>Audible : 20 Hz à 20 000 Hz (infrasons en dessous, ultrasons au-dessus)</li>
+          <li>Hauteur ↔ fréquence ; timbre ↔ forme du signal ; intensité ↔ amplitude (dB)</li>
+        </ul>
+      </div>
     </div>
 
-  </div>
-
-  <div class="card">
-    <h2>✅ Capacités exigibles — synthèse</h2>
-    <ul class="ke-list">
-      <li>Décrire le principe de l'émission d'un signal sonore par la mise en vibration d'un objet et l'intérêt de la présence d'une caisse de résonance.</li>
-      <li>Expliquer le rôle joué par le milieu matériel dans le phénomène de propagation d'un signal sonore.</li>
-      <li>Citer une valeur approchée de la vitesse de propagation d'un signal sonore dans l'air et la comparer à d'autres valeurs de vitesses couramment rencontrées.</li>
-      <li>Définir et déterminer la période et la fréquence d'un signal sonore, notamment à partir de sa représentation temporelle. Appliquer f = 1/T.</li>
-      <li>Citer les domaines de fréquences des sons audibles, des infrasons et des ultrasons.</li>
-      <li>Relier qualitativement la fréquence à la hauteur d'un son audible.</li>
-      <li>Relier qualitativement intensité sonore et niveau d'intensité sonore. Exploiter une échelle de niveau d'intensité sonore et citer les dangers inhérents à l'exposition sonore.</li>
-    </ul>
   </div>
   </div>
   <!-- /bilan-sub-0 -->
 
   <!-- ===== GLOSSAIRE ===== -->
   <div class="sub-tab-content" id="bilan-sub-1">
+    <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="vibration signal sonore"><dt>Signal sonore</dt><dd>Produit par la vibration d'un objet : sans vibration, pas de son.</dd></div>
+      <div class="gloss-item" data-term="caisse resonance"><dt>Caisse de résonance</dt><dd>Enceinte creuse qui entre en vibration avec la source sonore et amplifie le son, sans apport d'énergie supplémentaire.</dd></div>
       <div class="gloss-item" data-term="milieu propagation"><dt>Milieu de propagation</dt><dd>Un signal sonore a besoin d'un milieu matériel pour se propager ; il ne se propage pas dans le vide.</dd></div>
       <div class="gloss-item" data-term="signal periodique"><dt>Signal périodique</dt><dd>Signal sonore dont l'enregistrement présente la répétition régulière d'un même motif.</dd></div>
       <div class="gloss-item" data-term="periode frequence"><dt>Période T et fréquence f</dt><dd>T : durée d'un motif (en s). f : nombre de motifs par seconde (en Hz). f = 1/T, T = 1/f.</dd></div>
       <div class="gloss-item" data-term="infrason ultrason audible"><dt>Infrasons / ultrasons</dt><dd>Audibilité humaine : 20 Hz à 20 000 Hz. En dessous de 20 Hz : infrasons. Au-dessus de 20 kHz : ultrasons.</dd></div>
       <div class="gloss-item" data-term="hauteur son"><dt>Hauteur d'un son</dt><dd>Liée à la fréquence : f élevée → son aigu ; f faible → son grave.</dd></div>
+      <div class="gloss-item" data-term="timbre"><dt>Timbre</dt><dd>Identité sonore d'un instrument ou d'une voix, liée à la forme du signal (permet de distinguer deux sons de même hauteur).</dd></div>
+      <div class="gloss-item" data-term="intensite sonore decibel"><dt>Intensité sonore</dt><dd>Liée à l'amplitude du signal ; se mesure en décibels (dB) à l'aide d'un sonomètre.</dd></div>
       <div class="gloss-item" data-term="vitesse propagation"><dt>Vitesse de propagation</dt><dd>v = d / Δt : distance parcourue par le signal sonore divisée par la durée du trajet.</dd></div>
     </dl>
   </div>
@@ -1258,23 +1253,105 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
   <!-- ===== RESSOURCES ===== -->
   <div class="sub-tab-content" id="bilan-sub-2">
   <div class="card">
-    <h2>📚 Toutes les ressources</h2>
-    <h3>Logiciels</h3>
-    <div class="pastilles">
-      <a class="pastille" href="https://audacityteam.org/download/" target="_blank">⬇ Audacity (enregistrement son)</a>
-      <a class="pastille alt" href="http://www.01net.com/telecharger/windows/Loisirs/musique/fiches/36729.html" target="_blank">⬇ Piano Virtuel</a>
+    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pearltrees.com/private/id104964797/item802616561?paccess=47d20972c4f.2fd6f4f1.6ffbdbe4942eaa7ae3e5eb06fc84461f" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Qu'est-ce qu'un son ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 45</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=dFX91Kzqkwk" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Qu'est-ce qu'un son ?</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">C'est pas sorcier · 2 min 12</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964797/item802619381?paccess=47d20a11469.2fd6fff5.8f3d2967c546d61fb47ca9a0e7919fb4" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Le signal sonore</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 2 min 16</p>
+        </div>
+      </a>
+
+      <a href="https://www.pearltrees.com/private/id104964797/item801676560?paccess=47dfa920be8.2fc89d10.0522ae6a3ad3f08a47ec11df25c5a14a" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--vert);">🎬 Son, haut-parleur, air</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 0 min 35</p>
+        </div>
+      </a>
+
+      <a href="https://youtu.be/hVLX_DD41gI?si=pZl372EiB3kXXVAX" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 MT00271 — Maquette célérité du son dans l'air</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Pierron · 4 min 05</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/embed/RiF53vvzraA" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🎬 Visualiser les sons</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Unisciel · 2 min 04</p>
+        </div>
+      </a>
+
     </div>
-    <h3>Vidéos</h3>
-    <div class="pastilles">
-      <a class="pastille" href="https://www.youtube.com/watch?v=dFX91Kzqkwk" target="_blank">▶ Casser un verre avec un son ?</a>
-      <a class="pastille" href="https://www.youtube.com/watch?v=GkNJLnQdYjI" target="_blank">▶ Mesure vitesse du son (5'20)</a>
-      <a class="pastille" href="https://www.youtube.com/watch?v=rJ8Nk0ZkPeA" target="_blank">▶ TP vitesse du son (10'32)</a>
-      <a class="pastille alt" href="https://www.youtube.com/watch?v=ZU1qvLiPDCM" target="_blank">▶ Dangers de la musique forte</a>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_13/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_13/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
     </div>
-    <h3>Références web</h3>
-    <div class="pastilles">
-      <a class="pastille violet" href="https://www.inserm.fr/information-en-sante/dossiers-dinformation/troubles-de-laudition-surdites" target="_blank">🔗 INSERM — Troubles de l'audition</a>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🔗</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        </div>
+      </a>
+
+      <a href="https://audacityteam.org/download/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">⬇️ Audacity</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Logiciel d'enregistrement son.</p>
+        </div>
+      </a>
+
+      <a href="http://www.01net.com/telecharger/windows/Loisirs/musique/fiches/36729.html" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">⬇️ Piano virtuel</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">01net.</p>
+        </div>
+      </a>
+
+      <a href="https://www.inserm.fr/information-en-sante/dossiers-dinformation/troubles-de-laudition-surdites" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--bleu);">🔗 Troubles de l'audition</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">INSERM.</p>
+        </div>
+      </a>
+
     </div>
+
     <h3>Exercices du manuel</h3>
     <p style="font-family:'Helvetica Neue',sans-serif;font-size:0.88rem;">
       <strong>Propagation :</strong> n°23 p.244 – n°29 p.245 – n°47 p.249 – n°43 p.248<br>

@@ -26,6 +26,7 @@
   *{box-sizing:border-box;}
   body{
     margin:0;
+    padding:14px;
     background:var(--bg);
     color:var(--black);
     font-family:"Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -62,7 +63,7 @@
   sub, sup{font-style:normal;}
 
   /* ---------- Layout général ---------- */
-  .wrap{max-width:1000px; margin:0 auto; padding:0 20px 60px;}
+  .wrap{max-width:1300px; margin:0 auto; padding:0 20px 60px;}
 
   .header{
     background:#ffffff;
@@ -70,7 +71,7 @@
     border-bottom:3px solid #2D5F8A;
     border-radius:14px;
     padding:18px 24px 14px;
-    max-width:1000px;
+    max-width:1300px;
     margin:0 auto 20px;
     position:sticky;
     top:0;
@@ -165,6 +166,18 @@
     bottom:-3px;
   }
   .tab-btn.active{background:#E8F1F8; color:#2D5F8A; border-bottom-color:#2D5F8A; border-radius:6px 6px 0 0;}
+  @keyframes fadein{from{opacity:0;}to{opacity:1;}}
+  .sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto;}
+  .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#E8F1F8;color:#2D5F8A;font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+  .sub-tab-btn.active{background:#2D5F8A;color:#fff;}
+  .sub-tab-content{display:none;}
+  .sub-tab-content.active{display:block;animation:fadein 0.3s ease;}
+  .gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:0.88rem;margin-bottom:16px;}
+  .gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;list-style:none;padding:0;}
+  @media (max-width:600px){ .gloss-grid{grid-template-columns:1fr;} }
+  .gloss-item{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;}
+  .gloss-item dt{font-weight:800;color:#2D5F8A;font-size:0.9rem;margin-bottom:4px;}
+  .gloss-item dd{font-size:0.84rem;color:var(--black);line-height:1.55;}
   .tab-btn:hover{color:#2D5F8A;}
 
   .tab-panel{display:none;}
@@ -414,6 +427,8 @@
     .header-titles h1{font-size:1.1rem;}
     section.block{padding:18px 16px;}
     .tab-btn{font-size:0.78rem; padding:8px 10px 10px;}
+    body{padding:6px;}
+    .wrap{padding:0 12px 50px;}
   }
 </style>
 </head>
@@ -940,6 +955,37 @@
 
   <!-- ===================== TAB 3 ===================== -->
   <div class="tab-panel" id="tab3">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <!-- ===== BILAN ===== -->
+  <div class="sub-tab-content active" id="bilan-sub-0">
+    <section class="block">
+      <div class="info-box" style="border-style:solid;">
+        <p style="margin:0 0 8px; font-weight:700;">✅ Capacités exigibles — synthèse</p>
+        <p style="font-weight:600; margin:10px 0 4px;">Partie 1 — Modéliser une action sur un système</p>
+        <ul>
+          <li>Modéliser l'action d'un système extérieur sur le système étudié par une force ; représenter une force par un vecteur (norme, direction, sens).</li>
+          <li>Exploiter le principe des actions réciproques.</li>
+          <li>Distinguer actions à distance et actions de contact.</li>
+          <li>Identifier les actions modélisées par des forces dont les expressions mathématiques sont connues a priori.</li>
+          <li>Utiliser l'expression vectorielle de la force d'interaction gravitationnelle.</li>
+          <li>Utiliser l'expression vectorielle du poids d'un objet, approché par la force d'interaction gravitationnelle s'exerçant sur cet objet à la surface d'une planète.</li>
+          <li>Représenter qualitativement la force modélisant l'action d'un support dans des cas simples relevant de la statique.</li>
+        </ul>
+        <p style="font-weight:600; margin:14px 0 4px;">Partie 2 — Principe d'inertie</p>
+        <ul>
+          <li>Exploiter le principe d'inertie ou sa contraposée pour en déduire des informations soit sur la nature du mouvement, soit sur les forces.</li>
+          <li>Relier la variation entre deux instants voisins du vecteur vitesse à l'existence d'actions extérieures dont la somme est non nulle.</li>
+          <li>Relier la variation du vecteur vitesse dans le cas d'une chute libre à une dimension au sens du vecteur poids.</li>
+          <li>Réaliser et exploiter une vidéo ou une chronophotographie pour relier les variations du vecteur vitesse et la somme des forces appliquées.</li>
+        </ul>
+      </div>
+    </section>
+
     <section class="block" id="bloc-bilans-img">
       <h2>🖼️ Bilans visuels — Hatier</h2>
       <p class="sub-label">Visionne la vidéo bilan, puis consulte l'image de synthèse</p>
@@ -964,7 +1010,26 @@
 
       </div>
     </section>
+  </div>
+  <!-- /bilan-sub-0 -->
 
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="force"><dt>Force</dt><dd>Modélisation de l'action d'un système extérieur sur un système étudié, représentée par un vecteur (norme, direction, sens).</dd></div>
+      <div class="gloss-item" data-term="actions reciproques troisieme loi newton"><dt>Principe des actions réciproques</dt><dd>Si un système A exerce une force sur un système B, alors B exerce sur A une force de même norme, même direction, de sens opposé (3ᵉ loi de Newton).</dd></div>
+      <div class="gloss-item" data-term="poids"><dt>Poids</dt><dd>P = m × g : force verticale, dirigée vers le bas, approchant l'interaction gravitationnelle exercée sur un objet à la surface d'une planète.</dd></div>
+      <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Force d'interaction gravitationnelle</dt><dd>F(A/B) = G × (m_A × m_B) / d² avec G = 6,67×10⁻¹¹ N·m²·kg⁻² : force d'attraction entre deux corps massifs.</dd></div>
+      <div class="gloss-item" data-term="principe inertie"><dt>Principe d'inertie</dt><dd>Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</dd></div>
+      <div class="gloss-item" data-term="contraposee reciproque inertie"><dt>Contraposée du principe d'inertie</dt><dd>Si les forces appliquées à un système ne se compensent pas, alors son vecteur vitesse varie (en direction, sens ou valeur).</dd></div>
+      <div class="gloss-item" data-term="diagramme objet interactions"><dt>Diagramme objet-interactions</dt><dd>Schéma représentant le système étudié et l'ensemble des actions mécaniques (à distance ou de contact) qu'il subit de la part d'autres objets.</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
     <section class="block" id="bloc-ressources">
       <h2>📚 Ressources complémentaires</h2>
       <p class="sub-label">Activités et vidéos pour aller plus loin</p>
@@ -991,6 +1056,8 @@
       </div>
     </section>
   </div>
+  <!-- /bilan-sub-2 -->
+</div>
 
 </div>
 
@@ -1000,6 +1067,21 @@
 </footer>
 
 <script>
+// ===================== Sous-onglets Bilan & Ressources =====================
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-panel');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
 // ===================== Utilitaires =====================
 function drawArrow(ctx, x1, y1, x2, y2, color, width, headColor) {
   width = width || 3;

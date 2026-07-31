@@ -34,6 +34,7 @@
   body {
     font-family: 'Nunito', sans-serif;
     background: #F0F4F8;
+    padding: 14px;
     color: var(--texte);
     min-height: 100vh;
   }
@@ -45,7 +46,7 @@
     border-bottom: 3px solid var(--bleu);
     border-radius: 14px;
     padding: 18px 24px 14px;
-    max-width: 1060px;
+    max-width: 1300px;
     margin: 0 auto 24px;
     position: sticky;
     top: 0;
@@ -172,7 +173,7 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 1060px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
@@ -645,6 +646,17 @@
   }
   .ke-list li:last-child { border-bottom: none; }
   .ke-list li::before { content: "✓"; position: absolute; left: 8px; color: var(--vert); font-weight: 800; font-size: 0.90rem; }
+  .sub-tabs-nav { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: nowrap; overflow-x: auto; }
+  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: var(--bleu-clair); color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
+  .sub-tab-btn.active { background: var(--bleu); color: #fff; }
+  .sub-tab-content { display: none; }
+  .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  .gloss-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gris-bord); border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; margin-bottom: 16px; }
+  .gloss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; list-style: none; padding: 0; }
+  @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
+  .gloss-item { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 10px; padding: 12px 16px; }
+  .gloss-item dt { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--bleu); font-size: 0.9rem; margin-bottom: 4px; }
+  .gloss-item dd { font-size: 0.84rem; color: var(--texte); line-height: 1.55; }
 
   /* ── ACCORDÉON ── */
   .accord-btn {
@@ -905,6 +917,7 @@
     .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
     .main { padding: 18px 12px 50px; }
     .ice-melt-wrap { width: 30px; height: 58px; }
+    body { padding: 6px; }
   }
 </style>
 </head>
@@ -1576,6 +1589,14 @@
     <h2>Bilan et ressources</h2>
   </div>
 
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+  </div>
+
+  <div class="sub-tab-content active" id="bilan-sub-0">
+
   <div class="activite-card">
     <h3>Schéma bilan à compléter</h3>
     <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:6px;">Clique sur chaque case pour révéler la réponse.</p>
@@ -1763,6 +1784,35 @@
     </ul>
   </div>
 
+  <div class="def-card">
+    <h3>✅ Capacités exigibles — synthèse</h3>
+    <ul class="ke-list">
+      <li>Citer des exemples de changements d'état physique de la vie courante et dans l'environnement.</li>
+      <li>Établir l'écriture d'une équation pour un changement d'état.</li>
+      <li>Distinguer fusion et dissolution.</li>
+      <li>Identifier le sens du transfert thermique lors d'un changement d'état et le relier au terme exothermique ou endothermique.</li>
+      <li>Exploiter la relation entre l'énergie transférée lors d'un changement d'état et l'énergie massique de changement d'état de l'espèce.</li>
+      <li>Relier l'énergie échangée à la masse de l'espèce qui change d'état.</li>
+    </ul>
+  </div>
+  </div>
+  <!-- /bilan-sub-0 -->
+
+  <!-- ===== GLOSSAIRE ===== -->
+  <div class="sub-tab-content" id="bilan-sub-1">
+    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
+    <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="transformation physique"><dt>Transformation physique</dt><dd>Change l'état d'une espèce chimique (solide, liquide, gaz) sans changer sa nature : fusion, vaporisation, sublimation et leurs transformations inverses.</dd></div>
+      <div class="gloss-item" data-term="fusion dissolution"><dt>Fusion vs dissolution</dt><dd>La fusion est un changement d'état physique de l'espèce elle-même. La dissolution est différente : l'espèce se disperse dans un solvant sans changer d'état.</dd></div>
+      <div class="gloss-item" data-term="palier temperature"><dt>Palier de changement d'état</dt><dd>Un corps pur change d'état à température constante : sa température reste stable tant que le changement d'état n'est pas terminé.</dd></div>
+      <div class="gloss-item" data-term="endothermique exothermique"><dt>Endothermique / exothermique</dt><dd>Une transformation endothermique capte de l'énergie (transfert thermique Q > 0) ; une transformation exothermique en libère (Q < 0).</dd></div>
+      <div class="gloss-item" data-term="transfert thermique energie massique"><dt>Q = m × L</dt><dd>Q : transfert thermique lors du changement d'état (en J) ; m : masse de l'espèce (en kg) ; L : énergie massique de changement d'état, aussi appelée chaleur latente (en J·kg⁻¹).</dd></div>
+    </dl>
+  </div>
+  <!-- /bilan-sub-1 -->
+
+  <!-- ===== RESSOURCES ===== -->
+  <div class="sub-tab-content" id="bilan-sub-2">
   <div class="resource-card">
     <h3 style="font-family:'Outfit',sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin-bottom:8px;">🔗 Ressource : transferts d'énergie thermique</h3>
     <p style="font-size:0.88rem;line-height:1.6;color:var(--texte);">
@@ -1776,6 +1826,8 @@
       <span class="resource-credit">Simulation © PhET Interactive Simulations, University of Colorado Boulder</span>
     </div>
   </div>
+  </div>
+  <!-- /bilan-sub-2 -->
 </div><!-- fin tab-5 -->
 
 <div class="footer-note">
@@ -1793,6 +1845,22 @@ document.getElementById("capToggle").addEventListener("click", function () {
   panel.classList.toggle("open");
   this.textContent = panel.classList.contains("open") ? "📋 Masquer les capacités" : "📋 Capacités exigibles";
 });
+
+// ── Sous-onglets (Bilan & Ressources) ──
+function showSub(btn, id) {
+  const panel = btn.closest('.tab-content');
+  panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function glossFilter() {
+  const q = document.getElementById('glossSearch').value.trim().toLowerCase();
+  document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
+    const term = item.getAttribute('data-term') + ' ' + item.querySelector('dt').textContent.toLowerCase();
+    item.style.display = term.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+  });
+}
 
 // ── Navigation onglets ──
 function switchTab(n) {

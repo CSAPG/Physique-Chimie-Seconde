@@ -1668,34 +1668,45 @@ function drawOscillo(){
   const W=cvO.width, H=cvO.height;
   const f=parseFloat(slFreq.value);
   const A=parseFloat(slAmp.value);
+  const ox=34; // marge gauche réservée à l'axe vertical
   ctxO.clearRect(0,0,W,H);
   ctxO.fillStyle='#ffffff'; ctxO.fillRect(0,0,W,H);
   // Grille
   ctxO.strokeStyle='#e8e3da'; ctxO.lineWidth=1;
-  for(let x=0;x<=W;x+=50){ctxO.beginPath();ctxO.moveTo(x,0);ctxO.lineTo(x,H);ctxO.stroke();}
-  for(let y=0;y<=H;y+=20){ctxO.beginPath();ctxO.moveTo(0,y);ctxO.lineTo(W,y);ctxO.stroke();}
-  // Axe central
-  ctxO.strokeStyle='#aaa'; ctxO.lineWidth=1.5;
-  ctxO.beginPath(); ctxO.moveTo(0,H/2); ctxO.lineTo(W,H/2); ctxO.stroke();
+  for(let x=ox;x<=W;x+=50){ctxO.beginPath();ctxO.moveTo(x,0);ctxO.lineTo(x,H);ctxO.stroke();}
+  for(let y=0;y<=H;y+=20){ctxO.beginPath();ctxO.moveTo(ox,y);ctxO.lineTo(W,y);ctxO.stroke();}
+  // Axe horizontal (temps) avec flèche
+  ctxO.strokeStyle='#555'; ctxO.lineWidth=1.5;
+  ctxO.beginPath(); ctxO.moveTo(ox,H/2); ctxO.lineTo(W-8,H/2); ctxO.stroke();
+  ctxO.beginPath(); ctxO.moveTo(W-8,H/2); ctxO.lineTo(W-16,H/2-4); ctxO.lineTo(W-16,H/2+4); ctxO.closePath(); ctxO.fillStyle='#555'; ctxO.fill();
+  // Axe vertical (tension/amplitude) avec flèche
+  ctxO.beginPath(); ctxO.moveTo(ox,H-8); ctxO.lineTo(ox,10); ctxO.stroke();
+  ctxO.beginPath(); ctxO.moveTo(ox,10); ctxO.lineTo(ox-4,18); ctxO.lineTo(ox+4,18); ctxO.closePath(); ctxO.fill();
+  // Légendes des axes
+  ctxO.font='11px "Helvetica Neue",sans-serif'; ctxO.fillStyle='#555';
+  ctxO.textAlign='right'; ctxO.fillText('t (s)', W-6, H/2-8);
+  ctxO.textAlign='left'; ctxO.fillText('u', ox+6, 16);
   // Signal
   ctxO.beginPath(); ctxO.strokeStyle='#2D5F8A'; ctxO.lineWidth=2.5;
-  for(let x=0;x<=W;x++){
-    const t=x/W*2; // 2 secondes affichées
+  for(let x=ox;x<=W;x++){
+    const t=(x-ox)/(W-ox)*2; // 2 secondes affichées
     const y=H/2-A*Math.sin(2*Math.PI*f*t);
-    x===0?ctxO.moveTo(x,y):ctxO.lineTo(x,y);
+    x===ox?ctxO.moveTo(x,y):ctxO.lineTo(x,y);
   }
   ctxO.stroke();
   // Indicateur de période
   const T=1/f;
   const px=T/2*W/2; // pixels pour une période sur 2s
-  if(px<W){
+  if(px<W-ox){
+    const bx=ox+40;
     ctxO.strokeStyle='#c9622a'; ctxO.lineWidth=1.5; ctxO.setLineDash([4,3]);
-    ctxO.beginPath(); ctxO.moveTo(30,H/2-A-10); ctxO.lineTo(30,H/2+A+10); ctxO.stroke();
-    ctxO.beginPath(); ctxO.moveTo(30+px,H/2-A-10); ctxO.lineTo(30+px,H/2+A+10); ctxO.stroke();
-    ctxO.beginPath(); ctxO.moveTo(30,H/2-A-6); ctxO.lineTo(30+px,H/2-A-6); ctxO.stroke();
+    ctxO.beginPath(); ctxO.moveTo(bx,H/2-A-10); ctxO.lineTo(bx,H/2+A+10); ctxO.stroke();
+    ctxO.beginPath(); ctxO.moveTo(bx+px,H/2-A-10); ctxO.lineTo(bx+px,H/2+A+10); ctxO.stroke();
+    ctxO.beginPath(); ctxO.moveTo(bx,H/2-A-6); ctxO.lineTo(bx+px,H/2-A-6); ctxO.stroke();
     ctxO.setLineDash([]);
     ctxO.fillStyle='#c9622a'; ctxO.font='bold 11px "Helvetica Neue",sans-serif';
-    ctxO.fillText('T',30+px/2-4,H/2-A-10);
+    ctxO.textAlign='center';
+    ctxO.fillText('T',bx+px/2,H/2-A-10);
   }
   // Mise à jour info
   freqVal.textContent='f = '+f+' Hz';

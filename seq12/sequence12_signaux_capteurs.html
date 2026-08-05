@@ -1434,6 +1434,9 @@ function drawCaract(){
   ctx.strokeStyle='#555'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555';
+  ctx.beginPath(); ctx.moveTo(ox,4); ctx.lineTo(ox-4,14); ctx.lineTo(ox+4,14); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(W-4,oy); ctx.lineTo(W-14,oy-4); ctx.lineTo(W-14,oy+4); ctx.closePath(); ctx.fill();
   // Labels axes
   ctx.fillStyle='#555'; ctx.font='bold 12px "Helvetica Neue",sans-serif';
   ctx.textAlign='center';
@@ -1524,6 +1527,9 @@ function drawOhm(){
   ctx.strokeStyle='#555'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555';
+  ctx.beginPath(); ctx.moveTo(ox,4); ctx.lineTo(ox-4,14); ctx.lineTo(ox+4,14); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(W-4,oy); ctx.lineTo(W-14,oy-4); ctx.lineTo(W-14,oy+4); ctx.closePath(); ctx.fill();
   ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
   ctx.fillText('I (mA)',W-30,oy-8);
   ctx.save(); ctx.translate(18,H/2); ctx.rotate(-Math.PI/2);
@@ -1593,6 +1599,9 @@ function drawCTN(){
   ctx.strokeStyle='#555'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555';
+  ctx.beginPath(); ctx.moveTo(ox,4); ctx.lineTo(ox-4,14); ctx.lineTo(ox+4,14); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(W-4,oy); ctx.lineTo(W-14,oy-4); ctx.lineTo(W-14,oy+4); ctx.closePath(); ctx.fill();
   ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
   ctx.fillText('T (°C)',W-30,oy-8);
   ctx.save(); ctx.translate(15,H/2); ctx.rotate(-Math.PI/2);
@@ -1651,6 +1660,9 @@ function drawLDR(){
   ctx.strokeStyle='#555'; ctx.lineWidth=2;
   ctx.beginPath(); ctx.moveTo(ox,10); ctx.lineTo(ox,oy+5); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(ox-5,oy); ctx.lineTo(W-10,oy); ctx.stroke();
+  ctx.fillStyle='#555';
+  ctx.beginPath(); ctx.moveTo(ox,4); ctx.lineTo(ox-4,14); ctx.lineTo(ox+4,14); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(W-4,oy); ctx.lineTo(W-14,oy-4); ctx.lineTo(W-14,oy+4); ctx.closePath(); ctx.fill();
   ctx.fillStyle='#555'; ctx.font='bold 11px "Helvetica Neue",sans-serif'; ctx.textAlign='center';
   ctx.fillText('Éclairement (lux)',W/2+30,H-4);
   ctx.save(); ctx.translate(14,H/2); ctx.rotate(-Math.PI/2);

@@ -478,7 +478,7 @@ button.cap-toggle:hover{background:#1e4466;}
         <button class="reset-btn" id="btnChainReset" style="margin-top:0;">🔄 Réinitialiser</button>
       </div>
       <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
-        <canvas id="canvasChain" width="360" height="220" style="border-radius:6px;background:#0f172a;max-width:100%;flex-shrink:0;"></canvas>
+        <canvas id="canvasChain" width="360" height="220" style="border-radius:6px;background:#f8f7fc;border:1px solid #e0dcf0;max-width:100%;flex-shrink:0;"></canvas>
         <div style="flex:1;min-width:160px;">
           <div id="chainStatus" style="font-family:'Nunito',sans-serif;font-size:.88rem;background:#f8f6f1;border:1px solid #d9d3c6;border-radius:8px;padding:12px;min-height:100px;">
             <p style="margin:0 0 6px;font-weight:700;color:#1f2a24;">📊 État de la réaction</p>
@@ -1457,7 +1457,7 @@ document.querySelectorAll('.exo-box').forEach(box=>{
 
   function drawChain(gen, nodes){
     ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#0f172a'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#f8f7fc'; ctx.fillRect(0,0,W,H);
     if(!nodes.length) return;
     const maxR=Math.min(W,H)/2-10;
     nodes.forEach(n=>{
@@ -1475,7 +1475,7 @@ document.querySelectorAll('.exo-box').forEach(box=>{
         const pr=Math.min(n.parent.dist*30,maxR);
         const px=W/2+Math.cos(n.parent.angle*(Math.PI/180))*pr;
         const py=H/2+Math.sin(n.parent.angle*(Math.PI/180))*pr;
-        ctx.strokeStyle='rgba(255,200,50,0.25)';ctx.lineWidth=1;
+        ctx.strokeStyle='rgba(180,110,20,0.35)';ctx.lineWidth=1;
         ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(x,y);ctx.stroke();
       }
     });

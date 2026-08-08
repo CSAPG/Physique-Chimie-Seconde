@@ -1691,23 +1691,35 @@
 
         <!-- ══ Pastilles numérotées (repères fixes, ne dépendent d'aucun calcul de glissement) ══ -->
         <g id="tri-badges">
-          <circle cx="280" cy="350" r="13" fill="#3A8A6E" stroke="white" stroke-width="2"/>
-          <text x="280" y="355" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">1</text>
+          <g id="badge-1" style="transition:opacity .3s;">
+            <circle cx="280" cy="350" r="13" fill="#3A8A6E" stroke="white" stroke-width="2"/>
+            <text x="280" y="355" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">1</text>
+          </g>
 
-          <circle cx="280" cy="381" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
-          <text x="280" y="386" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">2</text>
+          <g id="badge-2" style="transition:opacity .3s;">
+            <circle cx="280" cy="381" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+            <text x="280" y="386" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">2</text>
+          </g>
 
-          <circle cx="146" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
-          <text x="146" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">3</text>
+          <g id="badge-3" style="transition:opacity .3s;">
+            <circle cx="146" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
+            <text x="146" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">3</text>
+          </g>
 
-          <circle cx="186" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
-          <text x="186" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">4</text>
+          <g id="badge-4" style="transition:opacity .3s;">
+            <circle cx="186" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+            <text x="186" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">4</text>
+          </g>
 
-          <circle cx="414" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
-          <text x="414" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">5</text>
+          <g id="badge-5" style="transition:opacity .3s;">
+            <circle cx="414" cy="193" r="13" fill="#E8783A" stroke="white" stroke-width="2"/>
+            <text x="414" y="198" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">5</text>
+          </g>
 
-          <circle cx="374" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
-          <text x="374" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">6</text>
+          <g id="badge-6" style="transition:opacity .3s;">
+            <circle cx="374" cy="221" r="13" fill="#2D5F8A" stroke="white" stroke-width="2"/>
+            <text x="374" y="226" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="800" fill="white">6</text>
+          </g>
         </g>
 
         <!-- ══ États (cercles par-dessus tout) ══ -->
@@ -1954,6 +1966,76 @@
     </div>
     <div style="clear:both;"></div>
   </div>
+
+  <!-- ACTIVITÉ — SIMULATION PHET DENSITÉ -->
+  <div class="activite-card" id="activite-phet">
+    <h3>⚗️ Activité — Simulation PhET : masse volumique</h3>
+    <p style="font-size:0.88rem;margin-bottom:12px;">
+      Simulation interactive (PhET, Université du Colorado, licence libre) : comparez des blocs de matériaux différents pour relier masse, volume et masse volumique.
+    </p>
+
+    <div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+      <iframe
+        src="https://phet.colorado.edu/sims/html/density/latest/density_all.html?locale=fr"
+        title="Simulation PhET — Masse volumique"
+        width="100%" height="480"
+        style="display:block;border:none;background:#fff;"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+    <div style="text-align:center;margin-bottom:16px;">
+      <a href="https://phet.colorado.edu/sims/html/density/latest/density_all.html?locale=fr" target="_blank" style="font-size:0.8rem;color:var(--bleu);font-weight:600;">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
+    </div>
+
+    <!-- Guide d'utilisation -->
+    <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+      <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+      <ol style="font-size:0.86rem;line-height:1.7;padding-left:20px;">
+        <li>Cliquez sur l'onglet <strong>« Comparer »</strong> en haut de la simulation.</li>
+        <li>Faites glisser deux blocs de <strong>même volume mais de matériaux différents</strong> (ex : bois et bronze) sur la balance à droite. Observez laquelle penche.</li>
+        <li>Affichez la case <strong>« Masse volumique »</strong> pour voir apparaître la valeur ρ de chaque bloc.</li>
+        <li>Recommencez avec deux blocs de <strong>même masse mais de matériaux différents</strong> : comparez cette fois leurs volumes.</li>
+        <li>Passez ensuite à l'onglet <strong>« Mystère »</strong> : un bloc de masse et volume inconnus est proposé. Utilisez la balance et la règle pour déterminer m et V, calculez ρ, puis identifiez le matériau grâce au tableau de référence.</li>
+      </ol>
+    </div>
+
+    <!-- Q1 — QCM conceptuel, corrigé immédiatement -->
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. Pour deux blocs de même volume, lequel est le plus lourd ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'plus grande masse volumique','fb-phet1')">Celui de plus grande masse volumique</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'plus petite masse volumique','fb-phet1')">Celui de plus petite masse volumique</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'meme poids','fb-phet1')">Les deux pèsent pareil, le volume n'a pas d'influence</div>
+      </div>
+      <div class="dq-feedback" id="fb-phet1"></div>
+    </div>
+
+    <!-- Q2 — Calcul vérifié automatiquement -->
+    <div class="question-block">
+      <div class="question-label">2. Dans l'onglet « Mystère », un groupe a mesuré pour son bloc : m = 270 g pour V = 100 cm³. Calculez ρ (en g·cm⁻³).</div>
+      <input type="number" step="0.01" id="phet-num2" class="blank-in" placeholder="ρ en g·cm⁻³" style="max-width:160px;">
+      <div class="exo-btn-row"><button class="exo-btn" onclick="verifierNum('phet-num2', 2.70, 0.05, 'fb-phet2', 'corr-phet2')">Vérifier</button></div>
+      <div class="dq-feedback" id="fb-phet2"></div>
+      <div class="reveal-body" id="corr-phet2">
+        <div class="calc-step">ρ = m / V = 270 g / 100 cm³ = <strong>2,70 g·cm⁻³</strong></div>
+      </div>
+    </div>
+
+    <!-- Q3 — QCM d'identification, corrigé immédiatement -->
+    <div class="dropdown-qcm">
+      <div class="dq-question">3. Quel matériau correspond à cette valeur ρ ≈ 2,70 g·cm⁻³ ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'bois','fb-phet3')">Bois (ρ ≈ 0,40 g·cm⁻³)</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'aluminium','fb-phet3')">Aluminium (ρ ≈ 2,70 g·cm⁻³)</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'cuivre','fb-phet3')">Cuivre (ρ ≈ 8,96 g·cm⁻³)</div>
+      </div>
+      <div class="dq-feedback" id="fb-phet3"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn-reveal" style="background:var(--texte-léger);" onclick="recommencer('activite-phet')">↺ Recommencer</button>
+    </div>
+  </div><!-- fin activite-card PhET -->
 
   <!-- EXERCICE 1 — MASSE VOLUMIQUE DE L'ÉTHANOL -->
   <div class="exo-card" id="exo-ethanol">
@@ -3148,6 +3230,12 @@ function afficherEtiquette(labelId, estCorrect) {
   const correct = (estCorrect === undefined) ? true : estCorrect;
   txtEl.setAttribute('opacity', '1');
   txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l => l.id === labelId).color : '#C0392B');
+  // Le numéro laisse place au nom du changement d'état une fois trouvé
+  if (correct) {
+    const lab = TRI_LABELS.find(l => l.id === labelId);
+    const badgeEl = document.getElementById('badge-' + lab.num);
+    if (badgeEl) badgeEl.setAttribute('opacity', '0');
+  }
 }
 
 function updateTriScore() {
@@ -3169,6 +3257,8 @@ function reinitTriangle() {
   TRI_LABELS.forEach(lab => {
     const el = document.getElementById('txt-' + lab.id);
     if (el) el.setAttribute('opacity', '0');
+    const badgeEl = document.getElementById('badge-' + lab.num);
+    if (badgeEl) badgeEl.setAttribute('opacity', '1');
   });
   document.getElementById('tri-score').style.display = 'none';
   document.getElementById('tri-consigne').textContent = 'Associe chaque numéro du schéma au bon changement d\'état ✦';
@@ -3463,6 +3553,15 @@ const DQ_FEEDBACK = {
     correct: '✓ Exact ! ρ(eau) = 1 000 kg·m⁻³ = 1 g·cm⁻³ = 1 g·mL⁻¹ — valeur de référence à retenir !',
     wrong: { '100': '✗ Trop faible — c\'est l\'ordre de grandeur de l\'air, pas de l\'eau.', '10000': '✗ Trop élevé — ce serait plutôt l\'ordre de grandeur du plomb ou du mercure.' }
   },
+  // Onglet 3 — activité PhET masse volumique
+  'fb-phet1': {
+    correct: '✓ Exact ! À volume égal, m = ρ × V : plus ρ est grand, plus la masse (et donc le poids) est grande.',
+    wrong: { 'plus petite masse volumique': '✗ C\'est l\'inverse : à volume égal, c\'est la plus GRANDE masse volumique qui donne le bloc le plus lourd.', 'meme poids': '✗ Non — à volume égal, deux matériaux différents n\'ont pas la même masse (leur ρ diffère).' }
+  },
+  'fb-phet3': {
+    correct: '✓ Exact ! ρ ≈ 2,70 g·cm⁻³ correspond à l\'aluminium.',
+    wrong: { 'bois': '✗ Le bois a une masse volumique bien plus faible (≈ 0,40 g·cm⁻³) — il flotterait sur l\'eau.', 'cuivre': '✗ Le cuivre est bien plus dense (≈ 8,96 g·cm⁻³), plus de 3 fois supérieur à la valeur trouvée.' }
+  },
   // Onglet 1 — corps purs
   'dqf-cp1': {
     correct: '✓ Exact ! L\'eau du robinet contient des sels minéraux dissous, du chlore… c\'est un mélange homogène.',
@@ -3536,9 +3635,42 @@ function checkDropdown(selectId, correctVal, feedbackId) {
     gazeux:  'Gaz : molécules éloignées et agitées, ni volume ni forme propres.'
   };
 
+  function liquidBox(W, H) {
+    // Poche compacte en bas du récipient : molécules proches mais mobiles
+    return {
+      xMin: W * 0.22, xMax: W * 0.78,
+      yTop: H * 0.40, yBottom: H * 0.90
+    };
+  }
+
+  function packLiquideCells(N, box, R) {
+    // Tirage aléatoire avec distance minimale entre centres (type "Poisson-disc") :
+    // répartition irrégulière mais homogène, sans chevauchement ni amas/grands vides.
+    const points = [];
+    let minDist = R * 2 + 4; // diamètre + petite marge de sécurité
+    let tries = 0;
+    const maxTries = 6000;
+    const w = box.xMax - box.xMin - 2 * R;
+    const h = box.yBottom - box.yTop - 2 * R;
+    while (points.length < N && tries < maxTries) {
+      const x = box.xMin + R + Math.random() * w;
+      const y = box.yTop + R + Math.random() * h;
+      let ok = true;
+      for (const p of points) {
+        const dx = p.x - x, dy = p.y - y;
+        if (dx*dx + dy*dy < minDist*minDist) { ok = false; break; }
+      }
+      if (ok) points.push({ x, y });
+      tries++;
+      // Si ça bloque (espace saturé), on assouplit progressivement la distance minimale
+      if (tries % 700 === 0 && points.length < N) minDist *= 0.9;
+    }
+    return points;
+  }
+
   function initParticles(etat) {
     const W = canvas.width, H = canvas.height;
-    const N = etat === 'gazeux' ? 18 : (etat === 'liquide' ? 30 : 36);
+    const N = etat === 'gazeux' ? 18 : (etat === 'liquide' ? 24 : 36);
     const R = 10;
     let pts = [];
 
@@ -3559,15 +3691,17 @@ function checkDropdown(selectId, correctVal, feedbackId) {
         }
       }
     } else if (etat === 'liquide') {
-      for (let i = 0; i < N; i++) {
+      const box = liquidBox(W, H);
+      const cells = packLiquideCells(N, box, R);
+      cells.forEach(cell => {
         pts.push({
-          x: R + 20 + Math.random() * (W - 2*R - 40),
-          y: H * 0.25 + Math.random() * (H * 0.5),
-          vx: (Math.random() - 0.5) * 1.4,
-          vy: (Math.random() - 0.5) * 1.4,
+          x: cell.x, y: cell.y,
+          bx: cell.x, by: cell.y,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.6,
           r: R
         });
-      }
+      });
     } else {
       for (let i = 0; i < N; i++) {
         pts.push({
@@ -3597,10 +3731,10 @@ function checkDropdown(selectId, correctVal, feedbackId) {
   function drawLabel(etat) {
     const labels = { solide: 'SOLIDE', liquide: 'LIQUIDE', gazeux: 'GAZ' };
     const W = canvas.width, H = canvas.height;
-    ctx.font = 'bold 11px Outfit, sans-serif';
-    ctx.fillStyle = '#AAB5C0';
+    ctx.font = 'bold 13px Outfit, sans-serif';
+    ctx.fillStyle = '#5A6B7A';
     ctx.textAlign = 'right';
-    ctx.fillText(labels[etat], W - 10, 18);
+    ctx.fillText(labels[etat], W - 10, 20);
   }
 
   function updateSolide(p) {
@@ -3620,16 +3754,22 @@ function checkDropdown(selectId, correctVal, feedbackId) {
   function updateLiquide(p) {
     p.x += p.vx;
     p.y += p.vy;
-    const W = canvas.width, H = canvas.height;
-    if (p.x < p.r + 20) { p.x = p.r + 20; p.vx = Math.abs(p.vx); }
-    if (p.x > W - p.r - 20) { p.x = W - p.r - 20; p.vx = -Math.abs(p.vx); }
-    // Gravité légère — reste dans la moitié inférieure
-    if (p.y < H * 0.2) { p.vy += 0.08; }
-    if (p.y > H * 0.85) { p.y = H * 0.85; p.vy = -Math.abs(p.vy) * 0.7; }
-    // Légère viscosité
-    p.vx *= 0.995;
-    p.vy *= 0.995;
-    if (Math.abs(p.vx) < 0.3) p.vx = (Math.random() - 0.5) * 1.2;
+    const dx = p.x - p.bx, dy = p.y - p.by;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const maxDrift = 5; // rayon de déplacement autour de la position d'origine (> solide, molécules mobiles)
+    if (dist > maxDrift) {
+      p.vx = -p.vx * 0.6;
+      p.vy = -p.vy * 0.6;
+      p.x = p.bx + dx * 0.85;
+      p.y = p.by + dy * 0.85;
+    }
+    // petites impulsions aléatoires pour l'agitation
+    if (Math.random() < 0.02) {
+      p.vx += (Math.random() - 0.5) * 0.6;
+      p.vy += (Math.random() - 0.5) * 0.6;
+    }
+    p.vx *= 0.97;
+    p.vy *= 0.97;
   }
 
   function updateGaz(p) {
@@ -3665,9 +3805,10 @@ function checkDropdown(selectId, correctVal, feedbackId) {
 
     // Surface liquide indicative
     if (currentEtat === 'liquide') {
+      const box = liquidBox(W, H);
       ctx.beginPath();
-      ctx.moveTo(20, H * 0.18);
-      ctx.lineTo(W - 20, H * 0.18);
+      ctx.moveTo(box.xMin - 14, box.yTop);
+      ctx.lineTo(box.xMax + 14, box.yTop);
       ctx.strokeStyle = '#3A8A6E44';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([6, 4]);
@@ -3676,7 +3817,7 @@ function checkDropdown(selectId, correctVal, feedbackId) {
       ctx.font = '10px Nunito, sans-serif';
       ctx.fillStyle = '#3A8A6E88';
       ctx.textAlign = 'right';
-      ctx.fillText('surface libre', W - 24, H * 0.15);
+      ctx.fillText('surface libre', box.xMax + 14, box.yTop - 6);
     }
 
     drawLabel(currentEtat);
@@ -3713,19 +3854,19 @@ function checkDropdown(selectId, correctVal, feedbackId) {
 
   // Définition des types de molécules
   const MOL_TYPES = {
-    // Corps pur simple : tous des O₂ (2 atomes identiques bleu)
+    // Corps pur simple : tous des O₂ (2 atomes identiques rouges)
     corpsPur: [
-      { atoms: [{r:6,dx:-7,c:'#5B8FB9'},{r:6,dx:+7,c:'#5B8FB9'}], label:'O₂' }
+      { atoms: [{r:6,dx:-7,c:'#E24B4A'},{r:6,dx:+7,c:'#E24B4A'}], label:'O₂' }
     ],
     // Corps pur composé : tous des H₂O (1 grand O rouge + 2 petits H bleus)
     corpsCompose: [
       { atoms: [{r:8,dx:0,dy:0,c:'#E24B4A'},{r:5,dx:-9,dy:8,c:'#5B8FB9'},{r:5,dx:+9,dy:8,c:'#5B8FB9'}], label:'H₂O' }
     ],
-    // Mélange : O₂ bleus + N₂ verts + CO₂ orange
+    // Mélange : O₂ rouges + N₂ bleus + CO₂ (C noir + 2 O rouges)
     melange: [
-      { atoms: [{r:6,dx:-7,c:'#5B8FB9'},{r:6,dx:+7,c:'#5B8FB9'}], label:'O₂', weight:3 },
-      { atoms: [{r:6,dx:-7,c:'#3A8A6E'},{r:6,dx:+7,c:'#3A8A6E'}], label:'N₂', weight:5 },
-      { atoms: [{r:5,dx:-12,c:'#E8783A'},{r:8,dx:0,c:'#888'},{r:5,dx:+12,c:'#E8783A'}], label:'CO₂', weight:1 }
+      { atoms: [{r:6,dx:-7,c:'#E24B4A'},{r:6,dx:+7,c:'#E24B4A'}], label:'O₂', weight:3 },
+      { atoms: [{r:6,dx:-7,c:'#5B8FB9'},{r:6,dx:+7,c:'#5B8FB9'}], label:'N₂', weight:5 },
+      { atoms: [{r:5,dx:-12,c:'#E24B4A'},{r:8,dx:0,c:'#333333'},{r:5,dx:+12,c:'#E24B4A'}], label:'CO₂', weight:1 }
     ]
   };
 
@@ -3806,10 +3947,10 @@ function checkDropdown(selectId, correctVal, feedbackId) {
 
     // Légende types
     const label = molMode === 'corpsPur' ? 'O₂' : molMode === 'corpsCompose' ? 'H₂O' : 'O₂ + N₂ + CO₂';
-    ctx.font = 'bold 10px Outfit, sans-serif';
-    ctx.fillStyle = '#AAB5C0';
+    ctx.font = 'bold 13px Outfit, sans-serif';
+    ctx.fillStyle = '#5A6B7A';
     ctx.textAlign = 'right';
-    ctx.fillText(label, W - 10, 16);
+    ctx.fillText(label, W - 10, 18);
 
     animId2 = requestAnimationFrame(drawMolCanvas);
   }

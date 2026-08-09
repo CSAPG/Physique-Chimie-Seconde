@@ -550,6 +550,7 @@
     line-height: 1.8;
   }
   .calc-result.visible { display: block; animation: fadeIn 0.2s; }
+  .calc-result.partial { background: var(--rouge-clair); border-color: var(--rouge); }
   .calc-result .res-line {
     background: var(--blanc);
     border-radius: 6px;
@@ -560,6 +561,23 @@
     font-size: 0.90rem;
     font-weight: 600;
   }
+  table.ions-table input.tbl-input.input-correct { border-color: var(--vert); background: var(--vert-exo); color: var(--vert); font-weight: 700; }
+  table.ions-table input.tbl-input.input-wrong { border-color: var(--rouge); background: var(--rouge-clair); color: var(--rouge); font-weight: 700; }
+  .btn-recommencer {
+    background: var(--texte-léger);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: opacity 0.15s;
+  }
+  .btn-recommencer:hover { opacity: 0.85; }
+  .exo-btn-row { display: flex; flex-wrap: wrap; gap: 0; align-items: center; }
 
   /* ── BILAN ── */
   .bilan-grid {
@@ -848,6 +866,7 @@
         </div>
       </div>
     </div>
+    <button class="btn-recommencer" onclick="recommencerExo(this,null,['qcrit'])">↺ Recommencer</button>
   </div>
 
   <div class="remarque-box">
@@ -880,7 +899,11 @@
       </tbody>
     </table>
 
-    <button class="btn-correction" onclick="toggleCorr('corr-tableau1')">▶ Voir la correction</button>
+    <button class="btn-correction" onclick="verifierTableau1()">✓ Vérifier mes réponses</button>
+    <button class="btn-recommencer" onclick="reinitialiserTableau1()">↺ Recommencer</button>
+    <div class="calc-result" id="verif-tableau1-result"></div>
+
+    <button class="btn-correction" style="margin-top:10px;" onclick="toggleCorr('corr-tableau1')">▶ Voir le corrigé complet</button>
     <div class="correction" id="corr-tableau1">
       <table class="ions-table" style="margin:0;">
         <thead><tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr></thead>
@@ -935,6 +958,7 @@
         </div>
       </div>
     </div>
+    <button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
   </div><!-- fin exo-card quiz -->
 
   <div style="text-align:center;margin-top:8px;">
@@ -1026,6 +1050,7 @@
     </div>
 
     <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
+    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-glucose')">↺ Recommencer</button>
     <div class="correction" id="corr-glucose">
       <strong>1. Titre massique de la solution :</strong>
       <div class="calc-step">V<sub>solution</sub> = 500 mL = 0,500 L</div>
@@ -1091,7 +1116,7 @@
     <h3>a) Qu'est-ce que la dissolution ?</h3>
     <p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
     <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
-      <img src="seq02/dissolution_complet.png" alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+      <img src="dissolution_complet.png" alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" style="width:100%;max-width:700px;display:block;margin:0 auto;">
     </div>
   </div>
 
@@ -1129,6 +1154,7 @@
     </div>
 
     <button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
+    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-nacl')">↺ Recommencer</button>
     <div class="correction" id="corr-nacl">
       <strong>1. Vérification de la possibilité :</strong>
       <div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
@@ -1195,6 +1221,7 @@
     <div class="remarque-box" style="margin-top:14px;">
       <strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
     </div>
+    <button class="btn-recommencer" style="margin-top:14px;" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])">↺ Recommencer</button>
   </div><!-- fin exo-card verrerie -->
 
   <div style="text-align:center;margin-top:8px;">
@@ -1222,7 +1249,7 @@
     <h3>a) Qu'est-ce que la dilution ?</h3>
     <p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>
     <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
-      <img src="seq02/dilution_complet.png" alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" style="width:100%;max-width:900px;display:block;margin:0 auto;">
+      <img src="dilution_complet.png" alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" style="width:100%;max-width:900px;display:block;margin:0 auto;">
     </div>
   </div>
 
@@ -1286,7 +1313,7 @@
     </div>
 
     <div style="background:var(--blanc);border:1.5px solid var(--vert-exo-bord);border-radius:10px;padding:12px;margin-bottom:14px;overflow-x:auto;">
-      <img src="seq02/echelle_teinte_permanganate.jpg" alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;">
+      <img src="echelle_teinte_permanganate.jpg" alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;">
     </div>
 
     <div class="question-block">
@@ -1323,6 +1350,7 @@
     </div>
 
     <button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
+    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-teinte')">↺ Recommencer</button>
     <div class="correction" id="corr-teinte">
       <strong>1. Facteur de dilution et concentration de S<sub>f1</sub> :</strong>
       <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> = 50 / 30 = <strong>1,6</strong></div>
@@ -1359,6 +1387,7 @@
     </div>
 
     <button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
+    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-diiode')">↺ Recommencer</button>
     <div class="correction" id="corr-diiode">
       <strong>1. Facteur de dilution :</strong>
       <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 0,25 / 0,10 = <strong>2,5</strong></div>
@@ -1637,6 +1666,89 @@ function glossFilter() {
     const txt = item.textContent.toLowerCase();
     item.style.display = (term.includes(q) || txt.includes(q)) ? '' : 'none';
   });
+}
+
+// ── Exercice tableau solvants/solutés (auto-correction) ──
+const tableau1Reponses = {
+  'r-cafe-solvant': ['eau'],
+  'r-cafe-solute': ['cafeine', 'aromes', 'tanins'],
+  'r-mer-solvant': ['eau'],
+  'r-mer-solute': ['chlorure de sodium', 'sels mineraux', 'sel', 'na+', 'cl-'],
+  'r-vin-solvant': ['eau'],
+  'r-vin-solute': ['ethanol', 'aromes', 'polyphenols'],
+  'r-gaz-solvant': ['eau'],
+  'r-gaz-solute': ['dioxyde de carbone', 'co2', 'sels mineraux'],
+  'r-lait-solvant': ['eau'],
+  'r-lait-solute': ['lactose', 'sels mineraux'],
+  'r-toil-solvant': ['ethanol'],
+  'r-toil-solute': ['molecules odorantes', 'parfum']
+};
+
+function normaliserTexte(s) {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+function verifierTableau1() {
+  let correct = 0;
+  const total = Object.keys(tableau1Reponses).length;
+  Object.entries(tableau1Reponses).forEach(([id, accepted]) => {
+    const input = document.getElementById(id);
+    const val = normaliserTexte(input.value);
+    input.classList.remove('input-correct', 'input-wrong');
+    const ok = val !== '' && accepted.some(a => val.includes(normaliserTexte(a)));
+    if (ok) {
+      input.classList.add('input-correct');
+      correct++;
+    } else {
+      input.classList.add('input-wrong');
+    }
+  });
+  const resultDiv = document.getElementById('verif-tableau1-result');
+  resultDiv.classList.add('visible');
+  resultDiv.classList.toggle('partial', correct !== total);
+  resultDiv.textContent = correct === total
+    ? `✓ ${correct} / ${total} réponses correctes — Bravo !`
+    : `${correct} / ${total} réponses correctes. Corrige les champs en rouge puis vérifie à nouveau, ou consulte le corrigé complet.`;
+}
+
+function reinitialiserTableau1() {
+  Object.keys(tableau1Reponses).forEach(id => {
+    const input = document.getElementById(id);
+    input.value = '';
+    input.classList.remove('input-correct', 'input-wrong');
+  });
+  const resultDiv = document.getElementById('verif-tableau1-result');
+  resultDiv.classList.remove('visible', 'partial');
+  resultDiv.textContent = '';
+  const corr = document.getElementById('corr-tableau1');
+  corr.classList.remove('visible');
+}
+
+// ── Recommencer local pour un exercice à correction (rep-zone / QCM) ──
+function recommencerExo(btn, correctionId, qcmIds) {
+  const card = btn.closest('.exo-card');
+  if (card) {
+    card.querySelectorAll('textarea.rep-zone, input.calc-input').forEach(inp => inp.value = '');
+  }
+  if (correctionId) {
+    const corr = document.getElementById(correctionId);
+    if (corr) {
+      corr.classList.remove('visible');
+      const corrBtn = corr.previousElementSibling;
+      if (corrBtn && corrBtn.classList.contains('btn-correction')) corrBtn.textContent = '▶ Voir la correction';
+    }
+  }
+  if (qcmIds) {
+    qcmIds.forEach(id => {
+      const item = document.getElementById(id);
+      if (!item) return;
+      delete item.dataset.done;
+      item.style.borderColor = '';
+      item.querySelectorAll('.qcm-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+      const fb = item.querySelector('.qcm-feedback');
+      if (fb) { fb.textContent = ''; fb.className = 'qcm-feedback'; }
+    });
+  }
 }
 
 // ── QCM générique ──

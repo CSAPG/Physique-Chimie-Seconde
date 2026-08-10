@@ -579,6 +579,227 @@
   .btn-recommencer:hover { opacity: 0.85; }
   .exo-btn-row { display: flex; flex-wrap: wrap; gap: 0; align-items: center; }
 
+  /* ── Escape Game ── */
+  .eg-intro {
+    background: linear-gradient(135deg,#1e2a3a,#2D5F8A);
+    color: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 18px rgba(20,30,50,0.25);
+  }
+  .eg-intro h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+  .eg-intro p { font-size: 0.90rem; line-height: 1.6; color: #dce8f5; }
+  .eg-intro .eg-mission {
+    background: rgba(255,255,255,0.10);
+    border: 1px dashed rgba(255,255,255,0.4);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    color: #fff;
+  }
+  .eg-progress {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .eg-slot {
+    width: 46px; height: 46px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.6);
+    transition: all 0.25s;
+  }
+  .eg-slot.solved {
+    background: var(--vert);
+    border-color: var(--vert);
+    color: #fff;
+    transform: scale(1.08);
+  }
+  #eg-timer {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 5px 14px;
+    display: inline-block;
+    margin-top: 12px;
+  }
+  .eg-card {
+    background: var(--blanc);
+    border: 1.5px solid var(--gris-bord);
+    border-left: 5px solid var(--violet);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .eg-card.locked-done { border-left-color: var(--vert); }
+  .eg-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .eg-lock-icon { font-size: 1.3rem; }
+  .eg-card-header h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    color: var(--violet);
+    flex: 1;
+  }
+  .eg-pill {
+    background: var(--violet-clair);
+    color: var(--violet);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .eg-enonce { font-size: 0.90rem; line-height: 1.6; margin-bottom: 12px; }
+  .eg-answer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .eg-digit-input {
+    width: 64px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    padding: 8px 0;
+    border: 2px solid var(--gris-bord);
+    border-radius: 8px;
+    background: var(--gris-fond);
+    color: var(--texte);
+  }
+  .eg-digit-input:focus { outline: none; border-color: var(--violet); background: var(--blanc); }
+  .eg-digit-input.eg-ok { border-color: var(--vert); background: var(--vert-exo); color: var(--vert); }
+  .eg-digit-input.eg-wrong { border-color: var(--rouge); background: var(--rouge-clair); color: var(--rouge); }
+  .btn-eg-valider {
+    background: var(--violet);
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-eg-valider:hover { background: #63408a; }
+  .eg-feedback {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .eg-feedback.ok { color: var(--vert); }
+  .eg-feedback.wrong { color: var(--rouge); }
+  .eg-hint-btn {
+    background: none;
+    border: none;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 0;
+  }
+  .eg-hint-btn:hover { text-decoration: underline; }
+  .eg-hint {
+    display: none;
+    background: var(--orange-clair);
+    border: 1.5px dashed var(--orange);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+  }
+  .eg-hint.visible { display: block; animation: fadeIn 0.2s; }
+  .eg-final {
+    background: linear-gradient(135deg,#2D5F8A,#1e2a3a);
+    color: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    text-align: center;
+  }
+  .eg-final h3 { font-family: 'Outfit', sans-serif; margin-bottom: 10px; }
+  .eg-final p { color: #dce8f5; font-size: 0.90rem; margin-bottom: 14px; }
+  .eg-code-boxes { display: flex; justify-content: center; gap: 10px; margin: 14px 0; }
+  .eg-code-box {
+    width: 48px; height: 56px;
+    font-size: 1.4rem;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    background: rgba(255,255,255,0.92);
+    color: var(--texte);
+  }
+  .eg-code-box:focus { outline: 3px solid var(--orange); }
+  .btn-eg-open {
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    padding: 11px 26px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .btn-eg-open:hover { background: #C9622A; }
+  .eg-final-msg {
+    display: none;
+    margin-top: 16px;
+    background: rgba(58,138,110,0.25);
+    border: 1.5px solid var(--vert);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.90rem;
+  }
+  .eg-final-msg.visible { display: block; animation: fadeIn 0.3s; }
+  .eg-final-error {
+    display: none;
+    margin-top: 10px;
+    color: #ffb3ab;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .eg-final-error.visible { display: block; }
+  .btn-eg-reset {
+    background: transparent;
+    color: var(--texte-léger);
+    border: 1.5px solid var(--gris-bord);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-top: 18px;
+  }
+  .btn-eg-reset:hover { background: var(--gris-fond); }
+
   /* ── BILAN ── */
   .bilan-grid {
     display: grid;
@@ -1427,6 +1648,7 @@
     <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟡 Intermédiaire</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-diff')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔓 Escape Game</button>
   </div>
 
   <div class="sub-tab-content active" id="exo-sub-facile">
@@ -1897,6 +2119,123 @@
 
   </div>
 
+  <div class="sub-tab-content" id="exo-sub-escape">
+
+    <div class="eg-intro">
+      <h3>🔓 Escape Game — Le labo verrouillé</h3>
+      <p>17h32. La sonnerie a retenti et le professeur a fermé la salle de chimie… avec votre sac à l'intérieur ! Par chance, la porte est équipée d'un digicode à 4 chiffres. Quatre indices, laissés sur les paillasses, correspondent aux quatre grandes idées du chapitre sur les solutions aqueuses. Résolvez-les dans l'ordre pour reconstituer le code et sortir avant la fermeture du lycée à 18h00 !</p>
+      <div class="eg-mission">🎯 <strong>Mission :</strong> résoudre les 4 cadenas ci-dessous, noter le chiffre trouvé à chaque fois, puis saisir le code complet dans le digicode final.</div>
+      <div class="eg-progress">
+        <div class="eg-slot" id="eg-slot-1">1</div>
+        <div class="eg-slot" id="eg-slot-2">2</div>
+        <div class="eg-slot" id="eg-slot-3">3</div>
+        <div class="eg-slot" id="eg-slot-4">4</div>
+      </div>
+      <div id="eg-timer">⏱️ 00:00</div>
+    </div>
+
+    <!-- Cadenas 1 : solvant / soluté -->
+    <div class="eg-card" id="eg-card-1">
+      <div class="eg-card-header">
+        <span class="eg-lock-icon">🔒</span>
+        <h4>Cadenas 1 — Solvant, soluté(s)</h4>
+        <span class="eg-pill">I. Solution</span>
+      </div>
+      <div class="eg-enonce">
+        Sur la paillasse du fond, une fiole contient un mélange dont l'étiquette a été effacée. Un post-it précise :
+        « Ce liquide est obtenu en dissolvant du glucose, des ions sodium Na⁺, des ions chlorure Cl⁻ et de l'acide citrique dans de l'eau. »<br><br>
+        <strong>Combien cette solution contient-elle de solutés différents ?</strong> (le solvant ne compte pas). Entrez ce nombre.
+      </div>
+      <div class="eg-answer-row">
+        <input type="text" class="eg-digit-input" id="eg-input-1" maxlength="1" inputmode="numeric">
+        <button class="btn-eg-valider" onclick="checkEgPuzzle(1, '4')">Valider</button>
+        <span class="eg-feedback" id="eg-fb-1"></span>
+      </div>
+      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-1')">💡 Un indice ?</button>
+      <div class="eg-hint" id="eg-hint-1">Listez chaque espèce dissoute une par une : glucose, Na⁺, Cl⁻, acide citrique. Le solvant, c'est l'eau — on ne le compte jamais parmi les solutés.</div>
+    </div>
+
+    <!-- Cadenas 2 : concentration en masse -->
+    <div class="eg-card" id="eg-card-2">
+      <div class="eg-card-header">
+        <span class="eg-lock-icon">🔒</span>
+        <h4>Cadenas 2 — Concentration en masse</h4>
+        <span class="eg-pill">II. Concentration</span>
+      </div>
+      <div class="eg-enonce">
+        Le tiroir fermé à clé contient une notice manuscrite : « Solution préparée en dissolvant m = 2,4 g de sel dans de l'eau, pour obtenir un volume final V = 400 mL de solution. »<br><br>
+        <strong>Calculez la concentration en masse t (en g·L⁻¹) de cette solution</strong>, puis entrez la partie entière du résultat.
+      </div>
+      <div class="eg-answer-row">
+        <input type="text" class="eg-digit-input" id="eg-input-2" maxlength="1" inputmode="numeric">
+        <button class="btn-eg-valider" onclick="checkEgPuzzle(2, '6')">Valider</button>
+        <span class="eg-feedback" id="eg-fb-2"></span>
+      </div>
+      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-2')">💡 Un indice ?</button>
+      <div class="eg-hint" id="eg-hint-2">t = m / V. Attention aux unités : convertissez V en litres avant de diviser (400 mL = 0,400 L).</div>
+    </div>
+
+    <!-- Cadenas 3 : dissolution / saturation -->
+    <div class="eg-card" id="eg-card-3">
+      <div class="eg-card-header">
+        <span class="eg-lock-icon">🔒</span>
+        <h4>Cadenas 3 — Dissolution &amp; saturation</h4>
+        <span class="eg-pill">III. Dissolution</span>
+      </div>
+      <div class="eg-enonce">
+        Sur l'étagère du haut, un bocal de chlorure de sodium porte l'étiquette « solubilité maximale : 360 g·L⁻¹ à 20 °C ». Juste en dessous, une fiole jaugée de 50,0 mL contient déjà 15 g de sel dissous.<br><br>
+        <strong>Quelle masse supplémentaire (en g, arrondie à l'entier) peut-on encore dissoudre</strong> dans cette fiole sans dépasser la saturation ?
+      </div>
+      <div class="eg-answer-row">
+        <input type="text" class="eg-digit-input" id="eg-input-3" maxlength="1" inputmode="numeric">
+        <button class="btn-eg-valider" onclick="checkEgPuzzle(3, '3')">Valider</button>
+        <span class="eg-feedback" id="eg-fb-3"></span>
+      </div>
+      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-3')">💡 Un indice ?</button>
+      <div class="eg-hint" id="eg-hint-3">Calculez d'abord la masse maximale dissoluble dans 50,0 mL (m<sub>max</sub> = C<sub>max</sub> × V), puis soustrayez la masse déjà dissoute.</div>
+    </div>
+
+    <!-- Cadenas 4 : dilution -->
+    <div class="eg-card" id="eg-card-4">
+      <div class="eg-card-header">
+        <span class="eg-lock-icon">🔒</span>
+        <h4>Cadenas 4 — Dilution &amp; étalonnage</h4>
+        <span class="eg-pill">IV. Dilution</span>
+      </div>
+      <div class="eg-enonce">
+        Le dernier indice est scotché sous la burette : « Solution mère t<sub>m</sub> = 45 g·L⁻¹. Solution fille souhaitée t<sub>f</sub> = 9 g·L⁻¹. »<br><br>
+        <strong>Calculez le facteur de dilution F</strong> entre ces deux solutions, et entrez sa valeur.
+      </div>
+      <div class="eg-answer-row">
+        <input type="text" class="eg-digit-input" id="eg-input-4" maxlength="1" inputmode="numeric">
+        <button class="btn-eg-valider" onclick="checkEgPuzzle(4, '5')">Valider</button>
+        <span class="eg-feedback" id="eg-fb-4"></span>
+      </div>
+      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-4')">💡 Un indice ?</button>
+      <div class="eg-hint" id="eg-hint-4">F = t<sub>m</sub> / t<sub>f</sub>. Le facteur de dilution est toujours sans unité et supérieur à 1.</div>
+    </div>
+
+    <!-- Digicode final -->
+    <div class="eg-final">
+      <h3>🚪 Digicode de la porte</h3>
+      <p>Reconstituez le code à 4 chiffres, dans l'ordre des cadenas, puis appuyez sur « Ouvrir la porte ».</p>
+      <div class="eg-code-boxes">
+        <input type="text" class="eg-code-box" id="eg-code-1" maxlength="1" inputmode="numeric">
+        <input type="text" class="eg-code-box" id="eg-code-2" maxlength="1" inputmode="numeric">
+        <input type="text" class="eg-code-box" id="eg-code-3" maxlength="1" inputmode="numeric">
+        <input type="text" class="eg-code-box" id="eg-code-4" maxlength="1" inputmode="numeric">
+      </div>
+      <button class="btn-eg-open" onclick="checkEgFinal()">🔓 Ouvrir la porte</button>
+      <div class="eg-final-error" id="eg-final-error">✗ Code incorrect… la porte reste bloquée. Revérifiez vos 4 cadenas.</div>
+      <div class="eg-final-msg" id="eg-final-msg">
+        🎉 <strong>Clic !</strong> La porte s'ouvre. Vous récupérez votre sac juste avant la fermeture du lycée. Bravo, vous avez mobilisé les quatre notions clés du chapitre : solvant/soluté, concentration en masse, saturation et dilution !
+      </div>
+    </div>
+
+    <button class="btn-eg-reset" onclick="resetEscapeGame()">↺ Recommencer l'escape game</button>
+
+  </div>
+
 </div><!-- fin tab-2 Exercices -->
 
 
@@ -2259,6 +2598,97 @@ function toggleCorr(id) {
   } else {
     btn.textContent = '▶ Voir la correction';
   }
+}
+
+// ── Escape Game : chrono ──
+let egStarted = false, egSeconds = 0, egTimerHandle = null;
+function egStartTimerIfNeeded() {
+  if (egStarted) return;
+  egStarted = true;
+  egTimerHandle = setInterval(() => {
+    egSeconds++;
+    const m = String(Math.floor(egSeconds/60)).padStart(2,'0');
+    const s = String(egSeconds%60).padStart(2,'0');
+    const el = document.getElementById('eg-timer');
+    if (el) el.textContent = `⏱️ ${m}:${s}`;
+  }, 1000);
+}
+// Démarre le chrono dès qu'on ouvre le sous-onglet Escape Game
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.sub-tab-btn').forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'exo-sub-escape'")) {
+      btn.addEventListener('click', egStartTimerIfNeeded);
+    }
+  });
+});
+
+// ── Escape Game : cadenas ──
+function checkEgPuzzle(n, correctDigit) {
+  const input = document.getElementById('eg-input-' + n);
+  const fb = document.getElementById('eg-fb-' + n);
+  const slot = document.getElementById('eg-slot-' + n);
+  const card = document.getElementById('eg-card-' + n);
+  const val = input.value.trim();
+  input.classList.remove('eg-ok', 'eg-wrong');
+  if (val === correctDigit) {
+    input.classList.add('eg-ok');
+    fb.textContent = '✓ Cadenas ouvert !';
+    fb.className = 'eg-feedback ok';
+    slot.textContent = correctDigit;
+    slot.classList.add('solved');
+    card.classList.add('locked-done');
+    card.querySelector('.eg-lock-icon').textContent = '🔓';
+    const codeBox = document.getElementById('eg-code-' + n);
+    if (codeBox && !codeBox.value) codeBox.value = correctDigit;
+  } else {
+    input.classList.add('eg-wrong');
+    fb.textContent = '✗ Ce n\'est pas le bon chiffre, réessayez.';
+    fb.className = 'eg-feedback wrong';
+  }
+}
+
+function toggleEgHint(id) {
+  document.getElementById(id).classList.toggle('visible');
+}
+
+function checkEgFinal() {
+  const code = ['eg-code-1','eg-code-2','eg-code-3','eg-code-4']
+    .map(id => document.getElementById(id).value.trim()).join('');
+  const errorDiv = document.getElementById('eg-final-error');
+  const msgDiv = document.getElementById('eg-final-msg');
+  if (code === '4635') {
+    errorDiv.classList.remove('visible');
+    msgDiv.classList.add('visible');
+    if (egTimerHandle) clearInterval(egTimerHandle);
+  } else {
+    msgDiv.classList.remove('visible');
+    errorDiv.classList.add('visible');
+  }
+}
+
+function resetEscapeGame() {
+  for (let n = 1; n <= 4; n++) {
+    const input = document.getElementById('eg-input-' + n);
+    const fb = document.getElementById('eg-fb-' + n);
+    const slot = document.getElementById('eg-slot-' + n);
+    const card = document.getElementById('eg-card-' + n);
+    const hint = document.getElementById('eg-hint-' + n);
+    input.value = '';
+    input.classList.remove('eg-ok', 'eg-wrong');
+    fb.textContent = '';
+    slot.textContent = n;
+    slot.classList.remove('solved');
+    card.classList.remove('locked-done');
+    card.querySelector('.eg-lock-icon').textContent = '🔒';
+    hint.classList.remove('visible');
+    document.getElementById('eg-code-' + n).value = '';
+  }
+  document.getElementById('eg-final-error').classList.remove('visible');
+  document.getElementById('eg-final-msg').classList.remove('visible');
+  if (egTimerHandle) clearInterval(egTimerHandle);
+  egStarted = false; egSeconds = 0;
+  const el = document.getElementById('eg-timer');
+  if (el) el.textContent = '⏱️ 00:00';
 }
 
 // ── Calcul Cm générique ──

@@ -1730,10 +1730,123 @@ for i in range(0, 20, 2) :
   </div>
 
   <div class="sub-tab-content" id="exo-sub-escape">
-    <div class="box box-rappel" style="text-align:center;">
-      <h3>🔐 Escape game — Description du mouvement</h3>
-      <p>L'escape game de la séquence arrive bientôt ! Reviens vérifier cette page prochainement pour tenter de t'échapper en résolvant des énigmes sur le mouvement, les référentiels et la vitesse. 🚀</p>
+  <style>
+    .eg-wrap{max-width:880px;margin:0 auto;}
+    .eg-intro p{margin:6px 0;}
+    .eg-progress{font-family:'DM Mono',monospace;font-size:1.35rem;font-weight:700;color:var(--bleu);letter-spacing:6px;margin-top:10px;}
+    .eg-stage{position:relative;}
+    .eg-stage h4{font-family:'Outfit',sans-serif;color:var(--bleu);margin-top:0;font-size:1.02rem;}
+    .eg-stage .eg-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--bleu);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:0.85rem;margin-right:8px;}
+    .eg-options{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+    .eg-option{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;background:#fff;transition:0.15s;font-size:0.9rem;}
+    .eg-option:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair);}
+    .eg-option input{accent-color:var(--bleu);flex-shrink:0;}
+    .eg-input-row{display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap;}
+    .eg-input-row input[type="text"],.eg-input-row input[type="number"]{padding:9px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1rem;width:110px;}
+    .eg-input-row span.unit{font-size:0.85rem;color:var(--texte-leger);}
+    .eg-feedback{margin-top:10px;font-weight:700;font-size:0.86rem;min-height:20px;}
+    .eg-feedback.ok{color:var(--vert);}
+    .eg-feedback.ko{color:var(--rouge);}
+    .eg-digit-reveal{display:inline-block;background:var(--vert-clair);color:var(--vert);border:1.5px solid var(--vert);border-radius:6px;padding:2px 10px;font-family:'DM Mono',monospace;font-weight:800;margin-left:8px;}
+    .eg-final input{padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'DM Mono',monospace;font-size:1.25rem;letter-spacing:8px;width:150px;text-align:center;}
+    .eg-hint-toggle{background:none;border:none;color:var(--bleu);font-weight:700;font-size:0.8rem;cursor:pointer;padding:4px 0;text-decoration:underline;}
+    .eg-hint-box{display:none;margin-top:8px;background:var(--bleu-clair);border-radius:8px;padding:10px 12px;font-size:0.84rem;color:var(--texte);}
+    .eg-hint-box.open{display:block;}
+    .eg-success-badge{font-size:2.4rem;}
+  </style>
+  <div class="eg-wrap">
+
+    <div class="box box-rappel eg-intro" style="text-align:center;">
+      <h3>🔐 Escape game — L'observatoire de Copernic</h3>
+      <p>Tu visites l'ancien observatoire de Nicolas Copernic lorsque la lourde porte de pierre se referme brutalement derrière toi. Une voix mécanique résonne : <em>« Pour sortir, prouve-moi que tu sais décrire un mouvement. »</em></p>
+      <p>Résous les <strong>4 énigmes</strong> dans l'ordre. Chacune te donne un chiffre du code du cadenas final. 🚀</p>
+      <div class="eg-progress">Code : <span id="eg-code-display">▢ ▢ ▢ ▢</span></div>
     </div>
+
+    <!-- Énigme 1 : référentiel -->
+    <div class="box eg-stage" id="eg-stage-1">
+      <h4><span class="eg-num">1</span>Le verre qui ne tombe pas</h4>
+      <p>Tu es assis(e) dans un TGV qui roule à 300 km/h sur une voie parfaitement rectiligne, à vitesse constante. Sur la tablette devant toi, un verre d'eau reste immobile, sans jamais glisser.</p>
+      <p><strong>Dans quel référentiel ce verre est-il réellement immobile ?</strong></p>
+      <div class="eg-options">
+        <label class="eg-option"><input type="radio" name="eg1" value="a"> Le référentiel terrestre, matérialisé par la voie ferrée</label>
+        <label class="eg-option"><input type="radio" name="eg1" value="b"> Le référentiel du train</label>
+        <label class="eg-option"><input type="radio" name="eg1" value="c"> Le référentiel héliocentrique</label>
+        <label class="eg-option"><input type="radio" name="eg1" value="d"> Le référentiel géocentrique</label>
+      </div>
+      <button class="btn-run" onclick="checkEg1()">Valider</button>
+      <button class="eg-hint-toggle" type="button" onclick="toggleEgHint('eg-hint-1')">💡 Indice</button>
+      <div class="eg-hint-box" id="eg-hint-1">Un objet est immobile dans un référentiel si sa position ne change pas au cours du temps <em>par rapport à ce référentiel</em>. Le verre ne bouge pas par rapport à la tablette... qui est fixée à quoi ?</div>
+      <div class="eg-feedback" id="eg-feedback-1"></div>
+    </div>
+
+    <!-- Énigme 2 : trajectoire -->
+    <div class="box eg-stage" id="eg-stage-2" style="display:none;">
+      <h4><span class="eg-num">2</span>La pale d'éolienne</h4>
+      <p>Une éolienne tourne à vitesse de rotation constante. On s'intéresse à un point M situé à l'extrémité d'une pale.</p>
+      <p><strong>Dans le référentiel terrestre, quelle est la trajectoire du point M ?</strong></p>
+      <div class="eg-options">
+        <label class="eg-option"><input type="radio" name="eg2" value="a"> Rectiligne</label>
+        <label class="eg-option"><input type="radio" name="eg2" value="b"> Circulaire</label>
+        <label class="eg-option"><input type="radio" name="eg2" value="c"> Quelconque (curviligne, sans forme particulière)</label>
+      </div>
+      <button class="btn-run" onclick="checkEg2()">Valider</button>
+      <button class="eg-hint-toggle" type="button" onclick="toggleEgHint('eg-hint-2')">💡 Indice</button>
+      <div class="eg-hint-box" id="eg-hint-2">Le point M reste toujours à la même distance de l'axe de rotation de l'éolienne. Quelle figure géométrique garde tous ses points à distance constante d'un centre ?</div>
+      <div class="eg-feedback" id="eg-feedback-2"></div>
+    </div>
+
+    <!-- Énigme 3 : vitesse moyenne -->
+    <div class="box eg-stage" id="eg-stage-3" style="display:none;">
+      <h4><span class="eg-num">3</span>Le pendule de Copernic</h4>
+      <p>Une bille roule en ligne droite sur une table. Un capteur mesure qu'elle parcourt <strong>20 m</strong> en <strong>4 s</strong>.</p>
+      <p><strong>Quelle est la valeur de la vitesse moyenne de la bille, en m/s ?</strong></p>
+      <div class="eg-input-row">
+        <input type="number" id="eg-input-3" placeholder="?"> <span class="unit">m/s</span>
+        <button class="btn-run" onclick="checkEg3()">Valider</button>
+      </div>
+      <button class="eg-hint-toggle" type="button" onclick="toggleEgHint('eg-hint-3')">💡 Indice</button>
+      <div class="eg-hint-box" id="eg-hint-3">La valeur de la vitesse moyenne se calcule avec v = d / Δt, où d est la distance parcourue et Δt la durée du parcours.</div>
+      <div class="eg-feedback" id="eg-feedback-3"></div>
+    </div>
+
+    <!-- Énigme 4 : nature du mouvement -->
+    <div class="box eg-stage" id="eg-stage-4" style="display:none;">
+      <h4><span class="eg-num">4</span>La chronophotographie mystère</h4>
+      <p>Sur une chronophotographie prise à intervalles de temps égaux, les positions successives d'un point sont <strong>alignées</strong> et <strong>régulièrement espacées</strong> (la distance entre deux positions consécutives est toujours la même).</p>
+      <p><strong>Quel est le mouvement de ce point ?</strong></p>
+      <div class="eg-options">
+        <label class="eg-option"><input type="radio" name="eg4" value="a"> Rectiligne uniforme</label>
+        <label class="eg-option"><input type="radio" name="eg4" value="b"> Rectiligne non uniforme</label>
+        <label class="eg-option"><input type="radio" name="eg4" value="c"> Circulaire uniforme</label>
+        <label class="eg-option"><input type="radio" name="eg4" value="d"> Circulaire non uniforme</label>
+      </div>
+      <button class="btn-run" onclick="checkEg4()">Valider</button>
+      <button class="eg-hint-toggle" type="button" onclick="toggleEgHint('eg-hint-4')">💡 Indice</button>
+      <div class="eg-hint-box" id="eg-hint-4">« Aligné » renseigne sur la trajectoire. « Régulièrement espacé à intervalles de temps égaux » renseigne sur la valeur de la vitesse : est-elle constante ?</div>
+      <div class="eg-feedback" id="eg-feedback-4"></div>
+    </div>
+
+    <!-- Cadenas final -->
+    <div class="box box-capacites eg-final" id="eg-final" style="display:none;text-align:center;">
+      <h4>🔓 Le cadenas de la porte</h4>
+      <p>Tu as reconstitué les 4 chiffres. Entre-les dans l'ordre pour ouvrir la porte de l'observatoire.</p>
+      <div class="eg-input-row" style="justify-content:center;">
+        <input type="text" id="eg-final-code" maxlength="4" placeholder="••••">
+        <button class="btn-run" onclick="checkEgFinal()">Ouvrir la porte</button>
+      </div>
+      <div class="eg-feedback" id="eg-feedback-final"></div>
+    </div>
+
+    <!-- Succès -->
+    <div class="box box-bilan" id="eg-success" style="display:none;text-align:center;">
+      <div class="eg-success-badge">🎉🚪🏛️</div>
+      <h4 style="color:var(--vert);">Bravo, tu t'es échappé(e) !</h4>
+      <p>La porte s'ouvre en grinçant. En sortant, tu réalises que c'est exactement en observant le mouvement des astres — depuis <strong>différents référentiels</strong> — que Copernic a bouleversé la vision du monde en proposant un modèle héliocentrique. Décrire un mouvement, ce n'est jamais anodin : c'est toujours par rapport à un référentiel !</p>
+      <button class="btn-run" onclick="resetEscapeGame()">🔄 Recommencer l'escape game</button>
+    </div>
+
+  </div>
   </div>
 </div>
 
@@ -2953,6 +3066,117 @@ function drawProjCanvas(t, x, y){
     ctx.lineTo(x1 - headlen*Math.cos(angle+Math.PI/6), y1 - headlen*Math.sin(angle+Math.PI/6));
     ctx.closePath(); ctx.fill();
   }
+}
+</script>
+
+<script>
+/* ══════ ESCAPE GAME — Description du mouvement ══════ */
+var egCode = ['', '', '', ''];
+
+function toggleEgHint(id){
+  var box = document.getElementById(id);
+  if(!box) return;
+  box.classList.toggle('open');
+}
+
+function egSetFeedback(id, ok, msg){
+  var el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'eg-feedback ' + (ok ? 'ok' : 'ko');
+}
+
+function egUpdateCodeDisplay(){
+  var display = egCode.map(function(d){ return d === '' ? '▢' : d; }).join(' ');
+  document.getElementById('eg-code-display').textContent = display;
+}
+
+function egRevealNextStage(currentStageNum, digit){
+  egCode[currentStageNum - 1] = String(digit);
+  egUpdateCodeDisplay();
+  var nextStage = document.getElementById('eg-stage-' + (currentStageNum + 1));
+  if(nextStage){
+    nextStage.style.display = 'block';
+    nextStage.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    var finalBox = document.getElementById('eg-final');
+    finalBox.style.display = 'block';
+    finalBox.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function checkEg1(){
+  var choice = document.querySelector('input[name="eg1"]:checked');
+  if(!choice){ egSetFeedback('eg-feedback-1', false, '⚠️ Choisis une réponse.'); return; }
+  if(choice.value === 'b'){
+    egSetFeedback('eg-feedback-1', true, '✅ Exact ! Par rapport au train, le verre ne bouge pas. 1er chiffre du code : ');
+    document.getElementById('eg-feedback-1').innerHTML += '<span class="eg-digit-reveal">8</span>';
+    egRevealNextStage(1, 8);
+  } else {
+    egSetFeedback('eg-feedback-1', false, '❌ Non, réfléchis à l\'objet auquel le verre ne bouge pas par rapport.');
+  }
+}
+
+function checkEg2(){
+  var choice = document.querySelector('input[name="eg2"]:checked');
+  if(!choice){ egSetFeedback('eg-feedback-2', false, '⚠️ Choisis une réponse.'); return; }
+  if(choice.value === 'b'){
+    egSetFeedback('eg-feedback-2', true, '✅ Exact ! M reste à distance constante de l\'axe. 2e chiffre du code : ');
+    document.getElementById('eg-feedback-2').innerHTML += '<span class="eg-digit-reveal">1</span>';
+    egRevealNextStage(2, 1);
+  } else {
+    egSetFeedback('eg-feedback-2', false, '❌ Non, repense à la distance entre M et l\'axe de rotation.');
+  }
+}
+
+function checkEg3(){
+  var val = parseFloat(document.getElementById('eg-input-3').value);
+  if(isNaN(val)){ egSetFeedback('eg-feedback-3', false, '⚠️ Entre un nombre.'); return; }
+  if(Math.abs(val - 5) < 0.01){
+    egSetFeedback('eg-feedback-3', true, '✅ Exact ! v = 20/4 = 5 m/s. 3e chiffre du code : ');
+    document.getElementById('eg-feedback-3').innerHTML += '<span class="eg-digit-reveal">5</span>';
+    egRevealNextStage(3, 5);
+  } else {
+    egSetFeedback('eg-feedback-3', false, '❌ Revois la formule v = d / Δt.');
+  }
+}
+
+function checkEg4(){
+  var choice = document.querySelector('input[name="eg4"]:checked');
+  if(!choice){ egSetFeedback('eg-feedback-4', false, '⚠️ Choisis une réponse.'); return; }
+  if(choice.value === 'a'){
+    egSetFeedback('eg-feedback-4', true, '✅ Exact ! Trajectoire alignée = rectiligne, espacement régulier = valeur de vitesse constante. 4e chiffre du code : ');
+    document.getElementById('eg-feedback-4').innerHTML += '<span class="eg-digit-reveal">3</span>';
+    egRevealNextStage(4, 3);
+  } else {
+    egSetFeedback('eg-feedback-4', false, '❌ Repense séparément à la forme de la trajectoire et à la régularité des écarts.');
+  }
+}
+
+function checkEgFinal(){
+  var input = document.getElementById('eg-final-code').value.trim();
+  var solution = egCode.join('');
+  if(input === solution){
+    egSetFeedback('eg-feedback-final', true, '✅ Clic ! La porte s\'ouvre...');
+    document.getElementById('eg-final').style.display = 'none';
+    var success = document.getElementById('eg-success');
+    success.style.display = 'block';
+    success.scrollIntoView({behavior:'smooth', block:'center'});
+  } else {
+    egSetFeedback('eg-feedback-final', false, '❌ Ce code n\'ouvre pas la porte. Vérifie les 4 chiffres trouvés plus haut.');
+  }
+}
+
+function resetEscapeGame(){
+  egCode = ['', '', '', ''];
+  egUpdateCodeDisplay();
+  document.querySelectorAll('#exo-sub-escape input[type="radio"]').forEach(function(r){ r.checked = false; });
+  document.querySelectorAll('#exo-sub-escape input[type="number"], #exo-sub-escape input[type="text"]').forEach(function(i){ i.value = ''; });
+  document.querySelectorAll('#exo-sub-escape .eg-feedback').forEach(function(f){ f.textContent = ''; f.className = 'eg-feedback'; });
+  document.querySelectorAll('#exo-sub-escape .eg-hint-box').forEach(function(h){ h.classList.remove('open'); });
+  for(var i = 2; i <= 4; i++){ document.getElementById('eg-stage-' + i).style.display = 'none'; }
+  document.getElementById('eg-final').style.display = 'none';
+  document.getElementById('eg-success').style.display = 'none';
+  document.getElementById('eg-stage-1').scrollIntoView({behavior:'smooth', block:'center'});
 }
 </script>
 

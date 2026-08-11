@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Séquence 05 — Forces et principe d'inertie</title>
+<link rel="stylesheet" href="../assets/style-animations.css">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -243,6 +244,29 @@
 
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
+  .tab-content{display:none; padding:20px; max-width:1300px; margin:0 auto;}
+  .tab-content.active{display:block; animation:fadein 0.35s;}
+  .box{
+    border:1px solid var(--gris-bord);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    background:var(--gris-fond);
+  }
+  .box-rappel{background:var(--bleu-clair); border-color:var(--bleu);}
+  .box-capacites{background:#FDF0E8; border-color:#E8783A;}
+  .formula{background:var(--bleu-clair);border:1.5px solid #B8D4EC;border-radius:10px;padding:14px 18px;text-align:center;font-family:'DM Mono',monospace;font-weight:700;color:var(--bleu);margin:14px 0;font-size:1.05rem}
+  .exo-tabs-nav { display: flex; gap: 8px; margin: 8px 0 20px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .exo-tab-btn { flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 7px; padding: 8px 16px; border: 1.5px solid var(--gris-bord); background: #fff; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; }
+  .exo-tab-btn:hover { border-color: var(--bleu); }
+  .exo-tab-btn.active { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+  .exo-tab-btn .exo-tab-stars { font-size: 0.76rem; color: var(--orange); font-weight: 400; }
+  .exo-tab-btn.active .exo-tab-stars { color: #FFD9B3; }
+  .exo-item-content { display: none; }
+  .exo-item-content.active { display: block; animation: fadein 0.3s ease; }
+  table{border-collapse:collapse; width:100%; margin:10px 0;}
+  th, td{border:1px solid var(--gris-bord); padding:8px 10px; text-align:center;}
+  th{background:var(--bleu-clair); color:var(--bleu);}
 
   /* ---------- Blocs / cartes ---------- */
   section.block{
@@ -509,12 +533,18 @@
         <span>— Isaac Newton (1642 – 1727)</span>
       </p>
     </div>
+    <div class="apple-icon" style="margin:0;flex-shrink:0;" title="Pomme : forces et principe d'inertie">
+      <div class="apple-canopy"></div>
+      <div class="apple-trunk"></div>
+      <div class="apple-fruit"></div>
+    </div>
   </div>
 
-  <nav class="tabs">
-    <button class="tab-btn active" data-tab="tab1">1️⃣ Modéliser une action</button>
-    <button class="tab-btn" data-tab="tab2">2️⃣ Principe d'inertie</button>
-    <button class="tab-btn" data-tab="tab3">3️⃣ Bilan et ressources</button>
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" onclick="showTab(this,'t-cours')">📘 Cours</button>
+    <button class="tab-btn" onclick="showTab(this,'t-activites')">🚀 Activités</button>
+    <button class="tab-btn" onclick="showTab(this,'t-exercices')">✏️ Exercices</button>
+    <button class="tab-btn" onclick="showTab(this,'t-bilan')">🗂️ Bilan &amp; Ressources</button>
   </nav>
 
   <div class="cap-panel" id="capPanel">
@@ -538,213 +568,278 @@
   </div>
 </header>
 
-<div class="wrap">
-
-  <!-- ===================== TAB 1 ===================== -->
-  <div class="tab-panel active" id="tab1">
-    <section class="block" id="bloc-contact-distance">
-      <h2>⚽ Actions mécaniques : contact ou distance ?</h2>
-      <p class="sub-label">Doc 1 p198</p>
-      <div class="two-col">
-        <div>
-          <div class="fill-row">
-            On parle d'action
-            <select class="blank" id="blank1">
-              <option value="">— choisir —</option>
-              <option value="contact">de contact</option>
-              <option value="distance">à distance</option>
-            </select>
-            lorsqu'il y a <strong>contact</strong> entre le système étudié et l'extérieur.
-          </div>
-          <div class="fill-row">
-            On parle d'action
-            <select class="blank" id="blank2">
-              <option value="">— choisir —</option>
-              <option value="contact">de contact</option>
-              <option value="distance">à distance</option>
-            </select>
-            lorsqu'il n'y a <strong>pas de contact</strong> entre le système étudié et l'extérieur.
-          </div>
-          <button class="action-btn solid" id="checkBlanks">✅ Vérifier</button>
-          <div class="feedback" id="feedbackBlanks"></div>
-        </div>
-        <div>
-          <div class="canvas-frame" style="padding:14px;">
-            <img src="doc1-p198.png" alt="Doc 1 p198 : a. le volleyeur exerce une force de contact F1 sur le ballon — b. l'aimant exerce une force à distance F2 sur la bille d'acier" style="max-width:260px; width:100%; display:block; margin:0 auto; border-radius:8px;">
-          </div>
-          <p style="font-size:0.82rem; color:var(--gray); text-align:center; margin-top:4px;">Doc 1 p198 — a. force de contact <span class="vec">F</span><sub>1</sub> · b. force à distance <span class="vec">F</span><sub>2</sub></p>
-        </div>
-      </div>
-
-      <h3>Classer quelques exemples</h3>
-      <p style="font-size:0.92rem; color:var(--gray); margin-top:-4px;">Pour chaque situation, indique le type d'action mise en jeu.</p>
-      <div id="classement-exemples"></div>
-      <div class="feedback" id="feedbackClassement"></div>
-    </section>
-
-    <section class="block" id="bloc-diagramme">
-      <h2>🧩 Construire un diagramme objet-interactions</h2>
-      <p class="sub-label">Exemple : le coup de pied sur un ballon de foot</p>
-      <p>Système étudié : <strong>le ballon</strong> · Référentiel : <strong>terrestre</strong>.<br>
-      Ajoute les interactions une à une puis vérifie le diagramme.</p>
-      <div class="two-col">
-        <div>
-          <button class="action-btn" id="addContact">➕ Interaction de contact (pied)</button><br>
-          <button class="action-btn" id="addDistance">➕ Interaction à distance (Terre)</button><br>
-          <button class="action-btn" id="resetDiagram">↺ Réinitialiser</button>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="diagramCanvas" width="380" height="260"></canvas>
-        </div>
-      </div>
-      <div class="feedback" id="feedbackDiagram"></div>
-      <div class="bilan-box" id="bilanDiagram" style="display:none;">
-        <strong>Bilan :</strong> une action mécanique exercée par l'extérieur sur le système étudié est modélisée par une force.
-        Cette force est représentée par un vecteur ayant une <strong>direction</strong> (celle de la droite d'action), un <strong>sens</strong> et une <strong>norme</strong> proportionnelle à la valeur de la force.
-        Le <strong>point d'application</strong> est le point où l'on considère que la force s'exerce.
-      </div>
-    </section>
-
-    <section class="block" id="bloc-vecteur">
-      <h2>📐 Modéliser une force par un vecteur</h2>
-      <p class="sub-label">Action du joueur sur le ballon</p>
-      <p>Fais varier la norme et la direction de la force <span class="vec">F</span><sub>joueur/ballon</sub> et observe le vecteur se construire en temps réel.</p>
-      <div class="two-col">
-        <div>
-          <div class="slider-row">
-            <label>Norme de la force <output id="outNorme">120</output> N</label>
-            <input type="range" id="sliderNorme" min="20" max="300" value="120" step="5">
-          </div>
-          <div class="slider-row">
-            <label>Direction / sens (angle) <output id="outAngle">35</output>°</label>
-            <input type="range" id="sliderAngle" min="0" max="90" value="35" step="1">
-          </div>
-          <div class="info-box">Échelle utilisée sur le schéma : 1 cm ↔ 50 N. Le vecteur <span class="vec">F</span><sub>joueur/ballon</sub> a une direction (celle de la droite d'action), un sens (du point initial vers le point final) et une norme (la valeur de la force, en N).</div>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="vectorCanvas" width="360" height="260"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section class="block" id="bloc-reciproques">
-      <h2>🪢 Le jeu de la corde — Principe des actions réciproques</h2>
-      <p class="sub-label">3<sup>ième</sup> loi de Newton</p>
-      <p>Règle la force de traction au sol de chaque équipe (grip / frottement sur leurs appuis) et observe ce qui se passe au niveau de la corde.</p>
-      <div class="two-col">
-        <div>
-          <div class="slider-row">
-            <label>💪 Équipe A — force au sol <output id="outForceA">200</output> N</label>
-            <input type="range" id="sliderForceA" min="0" max="400" value="200" step="5">
-          </div>
-          <div class="slider-row">
-            <label>💪 Équipe B — force au sol <output id="outForceB">200</output> N</label>
-            <input type="range" id="sliderForceB" min="0" max="400" value="200" step="5">
-          </div>
-          <button class="action-btn solid" id="btnEgalite">⚖️ Cas exæquo (200 N / 200 N)</button>
-          <div class="result-pill" id="resultCorde">Égalité parfaite — la corde ne bouge pas.</div>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="cordeCanvas" width="380" height="200"></canvas>
-        </div>
-      </div>
-      <div class="bilan-box">
-        <strong>À retenir :</strong> quelle que soit la situation (égalité ou non), la force exercée par la corde sur la main d'un joueur et la force exercée par cette main sur la corde sont <strong>toujours égales en norme et de sens opposés</strong> (3<sup>ième</sup> loi de Newton — <span class="vec">F</span><sub>A/corde</sub> = − <span class="vec">F</span><sub>corde/A</sub>).
-        Ce n'est <strong>pas</strong> une différence de force « dans la corde » qui fait gagner une équipe, mais une différence de force de frottement au sol sous leurs appuis.
-      </div>
-      <div class="info-box" style="text-align:center; border-style:solid;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🔬 Simulation PhET</p>
-        <p style="margin:0 0 12px; font-size:0.88rem;">Visualise les deux forces d'interaction entre deux masses et observe qu'elles sont toujours égales et opposées (3<sup>ième</sup> loi de Newton).</p>
-        <a href="https://phet.colorado.edu/sims/html/gravity-force-lab-basics/latest/gravity-force-lab-basics_all.html?locale=fr" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">🚀 Ouvrir la simulation PhET ↗</a>
-      </div>
-      <div class="info-box" style="text-align:center; border-style:solid;">
-        <p style="margin:0 0 8px; font-weight:600; color:var(--black);">🚣 La barque de Tsiolkovski</p>
-        <p style="margin:0 0 12px; font-size:0.88rem;">Une vidéo illustrant le principe des actions réciproques.</p>
-        <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d1788e78e.2fc834d6.24c1b6eb3da963e821cb6e3f57204db5" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
-      </div>
-    </section>
-
-    <section class="block" id="bloc-poids-gravitation">
-      <h2>🌍 Poids et interaction gravitationnelle</h2>
-
-      <h3>⚖️ Calculer un poids</h3>
-      <div class="two-col">
-        <div>
-          <div class="slider-row">
-            <label>Masse de l'objet <output id="outMasse">70</output> kg</label>
-            <input type="range" id="sliderMasse" min="1" max="200" value="70" step="1">
-          </div>
-          <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
-          <select class="dropdown" id="selectAstre">
-            <option value="9.8">Terre (g = 9,8 N·kg⁻¹)</option>
-            <option value="1.62">Lune (g = 1,62 N·kg⁻¹)</option>
-            <option value="3.7">Mars (g = 3,7 N·kg⁻¹)</option>
-            <option value="24.8">Jupiter (g = 24,8 N·kg⁻¹)</option>
-          </select>
-          <div class="result-pill" id="resultPoids">P = 686 N</div>
-          <div class="formula-detail" id="formulaPoids"></div>
-          <div class="info-box">Formule : <span class="vec">P</span> = m × <span class="vec">g</span> (avec <span class="vec">P</span> et <span class="vec">g</span> verticaux, vers le bas).</div>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="poidsCanvas" width="220" height="260"></canvas>
-        </div>
-      </div>
-
-      <h3>🛰️ Force d'interaction gravitationnelle</h3>
-      <p style="font-size:0.92rem;">F<sub>A/B</sub> = G × (m<sub>A</sub> × m<sub>B</sub>) / d² &nbsp;avec&nbsp; G = 6,67×10⁻¹¹ N·m²·kg⁻²</p>
-      <div class="two-col">
-        <div>
-          <div class="slider-row">
-            <label>Masse m<sub>A</sub> (Terre) — <output id="outMA">5.97e24</output> kg</label>
-            <input type="range" id="sliderMA" min="22" max="26" value="24.776" step="0.01">
-          </div>
-          <div class="slider-row">
-            <label>Masse m<sub>B</sub> (satellite) — <output id="outMB">1000</output> kg</label>
-            <input type="range" id="sliderMB" min="0" max="4" value="3" step="0.05">
-          </div>
-          <div class="slider-row">
-            <label>Distance d <output id="outD">7000</output> km</label>
-            <input type="range" id="sliderD" min="6400" max="50000" value="7000" step="100">
-          </div>
-          <div class="result-pill" id="resultGravitation">F = 8,14×10³ N</div>
-          <div class="formula-detail" id="formulaGravitation"></div>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="gravCanvas" width="360" height="180"></canvas>
-        </div>
-      </div>
-
-      <h3>📏 Pesanteur à une altitude h</h3>
-      <p style="font-size:0.92rem;">g(h) = G × M<sub>Terre</sub> / (R<sub>Terre</sub> + h)²</p>
-      <div class="slider-row">
-        <label>Altitude h <output id="outAlt">0</output> km</label>
-        <input type="range" id="sliderAlt" min="0" max="3000" value="0" step="10">
-      </div>
-      <div class="result-pill" id="resultAlt">g(0 km) = 9,82 N·kg⁻¹</div>
-      <div class="formula-detail" id="formulaAlt"></div>
-      <div class="info-box">Données : R<sub>Terre</sub> = 6 371 km · M<sub>Terre</sub> = 5,97×10²⁴ kg · g<sub>Lune</sub> ≈ g<sub>Terre</sub> / 6.</div>
-    </section>
-    <!--TAB1_CONTENT-->
+<!-- ============ ONGLET COURS ============ -->
+<div class="tab-content active" id="t-cours">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">📐 Modéliser une force — Poids et gravitation</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">🪢 Actions réciproques</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">🛹 Principe d'inertie - Chute libre</button>
   </div>
 
-  <!-- ===================== TAB 2 ===================== -->
-  <div class="tab-panel" id="tab2">
-    <section class="block" id="bloc-inertie-anim">
-      <h2>🛹 Comprendre le principe d'inertie, sa contraposée et sa réciproque</h2>
-      <p>Anime les trois situations ci-dessous (camion qui démarre, bus qui freine, balle qui tombe), puis réponds aux questions.</p>
+  <div class="sub-tab-content active" id="cours-sub-0">
+  <h2>1. Modéliser une force — Poids et gravitation</h2>
+
+  <h3>a. Actions de contact et actions à distance</h3>
+  <div class="box box-rappel">
+    <p>Une <strong>action mécanique</strong> exercée par l'extérieur sur un système peut être :</p>
+    <ul>
+      <li>une <strong>action de contact</strong> : il y a contact entre le système étudié et l'extérieur (ex. : le pied qui pousse un ballon) ;</li>
+      <li>une <strong>action à distance</strong> : il n'y a pas de contact entre le système étudié et l'extérieur (ex. : la Terre qui attire un objet, un aimant qui attire une bille en acier).</li>
+    </ul>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="sub-label">Doc 1 p198</p>
+      <div class="fill-row">
+        On parle d'action
+        <select class="blank" id="blank1">
+          <option value="">— choisir —</option>
+          <option value="contact">de contact</option>
+          <option value="distance">à distance</option>
+        </select>
+        lorsqu'il y a <strong>contact</strong> entre le système étudié et l'extérieur.
+      </div>
+      <div class="fill-row">
+        On parle d'action
+        <select class="blank" id="blank2">
+          <option value="">— choisir —</option>
+          <option value="contact">de contact</option>
+          <option value="distance">à distance</option>
+        </select>
+        lorsqu'il n'y a <strong>pas de contact</strong> entre le système étudié et l'extérieur.
+      </div>
+      <button class="action-btn solid" id="checkBlanks">✅ Vérifier</button>
+      <div class="feedback" id="feedbackBlanks"></div>
+    </div>
+    <div>
+      <div class="canvas-frame" style="padding:14px;">
+        <img src="doc1-p198.png" alt="Doc 1 p198 : a. le volleyeur exerce une force de contact F1 sur le ballon — b. l'aimant exerce une force à distance F2 sur la bille d'acier" style="max-width:260px; width:100%; display:block; margin:0 auto; border-radius:8px;">
+      </div>
+      <p style="font-size:0.82rem; color:var(--texte-léger); text-align:center; margin-top:4px;">Doc 1 p198 — a. force de contact <span class="vec">F</span><sub>1</sub> · b. force à distance <span class="vec">F</span><sub>2</sub></p>
+    </div>
+  </div>
+
+  <h3>Classer quelques exemples</h3>
+  <p style="font-size:0.92rem; color:var(--texte-léger); margin-top:-4px;">Pour chaque situation, indique le type d'action mise en jeu.</p>
+  <div class="two-col">
+    <div>
+      <div id="classement-exemples"></div>
+      <div class="feedback" id="feedbackClassement"></div>
+    </div>
+    <div>
+      <div class="canvas-frame" style="padding:14px;">
+        <img src="imageaction.png" alt="Les types d'actions en physique : attraction magnétique (aimant/bille en acier), poussée de contact (pied/ballon), attraction gravitationnelle (Terre/Lune), poussée manuelle (main/chariot), attraction gravitationnelle (Terre/satellite), traction dans un liquide (dynamomètre/solide immergé)" style="max-width:100%; width:100%; display:block; margin:0 auto; border-radius:8px;">
+      </div>
+    </div>
+  </div>
+
+  <h3>b. Diagramme objet-interactions</h3>
+  <div class="box">
+    <p>Pour représenter les actions mécaniques subies par un système, on construit un <strong>diagramme objet-interactions</strong> :</p>
+    <ul>
+      <li>on place le système étudié au centre ;</li>
+      <li>on identifie tous les objets extérieurs qui interagissent avec lui (par contact et/ou à distance) ;</li>
+      <li>on relie chaque objet extérieur au système par un trait, annoté du type d'interaction.</li>
+    </ul>
+    <p style="margin-bottom:0;"><em>Exemple :</em> juste après le coup de pied, en référentiel terrestre, le ballon subit une interaction de contact avec le pied du joueur et une interaction à distance avec la Terre.</p>
+  </div>
+
+  <p class="sub-label">Exemple : le coup de pied sur un ballon de foot</p>
+  <p>Système étudié : <strong>le ballon</strong> · Référentiel : <strong>terrestre</strong>.<br>
+  Ajoute les interactions une à une puis vérifie le diagramme.</p>
+  <div class="two-col">
+    <div>
+      <button class="action-btn" id="addContact">➕ Interaction de contact (pied)</button><br>
+      <button class="action-btn" id="addDistance">➕ Interaction à distance (Terre)</button><br>
+      <button class="action-btn" id="resetDiagram">↺ Réinitialiser</button>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="diagramCanvas" width="380" height="260"></canvas>
+    </div>
+  </div>
+  <div class="feedback" id="feedbackDiagram"></div>
+  <div class="bilan-box" id="bilanDiagram" style="display:none;">
+    <strong>Bilan :</strong> une action mécanique exercée par l'extérieur sur le système étudié est modélisée par une force, représentée par un vecteur ayant une <strong>direction</strong>, un <strong>sens</strong> et une <strong>norme</strong> (voir section suivante).
+  </div>
+
+  <h3>c. Modéliser une force par un vecteur</h3>
+  <div class="box box-rappel">
+    <p>Une action mécanique exercée par un objet A sur un système B est modélisée par une <strong>force</strong>, notée <span class="vec">F</span><sub>A/B</sub>, représentée par un vecteur caractérisé par :</p>
+    <ul>
+      <li>son <strong>point d'application</strong> : le point où l'on considère que la force s'exerce ;</li>
+      <li>sa <strong>direction</strong> : celle de la droite d'action de la force ;</li>
+      <li>son <strong>sens</strong> ;</li>
+      <li>sa <strong>norme</strong> (ou valeur), proportionnelle à l'intensité de la force, exprimée en newton (N).</li>
+    </ul>
+  </div>
+
+  <p class="sub-label">Action du joueur sur le ballon</p>
+  <p>Fais varier la norme et la direction de la force <span class="vec">F</span><sub>joueur/ballon</sub> et observe le vecteur se construire en temps réel.</p>
+  <div class="two-col">
+    <div>
+      <div class="slider-row">
+        <label>Norme de la force <output id="outNorme">120</output> N</label>
+        <input type="range" id="sliderNorme" min="20" max="300" value="120" step="5">
+      </div>
+      <div class="slider-row">
+        <label>Direction / sens (angle) <output id="outAngle">35</output>°</label>
+        <input type="range" id="sliderAngle" min="0" max="90" value="35" step="1">
+      </div>
+      <div class="info-box">Échelle utilisée sur le schéma : 1 cm ↔ 50 N.</div>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="vectorCanvas" width="360" height="260"></canvas>
+    </div>
+  </div>
+
+  <h3>d. Le poids d'un objet</h3>
+  <div class="box box-rappel">
+    <p>Le <strong>poids</strong> <span class="vec">P</span> d'un objet est la force modélisant l'interaction gravitationnelle exercée par un astre (la Terre, par exemple) sur cet objet. Il est caractérisé par :</p>
+    <ul>
+      <li>un point d'application au centre de gravité de l'objet ;</li>
+      <li>une direction verticale ;</li>
+      <li>un sens vers le bas (vers le centre de l'astre) ;</li>
+      <li>une norme P = m × g.</li>
+    </ul>
+  </div>
+  <div class="formula">P = m × g</div>
+  <table>
+    <tr><th>Astre</th><th>Terre</th><th>Lune</th><th>Mars</th><th>Jupiter</th></tr>
+    <tr><td>g (N·kg⁻¹)</td><td>9,8</td><td>1,62</td><td>3,7</td><td>24,8</td></tr>
+  </table>
+
+  <div class="two-col">
+    <div>
+      <div class="slider-row">
+        <label>Masse de l'objet <output id="outMasse">70</output> kg</label>
+        <input type="range" id="sliderMasse" min="1" max="200" value="70" step="1">
+      </div>
+      <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
+      <select class="dropdown" id="selectAstre">
+        <option value="9.8">Terre (g = 9,8 N·kg⁻¹)</option>
+        <option value="1.62">Lune (g = 1,62 N·kg⁻¹)</option>
+        <option value="3.7">Mars (g = 3,7 N·kg⁻¹)</option>
+        <option value="24.8">Jupiter (g = 24,8 N·kg⁻¹)</option>
+      </select>
+      <div class="result-pill" id="resultPoids">P = 686 N</div>
+      <div class="formula-detail" id="formulaPoids"></div>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="poidsCanvas" width="220" height="260"></canvas>
+    </div>
+  </div>
+
+  <h3>e. Interaction gravitationnelle</h3>
+  <div class="box">
+    <p style="margin-bottom:0;">Deux objets A et B, de masses m<sub>A</sub> et m<sub>B</sub>, séparés d'une distance d, exercent l'un sur l'autre une force d'interaction gravitationnelle attractive, de norme :</p>
+  </div>
+  <div class="formula">F<sub>A/B</sub> = G × (m<sub>A</sub> × m<sub>B</sub>) / d²</div>
+  <div class="box box-rappel">
+    <p>avec G = 6,67 × 10⁻¹¹ N·m²·kg⁻² (constante de gravitation universelle), m<sub>A</sub> et m<sub>B</sub> en kg, d en m et F<sub>A/B</sub> en N.</p>
+    <p style="margin-bottom:0;">Les forces <span class="vec">F</span><sub>A/B</sub> et <span class="vec">F</span><sub>B/A</sub> ont même direction (la droite (AB)), même norme, sont de sens opposés, et dirigées chacune vers l'autre objet (attraction).</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="slider-row">
+        <label>Masse m<sub>A</sub> (Terre) — <output id="outMA">5.97e24</output> kg</label>
+        <input type="range" id="sliderMA" min="22" max="26" value="24.776" step="0.01">
+      </div>
+      <div class="slider-row">
+        <label>Masse m<sub>B</sub> (satellite) — <output id="outMB">1000</output> kg</label>
+        <input type="range" id="sliderMB" min="0" max="4" value="3" step="0.05">
+      </div>
+      <div class="slider-row">
+        <label>Distance d <output id="outD">7000</output> km</label>
+        <input type="range" id="sliderD" min="6400" max="50000" value="7000" step="100">
+      </div>
+      <div class="result-pill" id="resultGravitation">F = 8,14×10³ N</div>
+      <div class="formula-detail" id="formulaGravitation"></div>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="gravCanvas" width="360" height="180"></canvas>
+    </div>
+  </div>
+
+  <h3>f. Pesanteur à une altitude h</h3>
+  <div class="formula">g(h) = G × M<sub>Terre</sub> / (R<sub>Terre</sub> + h)²</div>
+  <div class="box">
+    <p style="margin-bottom:0;">Données utiles : R<sub>Terre</sub> = 6 371 km · M<sub>Terre</sub> = 5,97 × 10²⁴ kg · g<sub>Lune</sub> ≈ g<sub>Terre</sub> / 6.</p>
+  </div>
+
+  <div class="slider-row">
+    <label>Altitude h <output id="outAlt">0</output> km</label>
+    <input type="range" id="sliderAlt" min="0" max="3000" value="0" step="10">
+  </div>
+  <div class="result-pill" id="resultAlt">g(0 km) = 9,82 N·kg⁻¹</div>
+  <div class="formula-detail" id="formulaAlt"></div>
+  </div>
+
+  <div class="sub-tab-content" id="cours-sub-1">
+  <h2>2. Principe des actions réciproques</h2>
+  <div class="box box-rappel">
+    <p>Lorsqu'un système A exerce une force <span class="vec">F</span><sub>A/B</sub> sur un système B, alors B exerce simultanément sur A une force <span class="vec">F</span><sub>B/A</sub> telle que :</p>
+    <ul>
+      <li>même direction ;</li>
+      <li>même norme ;</li>
+      <li>sens opposé.</li>
+    </ul>
+    <p style="margin-bottom:0;">C'est le <strong>principe des actions réciproques</strong> (3<sup>e</sup> loi de Newton), valable que les systèmes soient au repos ou en mouvement.</p>
+  </div>
+  <div class="formula"><span class="vec">F</span><sub>A/B</sub> = − <span class="vec">F</span><sub>B/A</sub></div>
+  <div class="box">
+    <p style="margin-bottom:0;"><em>Exemple :</em> lors d'un tir à la corde, la force exercée par la main d'un joueur sur la corde et la force exercée par la corde sur cette main sont toujours égales en norme et de sens opposés — ce n'est pas une différence de force « dans la corde » qui fait gagner une équipe, mais une différence de force de frottement au sol sous les appuis de chaque joueur.</p>
+  </div>
+
+  <p class="sub-label">Jeu de la corde</p>
+  <p>Règle la force de traction au sol de chaque équipe (grip / frottement sur leurs appuis) et observe ce qui se passe au niveau de la corde.</p>
+  <div class="two-col">
+    <div>
+      <div class="slider-row">
+        <label>💪 Équipe A — force au sol <output id="outForceA">200</output> N</label>
+        <input type="range" id="sliderForceA" min="0" max="400" value="200" step="5">
+      </div>
+      <div class="slider-row">
+        <label>💪 Équipe B — force au sol <output id="outForceB">200</output> N</label>
+        <input type="range" id="sliderForceB" min="0" max="400" value="200" step="5">
+      </div>
+      <button class="action-btn solid" id="btnEgalite">⚖️ Cas exæquo (200 N / 200 N)</button>
+      <div class="result-pill" id="resultCorde">Égalité parfaite — la corde ne bouge pas.</div>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="cordeCanvas" width="380" height="200"></canvas>
+    </div>
+  </div>
+
+  <div class="info-box" style="text-align:center; border-style:solid;">
+    <p style="margin:0 0 8px; font-weight:600;">🔬 Simulation PhET</p>
+    <p style="margin:0 0 12px; font-size:0.88rem;">Visualise les deux forces d'interaction entre deux masses et observe qu'elles sont toujours égales et opposées.</p>
+    <a href="https://phet.colorado.edu/sims/html/gravity-force-lab-basics/latest/gravity-force-lab-basics_all.html?locale=fr" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">🚀 Ouvrir la simulation PhET ↗</a>
+  </div>
+  <div class="info-box" style="text-align:center; border-style:solid;">
+    <p style="margin:0 0 8px; font-weight:600;">🚣 La barque de Tsiolkovski</p>
+    <p style="margin:0 0 12px; font-size:0.88rem;">Une vidéo illustrant le principe des actions réciproques.</p>
+    <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d1788e78e.2fc834d6.24c1b6eb3da963e821cb6e3f57204db5" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
+  </div>
+  </div>
+
+  <div class="sub-tab-content" id="cours-sub-2">
+  <h2>3. Principe d'inertie</h2>
+  <div class="box box-rappel">
+    <p><strong>Principe d'inertie :</strong> tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</p>
+    <p><strong>Contraposée :</strong> si, entre deux instants voisins, le vecteur vitesse d'un système varie, alors les forces qui s'exercent sur lui ne se compensent pas.</p>
+    <p style="margin-bottom:0;"><strong>Réciproque :</strong> si les forces qui s'exercent sur un système ne se compensent pas, alors son vecteur vitesse varie.</p>
+  </div>
+
+      <p>Anime les trois situations ci-dessous (camion qui démarre, bus qui freine, balle qui tombe) pour observer le principe d'inertie en action, puis réponds aux questions.</p>
       <div class="canvas-frame" style="padding:6px;">
         <iframe src="https://physique.ostralo.net/principe_inertie/" width="100%" height="900" style="border:none; display:block;" loading="lazy" title="Animation du principe d'inertie — Ostralo"></iframe>
       </div>
-      <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-top:6px;">
+      <p style="font-size:0.8rem; color:var(--texte-léger); text-align:center; margin-top:6px;">
         Animation réalisée par A. Willm — <a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">ostralo.net</a> (CC BY-NC-SA).
         Si elle ne s'affiche pas ci-dessus, <a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">ouvre-la dans un nouvel onglet ↗</a>.
       </p>
-
-      <div class="bilan-box">
-        <strong>Principe d'inertie :</strong> tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.<br>
-        <strong>Contraposée :</strong> si entre deux instants voisins le vecteur vitesse varie, alors les forces qui s'exercent sur le système ne se compensent pas.<br>
-        <strong>Réciproquement :</strong> si les forces qui s'exercent sur un système ne se compensent pas, alors son vecteur vitesse varie.
-      </div>
 
       <h3>🚛 Application — camion, bus et balle</h3>
       <p style="font-size:0.92rem;">D'après l'animation ci-dessus (frottements négligés dans les 3 cas), réponds aux questions suivantes.</p>
@@ -786,61 +881,79 @@
         <strong>3.</strong> Une fois lâchée, la balle n'est plus soumise qu'à son poids (chute libre) : aucune force horizontale n'agit sur elle, donc d'après le principe d'inertie sa vitesse horizontale reste constante — seule sa vitesse verticale augmente sous l'effet du poids.
       </div>
 
-      <h3>🚀 Application — simulation PhET « Forces and Motion: Basics »</h3>
-      <p style="font-size:0.92rem;">Va dans l'onglet <strong>« Mouvement »</strong> de la simulation ci-dessous. Place un personnage ou un objet sur le chariot, choisis <strong>« Aucun »</strong> frottement, pousse-le brièvement puis relâche : observe l'aiguille du compteur de vitesse et le vecteur vitesse. Recommence ensuite avec un frottement réglé sur « Beaucoup ».</p>
-      <div class="canvas-frame" style="padding:6px;">
-        <iframe src="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" width="100%" height="520" style="border:none; display:block;" loading="lazy" title="Simulation PhET — Forces and Motion: Basics"></iframe>
-      </div>
-      <p style="font-size:0.8rem; color:var(--gray); text-align:center; margin-top:6px;">
-        Simulation réalisée par PhET Interactive Simulations, université du Colorado Boulder — <a href="https://phet.colorado.edu/fr/simulations/forces-and-motion-basics" target="_blank" rel="noopener">phet.colorado.edu</a> (CC BY).
-        Si elle ne s'affiche pas ci-dessus, <a href="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" target="_blank" rel="noopener">ouvre-la dans un nouvel onglet ↗</a>.
-      </p>
 
-      <div class="qa-doc">
-        <p class="qa-question"><strong>1.</strong> Onglet « Mouvement », sans frottement : une fois la poussée terminée, comment évolue la vitesse de l'objet ?</p>
-        <select class="dropdown qcm-select" id="qcmPhet1" data-correct="b">
-          <option value="">— choisir une réponse —</option>
-          <option value="a">Elle diminue progressivement jusqu'à l'arrêt.</option>
-          <option value="b">Elle reste constante : le mouvement se poursuit en ligne droite à vitesse constante.</option>
-          <option value="c">Elle augmente continuellement.</option>
-          <option value="d">Elle s'annule dès que la main arrête de pousser.</option>
-        </select>
-      </div>
-      <div class="qa-doc">
-        <p class="qa-question"><strong>2.</strong> Une fois la poussée terminée et sans frottement, que peut-on dire des forces qui s'exercent sur l'objet ?</p>
-        <select class="dropdown qcm-select" id="qcmPhet2" data-correct="a">
-          <option value="">— choisir une réponse —</option>
-          <option value="a">Elles se compensent : le poids et la réaction du support s'annulent, et aucune force horizontale n'agit.</option>
-          <option value="b">La force de poussée continue d'agir seule.</option>
-          <option value="c">Le poids l'emporte sur la réaction du support.</option>
-          <option value="d">Une force de frottement freine encore l'objet.</option>
-        </select>
-      </div>
-      <div class="qa-doc">
-        <p class="qa-question"><strong>3.</strong> Règle maintenant le frottement sur « Beaucoup » et pousse à nouveau brièvement : que se passe-t-il après la poussée, et pourquoi (principe d'inertie) ?</p>
-        <select class="dropdown qcm-select" id="qcmPhet3" data-correct="c">
-          <option value="">— choisir une réponse —</option>
-          <option value="a">La vitesse reste constante car les forces se compensent toujours.</option>
-          <option value="b">L'objet accélère car le frottement s'ajoute à la poussée.</option>
-          <option value="c">La vitesse diminue jusqu'à l'arrêt, car le frottement empêche les forces horizontales de se compenser (vecteur vitesse qui varie → forces non compensées, d'après la réciproque du principe d'inertie).</option>
-          <option value="d">L'objet repart instantanément en sens inverse.</option>
-        </select>
-      </div>
-      <button class="action-btn solid" id="checkPhet">✅ Vérifier mes réponses</button>
-      <div class="feedback" id="feedbackPhet"></div>
-      <div class="qa-correction" id="correctionPhet">
-        <strong>1.</strong> Sans frottement, une fois la poussée terminée, plus aucune force horizontale n'agit sur l'objet : d'après le principe d'inertie, il conserve la vitesse qu'il avait et continue en ligne droite à vitesse constante.<br><br>
-        <strong>2.</strong> Verticalement, le poids et la réaction du support se compensent (l'objet ne s'enfonce pas et ne décolle pas) ; horizontalement, sans frottement, aucune force ne s'exerce une fois la poussée relâchée : les forces se compensent globalement, ce qui est cohérent avec la vitesse constante observée.<br><br>
-        <strong>3.</strong> Avec du frottement, une force de frottement horizontale s'oppose au mouvement même après la fin de la poussée : les forces ne se compensent plus. D'après la réciproque du principe d'inertie, le vecteur vitesse varie donc — l'objet ralentit jusqu'à l'arrêt.
-      </div>
+  <h2>4. La chute libre</h2>
+  <div class="box">
+    <p style="margin-bottom:0;">Un système est en <strong>chute libre</strong> lorsqu'il n'est soumis qu'à son poids (l'action de l'air étant négligée).</p>
+  </div>
+  <div class="formula">v = g × Δt &nbsp;&nbsp;et&nbsp;&nbsp; d = g × Δt² / 2</div>
+  <div class="box box-rappel">
+    <p style="margin-bottom:0;">En chute libre sans vitesse initiale, le vecteur vitesse garde une direction constante (verticale) mais sa valeur augmente régulièrement : le vecteur vitesse s'allonge au cours du temps → le mouvement est rectiligne accéléré, conformément à la contraposée du principe d'inertie (le poids, seule force appliquée, ne peut être compensé).</p>
+  </div>
 
-      <h3>🧠 Questions guidées — activité « Découvrir le principe d'inertie »</h3>
+  <div class="fill-row">
+    Un système est en chute libre lorsqu'il n'est soumis qu'à
+    <input type="text" class="blank" id="blankChute" placeholder="…" style="width:140px;">
+    <button class="action-btn solid" id="checkChute">✅ Vérifier</button>
+  </div>
+  <div class="feedback" id="feedbackChute"></div>
+
+  <p style="font-size:0.92rem; margin-top:16px;">Données de Galilée pour une chute sans vitesse initiale :</p>
+  <p class="formula-detail" id="formulaChute" style="font-size:0.95rem;">v = g × Δt &nbsp;et&nbsp; d = g × Δt² / 2 &nbsp;(avec g = 9,8 m·s⁻²)</p>
+  <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
+  <select class="dropdown" id="selectAstreChute">
+    <option value="9.8">Terre (g = 9,8 m·s⁻²)</option>
+    <option value="1.62">Lune (g = 1,62 m·s⁻²)</option>
+  </select>
+
+  <p style="font-size:0.88rem; color:var(--texte-léger); margin-top:14px;">Complète le tableau (M₀ te donne l'exemple), puis vérifie tes réponses.</p>
+  <table class="data-table" id="tableChute">
+    <thead>
+      <tr><th>Position</th><th>M₀</th><th>M₁</th><th>M₂</th><th>M₃</th><th>M₄</th><th>M₅</th><th>M₆</th><th>M₇</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Δt (s)</td><td>0</td><td>0,04</td><td>0,08</td><td>0,12</td><td>0,16</td><td>0,20</td><td>0,24</td><td>0,28</td></tr>
+      <tr id="rowD"><td>d (m)</td></tr>
+      <tr id="rowV"><td>v (m·s⁻¹)</td></tr>
+    </tbody>
+  </table>
+  <button class="action-btn solid" id="btnVerifChute">✅ Vérifier mes réponses</button>
+  <button class="action-btn" id="btnCorrectionChute">👀 Voir la correction</button>
+  <div class="feedback" id="feedbackChuteTable"></div>
+
+  <div class="two-col">
+    <div>
+      <p style="font-size:0.92rem;">Échelle des vecteurs vitesse (sur le schéma papier) : 1 cm ↔ 0,3 m·s⁻¹. Compare <span class="vec">v</span><sub>4</sub> et <span class="vec">v</span><sub>5</sub> : le vecteur vitesse s'allonge-t-il ?</p>
+      <div class="result-pill" id="resultChuteConclusion">Vérifie ou affiche la correction pour voir le schéma.</div>
+    </div>
+    <div class="canvas-frame">
+      <canvas id="chuteCanvas" width="300" height="280"></canvas>
+    </div>
+  </div>
+  <div class="info-box">Chaque vecteur vitesse est tracé <strong>verticalement</strong>, dans le sens du mouvement, avec son origine au point où il s'applique (M₄ pour <span class="vec">v</span><sub>4</sub>, M₅ pour <span class="vec">v</span><sub>5</sub>) — légèrement décalés à gauche et à droite de la trajectoire pour mieux les distinguer.</div>
+  </div>
+</div>
+
+<!-- ============ ONGLET ACTIVITÉS ============ -->
+<div class="tab-content" id="t-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'activite-sub-1')">1️⃣ Découvrir le principe d'inertie</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-2')">2️⃣ Simulation PhET — Forces and Motion</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-3')">3️⃣ Des satellites en orbite</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-4')">4️⃣ Performances de Superman</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-5')">5️⃣ TP — Poussée d'Archimède</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-6')">6️⃣ TP — Chute d'un parachutiste</button>
+  </div>
+
+  <div class="sub-tab-content active" id="activite-sub-1">
+  <h2>1. Découvrir le principe d'inertie</h2>
       <div class="info-box" style="text-align:center; border-style:solid; max-width:420px; margin:0 auto 18px;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📄 Activité documentaire — Découvrir le principe d'inertie</p>
         <p style="margin:0 0 12px; font-size:0.88rem;">Ouvre le document pour répondre aux questions ci-dessous.</p>
         <a href="AD_decouvrir-le-principe-d-inertie.pdf" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Ouvrir l'activité (PDF) ↗</a>
       </div>
-      <p style="font-size:0.9rem; color:var(--gray);">Choisis une réponse pour chaque question, puis vérifie.</p>
+      <p style="font-size:0.9rem; color:var(--texte-léger);">Choisis une réponse pour chaque question, puis vérifie.</p>
 
       <div class="qa-doc">
         <p class="qa-question"><strong>1.</strong> Dans quel sens serait dirigée la force qui pousserait le skateur, selon l'énoncé d'Aristote ?</p>
@@ -934,8 +1047,769 @@
         <strong>5.</strong> À mesure que le skateur ralentit, la vitesse de glissement/roulement diminue, ce qui réduit l'intensité de la force de frottement. Quand le skateur s'arrête, cette force devient nulle (voir question 3.c).<br><br>
         <strong>6.</strong> Aristote pensait qu'une force motrice était nécessaire pour entretenir tout mouvement. Or un système peut conserver un mouvement rectiligne uniforme sans aucune force motrice, tant que les forces qui s'exercent sur lui se compensent (principe d'inertie) — c'est l'absence de compensation (le frottement) qui freine le skateur, et non l'absence d'une « force motrice ».
       </div>
+  </div>
 
-      <h3>🪶 Application — la graine de pissenlit</h3>
+  <div class="sub-tab-content" id="activite-sub-2">
+  <h2>2. Simulation PhET « Forces and Motion: Basics »</h2>
+      <p style="font-size:0.92rem;">Va dans l'onglet <strong>« Mouvement »</strong> de la simulation ci-dessous. Place un personnage ou un objet sur le chariot, choisis <strong>« Aucun »</strong> frottement, pousse-le brièvement puis relâche : observe l'aiguille du compteur de vitesse et le vecteur vitesse. Recommence ensuite avec un frottement réglé sur « Beaucoup ».</p>
+      <div class="canvas-frame" style="padding:6px;">
+        <iframe src="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" width="100%" height="520" style="border:none; display:block;" loading="lazy" title="Simulation PhET — Forces and Motion: Basics"></iframe>
+      </div>
+      <p style="font-size:0.8rem; color:var(--texte-léger); text-align:center; margin-top:6px;">
+        Simulation réalisée par PhET Interactive Simulations, université du Colorado Boulder — <a href="https://phet.colorado.edu/fr/simulations/forces-and-motion-basics" target="_blank" rel="noopener">phet.colorado.edu</a> (CC BY).
+        Si elle ne s'affiche pas ci-dessus, <a href="https://phet.colorado.edu/sims/html/forces-and-motion-basics/latest/forces-and-motion-basics_all.html?locale=fr" target="_blank" rel="noopener">ouvre-la dans un nouvel onglet ↗</a>.
+      </p>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Onglet « Mouvement », sans frottement : une fois la poussée terminée, comment évolue la vitesse de l'objet ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elle diminue progressivement jusqu'à l'arrêt.</option>
+          <option value="b">Elle reste constante : le mouvement se poursuit en ligne droite à vitesse constante.</option>
+          <option value="c">Elle augmente continuellement.</option>
+          <option value="d">Elle s'annule dès que la main arrête de pousser.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Une fois la poussée terminée et sans frottement, que peut-on dire des forces qui s'exercent sur l'objet ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet2" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elles se compensent : le poids et la réaction du support s'annulent, et aucune force horizontale n'agit.</option>
+          <option value="b">La force de poussée continue d'agir seule.</option>
+          <option value="c">Le poids l'emporte sur la réaction du support.</option>
+          <option value="d">Une force de frottement freine encore l'objet.</option>
+        </select>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Règle maintenant le frottement sur « Beaucoup » et pousse à nouveau brièvement : que se passe-t-il après la poussée, et pourquoi (principe d'inertie) ?</p>
+        <select class="dropdown qcm-select" id="qcmPhet3" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">La vitesse reste constante car les forces se compensent toujours.</option>
+          <option value="b">L'objet accélère car le frottement s'ajoute à la poussée.</option>
+          <option value="c">La vitesse diminue jusqu'à l'arrêt, car le frottement empêche les forces horizontales de se compenser (vecteur vitesse qui varie → forces non compensées, d'après la réciproque du principe d'inertie).</option>
+          <option value="d">L'objet repart instantanément en sens inverse.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkPhet">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackPhet"></div>
+      <div class="qa-correction" id="correctionPhet">
+        <strong>1.</strong> Sans frottement, une fois la poussée terminée, plus aucune force horizontale n'agit sur l'objet : d'après le principe d'inertie, il conserve la vitesse qu'il avait et continue en ligne droite à vitesse constante.<br><br>
+        <strong>2.</strong> Verticalement, le poids et la réaction du support se compensent (l'objet ne s'enfonce pas et ne décolle pas) ; horizontalement, sans frottement, aucune force ne s'exerce une fois la poussée relâchée : les forces se compensent globalement, ce qui est cohérent avec la vitesse constante observée.<br><br>
+        <strong>3.</strong> Avec du frottement, une force de frottement horizontale s'oppose au mouvement même après la fin de la poussée : les forces ne se compensent plus. D'après la réciproque du principe d'inertie, le vecteur vitesse varie donc — l'objet ralentit jusqu'à l'arrêt.
+      </div>
+  </div>
+
+  <div class="sub-tab-content" id="activite-sub-3">
+  <h2>3. Activité documentaire — Des satellites en orbite <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(Histoire des sciences)</span></h2>
+
+  <div class="two-col">
+    <div style="flex:2;">
+      <div class="box box-rappel">
+        <p style="margin:0;">La Lune est le satellite naturel de la Terre mais de très nombreux satellites artificiels, fonctionnels ou non, orbitent autour de notre planète.</p>
+      </div>
+      <p style="font-size:1.05em;"><strong>● Comment un satellite peut-il rester en orbite circulaire autour de la Terre ?</strong></p>
+    </div>
+    <div style="flex:1;min-width:96px;">
+      <div class="canvas-frame" style="padding:6px;">
+        <img src="photo_terre_crop.png" alt="La Terre entourée de nombreux satellites artificiels" style="max-width:100%;width:100%;display:block;border-radius:8px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="box" style="text-align:center;">
+    <a href="AD-p196.png" download class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Télécharger l'activité documentaire (page 196)</a>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="canvas-frame" style="padding:4px;">
+        <img src="AD-p196-doc1.png" alt="DOC. 1 — Un homme lance une pierre à l'aide d'une fronde, illustration de la pensée de Newton" style="max-width:100%;width:100%;display:block;margin:0 auto;border-radius:8px;">
+      </div>
+    </div>
+    <div>
+      <div class="canvas-frame" style="padding:12px;">
+        <img src="AD-p196-doc2.png" alt="DOC. 1 — Un homme lance une pierre à l'aide d'une fronde, illustration de la pensée de Newton" style="max-width:100%;width:100%;display:block;margin:0 auto;border-radius:8px;">
+      </div>
+    </div>
+  </div>
+  <div class="box" style="text-align:center;">
+      <div class="canvas-frame" style="padding:10px;">
+        <img src="AD-p196-doc3.png" alt="Données" style="max-width:100%;width:100%;display:block;margin:0 auto;border-radius:8px;">
+      </div>
+    </div>
+
+  <h3>Questions</h3>
+
+  <div class="exo">
+    <p class="q-text">1. Connaître — Nommer précisément « la force de la gravité » (DOC. 2) tel qu'on le fait aujourd'hui lorsqu'on étudie le mouvement de la Lune autour de la Terre.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sat-1','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sat-1" style="display:none; margin-top:8px;">Pense à comment on appelle cette force en physique-chimie : elle porte le nom du physicien anglais auteur du DOC. 2.</div>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
+    <button class="action-btn solid" onclick="toggleBox(this,'corr-sat-1','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sat-1" style="display:none; margin-top:8px;">Il s'agit de la <strong>force d'interaction gravitationnelle</strong> (ou force de gravitation universelle) exercée par la Terre sur la Lune.</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">2. Analyser-raisonner — Préciser la principale différence entre l'action de la Terre sur un des satellites, comme la Lune, et l'action de la fronde sur une pierre (DOC. 1).</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sat-2','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sat-2" style="display:none; margin-top:8px;">Y a-t-il un contact matériel entre la Terre et la Lune ? Et entre la fronde et la pierre ?</div>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
+    <button class="action-btn solid" onclick="toggleBox(this,'corr-sat-2','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sat-2" style="display:none; margin-top:8px;">L'action de la Terre sur un satellite est une <strong>action à distance</strong> (interaction gravitationnelle, sans contact), alors que l'action de la fronde sur la pierre est une <strong>action de contact</strong> (la fronde touche la pierre).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">3. Valider — Justifier que l'expression vectorielle de la force d'interaction gravitationnelle est compatible avec les affirmations de Newton (DOC. 2).</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sat-3','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sat-3" style="display:none; margin-top:8px;">Relis le DOC. 2 phrase par phrase et retrouve, dans l'expression vectorielle, ce qui correspond à chaque affirmation de Newton (direction, variation avec la distance, dépendance à la masse).</div>
+    <textarea rows="4" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
+    <button class="action-btn solid" onclick="toggleBox(this,'corr-sat-3','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sat-3" style="display:none; margin-top:8px;">Newton affirme que la force est dirigée <strong>vers la Terre</strong> (attractive), varie <strong>en raison inverse du carré de la distance</strong>, et est <strong>proportionnelle à la quantité de matière</strong> (masse) de chaque corps. Ces trois caractéristiques se retrouvent bien dans l'expression <span class="vec">F</span><sub>A/B</sub> = −G×(m<sub>A</sub>×m<sub>B</sub>/d²)×<span class="vec">u</span><sub>AB</sub> : le signe « − » et le vecteur u<sub>AB</sub> orienté de A vers B donnent une force dirigée vers l'astre attracteur, le terme en 1/d² traduit la décroissance avec le carré de la distance, et le produit m<sub>A</sub>×m<sub>B</sub> traduit la proportionnalité aux masses.</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">4. Réaliser — Le 25 juillet 2018, Ariane 5 a embarqué quatre satellites Galiléo d'une masse de 730 kg chacun pour améliorer la radionavigation. Calculer la norme de la force d'interaction gravitationnelle exercée par la Terre sur un de ces satellites lorsqu'il se déplace en orbite circulaire à l'altitude de 23 222 km.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sat-4','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sat-4" style="display:none; margin-top:8px;">Calcule d'abord la distance d entre le centre de la Terre et le satellite : d = R<sub>T</sub> + h. Utilise ensuite F = G × (M<sub>T</sub> × m) / d² en convertissant toutes les longueurs en mètres.</div>
+    <select class="dropdown qcm-select" id="qcmSat4" data-correct="b" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">33,2 N</option>
+      <option value="b">331,8 N</option>
+      <option value="c">3 318 N</option>
+      <option value="d">0,332 N</option>
+    </select>
+    <button class="action-btn solid" id="checkSat4" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSat4"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sat-4','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sat-4" style="display:none; margin-top:8px;">
+      d = R<sub>T</sub> + h = 6 380 + 23 222 = 29 602 km = 2,9602 × 10⁷ m.<br>
+      F = G × (M<sub>T</sub> × m) / d² = 6,67×10⁻¹¹ × (5,972×10²⁴ × 730) / (2,9602×10⁷)² ≈ <strong>331,8 N</strong>.
+    </div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">5. Communiquer — oral — Réaliser une synthèse permettant d'expliquer comment un satellite, comme Galiléo par exemple, peut rester en orbite circulaire autour de la Terre.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sat-5','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sat-5" style="display:none; margin-top:8px;">Repense au rôle de la force gravitationnelle dans un mouvement circulaire : elle ne s'oppose pas au mouvement mais en change continuellement la direction (comme la pierre au bout de la fronde, DOC. 1).</div>
+    <textarea rows="4" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
+    <button class="action-btn solid" onclick="toggleBox(this,'corr-sat-5','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sat-5" style="display:none; margin-top:8px;">La seule force qui s'exerce sur le satellite est la force d'interaction gravitationnelle exercée par la Terre, dirigée vers le centre de la Terre. Cette force ne fait pas « tomber » le satellite : elle joue le rôle de force qui courbe en permanence sa trajectoire vers la Terre, l'empêchant de s'échapper en ligne droite (comme le prévoirait le principe d'inertie en son absence), tout en le maintenant à distance constante. C'est exactement l'analogie de Newton (DOC. 2) : comme la pierre lancée à la fronde (DOC. 1), plus la vitesse est grande, plus la « chute » est retardée, jusqu'à ne jamais retomber — le satellite reste en orbite.</div>
+  </div>
+
+  </div>
+
+  <div class="sub-tab-content" id="activite-sub-4">
+  <h2>4. Activité documentaire — Performances de Superman</h2>
+
+  <div class="two-col">
+    <div style="flex:2;">
+      <div class="box box-rappel">
+        <p style="margin:0;">Superman, un des super-héros les plus célèbres, a été créé pour une bande dessinée en 1938. Ses superpouvoirs se sont développés au fil des albums. Ainsi, en 2018, Superman est capable de voler jusqu'à la planète Mars, alors que dans le tout premier album, il ne vole pas mais saute tout de même plus haut qu'un immeuble de vingt étages.</p>
+      </div>
+      <p style="font-size:1.05em;"><strong>● S'il avait pu se rendre sur Mars en 1938 avec ses superpouvoirs de l'époque, Superman y aurait-il été aussi performant que sur Terre ?</strong></p>
+    </div>
+    <div style="flex:1;min-width:96px;">
+      <div class="canvas-frame" style="padding:8px;">
+        <img src="superman_comic1.png" alt="Couverture de comics : Superman and the Mischief on Mars" style="max-width:50%;width:100%;display:block;border-radius:8px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="box" style="text-align:center;">
+    <a href="AD-p197.png" download class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Télécharger l'activité documentaire (page 197)</a>
+  </div>
+
+  <div class="two-col">
+    <div style="flex:1;min-width:110px;">
+      <div class="canvas-frame" style="padding:8px;">
+        <img src="superman_comic2.png" alt="Couverture du tout premier album de Superman, 1938" style="max-width:100%;width:100%;display:block;">
+      </div>
+    </div>
+  
+    <div style="flex:2;">
+      <div class="canvas-frame" style="padding:8px;">
+         <img src="AD-p197-donnees.png" alt="Schéma des forces d'interaction gravitationnelle entre A et B, distance d" style="max-width:60%;width:90%;display:block;">
+       </div>
+     </div>
+   </div>
+  </div>
+
+  <h3>Questions</h3>
+
+  <div class="exo">
+    <p class="q-text">1. S'approprier — Dans le référentiel « marsocentrique », schématiser Mars par un cercle de centre O et, au voisinage de sa surface, Superman modélisé par un point matériel S de masse m.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sup-1','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sup-1" style="display:none; margin-top:8px;">Le point S doit être placé juste au-dessus du cercle représentant Mars — « au voisinage de la surface » signifie que la distance OS est quasiment égale au rayon R de Mars.</div>
+    <p style="font-size:0.85rem;color:var(--texte-léger); margin-top:8px;">Espace pour le schéma :</p>
+    <div class="box" style="min-height:140px; border:2px dashed var(--gris-bord); background:#fff;"></div>
+    <button class="action-btn solid" onclick="toggleBox(this,'corr-sup-1','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-1" style="display:none; margin-top:8px;">On dessine un cercle représentant Mars, de centre O. Le point S (Superman) est placé juste au-dessus de la surface du cercle, de sorte que la distance OS ≈ R (rayon de Mars).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">2.a. En première approximation, le poids d'un système au voisinage de la surface d'une planète est égal à la force d'interaction gravitationnelle modélisant l'action exercée par la planète sur ce système. En déduire l'expression vectorielle du poids <span class="vec">P</span> de Superman sur Mars en fonction de G, m (masse de Superman), M et R (masse et rayon de Mars) et du vecteur <span class="vec">u</span><sub>OS</sub> de norme 1, de direction (OS), orienté de O vers S.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sup-2a','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sup-2a" style="display:none; margin-top:8px;">Remplace, dans l'expression de la force d'interaction gravitationnelle, A par O (centre de Mars), B par S (Superman), m<sub>A</sub> par M, m<sub>B</sub> par m et d par R.</div>
+    <select class="dropdown qcm-select" id="qcmSup2a" data-correct="b" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a"><span class="vec">P</span> = G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></option>
+      <option value="b"><span class="vec">P</span> = − G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></option>
+      <option value="c"><span class="vec">P</span> = − G × (m/R²) × <span class="vec">u</span><sub>OS</sub></option>
+      <option value="d"><span class="vec">P</span> = − G × (M×m/R) × <span class="vec">u</span><sub>OS</sub></option>
+    </select>
+    <button class="action-btn solid" id="checkSup2a" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSup2a"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sup-2a','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-2a" style="display:none; margin-top:8px;"><span class="vec">P</span> = − G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub>. Le poids est dirigé vers le centre de Mars (signe « − »), donc dans le sens opposé à <span class="vec">u</span><sub>OS</sub> qui pointe vers l'extérieur (de O vers S).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">2.b. Exprimer la norme P du poids de Superman sur Mars en fonction de sa masse et de l'intensité de la pesanteur sur cette planète.</p>
+    <select class="dropdown qcm-select" id="qcmSup2b" data-correct="b" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">P = m / g<sub>Mars</sub></option>
+      <option value="b">P = m × g<sub>Mars</sub></option>
+      <option value="c">P = m + g<sub>Mars</sub></option>
+      <option value="d">P = g<sub>Mars</sub> / m</option>
+    </select>
+    <button class="action-btn solid" id="checkSup2b" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSup2b"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sup-2b','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-2b" style="display:none; margin-top:8px;">P = m × g<sub>Mars</sub>, comme pour le poids sur Terre (P = m × g).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">2.c. En comparant les réponses des deux questions précédentes, exprimer puis calculer l'intensité de la pesanteur sur Mars.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sup-2c','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sup-2c" style="display:none; margin-top:8px;">Les deux expressions de la norme du poids (m×g<sub>Mars</sub> et G×M×m/R²) sont égales : simplifie par m pour isoler g<sub>Mars</sub>.</div>
+    <select class="dropdown qcm-select" id="qcmSup2c" data-correct="a" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">g<sub>Mars</sub> = G×M/R² ≈ 3,73 N·kg⁻¹</option>
+      <option value="b">g<sub>Mars</sub> = G×M/R² ≈ 9,8 N·kg⁻¹</option>
+      <option value="c">g<sub>Mars</sub> = G×M/R² ≈ 37,3 N·kg⁻¹</option>
+      <option value="d">g<sub>Mars</sub> = G×M/R² ≈ 0,373 N·kg⁻¹</option>
+    </select>
+    <button class="action-btn solid" id="checkSup2c" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSup2c"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sup-2c','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-2c" style="display:none; margin-top:8px;">m×g<sub>Mars</sub> = G×M×m/R² donc g<sub>Mars</sub> = G×M/R² = 6,67×10⁻¹¹ × 6,42×10²³ / (3,39×10⁶)² ≈ <strong>3,73 N·kg⁻¹</strong> (contre 9,8 N·kg⁻¹ sur Terre).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">3.a. Valider — S'il avait pu se rendre sur Mars en 1938 avec ses superpouvoirs de l'époque, Superman y aurait-il été aussi performant que sur Terre ?</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sup-3a','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sup-3a" style="display:none; margin-top:8px;">Compare g<sub>Mars</sub> (question 2.c) à g<sub>Terre</sub> = 9,8 N·kg⁻¹, et repense à l'exemple des astronautes sur la Lune (DOCUMENT).</div>
+    <select class="dropdown qcm-select" id="qcmSup3a" data-correct="c" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Moins performant, car Mars est plus petite que la Terre.</option>
+      <option value="b">Tout aussi performant, car les deux planètes sont proches.</option>
+      <option value="c">Encore plus performant, car la pesanteur sur Mars est plus faible que sur Terre.</option>
+      <option value="d">Ses sauts auraient été impossibles sur Mars.</option>
+    </select>
+    <button class="action-btn solid" id="checkSup3a" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSup3a"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sup-3a','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-3a" style="display:none; margin-top:8px;">Comme g<sub>Mars</sub> (3,73 N·kg⁻¹) est plus faible que g<sub>Terre</sub> (9,8 N·kg⁻¹), le même effort musculaire produirait des sauts encore plus impressionnants sur Mars que sur Terre — sur le même principe que les astronautes qui sautent plus haut sur la Lune (DOCUMENT).</div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">3.b. En supposant que les performances de Superman sur sa planète natale Krypton sont les mêmes que celles d'un athlète sur Terre, comparer l'intensité de la pesanteur sur Krypton à celle sur Terre.</p>
+    <button class="action-btn" onclick="toggleBox(this,'hint-sup-3b','💡 Aide','🙈 Masquer l\'aide')">💡 Aide</button>
+    <div class="box" id="hint-sup-3b" style="display:none; margin-top:8px;">Le DOCUMENT explique les exploits de Superman sur Terre par la faiblesse de la pesanteur terrestre <em>par rapport à Krypton</em> — même raisonnement que pour les astronautes sur la Lune, mais en sens inverse.</div>
+    <select class="dropdown qcm-select" id="qcmSup3b" data-correct="c" style="margin-top:8px;">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">g<sub>Krypton</sub> &lt; g<sub>Terre</sub></option>
+      <option value="b">g<sub>Krypton</sub> = g<sub>Terre</sub></option>
+      <option value="c">g<sub>Krypton</sub> &gt; g<sub>Terre</sub></option>
+      <option value="d">On ne peut rien affirmer.</option>
+    </select>
+    <button class="action-btn solid" id="checkSup3b" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackSup3b"></div>
+    <button class="action-btn" onclick="toggleBox(this,'corr-sup-3b','👀 Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="box box-rappel" id="corr-sup-3b" style="display:none; margin-top:8px;">Si les capacités « normales » de Superman (habitué à Krypton) correspondent à celles d'un simple athlète terrestre une fois sur Terre, c'est que la pesanteur terrestre est plus faible pour lui que celle à laquelle il est habitué : donc <strong>g<sub>Krypton</sub> &gt; g<sub>Terre</sub></strong> — exactement comme un astronaute (habitué à g<sub>Terre</sub>) bondit plus haut sur la Lune où g<sub>Lune</sub> &lt; g<sub>Terre</sub>.</div>
+  </div>
+
+  </div>
+
+  <div class="sub-tab-content" id="activite-sub-5">
+  <h2>5. TP — Rééducation en piscine : la poussée d'Archimède <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(activité expérimentale)</span></h2>
+
+  <div class="box box-rappel">
+    <p style="margin:0;"><strong>Contexte :</strong> <span style="font-style:italic;">Dans le cas de lésions musculaires ou d'accidents graves, de nombreux professionnels de santé préconisent la rééducation en piscine. Le milieu aquatique offrirait un « allègement » du corps, permettant de diminuer la pression exercée sur les articulations.</span></p>
+  </div>
+
+  <p style="text-align:center;font-size:1.05em;"><strong>❓ Problématique : Comment modéliser l'action de l'eau sur un système immergé ?</strong></p>
+
+  <div class="two-col">
+    <div>
+      <p class="sub-label">DOC. 1 — Dispositif expérimental</p>
+      <div class="canvas-frame" style="padding:10px;">
+        <img src="DOC1-dispositif-experimental.png" alt="DOC. 1 — Dispositif expérimental : dynamomètre fixé à une potence, solide (système étudié) suspendu au-dessus d'un bécher rempli d'eau posé sur un support élévateur, éprouvette graduée à côté" style="max-width:50%; width:50%; display:block; margin:0 auto; border-radius:8px;">
+      </div>
+    </div>
+    <div>
+      <p class="sub-label">DOC. 2 — La rééducation en piscine</p>
+      <div class="box">
+        <p style="font-weight:700; margin-top:0;">Pourquoi choisir la rééducation en piscine ?</p>
+        <button class="action-btn" id="btnToggleDoc2">👀 Voir la réponse</button>
+        <div id="doc2-reponse" style="display:none; margin-top:10px;">
+          <p>La rééducation en piscine est souvent préconisée par les kinésithérapeutes car le milieu aquatique présente de nombreux avantages. Être dans l'eau est idéal car le corps est en <strong>quasi-apesanteur</strong>. L'<strong>allègement</strong> du corps permet de diminuer la pression exercée sur les articulations ou les os fracturés. On peut ainsi reprendre plus facilement appui sur ses membres et remarcher plus rapidement.</p>
+          <p style="font-size:0.8rem; color:var(--texte-léger); margin-bottom:0;">D'après « La rééducation en piscine » (guide-piscine.fr)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-rappel">
+    <p style="font-weight:700; margin-top:0;">Données</p>
+    <ul style="margin-bottom:0;">
+      <li>Masse volumique de l'eau : ρ<sub>eau</sub> = 1,0 g·cm⁻³ = 1,0 g·mL⁻¹ = 1,0 × 10³ kg·m⁻³</li>
+      <li>Intensité de la pesanteur : g = 9,8 N·kg⁻¹</li>
+      <li>Rappels formules : P = m × g &nbsp;&nbsp;et&nbsp;&nbsp; ρ = m / V</li>
+    </ul>
+  </div>
+
+  <h3>Hypothèse (avant l'expérience)</h3>
+  <div class="exo">
+    <p class="q-text">D'après le document 2, lorsqu'un solide est immergé dans l'eau, on dit qu'il est « allégé ». Qu'attendez-vous comme résultat pour l'indication du dynamomètre lorsque le solide passe de l'air à l'eau ? Justifiez.</p>
+    <textarea rows="3" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+
+  <div class="box" style="text-align:center;">
+    <p style="margin:0 0 8px; font-weight:600;">🎬 Visionner la vidéo support</p>
+    <video controls style="max-width:500px; width:100%; border-radius:8px;">
+      <source src="vidéo_support_-_p193.mp4" type="video/mp4">
+      Ton navigateur ne prend pas en charge la lecture vidéo.
+    </video>
+  </div>
+
+  <h3>1. Réaliser</h3>
+  <div class="two-col">
+    <div>
+      <p class="sub-label">Parcours 1 — Bécher + dynamomètre</p>
+      <ul>
+        <li>Mettre en place le dispositif expérimental selon le DOC. 1 (avec le bécher).</li>
+        <li>Suspendre le solide au dynamomètre.</li>
+        <li>Relever la mesure du dynamomètre lorsque le solide est dans l'air (hors de l'eau).</li>
+        <li>Faire monter le support élévateur jusqu'à ce que le solide soit totalement immergé.</li>
+        <li>Relever à nouveau la mesure du dynamomètre.</li>
+      </ul>
+      <table>
+        <tr><th>Situation</th><th>Dynamomètre (N)</th></tr>
+        <tr><td>Solide dans l'air</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+        <tr><td>Solide totalement immergé</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+      </table>
+    </div>
+    <div>
+      <p class="sub-label">Parcours 2 — Éprouvette graduée + dynamomètre</p>
+      <ul>
+        <li>Mettre en place le dispositif en remplaçant le bécher par une éprouvette graduée.</li>
+        <li>Suspendre le solide au dynamomètre.</li>
+        <li>Relever la mesure du dynamomètre et le niveau de l'eau lorsque le solide est dans l'air.</li>
+        <li>Faire monter le support jusqu'à immersion totale du solide.</li>
+        <li>Relever la mesure du dynamomètre et le nouveau niveau de l'eau.</li>
+      </ul>
+      <table>
+        <tr><th>Situation</th><th>Dyn. (N)</th><th>Niveau (mL)</th></tr>
+        <tr><td>Dans l'air</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td>V₁ = <input type="text" style="width:60px;border:none;text-align:center;background:transparent;"></td></tr>
+        <tr><td>Totalement immergé</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td>V₂ = <input type="text" style="width:60px;border:none;text-align:center;background:transparent;"></td></tr>
+      </table>
+      <p style="font-size:0.88rem;">→ Calculer le volume du solide immergé :</p>
+      <p style="font-size:0.92rem;">V<sub>solide</sub> = V₂ − V₁ = <input type="text" style="width:70px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;"> mL = <input type="text" style="width:70px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;"> cm³ = <input type="text" style="width:70px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;"> m³</p>
+    </div>
+  </div>
+
+  <h3>2. Analyser — Raisonner</h3>
+
+  <p style="font-weight:700;">2.1 Parcours 1</p>
+  <div class="exo">
+    <p class="q-text">a. Calculer l'écart entre les deux mesures du dynamomètre (formule, calcul, résultat).</p>
+    <p style="font-size:0.92rem;">ΔF = <input type="text" style="width:100%;border:none;border-bottom:1.5px solid var(--gris-bord);background:transparent;"></p>
+  </div>
+  <div class="exo">
+    <p class="q-text">b. Dresser le bilan des forces appliquées au solide immergé.</p>
+    <div style="overflow-x:auto;">
+    <table>
+      <tr><th>Nom et symbole de la force</th><th>Action de contact ou à distance</th><th>Point d'application</th><th>Direction</th><th>Sens</th><th>Valeur</th></tr>
+      <tr><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+      <tr><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+      <tr><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+    </table>
+    </div>
+  </div>
+  <div class="exo">
+    <p class="q-text">c. En déduire la valeur de la poussée exercée par l'eau sur le solide.</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+  <div class="exo">
+    <p class="q-text">d. En quoi la situation ne correspond-elle pas réellement à une « quasi-apesanteur » et un « allègement » complet, comme le décrit le DOC. 2 ?</p>
+    <textarea rows="3" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+
+  <p style="font-weight:700;">2.2 Parcours 2</p>
+  <div class="exo">
+    <p class="q-text">a. Calculer la masse du volume d'eau déplacé m<sub>eau</sub> par le solide lors de l'immersion.</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+  <div class="exo">
+    <p class="q-text">b. En déduire le poids de ce volume d'eau déplacé P<sub>eau déplacée</sub>.</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+  <div class="exo">
+    <p class="q-text">c. Comparer cette valeur avec la diminution de l'indication du dynamomètre ΔF. Que remarquez-vous ?</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+  <div class="box box-rappel">
+    <p style="margin:0;"><strong>Énoncé à vérifier :</strong> Lorsqu'un solide est totalement immergé, la norme de la force exercée par le fluide est égale au poids du fluide ayant le même volume que le solide.</p>
+  </div>
+  <div class="exo">
+    <p class="q-text">d. Vos résultats confirment-ils cet énoncé ? Justifier en détaillant le calcul d'incertitude ou la comparaison numérique.</p>
+    <textarea rows="3" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+
+  <h3>3. Communiquer — oral</h3>
+  <div class="info-box">
+    En utilisant un support visuel, présenter oralement à la classe (élèves ayant traité l'autre parcours) votre démarche expérimentale et l'interprétation de vos résultats.<br><br>
+    ⚠️ Votre présentation doit obligatoirement inclure : un schéma des forces modélisant les actions exercées sur le système étudié.
+  </div>
+  <p style="font-size:0.88rem; color:var(--texte-léger);">Espace pour le schéma des forces (à réaliser ci-dessous) :</p>
+  <div class="box" style="min-height:180px; border:2px dashed var(--gris-bord); background:#fff;"></div>
+
+  <h3>Synthèse commune <span style="font-weight:400; font-size:0.8em; color:var(--texte-léger);">(après les présentations orales)</span></h3>
+  <div class="exo">
+    <p class="q-text">1. Comment s'appelle la force exercée par un fluide sur un solide immergé ? Quelle est sa direction et son sens ?</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">2. Compléter l'énoncé du principe d'Archimède en une phrase complète.</p>
+    <p style="font-size:0.92rem; line-height:2.1;">
+      « Tout corps partiellement ou totalement
+      <input type="text" style="width:110px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;" id="archi1">
+      au repos subit, de la part de ce fluide, une force
+      <input type="text" style="width:110px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;" id="archi2">,
+      dirigée vers le
+      <input type="text" style="width:70px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;" id="archi3">,
+      appelée
+      <input type="text" style="width:170px;border:none;border-bottom:1.5px solid var(--gris-bord);text-align:center;background:transparent;" id="archi4">,
+      dont la valeur est égale
+      <input type="text" style="width:100%;border:none;border-bottom:1.5px solid var(--gris-bord);background:transparent;margin-top:6px;" id="archi5"> ».
+    </p>
+    <button class="action-btn" id="btnCorrectionArchi">👀 Voir la correction</button>
+    <div class="box box-rappel" id="correctionArchi" style="display:none; margin-top:10px;">
+      « Tout corps partiellement ou totalement <strong>immergé</strong> dans un fluide au repos subit, de la part de ce fluide, une force <strong>verticale</strong>, dirigée vers le <strong>haut</strong>, appelée <strong>poussée d'Archimède</strong>, dont la valeur est égale <strong>au poids du volume de fluide déplacé</strong> ».
+    </div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">3. Écrire la formule de la poussée d'Archimède en précisant les unités de chaque grandeur.</p>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
+    <button class="action-btn" id="btnCorrectionFormuleArchi" style="margin-top:8px;">👀 Voir la correction</button>
+    <div class="formula" id="correctionFormuleArchi" style="display:none; margin-top:10px;">
+      Π = ρ<sub>fluide</sub> × V<sub>immergé</sub> × g
+    </div>
+    <p class="feedback" id="correctionFormuleArchiUnites" style="display:none; font-weight:400;">avec Π en N, ρ<sub>fluide</sub> en kg·m⁻³, V<sub>immergé</sub> en m³ et g en N·kg⁻¹.</p>
+  </div>
+  </div>
+  </div>
+
+  <div class="sub-tab-content" id="activite-sub-6">
+  <h2>6. TP — Chute d'un parachutiste <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(activité expérimentale — auto-correction)</span></h2>
+
+  <div class="two-col">
+    <div style="flex:2;">
+      <div class="box box-rappel">
+        <p style="font-style:italic;margin:0;">Au cours de sa chute et avant l'ouverture de son parachute, la vitesse d'un parachutiste varie dans le référentiel terrestre.</p>
+      </div>
+      <p style="font-size:1.05em;"><strong>➜ Problématique : comment évolue la vitesse du parachutiste avant qu'il n'ouvre son parachute, et quel lien peut-on faire avec les forces exercées sur le parachutiste ?</strong></p>
+    </div>
+    <div style="flex:1;min-width:96px;">
+      <div class="canvas-frame" style="padding:6px;">
+        <img src="photo-parachutiste.png" alt="Parachutiste en vol, parachute ouvert" style="max-width:80%;width:80%;display:block;margin:0 auto;border-radius:8px;">
+      </div>
+    </div>
+  </div>
+
+  <h3>Données</h3>
+  <div class="two-col">
+    <div>
+      <div class="box">
+        <p style="font-weight:700; margin-top:0;">Donnée 1 — Principe d'inertie</p>
+        <p><strong>Tout corps persévère</strong> dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</p>
+        <p style="margin-bottom:0;"><em>Contraposée :</em> lorsque le vecteur vitesse varie entre deux instants voisins, les forces ne se compensent pas, et réciproquement.</p>
+      </div>
+    </div>
+    <div>
+      <div class="box">
+        <p style="font-weight:700; margin-top:0;">Donnée 2 — Force de frottement fluide</p>
+        <p>Lorsqu'un objet se déplace dans un fluide, il est soumis à une force de frottement :</p>
+        <ul style="margin-bottom:0;">
+          <li>de même direction que le mouvement, mais de sens opposé ;</li>
+          <li>dont la norme augmente avec la valeur de la vitesse ;</li>
+          <li>qui dépend de la nature du fluide.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="box box-rappel">
+    <p style="font-weight:700; margin-top:0;">Donnée 3 — Rappel : valeur de la vitesse (programme de Seconde — B.O.)</p>
+    <p>Soit un point mobile M dont on repère les positions successives M₀, M₁, …, M<sub>i</sub>, … aux dates t₀, t₁, …, t<sub>i</sub>, … séparées d'une durée constante Δt.</p>
+    <p style="margin-bottom:0;">La valeur de la vitesse au point M<sub>i</sub> est approchée par :</p>
+  </div>
+  <div class="formula">v(M<sub>i</sub>) = M<sub>i−1</sub>M<sub>i</sub> / Δt</div>
+
+  <h3>Protocole expérimental — Logiciel Latispro</h3>
+  <div class="box">
+    <p style="margin:0 0 10px;"><strong>Matériel :</strong> ordinateur avec Latispro | fichier vidéo « TP-chute_glycerol.avi »</p>
+    <a href="TP-chute_glycerol.webm" download class="action-btn solid" style="text-decoration:none; display:inline-block;">📥 Télécharger la vidéo source (TP-chute_glycerol)</a>
+  </div>
+
+  <div class="accordion" id="acc-protocole-chute">
+    <button class="accordion-header" type="button" onclick="toggleAccordion('acc-protocole-chute')">
+      <span>📋 Voir le protocole détaillé (4 étapes)</span>
+      <span class="chevron">▶</span>
+    </button>
+    <div class="accordion-panel">
+      <p><strong>Étape 1 — Ouvrir la vidéo et étalonner</strong></p>
+      <ol>
+        <li>Ouvrir Latispro. Menu : <strong>Acquisition</strong> &gt; <strong>Acquisition vidéo</strong>.</li>
+        <li>Charger le fichier <strong>TP-chute_glycerol.avi</strong> fourni par l'enseignant.</li>
+        <li><strong>Étalonnage de l'échelle :</strong> cliquer sur <strong>Définir l'échelle</strong>, tracer un segment sur les graduations de l'éprouvette et entrer la longueur réelle en cm.</li>
+        <li><strong>Définir l'origine :</strong> placer l'origine (0 ; 0) en haut de l'éprouvette, axe y orienté vers le bas.</li>
+      </ol>
+      <p><strong>Étape 2 — Pointage des positions successives de la bille</strong></p>
+      <ol start="5">
+        <li>Revenir à l'image 0 (début de la vidéo).</li>
+        <li><strong>Activer le pointage :</strong> cliquer sur le bouton <strong>Pointage</strong> dans la barre d'outils.</li>
+        <li>Cliquer sur le <strong>centre de la bille</strong> à chaque image. Latispro enregistre automatiquement les coordonnées (x<sub>i</sub>, y<sub>i</sub>) et la date t<sub>i</sub>.</li>
+        <li>Pointer <strong>toutes les positions</strong> jusqu'à ce que la bille approche du fond. <strong>S'arrêter avant le fond.</strong></li>
+      </ol>
+      <p><strong>Étape 3 — Calcul de la valeur de la vitesse (formule B.O. Seconde)</strong></p>
+      <p>La chute est verticale : seule la coordonnée y varie. La valeur de la vitesse entre deux positions consécutives M<sub>i−1</sub> et M<sub>i</sub> est donc :</p>
+      <div class="formula" style="margin:8px 0;">v(M<sub>i</sub>) = (y<sub>i</sub> − y<sub>i−1</sub>) / (t<sub>i</sub> − t<sub>i−1</sub>)</div>
+      <p>Saisie dans le tableur Latispro : créer une colonne v avec la formule : <code>(y[i] - y[i-1]) / (t[i] - t[i-1])</code></p>
+      <p>⚠️ Attention : si l'axe y est orienté vers le bas, y<sub>i</sub> &gt; y<sub>i−1</sub> donc v &gt; 0. Vérifier le signe des résultats.</p>
+      <ol start="9">
+        <li>Tracer le graphe v = f(t) : <strong>Graphe</strong> &gt; <strong>Nouveau graphe</strong> &gt; t en abscisse, v en ordonnée.</li>
+        <li>Observer les deux phases : vitesse croissante puis vitesse constante (vitesse limite).</li>
+      </ol>
+      <p><strong>Étape 4 — Représentation des vecteurs vitesse</strong></p>
+      <p>Le mouvement étant vertical, seule la composante y intervient. Dans Latispro, les vecteurs vitesse sont tracés à partir des colonnes y et t uniquement.</p>
+      <ol start="11">
+        <li>Dans Latispro : <strong>Graphe</strong> &gt; <strong>Vecteurs vitesse</strong> — sélectionner les colonnes y et v pour afficher les vecteurs <span class="vec">v</span>(M<sub>i</sub>) le long de l'axe vertical en chaque point M<sub>i</sub>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="box" style="text-align:center;">
+    <button class="action-btn" id="btnToggleVideoChute">👀 Visionner la vidéo du pointage</button>
+    <div id="video-chute-wrap" style="display:none; margin-top:10px;">
+      <video controls style="max-width:500px; width:100%; border-radius:8px;">
+        <source src="vidéo_du_pointage.mp4" type="video/mp4">
+        Ton navigateur ne prend pas en charge la lecture vidéo.
+      </video>
+    </div>
+  </div>
+
+  <h3>1. S'approprier — Réaliser</h3>
+  <div class="exo">
+    <p class="q-text">Réaliser le protocole proposé avec Latispro. Reproduire à la main dans les encadrés ci-dessous : le graphe v = f(t) (axes, unités, deux phases délimitées) et les vecteurs vitesse sur un schéma de la trajectoire verticale de la bille, en deux positions voisines caractéristiques de chaque phase.</p>
+    <div class="two-col">
+      <div>
+        <p style="font-size:0.85rem;color:var(--texte-léger);">Graphe v = f(t) :</p>
+        <div class="box" style="min-height:160px; border:2px dashed var(--gris-bord); background:#fff;"></div>
+      </div>
+      <div>
+        <p style="font-size:0.85rem;color:var(--texte-léger);">Vecteurs vitesse sur la trajectoire :</p>
+        <div class="box" style="min-height:160px; border:2px dashed var(--gris-bord); background:#fff;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa-doc">
+    <p class="qa-question"><strong>1.</strong> Comment évolue la valeur de la vitesse de la bille durant la <strong>phase 1</strong> (juste après le début de la chute) ?</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase1Evol" data-correct="a">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Elle augmente.</option>
+      <option value="b">Elle reste constante.</option>
+      <option value="c">Elle diminue.</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>2.</strong> Comment évolue la valeur de la vitesse de la bille durant la <strong>phase 2</strong> (après un certain temps de chute) ?</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase2Evol" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Elle continue d'augmenter.</option>
+      <option value="b">Elle reste constante (vitesse limite).</option>
+      <option value="c">Elle diminue.</option>
+    </select>
+  </div>
+  <button class="action-btn solid" id="checkChutePhases">✅ Vérifier mes réponses</button>
+  <div class="feedback" id="feedbackChutePhases"></div>
+
+  <h3>2. Analyser — Raisonner</h3>
+  <p>Pour chacune des deux phases, dresser l'inventaire des forces exercées sur la bille et indiquer si elles se compensent. Justifier en utilisant le principe d'inertie.</p>
+
+  <div class="exo">
+    <p class="q-text">a. Diagramme objet-interactions — la bille en chute dans le glycérol.</p>
+    <div class="fill-row">
+      La bille est en interaction <strong>à distance</strong> avec :
+      <select class="blank" id="qcmChuteDiag1" data-correct="terre">
+        <option value="">— choisir —</option>
+        <option value="terre">la Terre</option>
+        <option value="glycerol">le glycérol</option>
+        <option value="eprouvette">l'éprouvette</option>
+      </select>
+    </div>
+    <div class="fill-row">
+      La bille est en interaction <strong>de contact</strong> avec :
+      <select class="blank" id="qcmChuteDiag2" data-correct="glycerol">
+        <option value="">— choisir —</option>
+        <option value="terre">la Terre</option>
+        <option value="glycerol">le glycérol</option>
+        <option value="air">l'air</option>
+      </select>
+    </div>
+    <button class="action-btn solid" id="checkChuteDiag">✅ Vérifier</button>
+    <div class="feedback" id="feedbackChuteDiag"></div>
+  </div>
+
+  <div class="exo">
+    <p class="q-text">b. Quelles forces s'exercent sur la bille, dans les deux phases ? (coche la ou les bonnes réponses)</p>
+    <label style="display:block;font-weight:400;"><input type="checkbox" class="chute-force-cb" value="poids"> Le poids de la bille</label>
+    <label style="display:block;font-weight:400;"><input type="checkbox" class="chute-force-cb" value="frottement"> La force de frottement fluide exercée par le glycérol</label>
+    <label style="display:block;font-weight:400;"><input type="checkbox" class="chute-force-cb" value="archimede"> La poussée d'Archimède</label>
+    <label style="display:block;font-weight:400;"><input type="checkbox" class="chute-force-cb" value="reaction"> La réaction normale d'un support</label>
+    <button class="action-btn solid" id="checkChuteForces" style="margin-top:8px;">✅ Vérifier</button>
+    <div class="feedback" id="feedbackChuteForces"></div>
+  </div>
+
+  <p style="font-weight:700;">Phase 1 — Vitesse croissante</p>
+  <div class="qa-doc">
+    <p class="qa-question">Les forces se compensent-elles ?</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase1Comp" data-correct="non">
+      <option value="">— choisir une réponse —</option>
+      <option value="oui">Oui</option>
+      <option value="non">Non</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question">Justification (principe d'inertie) :</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase1Justif" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Car le poids de la bille est nul.</option>
+      <option value="b">Car le vecteur vitesse varie (augmente) : d'après la contraposée du principe d'inertie, les forces ne se compensent pas.</option>
+      <option value="c">Car il n'y a pas de frottement en phase 1.</option>
+      <option value="d">Car la bille est immobile.</option>
+    </select>
+  </div>
+  <button class="action-btn solid" id="checkChutePhase1">✅ Vérifier mes réponses</button>
+  <div class="feedback" id="feedbackChutePhase1"></div>
+
+  <p style="font-weight:700; margin-top:20px;">Phase 2 — Vitesse limite (constante)</p>
+  <div class="qa-doc">
+    <p class="qa-question">Les forces se compensent-elles ?</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase2Comp" data-correct="oui">
+      <option value="">— choisir une réponse —</option>
+      <option value="oui">Oui</option>
+      <option value="non">Non</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question">Justification (principe d'inertie) :</p>
+    <select class="dropdown qcm-select" id="qcmChutePhase2Justif" data-correct="a">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Car le vecteur vitesse est constant : d'après la réciproque du principe d'inertie, les forces se compensent.</option>
+      <option value="b">Car le poids disparaît en phase 2.</option>
+      <option value="c">Car le frottement fluide disparaît en phase 2.</option>
+      <option value="d">Car la bille s'arrête complètement.</option>
+    </select>
+  </div>
+  <button class="action-btn solid" id="checkChutePhase2">✅ Vérifier mes réponses</button>
+  <div class="feedback" id="feedbackChutePhase2"></div>
+
+  <h3>3. Valider — Communiquer</h3>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>Réponse à la problématique :</strong> comment évolue la vitesse du parachutiste avant l'ouverture de son parachute, et que peut-on dire des forces qui s'exercent sur lui ?</p>
+    <select class="dropdown qcm-select" id="qcmChuteSynthese" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Elle est constante dès le début : les forces se compensent tout le temps.</option>
+      <option value="b">Elle augmente d'abord (les forces ne se compensent pas), puis se stabilise à une vitesse limite (les forces se compensent).</option>
+      <option value="c">Elle diminue continuellement jusqu'à l'arrêt.</option>
+      <option value="d">Elle est nulle tant que le parachute n'est pas ouvert.</option>
+    </select>
+  </div>
+  <button class="action-btn solid" id="checkChuteSynthese">✅ Vérifier</button>
+  <div class="feedback" id="feedbackChuteSynthese"></div>
+
+  <p style="font-weight:700; margin-top:20px;">Lien avec la chute du parachutiste</p>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>Q1.</strong> Quel élément de l'expérience modélise le parachutiste ? Quel élément modélise l'air ?</p>
+    <select class="dropdown qcm-select" id="qcmChuteQ1" data-correct="a">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">La bille modélise le parachutiste, le glycérol modélise l'air.</option>
+      <option value="b">Le glycérol modélise le parachutiste, la bille modélise l'air.</option>
+      <option value="c">L'éprouvette modélise le parachutiste.</option>
+      <option value="d">Il n'y a aucun rapport entre les deux situations.</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>Q2.</strong> La phase 1 observée sur la bille correspond-elle à la chute avec ou sans parachute ouvert ?</p>
+    <select class="dropdown qcm-select" id="qcmChuteQ2" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Avec le parachute ouvert.</option>
+      <option value="b">Sans parachute ouvert (avant l'ouverture, la vitesse augmente encore).</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>Q3.</strong> Lors de la phase 2, la bille atteint sa « vitesse limite ». Pourquoi la vitesse ne peut-elle plus augmenter ?</p>
+    <select class="dropdown qcm-select" id="qcmChuteQ3" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Car le poids de la bille devient nul.</option>
+      <option value="b">Car la force de frottement fluide, qui augmente avec la vitesse, finit par compenser exactement le poids.</option>
+      <option value="c">Car la bille touche le fond de l'éprouvette.</option>
+      <option value="d">Car le glycérol se solidifie.</option>
+    </select>
+  </div>
+  <div class="qa-doc">
+    <p class="qa-question"><strong>Q4.</strong> Un parachutiste atteint également une vitesse limite avant d'ouvrir son parachute. D'après le principe d'inertie, que peut-on affirmer sur la somme des forces qui s'exercent sur lui à cet instant ?</p>
+    <select class="dropdown qcm-select" id="qcmChuteQ4" data-correct="b">
+      <option value="">— choisir une réponse —</option>
+      <option value="a">Chaque force prise séparément est nulle.</option>
+      <option value="b">Leur somme est nulle : elles se compensent.</option>
+      <option value="c">Le poids du parachutiste devient nul.</option>
+      <option value="d">On ne peut rien affirmer sur les forces.</option>
+    </select>
+  </div>
+  <button class="action-btn solid" id="checkChuteQ">✅ Vérifier mes réponses</button>
+  <div class="feedback" id="feedbackChuteQ"></div>
+  <div class="qa-correction" id="correctionChuteQ">
+    <strong>Q1.</strong> La bille (qui tombe dans le glycérol) modélise le parachutiste, et le glycérol (fluide visqueux) modélise l'air.<br><br>
+    <strong>Q2.</strong> La phase 1 correspond à la chute sans parachute ouvert : la vitesse n'a pas encore atteint sa valeur limite, elle continue d'augmenter, comme pour la bille juste après le début de sa chute.<br><br>
+    <strong>Q3.</strong> La force de frottement fluide augmente avec la vitesse. Elle finit par devenir égale en norme au poids : les deux forces se compensent alors, et d'après le principe d'inertie, le vecteur vitesse ne varie plus — la vitesse reste constante (vitesse limite).<br><br>
+    <strong>Q4.</strong> D'après le principe d'inertie (utilisé dans sa réciproque), puisque le vecteur vitesse du parachutiste ne varie plus (vitesse limite constante), la somme des forces qui s'exercent sur lui est nulle : elles se compensent.
+  </div>
+
+  </div>
+</div>
+
+
+<!-- ============ ONGLET EXERCICES ============ -->
+<div class="tab-content" id="t-exercices">
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟠 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔐 Escape game</button>
+  </div>
+
+  <div class="sub-tab-content active" id="exo-sub-facile">
+  <div class="exo-tabs-nav">
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-facile-pissenlit')">La graine de pissenlit <span class="exo-tab-stars">★★★</span></button>
+  </div>
+
+  <div class="exo-item-content active" id="exo-facile-pissenlit">
+  <h3>🪶 La graine de pissenlit</h3>
       <p style="font-size:0.92rem;">Dans le référentiel terrestre, une graine de pissenlit chute verticalement à <strong>vitesse constante</strong>.</p>
       <div class="qa-doc">
         <p class="qa-question"><strong>1.</strong> Que peut-on en déduire sur la force <span class="vec">F</span><sub>air</sub> exercée par l'air sur la graine ?</p>
@@ -963,59 +1837,28 @@
         <strong>1.</strong> Le vecteur vitesse ne varie pas (mouvement rectiligne uniforme), donc d'après la contraposée du principe d'inertie, les forces se compensent. La force de l'air <span class="vec">F</span><sub>air</sub> compense donc exactement le poids <span class="vec">P</span> de la graine : elle est verticale, dirigée vers le haut, de même norme que le poids.<br><br>
         <strong>2.</strong> Sans air, la graine ne serait soumise qu'à son poids : elle serait en <strong>chute libre</strong>. Les forces ne se compenseraient plus (il n'y aurait que <span class="vec">P</span>), donc, d'après le principe d'inertie, son vecteur vitesse varierait : son mouvement serait accéléré.
       </div>
-    </section>
-
-    <section class="block" id="bloc-chute-libre">
-      <h2>🪂 La chute libre verticale</h2>
-      <div class="fill-row">
-        Un système est en chute libre lorsqu'il n'est soumis qu'à
-        <input type="text" class="blank" id="blankChute" placeholder="…" style="width:140px;">
-        <button class="action-btn solid" id="checkChute">✅ Vérifier</button>
-      </div>
-      <div class="feedback" id="feedbackChute"></div>
-
-      <p style="font-size:0.92rem; margin-top:16px;">Données de Galilée pour une chute sans vitesse initiale :</p>
-      <p class="formula-detail" id="formulaChute" style="font-size:0.95rem;">v = g × Δt &nbsp;et&nbsp; d = g × Δt² / 2 &nbsp;(avec g = 9,8 m·s⁻²)</p>
-      <label style="font-weight:600; font-size:0.9rem;">Astre :</label>
-      <select class="dropdown" id="selectAstreChute">
-        <option value="9.8">Terre (g = 9,8 m·s⁻²)</option>
-        <option value="1.62">Lune (g = 1,62 m·s⁻²)</option>
-      </select>
-
-      <p style="font-size:0.88rem; color:var(--gray); margin-top:14px;">Complète le tableau (M₀ te donne l'exemple), puis vérifie tes réponses.</p>
-      <table class="data-table" id="tableChute">
-        <thead>
-          <tr><th>Position</th><th>M₀</th><th>M₁</th><th>M₂</th><th>M₃</th><th>M₄</th><th>M₅</th><th>M₆</th><th>M₇</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Δt (s)</td><td>0</td><td>0,04</td><td>0,08</td><td>0,12</td><td>0,16</td><td>0,20</td><td>0,24</td><td>0,28</td></tr>
-          <tr id="rowD"><td>d (m)</td></tr>
-          <tr id="rowV"><td>v (m·s⁻¹)</td></tr>
-        </tbody>
-      </table>
-      <button class="action-btn solid" id="btnVerifChute">✅ Vérifier mes réponses</button>
-      <button class="action-btn" id="btnCorrectionChute">👀 Voir la correction</button>
-      <div class="feedback" id="feedbackChuteTable"></div>
-
-      <div class="two-col">
-        <div>
-          <p style="font-size:0.92rem;">Échelle des vecteurs vitesse (sur le schéma papier) : 1 cm ↔ 0,3 m·s⁻¹. Compare <span class="vec">v</span><sub>4</sub> et <span class="vec">v</span><sub>5</sub> : le vecteur vitesse s'allonge-t-il ?</p>
-          <div class="result-pill" id="resultChuteConclusion">Vérifie ou affiche la correction pour voir le schéma.</div>
-        </div>
-        <div class="canvas-frame">
-          <canvas id="chuteCanvas" width="300" height="280"></canvas>
-        </div>
-      </div>
-      <div class="bilan-box">
-        Le vecteur vitesse d'un système en chute libre <strong>varie</strong> (sa norme augmente à chaque instant). D'après la <strong>réciproque</strong> du principe d'inertie : puisque la seule force présente est le poids, les forces ne se compensent pas (il n'y a rien pour compenser <span class="vec">P</span>) — c'est cohérent avec la variation observée du vecteur vitesse.
-      </div>
-      <div class="info-box">Chaque vecteur vitesse est tracé <strong>verticalement</strong>, dans le sens du mouvement, avec son origine au point où il s'applique (M₄ pour <span class="vec">v</span><sub>4</sub>, M₅ pour <span class="vec">v</span><sub>5</sub>) — légèrement décalés à gauche et à droite de la trajectoire pour mieux les distinguer.</div>
-    </section>
-    <!--TAB2_CONTENT-->
+  </div>
   </div>
 
-  <!-- ===================== TAB 3 ===================== -->
-  <div class="tab-panel" id="tab3">
+  <div class="sub-tab-content" id="exo-sub-inter">
+  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+  </div>
+
+  <div class="sub-tab-content" id="exo-sub-difficile">
+  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+  </div>
+
+  <div class="sub-tab-content" id="exo-sub-escape">
+  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+  </div>
+</div>
+
+
+<!-- Ancien contenu interactif (tab1/tab2) migré dans l'onglet Cours ci-dessus. -->
+
+
+  <!-- ============ ONGLET BILAN & RESSOURCES ============ -->
+  <div class="tab-content" id="t-bilan">
   <div class="sub-tabs-nav">
     <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
     <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
@@ -1230,19 +2073,25 @@
   <!-- /bilan-sub-2 -->
 </div>
 
-</div>
-
 <footer>
   Fiche de cours interactive — Séquence 05 · <strong>C. Poirault-Gauvin</strong><br>
   📝 Le quiz de révision associé est disponible dans un fichier séparé.
 </footer>
 
 <script>
-// ===================== Sous-onglets Bilan & Ressources =====================
+// ===================== Sous-onglets (Cours / Bilan & Ressources) =====================
 function showSub(btn, id) {
-  const panel = btn.closest('.tab-panel');
+  const panel = btn.closest('.tab-content');
   panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
   panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function showExoItem(btn, id){
+  const panel = btn.closest('.sub-tab-content');
+  if(!panel) return;
+  panel.querySelectorAll('.exo-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
@@ -1314,14 +2163,13 @@ function supExp(e) {
 }
 
 // ===================== Onglets =====================
-document.querySelectorAll(".tab-btn").forEach(function(btn){
-  btn.addEventListener("click", function(){
-    document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
-    document.querySelectorAll(".tab-panel").forEach(function(p){p.classList.remove("active");});
-    btn.classList.add("active");
-    document.getElementById(btn.dataset.tab).classList.add("active");
-  });
-});
+function showTab(el, id){
+  document.querySelectorAll('#tabs .tab-btn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
 // ===================== Capacités exigibles =====================
 document.getElementById("capToggle").addEventListener("click", function(){
@@ -1491,8 +2339,19 @@ var exemplesActions = [
     var x2 = ox + lenPx*Math.cos(rad);
     var y2 = oy + lenPx*Math.sin(rad);
     drawArrow(ctx, ox, oy, x2, y2, "#E8590C", 4);
-    ctx.font="bold 14px sans-serif"; ctx.fillStyle="#E8590C"; ctx.textAlign="left";
-    ctx.fillText("F = " + norme + " N", x2+8, y2);
+    ctx.font="bold 16px sans-serif"; ctx.fillStyle="#E8590C"; ctx.textAlign="left";
+    var labelX = x2+8, labelY = y2;
+    var fWidth = ctx.measureText("F").width;
+    var arrowY = labelY - 20;
+    ctx.strokeStyle="#E8590C"; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(labelX, arrowY); ctx.lineTo(labelX+fWidth, arrowY); ctx.stroke();
+    ctx.fillStyle="#E8590C";
+    ctx.beginPath();
+    ctx.moveTo(labelX+fWidth+5, arrowY);
+    ctx.lineTo(labelX+fWidth-3, arrowY-5);
+    ctx.lineTo(labelX+fWidth-3, arrowY+5);
+    ctx.closePath(); ctx.fill();
+    ctx.fillText("F", labelX, labelY);
   }
   sN.addEventListener("input", draw);
   sA.addEventListener("input", draw);
@@ -1568,12 +2427,19 @@ var exemplesActions = [
     ctx.font="12px sans-serif"; ctx.textAlign="center"; ctx.fillStyle="#1a1a1a"; ctx.fillText("objet",110,84);
     var lenPx = Math.min(150, (P/1000)*150);
     drawArrow(ctx, 110, 100, 110, 100+lenPx, "#E8590C", 4);
-    ctx.font="bold 13px sans-serif"; ctx.textAlign="left";
-    var labelY = 100+lenPx*0.5;
+    ctx.font="bold 16px sans-serif"; ctx.fillStyle="#E8590C"; ctx.textAlign="left";
+    var labelX = 118, labelY = 100+lenPx*0.5;
     var pWidth = ctx.measureText("P").width;
-    drawLetterVecArrow(ctx, 118, labelY-12, pWidth, "#E8590C");
+    var arrowY = labelY - 20;
+    ctx.strokeStyle="#E8590C"; ctx.lineWidth=2.2;
+    ctx.beginPath(); ctx.moveTo(labelX, arrowY); ctx.lineTo(labelX+pWidth, arrowY); ctx.stroke();
     ctx.fillStyle="#E8590C";
-    ctx.fillText("P", 118, labelY);
+    ctx.beginPath();
+    ctx.moveTo(labelX+pWidth+5, arrowY);
+    ctx.lineTo(labelX+pWidth-3, arrowY-5);
+    ctx.lineTo(labelX+pWidth-3, arrowY+5);
+    ctx.closePath(); ctx.fill();
+    ctx.fillText("P", labelX, labelY);
   }
   sM.addEventListener("input", draw);
   selA.addEventListener("change", draw);
@@ -1854,6 +2720,135 @@ if (btnDecouvrir){
 })();
 
 bindAccordions();
+
+// ===================== TP Archimède : corrections (afficher/masquer) =====================
+var btnToggleDoc2 = document.getElementById("btnToggleDoc2");
+if (btnToggleDoc2){
+  btnToggleDoc2.addEventListener("click", function(){
+    var box = document.getElementById("doc2-reponse");
+    var open = box.style.display === "block";
+    box.style.display = open ? "none" : "block";
+    btnToggleDoc2.textContent = open ? "👀 Voir la réponse" : "🙈 Masquer la réponse";
+  });
+}
+var btnCorrArchi = document.getElementById("btnCorrectionArchi");
+if (btnCorrArchi){
+  btnCorrArchi.addEventListener("click", function(){
+    var box = document.getElementById("correctionArchi");
+    var open = box.style.display === "block";
+    box.style.display = open ? "none" : "block";
+    btnCorrArchi.textContent = open ? "👀 Voir la correction" : "🙈 Masquer la correction";
+  });
+}
+var btnCorrFormuleArchi = document.getElementById("btnCorrectionFormuleArchi");
+if (btnCorrFormuleArchi){
+  btnCorrFormuleArchi.addEventListener("click", function(){
+    var open = document.getElementById("correctionFormuleArchi").style.display === "block";
+    document.getElementById("correctionFormuleArchi").style.display = open ? "none" : "block";
+    document.getElementById("correctionFormuleArchiUnites").style.display = open ? "none" : "block";
+    btnCorrFormuleArchi.textContent = open ? "👀 Voir la correction" : "🙈 Masquer la correction";
+  });
+}
+
+// ===================== TP Chute d'un parachutiste =====================
+var btnToggleVideoChute = document.getElementById("btnToggleVideoChute");
+if (btnToggleVideoChute){
+  btnToggleVideoChute.addEventListener("click", function(){
+    var box = document.getElementById("video-chute-wrap");
+    var open = box.style.display === "block";
+    box.style.display = open ? "none" : "block";
+    btnToggleVideoChute.textContent = open ? "👀 Visionner la vidéo du pointage" : "🙈 Masquer la vidéo";
+  });
+}
+
+/* Vérifie une liste de <select class="qcm-select"> par leurs ids et affiche un feedback global */
+/* Bascule générique affiche/masque pour les boutons Aide et Correction */
+function toggleBox(btn, boxId, labelShow, labelHide){
+  var box = document.getElementById(boxId);
+  var open = box.style.display === "block";
+  box.style.display = open ? "none" : "block";
+  btn.textContent = open ? labelShow : labelHide;
+}
+
+function checkQcmSelects(ids, feedbackId){
+  var ok = 0;
+  ids.forEach(function(id){
+    var sel = document.getElementById(id);
+    if (!sel) return;
+    sel.classList.remove("correct","wrong");
+    if (sel.value && sel.value === sel.dataset.correct){
+      sel.classList.add("correct"); ok++;
+    } else {
+      sel.classList.add("wrong");
+    }
+  });
+  var fb = document.getElementById(feedbackId);
+  fb.textContent = ok === ids.length ? "✅ Parfait, " + ok + "/" + ids.length + " !" : "🔁 " + ok + "/" + ids.length + " correctes — corrige les cases rouges.";
+  fb.className = "feedback " + (ok === ids.length ? "ok" : "ko");
+}
+
+document.getElementById("checkChutePhases").addEventListener("click", function(){
+  checkQcmSelects(["qcmChutePhase1Evol","qcmChutePhase2Evol"], "feedbackChutePhases");
+});
+
+document.getElementById("checkChuteDiag").addEventListener("click", function(){
+  checkQcmSelects(["qcmChuteDiag1","qcmChuteDiag2"], "feedbackChuteDiag");
+});
+
+document.getElementById("checkChuteForces").addEventListener("click", function(){
+  var correct = ["poids","frottement"];
+  var boxes = document.querySelectorAll(".chute-force-cb");
+  var selected = [];
+  boxes.forEach(function(cb){ if (cb.checked) selected.push(cb.value); });
+  var ok = selected.length === correct.length && correct.every(function(v){ return selected.indexOf(v) !== -1; });
+  var fb = document.getElementById("feedbackChuteForces");
+  if (ok){
+    fb.textContent = "✅ Exact : le poids et la force de frottement fluide exercée par le glycérol.";
+    fb.className = "feedback ok";
+  } else {
+    fb.textContent = "❌ Revois le diagramme objet-interactions : seules deux forces s'exercent sur la bille (poids + frottement fluide).";
+    fb.className = "feedback ko";
+  }
+});
+
+document.getElementById("checkChutePhase1").addEventListener("click", function(){
+  checkQcmSelects(["qcmChutePhase1Comp","qcmChutePhase1Justif"], "feedbackChutePhase1");
+});
+
+document.getElementById("checkChutePhase2").addEventListener("click", function(){
+  checkQcmSelects(["qcmChutePhase2Comp","qcmChutePhase2Justif"], "feedbackChutePhase2");
+});
+
+document.getElementById("checkChuteSynthese").addEventListener("click", function(){
+  checkQcmSelects(["qcmChuteSynthese"], "feedbackChuteSynthese");
+});
+
+document.getElementById("checkChuteQ").addEventListener("click", function(){
+  checkQcmSelects(["qcmChuteQ1","qcmChuteQ2","qcmChuteQ3","qcmChuteQ4"], "feedbackChuteQ");
+  document.getElementById("correctionChuteQ").classList.add("open");
+});
+
+// ===================== Activité : Des satellites en orbite =====================
+document.getElementById("checkSat4").addEventListener("click", function(){
+  checkQcmSelects(["qcmSat4"], "feedbackSat4");
+});
+
+// ===================== Activité : Performances de Superman =====================
+document.getElementById("checkSup2a").addEventListener("click", function(){
+  checkQcmSelects(["qcmSup2a"], "feedbackSup2a");
+});
+document.getElementById("checkSup2b").addEventListener("click", function(){
+  checkQcmSelects(["qcmSup2b"], "feedbackSup2b");
+});
+document.getElementById("checkSup2c").addEventListener("click", function(){
+  checkQcmSelects(["qcmSup2c"], "feedbackSup2c");
+});
+document.getElementById("checkSup3a").addEventListener("click", function(){
+  checkQcmSelects(["qcmSup3a"], "feedbackSup3a");
+});
+document.getElementById("checkSup3b").addEventListener("click", function(){
+  checkQcmSelects(["qcmSup3b"], "feedbackSup3b");
+});
 </script>
 
 </body>

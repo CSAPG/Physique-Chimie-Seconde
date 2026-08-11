@@ -312,6 +312,15 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 .mini-atom-label.show{opacity:1}
 .mini-atom-btn{background:var(--bleu);color:#fff;border:none;padding:7px 16px;border-radius:999px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;margin-top:10px}
 .mini-atom-btn:hover{background:#1e4466}
+.mini-particle-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);padding:6px 13px;border-radius:999px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.76rem;cursor:pointer;transition:all .15s ease}
+.mini-particle-btn:hover{background:var(--gris-bord)}
+.mini-particle-btn.active{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.mini-particle-actions{margin-top:10px;flex-wrap:wrap}
+.mini-legend-detailed{flex-direction:column;align-items:flex-start;gap:6px;text-align:left;margin:10px 0 6px}
+.mini-legend-detailed .mini-legend-dot{flex-shrink:0}
+@keyframes miniChargePulseInf{0%,100%{transform:scale(1);filter:none}50%{transform:scale(1.6);filter:drop-shadow(0 0 3px currentColor)}}
+.mini-pulse-charge-inf{transform-box:fill-box;transform-origin:center;animation:miniChargePulseInf .6s ease-in-out infinite}
+.mini-legend-dot.mini-pulse-charge-inf{transform-box:border-box;display:inline-block}
 .mini-atom-card-v2{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin:14px auto;text-align:center;max-width:420px}
 .mini-atom-card-v2.wide{max-width:520px}
 .mini-atom-flex{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
@@ -404,6 +413,14 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 
 @keyframes miniFlyIn{0%{transform:translate(28px,-45px) scale(.4);opacity:0}60%{transform:translate(8px,-12px) scale(1.3);opacity:1}100%{transform:translate(0,0) scale(1);opacity:1}}
 .mini-fly-in{transform-box:fill-box;transform-origin:center;animation:miniFlyIn 1s ease-out forwards}
+
+/* Signal de départ/arrivée d'électron SANS modifier le cortège de l'atome neutre :
+   l'atome reste statique, seul l'ion (schéma de droite) change réellement. */
+@keyframes miniBlink{0%,100%{opacity:1}50%{opacity:.2}}
+.mini-e-departing{transform-box:fill-box;transform-origin:center;animation:miniBlink .5s ease-in-out 3}
+.mini-arrow-depart{opacity:0}
+.mini-arrow-depart.show{opacity:1;animation:miniBlink .5s ease-in-out 3}
+.mini-slot-blink{animation:miniBlink .5s ease-in-out 3}
 
 .atom-icon {
   display: inline-block;
@@ -1244,17 +1261,23 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="mini-ion-caption2" id="heCaption">2 protons (+) = 2 électrons (−)</div>
 </div>
 </div>
-<div class="mini-legend">
-<span><span class="mini-legend-dot" id="heLegendP" style="background:var(--proton);"></span>proton</span>
-<span><span class="mini-legend-dot" id="heLegendN" style="background:var(--neutron);"></span>neutron</span>
-<span><span class="mini-legend-dot" id="heLegendE" style="background:var(--electron);"></span>électron</span>
+<div class="mini-legend mini-legend-detailed">
+<span><span class="mini-legend-dot" id="heLegendP" style="background:var(--proton);"></span><b>Proton</b> : m ≈ 1,673×10⁻²⁷ kg&nbsp;·&nbsp;q = +e</span>
+<span><span class="mini-legend-dot" id="heLegendN" style="background:var(--neutron);"></span><b>Neutron</b> : m ≈ 1,675×10⁻²⁷ kg&nbsp;·&nbsp;q = 0</span>
+<span><span class="mini-legend-dot" id="heLegendE" style="background:var(--electron);"></span><b>Électron</b> : m ≈ 9,109×10⁻³¹ kg&nbsp;·&nbsp;q = −e</span>
 </div>
 <p class="mini-atom-caption" id="heNucleusCaption">2 protons + 2 neutrons dans le noyau</p>
-<div class="mini-atom-actions">
-<button class="mini-atom-btn" onclick="playNeutre()">▶ Lancer l'animation</button>
-<button class="mini-reset-btn" onclick="resetNeutre()">↺ Recommencer</button>
+<div class="mini-atom-actions mini-particle-actions">
+<button class="mini-particle-btn" id="heBtn_electron" onclick="playNeutreParticle('electron')"><span class="mini-legend-dot" style="background:var(--electron);"></span>Électron</button>
+<button class="mini-particle-btn" id="heBtn_proton" onclick="playNeutreParticle('proton')"><span class="mini-legend-dot" style="background:var(--proton);"></span>Proton</button>
+<button class="mini-particle-btn" id="heBtn_neutron" onclick="playNeutreParticle('neutron')"><span class="mini-legend-dot" style="background:var(--neutron);"></span>Neutron</button>
+<button class="mini-particle-btn" id="heBtn_nucleon" onclick="playNeutreParticle('nucleon')"><span class="mini-legend-dot" style="background:var(--proton);"></span><span class="mini-legend-dot" style="background:var(--neutron);margin-left:-4px;"></span>Nucléons</button>
 </div>
-<div class="mini-atom-label" id="heLabel">✓ Charges + et − égales → atome neutre (charge globale 0)</div>
+<div class="mini-atom-actions">
+<button class="mini-reset-btn" onclick="stopNeutre()">⏸ Stop</button>
+<button class="mini-reset-btn" onclick="resetNeutre()">↺ Réinitialisation</button>
+</div>
+<div class="mini-atom-label show" id="heLabel">✓ Charges + et − égales → atome neutre (charge globale 0)</div>
 </div>
 </div>
 
@@ -4212,6 +4235,54 @@ function nucleusDots(cx,cy,protons,neutrons){
   return html;
 }
 
+/* ── Helpers de dessin communs aux mini-schémas (atome neutre, gaz noble,
+   cation, anion). Toutes ces mini-animations partagent le même rayon de
+   couche et le même style de noyau : ces fonctions évitent de reproduire
+   ce dessin 4 fois dans le fichier. ── */
+const MINI_SHELL_R0 = 30, MINI_SHELL_STEP = 25;
+/* Rayon max sûr pour tout élément qui s'étend au-delà d'une couche (flèche de
+   départ, point de départ d'un électron entrant) : le viewBox fait 200×200
+   centré en (100,100), donc tout rayon ≤ 97 reste visible, quel que soit l'angle. */
+const MINI_SAFE_R = 97;
+
+function miniShellRadius(i){
+  if(i <= 2) return MINI_SHELL_R0 + i*MINI_SHELL_STEP; // couches 1 à 3 : échelle de référence inchangée (30, 55, 80)
+  return 90; // 4e couche (rare, ex. K) : resserrée pour rester dans le cadre visible (200×200)
+}
+
+/* Cercle du noyau + protons/neutrons (nucleusDots). Identique dans les 4 mini-schémas. */
+function miniNucleusHTML(cx, cy, protons, neutrons){
+  return `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`
+       + nucleusDots(cx, cy, protons, neutrons);
+}
+
+/* Cercles des couches électroniques. outerId (optionnel) place un id sur la couche externe. */
+function miniShellsHTML(config, cx, cy, outerId){
+  let html = '';
+  config.forEach((count,i)=>{
+    const isOuter = (i === config.length-1);
+    const idAttr = (isOuter && outerId) ? ` id="${outerId}"` : '';
+    html += `<circle class="mini-atom-shell"${idAttr} cx="${cx}" cy="${cy}" r="${miniShellRadius(i)}"></circle>`;
+  });
+  return html;
+}
+
+/* Électrons "simples" (sans id ni comportement spécial) répartis sur les couches. */
+function miniElectronsHTML(config, cx, cy){
+  let html = '';
+  config.forEach((count,i)=>{
+    const radius = miniShellRadius(i);
+    const n = parseInt(count);
+    for(let k=0;k<n;k++){
+      const angle = (2*Math.PI/n)*k - Math.PI/2;
+      const ex = (cx + radius*Math.cos(angle)).toFixed(2);
+      const ey = (cy + radius*Math.sin(angle)).toFixed(2);
+      html += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
+    }
+  });
+  return html;
+}
+
 function drawAtom(z){
   const el = elements.find(e=>e.z===z);
   const svg = document.getElementById('atomSvg');
@@ -4682,26 +4753,11 @@ function drawNoble(z){
   const svg = document.getElementById('noSvg');
   const cx=100, cy=100;
   const neutrons = el.a - el.z;
-  const nShells = el.config.length;
   let html = '';
-  el.config.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    const isOuter = (i === nShells-1);
-    html += `<circle class="mini-atom-shell"${isOuter?' id="noOuterShell"':''} cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-  html += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  html += nucleusDots(cx, cy, el.z, neutrons);
+  html += miniShellsHTML(el.config, cx, cy, 'noOuterShell');
+  html += miniNucleusHTML(cx, cy, el.z, neutrons);
   html += `<g id="noElectrons">`;
-  el.config.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    const n = parseInt(count);
-    for(let k=0;k<n;k++){
-      const angle = (2*Math.PI/n)*k - Math.PI/2;
-      const ex = (cx + radius*Math.cos(angle)).toFixed(2);
-      const ey = (cy + radius*Math.sin(angle)).toFixed(2);
-      html += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
-    }
-  });
+  html += miniElectronsHTML(el.config, cx, cy);
   html += `</g>`;
   svg.innerHTML = html;
   document.getElementById('noNotationA').textContent = el.a;
@@ -4750,22 +4806,9 @@ function drawNeutralAtom(z){
   const cx=100, cy=100;
   const neutrons = el.a - el.z;
   let html = '';
-  el.config.forEach((count,i)=>{
-    const radius = 30 + i*24;
-    html += `<circle class="mini-atom-shell" cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-  html += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  html += nucleusDots(cx, cy, el.z, neutrons);
-  el.config.forEach((count,i)=>{
-    const radius = 30 + i*24;
-    const n = parseInt(count);
-    for(let k=0;k<n;k++){
-      const angle = (2*Math.PI/n)*k - Math.PI/2;
-      const ex = (cx + radius*Math.cos(angle)).toFixed(2);
-      const ey = (cy + radius*Math.sin(angle)).toFixed(2);
-      html += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
-    }
-  });
+  html += miniShellsHTML(el.config, cx, cy);
+  html += miniNucleusHTML(cx, cy, el.z, neutrons);
+  html += miniElectronsHTML(el.config, cx, cy);
   svg.innerHTML = html;
   document.getElementById('heNotationA').textContent = el.a;
   document.getElementById('heNotationZ').textContent = el.z;
@@ -4775,34 +4818,44 @@ function drawNeutralAtom(z){
   resetNeutre();
 }
 
-function playNeutre(){
+function playNeutreParticle(type){
   const svg = document.getElementById('heSvg');
-  const electrons = svg.querySelectorAll('.mini-e');
-  const protons = svg.querySelectorAll('.nuc-dot.proton');
-  const neutrons = svg.querySelectorAll('.nuc-dot.neutron');
-  const legendE = document.getElementById('heLegendE');
-  const legendP = document.getElementById('heLegendP');
-  const legendN = document.getElementById('heLegendN');
-  const label = document.getElementById('heLabel');
-  const caption = document.getElementById('heCaption');
+  stopNeutre();
 
-  function pulse(nodeList, legendEl){
-    nodeList.forEach(el=>{ el.classList.remove('mini-pulse-charge'); void el.offsetWidth; el.classList.add('mini-pulse-charge'); });
-    legendEl.classList.remove('mini-pulse-charge'); void legendEl.offsetWidth; legendEl.classList.add('mini-pulse-charge');
+  let nodeList, legendEls, btnId;
+  if(type === 'proton'){
+    nodeList = svg.querySelectorAll('.nuc-dot.proton');
+    legendEls = [document.getElementById('heLegendP')];
+    btnId = 'heBtn_proton';
+  } else if(type === 'neutron'){
+    nodeList = svg.querySelectorAll('.nuc-dot.neutron');
+    legendEls = [document.getElementById('heLegendN')];
+    btnId = 'heBtn_neutron';
+  } else if(type === 'electron'){
+    nodeList = svg.querySelectorAll('.mini-e');
+    legendEls = [document.getElementById('heLegendE')];
+    btnId = 'heBtn_electron';
+  } else if(type === 'nucleon'){
+    nodeList = svg.querySelectorAll('.nuc-dot.proton, .nuc-dot.neutron');
+    legendEls = [document.getElementById('heLegendP'), document.getElementById('heLegendN')];
+    btnId = 'heBtn_nucleon';
   }
 
-  resetNeutre();
-  pulse(electrons, legendE);
-  setTimeout(()=>pulse(protons, legendP), 1800);
-  setTimeout(()=>pulse(neutrons, legendN), 3600);
-  setTimeout(()=>{ label.classList.add('show'); caption.classList.add('show'); }, 5400);
+  nodeList.forEach(el=>el.classList.add('mini-pulse-charge-inf'));
+  legendEls.forEach(el=>el.classList.add('mini-pulse-charge-inf'));
+  const btn = document.getElementById(btnId);
+  if(btn) btn.classList.add('active');
 }
-function resetNeutre(){
+
+function stopNeutre(){
   const svg = document.getElementById('heSvg');
-  svg.querySelectorAll('.mini-e, .nuc-dot').forEach(el=>el.classList.remove('mini-pulse-charge'));
-  ['heLegendE','heLegendP','heLegendN'].forEach(id=>document.getElementById(id).classList.remove('mini-pulse-charge'));
-  document.getElementById('heLabel').classList.remove('show');
-  document.getElementById('heCaption').classList.remove('show');
+  svg.querySelectorAll('.mini-pulse-charge-inf').forEach(el=>el.classList.remove('mini-pulse-charge-inf'));
+  ['heLegendE','heLegendP','heLegendN'].forEach(id=>document.getElementById(id).classList.remove('mini-pulse-charge-inf'));
+  document.querySelectorAll('.mini-particle-btn').forEach(b=>b.classList.remove('active'));
+}
+
+function resetNeutre(){
+  stopNeutre();
 }
 drawNeutralAtom(2);
 
@@ -4825,15 +4878,15 @@ function drawCation(z){
   const gasNoble = gasNobleNameFromShellSum(afterSum);
   const nShellsBefore = beforeConfig.length;
 
-  let htmlB = '';
+  // Panneau gauche : atome neutre, strictement statique (son cortège n'est jamais modifié).
+  // Les électrons voués à partir sont juste repérés (id) pour être signalés par un clignotement
+  // et une flèche vers l'extérieur, sans jamais quitter leur position dans ce schéma.
+  let htmlB = `<defs><marker id="catArrowHead" markerWidth="6" markerHeight="6" refX="4" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--bleu)"></path></marker></defs>`;
+  htmlB += miniShellsHTML(beforeConfig, cx, cy);
+  htmlB += miniNucleusHTML(cx, cy, el.z, neutrons);
+  let arrowsHtml = '';
   beforeConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    htmlB += `<circle class="mini-atom-shell" cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-  htmlB += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  htmlB += nucleusDots(cx, cy, el.z, neutrons);
-  beforeConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
+    const radius = miniShellRadius(i);
     const isOuter = (i === nShellsBefore-1);
     for(let k=0;k<count;k++){
       const angle = (2*Math.PI/count)*k - Math.PI/2;
@@ -4841,36 +4894,30 @@ function drawCation(z){
       const ey = (cy + radius*Math.sin(angle)).toFixed(2);
       const idAttr = isOuter && k < lost ? ` id="catOuterE${k}"` : '';
 
-const dx = (Math.cos(angle) * 90).toFixed(2);
-const dy = (Math.sin(angle) * 90).toFixed(2);
+      htmlB += `<circle class="mini-e"${idAttr} cx="${ex}" cy="${ey}" r="5"></circle>`;
 
-htmlB += `<circle class="mini-e"${idAttr}
-  cx="${ex}" cy="${ey}" r="5"
-  data-dx="${dx}" data-dy="${dy}"></circle>`;
+      if(isOuter && k < lost){
+        const r2 = Math.min(radius+22, MINI_SAFE_R);
+        const r1 = Math.min(radius+7, r2-8);
+        const x1 = (cx + r1*Math.cos(angle)).toFixed(2);
+        const y1 = (cy + r1*Math.sin(angle)).toFixed(2);
+        const x2 = (cx + r2*Math.cos(angle)).toFixed(2);
+        const y2 = (cy + r2*Math.sin(angle)).toFixed(2);
+        arrowsHtml += `<line class="mini-arrow-depart" id="catArrowOut${k}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--bleu)" stroke-width="2" marker-end="url(#catArrowHead)"></line>`;
+      }
     }
   });
+  htmlB += arrowsHtml;
   document.getElementById('catSvgBefore').innerHTML = htmlB;
-  document.querySelectorAll('#catSvgBefore [id^="catOuterE"]').forEach(el=>el.style.opacity='1');
 
-  let htmlA = '';
-  afterConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    htmlA += `<circle class="mini-atom-shell" cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-  const emptyRadius = 30 + afterConfig.length*25;
+  // Panneau droit : ion, déjà dans sa configuration finale, avec une case vide
+  // (dashed) qui matérialise la place laissée libre par l'électron perdu.
+  let htmlA = miniShellsHTML(afterConfig, cx, cy);
+  const emptyRadius = miniShellRadius(afterConfig.length);
   htmlA += `<circle class="mini-slot-empty" cx="${cx}" cy="${cy}" r="${emptyRadius}"></circle>`;
-  htmlA += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  htmlA += nucleusDots(cx, cy, el.z, neutrons);
-  afterConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    for(let k=0;k<count;k++){
-      const angle = (2*Math.PI/count)*k - Math.PI/2;
-      const ex = (cx + radius*Math.cos(angle)).toFixed(2);
-      const ey = (cy + radius*Math.sin(angle)).toFixed(2);
-      htmlA += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
-    }
-  });
-  htmlA += `<circle class="mini-slot-empty" cx="${cx}" cy="${(cy-emptyRadius).toFixed(2)}" r="5"></circle>`;
+  htmlA += miniNucleusHTML(cx, cy, el.z, neutrons);
+  htmlA += miniElectronsHTML(afterConfig, cx, cy);
+  htmlA += `<circle class="mini-slot-empty" id="catSlotEmpty" cx="${cx}" cy="${(cy-emptyRadius).toFixed(2)}" r="5"></circle>`;
   document.getElementById('catSvgAfter').innerHTML = htmlA;
 
   document.getElementById('catABefore').textContent = el.a;
@@ -4898,50 +4945,36 @@ function playCation(){
 
   resetCation();
 
-  // Les électrons quittent visiblement l'atome neutre.
-  // Le schéma de droite n'apparaît qu'une fois le mouvement terminé.
-  let lastDelay = 0;
-
+  // 1. On signale le/les électron(s) voué(s) à partir : clignotement de l'électron
+  //    + flèche clignotante vers l'extérieur. Le cortège de l'atome neutre n'est
+  //    jamais déplacé ni modifié : l'atome reste l'atome.
   for(let k=0; k<lost; k++){
     const outerE = document.getElementById(`catOuterE${k}`);
-
-    if(outerE){
-      const dx = outerE.dataset.dx;
-      const dy = outerE.dataset.dy;
-
-      outerE.style.setProperty('--fly-x', `${dx}px`);
-      outerE.style.setProperty('--fly-y', `${dy}px`);
-      outerE.classList.remove('mini-fly-away');
-      void outerE.offsetWidth;
-
-      const delay = k * 220;
-      lastDelay = delay;
-      setTimeout(()=>{
-        outerE.classList.add('mini-fly-away');
-      }, delay);
-    }
+    const arrowOut = document.getElementById(`catArrowOut${k}`);
+    if(outerE) outerE.classList.add('mini-e-departing');
+    if(arrowOut) arrowOut.classList.add('show');
   }
 
-  // Après le départ du dernier électron, on affiche l'ion.
-  const movementTime = 1000;
+  // 2. Une fois le signal terminé, on révèle l'ion (déjà dans sa configuration finale)
+  //    avec la case vide qui clignote à l'endroit laissé libre.
+  const signalTime = 1500;
   setTimeout(()=>{
     arrow.classList.add('show');
-  }, lastDelay + movementTime);
-
-  setTimeout(()=>{
     after.classList.add('show');
-  }, lastDelay + movementTime + 300);
+    const slot = document.getElementById('catSlotEmpty');
+    if(slot) slot.classList.add('mini-slot-blink');
+  }, signalTime);
 }
 
 function resetCation(){
   const svgB = document.getElementById('catSvgBefore');
-  svgB.querySelectorAll('.mini-e, .nuc-dot').forEach(el=>el.classList.remove('mini-pulse-charge'));
+  svgB.querySelectorAll('.mini-e, .nuc-dot').forEach(el=>el.classList.remove('mini-pulse-charge','mini-e-departing'));
+  svgB.querySelectorAll('.mini-arrow-depart').forEach(el=>el.classList.remove('show'));
   ['catLegendE','catLegendP','catLegendN'].forEach(id=>document.getElementById(id).classList.remove('mini-pulse-charge'));
-document.querySelectorAll('[id^="catOuterE"]').forEach(el=>{
-  el.classList.remove('mini-fly-away');
-});
   document.getElementById('catArrow').classList.remove('show');
   document.getElementById('catPanelAfter').classList.remove('show');
+  const slot = document.getElementById('catSlotEmpty');
+  if(slot) slot.classList.remove('mini-slot-blink');
 }
 drawCation(11);
 
@@ -4957,62 +4990,40 @@ function drawAnion(z){
   const afterConfig = beforeConfig.slice();
   afterConfig[afterConfig.length-1] += gain;
 
-  let htmlB = '';
-
-  beforeConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    htmlB += `<circle class="mini-atom-shell" cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-
-  htmlB += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  htmlB += nucleusDots(cx, cy, el.z, neutrons);
-
-  beforeConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    for(let k=0;k<count;k++){
-      const angle = (2*Math.PI/count)*k - Math.PI/2;
-      const ex = (cx + radius*Math.cos(angle)).toFixed(2);
-      const ey = (cy + radius*Math.sin(angle)).toFixed(2);
-      htmlB += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
-    }
-  });
-
-  /* Les nouveaux électrons arrivent radialement vers leur place. */
-  const outerRadius = 30 + (beforeConfig.length-1)*25;
-  const beforeOuterCount = beforeConfig[beforeConfig.length-1];
-  const finalOuterCount = beforeOuterCount + gain;
-
-  for(let k=0;k<gain;k++){
-    const targetIndex = beforeOuterCount + k;
-    const angle = (2*Math.PI/finalOuterCount)*targetIndex - Math.PI/2;
-    const ex = (cx + outerRadius*Math.cos(angle)).toFixed(2);
-    const ey = (cy + outerRadius*Math.sin(angle)).toFixed(2);
-    const flyX = (Math.cos(angle)*90).toFixed(2);
-    const flyY = (Math.sin(angle)*90).toFixed(2);
-
-    htmlB += `<circle class="mini-e anion-incoming" id="anionIncomingE${k}"
-      cx="${ex}" cy="${ey}" r="5"
-      data-fly-x="${flyX}" data-fly-y="${flyY}"></circle>`;
-  }
-
+  // Panneau gauche : atome neutre, strictement statique. Aucun électron n'y apparaît
+  // ni n'en part visuellement : son cortège n'est jamais modifié.
+  let htmlB = miniShellsHTML(beforeConfig, cx, cy);
+  htmlB += miniNucleusHTML(cx, cy, el.z, neutrons);
+  htmlB += miniElectronsHTML(beforeConfig, cx, cy);
   document.getElementById('anionSvgBefore').innerHTML = htmlB;
-  document.querySelectorAll('#anionSvgBefore .anion-incoming').forEach(el=>el.style.opacity='0');
 
-  let htmlA = '';
-  afterConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
-    htmlA += `<circle class="mini-atom-shell" cx="${cx}" cy="${cy}" r="${radius}"></circle>`;
-  });
-  htmlA += `<circle class="mini-atom-nucleus" cx="${cx}" cy="${cy}" r="17" fill="#fff" stroke="var(--gris-bord)" stroke-width="1"></circle>`;
-  htmlA += nucleusDots(cx, cy, el.z, neutrons);
+  // Panneau droit : ion. Les places des nouveaux électrons sont d'abord des cases vides
+  // (dashed) qui clignotent, puis les électrons y "arrivent" visuellement — uniquement
+  // dans ce schéma de l'ion, jamais dans celui de l'atome.
+  let htmlA = miniShellsHTML(afterConfig, cx, cy);
+  htmlA += miniNucleusHTML(cx, cy, el.z, neutrons);
+
+  const beforeOuterCount = beforeConfig[beforeConfig.length-1];
 
   afterConfig.forEach((count,i)=>{
-    const radius = 30 + i*25;
+    const radius = miniShellRadius(i);
+    const isOuter = (i === afterConfig.length-1);
     for(let k=0;k<count;k++){
       const angle = (2*Math.PI/count)*k - Math.PI/2;
       const ex = (cx + radius*Math.cos(angle)).toFixed(2);
       const ey = (cy + radius*Math.sin(angle)).toFixed(2);
-      htmlA += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
+      const isNew = isOuter && k >= beforeOuterCount;
+      if(isNew){
+        const newIndex = k - beforeOuterCount;
+        const rStart = Math.min(radius+40, MINI_SAFE_R);
+        const flyDist = rStart - radius;
+        const flyX = (Math.cos(angle)*flyDist).toFixed(2);
+        const flyY = (Math.sin(angle)*flyDist).toFixed(2);
+        htmlA += `<circle class="mini-slot-empty" id="anionSlot${newIndex}" cx="${ex}" cy="${ey}" r="5"></circle>`;
+        htmlA += `<circle class="mini-e anion-incoming" id="anionIncomingE${newIndex}" cx="${ex}" cy="${ey}" r="5" data-fly-x="${flyX}" data-fly-y="${flyY}" style="opacity:0"></circle>`;
+      } else {
+        htmlA += `<circle class="mini-e" cx="${ex}" cy="${ey}" r="5"></circle>`;
+      }
     }
   });
 
@@ -5050,39 +5061,44 @@ function playAnion(){
 
   resetAnion();
 
-  let lastDelay = 0;
-
+  // 1. On révèle directement l'ion, avec la ou les case(s) vide(s) qui clignote(nt)
+  //    à l'emplacement du/des futur(s) électron(s). L'atome neutre (à gauche) n'est
+  //    jamais montré comme perdant ou recevant quoi que ce soit.
+  arrow.classList.add('show');
+  after.classList.add('show');
   for(let k=0; k<gain; k++){
-    const inE = document.getElementById(`anionIncomingE${k}`);
-
-    if(inE){
-      inE.style.setProperty('--fly-x', `${inE.dataset.flyX}px`);
-      inE.style.setProperty('--fly-y', `${inE.dataset.flyY}px`);
-      inE.classList.remove('anion-fly-in');
-      void inE.offsetWidth;
-
-      const delay = k * 220;
-      lastDelay = delay;
-      setTimeout(()=>{
-        inE.classList.add('anion-fly-in');
-      }, delay);
-    }
+    const slot = document.getElementById(`anionSlot${k}`);
+    if(slot) slot.classList.add('mini-slot-blink');
   }
 
-  // Le nouvel ion n'est montré qu'après l'arrivée du dernier électron.
-  const movementTime = 1000;
+  // 2. Puis l'électron "arrive" visuellement — uniquement dans le schéma de l'ion.
+  const signalTime = 1500;
   setTimeout(()=>{
-    arrow.classList.add('show');
-  }, lastDelay + movementTime);
-
-  setTimeout(()=>{
-    after.classList.add('show');
-  }, lastDelay + movementTime + 300);
+    for(let k=0; k<gain; k++){
+      const slot = document.getElementById(`anionSlot${k}`);
+      const inE = document.getElementById(`anionIncomingE${k}`);
+      if(slot) slot.style.opacity = '0';
+      if(inE){
+        inE.style.setProperty('--fly-x', `${inE.dataset.flyX}px`);
+        inE.style.setProperty('--fly-y', `${inE.dataset.flyY}px`);
+        inE.classList.remove('anion-fly-in');
+        void inE.offsetWidth;
+        inE.style.opacity = '1';
+        const delay = k * 220;
+        setTimeout(()=>{ inE.classList.add('anion-fly-in'); }, delay);
+      }
+    }
+  }, signalTime);
 }
 
 function resetAnion(){
   document.querySelectorAll('.anion-incoming').forEach(el=>{
     el.classList.remove('anion-fly-in');
+    el.style.opacity = '0';
+  });
+  document.querySelectorAll('[id^="anionSlot"]').forEach(el=>{
+    el.classList.remove('mini-slot-blink');
+    el.style.opacity = '1';
   });
   document.getElementById('anionArrow').classList.remove('show');
   document.getElementById('anionPanelAfter').classList.remove('show');

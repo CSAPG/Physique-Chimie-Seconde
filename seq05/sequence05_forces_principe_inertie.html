@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Séquence 05 — Forces et principe d'inertie</title>
-<link rel="stylesheet" href="../assets/style-animations.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style-animations.css">
 <style>
+
   :root{
     --orange:#E8590C;
     --orange-light:#FFA94D;
@@ -328,11 +330,10 @@
     font-size:0.98rem;
   }
   select.blank, input.blank{
-    border:none;
-    border-bottom:2px solid var(--orange);
-    background:var(--orange-pale);
-    padding:5px 10px;
-    border-radius:6px 6px 0 0;
+    border:1px solid var(--border);
+    background:#fff;
+    padding:6px 8px;
+    border-radius:6px;
     font-size:0.95rem;
     font-family:inherit;
     color:var(--black);
@@ -515,6 +516,117 @@
     body{padding:6px;}
     .wrap{padding:0 12px 50px;}
   }
+
+  /* ---------- Escape game ---------- */
+  .escape-intro{
+    background:linear-gradient(135deg, var(--bleu) 0%, #1e4466 100%);
+    color:#fff;
+    border-radius:14px;
+    padding:22px 26px;
+    margin:0 0 20px;
+    text-align:center;
+  }
+  .escape-intro h3{margin:0 0 8px; font-family:"Outfit",sans-serif; font-size:1.2rem;}
+  .escape-intro p{margin:0; font-size:0.92rem; opacity:0.95;}
+  .escape-lock{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:0 0 24px;
+  }
+  .code-box{
+    width:64px;
+    height:64px;
+    border:2.5px solid var(--gris-bord);
+    background:#fff;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Outfit",sans-serif;
+    font-size:1.6rem;
+    font-weight:800;
+    color:var(--texte-léger);
+    transition:all 0.3s;
+  }
+  .code-box-wrap{position:relative; display:flex; flex-direction:column; align-items:center; padding-top:16px;}
+  .code-box-wrap .code-label{
+    font-size:0.66rem;
+    font-weight:700;
+    color:var(--texte-léger);
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    margin-bottom:4px;
+  }
+  .code-box.solved{
+    border-color:var(--vert);
+    background:var(--vert-clair);
+    color:var(--vert);
+    transform:scale(1.05);
+  }
+  .enigme-box{
+    border:1.5px solid var(--gris-bord);
+    border-radius:14px;
+    padding:18px 20px;
+    margin:0 0 20px;
+    background:#fff;
+  }
+  .enigme-box.solved{border-color:var(--vert); background:var(--vert-clair);}
+  .enigme-num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:var(--bleu);
+    color:#fff;
+    font-weight:800;
+    font-size:0.85rem;
+    margin-right:8px;
+    flex-shrink:0;
+  }
+  .enigme-box.solved .enigme-num{background:var(--vert);}
+  .enigme-title{display:flex; align-items:center; font-weight:700; color:var(--bleu); font-size:1rem; margin:0 0 10px;}
+  .enigme-box.solved .enigme-title{color:var(--vert);}
+  .enigme-digit-tag{
+    display:inline-block;
+    margin-left:auto;
+    background:var(--gris-fond);
+    border:1px dashed var(--gris-bord);
+    border-radius:8px;
+    padding:2px 10px;
+    font-size:0.78rem;
+    font-weight:700;
+    color:var(--texte-léger);
+  }
+  .enigme-box.solved .enigme-digit-tag{background:var(--vert-clair); border-color:var(--vert); color:var(--vert); border-style:solid;}
+  .escape-final{
+    text-align:center;
+    padding:22px 20px;
+    border-radius:14px;
+    border:2px dashed var(--gris-bord);
+    background:var(--gris-fond);
+  }
+  .escape-final.unlocked{
+    border:2px solid var(--vert);
+    background:var(--vert-clair);
+  }
+  .code-input-row{display:flex; justify-content:center; gap:10px; flex-wrap:wrap; align-items:center; margin:14px 0;}
+  input.code-final-input{
+    width:130px;
+    text-align:center;
+    letter-spacing:0.25em;
+    font-size:1.2rem;
+    font-weight:800;
+    border:1.5px solid var(--gris-bord);
+    border-radius:8px;
+    padding:8px 6px;
+    font-family:"Outfit",sans-serif;
+  }
+  .escape-treasure{display:none; margin-top:14px;}
+  .escape-treasure.show{display:block; animation:fadein 0.5s ease;}
 </style>
 </head>
 <body>
@@ -536,6 +648,8 @@
     <div class="apple-icon" style="margin:0;flex-shrink:0;" title="Pomme : forces et principe d'inertie">
       <div class="apple-canopy"></div>
       <div class="apple-trunk"></div>
+      <div class="apple-fruit-static apple-fruit-static-1"></div>
+      <div class="apple-fruit-static apple-fruit-static-2"></div>
       <div class="apple-fruit"></div>
     </div>
   </div>
@@ -1232,7 +1346,6 @@
        </div>
      </div>
    </div>
-  </div>
 
   <h3>Questions</h3>
 
@@ -1509,7 +1622,6 @@
       Π = ρ<sub>fluide</sub> × V<sub>immergé</sub> × g
     </div>
     <p class="feedback" id="correctionFormuleArchiUnites" style="display:none; font-weight:400;">avec Π en N, ρ<sub>fluide</sub> en kg·m⁻³, V<sub>immergé</sub> en m³ et g en N·kg⁻¹.</p>
-  </div>
   </div>
   </div>
 
@@ -1805,11 +1917,14 @@
 
   <div class="sub-tab-content active" id="exo-sub-facile">
   <div class="exo-tabs-nav">
-    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-facile-pissenlit')">La graine de pissenlit <span class="exo-tab-stars">★★★</span></button>
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-facile-voilier')">Le voilier et ses actions <span class="exo-tab-stars">★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-poids')">Le modèle du poids <span class="exo-tab-stars">★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-pissenlit')">La graine de pissenlit <span class="exo-tab-stars">★★★</span></button>
   </div>
 
-  <div class="exo-item-content active" id="exo-facile-pissenlit">
+  <div class="exo-item-content" id="exo-facile-pissenlit">
   <h3>🪶 La graine de pissenlit</h3>
+      <img src="exercices/exfp.png" alt="Graine de pissenlit emportée par le vent" style="float:right; width:150px; max-width:35%; border-radius:8px; margin:0 0 12px 16px;">
       <p style="font-size:0.92rem;">Dans le référentiel terrestre, une graine de pissenlit chute verticalement à <strong>vitesse constante</strong>.</p>
       <div class="qa-doc">
         <p class="qa-question"><strong>1.</strong> Que peut-on en déduire sur la force <span class="vec">F</span><sub>air</sub> exercée par l'air sur la graine ?</p>
@@ -1838,18 +1953,630 @@
         <strong>2.</strong> Sans air, la graine ne serait soumise qu'à son poids : elle serait en <strong>chute libre</strong>. Les forces ne se compenseraient plus (il n'y aurait que <span class="vec">P</span>), donc, d'après le principe d'inertie, son vecteur vitesse varierait : son mouvement serait accéléré.
       </div>
   </div>
+
+  <div class="exo-item-content active" id="exo-facile-voilier">
+  <h3>⛵ Le voilier et ses actions mécaniques</h3>
+      <p style="font-size:0.92rem;">Le système étudié est le <strong>voilier</strong>. Identifie les actions mécaniques qui s'exercent sur lui.</p>
+      <div class="canvas-frame">
+        <img src="exercices/exf1.png" alt="Régate de voiliers" style="max-width:100%; border-radius:6px;">
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Le vent gonfle les voiles et fait avancer le bateau. Comment qualifier cette action exercée par l'air sur le voilier ?</p>
+        <select class="dropdown qcm-select" id="qcmVoilier1" data-correct="contact">
+          <option value="">— choisir une réponse —</option>
+          <option value="contact">C'est une action de contact.</option>
+          <option value="distance">C'est une action à distance.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Le voilier flotte et glisse sur l'océan. Comment qualifier l'action exercée par l'eau sur le voilier ?</p>
+        <select class="dropdown qcm-select" id="qcmVoilier2" data-correct="contact">
+          <option value="">— choisir une réponse —</option>
+          <option value="distance">C'est une action à distance.</option>
+          <option value="contact">C'est une action de contact.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Le voilier est attiré vers le centre de la Terre. Comment qualifier l'action exercée par la Terre sur le voilier ?</p>
+        <select class="dropdown qcm-select" id="qcmVoilier3" data-correct="distance">
+          <option value="">— choisir une réponse —</option>
+          <option value="contact">C'est une action de contact.</option>
+          <option value="distance">C'est une action à distance.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> Quel est le diagramme objets-interactions (DOI) correct pour le voilier ?</p>
+        <select class="dropdown qcm-select" id="qcmVoilier4" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Vent ⟶ Voilier ⟵ Terre (uniquement)</option>
+          <option value="b">Vent — Voilier — Eau (trait plein) et Terre ┄ Voilier (pointillés)</option>
+          <option value="c">Vent ┄ Voilier ┄ Eau (pointillés)</option>
+        </select>
+      </div>
+
+      <button class="action-btn solid" id="checkVoilier">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackVoilier"></div>
+      <div class="qa-correction" id="correctionVoilier">
+        <strong>1.</strong> L'air (vent) est un fluide en mouvement qui pousse directement sur la surface de la voile : c'est une action de <strong>contact</strong>.<br><br>
+        <strong>2.</strong> La coque touche physiquement la surface de l'eau (poussée d'Archimède, frottements) : c'est une action de <strong>contact</strong>.<br><br>
+        <strong>3.</strong> La Terre attire le voilier vers son centre sans contact matériel : c'est une action à <strong>distance</strong> (le poids).<br><br>
+        <strong>4.</strong> Dans un DOI, les actions de contact (Vent, Eau) sont en trait plein, les actions à distance (Terre) en pointillés.
+      </div>
+  </div>
+
+  <div class="exo-item-content" id="exo-facile-poids">
+  <h3>⚖️ Le modèle du poids</h3>
+      <div class="box box-rappel">
+        <p style="margin-bottom:0;">Déterminer les quatre caractéristiques du poids d'une balle de masse <strong>m = 50 g</strong>.<br>
+        <em>Donnée :</em> intensité de la pesanteur terrestre g = 9,8 N/kg.</p>
+      </div>
+
+      <div class="canvas-frame" style="padding:14px;">
+        <svg viewBox="0 0 220 190" style="width:150px; max-width:60%; display:block; margin:0 auto;">
+          <line x1="70" y1="14" x2="150" y2="14" stroke="#5c5c5c" stroke-width="4" stroke-linecap="round"/>
+          <line x1="110" y1="14" x2="110" y2="72" stroke="#5c5c5c" stroke-width="2"/>
+          <circle cx="110" cy="92" r="20" fill="#FFF4E8" stroke="var(--orange)" stroke-width="2.5"/>
+          <circle cx="110" cy="92" r="2.5" fill="var(--orange)"/>
+          <line x1="110" y1="92" x2="110" y2="160" stroke="var(--orange)" stroke-width="3"/>
+          <path d="M110,160 L100,146 L120,146 Z" fill="var(--orange)"/>
+          <text x="128" y="150" font-family="Nunito, sans-serif" font-style="italic" font-weight="700" font-size="18" fill="var(--orange)">P</text>
+        </svg>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Où se situe le point d'application du poids de la balle ?</p>
+        <input type="text" class="blank" id="poidsPoint" placeholder="…" style="width:100%;">
+        <div class="feedback" id="feedback-poidsPoint"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> Quelle est la direction de la droite d'action du poids ?</p>
+        <input type="text" class="blank" id="poidsDirection" placeholder="…" style="width:100%;">
+        <div class="feedback" id="feedback-poidsDirection"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Quel est le sens du poids ?</p>
+        <input type="text" class="blank" id="poidsSens" placeholder="…" style="width:100%;">
+        <div class="feedback" id="feedback-poidsSens"></div>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> Détermine la valeur du poids (méthode FCR).</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule :</p>
+        <input type="text" class="blank" id="poidsFormule" placeholder="Ex : A = B × C" style="width:100%;">
+        <div class="feedback" id="feedback-poidsFormule"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul :</p>
+        <input type="text" class="blank" id="poidsCalcul" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-poidsCalcul"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat (avec unité) :</p>
+        <input type="text" class="blank" id="poidsResultat" placeholder="Ex : 10 unité" style="width:100%;">
+        <div class="feedback" id="feedback-poidsResultat"></div>
+      </div>
+
+      <button class="action-btn solid" id="checkPoids">✅ Vérifier et corriger</button>
+      <div class="qa-correction" id="correctionPoids">
+        <strong>1.</strong> Le centre de gravité (centre d'inertie) de la balle.<br><br>
+        <strong>2.</strong> Verticale.<br><br>
+        <strong>3.</strong> Vers le bas (vers le centre de la Terre).<br><br>
+        <strong>4.</strong> Formule : P = m × g. Calcul : la masse doit être en kg (50 g = 0,050 kg), donc P = 0,050 × 9,8. Résultat : P = <strong>0,49 N</strong>
+      </div>
+  </div>
   </div>
 
   <div class="sub-tab-content" id="exo-sub-inter">
-  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+  <div class="exo-tabs-nav">
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-inter-poing-table')">Poing et table <span class="exo-tab-stars">★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-spatiale')">Sortie spatiale <span class="exo-tab-stars">★★★</span></button>
   </div>
 
+  <div class="exo-item-content active" id="exo-inter-poing-table">
+  <h3>👊 Analyse des forces : poing et table</h3>
+      <div class="canvas-frame">
+        <img src="exercices/exf2.png" alt="Poing fermé sur une table" style="max-width:40%; border-radius:6px;">
+      </div>
+      <p style="font-size:0.92rem;">Un poing fermé appuie sur une table. Analysons les deux forces en jeu :<br>
+      — <span class="vec">F</span><sub>poing/table</sub> : l'action exercée par le poing sur la table.<br>
+      — <span class="vec">F</span><sub>table/poing</sub> : l'action exercée par la table sur le poing (réaction normale).</p>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Le point d'application</p>
+        <select class="dropdown qcm-select" id="qcmPT1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Les deux forces s'appliquent au même endroit (au niveau du contact).</option>
+          <option value="b"><span class="vec">F</span>poing/table s'applique sur la table, et <span class="vec">F</span>table/poing s'applique sur le poing.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> La direction (la droite d'action)</p>
+        <select class="dropdown qcm-select" id="qcmPT2" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elles ont la même direction (verticale).</option>
+          <option value="b">Elles ont des directions perpendiculaires.</option>
+          <option value="c">Elles n'ont pas la même direction car ce sont deux objets différents.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Le sens</p>
+        <select class="dropdown qcm-select" id="qcmPT3" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Elles ont le même sens (vers le bas).</option>
+          <option value="b">Elles ont le même sens (vers le haut).</option>
+          <option value="c">Elles ont des sens opposés (une vers le bas, l'autre vers le haut).</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> La valeur (l'intensité)</p>
+        <select class="dropdown qcm-select" id="qcmPT4" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">La force du poing est plus grande car il appuie de tout son poids.</option>
+          <option value="b">La force de la table est plus grande car la table est un matériau rigide.</option>
+          <option value="c">Les deux forces ont exactement la même valeur.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>5.</strong> Bilan : quel principe illustre cette situation ?</p>
+        <select class="dropdown qcm-select" id="qcmPT5" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le principe d'inertie (1ère loi de Newton).</option>
+          <option value="b">Le principe des actions réciproques (3ème loi de Newton).</option>
+        </select>
+      </div>
+
+      <button class="action-btn solid" id="checkPoingTable">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackPoingTable"></div>
+      <div class="qa-correction" id="correctionPoingTable">
+        <strong>1.</strong> Une force modélise l'action d'un Acteur sur un Receveur : le point d'application se trouve toujours sur le receveur. <span class="vec">F</span>poing/table s'applique donc sur la table, et <span class="vec">F</span>table/poing sur le poing.<br><br>
+        <strong>2.</strong> Les deux forces agissent selon la même droite d'action : la verticale passant par la zone de contact.<br><br>
+        <strong>3.</strong> Le poing pousse la table vers le bas, la table retient le poing en le poussant vers le haut : les sens sont opposés (sinon le poing traverserait la table).<br><br>
+        <strong>4.</strong> D'après le principe des actions réciproques, les deux forces ont rigoureusement la même valeur, quelle que soit la masse ou la nature des objets : <span class="vec">F</span>poing/table = <span class="vec">F</span>table/poing.<br><br>
+        <strong>5.</strong> C'est le <strong>principe des actions réciproques</strong> (3ᵉ loi de Newton) : si A exerce une force sur B, alors B exerce sur A une force de même direction, même intensité, mais de sens opposé.
+      </div>
+  </div>
+
+  <div class="exo-item-content" id="exo-inter-spatiale">
+  <h3>🧑‍🚀 Sortie extra-véhiculaire (1965)</h3>
+      <div class="canvas-frame">
+        <img src="exercices/exf3.png" alt="L'astronaute Alexeï Leonov relié à sa capsule spatiale" style="max-width:60%; border-radius:6px;">
+      </div>
+      <p style="font-size:0.92rem;">Le film <em>The Spacewalker</em> (Dmitri Kiselev, 2018) raconte l'aventure d'Alexeï Leonov, premier homme à effectuer une sortie extra-véhiculaire dans l'espace le 18 mars 1965, relié à sa capsule par un filin de 4,5 m.</p>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Lorsque l'astronaute est amarré à la capsule par le filin <strong>tendu</strong>, quelles sont les caractéristiques de la force exercée par le filin (<span class="vec">F</span><sub>filin/astronaute</sub>) ?</p>
+        <select class="dropdown qcm-select" id="qcmSpatiale1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Direction : verticale / Sens : vers le centre de la Terre.</option>
+          <option value="b">Direction : le long du filin / Sens : de l'astronaute vers la capsule.</option>
+          <option value="c">Direction : le long du filin / Sens : de la capsule vers l'astronaute.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> L'astronaute se dirige vers la station, le filin devient <strong>détendu</strong>. Que dire de l'action mécanique du filin à cet instant ?</p>
+        <select class="dropdown qcm-select" id="qcmSpatiale2" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le filin le repousse vers l'espace (force répulsive).</option>
+          <option value="b">Le filin le tire dans le sens de son mouvement pour l'aider à avancer.</option>
+          <option value="c">Le filin n'exerce plus aucune force sur l'astronaute (force nulle).</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Même à cette altitude, quelle autre force s'exerce en permanence sur l'astronaute, qu'il soit attaché ou non ?</p>
+        <select class="dropdown qcm-select" id="qcmSpatiale3" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">La force gravitationnelle exercée par la Terre (le poids).</option>
+          <option value="b">L'action mécanique du vide spatial.</option>
+          <option value="c">La force de frottement exercée par l'atmosphère.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> Bilan de modélisation : comment classer la force du filin tendu et la force gravitationnelle terrestre ?</p>
+        <select class="dropdown qcm-select" id="qcmSpatiale4" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le filin et la gravité modélisent tous les deux des actions de contact.</option>
+          <option value="b">Le filin = action à distance / La gravité = action de contact.</option>
+          <option value="c">Le filin = action de contact / La gravité = action à distance.</option>
+        </select>
+      </div>
+
+      <button class="action-btn solid" id="checkSpatiale">✅ Vérifier mes réponses</button>
+      <div class="feedback" id="feedbackSpatiale"></div>
+      <div class="qa-correction" id="correctionSpatiale">
+        <strong>1.</strong> Le filin tendu retient l'astronaute (force de traction) : la direction est celle du filin, le sens est orienté vers le point d'attache (la capsule).<br><br>
+        <strong>2.</strong> Un fil ou une corde ne peut exercer une force de tension que s'il est tendu ; dès qu'il est lâche, son action mécanique devient nulle.<br><br>
+        <strong>3.</strong> La Terre attire tous les corps massifs, quelle que soit l'altitude — c'est cette attraction qui maintient l'astronaute et la station en orbite (chute libre permanente).<br><br>
+        <strong>4.</strong> Le filin nécessite un lien matériel direct (contact), tandis que la Terre attire l'astronaute vers son centre sans le toucher (à distance).
+      </div>
+  </div>
+  </div>
+
+
   <div class="sub-tab-content" id="exo-sub-difficile">
-  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+  <div class="exo-tabs-nav">
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-difficile-jupiter')">Peser sur Jupiter <span class="exo-tab-stars">★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-difficile-aikins')">Le saut sans parachute <span class="exo-tab-stars">★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-difficile-jupiter-soleil')">Le Soleil, la Terre et Jupiter <span class="exo-tab-stars">★★★</span></button>
+  </div>
+
+  <div class="exo-item-content active" id="exo-difficile-jupiter">
+  <h3>🪐 Peser sur Jupiter</h3>
+      <p style="font-size:0.92rem;">Au laboratoire, on a mesuré le poids <span class="vec">P</span> d'objets de masse <em>m</em> connue à l'aide d'un dynamomètre, sur la planète <strong>Jupiter</strong>. Les résultats sont rassemblés dans le tableau et le graphique ci-dessous.</p>
+
+      <div class="canvas-frame">
+        <img src="exercices/exd1.png" alt="Tableau et graphique P = f(m) sur Jupiter, et graduations comparées d'un dynamomètre Terre / Jupiter" style="max-width:100%; border-radius:6px;">
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Que peut-on dire de la relation entre le poids <em>P</em> et la masse <em>m</em>, d'après le graphique ?</p>
+        <select class="dropdown qcm-select" id="qcmJupiter1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">P et m ne sont pas liées par une relation simple.</option>
+          <option value="b">P est proportionnel à m : le graphique est une droite passant par l'origine.</option>
+          <option value="c">P est proportionnel à m² : le graphique est une parabole.</option>
+          <option value="d">P diminue quand m augmente.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> En choisissant un point du graphique (masse convertie en kg), détermine la valeur du champ de pesanteur <em>g</em><sub>Jupiter</sub> (méthode FCR).</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule :</p>
+        <input type="text" class="blank" id="jupiterFormule1" placeholder="Ex : A = B / C" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterFormule1"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul (avec les valeurs lues sur le graphique, masse en kg) :</p>
+        <input type="text" class="blank" id="jupiterCalcul1" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterCalcul1"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat (avec unité) :</p>
+        <input type="text" class="blank" id="jupiterResultat1" placeholder="Ex : 10 unité" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterResultat1"></div>
+      </div>
+      <button class="action-btn solid" id="checkJupiter1">✅ Vérifier et corriger</button>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>3.</strong> D'après le tableau des graduations du dynamomètre (colonnes Terre / Jupiter), quel est le rapport constant entre le poids lu sur l'échelle Jupiter et celui lu sur l'échelle Terre, pour une même masse ?</p>
+        <select class="dropdown qcm-select" id="qcmJupiter2" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Le rapport n'est pas constant.</option>
+          <option value="b">Le rapport est constant et vaut environ 2,3.</option>
+          <option value="c">Le rapport est constant et vaut environ 9,8.</option>
+          <option value="d">Le rapport est constant et vaut environ 1.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>4.</strong> À partir de g<sub>Terre</sub> = 9,8 N/kg et du rapport trouvé à la question 3, détermine g<sub>Jupiter</sub> (méthode FCR).</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule :</p>
+        <input type="text" class="blank" id="jupiterFormule2" placeholder="Ex : A = B × C" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterFormule2"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul :</p>
+        <input type="text" class="blank" id="jupiterCalcul2" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterCalcul2"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat (avec unité) :</p>
+        <input type="text" class="blank" id="jupiterResultat2" placeholder="Ex : 10 unité" style="width:100%;">
+        <div class="feedback" id="feedback-jupiterResultat2"></div>
+      </div>
+      <button class="action-btn solid" id="checkJupiter2">✅ Vérifier et corriger</button>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>5.</strong> Les deux méthodes donnent des valeurs proches, mais pas rigoureusement identiques. Quelle est la meilleure explication ?</p>
+        <select class="dropdown qcm-select" id="qcmJupiter3" data-correct="a">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Les incertitudes de mesure et de lecture graphique expliquent le léger écart entre les deux valeurs.</option>
+          <option value="b">L'une des deux méthodes est forcément fausse.</option>
+          <option value="c">Le champ de pesanteur de Jupiter varie d'un instant à l'autre.</option>
+          <option value="d">Les deux méthodes ne mesurent pas la même grandeur.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkJupiter3">✅ Vérifier ma réponse</button>
+      <div class="feedback" id="feedbackJupiter3"></div>
+
+      <div class="qa-correction" id="correctionJupiter">
+        <strong>1.</strong> Le graphique est une droite passant par l'origine : P est proportionnel à m (P = g<sub>Jupiter</sub> × m).<br><br>
+        <strong>2.</strong> Méthode 1 : en prenant par exemple le point (m = 0,870 kg ; P = 20,7 N), g<sub>Jupiter</sub> = P / m = 20,7 / 0,870 ≈ <strong>23,8 N/kg</strong> (toute valeur obtenue à partir d'un point cohérent du graphique, entre environ 23 et 25 N/kg, est acceptée).<br><br>
+        <strong>3.</strong> Dans le tableau des graduations, chaque valeur Jupiter vaut environ 2,3 fois la valeur Terre correspondante (ex. 9,2 / 4 = 2,3 ; 20,7 / 9 = 2,3 ; 23 / 10 = 2,3), ce rapport étant constant : g<sub>Jupiter</sub> / g<sub>Terre</sub> ≈ 2,3.<br><br>
+        <strong>4.</strong> Méthode 2 : g<sub>Jupiter</sub> = 2,3 × g<sub>Terre</sub> = 2,3 × 9,8 ≈ <strong>22,5 N/kg</strong>.<br><br>
+        <strong>5.</strong> Les deux méthodes (≈ 23,8 N/kg et ≈ 22,5 N/kg) donnent des résultats cohérents et proches de la valeur réelle de g<sub>Jupiter</sub> (≈ 24,8 N/kg) : l'écart s'explique par les incertitudes de lecture graphique et d'arrondi des données, pas par une erreur de méthode.
+      </div>
+  </div>
+
+  <div class="exo-item-content" id="exo-difficile-aikins">
+  <h3>🪂 Le saut sans parachute</h3>
+      <div class="canvas-frame">
+        <img src="exercices/exd2.png" alt="Luke Aikins sautant d'un avion sans parachute, le 30 juillet 2016" style="max-width:100%; border-radius:6px;">
+      </div>
+      <p style="font-size:0.92rem;">Le 30 juillet 2016, l'Américain Luke Aikins s'est jeté d'un avion à 7 620 m d'altitude pour venir se réceptionner dans un filet de protection de 30 m par 30 m tendu 60 m au-dessus du sol californien, et tout cela sans parachute !</p>
+
+      <div class="box box-rappel">
+        <p style="margin-bottom:0;"><strong>Données :</strong><br>
+        • constante de gravitation : G = 6,67 × 10⁻¹¹ N·kg⁻²·m²<br>
+        • masse d'Aikins avec son équipement : m = 90,7 kg<br>
+        • masse de la Terre : M<sub>T</sub> = 5,97 × 10²⁴ kg<br>
+        • rayon de la Terre : R<sub>T</sub> = 6,38 × 10³ km<br>
+        • g = 9,78 N·kg⁻¹ à l'altitude de l'avion.</p>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Avec les seules informations ci-dessus, détermine la norme du poids de Luke Aikins lorsqu'il se situe à l'altitude de son avion (départ du saut).</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule :</p>
+        <input type="text" class="blank" id="aikinsFormule1" placeholder="Ex : A = B × C" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsFormule1"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul :</p>
+        <input type="text" class="blank" id="aikinsCalcul1" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsCalcul1"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat (avec unité) :</p>
+        <input type="text" class="blank" id="aikinsResultat1" placeholder="Ex : 10 unité" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsResultat1"></div>
+      </div>
+      <button class="action-btn solid" id="checkAikins1">✅ Vérifier et corriger</button>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>2.</strong> Toujours avec les seules informations ci-dessus, détermine la norme du poids de Luke Aikins au niveau du sol, à l'aide de la loi de gravitation universelle.</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule :</p>
+        <input type="text" class="blank" id="aikinsFormule2" placeholder="Ex : A = G × B × C / D²" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsFormule2"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul (attention aux unités : km à convertir en m) :</p>
+        <input type="text" class="blank" id="aikinsCalcul2" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsCalcul2"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat (avec unité) :</p>
+        <input type="text" class="blank" id="aikinsResultat2" placeholder="Ex : 10 unité" style="width:100%;">
+        <div class="feedback" id="feedback-aikinsResultat2"></div>
+      </div>
+      <button class="action-btn solid" id="checkAikins2">✅ Vérifier et corriger</button>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>3.</strong> En comparant les deux valeurs obtenues, l'intensité de la pesanteur a-t-elle varié sensiblement entre l'altitude de l'avion et le sol ?</p>
+        <select class="dropdown qcm-select" id="qcmAikins3" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Oui, elle a plus que doublé.</option>
+          <option value="b">Non, les deux valeurs sont quasiment identiques (écart inférieur à 1 %).</option>
+          <option value="c">Non, elle est devenue nulle en altitude.</option>
+          <option value="d">Oui, elle a été divisée par deux.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkAikins3">✅ Vérifier ma réponse</button>
+      <div class="feedback" id="feedbackAikins3"></div>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>4.</strong> Aikins est resté un moment immobile dans le filet de protection. Représente la force <span class="vec">R</span> exercée par le filet sur Aikins, sachant que cette force est verticale et que sa norme est égale à 8,9×10² N.</p>
+        <p style="font-size:0.85rem;color:var(--texte-léger); margin-top:8px;">Espace pour le schéma :</p>
+        <div class="box" style="min-height:140px; border:2px dashed var(--gris-bord); background:#fff;"></div>
+      </div>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>5.</strong> Justifie le sens de la force <span class="vec">R</span> que tu as représentée.</p>
+        <select class="dropdown qcm-select" id="qcmAikins5" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">R est dirigée vers le bas, dans le même sens que le poids.</option>
+          <option value="b">Aikins étant immobile, les forces se compensent (réciproque du principe d'inertie) : R est donc dirigée vers le haut, opposée au poids.</option>
+          <option value="c">R est horizontale, car le filet est tendu horizontalement.</option>
+          <option value="d">On ne peut rien dire sur le sens de R.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkAikins5">✅ Vérifier ma réponse</button>
+      <div class="feedback" id="feedbackAikins5"></div>
+
+      <div class="qa-correction" id="correctionAikins">
+        <strong>1.</strong> Formule : P = m × g. Calcul : P = 90,7 × 9,78. Résultat : P ≈ <strong>887 N</strong> (à l'altitude de l'avion).<br><br>
+        <strong>2.</strong> Formule : P = G × M<sub>T</sub> × m / R<sub>T</sub>². Calcul (R<sub>T</sub> = 6,38 × 10³ km = 6,38 × 10⁶ m) : P = 6,67×10⁻¹¹ × 5,97×10²⁴ × 90,7 / (6,38×10⁶)². Résultat : P ≈ <strong>887 N</strong> (au niveau du sol).<br><br>
+        <strong>3.</strong> Les deux valeurs sont quasiment identiques (écart inférieur à 1 %) : à l'échelle de l'altitude d'un avion (quelques km) comparée au rayon terrestre (6 380 km), la distance au centre de la Terre varie très peu, donc g aussi.<br><br>
+        <strong>4.</strong> R est un vecteur vertical, dirigé vers le haut, d'origine le point de contact entre Aikins et le filet, de norme proportionnelle à 8,9×10² N (à comparer à la norme du poids trouvée en 1. et 2., environ 887 N — les deux normes sont cohérentes, aux incertitudes de mesure près).<br><br>
+        <strong>5.</strong> Aikins étant immobile dans le filet, son vecteur vitesse ne varie pas : d'après la réciproque du principe d'inertie, les forces qui s'exercent sur lui se compensent. R (vers le haut) compense donc le poids P (vers le bas) : même direction, sens opposés, normes quasiment égales.
+      </div>
+  </div>
+
+  <div class="exo-item-content" id="exo-difficile-jupiter-soleil">
+  <h3>🌞 Le Soleil, la Terre et Jupiter</h3>
+      <div class="canvas-frame">
+        <img src="exercices/exd3.png" alt="Le Soleil et la Terre, illustration des tailles relatives" style="max-width:100%; border-radius:6px;">
+      </div>
+      <p style="font-size:0.92rem;">Avec les seules données suivantes, comparer la norme de la force d'interaction gravitationnelle exercée par le Soleil sur la Terre à celle exercée par le Soleil sur la planète géante Jupiter. Commenter cette comparaison.</p>
+
+      <div class="box box-rappel">
+        <p style="margin-bottom:0;"><strong>Données :</strong><br>
+        • d<sub>Terre-Soleil</sub> = 1 unité astronomique (ua) et d<sub>Jupiter-Soleil</sub> = 5,2 ua ;<br>
+        • comparaison des masses des planètes : m<sub>Jupiter</sub> = 318 × m<sub>Terre</sub>.</p>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>1.</strong> Quelle expression littérale correspond à la force F<sub>Soleil/Terre</sub> exercée par le Soleil sur la Terre ?</p>
+        <select class="dropdown qcm-select" id="qcmJT1" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">F<sub>Soleil/Terre</sub> = G × M<sub>Soleil</sub> × m<sub>Terre</sub> × d<sub>Terre-Soleil</sub>²</option>
+          <option value="b">F<sub>Soleil/Terre</sub> = G × M<sub>Soleil</sub> × m<sub>Terre</sub> / d<sub>Terre-Soleil</sub>²</option>
+          <option value="c">F<sub>Soleil/Terre</sub> = G × (M<sub>Soleil</sub> + m<sub>Terre</sub>) / d<sub>Terre-Soleil</sub></option>
+          <option value="d">F<sub>Soleil/Terre</sub> = G × M<sub>Soleil</sub> / m<sub>Terre</sub> × d<sub>Terre-Soleil</sub>²</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>2.</strong> En simplifiant le rapport F<sub>Soleil/Jupiter</sub> / F<sub>Soleil/Terre</sub>, quelles grandeurs disparaissent du calcul ?</p>
+        <select class="dropdown qcm-select" id="qcmJT2" data-correct="b">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Les masses des deux planètes.</option>
+          <option value="b">La constante G et la masse du Soleil M<sub>Soleil</sub>.</option>
+          <option value="c">Les distances au Soleil.</option>
+          <option value="d">Rien ne se simplifie.</option>
+        </select>
+      </div>
+
+      <div class="qa-doc">
+        <p class="qa-question"><strong>3.</strong> Calcule la valeur du rapport F<sub>Soleil/Jupiter</sub> / F<sub>Soleil/Terre</sub> (méthode FCR).</p>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Formule (rapport simplifié) :</p>
+        <input type="text" class="blank" id="jtFormule" placeholder="Ex : A/B = (C/D) × (E/F)²" style="width:100%;">
+        <div class="feedback" id="feedback-jtFormule"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Calcul :</p>
+        <input type="text" class="blank" id="jtCalcul" placeholder="Remplacer les lettres par les valeurs" style="width:100%;">
+        <div class="feedback" id="feedback-jtCalcul"></div>
+      </div>
+      <div class="qa-doc">
+        <p class="qa-question">Résultat :</p>
+        <input type="text" class="blank" id="jtResultat" placeholder="Ex : le rapport vaut environ …" style="width:100%;">
+        <div class="feedback" id="feedback-jtResultat"></div>
+      </div>
+      <button class="action-btn solid" id="checkJT3">✅ Vérifier et corriger</button>
+
+      <div class="qa-doc" style="margin-top:18px;">
+        <p class="qa-question"><strong>4.</strong> Comment commenter cette comparaison ?</p>
+        <select class="dropdown qcm-select" id="qcmJT4" data-correct="c">
+          <option value="">— choisir une réponse —</option>
+          <option value="a">Jupiter étant plus loin, la force qu'il subit est forcément plus faible que celle sur la Terre.</option>
+          <option value="b">Les deux forces sont égales, la distance et la masse se compensent exactement.</option>
+          <option value="c">Bien que Jupiter soit 5,2 fois plus loin du Soleil, l'effet de sa masse bien plus grande (×318) l'emporte largement sur l'effet de l'éloignement (÷5,2² ≈ ÷27) : la force sur Jupiter est donc plus grande.</option>
+          <option value="d">La comparaison est impossible sans connaître G et M<sub>Soleil</sub>.</option>
+        </select>
+      </div>
+      <button class="action-btn solid" id="checkJT4">✅ Vérifier ma réponse</button>
+      <div class="feedback" id="feedbackJT4"></div>
+
+      <div class="qa-correction" id="correctionJT">
+        <strong>1.</strong> F<sub>Soleil/Terre</sub> = G × M<sub>Soleil</sub> × m<sub>Terre</sub> / d<sub>Terre-Soleil</sub>² (loi de gravitation universelle).<br><br>
+        <strong>2.</strong> Dans le rapport F<sub>Soleil/Jupiter</sub> / F<sub>Soleil/Terre</sub> = [G×M<sub>Soleil</sub>×m<sub>Jupiter</sub>/d<sub>Jupiter-Soleil</sub>²] / [G×M<sub>Soleil</sub>×m<sub>Terre</sub>/d<sub>Terre-Soleil</sub>²], G et M<sub>Soleil</sub> apparaissent au numérateur et au dénominateur : ils se simplifient.<br><br>
+        <strong>3.</strong> Formule : F<sub>Soleil/Jupiter</sub> / F<sub>Soleil/Terre</sub> = (m<sub>Jupiter</sub>/m<sub>Terre</sub>) × (d<sub>Terre-Soleil</sub>/d<sub>Jupiter-Soleil</sub>)². Calcul : 318 × (1/5,2)². Résultat : le rapport vaut environ <strong>11,8</strong> — la force exercée par le Soleil sur Jupiter est donc environ 11,8 fois plus grande que celle exercée sur la Terre.<br><br>
+        <strong>4.</strong> Bien que Jupiter soit 5,2 fois plus loin du Soleil que la Terre (ce qui tendrait à diminuer la force, en 1/d²), sa masse est 318 fois plus grande que celle de la Terre : l'effet de la masse l'emporte largement sur l'effet de la distance, et la force gravitationnelle exercée par le Soleil sur Jupiter est donc plus grande que celle exercée sur la Terre.
+      </div>
+  </div>
   </div>
 
   <div class="sub-tab-content" id="exo-sub-escape">
-  <div class="box" style="text-align:center;">🚧 Contenu en cours de construction.</div>
+
+  <div class="escape-intro">
+    <h3>🔐 Escape Game — Le coffre du laboratoire</h3>
+    <p>Un vieux coffre est resté fermé dans le laboratoire de physique... Résous les <strong>4 énigmes</strong> ci-dessous sur les forces et le principe d'inertie : chacune te donnera <strong>un chiffre</strong> du code à 4 chiffres. Trouve-les tous pour ouvrir le coffre final !</p>
+  </div>
+
+  <div class="escape-lock">
+    <div class="code-box-wrap">
+      <span class="code-label">Énigme 1</span>
+      <div class="code-box" id="escDigit1">?</div>
+    </div>
+    <div class="code-box-wrap">
+      <span class="code-label">Énigme 2</span>
+      <div class="code-box" id="escDigit2">?</div>
+    </div>
+    <div class="code-box-wrap">
+      <span class="code-label">Énigme 3</span>
+      <div class="code-box" id="escDigit3">?</div>
+    </div>
+    <div class="code-box-wrap">
+      <span class="code-label">Énigme 4</span>
+      <div class="code-box" id="escDigit4">?</div>
+    </div>
+  </div>
+
+  <!-- ===== Énigme 1 : modéliser une force ===== -->
+  <div class="enigme-box" id="escBox1">
+    <div class="enigme-title"><span class="enigme-num">1</span> Modéliser les forces <span class="enigme-digit-tag">🔑 1 chiffre à la clé</span></div>
+    <p style="font-size:0.92rem;">Un livre est posé, immobile, sur une table horizontale. On étudie le système {livre} dans le référentiel terrestre. On néglige les frottements de l'air.</p>
+    <div class="qa-doc">
+      <p class="qa-question"><strong>Question.</strong> Combien de forces distinctes s'exercent sur le livre ?</p>
+      <select class="dropdown qcm-select" id="escEnigme1">
+        <option value="">— choisir une réponse —</option>
+        <option value="a">1 force</option>
+        <option value="b">2 forces</option>
+        <option value="c">3 forces</option>
+        <option value="d">4 forces</option>
+      </select>
+    </div>
+    <button class="action-btn solid" id="checkEsc1">✅ Vérifier</button>
+    <div class="feedback" id="feedbackEsc1"></div>
+  </div>
+
+  <!-- ===== Énigme 2 : principe des actions réciproques ===== -->
+  <div class="enigme-box" id="escBox2">
+    <div class="enigme-title"><span class="enigme-num">2</span> Principe des actions réciproques <span class="enigme-digit-tag">🔑 1 chiffre à la clé</span></div>
+    <p style="font-size:0.92rem;">Coche les affirmations que tu penses <strong>vraies</strong> parmi les quatre suivantes :</p>
+    <div class="qa-doc" style="display:flex; flex-direction:column; gap:8px; font-size:0.92rem;">
+      <label style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="esc2a" style="margin-top:4px;"> Si un système A exerce une force sur un système B, alors B exerce nécessairement une force sur A.</label>
+      <label style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="esc2b" style="margin-top:4px;"> Ces deux forces ont la même direction, la même norme, mais des sens opposés.</label>
+      <label style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="esc2c" style="margin-top:4px;"> Ces deux forces s'exercent sur deux systèmes différents (l'une sur A, l'autre sur B).</label>
+      <label style="display:flex; gap:8px; align-items:flex-start;"><input type="checkbox" id="esc2d" style="margin-top:4px;"> Comme elles sont opposées, ces deux forces se compensent toujours et n'ont donc aucun effet.</label>
+    </div>
+    <button class="action-btn solid" id="checkEsc2">✅ Vérifier</button>
+    <div class="feedback" id="feedbackEsc2"></div>
+  </div>
+
+  <!-- ===== Énigme 3 : principe d'inertie ===== -->
+  <div class="enigme-box" id="escBox3">
+    <div class="enigme-title"><span class="enigme-num">3</span> Principe d'inertie <span class="enigme-digit-tag">🔑 1 chiffre à la clé</span></div>
+    <p style="font-size:0.92rem;">Un palet de hockey glisse sur une table à coussin d'air horizontale. Les frottements sont négligeables : les forces qui s'exercent sur le palet (poids et réaction du support) se compensent exactement. À l'instant t = 0 s, sa vitesse vaut 5 m/s.</p>
+    <div class="qa-doc">
+      <p class="qa-question"><strong>Question.</strong> Quelle est la vitesse du palet (en m/s) à l'instant t = 10 s ?</p>
+      <input type="text" class="blank" id="escEnigme3" placeholder="valeur en m/s" style="width:140px;">
+    </div>
+    <button class="action-btn solid" id="checkEsc3">✅ Vérifier</button>
+    <div class="feedback" id="feedbackEsc3"></div>
+  </div>
+
+  <!-- ===== Énigme 4 : gravitation / poids ===== -->
+  <div class="enigme-box" id="escBox4">
+    <div class="enigme-title"><span class="enigme-num">4</span> Poids et intensité de pesanteur <span class="enigme-digit-tag">🔑 1 chiffre à la clé</span></div>
+    <p style="font-size:0.92rem;">Sur la planète fictive Zorg, un astronaute de masse m = 80 kg a un poids de norme P = 320 N.</p>
+    <div class="qa-doc">
+      <p class="qa-question"><strong>Question.</strong> Quelle est l'intensité de la pesanteur g sur Zorg (en N/kg) ? <span style="color:var(--gray); font-weight:400;">(Rappel : P = m × g)</span></p>
+      <input type="text" class="blank" id="escEnigme4" placeholder="valeur en N/kg" style="width:140px;">
+    </div>
+    <button class="action-btn solid" id="checkEsc4">✅ Vérifier</button>
+    <div class="feedback" id="feedbackEsc4"></div>
+  </div>
+
+  <!-- ===== Coffre final ===== -->
+  <div class="escape-final" id="escFinalBox">
+    <div style="font-size:2.2rem;">🔒</div>
+    <p style="font-weight:700; margin:6px 0 4px;">Le coffre final</p>
+    <p style="font-size:0.9rem; color:var(--texte-léger); margin:0 0 6px;">Reporte les 4 chiffres trouvés, dans l'ordre des énigmes, pour ouvrir le coffre.</p>
+    <div class="code-input-row">
+      <input type="text" class="code-final-input" id="escFinalCode" maxlength="4" placeholder="••••">
+      <button class="action-btn solid" id="checkEscFinal">🔓 Ouvrir le coffre</button>
+    </div>
+    <div class="feedback" id="feedbackEscFinal"></div>
+    <div class="escape-treasure" id="escTreasure">
+      <div style="font-size:2.4rem;">🏆</div>
+      <p style="font-weight:700; color:var(--vert); margin:6px 0;">Bravo, tu as résolu l'escape game !</p>
+      <p style="font-size:0.9rem; color:var(--texte);">Tu maîtrises maintenant la modélisation des forces, le principe des actions réciproques, le principe d'inertie et la relation entre poids et masse. De quoi affronter sereinement les exercices de la séquence !</p>
+    </div>
+  </div>
+
   </div>
 </div>
 
@@ -1922,16 +2649,26 @@
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="action mecanique"><dt>Action mécanique</dt><dd>Effet d'un système sur un autre, pouvant s'exercer à distance ou par contact.</dd></div>
-      <div class="gloss-item" data-term="force"><dt>Force</dt><dd>Modélisation de l'action d'un système extérieur sur un système étudié, représentée par un vecteur (norme, direction, sens).</dd></div>
-      <div class="gloss-item" data-term="actions reciproques troisieme loi newton"><dt>Principe des actions réciproques</dt><dd>Si un système A exerce une force sur un système B, alors B exerce sur A une force de même norme, même direction, de sens opposé (3ᵉ loi de Newton).</dd></div>
-      <div class="gloss-item" data-term="poids"><dt>Poids</dt><dd>P = m × g : force verticale, dirigée vers le bas, approchant l'interaction gravitationnelle exercée sur un objet à la surface d'une planète.</dd></div>
-      <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Force d'interaction gravitationnelle</dt><dd>F(A/B) = G × (m_A × m_B) / d² avec G = 6,67×10⁻¹¹ N·m²·kg⁻² : force d'attraction entre deux corps massifs.</dd></div>
+      <div class="gloss-item" data-term="centre de gravite centre inertie"><dt>Centre de gravité (centre d'inertie)</dt><dd>Point d'application du poids d'un système, correspondant à son centre de masse.</dd></div>
       <div class="gloss-item" data-term="champ pesanteur g"><dt>Champ de pesanteur (g)</dt><dd>Grandeur vectorielle caractérisant l'attraction terrestre en un point (g ≈ 9,8 N·kg⁻¹ au niveau du sol), diminuant avec l'altitude.</dd></div>
-      <div class="gloss-item" data-term="principe inertie"><dt>Principe d'inertie</dt><dd>Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</dd></div>
-      <div class="gloss-item" data-term="contraposee reciproque inertie"><dt>Contraposée du principe d'inertie</dt><dd>Si les forces appliquées à un système ne se compensent pas, alors son vecteur vitesse varie (en direction, sens ou valeur).</dd></div>
-      <div class="gloss-item" data-term="reciproque principe inertie"><dt>Réciproque du principe d'inertie</dt><dd>Si le vecteur vitesse d'un système ne varie pas (repos ou mouvement rectiligne uniforme), alors les forces qui s'exercent sur lui se compensent.</dd></div>
       <div class="gloss-item" data-term="chute libre"><dt>Chute libre</dt><dd>Mouvement d'un objet soumis uniquement à son poids (aucune autre force, notamment pas de frottement).</dd></div>
+      <div class="gloss-item" data-term="contraposee reciproque inertie"><dt>Contraposée du principe d'inertie</dt><dd>Si les forces appliquées à un système ne se compensent pas, alors son vecteur vitesse varie (en direction, sens ou valeur).</dd></div>
       <div class="gloss-item" data-term="diagramme objet interactions"><dt>Diagramme objet-interactions</dt><dd>Schéma représentant le système étudié et l'ensemble des actions mécaniques (à distance ou de contact) qu'il subit de la part d'autres objets.</dd></div>
+      <div class="gloss-item" data-term="dynamometre"><dt>Dynamomètre</dt><dd>Instrument de mesure permettant de déterminer la valeur d'une force, généralement grâce à l'allongement d'un ressort.</dd></div>
+      <div class="gloss-item" data-term="force"><dt>Force</dt><dd>Modélisation de l'action d'un système extérieur sur un système étudié, représentée par un vecteur (norme, direction, sens).</dd></div>
+      <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Force d'interaction gravitationnelle</dt><dd>F(A/B) = G × (m_A × m_B) / d² avec G = 6,67×10⁻¹¹ N·m²·kg⁻² : force d'attraction entre deux corps massifs.</dd></div>
+      <div class="gloss-item" data-term="frottement fluide"><dt>Frottement (fluide)</dt><dd>Force de contact exercée par un fluide (air, eau…) sur un système en mouvement, qui s'oppose à ce mouvement et augmente avec la vitesse.</dd></div>
+      <div class="gloss-item" data-term="mouvement rectiligne uniforme mru"><dt>Mouvement rectiligne uniforme (MRU)</dt><dd>Mouvement dont la trajectoire est une droite et dont la valeur de la vitesse reste constante au cours du temps.</dd></div>
+      <div class="gloss-item" data-term="poids"><dt>Poids</dt><dd>P = m × g : force verticale, dirigée vers le bas, approchant l'interaction gravitationnelle exercée sur un objet à la surface d'une planète.</dd></div>
+      <div class="gloss-item" data-term="actions reciproques troisieme loi newton"><dt>Principe des actions réciproques</dt><dd>Si un système A exerce une force sur un système B, alors B exerce sur A une force de même norme, même direction, de sens opposé (3ᵉ loi de Newton).</dd></div>
+      <div class="gloss-item" data-term="principe inertie"><dt>Principe d'inertie</dt><dd>Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</dd></div>
+      <div class="gloss-item" data-term="reciproque principe inertie"><dt>Réciproque du principe d'inertie</dt><dd>Si le vecteur vitesse d'un système ne varie pas (repos ou mouvement rectiligne uniforme), alors les forces qui s'exercent sur lui se compensent.</dd></div>
+      <div class="gloss-item" data-term="referentiel"><dt>Référentiel</dt><dd>Objet ou ensemble d'objets, supposé immobile, par rapport auquel on décrit le mouvement d'un système (ex. référentiel terrestre).</dd></div>
+      <div class="gloss-item" data-term="satellite"><dt>Satellite</dt><dd>Objet en orbite autour d'une planète ou d'une étoile, maintenu sur sa trajectoire par la force d'interaction gravitationnelle exercée par l'astre attracteur.</dd></div>
+      <div class="gloss-item" data-term="systeme etudie"><dt>Système étudié</dt><dd>Objet ou ensemble d'objets choisi pour l'étude d'un mouvement ou des actions mécaniques qu'il subit.</dd></div>
+      <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un système au cours de son mouvement, dans un référentiel donné.</dd></div>
+      <div class="gloss-item" data-term="unite astronomique ua"><dt>Unité astronomique (ua)</dt><dd>Unité de distance utilisée en astronomie, correspondant à la distance moyenne entre la Terre et le Soleil (1 ua ≈ 1,5 × 10⁸ km).</dd></div>
+      <div class="gloss-item" data-term="vitesse limite"><dt>Vitesse limite</dt><dd>Valeur constante que peut atteindre la vitesse d'un système en chute dans un fluide, lorsque la force de frottement compense exactement le poids.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -2209,6 +2946,124 @@ function bindAccordions(){
       fb.textContent = score + " / " + selects.length + " bonnes réponses.";
       fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
       document.getElementById("correctionPissenlit").classList.add("open");
+    });
+  }
+  var btnVoilier = document.getElementById("checkVoilier");
+  if (btnVoilier){
+    btnVoilier.addEventListener("click", function(){
+      var score = 0;
+      var selects = document.querySelectorAll("#qcmVoilier1, #qcmVoilier2, #qcmVoilier3, #qcmVoilier4");
+      selects.forEach(function(sel){
+        sel.classList.remove("correct","wrong");
+        if (sel.value === sel.dataset.correct){
+          sel.classList.add("correct"); score++;
+        } else {
+          sel.classList.add("wrong");
+        }
+      });
+      var fb = document.getElementById("feedbackVoilier");
+      fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+      fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+      document.getElementById("correctionVoilier").classList.add("open");
+    });
+  }
+  var btnPoids = document.getElementById("checkPoids");
+  if (btnPoids){
+    btnPoids.addEventListener("click", function(){
+      function norm(s){ return s.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+      function normMaths(s){ return s.trim().toLowerCase().replace(/\s+/g,"").replace(/,/g,"."); }
+
+      function setField(id, ok, msg){
+        var input = document.getElementById(id);
+        var fb = document.getElementById("feedback-"+id);
+        input.classList.remove("correct","wrong");
+        input.classList.add(ok ? "correct" : "wrong");
+        fb.textContent = msg;
+        fb.className = "feedback " + (ok ? "ok" : "ko");
+      }
+
+      var point = norm(document.getElementById("poidsPoint").value);
+      var pointOk = point.indexOf("centre")!==-1 && (point.indexOf("gravite")!==-1 || point.indexOf("inertie")!==-1 || point.indexOf("balle")!==-1 || point.indexOf("objet")!==-1);
+      setField("poidsPoint", pointOk, pointOk ? "✅ Correct !" : "❌ Indice : c'est le point de la balle où s'applique la gravité.");
+
+      var direction = norm(document.getElementById("poidsDirection").value);
+      setField("poidsDirection", direction.indexOf("vertical")!==-1,
+        direction.indexOf("vertical")!==-1 ? "✅ Correct !" : "❌ Indice : comment s'appelle la droite donnée par un fil à plomb ?");
+
+      var sens = norm(document.getElementById("poidsSens").value);
+      var sensOk = sens.indexOf("bas")!==-1 || sens.indexOf("terre")!==-1 || sens.indexOf("sol")!==-1;
+      setField("poidsSens", sensOk, sensOk ? "✅ Correct !" : "❌ Indice : vers quelle direction tombe la balle ?");
+
+      var formule = normMaths(document.getElementById("poidsFormule").value);
+      var aP = formule.indexOf("p")!==-1;
+      var aMG = formule.indexOf("m*g")!==-1 || formule.indexOf("mxg")!==-1 || formule.indexOf("m.g")!==-1 || formule.indexOf("mg")!==-1;
+      if (aMG && aP){
+        setField("poidsFormule", true, "✅ Correct ! P = m × g");
+      } else if (aMG){
+        setField("poidsFormule", true, "✅ Correct, mais prends l'habitude d'écrire l'équation complète : P = m × g");
+      } else {
+        setField("poidsFormule", false, "❌ Quelle est la relation entre le poids P, la masse m et l'intensité de la pesanteur g ?");
+      }
+
+      var calcul = normMaths(document.getElementById("poidsCalcul").value);
+      if (calcul.indexOf("0.05")!==-1 && calcul.indexOf("9.8")!==-1){
+        setField("poidsCalcul", true, "✅ Parfait ! La masse a bien été convertie en kg (0,050 kg).");
+      } else if (calcul.indexOf("50")!==-1 && calcul.indexOf("9.8")!==-1){
+        setField("poidsCalcul", false, "❌ Attention, tu as oublié de convertir la masse : dans P = m × g, la masse doit être en kg.");
+      } else {
+        setField("poidsCalcul", false, "❌ Remplace les lettres par les valeurs de l'énoncé (attention aux unités).");
+      }
+
+      var resultat = normMaths(document.getElementById("poidsResultat").value);
+      if (resultat.indexOf("0.49")!==-1 && resultat.indexOf("n")!==-1){
+        setField("poidsResultat", true, "✅ Excellent ! Calcul juste et unité présente.");
+      } else if (resultat.indexOf("0.49")!==-1){
+        setField("poidsResultat", false, "❌ Presque ! Le calcul est bon, mais il manque l'unité de la force !");
+      } else if (resultat.indexOf("490")!==-1){
+        setField("poidsResultat", false, "❌ Ton résultat vient d'une erreur de conversion de la masse dans le calcul.");
+      } else {
+        setField("poidsResultat", false, "❌ Refais ton calcul.");
+      }
+
+      document.getElementById("correctionPoids").classList.add("open");
+    });
+  }
+  var btnPoingTable = document.getElementById("checkPoingTable");
+  if (btnPoingTable){
+    btnPoingTable.addEventListener("click", function(){
+      var score = 0;
+      var selects = document.querySelectorAll("#qcmPT1, #qcmPT2, #qcmPT3, #qcmPT4, #qcmPT5");
+      selects.forEach(function(sel){
+        sel.classList.remove("correct","wrong");
+        if (sel.value === sel.dataset.correct){
+          sel.classList.add("correct"); score++;
+        } else {
+          sel.classList.add("wrong");
+        }
+      });
+      var fb = document.getElementById("feedbackPoingTable");
+      fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+      fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+      document.getElementById("correctionPoingTable").classList.add("open");
+    });
+  }
+  var btnSpatiale = document.getElementById("checkSpatiale");
+  if (btnSpatiale){
+    btnSpatiale.addEventListener("click", function(){
+      var score = 0;
+      var selects = document.querySelectorAll("#qcmSpatiale1, #qcmSpatiale2, #qcmSpatiale3, #qcmSpatiale4");
+      selects.forEach(function(sel){
+        sel.classList.remove("correct","wrong");
+        if (sel.value === sel.dataset.correct){
+          sel.classList.add("correct"); score++;
+        } else {
+          sel.classList.add("wrong");
+        }
+      });
+      var fb = document.getElementById("feedbackSpatiale");
+      fb.textContent = score + " / " + selects.length + " bonnes réponses.";
+      fb.className = "feedback " + (score === selects.length ? "ok" : "ko");
+      document.getElementById("correctionSpatiale").classList.add("open");
     });
   }
 }
@@ -2849,6 +3704,338 @@ document.getElementById("checkSup3a").addEventListener("click", function(){
 document.getElementById("checkSup3b").addEventListener("click", function(){
   checkQcmSelects(["qcmSup3b"], "feedbackSup3b");
 });
+
+// ===================== Exercice difficile : Peser sur Jupiter =====================
+(function(){
+  function norm(s){ return s.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); }
+  function normMaths(s){ return s.trim().toLowerCase().replace(/\s+/g,"").replace(/,/g,"."); }
+  function setField(id, ok, msg){
+    var input = document.getElementById(id);
+    var fb = document.getElementById("feedback-"+id);
+    input.classList.remove("correct","wrong");
+    input.classList.add(ok ? "correct" : "wrong");
+    fb.textContent = msg;
+    fb.className = "feedback " + (ok ? "ok" : "ko");
+  }
+
+  var btn1 = document.getElementById("checkJupiter1");
+  if (btn1){
+    btn1.addEventListener("click", function(){
+      var formule = normMaths(document.getElementById("jupiterFormule1").value);
+      var aG = formule.indexOf("g")!==-1;
+      var aRatio = formule.indexOf("p/m")!==-1 || formule.indexOf("p:m")!==-1;
+      if (aG && aRatio){
+        setField("jupiterFormule1", true, "✅ Correct ! g = P / m");
+      } else if (aRatio){
+        setField("jupiterFormule1", true, "✅ Correct, mais prends l'habitude de nommer la grandeur : g = P / m");
+      } else {
+        setField("jupiterFormule1", false, "❌ D'après P = g × m, comment exprimer g en fonction de P et m ?");
+      }
+
+      var calcul = normMaths(document.getElementById("jupiterCalcul1").value);
+      var calculOk = /\d/.test(calcul) && calcul.indexOf("/")!==-1;
+      setField("jupiterCalcul1", calculOk, calculOk ? "✅ Bien, pense à vérifier que la masse est bien convertie en kg." : "❌ Remplace les lettres par les valeurs lues sur le graphique (masse en kg).");
+
+      var resultat = normMaths(document.getElementById("jupiterResultat1").value);
+      var val = parseFloat(resultat.replace(/[^0-9.]/g,""));
+      var hasUnit = resultat.indexOf("n/kg")!==-1 || resultat.indexOf("n.kg")!==-1;
+      if (!isNaN(val) && val >= 22 && val <= 26 && hasUnit){
+        setField("jupiterResultat1", true, "✅ Excellent ! Valeur cohérente avec le graphique et unité présente.");
+      } else if (!isNaN(val) && val >= 22 && val <= 26){
+        setField("jupiterResultat1", false, "❌ Presque ! La valeur est correcte mais il manque l'unité (N/kg).");
+      } else {
+        setField("jupiterResultat1", false, "❌ Relis les coordonnées d'un point du graphique et recalcule P / m (m en kg).");
+      }
+      document.getElementById("correctionJupiter").classList.add("open");
+    });
+  }
+
+  var btn2 = document.getElementById("checkJupiter2");
+  if (btn2){
+    btn2.addEventListener("click", function(){
+      var formule = normMaths(document.getElementById("jupiterFormule2").value);
+      var aG = formule.indexOf("g")!==-1;
+      var aProd = formule.indexOf("2.3")!==-1 || formule.indexOf("rapport")!==-1 || formule.indexOf("x")!==-1 || formule.indexOf("*")!==-1;
+      if (aG && aProd){
+        setField("jupiterFormule2", true, "✅ Correct ! g(Jupiter) = rapport × g(Terre)");
+      } else {
+        setField("jupiterFormule2", false, "❌ Comment obtenir g(Jupiter) à partir de g(Terre) et du rapport trouvé à la question 2 ?");
+      }
+
+      var calcul = normMaths(document.getElementById("jupiterCalcul2").value);
+      var calculOk = calcul.indexOf("2.3")!==-1 && calcul.indexOf("9.8")!==-1;
+      setField("jupiterCalcul2", calculOk, calculOk ? "✅ Bien !" : "❌ Remplace les lettres par 2,3 et 9,8.");
+
+      var resultat = normMaths(document.getElementById("jupiterResultat2").value);
+      var val = parseFloat(resultat.replace(/[^0-9.]/g,""));
+      var hasUnit = resultat.indexOf("n/kg")!==-1 || resultat.indexOf("n.kg")!==-1;
+      if (!isNaN(val) && Math.abs(val-22.5) <= 0.5 && hasUnit){
+        setField("jupiterResultat2", true, "✅ Parfait ! g(Jupiter) ≈ 22,5 N/kg.");
+      } else if (!isNaN(val) && Math.abs(val-22.5) <= 0.5){
+        setField("jupiterResultat2", false, "❌ Le calcul est bon, mais il manque l'unité (N/kg).");
+      } else {
+        setField("jupiterResultat2", false, "❌ Recalcule 2,3 × 9,8.");
+      }
+      document.getElementById("correctionJupiter").classList.add("open");
+    });
+  }
+
+  var btn3 = document.getElementById("checkJupiter3");
+  if (btn3){
+    btn3.addEventListener("click", function(){
+      checkQcmSelects(["qcmJupiter1","qcmJupiter2","qcmJupiter3"], "feedbackJupiter3");
+      document.getElementById("correctionJupiter").classList.add("open");
+    });
+  }
+})();
+
+// ===================== Exercice difficile : Le saut sans parachute =====================
+(function(){
+  function normMaths(s){ return s.trim().toLowerCase().replace(/\s+/g,"").replace(/,/g,"."); }
+  function setField(id, ok, msg){
+    var input = document.getElementById(id);
+    var fb = document.getElementById("feedback-"+id);
+    input.classList.remove("correct","wrong");
+    input.classList.add(ok ? "correct" : "wrong");
+    fb.textContent = msg;
+    fb.className = "feedback " + (ok ? "ok" : "ko");
+  }
+
+  var btn1 = document.getElementById("checkAikins1");
+  if (btn1){
+    btn1.addEventListener("click", function(){
+      var formule = normMaths(document.getElementById("aikinsFormule1").value);
+      var ok1 = formule.indexOf("p")!==-1 && (formule.indexOf("m*g")!==-1 || formule.indexOf("mxg")!==-1 || formule.indexOf("m.g")!==-1 || formule.indexOf("mg")!==-1);
+      setField("aikinsFormule1", ok1, ok1 ? "✅ Correct ! P = m × g" : "❌ Quelle est la relation entre le poids P, la masse m et g ?");
+
+      var calcul = normMaths(document.getElementById("aikinsCalcul1").value);
+      var ok2 = calcul.indexOf("90.7")!==-1 && calcul.indexOf("9.78")!==-1;
+      setField("aikinsCalcul1", ok2, ok2 ? "✅ Bien !" : "❌ Remplace les lettres par 90,7 et 9,78.");
+
+      var resultat = normMaths(document.getElementById("aikinsResultat1").value);
+      var val = parseFloat(resultat.replace(/[^0-9.]/g,""));
+      var hasUnit = resultat.indexOf("n")!==-1;
+      if (!isNaN(val) && Math.abs(val-887) <= 3 && hasUnit){
+        setField("aikinsResultat1", true, "✅ Parfait ! P ≈ 887 N.");
+      } else if (!isNaN(val) && Math.abs(val-887) <= 3){
+        setField("aikinsResultat1", false, "❌ Le calcul est bon, mais il manque l'unité (N).");
+      } else {
+        setField("aikinsResultat1", false, "❌ Recalcule 90,7 × 9,78.");
+      }
+      document.getElementById("correctionAikins").classList.add("open");
+    });
+  }
+
+  var btn2 = document.getElementById("checkAikins2");
+  if (btn2){
+    btn2.addEventListener("click", function(){
+      var formule = normMaths(document.getElementById("aikinsFormule2").value);
+      var ok1 = formule.indexOf("p")!==-1 && formule.indexOf("g")!==-1 && (formule.indexOf("/")!==-1) && (formule.indexOf("²")!==-1 || formule.indexOf("^2")!==-1 || formule.indexOf("*r")!==-1 === false);
+      var hasGMmR2 = formule.indexOf("g")!==-1 && formule.indexOf("m")!==-1 && formule.indexOf("/")!==-1;
+      setField("aikinsFormule2", hasGMmR2, hasGMmR2 ? "✅ Correct ! P = G × M(Terre) × m / R(Terre)²" : "❌ Utilise la loi de gravitation universelle : P = G × M(Terre) × m / R(Terre)²");
+
+      var calcul = normMaths(document.getElementById("aikinsCalcul2").value);
+      var ok2 = calcul.indexOf("6.67e-11")!==-1 || (calcul.indexOf("6.67")!==-1 && calcul.indexOf("5.97")!==-1 && (calcul.indexOf("6.38e6")!==-1 || calcul.indexOf("6380000")!==-1 || calcul.indexOf("6.38*10^6")!==-1 || calcul.indexOf("6.38×10^6")!==-1));
+      setField("aikinsCalcul2", ok2, ok2 ? "✅ Bien ! Pense à avoir converti le rayon terrestre en mètres." : "❌ Remplace les lettres par les valeurs (attention : convertis R en mètres : 6,38×10³ km = 6,38×10⁶ m).");
+
+      var resultat = normMaths(document.getElementById("aikinsResultat2").value);
+      var val = parseFloat(resultat.replace(/[^0-9.]/g,""));
+      var hasUnit = resultat.indexOf("n")!==-1;
+      if (!isNaN(val) && Math.abs(val-887) <= 5 && hasUnit){
+        setField("aikinsResultat2", true, "✅ Parfait ! P ≈ 887 N.");
+      } else if (!isNaN(val) && Math.abs(val-887) <= 5){
+        setField("aikinsResultat2", false, "❌ Le calcul est bon, mais il manque l'unité (N).");
+      } else {
+        setField("aikinsResultat2", false, "❌ Vérifie ton calcul, notamment la conversion de R en mètres.");
+      }
+      document.getElementById("correctionAikins").classList.add("open");
+    });
+  }
+
+  var btn3 = document.getElementById("checkAikins3");
+  if (btn3){
+    btn3.addEventListener("click", function(){
+      checkQcmSelects(["qcmAikins3"], "feedbackAikins3");
+      document.getElementById("correctionAikins").classList.add("open");
+    });
+  }
+
+  var btn5 = document.getElementById("checkAikins5");
+  if (btn5){
+    btn5.addEventListener("click", function(){
+      checkQcmSelects(["qcmAikins5"], "feedbackAikins5");
+      document.getElementById("correctionAikins").classList.add("open");
+    });
+  }
+})();
+
+// ===================== Escape game =====================
+(function(){
+  var digits = {1:"2", 2:"3", 3:"5", 4:"4"};
+
+  function markSolved(n){
+    var digitBox = document.getElementById("escDigit"+n);
+    var enigmeBox = document.getElementById("escBox"+n);
+    if (digitBox){
+      digitBox.textContent = digits[n];
+      digitBox.classList.add("solved");
+    }
+    if (enigmeBox) enigmeBox.classList.add("solved");
+  }
+
+  function normNum(s){
+    return parseFloat(s.trim().replace(",", "."));
+  }
+
+  // Énigme 1 — nombre de forces sur un livre immobile
+  var b1 = document.getElementById("checkEsc1");
+  if (b1){
+    b1.addEventListener("click", function(){
+      var v = document.getElementById("escEnigme1").value;
+      var fb = document.getElementById("feedbackEsc1");
+      if (v === "b"){
+        fb.textContent = "✅ Exact ! Le livre immobile subit deux forces : son poids (exercé par la Terre, à distance) et la réaction normale de la table (par contact), qui se compensent exactement. Chiffre débloqué : 2";
+        fb.className = "feedback ok";
+        markSolved(1);
+      } else if (v === ""){
+        fb.textContent = "❌ Choisis d'abord une réponse.";
+        fb.className = "feedback ko";
+      } else {
+        fb.textContent = "❌ Reprends le système {livre} : quelles sont toutes les actions mécaniques (de contact et à distance) qu'il subit ?";
+        fb.className = "feedback ko";
+      }
+    });
+  }
+
+  // Énigme 2 — principe des actions réciproques (affirmations vraies/fausses)
+  var b2 = document.getElementById("checkEsc2");
+  if (b2){
+    b2.addEventListener("click", function(){
+      var ids = ["esc2a","esc2b","esc2c","esc2d"];
+      var correct = [true, true, true, false];
+      var ok = true;
+      ids.forEach(function(id, i){
+        if (document.getElementById(id).checked !== correct[i]) ok = false;
+      });
+      var fb = document.getElementById("feedbackEsc2");
+      if (ok){
+        fb.textContent = "✅ Bravo ! 3 affirmations sont vraies (les 3 premières). La 4ᵉ est fausse : les deux forces d'un couple action-réaction ne se compensent JAMAIS, car elles s'exercent sur deux systèmes différents. Chiffre débloqué : 3";
+        fb.className = "feedback ok";
+        markSolved(2);
+      } else {
+        fb.textContent = "❌ Relis chaque affirmation : le principe des actions réciproques relie deux forces qui s'exercent sur deux systèmes DIFFÉRENTS — elles ne peuvent donc jamais se compenser l'une l'autre.";
+        fb.className = "feedback ko";
+      }
+    });
+  }
+
+  // Énigme 3 — principe d'inertie
+  var b3 = document.getElementById("checkEsc3");
+  if (b3){
+    b3.addEventListener("click", function(){
+      var input = document.getElementById("escEnigme3");
+      var num = normNum(input.value);
+      var fb = document.getElementById("feedbackEsc3");
+      input.classList.remove("correct","wrong");
+      if (!isNaN(num) && Math.abs(num - 5) < 0.01){
+        fb.textContent = "✅ Exact ! Les forces se compensent : d'après le principe d'inertie, le mouvement reste rectiligne uniforme, donc la vitesse ne change pas. Elle vaut toujours 5 m/s. Chiffre débloqué : 5";
+        fb.className = "feedback ok";
+        input.classList.add("correct");
+        markSolved(3);
+      } else {
+        fb.textContent = "❌ Si les forces se compensent, que dit le principe d'inertie sur l'évolution de la vitesse ?";
+        fb.className = "feedback ko";
+        input.classList.add("wrong");
+      }
+    });
+  }
+
+  // Énigme 4 — poids et intensité de pesanteur
+  var b4 = document.getElementById("checkEsc4");
+  if (b4){
+    b4.addEventListener("click", function(){
+      var input = document.getElementById("escEnigme4");
+      var num = normNum(input.value);
+      var fb = document.getElementById("feedbackEsc4");
+      input.classList.remove("correct","wrong");
+      if (!isNaN(num) && Math.abs(num - 4) < 0.05){
+        fb.textContent = "✅ Exact ! D'après P = m × g, on a g = P / m = 320 / 80 = 4 N/kg. Chiffre débloqué : 4";
+        fb.className = "feedback ok";
+        input.classList.add("correct");
+        markSolved(4);
+      } else {
+        fb.textContent = "❌ Repars de la relation P = m × g et isole g.";
+        fb.className = "feedback ko";
+        input.classList.add("wrong");
+      }
+    });
+  }
+
+  // Coffre final
+  var bf = document.getElementById("checkEscFinal");
+  if (bf){
+    bf.addEventListener("click", function(){
+      var val = document.getElementById("escFinalCode").value.trim();
+      var fb = document.getElementById("feedbackEscFinal");
+      var box = document.getElementById("escFinalBox");
+      var treasure = document.getElementById("escTreasure");
+      if (val === "2354"){
+        fb.textContent = "🎉 Coffre déverrouillé !";
+        fb.className = "feedback ok";
+        box.classList.add("unlocked");
+        treasure.classList.add("show");
+      } else {
+        fb.textContent = "❌ Ce n'est pas le bon code. Résous les 4 énigmes ci-dessus pour retrouver les 4 chiffres, dans l'ordre, puis reporte-les ici.";
+        fb.className = "feedback ko";
+        treasure.classList.remove("show");
+        box.classList.remove("unlocked");
+      }
+    });
+  }
+})();
+
+// ===================== Exercice difficile : Le Soleil, la Terre et Jupiter =====================
+(function(){
+  function normMaths(s){ return s.trim().toLowerCase().replace(/\s+/g,"").replace(/,/g,"."); }
+  function setField(id, ok, msg){
+    var input = document.getElementById(id);
+    var fb = document.getElementById("feedback-"+id);
+    input.classList.remove("correct","wrong");
+    input.classList.add(ok ? "correct" : "wrong");
+    fb.textContent = msg;
+    fb.className = "feedback " + (ok ? "ok" : "ko");
+  }
+
+  var btn3 = document.getElementById("checkJT3");
+  if (btn3){
+    btn3.addEventListener("click", function(){
+      var formule = normMaths(document.getElementById("jtFormule").value);
+      var ok1 = formule.indexOf("318")!==-1 || (formule.indexOf("m")!==-1 && (formule.indexOf("5.2")!==-1 || formule.indexOf("d")!==-1));
+      setField("jtFormule", ok1, ok1 ? "✅ Correct !" : "❌ Le rapport se simplifie en (m(Jupiter)/m(Terre)) × (d(Terre-Soleil)/d(Jupiter-Soleil))².");
+
+      var calcul = normMaths(document.getElementById("jtCalcul").value);
+      var ok2 = calcul.indexOf("318")!==-1 && calcul.indexOf("5.2")!==-1;
+      setField("jtCalcul", ok2, ok2 ? "✅ Bien !" : "❌ Remplace les lettres par 318 et 5,2.");
+
+      var resultat = normMaths(document.getElementById("jtResultat").value);
+      var val = parseFloat((resultat.match(/\d+(\.\d+)?/) || [NaN])[0]);
+      if (!isNaN(val) && Math.abs(val-11.8) <= 0.5){
+        setField("jtResultat", true, "✅ Parfait ! Le rapport vaut environ 11,8.");
+      } else {
+        setField("jtResultat", false, "❌ Recalcule 318 × (1/5,2)².");
+      }
+      document.getElementById("correctionJT").classList.add("open");
+    });
+  }
+
+  var btn4 = document.getElementById("checkJT4");
+  if (btn4){
+    btn4.addEventListener("click", function(){
+      checkQcmSelects(["qcmJT1","qcmJT2","qcmJT4"], "feedbackJT4");
+      document.getElementById("correctionJT").classList.add("open");
+    });
+  }
+})();
 </script>
 
 </body>

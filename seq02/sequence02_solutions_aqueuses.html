@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Séquence 02 – Les solutions aqueuses, un exemple de mélanges</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&amp;family=Outfit:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --bleu: #2D5F8A;
@@ -134,7 +135,7 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
 
   .tab-content { display: none; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
@@ -875,6 +876,15 @@
   .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  .exo-tabs-nav { display: flex; gap: 8px; margin: 8px 0 20px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .exo-tab-btn { flex-shrink: 0; white-space: nowrap; }
+  .exo-tab-btn { display: flex; align-items: center; gap: 7px; padding: 8px 16px; border: 1.5px solid var(--gris-bord); background: #fff; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; }
+  .exo-tab-btn:hover { border-color: var(--bleu); }
+  .exo-tab-btn.active { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+  .exo-tab-btn .exo-tab-stars { font-size: 0.76rem; color: var(--orange); font-weight: 400; }
+  .exo-tab-btn.active .exo-tab-stars { color: #FFD9B3; }
+  .exo-item-content { display: none; }
+  .exo-item-content.active { display: block; animation: fadeIn 0.3s ease; }
   .gloss-search {
     width: 100%;
     padding: 10px 14px;
@@ -990,1442 +1000,1315 @@
 </style>
 </head>
 <body>
-
 <div class="header">
-  <div class="header-top">
-    <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
-    <div class="header-titles">
-      <h1>Les solutions aqueuses, un exemple de mélanges</h1>
-      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
-    </div>
-  </div>
-  <nav class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab(0)">📘 Cours</button>
-    <button class="tab-btn" onclick="switchTab(1)">🧪 Activités</button>
-    <button class="tab-btn" onclick="switchTab(2)">✏️ Exercices</button>
-    <button class="tab-btn" onclick="switchTab(3)">🗂️ Bilan &amp; Ressources</button>
-  </nav>
+<div class="header-top">
+<div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
+<div class="header-titles">
+<h1>Les solutions aqueuses, un exemple de mélanges</h1>
+<p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
 </div>
-
+</div>
+<nav class="tabs-nav">
+<button class="tab-btn active" onclick="switchTab(0)">📘 Cours</button>
+<button class="tab-btn" onclick="switchTab(1)">🧪 Activités</button>
+<button class="tab-btn" onclick="switchTab(2)">✏️ Exercices</button>
+<button class="tab-btn" onclick="switchTab(3)">🗂️ Bilan &amp; Ressources</button>
+</nav>
+</div>
 <main class="main">
-
 <div class="tab-content active" id="tab-0">
-
-  <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">I. Solution : solvant, soluté</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">II. Concentration en masse</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">III. Dissolution &amp; verrerie</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. Dilution &amp; étalonnage</button>
-  </div>
-
-  <div class="sub-tab-content active" id="cours-sub-1">
+<div class="sub-tabs-nav">
+<button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">I. Solution : solvant, soluté</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">II. Concentration en masse</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">III. Dissolution &amp; verrerie</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. Dilution &amp; étalonnage</button>
+</div>
+<div class="sub-tab-content active" id="cours-sub-1">
 <div class="section-title">
-    <span class="icon">🧪</span> Solution : solvant, soluté
+<span class="icon">🧪</span> Solution : solvant, soluté
   </div>
 <div class="intro-box">
-    Vidéo débat p38 : <strong>« La barbe à papa a-t-elle disparu ? »</strong><br>
+    Vidéo débat p38 : <strong>« La barbe à papa a-t-elle disparu ? »</strong><br/>
     Qu'est-ce qui différencie toutes ces eaux minérales ?
   </div>
 <div class="def-card">
-    <h3>À retenir</h3>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
-      <div style="flex:0 0 380px;text-align:center;">
-        <img src="solution.png" alt="Schéma solvant + soluté = solution finale (mélange homogène)" style="width:100%;max-width:380px;display:block;margin:0 auto;border-radius:8px;">
-        <p style="font-size:0.85rem;margin-top:6px;">
+<h3>À retenir</h3>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+<div style="flex:0 0 380px;text-align:center;">
+<img alt="Schéma solvant + soluté = solution finale (mélange homogène)" src="solution.png" style="width:100%;max-width:380px;display:block;margin:0 auto;border-radius:8px;"/>
+<p style="font-size:0.85rem;margin-top:6px;">
           Solution = <span style="color:var(--bleu);font-weight:700;">solvant</span> + <span style="color:var(--orange);font-weight:700;">soluté(s)</span>
-        </p>
-      </div>
-      <div style="flex:1;min-width:220px;">
-        <p>Une <strong>solution</strong> est le mélange liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">homogène</span> obtenu lorsque l'on introduit une ou plusieurs espèces chimiques (molécules ou ions) dans un autre liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">majoritaire</span>.</p>
-        <br>
-        <p>Le liquide majoritaire dans la solution est appelé le <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--bleu);">solvant</span>. L'espèce (ou les espèces) dissoute(s), minoritaire(s), est (sont) appelée(s) le ou les <span style="background:var(--orange-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--orange);">soluté(s)</span>.</p>
-      </div>
-    </div>
-  </div>
+</p>
+</div>
+<div style="flex:1;min-width:220px;">
+<p>Une <strong>solution</strong> est le mélange liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">homogène</span> obtenu lorsque l'on introduit une ou plusieurs espèces chimiques (molécules ou ions) dans un autre liquide <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;">majoritaire</span>.</p>
+<br/>
+<p>Le liquide majoritaire dans la solution est appelé le <span style="background:var(--bleu-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--bleu);">solvant</span>. L'espèce (ou les espèces) dissoute(s), minoritaire(s), est (sont) appelée(s) le ou les <span style="background:var(--orange-clair);padding:1px 8px;border-radius:4px;font-weight:700;color:var(--orange);">soluté(s)</span>.</p>
+</div>
+</div>
+</div>
 <div class="remarque-box">
-    <strong>🔑 Remarque :</strong> les solutés peuvent être <em>liquides, solides, gazeux, moléculaires ou ioniques</em>.
+<strong>🔑 Remarque :</strong> les solutés peuvent être <em>liquides, solides, gazeux, moléculaires ou ioniques</em>.
   </div>
 <div class="exemple-box">
-    <strong>Autres solvants :</strong> cyclohexane, dichlorométhane — utilisés pour l'extraction en chimie organique.
+<strong>Autres solvants :</strong> cyclohexane, dichlorométhane — utilisés pour l'extraction en chimie organique.
   </div>
 <div class="exo-card">
-    <div class="exo-header">
-      <h3>Question – Critère de distinction</h3>
-      <span class="exo-pill">📝 QCM</span>
-    </div>
-    <div class="qcm-grid">
-      <div id="qcrit" class="qcm-item">
-        <div>
-          <div class="substance">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
-          <div class="qcm-feedback" id="fb-qcrit"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</button>
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</button>
-          <button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</button>
-        </div>
-      </div>
-    </div>
-    <button class="btn-recommencer" onclick="recommencerExo(this,null,['qcrit'])">↺ Recommencer</button>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="cours-sub-2">
+<div class="exo-header">
+<h3>Question – Critère de distinction</h3>
+<span class="exo-pill">📝 QCM</span>
+</div>
+<div class="qcm-grid">
+<div class="qcm-item" id="qcrit">
+<div>
+<div class="substance">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
+<div class="qcm-feedback" id="fb-qcrit"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</button>
+<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</button>
+<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</button>
+</div>
+</div>
+</div>
+<button class="btn-recommencer" onclick="recommencerExo(this,null,['qcrit'])">↺ Recommencer</button>
+</div>
+</div>
+<div class="sub-tab-content" id="cours-sub-2">
 <div class="section-title">
-    <span class="icon">⚖️</span> Concentration en masse d'un soluté
+<span class="icon">⚖️</span> Concentration en masse d'un soluté
   </div>
 <div class="def-card">
-    <h3>Concentration en masse (titre massique)</h3>
-    <p>La <strong>concentration en masse</strong> (C<sub>m</sub>) ou <strong>titre massique</strong> (t) d'une solution en une espèce chimique dissoute représente la masse de soluté dissoute dans un litre de solution.</p>
-    <div class="formule-box">
+<h3>Concentration en masse (titre massique)</h3>
+<p>La <strong>concentration en masse</strong> (C<sub>m</sub>) ou <strong>titre massique</strong> (t) d'une solution en une espèce chimique dissoute représente la masse de soluté dissoute dans un litre de solution.</p>
+<div class="formule-box">
       C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub>
-      <div class="legend">C<sub>m</sub> en g·L⁻¹ &nbsp;|&nbsp; m<sub>soluté</sub> en g &nbsp;|&nbsp; V<sub>solution</sub> en L</div>
-    </div>
-  </div>
+<div class="legend">C<sub>m</sub> en g·L⁻¹  |  m<sub>soluté</sub> en g  |  V<sub>solution</sub> en L</div>
+</div>
+</div>
 <div class="def-card">
-    <h3>Masse volumique de la solution</h3>
-    <p>La <strong>masse volumique</strong> ρ<sub>solution</sub> d'une solution a la même unité que la concentration massique, mais il s'agit de la masse de la <em>solution</em> et non de la masse de soluté.</p>
-    <div class="formule-box" style="background:var(--vert-clair);border-color:var(--vert);">
+<h3>Masse volumique de la solution</h3>
+<p>La <strong>masse volumique</strong> ρ<sub>solution</sub> d'une solution a la même unité que la concentration massique, mais il s'agit de la masse de la <em>solution</em> et non de la masse de soluté.</p>
+<div class="formule-box" style="background:var(--vert-clair);border-color:var(--vert);">
       ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub>
-      <div class="legend">ρ<sub>solution</sub> en g·L⁻¹ &nbsp;|&nbsp; m<sub>solution</sub> en g &nbsp;|&nbsp; V<sub>solution</sub> en L</div>
-    </div>
-  </div>
-  <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin:0 0 16px 0;overflow-x:auto;">
-    <img src="illustration_sousonglet2.png" alt="Comparaison concentration en masse (masse de soluté sur volume de solution) et masse volumique de la solution (masse de la solution sur volume de solution)" style="width:100%;max-width:900px;display:block;margin:0 auto;">
-  </div>
+<div class="legend">ρ<sub>solution</sub> en g·L⁻¹  |  m<sub>solution</sub> en g  |  V<sub>solution</sub> en L</div>
+</div>
+</div>
+<div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin:0 0 16px 0;overflow-x:auto;">
+<img alt="Comparaison concentration en masse (masse de soluté sur volume de solution) et masse volumique de la solution (masse de la solution sur volume de solution)" src="illustration_sousonglet2.png" style="width:100%;max-width:900px;display:block;margin:0 auto;"/>
+</div>
 <div class="remarque-box">
-    <strong>🔑 À ne pas confondre :</strong> C<sub>m</sub>(soluté) ne tient compte que de la masse de soluté dissous, alors que ρ<sub>solution</sub> tient compte de la masse <em>totale</em> de la solution (solvant + soluté). On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.
+<strong>🔑 À ne pas confondre :</strong> C<sub>m</sub>(soluté) ne tient compte que de la masse de soluté dissous, alors que ρ<sub>solution</sub> tient compte de la masse <em>totale</em> de la solution (solvant + soluté). On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.
   </div>
 <div class="def-card">
-    <h3>Calculateur – Concentration en masse</h3>
-    <p style="margin-bottom:10px;">Entre deux des trois grandeurs pour calculer la troisième :</p>
-    <div class="composition-calc">
-      <div class="calc-row">
-        <label for="cm-m">Masse de soluté m<sub>soluté</sub> :</label>
-        <input type="number" class="calc-input" id="cm-m" placeholder="ex : 2,5">
-        <span class="calc-unit">g</span>
-      </div>
-      <div class="calc-row">
-        <label for="cm-v">Volume de solution V<sub>solution</sub> :</label>
-        <input type="number" class="calc-input" id="cm-v" placeholder="ex : 500">
-        <span class="calc-unit">mL</span>
-      </div>
-      <button class="btn-calc" onclick="calcConcentration()">Calculer C<sub>m</sub></button>
-      <div class="calc-result" id="res-cm"></div>
-    </div>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="cours-sub-3">
+<h3>Calculateur – Concentration en masse</h3>
+<p style="margin-bottom:10px;">Entre deux des trois grandeurs pour calculer la troisième :</p>
+<div class="composition-calc">
+<div class="calc-row">
+<label for="cm-m">Masse de soluté m<sub>soluté</sub> :</label>
+<input class="calc-input" id="cm-m" placeholder="ex : 2,5" type="number"/>
+<span class="calc-unit">g</span>
+</div>
+<div class="calc-row">
+<label for="cm-v">Volume de solution V<sub>solution</sub> :</label>
+<input class="calc-input" id="cm-v" placeholder="ex : 500" type="number"/>
+<span class="calc-unit">mL</span>
+</div>
+<button class="btn-calc" onclick="calcConcentration()">Calculer C<sub>m</sub></button>
+<div class="calc-result" id="res-cm"></div>
+</div>
+</div>
+</div>
+<div class="sub-tab-content" id="cours-sub-3">
 <div class="section-title">
-    <span class="icon">🥽</span> Dissolution d'une espèce moléculaire ou ionique
+<span class="icon">🥽</span> Dissolution d'une espèce moléculaire ou ionique
   </div>
 <div class="def-card">
-    <h3>a) Qu'est-ce que la dissolution ?</h3>
-    <p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
-    <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
-      <img src="dissolution_complet.png" alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" style="width:100%;max-width:700px;display:block;margin:0 auto;">
-      <ol style="margin-top:10px;padding-left:20px;font-size:0.9rem;color:var(--texte-léger);line-height:1.6;">
-        <li><strong>Peser</strong> la masse de soluté souhaitée (balance).</li>
-        <li><strong>Introduire</strong> le solide dans la fiole jaugée (à l'aide d'un entonnoir).</li>
-        <li><strong>Ajouter</strong> de l'eau distillée jusqu'aux ⅔ environ de la fiole.</li>
-        <li><strong>Agiter</strong> jusqu'à dissolution complète du solide.</li>
-        <li><strong>Compléter</strong> avec de l'eau distillée jusqu'au trait de jauge (à l'aide d'une pissette), ajustement au ménisque.</li>
-      </ol>
-    </div>
-  </div>
+<h3>a) Qu'est-ce que la dissolution ?</h3>
+<p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
+<div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
+<img alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" src="dissolution_complet.png" style="width:100%;max-width:700px;display:block;margin:0 auto;"/>
+<ol style="margin-top:10px;padding-left:20px;font-size:0.9rem;color:var(--texte-léger);line-height:1.6;">
+<li><strong>Peser</strong> la masse de soluté souhaitée (balance).</li>
+<li><strong>Introduire</strong> le solide dans la fiole jaugée (à l'aide d'un entonnoir).</li>
+<li><strong>Ajouter</strong> de l'eau distillée jusqu'aux ⅔ environ de la fiole.</li>
+<li><strong>Agiter</strong> jusqu'à dissolution complète du solide.</li>
+<li><strong>Compléter</strong> avec de l'eau distillée jusqu'au trait de jauge (à l'aide d'une pissette), ajustement au ménisque.</li>
+</ol>
+</div>
+</div>
 <div class="def-card">
-    <h3>b) Masse de soluté à dissoudre</h3>
-    <p>Pour préparer une solution de volume V contenant un soluté à la concentration en masse C<sub>m</sub>, la masse de soluté à dissoudre est :</p>
-    <div class="formule-box">
+<h3>b) Masse de soluté à dissoudre</h3>
+<p>Pour préparer une solution de volume V contenant un soluté à la concentration en masse C<sub>m</sub>, la masse de soluté à dissoudre est :</p>
+<div class="formule-box">
       m<sub>soluté</sub> = C<sub>m</sub> × V
-      <div class="legend">m<sub>soluté</sub> en g &nbsp;|&nbsp; C<sub>m</sub> en g·L⁻¹ &nbsp;|&nbsp; V en L</div>
-    </div>
-  </div>
+      <div class="legend">m<sub>soluté</sub> en g  |  C<sub>m</sub> en g·L⁻¹  |  V en L</div>
+</div>
+</div>
 <div class="def-card">
-    <h3>c) Solution saturée</h3>
-    <p>Une solution est dite <strong>saturée</strong> lorsqu'elle ne peut plus dissoudre de soluté supplémentaire : tout ajout de soluté reste alors sous forme non dissoute (solide non dissous au fond du récipient, par exemple). La concentration correspondante est appelée <strong>concentration maximale</strong> C<sub>max</sub>.</p>
-  </div>
-
-  <div class="exo-card">
-    <div class="exo-header">
-      <h3>Application — Dissolution et saturation</h3>
-      <span class="exo-pill">📝 QCM</span>
-    </div>
-    <div class="qcm-grid">
-      <div id="qdiss1" class="qcm-item">
-        <div>
-          <div class="substance">a. Dissoudre un solide dans un solvant signifie…</div>
-          <div class="qcm-feedback" id="fb-qdiss1"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire fondre le solide','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire fondre le solide (changement d'état)</button>
-          <button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire disparaître les cristaux visibles, dispersés à l'échelle moléculaire ou ionique</button>
-        </div>
-      </div>
-      <div id="qdiss2" class="qcm-item">
-        <div>
-          <div class="substance">b. Une solution est dite saturée quand…</div>
-          <div class="qcm-feedback" id="fb-qdiss2"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle ne peut plus dissoudre de soluté, qui reste alors visible au fond</button>
-          <button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle est devenue trop chaude','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle est devenue trop chaude</button>
-        </div>
-      </div>
-      <div id="qdiss3" class="qcm-item">
-        <div>
-          <div class="substance">c. Pour peser précisément la masse de soluté à dissoudre, on utilise…</div>
-          <div class="qcm-feedback" id="fb-qdiss3"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une éprouvette graduée','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une éprouvette graduée</button>
-          <button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une balance (avec coupelle ou sabot de pesée)','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une balance (avec coupelle ou sabot de pesée)</button>
-        </div>
-      </div>
-    </div>
-    <button class="btn-recommencer" onclick="recommencerExo(this,null,['qdiss1','qdiss2','qdiss3'])">↺ Recommencer</button>
-  </div>
-
-  </div>
-
-  <div class="sub-tab-content" id="cours-sub-4">
-<div class="section-title">
-    <span class="icon">💧</span> Dilution d'une solution
-  </div>
-<div class="def-card">
-    <h3>a) Qu'est-ce que la dilution ?</h3>
-    <p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>
-    <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
-      <img src="dilution_complet.png" alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" style="width:100%;max-width:900px;display:block;margin:0 auto;">
-    </div>
-  </div>
-<div class="def-card">
-    <h3>b) Grandeurs qui changent ou non au cours de la dilution</h3>
-    <ul>
-      <li><strong>Ne change pas</strong> : la quantité (la masse) de soluté dissous, qui est seulement répartie dans un plus grand volume.</li>
-      <li><strong>Change</strong> : le volume total de la solution (augmente) et la concentration en masse du soluté (diminue).</li>
-    </ul>
-  </div>
-<div class="def-card">
-    <h3>c) Grandeurs caractéristiques d'une solution</h3>
-    <ul>
-      <li>La <strong>concentration en masse</strong> (ou titre massique) C<sub>m</sub> (en g·L⁻¹)</li>
-      <li>La <strong>masse volumique</strong> ρ<sub>solution</sub> (en g·L⁻¹)</li>
-      <li>Des grandeurs liées comme la <strong>couleur</strong> (échelle de teinte) ou la <strong>conductance</strong></li>
-    </ul>
-  </div>
-<div class="def-card">
-    <h3>d) Facteur de dilution</h3>
-    <p>Le <strong>facteur de dilution</strong> F est le rapport entre la concentration de la solution mère et celle de la solution fille (ou, de manière équivalente, le rapport entre le volume de solution fille et le volume de solution mère prélevé) :</p>
-    <div class="formule-box">
-      F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub>
-      <div class="legend">F sans unité &nbsp;|&nbsp; t<sub>m</sub>, t<sub>f</sub> en g·L⁻¹ &nbsp;|&nbsp; V<sub>m</sub>, V<sub>f</sub> en L</div>
-    </div>
-    <div class="exemple-box"><strong>Exemple :</strong> un facteur de dilution de 10 signifie que la solution mère a été diluée 10 fois (sa concentration est divisée par 10).</div>
-    <div style="text-align:center;margin-top:14px;">
-      <a href="https://www.pearltrees.com/private/id104933074/item801441797?paccess=47cfda15101.2fc50805.a9cf1083fcd0146a33d7476117786228"
-         target="_blank"
-         style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);">
-        ▶&nbsp; Vidéo – Le facteur de dilution
-      </a>
-    </div>
-  </div>
-<div class="def-card">
-    <h3>e) Protocole expérimental d'une dilution</h3>
-    <ol style="padding-left:20px;font-size:0.92rem;line-height:1.8;">
-      <li>Prélever, avec une <strong>pipette jaugée</strong> munie d'une poire à pipeter, le volume V<sub>m</sub> de solution mère calculé.</li>
-      <li>Verser ce volume dans une <strong>fiole jaugée</strong> de volume V<sub>f</sub>.</li>
-      <li>Compléter avec de l'<strong>eau distillée</strong> jusqu'au trait de jauge, puis homogénéiser (agiter).</li>
-    </ol>
-  </div>
-<div class="def-card">
-    <h3>f) Échelle de teinte</h3>
-    <p>Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.</p>
-  </div>
-<div class="def-card">
-    <h3>Calculateur – Facteur de dilution et volume à prélever</h3>
-    <div class="composition-calc">
-      <div class="calc-row">
-        <label for="dil-tm">Concentration solution mère t<sub>m</sub> :</label>
-        <input type="number" class="calc-input" id="dil-tm" placeholder="ex : 0,25">
-        <span class="calc-unit">g·L⁻¹</span>
-      </div>
-      <div class="calc-row">
-        <label for="dil-tf">Concentration solution fille t<sub>f</sub> :</label>
-        <input type="number" class="calc-input" id="dil-tf" placeholder="ex : 0,10">
-        <span class="calc-unit">g·L⁻¹</span>
-      </div>
-      <div class="calc-row">
-        <label for="dil-vf">Volume solution fille V<sub>f</sub> :</label>
-        <input type="number" class="calc-input" id="dil-vf" placeholder="ex : 200">
-        <span class="calc-unit">mL</span>
-      </div>
-      <button class="btn-calc" onclick="calcDilution()">Calculer F et v<sub>m</sub></button>
-      <div class="calc-result" id="res-dil"></div>
-    </div>
-  </div>
-  </div>
-
-</div><!-- fin tab-0 Cours -->
-
-
-<div class="tab-content" id="tab-1">
-
-  <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')">🧃 Activité 1</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')">🏭 Activité 2</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')">⚗️ Simu. concentration</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')">🥽 TP4 : Dissolution-Coca</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🎨 TP5 étalonnage</button>
-  </div>
-
-  <div class="sub-tab-content active" id="act-sub-1">
-    <div class="section-title"><span class="icon">🧃</span> Activité 1 p40 : Caféine dans les boissons énergisantes</div>
-<div class="activite-card">
-    <h3>Activité 1 p40 : Caféine dans les boissons énergisantes</h3>
-    <p style="font-size:0.9rem;line-height:1.6;">
-      <strong>Objectifs :</strong> identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution. Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.
-    </p>
-    <div class="exo-enonce">
-      En consommation modérée, la caféine a des effets bénéfiques (détente, bonne humeur, stimulation et capacité de concentration accrue). Une consommation excessive présente des risques pour la santé.<br><br>
-      <strong>🔎 Comment déterminer le volume maximal de boisson énergisante à la caféine que nous pouvons boire afin d'éviter ces risques ?</strong>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Documents</h3>
-    <img src="AD1-1.png" alt="DOC.1 Composition de boissons énergisantes, DOC.2 Composition d'une boisson énergisante, et tableau de données sur trois boissons énergisantes" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
-  </div>
-
-  <div class="activite-card">
-    <h3>1. S'approprier</h3>
-    <div class="question-block">
-      <div class="question-label">a. Citer le solvant des boissons énergisantes et au moins deux solutés de ces solutions.</div>
-      <textarea class="rep-zone" id="r-ad1-1a" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">b. Citer le numéro de la boisson de 250 mL qui permet d'ingérer le moins de caféine si cette boisson est bue en totalité.</div>
-      <textarea class="rep-zone" id="r-ad1-1b" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>2. Réaliser</h3>
-    <div class="question-block">
-      <div class="question-label">a. Calculer la masse de caféine contenue dans la boisson numéro 1.</div>
-      <textarea class="rep-zone" id="r-ad1-2a" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">b. On appelle <strong>concentration en masse</strong> c<sub>m</sub> de caféine dans une boisson la masse de caféine par unité de volume de boisson. Calculer la concentration en masse de caféine, exprimée en grammes par litre (g·L⁻¹), dans la première, puis dans la deuxième boisson.</div>
-      <textarea class="rep-zone" id="r-ad1-2b" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>3. Analyser-Raisonner</h3>
-    <div class="question-block">
-      <div class="question-label">a. Choisir, parmi les quatre expressions suivantes, celle qui définit la concentration en masse c<sub>m</sub> d'un soluté dans une solution, m désignant une masse et V un volume :<br>
-      c<sub>m</sub> = m<sub>solution</sub>/V<sub>soluté</sub> &nbsp;;&nbsp; c<sub>m</sub> = m<sub>soluté</sub>/V<sub>solution</sub> &nbsp;;&nbsp; c<sub>m</sub> = m<sub>solution</sub>/V<sub>solution</sub> &nbsp;;&nbsp; c<sub>m</sub> = m<sub>soluté</sub>/V<sub>soluté</sub></div>
-      <textarea class="rep-zone" id="r-ad1-3a" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">b. La masse volumique de la boisson numéro 2 est ρ = 1&nbsp;100 g·L⁻¹. Déterminer un point commun et une différence entre la masse volumique de la boisson et la concentration en masse de caféine de la boisson.</div>
-      <textarea class="rep-zone" id="r-ad1-3b" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>4. Valider</h3>
-    <div class="question-block">
-      <div class="question-label">D'après l'EFSA, pour la seule analyse de la caféine, boire deux cannettes par jour de la troisième boisson énergisante ne présente pas de risque pour la santé d'un adulte. Valider cette recommandation par un calcul approprié.</div>
-      <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="act-sub-2">
-    <div class="section-title"><span class="icon">🏭</span> Activité 2 : Contrôle du travail d'un fabricant</div>
-<div class="activite-card">
-    <h3>Activité 2 : Contrôle du travail d'un fabricant</h3>
-    <p style="font-size:0.9rem;line-height:1.6;">À compléter avec l'application : remplir la fiche de cours partie 2.</p>
-    <div style="text-align:center;margin-top:14px;">
-      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_concentrationenmasse/index.html"
-         target="_blank" rel="noopener"
-         style="display:inline-flex; align-items:center; gap:8px; background:var(--rouge); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(192,57,43,0.20);">
-        ▶&nbsp; Ouvrir l'application
-      </a>
-    </div>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="act-sub-3">
-    <div class="section-title"><span class="icon">⚗️</span> Simulation — Concentration d'une solution</div>
+<h3>c) Solution saturée</h3>
+<p>Une solution est dite <strong>saturée</strong> lorsqu'elle ne peut plus dissoudre de soluté supplémentaire : tout ajout de soluté reste alors sous forme non dissoute (solide non dissous au fond du récipient, par exemple). La concentration correspondante est appelée <strong>concentration maximale</strong> C<sub>max</sub>.</p>
+</div>
 <div class="exo-card">
-    <div class="exo-header">
-      <h3>Simulation – Concentration d'une solution</h3>
-      <span class="exo-pill simulation">🔬 SIMULATION</span>
-    </div>
-    <div class="exo-enonce">
+<div class="exo-header">
+<h3>Application — Dissolution et saturation</h3>
+<span class="exo-pill">📝 QCM</span>
+</div>
+<div class="qcm-grid">
+<div class="qcm-item" id="qdiss1">
+<div>
+<div class="substance">a. Dissoudre un solide dans un solvant signifie…</div>
+<div class="qcm-feedback" id="fb-qdiss1"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire fondre le solide','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire fondre le solide (changement d'état)</button>
+<button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire disparaître les cristaux visibles, dispersés à l'échelle moléculaire ou ionique</button>
+</div>
+</div>
+<div class="qcm-item" id="qdiss2">
+<div>
+<div class="substance">b. Une solution est dite saturée quand…</div>
+<div class="qcm-feedback" id="fb-qdiss2"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle ne peut plus dissoudre de soluté, qui reste alors visible au fond</button>
+<button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle est devenue trop chaude','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle est devenue trop chaude</button>
+</div>
+</div>
+<div class="qcm-item" id="qdiss3">
+<div>
+<div class="substance">c. Pour peser précisément la masse de soluté à dissoudre, on utilise…</div>
+<div class="qcm-feedback" id="fb-qdiss3"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une éprouvette graduée','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une éprouvette graduée</button>
+<button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une balance (avec coupelle ou sabot de pesée)','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une balance (avec coupelle ou sabot de pesée)</button>
+</div>
+</div>
+</div>
+<button class="btn-recommencer" onclick="recommencerExo(this,null,['qdiss1','qdiss2','qdiss3'])">↺ Recommencer</button>
+</div>
+</div>
+<div class="sub-tab-content" id="cours-sub-4">
+<div class="section-title">
+<span class="icon">💧</span> Dilution d'une solution
+  </div>
+<div class="def-card">
+<h3>a) Qu'est-ce que la dilution ?</h3>
+<p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>
+<div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
+<img alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" src="dilution_complet.png" style="width:100%;max-width:900px;display:block;margin:0 auto;"/>
+</div>
+</div>
+<div class="def-card">
+<h3>b) Grandeurs qui changent ou non au cours de la dilution</h3>
+<ul>
+<li><strong>Ne change pas</strong> : la quantité (la masse) de soluté dissous, qui est seulement répartie dans un plus grand volume.</li>
+<li><strong>Change</strong> : le volume total de la solution (augmente) et la concentration en masse du soluté (diminue).</li>
+</ul>
+</div>
+<div class="def-card">
+<h3>c) Grandeurs caractéristiques d'une solution</h3>
+<ul>
+<li>La <strong>concentration en masse</strong> (ou titre massique) C<sub>m</sub> (en g·L⁻¹)</li>
+<li>La <strong>masse volumique</strong> ρ<sub>solution</sub> (en g·L⁻¹)</li>
+<li>Des grandeurs liées comme la <strong>couleur</strong> (échelle de teinte) ou la <strong>conductance</strong></li>
+</ul>
+</div>
+<div class="def-card">
+<h3>d) Facteur de dilution</h3>
+<p>Le <strong>facteur de dilution</strong> F est le rapport entre la concentration de la solution mère et celle de la solution fille (ou, de manière équivalente, le rapport entre le volume de solution fille et le volume de solution mère prélevé) :</p>
+<div class="formule-box">
+      F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub>
+<div class="legend">F sans unité  |  t<sub>m</sub>, t<sub>f</sub> en g·L⁻¹  |  V<sub>m</sub>, V<sub>f</sub> en L</div>
+</div>
+<div class="exemple-box"><strong>Exemple :</strong> un facteur de dilution de 10 signifie que la solution mère a été diluée 10 fois (sa concentration est divisée par 10).</div>
+<div style="text-align:center;margin-top:14px;">
+<a href="https://www.pearltrees.com/private/id104933074/item801441797?paccess=47cfda15101.2fc50805.a9cf1083fcd0146a33d7476117786228" style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);" target="_blank">
+        ▶  Vidéo – Le facteur de dilution
+      </a>
+</div>
+</div>
+<div class="def-card">
+<h3>e) Protocole expérimental d'une dilution</h3>
+<ol style="padding-left:20px;font-size:0.92rem;line-height:1.8;">
+<li>Prélever, avec une <strong>pipette jaugée</strong> munie d'une poire à pipeter, le volume V<sub>m</sub> de solution mère calculé.</li>
+<li>Verser ce volume dans une <strong>fiole jaugée</strong> de volume V<sub>f</sub>.</li>
+<li>Compléter avec de l'<strong>eau distillée</strong> jusqu'au trait de jauge, puis homogénéiser (agiter).</li>
+</ol>
+</div>
+<div class="def-card">
+<h3>f) Échelle de teinte</h3>
+<p>Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.</p>
+</div>
+<div class="def-card">
+<h3>Calculateur – Facteur de dilution et volume à prélever</h3>
+<div class="composition-calc">
+<div class="calc-row">
+<label for="dil-tm">Concentration solution mère t<sub>m</sub> :</label>
+<input class="calc-input" id="dil-tm" placeholder="ex : 0,25" type="number"/>
+<span class="calc-unit">g·L⁻¹</span>
+</div>
+<div class="calc-row">
+<label for="dil-tf">Concentration solution fille t<sub>f</sub> :</label>
+<input class="calc-input" id="dil-tf" placeholder="ex : 0,10" type="number"/>
+<span class="calc-unit">g·L⁻¹</span>
+</div>
+<div class="calc-row">
+<label for="dil-vf">Volume solution fille V<sub>f</sub> :</label>
+<input class="calc-input" id="dil-vf" placeholder="ex : 200" type="number"/>
+<span class="calc-unit">mL</span>
+</div>
+<button class="btn-calc" onclick="calcDilution()">Calculer F et v<sub>m</sub></button>
+<div class="calc-result" id="res-dil"></div>
+</div>
+</div>
+</div>
+</div><!-- fin tab-0 Cours -->
+<div class="tab-content" id="tab-1">
+<div class="sub-tabs-nav">
+<button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')">🧃 Activité 1</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')">🏭 Activité 2</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')">⚗️ Simu. concentration</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')">🥽 TP4 : Dissolution-Coca</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🎨 TP5 étalonnage</button>
+</div>
+<div class="sub-tab-content active" id="act-sub-1">
+<div class="section-title"><span class="icon">🧃</span> Activité 1 p40 : Caféine dans les boissons énergisantes</div>
+<div class="activite-card">
+<h3>Activité 1 p40 : Caféine dans les boissons énergisantes</h3>
+<p style="font-size:0.9rem;line-height:1.6;">
+<strong>Objectifs :</strong> identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution. Distinguer la masse volumique d'un échantillon et la concentration d'un soluté au sein d'une solution.
+    </p>
+<div class="exo-enonce">
+      En consommation modérée, la caféine a des effets bénéfiques (détente, bonne humeur, stimulation et capacité de concentration accrue). Une consommation excessive présente des risques pour la santé.<br/><br/>
+<strong>🔎 Comment déterminer le volume maximal de boisson énergisante à la caféine que nous pouvons boire afin d'éviter ces risques ?</strong>
+</div>
+</div>
+<div class="activite-card">
+<h3>Documents</h3>
+<img alt="DOC.1 Composition de boissons énergisantes, DOC.2 Composition d'une boisson énergisante, et tableau de données sur trois boissons énergisantes" src="AD1-1.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;"/>
+</div>
+<div class="activite-card">
+<h3>1. S'approprier</h3>
+<div class="question-block">
+<div class="question-label">a. Citer le solvant des boissons énergisantes et au moins deux solutés de ces solutions.</div>
+<textarea class="rep-zone" id="r-ad1-1a" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">b. Citer le numéro de la boisson de 250 mL qui permet d'ingérer le moins de caféine si cette boisson est bue en totalité.</div>
+<textarea class="rep-zone" id="r-ad1-1b" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+</div>
+<div class="activite-card">
+<h3>2. Réaliser</h3>
+<div class="question-block">
+<div class="question-label">a. Calculer la masse de caféine contenue dans la boisson numéro 1.</div>
+<textarea class="rep-zone" id="r-ad1-2a" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">b. On appelle <strong>concentration en masse</strong> c<sub>m</sub> de caféine dans une boisson la masse de caféine par unité de volume de boisson. Calculer la concentration en masse de caféine, exprimée en grammes par litre (g·L⁻¹), dans la première, puis dans la deuxième boisson.</div>
+<textarea class="rep-zone" id="r-ad1-2b" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+</div>
+<div class="activite-card">
+<h3>3. Analyser-Raisonner</h3>
+<div class="question-block">
+<div class="question-label">a. Choisir, parmi les quatre expressions suivantes, celle qui définit la concentration en masse c<sub>m</sub> d'un soluté dans une solution, m désignant une masse et V un volume :<br/>
+      c<sub>m</sub> = m<sub>solution</sub>/V<sub>soluté</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>solution</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>soluté</sub></div>
+<textarea class="rep-zone" id="r-ad1-3a" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">b. La masse volumique de la boisson numéro 2 est ρ = 1 100 g·L⁻¹. Déterminer un point commun et une différence entre la masse volumique de la boisson et la concentration en masse de caféine de la boisson.</div>
+<textarea class="rep-zone" id="r-ad1-3b" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+</div>
+<div class="activite-card">
+<h3>4. Valider</h3>
+<div class="question-block">
+<div class="question-label">D'après l'EFSA, pour la seule analyse de la caféine, boire deux cannettes par jour de la troisième boisson énergisante ne présente pas de risque pour la santé d'un adulte. Valider cette recommandation par un calcul approprié.</div>
+<textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+</div>
+</div>
+<div class="sub-tab-content" id="act-sub-2">
+<div class="section-title"><span class="icon">🏭</span> Activité 2 : Contrôle du travail d'un fabricant</div>
+<div class="activite-card">
+<h3>Activité 2 : Contrôle du travail d'un fabricant</h3>
+<p style="font-size:0.9rem;line-height:1.6;">À compléter avec l'application : remplir la fiche de cours partie 2.</p>
+<div style="text-align:center;margin-top:14px;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_concentrationenmasse/index.html" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:var(--rouge); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(192,57,43,0.20);" target="_blank">
+        ▶  Ouvrir l'application
+      </a>
+</div>
+</div>
+</div>
+<div class="sub-tab-content" id="act-sub-3">
+<div class="section-title"><span class="icon">⚗️</span> Simulation — Concentration d'une solution</div>
+<div class="exo-card">
+<div class="exo-header">
+<h3>Simulation – Concentration d'une solution</h3>
+<span class="exo-pill simulation">🔬 SIMULATION</span>
+</div>
+<div class="exo-enonce">
       Utilisez la simulation interactive PhET pour visualiser l'effet du soluté dissous et de la dilution sur la concentration d'une solution, et vérifier vos calculs.
     </div>
-    <div style="text-align:center;margin-top:14px;">
-      <a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr"
-         target="_blank" rel="noopener"
-         style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);">
-        🔬&nbsp; Ouvrir la simulation PhET
+<div style="text-align:center;margin-top:14px;">
+<a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);" target="_blank">
+        🔬  Ouvrir la simulation PhET
       </a>
+</div>
+<div style="background:var(--gris-fond);border-radius:10px;padding:14px 16px;margin-top:16px;">
+<h4 style="margin:0 0 8px 0;font-size:0.95rem;">🧭 Mode d'emploi</h4>
+<ol style="font-size:0.88rem;color:var(--texte-léger);line-height:1.7;padding-left:20px;margin:0;">
+<li>Ouvrez l'onglet <strong>« Solutés »</strong> de la simulation et choisissez un soluté (ex : chlorure de cobalt(II)).</li>
+<li>Ajoutez progressivement du soluté à l'aide de la cuillère et observez l'évolution de la couleur et de la valeur de concentration affichée.</li>
+<li>Continuez à ajouter du soluté jusqu'à observer un dépôt au fond du bécher (solution saturée).</li>
+<li>Passez à l'onglet <strong>« Dilutions »</strong> : ajoutez de l'eau à une solution déjà préparée et observez l'évolution de la concentration.</li>
+<li>Répondez aux questions ci-dessous au fur et à mesure de votre manipulation.</li>
+</ol>
+</div>
+</div>
+<div class="exo-card" style="margin-top:16px;">
+<div class="exo-header">
+<h3>Questions – Simulation concentration</h3>
+<span class="exo-pill simulation">🔬 SIMULATION</span>
+</div>
+<div class="question-block">
+<div class="question-label">1. Lorsqu'on ajoute progressivement du soluté dans l'eau (volume constant), comment évolue l'intensité de la couleur de la solution ? À quelle grandeur physique cette évolution est-elle liée ?</div>
+<textarea class="rep-zone" id="r-simu1" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Relevez sur l'interface une masse de soluté dissous et le volume de solution correspondant. Retrouvez par le calcul la valeur de la concentration en masse affichée.</div>
+<textarea class="rep-zone" id="r-simu2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">3. Que se passe-t-il lorsque vous continuez à ajouter du soluté après l'apparition du dépôt au fond du bécher ? La concentration de la solution continue-t-elle d'augmenter ?</div>
+<textarea class="rep-zone" id="r-simu3" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">4. Dans l'onglet « Dilutions », ajoutez de l'eau à une solution existante. Comment évolue la concentration ? Est-ce cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> ?</div>
+<textarea class="rep-zone" id="r-simu4" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">5. Comparez deux solutés différents réglés à la même valeur de concentration. Ont-ils la même intensité de couleur ? Comment l'expliquer ?</div>
+<textarea class="rep-zone" id="r-simu5" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-simu')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-simu')">↺ Recommencer</button>
+<div class="correction" id="corr-simu">
+<strong>1.</strong> Plus on ajoute de soluté (à volume constant), plus la couleur de la solution devient intense. Cette évolution est liée à la <strong>concentration en masse</strong> du soluté dans la solution : plus elle est élevée, plus la teinte est foncée (tant que la solution n'est pas saturée).<br/><br/>
+<strong>2.</strong> On applique la relation C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Par exemple, pour m = 10 g dissous dans V = 0,50 L, on retrouve C<sub>m</sub> = 10 / 0,50 = 20 g·L⁻¹, cohérent avec la valeur affichée par la simulation.<br/><br/>
+<strong>3.</strong> Au-delà de l'apparition du dépôt, la solution est <strong>saturée</strong> : la concentration n'augmente plus, elle reste égale à la concentration maximale de dissolution (concentration de saturation). Le soluté ajouté en excès reste sous forme solide, non dissous, au fond du bécher.<br/><br/>
+<strong>4.</strong> Ajouter de l'eau (sans ajouter de soluté) <strong>dilue</strong> la solution : le volume augmente alors que la quantité de soluté reste inchangée, donc la concentration diminue. C'est cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> (conservation de la quantité de soluté lors d'une dilution).<br/><br/>
+<strong>5.</strong> Non, deux solutés différents à la même concentration n'ont pas nécessairement la même intensité de couleur : chaque espèce chimique possède sa propre couleur caractéristique. L'intensité colorée dépend donc à la fois de la concentration <em>et</em> de la nature du soluté (notion que vous retrouverez avec les échelles de teinte et la spectrophotométrie).
     </div>
-
-    <div style="background:var(--gris-fond);border-radius:10px;padding:14px 16px;margin-top:16px;">
-      <h4 style="margin:0 0 8px 0;font-size:0.95rem;">🧭 Mode d'emploi</h4>
-      <ol style="font-size:0.88rem;color:var(--texte-léger);line-height:1.7;padding-left:20px;margin:0;">
-        <li>Ouvrez l'onglet <strong>« Solutés »</strong> de la simulation et choisissez un soluté (ex : chlorure de cobalt(II)).</li>
-        <li>Ajoutez progressivement du soluté à l'aide de la cuillère et observez l'évolution de la couleur et de la valeur de concentration affichée.</li>
-        <li>Continuez à ajouter du soluté jusqu'à observer un dépôt au fond du bécher (solution saturée).</li>
-        <li>Passez à l'onglet <strong>« Dilutions »</strong> : ajoutez de l'eau à une solution déjà préparée et observez l'évolution de la concentration.</li>
-        <li>Répondez aux questions ci-dessous au fur et à mesure de votre manipulation.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="exo-card" style="margin-top:16px;">
-    <div class="exo-header">
-      <h3>Questions – Simulation concentration</h3>
-      <span class="exo-pill simulation">🔬 SIMULATION</span>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">1. Lorsqu'on ajoute progressivement du soluté dans l'eau (volume constant), comment évolue l'intensité de la couleur de la solution ? À quelle grandeur physique cette évolution est-elle liée ?</div>
-      <textarea class="rep-zone" id="r-simu1" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">2. Relevez sur l'interface une masse de soluté dissous et le volume de solution correspondant. Retrouvez par le calcul la valeur de la concentration en masse affichée.</div>
-      <textarea class="rep-zone" id="r-simu2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">3. Que se passe-t-il lorsque vous continuez à ajouter du soluté après l'apparition du dépôt au fond du bécher ? La concentration de la solution continue-t-elle d'augmenter ?</div>
-      <textarea class="rep-zone" id="r-simu3" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">4. Dans l'onglet « Dilutions », ajoutez de l'eau à une solution existante. Comment évolue la concentration ? Est-ce cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> ?</div>
-      <textarea class="rep-zone" id="r-simu4" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">5. Comparez deux solutés différents réglés à la même valeur de concentration. Ont-ils la même intensité de couleur ? Comment l'expliquer ?</div>
-      <textarea class="rep-zone" id="r-simu5" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <button class="btn-correction" onclick="toggleCorr('corr-simu')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-simu')">↺ Recommencer</button>
-    <div class="correction" id="corr-simu">
-      <strong>1.</strong> Plus on ajoute de soluté (à volume constant), plus la couleur de la solution devient intense. Cette évolution est liée à la <strong>concentration en masse</strong> du soluté dans la solution : plus elle est élevée, plus la teinte est foncée (tant que la solution n'est pas saturée).<br><br>
-      <strong>2.</strong> On applique la relation C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Par exemple, pour m = 10 g dissous dans V = 0,50 L, on retrouve C<sub>m</sub> = 10 / 0,50 = 20 g·L⁻¹, cohérent avec la valeur affichée par la simulation.<br><br>
-      <strong>3.</strong> Au-delà de l'apparition du dépôt, la solution est <strong>saturée</strong> : la concentration n'augmente plus, elle reste égale à la concentration maximale de dissolution (concentration de saturation). Le soluté ajouté en excès reste sous forme solide, non dissous, au fond du bécher.<br><br>
-      <strong>4.</strong> Ajouter de l'eau (sans ajouter de soluté) <strong>dilue</strong> la solution : le volume augmente alors que la quantité de soluté reste inchangée, donc la concentration diminue. C'est cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> (conservation de la quantité de soluté lors d'une dilution).<br><br>
-      <strong>5.</strong> Non, deux solutés différents à la même concentration n'ont pas nécessairement la même intensité de couleur : chaque espèce chimique possède sa propre couleur caractéristique. L'intensité colorée dépend donc à la fois de la concentration <em>et</em> de la nature du soluté (notion que vous retrouverez avec les échelles de teinte et la spectrophotométrie).
-    </div>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="act-sub-4">
-    <div class="section-title"><span class="icon">🥽</span> TP4 : Dissolution-Coca</div>
+</div>
+</div>
+<div class="sub-tab-content" id="act-sub-4">
+<div class="section-title"><span class="icon">🥽</span> TP4 : Dissolution-Coca</div>
 <div class="activite-card">
-    <h3>TP4 : Dissolution-Coca</h3>
-    <p style="font-size:0.9rem;line-height:1.6;">À faire avant le TP4 : test sur la verrerie en laboratoire <em>(blouse obligatoire)</em></p>
-    <div style="text-align:center;margin-top:14px;">
-      <a href="https://www.pearltrees.com/private/id104933822/item801435685?paccess=47e27cb05ea.2fc4f025.d242331f37f36044174fc722b35180d3"
-         target="_blank" rel="noopener"
-         style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);">
-        🥽&nbsp; Faire le test sur la verrerie
+<h3>TP4 : Dissolution-Coca</h3>
+<p style="font-size:0.9rem;line-height:1.6;">À faire avant le TP4 : test sur la verrerie en laboratoire <em>(blouse obligatoire)</em></p>
+<div style="text-align:center;margin-top:14px;">
+<a href="https://www.pearltrees.com/private/id104933822/item801435685?paccess=47e27cb05ea.2fc4f025.d242331f37f36044174fc722b35180d3" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);" target="_blank">
+        🥽  Faire le test sur la verrerie
       </a>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Mesure de la masse de sucre dans une boisson sucrée</h3>
-    <div class="exo-enonce">
-      <strong>Objectif :</strong> la masse volumique et la concentration en masse s'expriment en g·L⁻¹. Quelle différence entre ces deux grandeurs physiques ?<br><br>
+</div>
+</div>
+<div class="activite-card">
+<h3>Mesure de la masse de sucre dans une boisson sucrée</h3>
+<div class="exo-enonce">
+<strong>Objectif :</strong> la masse volumique et la concentration en masse s'expriment en g·L⁻¹. Quelle différence entre ces deux grandeurs physiques ?<br/><br/>
       Pour comprendre cette différence, nous allons vérifier la composition en sucre d'une boisson.
     </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Document 1 : Information générale</h3>
-    <p style="font-size:0.88rem;line-height:1.6;">Certaines canettes de 33 cL de boissons sans alcool peuvent contenir jusqu'à près de 40 g de sucre. Le sucre est souvent le soluté largement majoritaire.<br>
-    Pour simplifier, on peut alors considérer ces boissons dégazées comme des solutions aqueuses sucrées.<br>
-    Ce qu'on appelle « sucre » dans le langage courant est le saccharose.</p>
-    <p style="font-size:0.88rem;line-height:1.6;background:var(--gris-fond);border-radius:8px;padding:10px 14px;"><em>Une canette de soda vide pèse 28 g, pleine elle pèse 372 g.</em></p>
-  </div>
-
-  <div class="activite-card">
-    <h3>Document 2 : Masse volumique</h3>
-    <p style="font-size:0.88rem;line-height:1.6;">La masse volumique ρ d'un liquide est le rapport entre la masse totale m du liquide et le volume V de celui-ci :</p>
-    <div class="formule-box">ρ = m / V</div>
-    <p style="font-size:0.88rem;line-height:1.6;margin-top:8px;">On considère que la masse volumique de l'eau pure à 20 °C est de 1,00 g·mL⁻¹.</p>
-  </div>
-
-  <div class="activite-card">
-    <h3>Document 3 : Concentration massique</h3>
-    <p style="font-size:0.88rem;line-height:1.6;">La concentration massique C<sub>m</sub> d'une solution est égale à la masse de soluté dissous par litre de solution :</p>
-    <div class="formule-box">c<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub></div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Document 4 : Définition de la courbe d'étalonnage</h3>
-    <p style="font-size:0.88rem;line-height:1.6;">Une courbe d'étalonnage permet de faire un lien graphique entre deux grandeurs mesurables. Elle permet de trouver une valeur inconnue d'un échantillon en la comparant avec un ensemble de valeurs connues appelé étalons.<br>
-    La série de mesures étalons nécessaires pour établir la courbe permet d'avoir une meilleure précision sur le résultat final que si l'on réalise une mesure unique.</p>
-  </div>
-
-  <div class="activite-card">
-    <h3>Document 5 : Protocole de la dissolution</h3>
-    <ul style="font-size:0.88rem;line-height:1.75;padding-left:20px;margin:0;">
-      <li>Poser un bécher sur la balance puis tarer.</li>
-      <li>Peser la masse souhaitée de soluté en l'introduisant dans le bécher.</li>
-      <li>Dissoudre le soluté dans un minimum de solvant.</li>
-      <li><strong>Peser une fiole jaugée vide du volume final souhaité</strong> (tarer si possible).</li>
-      <li>Introduire la solution dans la fiole jaugée à l'aide d'un entonnoir.</li>
-      <li>Rincer plusieurs fois à l'aide du solvant de manière qu'il ne reste plus de soluté dans le bécher.</li>
-      <li>Compléter environ un tiers de la fiole jaugée avec le solvant puis agiter doucement pour dissoudre le solide.</li>
-      <li>Compléter la fiole avec le solvant jusqu'au trait de jauge : le bas du ménisque doit être situé au niveau du trait de jauge.</li>
-      <li><strong>Peser la solution, noter la masse m<sub>solution d'eau sucrée</sub></strong>.</li>
-      <li>Fermer la fiole à l'aide d'un bouchon, puis agiter en retournant la fiole plusieurs fois pour homogénéiser la solution.</li>
-    </ul>
-  </div>
-
-  <div class="activite-card">
-    <h3>Partie 1 : Réalisation d'une courbe d'étalonnage</h3>
-    <div class="question-block">
-      <div class="question-label">1. À l'aide du document 3, compléter la ligne 3 du tableau (document 6). Noter votre calcul.</div>
-      <textarea class="rep-zone" id="r-tp4-p1q1" placeholder="Rédigez votre calcul…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Chaque groupe réalise au moins une solution étalon d'eau sucrée par dissolution en suivant les étapes du protocole proposé dans le document 5.</div>
-    </div>
-    <div class="question-block">
-      <div class="question-label">3. Comment différencier les solutions obtenues ?</div>
-      <textarea class="rep-zone" id="r-tp4-p1q3" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">4. Calculer la masse volumique de l'eau sucrée à l'aide du document 2 et de la valeur de la masse de solution d'eau sucrée trouvée précédemment. Compléter la ligne 4 du tableau.</div>
-      <textarea class="rep-zone" id="r-tp4-p1q4" placeholder="Rédigez votre calcul…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">5. Sur un tableur (ici Regressi), tracer le graphique représentant la masse volumique de la solution d'eau sucrée ρ<sub>s</sub> en fonction de la concentration massique en sucre C<sub>m</sub>. Décrire ce que vous obtenez.</div>
-      <textarea class="rep-zone" id="r-tp4-p1q5" placeholder="Décrivez votre graphique…"></textarea>
-    </div>
-
-    <h3 style="margin-top:18px;">Document 6 : Tableau à compléter</h3>
-    <div style="overflow-x:auto;">
-    <table class="ions-table" style="min-width:720px;">
-      <thead>
-        <tr>
-          <th>N° de la solution étalon</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Concentration massique en sucre recherchée (g/L)</td>
-          <td>0</td><td>50,0</td><td>100,0</td><td>150,0</td><td>200,0</td><td>250,0</td><td>300,0</td><td>350,0</td><td>400,0</td>
-        </tr>
-        <tr>
-          <td>Volume de la solution d'eau sucrée (mL)</td>
-          <td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td>
-        </tr>
-        <tr>
-          <td>Masse de sucre à dissoudre (g)</td>
-          <td>0</td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre1" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre2" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre3" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre4" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre5" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre6" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre7" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-sucre8" placeholder="…"></td>
-        </tr>
-        <tr>
-          <td>Masse volumique de l'eau sucrée (g/mL)</td>
-          <td>1,00</td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho1" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho2" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho3" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho4" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho5" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho6" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho7" placeholder="…"></td>
-          <td><input class="tbl-input" style="width:56px;" id="tp4-tab-rho8" placeholder="…"></td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Partie 2 : Utilisation de la courbe d'étalonnage</h3>
-    <div class="question-block">
-      <div class="question-label">1. Comme proposé dans le document 1, on considère le soda dégazé comme une solution aqueuse sucrée. Proposer un protocole expérimental pour mesurer sa masse volumique.</div>
-      <textarea class="rep-zone" id="r-tp4-p2q1" placeholder="Rédigez votre protocole…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Réaliser le protocole après validation du professeur. Noter la valeur ρ<sub>exp-soda</sub> = …</div>
-      <textarea class="rep-zone" id="r-tp4-p2q2" placeholder="Notez votre valeur…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">3. À l'aide du document 1, calculer la masse volumique ρ<sub>soda</sub>.</div>
-      <textarea class="rep-zone" id="r-tp4-p2q3" placeholder="Rédigez votre calcul…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">4. Connaissant la masse volumique expérimentale du soda, comment trouver à l'aide de la courbe d'étalonnage sa concentration massique expérimentale C<sub>m-exp</sub> ?</div>
-      <textarea class="rep-zone" id="r-tp4-p2q4" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">5. En déduire la masse expérimentale de sucre contenue dans le soda.</div>
-      <textarea class="rep-zone" id="r-tp4-p2q5" placeholder="Rédigez votre calcul…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">6. Comparer la masse expérimentale à celle théorique.</div>
-      <textarea class="rep-zone" id="r-tp4-p2q6" placeholder="Rédigez votre comparaison…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">7. Quelle approximation a-t-on faite en comparant notre soda avec les solutions d'eau sucrée ? Cette approximation vous semble-t-elle justifiée ?</div>
-      <textarea class="rep-zone" id="r-tp4-p2q7" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-  </div>
-  </div>
-
-  <div class="sub-tab-content" id="act-sub-5">
-    <div class="section-title"><span class="icon">🎨</span> TP5 : Dosage à l'aide d'une gamme d'étalonnage</div>
+</div>
 <div class="activite-card">
-    <h3>TP5 : Dosage d'une solution très foncée — exercice n°52 p57</h3>
-    <p style="font-size:0.9rem;line-height:1.6;"><em>(blouse obligatoire)</em></p>
-    <div class="exo-enonce">
+<h3>Document 1 : Information générale</h3>
+<p style="font-size:0.88rem;line-height:1.6;">Certaines canettes de 33 cL de boissons sans alcool peuvent contenir jusqu'à près de 40 g de sucre. Le sucre est souvent le soluté largement majoritaire.<br/>
+    Pour simplifier, on peut alors considérer ces boissons dégazées comme des solutions aqueuses sucrées.<br/>
+    Ce qu'on appelle « sucre » dans le langage courant est le saccharose.</p>
+<p style="font-size:0.88rem;line-height:1.6;background:var(--gris-fond);border-radius:8px;padding:10px 14px;"><em>Une canette de soda vide pèse 28 g, pleine elle pèse 372 g.</em></p>
+</div>
+<div class="activite-card">
+<h3>Document 2 : Masse volumique</h3>
+<p style="font-size:0.88rem;line-height:1.6;">La masse volumique ρ d'un liquide est le rapport entre la masse totale m du liquide et le volume V de celui-ci :</p>
+<div class="formule-box">ρ = m / V</div>
+<p style="font-size:0.88rem;line-height:1.6;margin-top:8px;">On considère que la masse volumique de l'eau pure à 20 °C est de 1,00 g·mL⁻¹.</p>
+</div>
+<div class="activite-card">
+<h3>Document 3 : Concentration massique</h3>
+<p style="font-size:0.88rem;line-height:1.6;">La concentration massique C<sub>m</sub> d'une solution est égale à la masse de soluté dissous par litre de solution :</p>
+<div class="formule-box">c<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub></div>
+</div>
+<div class="activite-card">
+<h3>Document 4 : Définition de la courbe d'étalonnage</h3>
+<p style="font-size:0.88rem;line-height:1.6;">Une courbe d'étalonnage permet de faire un lien graphique entre deux grandeurs mesurables. Elle permet de trouver une valeur inconnue d'un échantillon en la comparant avec un ensemble de valeurs connues appelé étalons.<br/>
+    La série de mesures étalons nécessaires pour établir la courbe permet d'avoir une meilleure précision sur le résultat final que si l'on réalise une mesure unique.</p>
+</div>
+<div class="activite-card">
+<h3>Document 5 : Protocole de la dissolution</h3>
+<ul style="font-size:0.88rem;line-height:1.75;padding-left:20px;margin:0;">
+<li>Poser un bécher sur la balance puis tarer.</li>
+<li>Peser la masse souhaitée de soluté en l'introduisant dans le bécher.</li>
+<li>Dissoudre le soluté dans un minimum de solvant.</li>
+<li><strong>Peser une fiole jaugée vide du volume final souhaité</strong> (tarer si possible).</li>
+<li>Introduire la solution dans la fiole jaugée à l'aide d'un entonnoir.</li>
+<li>Rincer plusieurs fois à l'aide du solvant de manière qu'il ne reste plus de soluté dans le bécher.</li>
+<li>Compléter environ un tiers de la fiole jaugée avec le solvant puis agiter doucement pour dissoudre le solide.</li>
+<li>Compléter la fiole avec le solvant jusqu'au trait de jauge : le bas du ménisque doit être situé au niveau du trait de jauge.</li>
+<li><strong>Peser la solution, noter la masse m<sub>solution d'eau sucrée</sub></strong>.</li>
+<li>Fermer la fiole à l'aide d'un bouchon, puis agiter en retournant la fiole plusieurs fois pour homogénéiser la solution.</li>
+</ul>
+</div>
+<div class="activite-card">
+<h3>Partie 1 : Réalisation d'une courbe d'étalonnage</h3>
+<div class="question-block">
+<div class="question-label">1. À l'aide du document 3, compléter la ligne 3 du tableau (document 6). Noter votre calcul.</div>
+<textarea class="rep-zone" id="r-tp4-p1q1" placeholder="Rédigez votre calcul…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Chaque groupe réalise au moins une solution étalon d'eau sucrée par dissolution en suivant les étapes du protocole proposé dans le document 5.</div>
+</div>
+<div class="question-block">
+<div class="question-label">3. Comment différencier les solutions obtenues ?</div>
+<textarea class="rep-zone" id="r-tp4-p1q3" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">4. Calculer la masse volumique de l'eau sucrée à l'aide du document 2 et de la valeur de la masse de solution d'eau sucrée trouvée précédemment. Compléter la ligne 4 du tableau.</div>
+<textarea class="rep-zone" id="r-tp4-p1q4" placeholder="Rédigez votre calcul…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">5. Sur un tableur (ici Regressi), tracer le graphique représentant la masse volumique de la solution d'eau sucrée ρ<sub>s</sub> en fonction de la concentration massique en sucre C<sub>m</sub>. Décrire ce que vous obtenez.</div>
+<textarea class="rep-zone" id="r-tp4-p1q5" placeholder="Décrivez votre graphique…"></textarea>
+</div>
+<h3 style="margin-top:18px;">Document 6 : Tableau à compléter</h3>
+<div style="overflow-x:auto;">
+<table class="ions-table" style="min-width:720px;">
+<thead>
+<tr>
+<th>N° de la solution étalon</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concentration massique en sucre recherchée (g/L)</td>
+<td>0</td><td>50,0</td><td>100,0</td><td>150,0</td><td>200,0</td><td>250,0</td><td>300,0</td><td>350,0</td><td>400,0</td>
+</tr>
+<tr>
+<td>Volume de la solution d'eau sucrée (mL)</td>
+<td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td><td>100,0</td>
+</tr>
+<tr>
+<td>Masse de sucre à dissoudre (g)</td>
+<td>0</td>
+<td><input class="tbl-input" id="tp4-tab-sucre1" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre2" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre3" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre4" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre5" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre6" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre7" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-sucre8" placeholder="…" style="width:56px;"/></td>
+</tr>
+<tr>
+<td>Masse volumique de l'eau sucrée (g/mL)</td>
+<td>1,00</td>
+<td><input class="tbl-input" id="tp4-tab-rho1" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho2" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho3" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho4" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho5" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho6" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho7" placeholder="…" style="width:56px;"/></td>
+<td><input class="tbl-input" id="tp4-tab-rho8" placeholder="…" style="width:56px;"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="activite-card">
+<h3>Partie 2 : Utilisation de la courbe d'étalonnage</h3>
+<div class="question-block">
+<div class="question-label">1. Comme proposé dans le document 1, on considère le soda dégazé comme une solution aqueuse sucrée. Proposer un protocole expérimental pour mesurer sa masse volumique.</div>
+<textarea class="rep-zone" id="r-tp4-p2q1" placeholder="Rédigez votre protocole…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Réaliser le protocole après validation du professeur. Noter la valeur ρ<sub>exp-soda</sub> = …</div>
+<textarea class="rep-zone" id="r-tp4-p2q2" placeholder="Notez votre valeur…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">3. À l'aide du document 1, calculer la masse volumique ρ<sub>soda</sub>.</div>
+<textarea class="rep-zone" id="r-tp4-p2q3" placeholder="Rédigez votre calcul…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">4. Connaissant la masse volumique expérimentale du soda, comment trouver à l'aide de la courbe d'étalonnage sa concentration massique expérimentale C<sub>m-exp</sub> ?</div>
+<textarea class="rep-zone" id="r-tp4-p2q4" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">5. En déduire la masse expérimentale de sucre contenue dans le soda.</div>
+<textarea class="rep-zone" id="r-tp4-p2q5" placeholder="Rédigez votre calcul…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">6. Comparer la masse expérimentale à celle théorique.</div>
+<textarea class="rep-zone" id="r-tp4-p2q6" placeholder="Rédigez votre comparaison…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">7. Quelle approximation a-t-on faite en comparant notre soda avec les solutions d'eau sucrée ? Cette approximation vous semble-t-elle justifiée ?</div>
+<textarea class="rep-zone" id="r-tp4-p2q7" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+</div>
+</div>
+<div class="sub-tab-content" id="act-sub-5">
+<div class="section-title"><span class="icon">🎨</span> TP5 : Dosage à l'aide d'une gamme d'étalonnage</div>
+<div class="activite-card">
+<h3>TP5 : Dosage d'une solution très foncée — exercice n°52 p57</h3>
+<p style="font-size:0.9rem;line-height:1.6;"><em>(blouse obligatoire)</em></p>
+<div class="exo-enonce">
       L'éosine aqueuse est une solution antiseptique permettant de désinfecter les petites plaies. L'espèce chimique ayant une activité antiseptique est très colorée, ce qui permet son dosage par comparaison avec une échelle de teintes.
     </div>
-  </div>
-
-  <div class="activite-card">
-    <h3>Documents</h3>
-    <img src="TP5-1.png" alt="DONNÉES 1 Titre d'une solution, DONNÉES 2 Échelle de teintes, DONNÉES 3 Solutions étalons, et photo de flacons de solution d'éosine" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
-  </div>
-
-  <div class="activite-card">
-    <h3>Répondre aux questions suivantes</h3>
-    <div class="question-block">
-      <div class="question-label">1. L'éosine aqueuse commercialisée a-t-elle une couleur permettant sa comparaison à celles de l'échelle de teintes ?</div>
-      <textarea class="rep-zone" id="r-tp5-q1" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Proposer un protocole expérimental permettant de réaliser avec précision 100 mL d'une solution aqueuse diluée d'éosine dont la concentration en masse est vingt fois plus petite que celle de la concentration en masse de la solution mère.</div>
-      <textarea class="rep-zone" id="r-tp5-q2" placeholder="Rédigez votre protocole…"></textarea>
-    </div>
-    <div class="remarque-box">📞 <strong>Appel n°1 :</strong> appeler le professeur pour lui présenter le protocole ou en cas de difficulté.</div>
-    <div class="question-block">
-      <div class="question-label">3. Mettre en œuvre le protocole.</div>
-    </div>
-    <div class="question-block">
-      <div class="question-label">4. En déduire un encadrement de la concentration en masse de la solution diluée, puis de celle du produit pharmaceutique.</div>
-      <textarea class="rep-zone" id="r-tp5-q4" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="remarque-box">📞 <strong>Appel n°2 :</strong> appeler le professeur pour lui présenter le résultat ou en cas de difficulté. Demander au professeur de vous présenter l'étiquette du produit commercial.</div>
-    <div class="question-block">
-      <div class="question-label">5. Valider ou invalider le résultat.</div>
-      <textarea class="rep-zone" id="r-tp5-q5" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-  </div>
-  </div>
-
+</div>
+<div class="activite-card">
+<h3>Documents</h3>
+<img alt="DONNÉES 1 Titre d'une solution, DONNÉES 2 Échelle de teintes, DONNÉES 3 Solutions étalons, et photo de flacons de solution d'éosine" src="TP5-1.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;"/>
+</div>
+<div class="activite-card">
+<h3>Répondre aux questions suivantes</h3>
+<div class="question-block">
+<div class="question-label">1. L'éosine aqueuse commercialisée a-t-elle une couleur permettant sa comparaison à celles de l'échelle de teintes ?</div>
+<textarea class="rep-zone" id="r-tp5-q1" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Proposer un protocole expérimental permettant de réaliser avec précision 100 mL d'une solution aqueuse diluée d'éosine dont la concentration en masse est vingt fois plus petite que celle de la concentration en masse de la solution mère.</div>
+<textarea class="rep-zone" id="r-tp5-q2" placeholder="Rédigez votre protocole…"></textarea>
+</div>
+<div class="remarque-box">📞 <strong>Appel n°1 :</strong> appeler le professeur pour lui présenter le protocole ou en cas de difficulté.</div>
+<div class="question-block">
+<div class="question-label">3. Mettre en œuvre le protocole.</div>
+</div>
+<div class="question-block">
+<div class="question-label">4. En déduire un encadrement de la concentration en masse de la solution diluée, puis de celle du produit pharmaceutique.</div>
+<textarea class="rep-zone" id="r-tp5-q4" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="remarque-box">📞 <strong>Appel n°2 :</strong> appeler le professeur pour lui présenter le résultat ou en cas de difficulté. Demander au professeur de vous présenter l'étiquette du produit commercial.</div>
+<div class="question-block">
+<div class="question-label">5. Valider ou invalider le résultat.</div>
+<textarea class="rep-zone" id="r-tp5-q5" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+</div>
+</div>
 </div><!-- fin tab-1 Activités -->
-
-
 <div class="tab-content" id="tab-2">
-
-  <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟡 Intermédiaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-diff')">🔴 Difficile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔓 Escape Game</button>
-  </div>
-
-  <div class="sub-tab-content active" id="exo-sub-facile">
-    <div class="section-title"><span class="icon">🟢</span> Exercices — Niveau facile</div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Test – Qu'est-ce qu'une solution ?</h3>
-      <span class="exo-pill">📝 QCM</span>
-    </div>
-    <div class="qcm-grid">
-      <div id="q1" class="qcm-item">
-        <div>
-          <div class="substance">a. Une solution est toujours...</div>
-          <div class="qcm-feedback" id="fb-q1"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
-          <button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
-        </div>
-      </div>
-      <div id="q2" class="qcm-item">
-        <div>
-          <div class="substance">b. Dans une solution sucrée, le sucre est...</div>
-          <div class="qcm-feedback" id="fb-q2"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</button>
-          <button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</button>
-        </div>
-      </div>
-      <div id="q3" class="qcm-item">
-        <div>
-          <div class="substance">c. Un soluté peut être...</div>
-          <div class="qcm-feedback" id="fb-q3"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</button>
-          <button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</button>
-        </div>
-      </div>
-    </div>
-    <button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
-  </div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – Solvants et solutés</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour chaque solution, indique le solvant et le ou les soluté(s) :</p>
-
-    <table class="ions-table">
-      <thead>
-        <tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Café</td><td><input class="tbl-input" id="r-cafe-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-cafe-solute" placeholder="…"></td></tr>
-        <tr><td>Eau de mer</td><td><input class="tbl-input" id="r-mer-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-mer-solute" placeholder="…"></td></tr>
-        <tr><td>Vin</td><td><input class="tbl-input" id="r-vin-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-vin-solute" placeholder="…"></td></tr>
-        <tr><td>Eau gazeuse</td><td><input class="tbl-input" id="r-gaz-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-gaz-solute" placeholder="…"></td></tr>
-        <tr><td>Lait</td><td><input class="tbl-input" id="r-lait-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-lait-solute" placeholder="…"></td></tr>
-        <tr><td>Eau de toilette</td><td><input class="tbl-input" id="r-toil-solvant" placeholder="…"></td><td><input class="tbl-input" id="r-toil-solute" placeholder="…"></td></tr>
-      </tbody>
-    </table>
-
-    <button class="btn-correction" onclick="verifierTableau1()">✓ Vérifier mes réponses</button>
-    <button class="btn-recommencer" onclick="reinitialiserTableau1()">↺ Recommencer</button>
-    <div class="calc-result" id="verif-tableau1-result"></div>
-
-    <button class="btn-correction" style="margin-top:10px;" onclick="toggleCorr('corr-tableau1')">▶ Voir le corrigé complet</button>
-    <div class="correction" id="corr-tableau1">
-      <table class="ions-table" style="margin:0;">
-        <thead><tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr></thead>
-        <tbody>
-          <tr><td>Café</td><td>Eau</td><td>Caféine, arômes, tanins…</td></tr>
-          <tr><td>Eau de mer</td><td>Eau</td><td>Chlorure de sodium (Na⁺, Cl⁻) et autres sels minéraux</td></tr>
-          <tr><td>Vin</td><td>Eau</td><td>Éthanol, arômes, polyphénols…</td></tr>
-          <tr><td>Eau gazeuse</td><td>Eau</td><td>Dioxyde de carbone CO₂ (gaz dissous), sels minéraux</td></tr>
-          <tr><td>Lait</td><td>Eau</td><td>Lactose, sels minéraux (les matières grasses/protéines forment plutôt une émulsion)</td></tr>
-          <tr><td>Eau de toilette</td><td>Éthanol</td><td>Molécules odorantes (parfum)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="exo-card" id="exo-nouv-facile1">
-    <div class="exo-header">
-      <h3>Exercice — Identifier solvant et soluté</h3>
-      <span class="exo-pill">📝 QCM</span>
-    </div>
-    <div class="qcm-grid">
-      <div id="nf1q1" class="qcm-item">
-        <div>
-          <div class="substance">a. Dans le sérum physiologique (eau + chlorure de sodium à 9 g·L⁻¹), le solvant est…</div>
-          <div class="qcm-feedback" id="fb-nf1q1"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','l\'eau','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">l'eau</button>
-          <button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','le chlorure de sodium','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">le chlorure de sodium</button>
-        </div>
-      </div>
-      <div id="nf1q2" class="qcm-item">
-        <div>
-          <div class="substance">b. Dans un vernis à ongles (acétone + colorants + résines), le soluté est…</div>
-          <div class="qcm-feedback" id="fb-nf1q2"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','les colorants et résines','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">les colorants et résines</button>
-          <button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','l\'acétone','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">l'acétone</button>
-        </div>
-      </div>
-      <div id="nf1q3" class="qcm-item">
-        <div>
-          <div class="substance">c. Un soda (eau + sucre + CO₂ dissous + arômes) est un mélange…</div>
-          <div class="qcm-feedback" id="fb-nf1q3"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','homogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">homogène</button>
-          <button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','hétérogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">hétérogène</button>
-        </div>
-      </div>
-      <div id="nf1q4" class="qcm-item">
-        <div>
-          <div class="substance">d. Un soluté peut être de nature…</div>
-          <div class="qcm-feedback" id="fb-nf1q4"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire uniquement','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire uniquement</button>
-          <button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire ou ionique','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire ou ionique</button>
-        </div>
-      </div>
-    </div>
-    <button class="btn-recommencer" onclick="recommencerExo(this,null,['nf1q1','nf1q2','nf1q3','nf1q4'])">↺ Recommencer</button>
-  </div><!-- fin exo-nouv-facile1 -->
+<div class="sub-tabs-nav">
+<button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟡 Intermédiaire</button>
+<button class="sub-tab-btn" onclick="showSub(this,'exo-sub-diff')">🔴 Difficile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔓 Escape Game</button>
+</div>
+<div class="sub-tab-content active" id="exo-sub-facile">
 
 
-  <div class="exo-card" id="exo-nouv-facile2">
-    <div class="exo-header">
-      <h3>Exercice — Concentration en masse d'une eau sucrée</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
+
+<!-- fin exo-nouv-facile1 -->
+<!-- fin exo-nouv-facile2 -->
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-solution-test')" type="button">Qu'est-ce qu'une solution ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-solvants-solutes')" type="button">Solvants et solutés <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identif-solvant-solute')" type="button">Identifier solvant et soluté <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-conc-eau-sucree')" type="button">Concentration en masse d'une eau sucrée <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-solution-test"><div class="exo-card" id="exo-solution-test">
+<div class="exo-header">
+<h3>Test – Qu'est-ce qu'une solution ?</h3>
+<span class="exo-pill">📝 QCM</span>
+</div>
+<div class="qcm-grid">
+<div class="qcm-item" id="q1">
+<div>
+<div class="substance">a. Une solution est toujours...</div>
+<div class="qcm-feedback" id="fb-q1"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
+<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
+<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
+</div>
+</div>
+<div class="qcm-item" id="q2">
+<div>
+<div class="substance">b. Dans une solution sucrée, le sucre est...</div>
+<div class="qcm-feedback" id="fb-q2"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</button>
+<button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</button>
+</div>
+</div>
+<div class="qcm-item" id="q3">
+<div>
+<div class="substance">c. Un soluté peut être...</div>
+<div class="qcm-feedback" id="fb-q3"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</button>
+<button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</button>
+</div>
+</div>
+</div>
+<button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
+</div></div><div class="exo-item-content" id="exoitem-solvants-solutes"><div class="exo-card" id="exo-solvants-solutes">
+<div class="exo-header">
+<h3>Exercice – Solvants et solutés</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour chaque solution, indique le solvant et le ou les soluté(s) :</p>
+<table class="ions-table">
+<thead>
+<tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr>
+</thead>
+<tbody>
+<tr><td>Café</td><td><input class="tbl-input" id="r-cafe-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-cafe-solute" placeholder="…"/></td></tr>
+<tr><td>Eau de mer</td><td><input class="tbl-input" id="r-mer-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-mer-solute" placeholder="…"/></td></tr>
+<tr><td>Vin</td><td><input class="tbl-input" id="r-vin-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-vin-solute" placeholder="…"/></td></tr>
+<tr><td>Eau gazeuse</td><td><input class="tbl-input" id="r-gaz-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-gaz-solute" placeholder="…"/></td></tr>
+<tr><td>Lait</td><td><input class="tbl-input" id="r-lait-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-lait-solute" placeholder="…"/></td></tr>
+<tr><td>Eau de toilette</td><td><input class="tbl-input" id="r-toil-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-toil-solute" placeholder="…"/></td></tr>
+</tbody>
+</table>
+<button class="btn-correction" onclick="verifierTableau1()">✓ Vérifier mes réponses</button>
+<button class="btn-recommencer" onclick="reinitialiserTableau1()">↺ Recommencer</button>
+<div class="calc-result" id="verif-tableau1-result"></div>
+<button class="btn-correction" onclick="toggleCorr('corr-tableau1')" style="margin-top:10px;">▶ Voir le corrigé complet</button>
+<div class="correction" id="corr-tableau1">
+<table class="ions-table" style="margin:0;">
+<thead><tr><th>Solution</th><th>Solvant</th><th>Soluté(s)</th></tr></thead>
+<tbody>
+<tr><td>Café</td><td>Eau</td><td>Caféine, arômes, tanins…</td></tr>
+<tr><td>Eau de mer</td><td>Eau</td><td>Chlorure de sodium (Na⁺, Cl⁻) et autres sels minéraux</td></tr>
+<tr><td>Vin</td><td>Eau</td><td>Éthanol, arômes, polyphénols…</td></tr>
+<tr><td>Eau gazeuse</td><td>Eau</td><td>Dioxyde de carbone CO₂ (gaz dissous), sels minéraux</td></tr>
+<tr><td>Lait</td><td>Eau</td><td>Lactose, sels minéraux (les matières grasses/protéines forment plutôt une émulsion)</td></tr>
+<tr><td>Eau de toilette</td><td>Éthanol</td><td>Molécules odorantes (parfum)</td></tr>
+</tbody>
+</table>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-identif-solvant-solute"><div class="exo-card" id="exo-nouv-facile1">
+<div class="exo-header">
+<h3>Exercice — Identifier solvant et soluté</h3>
+<span class="exo-pill">📝 QCM</span>
+</div>
+<div class="qcm-grid">
+<div class="qcm-item" id="nf1q1">
+<div>
+<div class="substance">a. Dans le sérum physiologique (eau + chlorure de sodium à 9 g·L⁻¹), le solvant est…</div>
+<div class="qcm-feedback" id="fb-nf1q1"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','l\'eau','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">l'eau</button>
+<button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','le chlorure de sodium','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">le chlorure de sodium</button>
+</div>
+</div>
+<div class="qcm-item" id="nf1q2">
+<div>
+<div class="substance">b. Dans un vernis à ongles (acétone + colorants + résines), le soluté est…</div>
+<div class="qcm-feedback" id="fb-nf1q2"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','les colorants et résines','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">les colorants et résines</button>
+<button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','l\'acétone','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">l'acétone</button>
+</div>
+</div>
+<div class="qcm-item" id="nf1q3">
+<div>
+<div class="substance">c. Un soda (eau + sucre + CO₂ dissous + arômes) est un mélange…</div>
+<div class="qcm-feedback" id="fb-nf1q3"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','homogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">homogène</button>
+<button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','hétérogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">hétérogène</button>
+</div>
+</div>
+<div class="qcm-item" id="nf1q4">
+<div>
+<div class="substance">d. Un soluté peut être de nature…</div>
+<div class="qcm-feedback" id="fb-nf1q4"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire uniquement','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire uniquement</button>
+<button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire ou ionique','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire ou ionique</button>
+</div>
+</div>
+</div>
+<button class="btn-recommencer" onclick="recommencerExo(this,null,['nf1q1','nf1q2','nf1q3','nf1q4'])">↺ Recommencer</button>
+</div></div><div class="exo-item-content" id="exoitem-conc-eau-sucree"><div class="exo-card" id="exo-nouv-facile2">
+<div class="exo-header">
+<h3>Exercice — Concentration en masse d'une eau sucrée</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
       On dissout <strong>15 g</strong> de sucre dans de l'eau pour obtenir <strong>250 mL</strong> de solution sucrée.
     </div>
-    <div class="question-block">
-      <div class="question-label">Calculer la concentration en masse (titre massique) t de cette solution, en g·L⁻¹.</div>
-      <textarea class="rep-zone" id="r-nf2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <button class="btn-correction" onclick="toggleCorr('corr-nf2')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-nf2')">↺ Recommencer</button>
-    <div class="correction" id="corr-nf2">
-      <div class="calc-step">V<sub>solution</sub> = 250 mL = 0,250 L</div>
-      <div class="calc-step">t = m<sub>sucre</sub> / V<sub>solution</sub> = 15 / 0,250 = <strong>60 g·L⁻¹</strong></div>
-    </div>
-  </div><!-- fin exo-nouv-facile2 -->
+<div class="question-block">
+<div class="question-label">Calculer la concentration en masse (titre massique) t de cette solution, en g·L⁻¹.</div>
+<textarea class="rep-zone" id="r-nf2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-nf2')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-nf2')">↺ Recommencer</button>
+<div class="correction" id="corr-nf2">
+<div class="calc-step">V<sub>solution</sub> = 250 mL = 0,250 L</div>
+<div class="calc-step">t = m<sub>sucre</sub> / V<sub>solution</sub> = 15 / 0,250 = <strong>60 g·L⁻¹</strong></div>
+</div>
+</div></div></div>
+<div class="sub-tab-content" id="exo-sub-inter">
 
-  </div>
 
-  <div class="sub-tab-content" id="exo-sub-inter">
-    <div class="section-title"><span class="icon">🟡</span> Exercices — Niveau intermédiaire</div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – Solution de glucose</h3>
-      <span class="exo-pill">INTERACTIF</span>
+
+
+<!-- fin exo-nouv-inter1 -->
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-verrerie')" type="button">Choisir la verrerie adaptée <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-glucose')" type="button">Solution de glucose <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-diiode')" type="button">Dilution d'une solution de diiode <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-masse-solute')" type="button">Masse de soluté à peser <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-verrerie"><div class="exo-card" id="exo-verrerie">
+<div class="exo-header">
+<h3>Exercice – Choisir la verrerie adaptée</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour préparer une solution par <strong>dissolution</strong> (volume précis), quelle verrerie utilise-t-on pour chaque étape ? Clique sur la bonne réponse :</p>
+<div class="qcm-grid">
+<div class="qcm-item" id="v1">
+<div>
+<div class="substance">Peser le solide (soluté)</div>
+<div class="qcm-feedback" id="fb-v1"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</button>
+<button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</button>
+</div>
+</div>
+<div class="qcm-item" id="v2">
+<div>
+<div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div>
+<div class="qcm-feedback" id="fb-v2"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
+<button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
+</div>
+</div>
+<div class="qcm-item" id="v3">
+<div>
+<div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
+<div class="qcm-feedback" id="fb-v3"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</button>
+<button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</button>
+</div>
+</div>
+<div class="qcm-item" id="v4">
+<div>
+<div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div>
+<div class="qcm-feedback" id="fb-v4"></div>
+</div>
+<div class="qcm-choices">
+<button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</button>
+<button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</button>
+</div>
+</div>
+</div>
+<div class="remarque-box" style="margin-top:14px;">
+<strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
     </div>
-    <div class="exo-enonce">
-      Calculer le titre massique, soit la concentration en masse t du glucose, d'une solution de volume V<sub>solution</sub> = 500 mL contenant une masse m<sub>glucose</sub> = 2,5 g de glucose dissous.<br>
+<button class="btn-recommencer" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])" style="margin-top:14px;">↺ Recommencer</button>
+</div></div><div class="exo-item-content" id="exoitem-glucose"><div class="exo-card" id="exo-glucose">
+<div class="exo-header">
+<h3>Exercice – Solution de glucose</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
+      Calculer le titre massique, soit la concentration en masse t du glucose, d'une solution de volume V<sub>solution</sub> = 500 mL contenant une masse m<sub>glucose</sub> = 2,5 g de glucose dissous.<br/>
       Que peut-on dire de cette solution de glucose, sachant que la masse volumique du glucose pur est ρ<sub>glucose</sub> = 1544 g·L⁻¹ ?
     </div>
-
-    <div class="question-block">
-      <div class="question-label">1. Calculer le titre massique t de la solution de glucose.</div>
-      <textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.</div>
-      <textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-
-    <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-glucose')">↺ Recommencer</button>
-    <div class="correction" id="corr-glucose">
-      <strong>1. Titre massique de la solution :</strong>
-      <div class="calc-step">V<sub>solution</sub> = 500 mL = 0,500 L</div>
-      <div class="calc-step">t = m<sub>glucose</sub> / V<sub>solution</sub> = 2,5 / 0,500 = <strong>5,0 g·L⁻¹</strong></div>
-      <strong>2. Comparaison et conclusion :</strong>
-      <div class="calc-step">t = 5,0 g·L⁻¹ ≪ ρ<sub>glucose</sub> = 1544 g·L⁻¹</div>
+<div class="question-block">
+<div class="question-label">1. Calculer le titre massique t de la solution de glucose.</div>
+<textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.</div>
+<textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-glucose')">↺ Recommencer</button>
+<div class="correction" id="corr-glucose">
+<strong>1. Titre massique de la solution :</strong>
+<div class="calc-step">V<sub>solution</sub> = 500 mL = 0,500 L</div>
+<div class="calc-step">t = m<sub>glucose</sub> / V<sub>solution</sub> = 2,5 / 0,500 = <strong>5,0 g·L⁻¹</strong></div>
+<strong>2. Comparaison et conclusion :</strong>
+<div class="calc-step">t = 5,0 g·L⁻¹ ≪ ρ<sub>glucose</sub> = 1544 g·L⁻¹</div>
       La concentration en masse du soluté est très inférieure à la masse volumique du glucose pur : la solution est très <strong>diluée</strong> (peu de glucose dissous par rapport au solvant).
     </div>
-  </div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – Choisir la verrerie adaptée</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour préparer une solution par <strong>dissolution</strong> (volume précis), quelle verrerie utilise-t-on pour chaque étape ? Clique sur la bonne réponse :</p>
-
-    <div class="qcm-grid">
-      <div id="v1" class="qcm-item">
-        <div>
-          <div class="substance">Peser le solide (soluté)</div>
-          <div class="qcm-feedback" id="fb-v1"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</button>
-          <button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</button>
-        </div>
-      </div>
-      <div id="v2" class="qcm-item">
-        <div>
-          <div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div>
-          <div class="qcm-feedback" id="fb-v2"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
-          <button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
-        </div>
-      </div>
-      <div id="v3" class="qcm-item">
-        <div>
-          <div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
-          <div class="qcm-feedback" id="fb-v3"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</button>
-          <button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</button>
-        </div>
-      </div>
-      <div id="v4" class="qcm-item">
-        <div>
-          <div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div>
-          <div class="qcm-feedback" id="fb-v4"></div>
-        </div>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</button>
-          <button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="remarque-box" style="margin-top:14px;">
-      <strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
-    </div>
-    <button class="btn-recommencer" style="margin-top:14px;" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])">↺ Recommencer</button>
-  </div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – Dilution d'une solution de diiode</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
+</div></div><div class="exo-item-content" id="exoitem-dilution-diiode"><div class="exo-card" id="exo-dilution-diiode">
+<div class="exo-header">
+<h3>Exercice – Dilution d'une solution de diiode</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
       À partir d'une solution mère de concentration en masse en diiode t<sub>m</sub> = 0,25 g·L⁻¹, on souhaite préparer un volume V<sub>f</sub> = 0,200 L de solution fille de concentration en masse en diiode t<sub>f</sub> = 0,10 g·L⁻¹.
     </div>
-
-    <div class="question-block">
-      <div class="question-label">1. Calculer le facteur de dilution F.</div>
-      <textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.</div>
-      <textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-
-    <button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-diiode')">↺ Recommencer</button>
-    <div class="correction" id="corr-diiode">
-      <strong>1. Facteur de dilution :</strong>
-      <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 0,25 / 0,10 = <strong>2,5</strong></div>
-      <strong>2. Volume de solution mère à prélever :</strong>
-      <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> &nbsp;→&nbsp; V<sub>m</sub> = V<sub>f</sub> / F = 0,200 / 2,5 = <strong>0,080 L = 80 mL</strong></div>
+<div class="question-block">
+<div class="question-label">1. Calculer le facteur de dilution F.</div>
+<textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.</div>
+<textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-diiode')">↺ Recommencer</button>
+<div class="correction" id="corr-diiode">
+<strong>1. Facteur de dilution :</strong>
+<div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 0,25 / 0,10 = <strong>2,5</strong></div>
+<strong>2. Volume de solution mère à prélever :</strong>
+<div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub>  →  V<sub>m</sub> = V<sub>f</sub> / F = 0,200 / 2,5 = <strong>0,080 L = 80 mL</strong></div>
       Vérification : on prélève 80 mL de solution mère et on complète à 200 mL avec de l'eau distillée.
     </div>
-  </div>
-
-  <div class="exo-card" id="exo-nouv-inter1">
-    <div class="exo-header">
-      <h3>Exercice — Masse de soluté à peser</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
+</div></div><div class="exo-item-content" id="exoitem-masse-solute"><div class="exo-card" id="exo-nouv-inter1">
+<div class="exo-header">
+<h3>Exercice — Masse de soluté à peser</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
       On souhaite préparer <strong>V = 200 mL</strong> d'une solution aqueuse de sulfate de cuivre de concentration en masse t = 4,0 g·L⁻¹.
     </div>
-    <div class="question-block">
-      <div class="question-label">1. Quelle masse m de sulfate de cuivre faut-il peser ?</div>
-      <textarea class="rep-zone" id="r-ni1-1" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Décrire brièvement la verrerie à utiliser pour peser cette masse puis ajuster le volume final.</div>
-      <textarea class="rep-zone" id="r-ni1-2" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <button class="btn-correction" onclick="toggleCorr('corr-ni1')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-ni1')">↺ Recommencer</button>
-    <div class="correction" id="corr-ni1">
-      <strong>1. Masse à peser :</strong>
-      <div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
-      <div class="calc-step">m = t × V<sub>solution</sub> = 4,0 × 0,200 = <strong>0,80 g</strong></div>
-      <strong>2. Verrerie :</strong>
+<div class="question-block">
+<div class="question-label">1. Quelle masse m de sulfate de cuivre faut-il peser ?</div>
+<textarea class="rep-zone" id="r-ni1-1" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Décrire brièvement la verrerie à utiliser pour peser cette masse puis ajuster le volume final.</div>
+<textarea class="rep-zone" id="r-ni1-2" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-ni1')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-ni1')">↺ Recommencer</button>
+<div class="correction" id="corr-ni1">
+<strong>1. Masse à peser :</strong>
+<div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
+<div class="calc-step">m = t × V<sub>solution</sub> = 4,0 × 0,200 = <strong>0,80 g</strong></div>
+<strong>2. Verrerie :</strong>
       On pèse la masse m avec une <strong>balance</strong> (coupelle ou sabot de pesée), puis on introduit le solide dans une <strong>fiole jaugée</strong> de 200 mL, on dissout avec un peu d'eau, et on complète jusqu'au trait de jauge avec une <strong>pissette</strong>.
     </div>
-  </div><!-- fin exo-nouv-inter1 -->
+</div></div></div>
+<div class="sub-tab-content" id="exo-sub-diff">
 
-  </div>
 
-  <div class="sub-tab-content" id="exo-sub-diff">
-    <div class="section-title"><span class="icon">🔴</span> Exercices — Niveau difficile</div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – Concentration maximale du chlorure de sodium</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
+
+<!-- fin exo-nouv-diff1 -->
+<!-- fin exo-nouv-diff2 -->
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-conc-max-nacl')" type="button">Concentration maximale du chlorure de sodium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-tp4-etalonnage')" type="button">TP4 : dosage par étalonnage <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-saturation')" type="button">Dilution proche de la saturation <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-type-bac-desinfection')" type="button">Type Bac — solution de désinfection <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-conc-max-nacl"><div class="exo-card" id="exo-conc-max-nacl">
+<div class="exo-header">
+<h3>Exercice – Concentration maximale du chlorure de sodium</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
       La concentration maximale de chlorure de sodium dans l'eau est C<sub>max</sub> = 358 g·L⁻¹ à T = 20 °C.
     </div>
-
-    <div class="question-block">
-      <div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.</div>
-      <textarea class="rep-zone" id="r-na1" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?</div>
-      <textarea class="rep-zone" id="r-na2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-
-    <button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-nacl')">↺ Recommencer</button>
-    <div class="correction" id="corr-nacl">
-      <strong>1. Vérification de la possibilité :</strong>
-      <div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
-      <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,200 = <strong>71,6 g</strong></div>
+<div class="question-block">
+<div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.</div>
+<textarea class="rep-zone" id="r-na1" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?</div>
+<textarea class="rep-zone" id="r-na2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-nacl')">↺ Recommencer</button>
+<div class="correction" id="corr-nacl">
+<strong>1. Vérification de la possibilité :</strong>
+<div class="calc-step">V<sub>solution</sub> = 200 mL = 0,200 L</div>
+<div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,200 = <strong>71,6 g</strong></div>
       Comme m = 68 g &lt; m<sub>max</sub> = 71,6 g, il est <strong>possible</strong> de dissoudre 68 g de NaCl dans 200 mL d'eau (la solution n'est pas saturée).
-      <br><br>
-      <strong>2. Masse maximale pour 50,0 mL :</strong>
-      <div class="calc-step">V<sub>solution</sub> = 50,0 mL = 0,0500 L</div>
-      <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,0500 = <strong>17,9 g</strong></div>
-    </div>
-  </div>
-<div class="exo-card">
-    <div class="exo-header">
-      <h3>Exercice – TP4 : dosage par étalonnage (échelle de teinte)</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
-      Selon leur concentration en masse, les solutions de permanganate de potassium (KMnO<sub>4</sub>) peuvent être utilisées pour soigner les érythèmes (irritations de la peau) ou pour désinfecter.<br><br>
+      <br/><br/>
+<strong>2. Masse maximale pour 50,0 mL :</strong>
+<div class="calc-step">V<sub>solution</sub> = 50,0 mL = 0,0500 L</div>
+<div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,0500 = <strong>17,9 g</strong></div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-tp4-etalonnage"><div class="exo-card" id="exo-tp4-etalonnage">
+<div class="exo-header">
+<h3>Exercice – TP4 : dosage par étalonnage (échelle de teinte)</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
+      Selon leur concentration en masse, les solutions de permanganate de potassium (KMnO<sub>4</sub>) peuvent être utilisées pour soigner les érythèmes (irritations de la peau) ou pour désinfecter.<br/><br/>
       À partir d'une solution mère S<sub>m</sub> de concentration en masse t<sub>m</sub> = 1,0 g·L⁻¹, plusieurs groupes ont préparé par dilution une gamme de solutions filles S<sub>f1</sub> à S<sub>f7</sub>, formant une échelle de teinte.
     </div>
-
-    <div style="background:var(--blanc);border:1.5px solid var(--vert-exo-bord);border-radius:10px;padding:12px;margin-bottom:14px;overflow-x:auto;">
-      <img src="echelle_teinte_permanganate.jpg" alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;">
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.</div>
-      <textarea class="rep-zone" id="r-teinte1" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-
-    <table class="ions-table">
-      <thead>
-        <tr><th>Solution fille</th><th>S<sub>f1</sub></th><th>S<sub>f2</sub></th><th>S<sub>f3</sub></th><th>S<sub>f4</sub></th><th>S<sub>f5</sub></th><th>S<sub>f6</sub></th><th>S<sub>f7</sub></th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Volume mère V<sub>m</sub> (mL)</td><td>30</td><td>20</td><td>30</td><td>20</td><td>10</td><td>5</td><td>5</td></tr>
-        <tr><td>Volume d'eau V<sub>eau</sub> (mL)</td><td>20</td><td>30</td><td>70</td><td>80</td><td>90</td><td>95</td><td>195</td></tr>
-        <tr><td>Volume fille V<sub>f</sub> (mL)</td><td>50</td><td>50</td><td>100</td><td>100</td><td>100</td><td>100</td><td>200</td></tr>
-        <tr><td>Facteur de dilution F = V<sub>f</sub>/V<sub>m</sub></td><td>1,6</td><td>2,5</td><td>3,3</td><td>5</td><td>10</td><td>20</td><td>40</td></tr>
-        <tr><td>Concentration en masse t (g·L⁻¹)</td><td>0,6</td><td>0,4</td><td>0,3</td><td>0,2</td><td>0,1</td><td>0,05</td><td>0,025</td></tr>
-      </tbody>
-    </table>
-
-    <div class="question-block">
-      <div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.</div>
-      <textarea class="rep-zone" id="r-teinte2" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?</div>
-      <textarea class="rep-zone" id="r-teinte3" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <div class="question-block">
-      <div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.</div>
-      <textarea class="rep-zone" id="r-teinte4" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-
-    <button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-teinte')">↺ Recommencer</button>
-    <div class="correction" id="corr-teinte">
-      <strong>1. Facteur de dilution et concentration de S<sub>f1</sub> :</strong>
-      <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> = 50 / 30 = <strong>1,6</strong></div>
-      <div class="calc-step">t<sub>f1</sub> = t<sub>m</sub> / F = 1,0 / 1,6 = <strong>0,6 g·L⁻¹</strong></div>
-      <strong>2. Encadrement de t<sub>S'</sub> :</strong>
-      <div class="calc-step">La teinte de S' est intermédiaire entre S<sub>f5</sub> (0,05 g·L⁻¹) et S<sub>f6</sub> (0,10 g·L⁻¹), donc : <strong>0,05 g·L⁻¹ &lt; t<sub>S'</sub> &lt; 0,10 g·L⁻¹</strong></div>
-      <strong>3. Utilisations possibles de S' :</strong>
-      <div class="calc-step">La solution S' peut être utilisée pour <strong>soigner les érythèmes</strong>, car sa concentration est voisine de 0,10 g·L⁻¹.</div>
-      <div class="calc-step">En revanche, S' <strong>ne convient pas pour désinfecter de l'eau de boisson</strong>, car il faudrait une concentration d'environ 0,5 g·L⁻¹, soit bien supérieure à t<sub>S'</sub> (0,10 g·L⁻¹ &lt; 0,5 g·L⁻¹).</div>
-      <strong>4. Étapes de la méthode :</strong>
-      <div class="calc-step">– Préparer plusieurs solutions étalons, de concentrations en masse connues, par dilution d'une solution mère de concentration connue.<br>
-      – Comparer la teinte de la solution de concentration inconnue à celles des solutions de l'échelle de teinte.<br>
+<div style="background:var(--blanc);border:1.5px solid var(--vert-exo-bord);border-radius:10px;padding:12px;margin-bottom:14px;overflow-x:auto;">
+<img alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" src="echelle_teinte_permanganate.jpg" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;"/>
+</div>
+<div class="question-block">
+<div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.</div>
+<textarea class="rep-zone" id="r-teinte1" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<table class="ions-table">
+<thead>
+<tr><th>Solution fille</th><th>S<sub>f1</sub></th><th>S<sub>f2</sub></th><th>S<sub>f3</sub></th><th>S<sub>f4</sub></th><th>S<sub>f5</sub></th><th>S<sub>f6</sub></th><th>S<sub>f7</sub></th></tr>
+</thead>
+<tbody>
+<tr><td>Volume mère V<sub>m</sub> (mL)</td><td>30</td><td>20</td><td>30</td><td>20</td><td>10</td><td>5</td><td>5</td></tr>
+<tr><td>Volume d'eau V<sub>eau</sub> (mL)</td><td>20</td><td>30</td><td>70</td><td>80</td><td>90</td><td>95</td><td>195</td></tr>
+<tr><td>Volume fille V<sub>f</sub> (mL)</td><td>50</td><td>50</td><td>100</td><td>100</td><td>100</td><td>100</td><td>200</td></tr>
+<tr><td>Facteur de dilution F = V<sub>f</sub>/V<sub>m</sub></td><td>1,6</td><td>2,5</td><td>3,3</td><td>5</td><td>10</td><td>20</td><td>40</td></tr>
+<tr><td>Concentration en masse t (g·L⁻¹)</td><td>0,6</td><td>0,4</td><td>0,3</td><td>0,2</td><td>0,1</td><td>0,05</td><td>0,025</td></tr>
+</tbody>
+</table>
+<div class="question-block">
+<div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.</div>
+<textarea class="rep-zone" id="r-teinte2" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?</div>
+<textarea class="rep-zone" id="r-teinte3" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.</div>
+<textarea class="rep-zone" id="r-teinte4" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-teinte')">↺ Recommencer</button>
+<div class="correction" id="corr-teinte">
+<strong>1. Facteur de dilution et concentration de S<sub>f1</sub> :</strong>
+<div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub> = 50 / 30 = <strong>1,6</strong></div>
+<div class="calc-step">t<sub>f1</sub> = t<sub>m</sub> / F = 1,0 / 1,6 = <strong>0,6 g·L⁻¹</strong></div>
+<strong>2. Encadrement de t<sub>S'</sub> :</strong>
+<div class="calc-step">La teinte de S' est intermédiaire entre S<sub>f5</sub> (0,05 g·L⁻¹) et S<sub>f6</sub> (0,10 g·L⁻¹), donc : <strong>0,05 g·L⁻¹ &lt; t<sub>S'</sub> &lt; 0,10 g·L⁻¹</strong></div>
+<strong>3. Utilisations possibles de S' :</strong>
+<div class="calc-step">La solution S' peut être utilisée pour <strong>soigner les érythèmes</strong>, car sa concentration est voisine de 0,10 g·L⁻¹.</div>
+<div class="calc-step">En revanche, S' <strong>ne convient pas pour désinfecter de l'eau de boisson</strong>, car il faudrait une concentration d'environ 0,5 g·L⁻¹, soit bien supérieure à t<sub>S'</sub> (0,10 g·L⁻¹ &lt; 0,5 g·L⁻¹).</div>
+<strong>4. Étapes de la méthode :</strong>
+<div class="calc-step">– Préparer plusieurs solutions étalons, de concentrations en masse connues, par dilution d'une solution mère de concentration connue.<br/>
+      – Comparer la teinte de la solution de concentration inconnue à celles des solutions de l'échelle de teinte.<br/>
       – En déduire un encadrement de la concentration en masse de la solution inconnue, à partir des concentrations des deux solutions étalons encadrant sa teinte.</div>
-    </div>
-  </div>
-
-  <div class="exo-card" id="exo-nouv-diff1">
-    <div class="exo-header">
-      <h3>Exercice — Dilution d'une solution proche de la saturation</h3>
-      <span class="exo-pill">INTERACTIF</span>
-    </div>
-    <div class="exo-enonce">
+</div>
+</div></div><div class="exo-item-content" id="exoitem-dilution-saturation"><div class="exo-card" id="exo-nouv-diff1">
+<div class="exo-header">
+<h3>Exercice — Dilution d'une solution proche de la saturation</h3>
+<span class="exo-pill">INTERACTIF</span>
+</div>
+<div class="exo-enonce">
       On dispose d'une solution mère de chlorure de sodium de concentration en masse t<sub>m</sub> = 320 g·L⁻¹. La concentration maximale de dissolution du chlorure de sodium dans l'eau est t<sub>max</sub> = 358 g·L⁻¹ à 20 °C. On souhaite préparer V<sub>f</sub> = 100 mL d'une solution fille par dilution, telle que t<sub>f</sub> = 80 g·L⁻¹.
     </div>
-    <div class="question-block">
-      <div class="question-label">1. La solution mère est-elle saturée ? Justifier.</div>
-      <textarea class="rep-zone" id="r-nd1-1" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Calculer le facteur de dilution F entre la solution mère et la solution fille.</div>
-      <textarea class="rep-zone" id="r-nd1-2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.</div>
-      <textarea class="rep-zone" id="r-nd1-3" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <button class="btn-correction" onclick="toggleCorr('corr-nd1')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-nd1')">↺ Recommencer</button>
-    <div class="correction" id="corr-nd1">
-      <strong>1. Saturation de la solution mère :</strong>
-      <div class="calc-step">t<sub>m</sub> = 320 g·L⁻¹ &lt; t<sub>max</sub> = 358 g·L⁻¹</div>
+<div class="question-block">
+<div class="question-label">1. La solution mère est-elle saturée ? Justifier.</div>
+<textarea class="rep-zone" id="r-nd1-1" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Calculer le facteur de dilution F entre la solution mère et la solution fille.</div>
+<textarea class="rep-zone" id="r-nd1-2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.</div>
+<textarea class="rep-zone" id="r-nd1-3" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-nd1')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-nd1')">↺ Recommencer</button>
+<div class="correction" id="corr-nd1">
+<strong>1. Saturation de la solution mère :</strong>
+<div class="calc-step">t<sub>m</sub> = 320 g·L⁻¹ &lt; t<sub>max</sub> = 358 g·L⁻¹</div>
       La solution mère n'est <strong>pas saturée</strong> : on peut encore dissoudre du chlorure de sodium dans cette solution.
       <strong>2. Facteur de dilution :</strong>
-      <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 320 / 80 = <strong>4,0</strong></div>
-      <strong>3. Volume de solution mère à prélever :</strong>
-      <div class="calc-step">V<sub>m</sub> = V<sub>f</sub> / F = 100 / 4,0 = <strong>25 mL</strong></div>
-    </div>
-  </div><!-- fin exo-nouv-diff1 -->
-
-
-  <div class="exo-card" id="exo-nouv-diff2">
-    <div class="exo-header">
-      <h3>Exercice type Bac — Préparer une solution de désinfection</h3>
-      <span class="exo-pill">RÉDACTION</span>
-    </div>
-    <div class="exo-enonce">
+<div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 320 / 80 = <strong>4,0</strong></div>
+<strong>3. Volume de solution mère à prélever :</strong>
+<div class="calc-step">V<sub>m</sub> = V<sub>f</sub> / F = 100 / 4,0 = <strong>25 mL</strong></div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-type-bac-desinfection"><div class="exo-card" id="exo-nouv-diff2">
+<div class="exo-header">
+<h3>Exercice type Bac — Préparer une solution de désinfection</h3>
+<span class="exo-pill">RÉDACTION</span>
+</div>
+<div class="exo-enonce">
       Une solution antiseptique du commerce est composée d'eau, d'éthanol et de chlorhexidine (principe actif). L'étiquette indique une concentration en masse en chlorhexidine de t = 0,50 g·L⁻¹. Un infirmier souhaite préparer, à partir d'une solution mère plus concentrée (t<sub>m</sub> = 5,0 g·L⁻¹) disponible au laboratoire, un volume V<sub>f</sub> = 500 mL de cette solution antiseptique par dilution.
     </div>
-    <div class="question-block">
-      <div class="question-label">1. Identifier le solvant et le ou les soluté(s) de la solution antiseptique.</div>
-      <textarea class="rep-zone" id="r-nd2-1" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">2. Calculer le facteur de dilution puis le volume de solution mère à prélever.</div>
-      <textarea class="rep-zone" id="r-nd2-2" placeholder="Rédigez votre démarche…"></textarea>
-    </div>
-    <div class="question-block">
-      <div class="question-label">3. Citer la verrerie nécessaire pour réaliser cette dilution avec précision, et décrire brièvement le protocole.</div>
-      <textarea class="rep-zone" id="r-nd2-3" placeholder="Rédigez votre réponse…"></textarea>
-    </div>
-    <button class="btn-correction" onclick="toggleCorr('corr-nd2')">▶ Voir la correction</button>
-    <button class="btn-recommencer" onclick="recommencerExo(this,'corr-nd2')">↺ Recommencer</button>
-    <div class="correction" id="corr-nd2">
-      <strong>1. Solvant et soluté(s) :</strong>
+<div class="question-block">
+<div class="question-label">1. Identifier le solvant et le ou les soluté(s) de la solution antiseptique.</div>
+<textarea class="rep-zone" id="r-nd2-1" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">2. Calculer le facteur de dilution puis le volume de solution mère à prélever.</div>
+<textarea class="rep-zone" id="r-nd2-2" placeholder="Rédigez votre démarche…"></textarea>
+</div>
+<div class="question-block">
+<div class="question-label">3. Citer la verrerie nécessaire pour réaliser cette dilution avec précision, et décrire brièvement le protocole.</div>
+<textarea class="rep-zone" id="r-nd2-3" placeholder="Rédigez votre réponse…"></textarea>
+</div>
+<button class="btn-correction" onclick="toggleCorr('corr-nd2')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="recommencerExo(this,'corr-nd2')">↺ Recommencer</button>
+<div class="correction" id="corr-nd2">
+<strong>1. Solvant et soluté(s) :</strong>
       Le <strong>solvant</strong> est l'eau (majoritaire). Les <strong>solutés</strong> sont l'éthanol et la chlorhexidine, tous deux minoritaires et dissous.
       <strong>2. Facteur de dilution et volume à prélever :</strong>
-      <div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 5,0 / 0,50 = <strong>10</strong></div>
-      <div class="calc-step">V<sub>m</sub> = V<sub>f</sub> / F = 500 / 10 = <strong>50 mL</strong></div>
-      <strong>3. Verrerie et protocole :</strong>
+<div class="calc-step">F = t<sub>m</sub> / t<sub>f</sub> = 5,0 / 0,50 = <strong>10</strong></div>
+<div class="calc-step">V<sub>m</sub> = V<sub>f</sub> / F = 500 / 10 = <strong>50 mL</strong></div>
+<strong>3. Verrerie et protocole :</strong>
       On prélève 50 mL de solution mère à la <strong>pipette jaugée</strong> (munie d'une propipette), on les verse dans une <strong>fiole jaugée</strong> de 500 mL contenant un peu d'eau, on homogénéise, puis on complète jusqu'au trait de jauge avec de l'eau à l'aide d'une pissette, avant d'homogénéiser à nouveau.
     </div>
-  </div><!-- fin exo-nouv-diff2 -->
-
-  </div>
-
-  <div class="sub-tab-content" id="exo-sub-escape">
-
-    <div class="eg-intro">
-      <h3>🔓 Escape Game — Le labo verrouillé</h3>
-      <p>17h32. La sonnerie a retenti et le professeur a fermé la salle de chimie… avec votre sac à l'intérieur ! Par chance, la porte est équipée d'un digicode à 4 chiffres. Quatre indices, laissés sur les paillasses, correspondent aux quatre grandes idées du chapitre sur les solutions aqueuses. Résolvez-les dans l'ordre pour reconstituer le code et sortir avant la fermeture du lycée à 18h00 !</p>
-      <div class="eg-mission">🎯 <strong>Mission :</strong> résoudre les 4 cadenas ci-dessous, noter le chiffre trouvé à chaque fois, puis saisir le code complet dans le digicode final.</div>
-      <div class="eg-progress">
-        <div class="eg-slot" id="eg-slot-1">1</div>
-        <div class="eg-slot" id="eg-slot-2">2</div>
-        <div class="eg-slot" id="eg-slot-3">3</div>
-        <div class="eg-slot" id="eg-slot-4">4</div>
-      </div>
-      <div id="eg-timer">⏱️ 00:00</div>
-    </div>
-
-    <!-- Cadenas 1 : solvant / soluté -->
-    <div class="eg-card" id="eg-card-1">
-      <div class="eg-card-header">
-        <span class="eg-lock-icon">🔒</span>
-        <h4>Cadenas 1 — Solvant, soluté(s)</h4>
-        <span class="eg-pill">I. Solution</span>
-      </div>
-      <div class="eg-enonce">
+</div></div></div>
+<div class="sub-tab-content" id="exo-sub-escape">
+<div class="eg-intro">
+<h3>🔓 Escape Game — Le labo verrouillé</h3>
+<p>17h32. La sonnerie a retenti et le professeur a fermé la salle de chimie… avec votre sac à l'intérieur ! Par chance, la porte est équipée d'un digicode à 4 chiffres. Quatre indices, laissés sur les paillasses, correspondent aux quatre grandes idées du chapitre sur les solutions aqueuses. Résolvez-les dans l'ordre pour reconstituer le code et sortir avant la fermeture du lycée à 18h00 !</p>
+<div class="eg-mission">🎯 <strong>Mission :</strong> résoudre les 4 cadenas ci-dessous, noter le chiffre trouvé à chaque fois, puis saisir le code complet dans le digicode final.</div>
+<div class="eg-progress">
+<div class="eg-slot" id="eg-slot-1">1</div>
+<div class="eg-slot" id="eg-slot-2">2</div>
+<div class="eg-slot" id="eg-slot-3">3</div>
+<div class="eg-slot" id="eg-slot-4">4</div>
+</div>
+<div id="eg-timer">⏱️ 00:00</div>
+</div>
+<!-- Cadenas 1 : solvant / soluté -->
+<div class="eg-card" id="eg-card-1">
+<div class="eg-card-header">
+<span class="eg-lock-icon">🔒</span>
+<h4>Cadenas 1 — Solvant, soluté(s)</h4>
+<span class="eg-pill">I. Solution</span>
+</div>
+<div class="eg-enonce">
         Sur la paillasse du fond, une fiole contient un mélange dont l'étiquette a été effacée. Un post-it précise :
-        « Ce liquide est obtenu en dissolvant du glucose, des ions sodium Na⁺, des ions chlorure Cl⁻ et de l'acide citrique dans de l'eau. »<br><br>
-        <strong>Combien cette solution contient-elle de solutés différents ?</strong> (le solvant ne compte pas). Entrez ce nombre.
+        « Ce liquide est obtenu en dissolvant du glucose, des ions sodium Na⁺, des ions chlorure Cl⁻ et de l'acide citrique dans de l'eau. »<br/><br/>
+<strong>Combien cette solution contient-elle de solutés différents ?</strong> (le solvant ne compte pas). Entrez ce nombre.
       </div>
-      <div class="eg-answer-row">
-        <input type="text" class="eg-digit-input" id="eg-input-1" maxlength="1" inputmode="numeric">
-        <button class="btn-eg-valider" onclick="checkEgPuzzle(1, '4')">Valider</button>
-        <span class="eg-feedback" id="eg-fb-1"></span>
+<div class="eg-answer-row">
+<input class="eg-digit-input" id="eg-input-1" inputmode="numeric" maxlength="1" type="text"/>
+<button class="btn-eg-valider" onclick="checkEgPuzzle(1, '4')">Valider</button>
+<span class="eg-feedback" id="eg-fb-1"></span>
+</div>
+<button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-1')">💡 Un indice ?</button>
+<div class="eg-hint" id="eg-hint-1">Listez chaque espèce dissoute une par une : glucose, Na⁺, Cl⁻, acide citrique. Le solvant, c'est l'eau — on ne le compte jamais parmi les solutés.</div>
+</div>
+<!-- Cadenas 2 : concentration en masse -->
+<div class="eg-card" id="eg-card-2">
+<div class="eg-card-header">
+<span class="eg-lock-icon">🔒</span>
+<h4>Cadenas 2 — Concentration en masse</h4>
+<span class="eg-pill">II. Concentration</span>
+</div>
+<div class="eg-enonce">
+        Le tiroir fermé à clé contient une notice manuscrite : « Solution préparée en dissolvant m = 2,4 g de sel dans de l'eau, pour obtenir un volume final V = 400 mL de solution. »<br/><br/>
+<strong>Calculez la concentration en masse t (en g·L⁻¹) de cette solution</strong>, puis entrez la partie entière du résultat.
       </div>
-      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-1')">💡 Un indice ?</button>
-      <div class="eg-hint" id="eg-hint-1">Listez chaque espèce dissoute une par une : glucose, Na⁺, Cl⁻, acide citrique. Le solvant, c'est l'eau — on ne le compte jamais parmi les solutés.</div>
-    </div>
-
-    <!-- Cadenas 2 : concentration en masse -->
-    <div class="eg-card" id="eg-card-2">
-      <div class="eg-card-header">
-        <span class="eg-lock-icon">🔒</span>
-        <h4>Cadenas 2 — Concentration en masse</h4>
-        <span class="eg-pill">II. Concentration</span>
+<div class="eg-answer-row">
+<input class="eg-digit-input" id="eg-input-2" inputmode="numeric" maxlength="1" type="text"/>
+<button class="btn-eg-valider" onclick="checkEgPuzzle(2, '6')">Valider</button>
+<span class="eg-feedback" id="eg-fb-2"></span>
+</div>
+<button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-2')">💡 Un indice ?</button>
+<div class="eg-hint" id="eg-hint-2">t = m / V. Attention aux unités : convertissez V en litres avant de diviser (400 mL = 0,400 L).</div>
+</div>
+<!-- Cadenas 3 : dissolution / saturation -->
+<div class="eg-card" id="eg-card-3">
+<div class="eg-card-header">
+<span class="eg-lock-icon">🔒</span>
+<h4>Cadenas 3 — Dissolution &amp; saturation</h4>
+<span class="eg-pill">III. Dissolution</span>
+</div>
+<div class="eg-enonce">
+        Sur l'étagère du haut, un bocal de chlorure de sodium porte l'étiquette « solubilité maximale : 360 g·L⁻¹ à 20 °C ». Juste en dessous, une fiole jaugée de 50,0 mL contient déjà 15 g de sel dissous.<br/><br/>
+<strong>Quelle masse supplémentaire (en g, arrondie à l'entier) peut-on encore dissoudre</strong> dans cette fiole sans dépasser la saturation ?
       </div>
-      <div class="eg-enonce">
-        Le tiroir fermé à clé contient une notice manuscrite : « Solution préparée en dissolvant m = 2,4 g de sel dans de l'eau, pour obtenir un volume final V = 400 mL de solution. »<br><br>
-        <strong>Calculez la concentration en masse t (en g·L⁻¹) de cette solution</strong>, puis entrez la partie entière du résultat.
+<div class="eg-answer-row">
+<input class="eg-digit-input" id="eg-input-3" inputmode="numeric" maxlength="1" type="text"/>
+<button class="btn-eg-valider" onclick="checkEgPuzzle(3, '3')">Valider</button>
+<span class="eg-feedback" id="eg-fb-3"></span>
+</div>
+<button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-3')">💡 Un indice ?</button>
+<div class="eg-hint" id="eg-hint-3">Calculez d'abord la masse maximale dissoluble dans 50,0 mL (m<sub>max</sub> = C<sub>max</sub> × V), puis soustrayez la masse déjà dissoute.</div>
+</div>
+<!-- Cadenas 4 : dilution -->
+<div class="eg-card" id="eg-card-4">
+<div class="eg-card-header">
+<span class="eg-lock-icon">🔒</span>
+<h4>Cadenas 4 — Dilution &amp; étalonnage</h4>
+<span class="eg-pill">IV. Dilution</span>
+</div>
+<div class="eg-enonce">
+        Le dernier indice est scotché sous la burette : « Solution mère t<sub>m</sub> = 45 g·L⁻¹. Solution fille souhaitée t<sub>f</sub> = 9 g·L⁻¹. »<br/><br/>
+<strong>Calculez le facteur de dilution F</strong> entre ces deux solutions, et entrez sa valeur.
       </div>
-      <div class="eg-answer-row">
-        <input type="text" class="eg-digit-input" id="eg-input-2" maxlength="1" inputmode="numeric">
-        <button class="btn-eg-valider" onclick="checkEgPuzzle(2, '6')">Valider</button>
-        <span class="eg-feedback" id="eg-fb-2"></span>
-      </div>
-      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-2')">💡 Un indice ?</button>
-      <div class="eg-hint" id="eg-hint-2">t = m / V. Attention aux unités : convertissez V en litres avant de diviser (400 mL = 0,400 L).</div>
-    </div>
-
-    <!-- Cadenas 3 : dissolution / saturation -->
-    <div class="eg-card" id="eg-card-3">
-      <div class="eg-card-header">
-        <span class="eg-lock-icon">🔒</span>
-        <h4>Cadenas 3 — Dissolution &amp; saturation</h4>
-        <span class="eg-pill">III. Dissolution</span>
-      </div>
-      <div class="eg-enonce">
-        Sur l'étagère du haut, un bocal de chlorure de sodium porte l'étiquette « solubilité maximale : 360 g·L⁻¹ à 20 °C ». Juste en dessous, une fiole jaugée de 50,0 mL contient déjà 15 g de sel dissous.<br><br>
-        <strong>Quelle masse supplémentaire (en g, arrondie à l'entier) peut-on encore dissoudre</strong> dans cette fiole sans dépasser la saturation ?
-      </div>
-      <div class="eg-answer-row">
-        <input type="text" class="eg-digit-input" id="eg-input-3" maxlength="1" inputmode="numeric">
-        <button class="btn-eg-valider" onclick="checkEgPuzzle(3, '3')">Valider</button>
-        <span class="eg-feedback" id="eg-fb-3"></span>
-      </div>
-      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-3')">💡 Un indice ?</button>
-      <div class="eg-hint" id="eg-hint-3">Calculez d'abord la masse maximale dissoluble dans 50,0 mL (m<sub>max</sub> = C<sub>max</sub> × V), puis soustrayez la masse déjà dissoute.</div>
-    </div>
-
-    <!-- Cadenas 4 : dilution -->
-    <div class="eg-card" id="eg-card-4">
-      <div class="eg-card-header">
-        <span class="eg-lock-icon">🔒</span>
-        <h4>Cadenas 4 — Dilution &amp; étalonnage</h4>
-        <span class="eg-pill">IV. Dilution</span>
-      </div>
-      <div class="eg-enonce">
-        Le dernier indice est scotché sous la burette : « Solution mère t<sub>m</sub> = 45 g·L⁻¹. Solution fille souhaitée t<sub>f</sub> = 9 g·L⁻¹. »<br><br>
-        <strong>Calculez le facteur de dilution F</strong> entre ces deux solutions, et entrez sa valeur.
-      </div>
-      <div class="eg-answer-row">
-        <input type="text" class="eg-digit-input" id="eg-input-4" maxlength="1" inputmode="numeric">
-        <button class="btn-eg-valider" onclick="checkEgPuzzle(4, '5')">Valider</button>
-        <span class="eg-feedback" id="eg-fb-4"></span>
-      </div>
-      <button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-4')">💡 Un indice ?</button>
-      <div class="eg-hint" id="eg-hint-4">F = t<sub>m</sub> / t<sub>f</sub>. Le facteur de dilution est toujours sans unité et supérieur à 1.</div>
-    </div>
-
-    <!-- Digicode final -->
-    <div class="eg-final">
-      <h3>🚪 Digicode de la porte</h3>
-      <p>Reconstituez le code à 4 chiffres, dans l'ordre des cadenas, puis appuyez sur « Ouvrir la porte ».</p>
-      <div class="eg-code-boxes">
-        <input type="text" class="eg-code-box" id="eg-code-1" maxlength="1" inputmode="numeric">
-        <input type="text" class="eg-code-box" id="eg-code-2" maxlength="1" inputmode="numeric">
-        <input type="text" class="eg-code-box" id="eg-code-3" maxlength="1" inputmode="numeric">
-        <input type="text" class="eg-code-box" id="eg-code-4" maxlength="1" inputmode="numeric">
-      </div>
-      <button class="btn-eg-open" onclick="checkEgFinal()">🔓 Ouvrir la porte</button>
-      <div class="eg-final-error" id="eg-final-error">✗ Code incorrect… la porte reste bloquée. Revérifiez vos 4 cadenas.</div>
-      <div class="eg-final-msg" id="eg-final-msg">
+<div class="eg-answer-row">
+<input class="eg-digit-input" id="eg-input-4" inputmode="numeric" maxlength="1" type="text"/>
+<button class="btn-eg-valider" onclick="checkEgPuzzle(4, '5')">Valider</button>
+<span class="eg-feedback" id="eg-fb-4"></span>
+</div>
+<button class="eg-hint-btn" onclick="toggleEgHint('eg-hint-4')">💡 Un indice ?</button>
+<div class="eg-hint" id="eg-hint-4">F = t<sub>m</sub> / t<sub>f</sub>. Le facteur de dilution est toujours sans unité et supérieur à 1.</div>
+</div>
+<!-- Digicode final -->
+<div class="eg-final">
+<h3>🚪 Digicode de la porte</h3>
+<p>Reconstituez le code à 4 chiffres, dans l'ordre des cadenas, puis appuyez sur « Ouvrir la porte ».</p>
+<div class="eg-code-boxes">
+<input class="eg-code-box" id="eg-code-1" inputmode="numeric" maxlength="1" type="text"/>
+<input class="eg-code-box" id="eg-code-2" inputmode="numeric" maxlength="1" type="text"/>
+<input class="eg-code-box" id="eg-code-3" inputmode="numeric" maxlength="1" type="text"/>
+<input class="eg-code-box" id="eg-code-4" inputmode="numeric" maxlength="1" type="text"/>
+</div>
+<button class="btn-eg-open" onclick="checkEgFinal()">🔓 Ouvrir la porte</button>
+<div class="eg-final-error" id="eg-final-error">✗ Code incorrect… la porte reste bloquée. Revérifiez vos 4 cadenas.</div>
+<div class="eg-final-msg" id="eg-final-msg">
         🎉 <strong>Clic !</strong> La porte s'ouvre. Vous récupérez votre sac juste avant la fermeture du lycée. Bravo, vous avez mobilisé les quatre notions clés du chapitre : solvant/soluté, concentration en masse, saturation et dilution !
       </div>
-    </div>
-
-    <button class="btn-eg-reset" onclick="resetEscapeGame()">↺ Recommencer l'escape game</button>
-
-  </div>
-
+</div>
+<button class="btn-eg-reset" onclick="resetEscapeGame()">↺ Recommencer l'escape game</button>
+</div>
 </div><!-- fin tab-2 Exercices -->
-
-
 <div class="tab-content" id="tab-3">
-
-  <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
-  </div>
-
-  <!-- ===== BILAN ===== -->
-  <div class="sub-tab-content active" id="bilan-sub-0">
-    <div class="section-title">
-      <span class="icon">📋</span> Bilan de la séquence
+<div class="sub-tabs-nav">
+<button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
+<button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
+<button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-2')">🔗 Ressources</button>
+</div>
+<!-- ===== BILAN ===== -->
+<div class="sub-tab-content active" id="bilan-sub-0">
+<div class="section-title">
+<span class="icon">📋</span> Bilan de la séquence
     </div>
-
-    <div class="bilan-grid">
-      <div class="bilan-card">
-        <h4>Formules clés</h4>
-        <ul>
-          <li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
-          <li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
-          <li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
-          <li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
-        </ul>
-      </div>
-      <div class="bilan-card">
-        <h4>Vocabulaire</h4>
-        <ul>
-          <li><strong>Solvant</strong> : liquide majoritaire</li>
-          <li><strong>Soluté</strong> : espèce dissoute</li>
-          <li><strong>Saturation</strong> : limite de dissolution</li>
-          <li><strong>Solution mère / fille</strong> : avant / après dilution</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="def-card" style="margin-top:20px;">
-      <h3>📚 Exercices à faire en autonomie</h3>
-      <p>p49 n°1, 2, 3, 4, 6 et 7 – p50 n°15, 16, 21, 22, 23 et 24 – p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
-    </div>
-
-  </div>
-  <!-- /bilan-sub-0 -->
-
-  <!-- ===== GLOSSAIRE ===== -->
-  <div class="sub-tab-content" id="bilan-sub-1">
-    <div class="section-title"><span class="icon">📖</span>Glossaire</div>
-    <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
-    <dl class="gloss-grid" id="glossGrid">
-      <div class="gloss-item" data-term="solution"><dt>Solution</dt><dd>Mélange liquide homogène obtenu lorsqu'on introduit une ou plusieurs espèces chimiques (molécules ou ions) dans un liquide majoritaire.</dd></div>
-      <div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>Ensemble d'entités identiques (atomes, ions ou molécules), dissoutes ou non ; c'est ce qui définit la nature du soluté.</dd></div>
-      <div class="gloss-item" data-term="melange homogene"><dt>Mélange homogène</dt><dd>Mélange dont les constituants ne sont pas distinguables, même au microscope optique — caractéristique d'une solution.</dd></div>
-      <div class="gloss-item" data-term="solvant"><dt>Solvant</dt><dd>Liquide majoritaire d'une solution, dans lequel est dissous le soluté.</dd></div>
-      <div class="gloss-item" data-term="solute"><dt>Soluté</dt><dd>Espèce chimique dissoute dans le solvant. Peut être liquide, solide ou gazeux, moléculaire ou ionique.</dd></div>
-      <div class="gloss-item" data-term="concentration en masse titre massique"><dt>Concentration en masse C<sub>m</sub> (titre massique t)</dt><dd>Masse de soluté dissoute dans un litre de solution : C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> (en g·L⁻¹).</dd></div>
-      <div class="gloss-item" data-term="masse volumique solution"><dt>Masse volumique de la solution ρ<sub>solution</sub></dt><dd>Masse de la solution (solvant + soluté) rapportée à son volume : ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub>. On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.</dd></div>
-      <div class="gloss-item" data-term="dissolution"><dt>Dissolution</dt><dd>Processus par lequel une substance solide, liquide ou gazeuse mise au contact d'un liquide passe à l'état de solution.</dd></div>
-      <div class="gloss-item" data-term="saturation solution saturee"><dt>Saturation</dt><dd>État d'une solution qui a atteint la concentration maximale de soluté qu'elle peut dissoudre ; au-delà, le soluté ne se dissout plus (dépôt visible).</dd></div>
-      <div class="gloss-item" data-term="concentration maximale cmax"><dt>Concentration maximale C<sub>max</sub></dt><dd>Concentration correspondant à l'état de saturation d'une solution : au-delà de cette valeur, le soluté ajouté ne se dissout plus.</dd></div>
-      <div class="gloss-item" data-term="dilution facteur f"><dt>Dilution / Facteur de dilution F</dt><dd>Opération consistant à diminuer la concentration d'une solution en ajoutant du solvant. F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub> (sans unité).</dd></div>
-      <div class="gloss-item" data-term="solution mere fille"><dt>Solution mère / Solution fille</dt><dd>La solution mère est la solution de départ, plus concentrée ; la solution fille est obtenue après dilution de la solution mère.</dd></div>
-      <div class="gloss-item" data-term="pipette jaugee"><dt>Pipette jaugée</dt><dd>Instrument de verrerie, utilisé avec une poire à pipeter, permettant de prélever un volume précis et fixe de liquide.</dd></div>
-      <div class="gloss-item" data-term="poire a pipeter"><dt>Poire à pipeter</dt><dd>Accessoire utilisé avec la pipette jaugée pour prélever un liquide par aspiration, sans jamais pipeter à la bouche.</dd></div>
-      <div class="gloss-item" data-term="fiole jaugee trait de jauge"><dt>Fiole jaugée</dt><dd>Instrument de verrerie permettant d'ajuster précisément, au trait de jauge, le volume final d'une solution.</dd></div>
-      <div class="gloss-item" data-term="trait de jauge"><dt>Trait de jauge</dt><dd>Repère gravé sur une fiole jaugée ou une pipette jaugée, indiquant le volume exact à atteindre.</dd></div>
-      <div class="gloss-item" data-term="becher"><dt>Bécher</dt><dd>Verrerie donnant des volumes approximatifs (rinçage, transferts) ; non adaptée aux mesures précises de volume.</dd></div>
-      <div class="gloss-item" data-term="eprouvette graduee"><dt>Éprouvette graduée</dt><dd>Verrerie permettant une mesure approximative d'un volume de liquide, plus précise qu'un bécher mais moins qu'une fiole ou une pipette jaugée.</dd></div>
-      <div class="gloss-item" data-term="eau distillee"><dt>Eau distillée</dt><dd>Eau purifiée utilisée pour compléter une solution jusqu'au trait de jauge, sans introduire d'espèces chimiques supplémentaires.</dd></div>
-      <div class="gloss-item" data-term="echelle de teinte"><dt>Échelle de teinte</dt><dd>Série de solutions de concentrations connues et croissantes d'une espèce colorée, permettant de déterminer par comparaison visuelle la concentration approximative d'une solution inconnue.</dd></div>
-      <div class="gloss-item" data-term="gamme etalonnage etalonner"><dt>Gamme d'étalonnage</dt><dd>Ensemble de solutions de concentrations connues, préparées par dilution, servant de référence pour déterminer la concentration d'une solution inconnue (par comparaison de teinte ou de masse volumique).</dd></div>
-      <div class="gloss-item" data-term="dosage"><dt>Dosage</dt><dd>Technique expérimentale permettant de déterminer la concentration inconnue d'une espèce chimique en solution.</dd></div>
-    </dl>
-  </div>
-  <!-- /bilan-sub-1 -->
-
-  <!-- ===== RESSOURCES ===== -->
-  <div class="sub-tab-content" id="bilan-sub-2">
-    <div class="section-title"><span class="icon">🎬</span> Vidéos</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809766761?paccess=47e2436c275.30440f69.eec1ad166a42008b69c341b40ff0c629" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Qu'est-ce qu'une solution ? Soluté ? Solvant ?</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 2 min 26</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809767780?paccess=47e2433b8b6.30441364.0e1ff58001fed4c9e6d6cb8e47ea7a99" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Concentration massique</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 29</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809767625?paccess=47e2434b2bc.304412c9.a91e492c5812753ed90abc9750fe7589" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Dilution & dissolution</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 6 min 25</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809767360?paccess=47e24356a26.304411c0.13758d1fd442d2a6089aaaba3ae79e30" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Quel volume de solution mère prélever ?</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 57</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809767166?paccess=47e24362e41.304410fe.cc6359291aa3910f9237d71282bddd94" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Les solutions aqueuses</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 13 min 21</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item801441797?paccess=47cfda15101.2fc50805.a9cf1083fcd0146a33d7476117786228" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Le facteur de dilution</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 01</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item809766682?paccess=47e24378876.30440f1a.0a62b1e58b9594aa33cc626483f52d5d" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🎬 Dissolution ≠ Dilution ≠ Fusion</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 2 min 58</p>
-        </div>
-      </a>
-
-      <a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🎬 Schéma bilan – Solutions aqueuses, un exemple de mélanges</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · 5 min 06</p>
-        </div>
-      </a>
-
-    </div>
-
-    <div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations & applications</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-
-      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_concentrationenmasse/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🎮 Application — Concentration en masse</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
-        </div>
-      </a>
-
-      <a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 PhET — Concentration</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
-        </div>
-      </a>
-
-    </div>
-
-    <div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-
-      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_02/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
-        </div>
-      </a>
-
-      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_02/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
-        </div>
-      </a>
-
-    </div>
-  </div>
-  <!-- /bilan-sub-2 -->
-
+<div class="bilan-grid">
+<div class="bilan-card">
+<h4>Formules clés</h4>
+<ul>
+<li>C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub></li>
+<li>ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub></li>
+<li>m<sub>soluté</sub> = C<sub>m</sub> × V</li>
+<li>F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub></li>
+</ul>
+</div>
+<div class="bilan-card">
+<h4>Vocabulaire</h4>
+<ul>
+<li><strong>Solvant</strong> : liquide majoritaire</li>
+<li><strong>Soluté</strong> : espèce dissoute</li>
+<li><strong>Saturation</strong> : limite de dissolution</li>
+<li><strong>Solution mère / fille</strong> : avant / après dilution</li>
+</ul>
+</div>
+</div>
+<div class="def-card" style="margin-top:20px;">
+<h3>📚 Exercices à faire en autonomie</h3>
+<p>p49 n°1, 2, 3, 4, 6 et 7 – p50 n°15, 16, 21, 22, 23 et 24 – p51 n°33, p52 n°37-38, p54 n°46, p55 n°49 et p57 n°52</p>
+</div>
+</div>
+<!-- /bilan-sub-0 -->
+<!-- ===== GLOSSAIRE ===== -->
+<div class="sub-tab-content" id="bilan-sub-1">
+<div class="section-title"><span class="icon">📖</span>Glossaire</div>
+<input class="gloss-search" id="glossSearch" oninput="glossFilter()" placeholder="🔎 Rechercher un mot du glossaire…" type="text"/>
+<dl class="gloss-grid" id="glossGrid">
+<div class="gloss-item" data-term="solution"><dt>Solution</dt><dd>Mélange liquide homogène obtenu lorsqu'on introduit une ou plusieurs espèces chimiques (molécules ou ions) dans un liquide majoritaire.</dd></div>
+<div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>Ensemble d'entités identiques (atomes, ions ou molécules), dissoutes ou non ; c'est ce qui définit la nature du soluté.</dd></div>
+<div class="gloss-item" data-term="melange homogene"><dt>Mélange homogène</dt><dd>Mélange dont les constituants ne sont pas distinguables, même au microscope optique — caractéristique d'une solution.</dd></div>
+<div class="gloss-item" data-term="solvant"><dt>Solvant</dt><dd>Liquide majoritaire d'une solution, dans lequel est dissous le soluté.</dd></div>
+<div class="gloss-item" data-term="solute"><dt>Soluté</dt><dd>Espèce chimique dissoute dans le solvant. Peut être liquide, solide ou gazeux, moléculaire ou ionique.</dd></div>
+<div class="gloss-item" data-term="concentration en masse titre massique"><dt>Concentration en masse C<sub>m</sub> (titre massique t)</dt><dd>Masse de soluté dissoute dans un litre de solution : C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> (en g·L⁻¹).</dd></div>
+<div class="gloss-item" data-term="masse volumique solution"><dt>Masse volumique de la solution ρ<sub>solution</sub></dt><dd>Masse de la solution (solvant + soluté) rapportée à son volume : ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub>. On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.</dd></div>
+<div class="gloss-item" data-term="dissolution"><dt>Dissolution</dt><dd>Processus par lequel une substance solide, liquide ou gazeuse mise au contact d'un liquide passe à l'état de solution.</dd></div>
+<div class="gloss-item" data-term="saturation solution saturee"><dt>Saturation</dt><dd>État d'une solution qui a atteint la concentration maximale de soluté qu'elle peut dissoudre ; au-delà, le soluté ne se dissout plus (dépôt visible).</dd></div>
+<div class="gloss-item" data-term="concentration maximale cmax"><dt>Concentration maximale C<sub>max</sub></dt><dd>Concentration correspondant à l'état de saturation d'une solution : au-delà de cette valeur, le soluté ajouté ne se dissout plus.</dd></div>
+<div class="gloss-item" data-term="dilution facteur f"><dt>Dilution / Facteur de dilution F</dt><dd>Opération consistant à diminuer la concentration d'une solution en ajoutant du solvant. F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub> (sans unité).</dd></div>
+<div class="gloss-item" data-term="solution mere fille"><dt>Solution mère / Solution fille</dt><dd>La solution mère est la solution de départ, plus concentrée ; la solution fille est obtenue après dilution de la solution mère.</dd></div>
+<div class="gloss-item" data-term="pipette jaugee"><dt>Pipette jaugée</dt><dd>Instrument de verrerie, utilisé avec une poire à pipeter, permettant de prélever un volume précis et fixe de liquide.</dd></div>
+<div class="gloss-item" data-term="poire a pipeter"><dt>Poire à pipeter</dt><dd>Accessoire utilisé avec la pipette jaugée pour prélever un liquide par aspiration, sans jamais pipeter à la bouche.</dd></div>
+<div class="gloss-item" data-term="fiole jaugee trait de jauge"><dt>Fiole jaugée</dt><dd>Instrument de verrerie permettant d'ajuster précisément, au trait de jauge, le volume final d'une solution.</dd></div>
+<div class="gloss-item" data-term="trait de jauge"><dt>Trait de jauge</dt><dd>Repère gravé sur une fiole jaugée ou une pipette jaugée, indiquant le volume exact à atteindre.</dd></div>
+<div class="gloss-item" data-term="becher"><dt>Bécher</dt><dd>Verrerie donnant des volumes approximatifs (rinçage, transferts) ; non adaptée aux mesures précises de volume.</dd></div>
+<div class="gloss-item" data-term="eprouvette graduee"><dt>Éprouvette graduée</dt><dd>Verrerie permettant une mesure approximative d'un volume de liquide, plus précise qu'un bécher mais moins qu'une fiole ou une pipette jaugée.</dd></div>
+<div class="gloss-item" data-term="eau distillee"><dt>Eau distillée</dt><dd>Eau purifiée utilisée pour compléter une solution jusqu'au trait de jauge, sans introduire d'espèces chimiques supplémentaires.</dd></div>
+<div class="gloss-item" data-term="echelle de teinte"><dt>Échelle de teinte</dt><dd>Série de solutions de concentrations connues et croissantes d'une espèce colorée, permettant de déterminer par comparaison visuelle la concentration approximative d'une solution inconnue.</dd></div>
+<div class="gloss-item" data-term="gamme etalonnage etalonner"><dt>Gamme d'étalonnage</dt><dd>Ensemble de solutions de concentrations connues, préparées par dilution, servant de référence pour déterminer la concentration d'une solution inconnue (par comparaison de teinte ou de masse volumique).</dd></div>
+<div class="gloss-item" data-term="dosage"><dt>Dosage</dt><dd>Technique expérimentale permettant de déterminer la concentration inconnue d'une espèce chimique en solution.</dd></div>
+</dl>
+</div>
+<!-- /bilan-sub-1 -->
+<!-- ===== RESSOURCES ===== -->
+<div class="sub-tab-content" id="bilan-sub-2">
+<div class="section-title"><span class="icon">🎬</span> Vidéos</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+<a href="https://www.pearltrees.com/private/id104933074/item809766761?paccess=47e2436c275.30440f69.eec1ad166a42008b69c341b40ff0c629" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Qu'est-ce qu'une solution ? Soluté ? Solvant ?</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 2 min 26</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item809767780?paccess=47e2433b8b6.30441364.0e1ff58001fed4c9e6d6cb8e47ea7a99" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Concentration massique</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 29</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item809767625?paccess=47e2434b2bc.304412c9.a91e492c5812753ed90abc9750fe7589" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Dilution &amp; dissolution</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 6 min 25</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item809767360?paccess=47e24356a26.304411c0.13758d1fd442d2a6089aaaba3ae79e30" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Quel volume de solution mère prélever ?</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 57</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item809767166?paccess=47e24362e41.304410fe.cc6359291aa3910f9237d71282bddd94" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Les solutions aqueuses</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 13 min 21</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item801441797?paccess=47cfda15101.2fc50805.a9cf1083fcd0146a33d7476117786228" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);">
+<h4 style="color:var(--vert);">🎬 Le facteur de dilution</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 01</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item809766682?paccess=47e24378876.30440f1a.0a62b1e58b9594aa33cc626483f52d5d" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);">
+<h4 style="color:var(--violet);">🎬 Dissolution ≠ Dilution ≠ Fusion</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL · 2 min 58</p>
+</div>
+</a>
+<a href="https://www.pearltrees.com/private/id104933074/item801435922?paccess=47cfd9ffa00.2fc4f112.6e50432a0453d29147e48c4ad7172e2d" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);">
+<h4 style="color:var(--rouge);">🎬 Schéma bilan – Solutions aqueuses, un exemple de mélanges</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · 5 min 06</p>
+</div>
+</a>
+</div>
+<div class="section-title" style="margin-top:22px;"><span class="icon">🔬</span> Simulations &amp; applications</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_2019_concentrationenmasse/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);">
+<h4 style="color:var(--rouge);">🎮 Application — Concentration en masse</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+</div>
+</a>
+<a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);">
+<h4 style="color:var(--bleu);">🔬 PhET — Concentration</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+</div>
+</a>
+</div>
+<div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_02/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);">
+<h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+</div>
+</a>
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_02/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);">
+<h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+</div>
+</a>
+</div>
+</div>
+<!-- /bilan-sub-2 -->
 </div><!-- fin tab-4 -->
-
 <div class="footer-note">
   2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 1A – Fiche de cours n°02 – C. Poirault-Gauvin
 </div>
-
 </main>
-
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
-
 <script>
 // ── Navigation onglets ──
 function switchTab(n) {
@@ -2443,6 +2326,15 @@ function showSub(btn, id) {
   const panel = btn.closest('.tab-content');
   panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
   panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function showExoItem(btn, id){
+  const panel = btn.closest('.sub-tab-content');
+  if(!panel) return;
+  panel.querySelectorAll('.exo-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }

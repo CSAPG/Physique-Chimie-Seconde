@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Séquence 02 – Les solutions aqueuses, un exemple de mélanges</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&amp;family=Outfit:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style-animations.css" rel="stylesheet"/>
 <style>
   :root {
     --bleu: #2D5F8A;
@@ -55,6 +56,7 @@
     gap: 14px;
     margin-bottom: 14px;
   }
+
   .header-badge {
     background: var(--bleu);
     color: white;
@@ -83,7 +85,16 @@
     color: var(--orange);
     font-weight: 700;
   }
-
+  .header-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.90);
+    transform-origin: center;
+  }
   /* ── ONGLETS ── */
   .tabs-nav {
     display: flex;
@@ -1002,11 +1013,13 @@
 <body>
 <div class="header">
 <div class="header-top">
+
 <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
 <div class="header-titles">
 <h1>Les solutions aqueuses, un exemple de mélanges</h1>
 <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
 </div>
+<div class="header-icon" id="headerIcon"></div>
 </div>
 <nav class="tabs-nav">
 <button class="tab-btn active" onclick="switchTab(0)">📘 Cours</button>
@@ -2642,6 +2655,11 @@ window.addEventListener('scroll', function() {
     btn.classList.remove('visible');
   }
 });
+</script>
+<script src="../assets/seq-icons.js"></script>
+<script>
+// ── Icône animée du header (séquence 02 = tube à essai) ──
+document.getElementById('headerIcon').innerHTML = getIcon('tube', 'seq02');
 </script>
 </body>
 </html>

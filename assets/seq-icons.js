@@ -92,79 +92,14 @@ const SEQ_ICONS = {
     </div>`,
 
   /* Séq. 05 — Pommier */
- apple:
-   apple-icon {
-  display: inline-block;
-  position: relative;
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 6px;
-}
-.apple-trunk {
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 7px; height: 26px;
-  background: linear-gradient(180deg, #8a5a3c, #6b4226);
-  border-radius: 2px 2px 0 0;
-  z-index: 1;
-}
-.apple-canopy {
-  position: absolute;
-  top: 2px; left: 50%;
-  transform: translateX(-50%);
-  width: 46px; height: 36px;
-  background: radial-gradient(circle at 35% 30%, #97c459, #639922);
-  border-radius: 55% 60% 50% 50% / 60% 65% 50% 55%;
-  z-index: 2;
-}
-/* Pomme qui tombe : décalée par rapport au tronc pour ne pas le cacher */
-.apple-fruit {
-  position: absolute;
-  left: 70%;
-  width: 11px; height: 11px;
-  background: radial-gradient(circle at 35% 30%, #f0997b, #d85a30);
-  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
-  transform: translateX(-50%);
-  animation: apple-fall 5s cubic-bezier(0.55,0,0.85,0.35) infinite;
-  z-index: 3;
-}
-.apple-fruit::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: 50%;
-  width: 1.5px; height: 4px;
-  background: #6b4226;
-  transform: translateX(-50%) rotate(15deg);
-  border-radius: 1px;
-}
-/* Pommes fixes dans le feuillage, à gauche du tronc */
-.apple-fruit-static {
-  position: absolute;
-  width: 9px; height: 9px;
-  background: radial-gradient(circle at 35% 30%, #f0997b, #d85a30);
-  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
-  z-index: 3;
-}
-.apple-fruit-static::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: 50%;
-  width: 1.5px; height: 3px;
-  background: #6b4226;
-  transform: translateX(-50%) rotate(15deg);
-  border-radius: 1px;
-}
-.apple-fruit-static-1 { left: 22px; top: 7px; }
-.apple-fruit-static-2 { left: 13px; top: 21px; }
-@keyframes apple-fall {
-  0%   { top: 14px; opacity: 1; transform: translateX(-50%) scale(1); }
-  35%  { top: 50px; opacity: 1; transform: translateX(-50%) scaleX(1.2) scaleY(0.8); }
-  80%  { top: 50px; opacity: 1; transform: translateX(-50%) scaleX(1.2) scaleY(0.8); }
-  88%  { top: 50px; opacity: 0; transform: translateX(-50%) scaleX(1.2) scaleY(0.8); }
-  89%  { top: 14px; opacity: 0; transform: translateX(-50%) scale(1); }
-  100% { top: 14px; opacity: 1; transform: translateX(-50%) scale(1); }
-}
+  apple: `
+    <div class="apple-icon">
+      <div class="apple-canopy"></div>
+      <div class="apple-trunk"></div>
+      <div class="apple-fruit"></div>
+      <div class="apple-fruit-static apple-fruit-static-1"></div>
+      <div class="apple-fruit-static apple-fruit-static-2"></div>
+    </div>`,
 
   /* Séq. 06 — Sablier (clipPath unique par instance via suffix) */
   hourglass: (suffix = 'hg') => `

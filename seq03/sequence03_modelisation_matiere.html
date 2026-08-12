@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Séquence 03 – Modélisation de la matière à l'échelle microscopique – Seconde</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&amp;family=Outfit:wght@400;600;700;800&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root {
@@ -84,6 +85,14 @@ button.cap-toggle:hover{background:#1e4466}
 .sub-tab-content{display:none}
 .sub-tab-content.active{display:block;animation:fadeIn .2s ease}
 .sub-tab-content .section-title:first-child{margin-top:0}
+.exo-tabs-nav{display:flex;gap:8px;margin:8px 0 20px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.exo-tab-btn{flex-shrink:0;white-space:nowrap;display:flex;align-items:center;gap:7px;padding:8px 16px;border:1.5px solid var(--gris-bord);background:#fff;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all .2s}
+.exo-tab-btn:hover{border-color:var(--bleu)}
+.exo-tab-btn.active{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.exo-tab-btn .exo-tab-stars{font-size:.76rem;color:var(--orange);font-weight:400}
+.exo-tab-btn.active .exo-tab-stars{color:#FFD9B3}
+.exo-item-content{display:none}
+.exo-item-content.active{display:block;animation:fadeIn .3s ease}
 
 /* Sections / cartes */
 .section-title{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:800;color:var(--bleu);margin:24px 0 14px;display:flex;align-items:center;gap:10px;padding-bottom:8px;border-bottom:2px solid var(--bleu-clair)}
@@ -1062,59 +1071,52 @@ button.cap-toggle:hover { background: #1e4466; }
 </head>
 <body>
 <div class="wrap">
-
 <div class="header">
-  <div class="header-top">
-    <div class="header-left">
-      <div class="header-badge">2<sup>nde</sup> – Séq. 03</div>
-      <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
-    </div>
-    <div class="header-titles">
-      <h1>Modélisation de la matière à l'échelle microscopique</h1>
-      <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
-    </div>
-    <!-- Animation : atome avec électrons en trajectoires irrégulières -->
-    <div class="atom-icon" title="Modèle de l'atome : noyau et cortège électronique">
-      <div class="atom-orbit atom-orbit-1"></div>
-      <div class="atom-orbit atom-orbit-2"></div>
-      <div class="atom-orbit atom-orbit-3"></div>
-      <div class="atom-nucleus"></div>
-      <div class="atom-electron atom-e1"></div>
-      <div class="atom-electron atom-e2"></div>
-    </div>
-  </div>
-
-  <div class="cap-panel" id="capPanel">
-    <ul>
-      <li>Identifier les entités chimiques (atomes, ions, molécules, composés ioniques) et les relier à l'espèce chimique correspondante.</li>
-      <li>Décrire la structure de l'atome et du noyau, et relier les notions de nucléons, isotopes et masse atomique.</li>
-      <li>Identifier le cortège électronique d'un atome et le relier à sa position dans le tableau périodique.</li>
-      <li>Utiliser les symboles chimiques et la notation nucléaire pour représenter les entités chimiques.</li>
-    </ul>
-  </div>
-
-  <div class="tabs">
-    <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
-    <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
-    <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
-    <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
-  </div>
+<div class="header-top">
+<div class="header-left">
+<div class="header-badge">2<sup>nde</sup> – Séq. 03</div>
+<button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
 </div>
-
+<div class="header-titles">
+<h1>Modélisation de la matière à l'échelle microscopique</h1>
+<p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
+</div>
+<!-- Animation : atome avec électrons en trajectoires irrégulières -->
+<div class="atom-icon" title="Modèle de l'atome : noyau et cortège électronique">
+<div class="atom-orbit atom-orbit-1"></div>
+<div class="atom-orbit atom-orbit-2"></div>
+<div class="atom-orbit atom-orbit-3"></div>
+<div class="atom-nucleus"></div>
+<div class="atom-electron atom-e1"></div>
+<div class="atom-electron atom-e2"></div>
+</div>
+</div>
+<div class="cap-panel" id="capPanel">
+<ul>
+<li>Identifier les entités chimiques (atomes, ions, molécules, composés ioniques) et les relier à l'espèce chimique correspondante.</li>
+<li>Décrire la structure de l'atome et du noyau, et relier les notions de nucléons, isotopes et masse atomique.</li>
+<li>Identifier le cortège électronique d'un atome et le relier à sa position dans le tableau périodique.</li>
+<li>Utiliser les symboles chimiques et la notation nucléaire pour représenter les entités chimiques.</li>
+</ul>
+</div>
+<div class="tabs">
+<div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
+<div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+<div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
+<div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
+</div>
+</div>
 <div class="main">
 <!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
 <div class="panel on" id="tab-cours">
-
-  <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">I. Espèce chimique → entité</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-II')">II. L'atome et son noyau</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-III')">III. Entités stables</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-IV')">IV. Tableau périodique</button>
-  </div>
-
-  <!-- ===== I. Espèce chimique → entité ===== -->
-  <div class="sub-tab-content active" id="cours-I">
-
+<div class="sub-tabs-nav">
+<button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">I. Espèce chimique → entité</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-II')">II. L'atome et son noyau</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-III')">III. Entités stables</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-IV')">IV. Tableau périodique</button>
+</div>
+<!-- ===== I. Espèce chimique → entité ===== -->
+<div class="sub-tab-content active" id="cours-I">
 <div class="card">
 <h2>1. Du macroscopique au microscopique, de l'espèce chimique à l'entité</h2>
 <div class="activite">Activité 1 : La nature, c'est de la chimie — p60</div>
@@ -1132,9 +1134,8 @@ button.cap-toggle:hover { background: #1e4466; }
 </ul>
 </div>
 <div class="cours-img-box">
-  <img src="entite-chimique.png" alt="Comparaison entre l'échelle macroscopique (espèce chimique) et l'échelle microscopique (entités chimiques : atome, ion, molécule, composé ionique)" style="max-width: 600px;" />
+<img alt="Comparaison entre l'échelle macroscopique (espèce chimique) et l'échelle microscopique (entités chimiques : atome, ion, molécule, composé ionique)" src="entite-chimique.png" style="max-width: 600px;"/>
 </div>
-
 <h3>À toi de jouer</h3>
 <p>Pour chaque formule, indique s'il s'agit d'un <b>atome</b>, d'une <b>molécule</b>, d'un <b>cation</b> ou d'un <b>anion</b> (ou d'un composé ionique) :</p>
 <table class="particules">
@@ -1158,12 +1159,9 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="activite" style="margin-top:14px;">Exercices</div>
 <span class="exo-tag">p68 n°19-21</span>
 </div>
-
-  </div>
-
-  <!-- ===== II. L'atome et son noyau ===== -->
-  <div class="sub-tab-content" id="cours-II">
-
+</div>
+<!-- ===== II. L'atome et son noyau ===== -->
+<div class="sub-tab-content" id="cours-II">
 <div class="subtabs">
 <button class="subtab-btn active" data-subtab="t2a">
 <span class="subtab-title">2.a — Composition de l'atome</span>
@@ -1242,7 +1240,6 @@ button.cap-toggle:hover { background: #1e4466; }
       L'atome est constitué d'un <b>noyau</b> composé de <b>nucléons</b> (des <b>protons</b> chargés positivement + des <b>neutrons</b> de charge nulle), autour duquel se trouve un <b>cortège d'électrons</b>, tous identiques et chargés négativement.<br/><br/>
       L'atome est <b>électriquement neutre</b> : il possède donc autant de charges négatives que de charges positives, soit <b>autant de protons que d'électrons</b>.
     </div>
-
 <div style="display:flex;justify-content:center;">
 <div class="mini-atom-card-v2">
 <div class="mini-atom-title">🟢 Un atome électriquement neutre</div>
@@ -1255,16 +1252,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </div>
 <div class="mini-atom-flex">
-<svg id="heSvg" viewBox="0 0 200 200"></svg>
+<svg id="heSvg" viewbox="0 0 200 200"></svg>
 <div class="mini-atom-notation">
 <span class="nuc-notation"><span class="nuc-az"><span id="heNotationA">4</span><span id="heNotationZ">2</span></span><span class="nuc-sym" id="heNotationSym">He</span></span>
 <div class="mini-ion-caption2" id="heCaption">2 protons (+) = 2 électrons (−)</div>
 </div>
 </div>
 <div class="mini-legend mini-legend-detailed">
-<span><span class="mini-legend-dot" id="heLegendP" style="background:var(--proton);"></span><b>Proton</b> : m ≈ 1,673×10⁻²⁷ kg&nbsp;·&nbsp;q = +e</span>
-<span><span class="mini-legend-dot" id="heLegendN" style="background:var(--neutron);"></span><b>Neutron</b> : m ≈ 1,675×10⁻²⁷ kg&nbsp;·&nbsp;q = 0</span>
-<span><span class="mini-legend-dot" id="heLegendE" style="background:var(--electron);"></span><b>Électron</b> : m ≈ 9,109×10⁻³¹ kg&nbsp;·&nbsp;q = −e</span>
+<span><span class="mini-legend-dot" id="heLegendP" style="background:var(--proton);"></span><b>Proton</b> : m ≈ 1,673×10⁻²⁷ kg · q = +e</span>
+<span><span class="mini-legend-dot" id="heLegendN" style="background:var(--neutron);"></span><b>Neutron</b> : m ≈ 1,675×10⁻²⁷ kg · q = 0</span>
+<span><span class="mini-legend-dot" id="heLegendE" style="background:var(--electron);"></span><b>Électron</b> : m ≈ 9,109×10⁻³¹ kg · q = −e</span>
 </div>
 <p class="mini-atom-caption" id="heNucleusCaption">2 protons + 2 neutrons dans le noyau</p>
 <div class="mini-atom-actions mini-particle-actions">
@@ -1280,7 +1277,6 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="mini-atom-label show" id="heLabel">✓ Charges + et − égales → atome neutre (charge globale 0)</div>
 </div>
 </div>
-
 <h3>Tableau des caractéristiques des particules</h3>
 <table class="particules">
 <tr><th>Particule</th><th>Masse</th><th>Charge électrique</th></tr>
@@ -1830,12 +1826,9 @@ button.cap-toggle:hover { background: #1e4466; }
 <span class="exo-tag">p91 n°49</span>
 </div>
 </div>
-
-  </div>
-
-  <!-- ===== III. Entités stables ===== -->
-  <div class="sub-tab-content" id="cours-III">
-
+</div>
+<!-- ===== III. Entités stables ===== -->
+<div class="sub-tab-content" id="cours-III">
 <div class="subtabs">
 <button class="subtab-btn active" data-subtab="t3ab">
 <span class="subtab-title">3.a / 3.b — Gaz nobles et ions</span>
@@ -1880,7 +1873,7 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </div>
 <div class="mini-atom-flex">
-<svg id="noSvg" viewBox="0 0 200 200"></svg>
+<svg id="noSvg" viewbox="0 0 200 200"></svg>
 <div class="mini-atom-notation">
 <span class="nuc-notation"><span class="nuc-az"><span id="noNotationA">20</span><span id="noNotationZ">10</span></span><span class="nuc-sym" id="noNotationSym">Ne</span></span>
 </div>
@@ -1934,23 +1927,19 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </div>
 <div class="mini-ion-compare">
-
 <div class="mini-ion-panel before">
-<svg id="catSvgBefore" viewBox="0 0 200 200"></svg>
+<svg id="catSvgBefore" viewbox="0 0 200 200"></svg>
 <span class="nuc-notation"><span class="nuc-az"><span id="catABefore">23</span><span id="catZBefore">11</span></span><span class="nuc-sym" id="catSymBefore">Na</span></span>
 <div class="mini-ion-config" id="catConfigBefore">1s² 2s² 2p⁶ 3s¹</div>
-<div class="mini-ion-caption2" id="catCaptionBefore">11 électrons<br>(atome neutre)</div>
+<div class="mini-ion-caption2" id="catCaptionBefore">11 électrons<br/>(atome neutre)</div>
 </div>
-
-<div class="mini-ion-arrow" id="catArrow">→<div class="mini-ion-arrow-label" id="catArrowLabel">perd<br>1 é⁻</div></div>
-
+<div class="mini-ion-arrow" id="catArrow">→<div class="mini-ion-arrow-label" id="catArrowLabel">perd<br/>1 é⁻</div></div>
 <div class="mini-ion-panel after" id="catPanelAfter">
-<svg id="catSvgAfter" viewBox="0 0 200 200"></svg>
+<svg id="catSvgAfter" viewbox="0 0 200 200"></svg>
 <span class="nuc-notation"><span class="nuc-az"><span id="catAAfter">23</span><span id="catZAfter">11</span></span><span class="nuc-sym" id="catSymAfter">Na<span class="mini-charge-sup plus" id="catChargeSup">+</span></span></span>
 <div class="mini-ion-config" id="catConfigAfter">1s² 2s² 2p⁶</div>
-<div class="mini-ion-caption2" id="catCaptionAfter">10 électrons<br>→ config. du néon</div>
+<div class="mini-ion-caption2" id="catCaptionAfter">10 électrons<br/>→ config. du néon</div>
 </div>
-
 </div>
 <div class="mini-legend">
 <span><span class="mini-legend-dot" id="catLegendP" style="background:var(--proton);"></span>proton</span>
@@ -1991,46 +1980,38 @@ button.cap-toggle:hover { background: #1e4466; }
 <div style="display:flex;justify-content:center;">
 <div class="mini-atom-card-v2 wide">
 <div class="mini-atom-title">🔵 Formation d'un anion</div>
-
 <div style="margin:8px 0 12px;">
-  <label for="anionSelect" style="font-size:.78rem;font-weight:700;color:var(--texte-leger);">
+<label for="anionSelect" style="font-size:.78rem;font-weight:700;color:var(--texte-leger);">
     Choisir l'atome :
   </label>
-  <select id="anionSelect" onchange="drawAnion(parseInt(this.value))"
-    style="margin-left:6px;padding:5px 9px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;color:var(--texte);">
-    <option value="9">F — fluor</option>
-    <option value="8">O — oxygène</option>
-    <option value="17" selected>Cl — chlore</option>
-  </select>
+<select id="anionSelect" onchange="drawAnion(parseInt(this.value))" style="margin-left:6px;padding:5px 9px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-weight:700;color:var(--texte);">
+<option value="9">F — fluor</option>
+<option value="8">O — oxygène</option>
+<option selected="" value="17">Cl — chlore</option>
+</select>
 </div>
-
 <div class="mini-ion-compare">
 <div class="mini-ion-panel before">
-<svg id="anionSvgBefore" viewBox="0 0 200 200"></svg>
+<svg id="anionSvgBefore" viewbox="0 0 200 200"></svg>
 <span class="nuc-notation"><span class="nuc-az"><span id="anionABefore"></span><span id="anionZBefore"></span></span><span class="nuc-sym" id="anionSymBefore"></span></span>
 <div class="mini-ion-config" id="anionConfigBefore"></div>
 <div class="mini-ion-caption2" id="anionCaptionBefore"></div>
 </div>
-
 <div class="mini-ion-arrow" id="anionArrow">→<div class="mini-ion-arrow-label" id="anionArrowLabel"></div></div>
-
 <div class="mini-ion-panel after" id="anionPanelAfter">
-<svg id="anionSvgAfter" viewBox="0 0 200 200"></svg>
+<svg id="anionSvgAfter" viewbox="0 0 200 200"></svg>
 <span class="nuc-notation"><span class="nuc-az"><span id="anionAAfter"></span><span id="anionZAfter"></span></span><span class="nuc-sym" id="anionSymAfter"></span></span>
 <div class="mini-ion-config" id="anionConfigAfter"></div>
 <div class="mini-ion-caption2" id="anionCaptionAfter"></div>
 </div>
 </div>
-
 <div class="mini-legend">
 <span><span class="mini-legend-dot" style="background:var(--proton);"></span>proton</span>
 <span><span class="mini-legend-dot" style="background:var(--neutron);"></span>neutron</span>
 <span><span class="mini-legend-dot" style="background:var(--electron);"></span>électron</span>
 <span><span class="mini-legend-dot" style="background:transparent;border:1.5px dashed var(--gris-bord);"></span>place vide</span>
 </div>
-
 <p class="mini-atom-caption" id="anionNucleusCaption"></p>
-
 <div class="mini-atom-actions">
 <button class="mini-atom-btn" onclick="playAnion()">▶ Lancer l'animation</button>
 <button class="mini-reset-btn" onclick="resetAnion()">↺ Recommencer</button>
@@ -2045,11 +2026,11 @@ button.cap-toggle:hover { background: #1e4466; }
 <h2>3.c — Les molécules : schéma de Lewis et énergie de liaison</h2>
 <div class="activite">Activité 6 : Liaisons dans les molécules — p81</div>
 <div class="def">
-      Une <b>molécule</b> est un assemblage d'un nombre limité d'atomes qui mettent en commun des électrons afin de gagner en stabilité.<br/><br/>
-      La mise en commun de deux électrons de valence entre deux atomes s'appelle une <b>liaison covalente</b> ou <b>doublet liant</b> (A—B).<br/><br/>
+      Une <b>molécule</b> est un assemblage d'un nombre limité d'atomes qui mettent en commun des électrons afin de gagner en stabilité.<br><br>
+      La mise en commun de deux électrons de valence entre deux atomes s'appelle une <b>liaison covalente</b> ou <b>doublet liant</b> (A—B).<br><br/>
       Les électrons de valence d'un atome qui ne participent pas à une liaison sont répartis en <b>doublets non liants</b>, propres à chaque atome.<br/><br/>
       Grâce à cet assemblage, chaque atome acquiert une configuration électronique semblable à celle du gaz noble le plus proche.
-    </div>
+    </br></br></br></div>
 <h3>Outil interactif — Schémas de Lewis</h3>
 <div class="lewis-controls" id="lewisButtons"></div>
 <div class="lewis-stage">
@@ -2296,12 +2277,9 @@ button.cap-toggle:hover { background: #1e4466; }
 <span class="exo-tag">p93 n°53</span>
 </div>
 </div>
-
-  </div>
-
-  <!-- ===== IV. Tableau périodique ===== -->
-  <div class="sub-tab-content" id="cours-IV">
-
+</div>
+<!-- ===== IV. Tableau périodique ===== -->
+<div class="sub-tab-content" id="cours-IV">
 <div class="card">
 <h2>Tableau périodique simplifié à compléter (lignes 1 à 4, colonnes 1, 2, 13 à 18)</h2>
 <p>Avant de cliquer : complète directement dans le tableau ci-dessous le <b>nom de la famille</b> (au-dessus des colonnes 1, 2, 17 et 18), le <b>nombre d'électrons de valence</b> de chaque colonne (juste au-dessus des numéros de colonne), et le <b>symbole de Lewis</b> de chaque colonne (en dessous du tableau).</p>
@@ -2381,27 +2359,21 @@ button.cap-toggle:hover { background: #1e4466; }
 <h3>Lien utile</h3>
 <p><a href="https://ptable.com/?lang=fr" rel="noopener" target="_blank">Tableau périodique interactif — Ptable</a></p>
 </div>
-
-  </div>
-
+</div>
 </div>
 <!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
 <div class="panel" id="tab-activites">
-
 <div class="intro-box">Retrouve ici les activités menées en classe, avec leurs questions guidées interactives. Certaines reprennent des exercices déjà rencontrés dans le cours : n'hésite pas à t'y référer si besoin.</div>
-
 <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'sub-act-1')">🧪 Act. 1</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-2')">📏 Act. 2</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-3')">⚛️ Act. 3</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-5')">💧 Act. 5</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-6')">🔗 Act. 6</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-act-8')">🔬 Simulation PhET</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'sub-act-1')">🧪 Act. 1</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-act-2')">📏 Act. 2</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-act-3')">⚛️ Act. 3</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-act-5')">💧 Act. 5</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-act-6')">🔗 Act. 6</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-act-8')">🔬 Simulation PhET</button>
 </div>
-
-  <div class="sub-tab-content active" id="sub-act-1">
+<div class="sub-tab-content active" id="sub-act-1">
 <div class="section-title"><span class="icon">🧪</span> Activité 1 — La nature, c'est de la chimie <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.60</span></div>
-
 <div class="card">
 <span class="comp-badge app">S'APPROPRIER</span>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Pour chaque formule, indique s'il s'agit d'un <b>atome</b>, d'une <b>molécule</b>, d'un <b>cation</b>, d'un <b>anion</b> ou d'un <b>composé ionique</b> :</p>
@@ -2423,13 +2395,9 @@ button.cap-toggle:hover { background: #1e4466; }
       </div>
 </div>
 </div>
-
-
-  </div>
-
-  <div class="sub-tab-content" id="sub-act-2">
+</div>
+<div class="sub-tab-content" id="sub-act-2">
 <div class="section-title"><span class="icon">🧪</span> Activité 2 — Tailles et masses de l'atome et de son noyau <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.62</span></div>
-
 <div class="card">
 <span class="comp-badge app">S'APPROPRIER</span>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Donne les ordres de grandeur de la taille d'un atome et de son noyau :</p>
@@ -2546,13 +2514,9 @@ button.cap-toggle:hover { background: #1e4466; }
       </div>
 </div>
 </div>
-
-
-  </div>
-
-  <div class="sub-tab-content" id="sub-act-3">
+</div>
+<div class="sub-tab-content" id="sub-act-3">
 <div class="section-title"><span class="icon">🧪</span> Activité 3 — Trio de noyaux <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.63</span></div>
-
 <div class="card">
 <span class="comp-badge rea">RÉALISER</span>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;"><b>Exemple 1 :</b> un atome de phosphore (P) possède 31 nucléons et 15 protons. Écris la représentation symbolique de son noyau :</p>
@@ -2788,13 +2752,9 @@ button.cap-toggle:hover { background: #1e4466; }
       </div>
 </div>
 </div>
-
-
-  </div>
-
-  <div class="sub-tab-content" id="sub-act-5">
+</div>
+<div class="sub-tab-content" id="sub-act-5">
 <div class="section-title"><span class="icon">🧪</span> Activité 5 — Des ions dans les eaux minérales <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.80</span></div>
-
 <div class="card">
 <span class="comp-badge ana">ANALYSER</span>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Pourquoi les gaz nobles sont-ils chimiquement stables ?</p>
@@ -2856,13 +2816,9 @@ button.cap-toggle:hover { background: #1e4466; }
       </div>
 </div>
 </div>
-
-
-  </div>
-
-  <div class="sub-tab-content" id="sub-act-6">
+</div>
+<div class="sub-tab-content" id="sub-act-6">
 <div class="section-title"><span class="icon">🧪</span> Activité 6 — Liaisons dans les molécules <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.81</span></div>
-
 <div class="card">
 <div class="remarque-box">💡 Utilise l'outil interactif « Schémas de Lewis » disponible dans l'onglet Cours (III.c — Molécules et énergie de liaison) pour visualiser chaque molécule.</div>
 <span class="comp-badge rea">RÉALISER</span>
@@ -3167,15 +3123,12 @@ button.cap-toggle:hover { background: #1e4466; }
       </div>
 </div>
 </div>
-
-
-  </div>
-
-  <div class="sub-tab-content" id="sub-act-8">
+</div>
+<div class="sub-tab-content" id="sub-act-8">
 <div class="section-title"><span class="icon">🔬</span> Activité — Simulation PhET : construire un atome</div>
 <div class="card">
 <span class="comp-badge app">S'APPROPRIER</span>
-<div class="remarque-box">🔗 Simulation PhET — <a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" target="_blank" rel="noopener"><b>Construire un atome (Build an Atom)</b></a> — ouvre la simulation dans un nouvel onglet et laisse-la ouverte à côté de cette page.</div>
+<div class="remarque-box">🔗 Simulation PhET — <a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" rel="noopener" target="_blank"><b>Construire un atome (Build an Atom)</b></a> — ouvre la simulation dans un nouvel onglet et laisse-la ouverte à côté de cette page.</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Dans la simulation, va dans l'écran <b>« Symbole »</b>. Construis un atome en plaçant <b>6 protons</b>, <b>6 neutrons</b> et <b>6 électrons</b>, puis réponds :</p>
 <div class="exo-box" data-clear-selector=".phet-q1">
 <p>Quel est le nom de cet élément ?
@@ -3203,14 +3156,13 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="correction">Avec 6 protons, l'élément est le <b>carbone</b> (Z = 6). Avec 6 neutrons, A = Z + N = 6 + 6 = <b>12</b> : c'est le carbone 12.</div>
 </div>
-
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Sans changer le nombre de protons ni de neutrons, <b>retire un électron</b>. Observe la charge affichée par la simulation :</p>
 <div class="exo-box" data-clear-selector=".phet-q2">
 <div class="quiz-options">
-<label><input type="radio" name="phet-q2" class="phet-q2" value="a" data-correct="false"> L'atome reste neutre</label>
-<label><input type="radio" name="phet-q2" class="phet-q2" value="b" data-correct="true"> On obtient un cation (charge +1)</label>
-<label><input type="radio" name="phet-q2" class="phet-q2" value="c" data-correct="false"> On obtient un anion (charge −1)</label>
-<label><input type="radio" name="phet-q2" class="phet-q2" value="d" data-correct="false"> On obtient un isotope</label>
+<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="a"/> L'atome reste neutre</label>
+<label><input class="phet-q2" data-correct="true" name="phet-q2" type="radio" value="b"/> On obtient un cation (charge +1)</label>
+<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="c"/> On obtient un anion (charge −1)</label>
+<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="d"/> On obtient un isotope</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="phet-q2">Vérifier ma réponse</button>
@@ -3219,14 +3171,13 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="correction">En retirant un électron, il y a plus de protons (charges +) que d'électrons (charges −) : l'atome devient un <b>cation</b> de charge <b>+1</b> (ici l'ion C⁺).</div>
 </div>
-
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Remets l'électron manquant, puis <b>ajoute un neutron</b> (7 neutrons au total). Que représente ce nouvel atome par rapport au précédent ?</p>
 <div class="exo-box" data-clear-selector=".phet-q3">
 <div class="quiz-options">
-<label><input type="radio" name="phet-q3" class="phet-q3" value="a" data-correct="true"> C'est un isotope du premier atome (carbone 13)</label>
-<label><input type="radio" name="phet-q3" class="phet-q3" value="b" data-correct="false"> C'est un ion du premier atome</label>
-<label><input type="radio" name="phet-q3" class="phet-q3" value="c" data-correct="false"> C'est un élément chimique différent</label>
-<label><input type="radio" name="phet-q3" class="phet-q3" value="d" data-correct="false"> C'est une molécule</label>
+<label><input class="phet-q3" data-correct="true" name="phet-q3" type="radio" value="a"/> C'est un isotope du premier atome (carbone 13)</label>
+<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="b"/> C'est un ion du premier atome</label>
+<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="c"/> C'est un élément chimique différent</label>
+<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="d"/> C'est une molécule</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="phet-q3">Vérifier ma réponse</button>
@@ -3235,37 +3186,40 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="correction">Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (7 au lieu de 6) donc A différent (13 au lieu de 12) : ce sont des <b>isotopes</b> (carbone 12 et carbone 13).</div>
 </div>
-
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">💡 Utilise l'écran <b>« Jeu »</b> de la simulation pour t'entraîner à retrouver le nom, le symbole, le numéro atomique et le nombre de masse à partir de la composition d'un atome, ou l'inverse.</p>
 </div>
-
-  </div>
-
+</div>
 </div>
 <div class="panel" id="tab-exercices">
-
 <div class="intro-box">Retrouve ici les exercices du manuel à faire en autonomie, classés par niveau de difficulté, ainsi qu'un escape game pour réviser toute la séquence en t'amusant. La correction est disponible en classe ou sur demande.</div>
-
 <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-facile')">🟢 Facile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-inter')">🟡 Intermédiaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-diff')">🔴 Difficile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">🎮 Escape Game</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-facile')">🟢 Facile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-inter')">🟡 Intermédiaire</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-diff')">🔴 Difficile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">🎮 Escape Game</button>
 </div>
-
 <!-- ===== FACILE ===== -->
 <div class="sub-tab-content active" id="sub-exo-facile">
-<div class="section-title"><span class="icon">🟢</span> Exercices faciles</div>
 
-<div class="card" style="border-left:4px solid var(--vert);">
+
+
+
+
+
+
+
+
+
+
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-atome')" type="button">Qu'est-ce qu'un atome ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identifier-entite')" type="button">Identifier une entité <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-espece-entite')" type="button">Espèce chimique ou entité chimique ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-mg-composition')" type="button">Composition du magnésium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-fluor-valence')" type="button">Électrons de valence du fluor <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-atome"><div class="card" id="exo-atome" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 1 — Qu'est-ce qu'un atome ?</div>
 <div class="exo-box" data-clear-selector=".nx-f1">
 <div class="quiz-options">
-<label><input type="radio" name="nx-f1" class="nx-f1" value="a" data-correct="false"> Une entité chargée électriquement</label>
-<label><input type="radio" name="nx-f1" class="nx-f1" value="b" data-correct="true"> Une entité électriquement neutre, constituée d'un noyau et d'électrons</label>
-<label><input type="radio" name="nx-f1" class="nx-f1" value="c" data-correct="false"> Un assemblage de plusieurs atomes</label>
-<label><input type="radio" name="nx-f1" class="nx-f1" value="d" data-correct="false"> Un ensemble d'ions</label>
+<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="a"/> Une entité chargée électriquement</label>
+<label><input class="nx-f1" data-correct="true" name="nx-f1" type="radio" value="b"/> Une entité électriquement neutre, constituée d'un noyau et d'électrons</label>
+<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="c"/> Un assemblage de plusieurs atomes</label>
+<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="d"/> Un ensemble d'ions</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="nx-f1">Vérifier ma réponse</button>
@@ -3274,54 +3228,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="correction">Un atome est une entité <b>électriquement neutre</b>, constituée d'un noyau (protons + neutrons) et d'un cortège électronique (électrons) : autant de charges + que de charges −.</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--vert);">
-<span class="comp-badge rea">RÉALISER</span>
-<div class="card-title" style="margin-top:6px;">Exercice 2 — Composition du magnésium</div>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Le noyau de l'atome de magnésium a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>24</span><span>12</span></span><span class="nuc-sym">Mg</span></span>. Complète :</p>
-<div class="exo-box" data-clear-selector=".nx-f2">
-<p>Nombre de protons :
-<select class="exo-select nx-f2" data-answers="12">
-<option value="">— choisir —</option>
-<option value="12">12</option>
-<option value="24">24</option>
-<option value="36">36</option>
-</select>
-&nbsp;&nbsp; Nombre de neutrons :
-<select class="exo-select nx-f2" data-answers="12">
-<option value="">— choisir —</option>
-<option value="12">12</option>
-<option value="24">24</option>
-<option value="0">0</option>
-</select>
-&nbsp;&nbsp; Nombre d'électrons :
-<select class="exo-select nx-f2" data-answers="12">
-<option value="">— choisir —</option>
-<option value="12">12</option>
-<option value="24">24</option>
-<option value="36">36</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".nx-f2">Vérifier mes réponses</button>
-<button class="toggle-btn">Voir la correction</button>
-<button class="reset-btn">Recommencer</button>
-</div>
-<div class="correction">Z = 12 → <b>12 protons</b> et, l'atome étant neutre, <b>12 électrons</b>. N = A − Z = 24 − 12 = <b>12 neutrons</b>.</div>
-</div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--vert);">
+</div></div><div class="exo-item-content" id="exoitem-identifier-entite"><div class="card" id="exo-identifier-entite" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 3 — Identifier une entité</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'espèce chimique notée Cl⁻ est :</p>
 <div class="exo-box" data-clear-selector=".nx-f3">
 <div class="quiz-options">
-<label><input type="radio" name="nx-f3" class="nx-f3" value="a" data-correct="false"> Un atome</label>
-<label><input type="radio" name="nx-f3" class="nx-f3" value="b" data-correct="false"> Un cation</label>
-<label><input type="radio" name="nx-f3" class="nx-f3" value="c" data-correct="true"> Un anion</label>
-<label><input type="radio" name="nx-f3" class="nx-f3" value="d" data-correct="false"> Une molécule</label>
+<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="a"/> Un atome</label>
+<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="b"/> Un cation</label>
+<label><input class="nx-f3" data-correct="true" name="nx-f3" type="radio" value="c"/> Un anion</label>
+<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="d"/> Une molécule</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="nx-f3">Vérifier ma réponse</button>
@@ -3330,9 +3246,7 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="correction">Cl⁻ porte une charge négative : c'est un <b>anion</b> (ion chargé négativement, ici issu du gain d'un électron par l'atome de chlore).</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--vert);">
+</div></div><div class="exo-item-content" id="exoitem-espece-entite"><div class="card" id="exo-espece-entite" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 4 — Espèce chimique ou entité chimique ?</div>
 <div class="exo-box" data-clear-selector=".nx-f4">
@@ -3357,18 +3271,50 @@ comme un atome, un ion ou une molécule.
 </div>
 <div class="correction">Une espèce chimique se situe à l'échelle <b>macroscopique</b> (collection d'un très grand nombre d'entités), une entité chimique à l'échelle <b>microscopique</b> (un seul atome, ion ou molécule).</div>
 </div>
+</div></div><div class="exo-item-content" id="exoitem-mg-composition"><div class="card" id="exo-mg-composition" style="border-left:4px solid var(--vert);">
+<span class="comp-badge rea">RÉALISER</span>
+<div class="card-title" style="margin-top:6px;">Exercice 2 — Composition du magnésium</div>
+<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Le noyau de l'atome de magnésium a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>24</span><span>12</span></span><span class="nuc-sym">Mg</span></span>. Complète :</p>
+<div class="exo-box" data-clear-selector=".nx-f2">
+<p>Nombre de protons :
+<select class="exo-select nx-f2" data-answers="12">
+<option value="">— choisir —</option>
+<option value="12">12</option>
+<option value="24">24</option>
+<option value="36">36</option>
+</select>
+   Nombre de neutrons :
+<select class="exo-select nx-f2" data-answers="12">
+<option value="">— choisir —</option>
+<option value="12">12</option>
+<option value="24">24</option>
+<option value="0">0</option>
+</select>
+   Nombre d'électrons :
+<select class="exo-select nx-f2" data-answers="12">
+<option value="">— choisir —</option>
+<option value="12">12</option>
+<option value="24">24</option>
+<option value="36">36</option>
+</select>
+</p>
+<div class="exo-actions">
+<button class="check-btn" data-check-selector=".nx-f2">Vérifier mes réponses</button>
+<button class="toggle-btn">Voir la correction</button>
+<button class="reset-btn">Recommencer</button>
 </div>
-
-<div class="card" style="border-left:4px solid var(--vert);">
+<div class="correction">Z = 12 → <b>12 protons</b> et, l'atome étant neutre, <b>12 électrons</b>. N = A − Z = 24 − 12 = <b>12 neutrons</b>.</div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-fluor-valence"><div class="card" id="exo-fluor-valence" style="border-left:4px solid var(--vert);">
 <span class="comp-badge ana">ANALYSER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 5 — Électrons de valence du fluor</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'atome de fluor (Z = 9) a pour configuration électronique 1s² 2s² 2p⁵. Combien possède-t-il d'électrons de valence ?</p>
 <div class="exo-box" data-clear-selector=".nx-f5">
 <div class="quiz-options">
-<label><input type="radio" name="nx-f5" class="nx-f5" value="a" data-correct="false"> 2</label>
-<label><input type="radio" name="nx-f5" class="nx-f5" value="b" data-correct="false"> 5</label>
-<label><input type="radio" name="nx-f5" class="nx-f5" value="c" data-correct="true"> 7</label>
-<label><input type="radio" name="nx-f5" class="nx-f5" value="d" data-correct="false"> 9</label>
+<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="a"/> 2</label>
+<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="b"/> 5</label>
+<label><input class="nx-f5" data-correct="true" name="nx-f5" type="radio" value="c"/> 7</label>
+<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="d"/> 9</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="nx-f5">Vérifier ma réponse</button>
@@ -3377,48 +3323,42 @@ comme un atome, un ion ou une molécule.
 </div>
 <div class="correction">Les électrons de valence sont ceux de la couche externe (dernière couche occupée) : ici la couche 2, avec 2 (2s) + 5 (2p) = <b>7 électrons de valence</b>.</div>
 </div>
-</div>
-
-<div class="card">
+</div></div><div class="card">
 <div class="card-title">🔗 Exercices interactifs auto-corrigés — Hatier</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Série d'exercices en ligne avec correction immédiate, pour t'entraîner sur l'ensemble du chapitre.</p>
-<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/C03_SI/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/C03_SI/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
 <span class="exo-tag" style="cursor:pointer;">📝 Faire les exercices en ligne</span>
 </a>
-</div>
-
-<div class="card">
+</div><div class="card">
 <div class="card-title">🔗 Simulation PhET — Jeu « Construire un atome »</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Clique sur « Jeu » puis choisis ton jeu (4 niveaux de difficulté croissante, du plus simple au plus complexe).</p>
-<a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" target="_blank" rel="noopener" style="text-decoration:none;">
+<a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" rel="noopener" style="text-decoration:none;" target="_blank">
 <span class="exo-tag" style="cursor:pointer;">🎮 Jouer</span>
 </a>
-</div>
-
-<div class="card">
+</div><div class="card">
 <div class="card-title">📖 I. Espèce chimique → entité — Vocabulaire</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Reconnaître et nommer les entités chimiques (atome, ion, molécule).</p>
 <span class="exo-tag">p68 n°19-21</span>
-</div>
-
-<div class="card">
+</div><div class="card">
 <div class="card-title">📖 II. L'atome et son noyau — Composition de base</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Identifier protons, neutrons, électrons à partir de la notation symbolique.</p>
 <span class="exo-tag">p69 n°31-32-33-34</span>
-</div>
-
-<div class="card">
+</div><div class="card">
 <div class="card-title">📖 II. Cortège électronique — Notions de base</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Répartition des électrons en couches, électrons de valence.</p>
 <span class="exo-tag">p86 n°23</span>
-</div>
-</div>
-
+</div></div>
 <!-- ===== INTERMÉDIAIRE ===== -->
 <div class="sub-tab-content" id="sub-exo-inter">
-<div class="section-title"><span class="icon">🟡</span> Exercices intermédiaires</div>
 
-<div class="card" style="border-left:4px solid var(--orange);">
+
+
+
+
+
+
+
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-al-neutrons')" type="button">Nombre de neutrons de l'aluminium <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-isotopes-carbone')" type="button">Isotopes du carbone <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ca-notation')" type="button">Notation symbolique du calcium <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-si-config')" type="button">Configuration électronique du silicium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-k-famille')" type="button">Famille chimique du potassium <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-al-neutrons"><div class="card" id="exo-al-neutrons" style="border-left:4px solid var(--orange);">
 <span class="comp-badge rea">RÉALISER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 1 — Nombre de neutrons de l'aluminium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Le noyau d'un atome d'aluminium possède 13 protons et son nombre de masse est A = 27. Calcule son nombre de neutrons N :</p>
@@ -3439,9 +3379,51 @@ comme un atome, un ion ou une molécule.
 </div>
 <div class="correction">N = A − Z = 27 − 13 = <b>14 neutrons</b>.</div>
 </div>
+</div></div><div class="exo-item-content" id="exoitem-isotopes-carbone"><div class="card" id="exo-isotopes-carbone" style="border-left:4px solid var(--orange);">
+<span class="comp-badge ana">ANALYSER</span>
+<div class="card-title" style="margin-top:6px;">Exercice 3 — Isotopes du carbone</div>
+<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Les noyaux <span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span> et <span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span> sont :</p>
+<div class="exo-box" data-clear-selector=".nx-i3">
+<div class="quiz-options">
+<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="a"/> Le même atome</label>
+<label><input class="nx-i3" data-correct="true" name="nx-i3" type="radio" value="b"/> Des isotopes</label>
+<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="c"/> Des ions</label>
+<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="d"/> Des éléments chimiques différents</label>
 </div>
-
-<div class="card" style="border-left:4px solid var(--orange);">
+<div class="exo-actions">
+<button class="check-radio-btn" data-radio-name="nx-i3">Vérifier ma réponse</button>
+<button class="toggle-btn">Voir la correction</button>
+<button class="reset-btn">Recommencer</button>
+</div>
+<div class="correction">Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (6 puis 8) : ce sont des <b>isotopes</b> du carbone.</div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-ca-notation"><div class="card" id="exo-ca-notation" style="border-left:4px solid var(--orange);">
+<span class="comp-badge rea">RÉALISER</span>
+<div class="card-title" style="margin-top:6px;">Exercice 5 — Notation symbolique du calcium</div>
+<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Un noyau de calcium possède 20 protons et 20 neutrons. Complète sa notation symbolique <span class="nuc-notation"><span class="nuc-az"><span id="nxi5aplace">A</span><span id="nxi5zplace">Z</span></span><span class="nuc-sym">Ca</span></span> :</p>
+<div class="exo-box" data-clear-selector=".nx-i5">
+<p>A (nombre de masse) :
+<select class="exo-select nx-i5" data-answers="40">
+<option value="">— choisir —</option>
+<option value="20">20</option>
+<option value="40">40</option>
+<option value="60">60</option>
+</select>
+   Z (numéro atomique) :
+<select class="exo-select nx-i5" data-answers="20">
+<option value="">— choisir —</option>
+<option value="20">20</option>
+<option value="40">40</option>
+</select>
+</p>
+<div class="exo-actions">
+<button class="check-btn" data-check-selector=".nx-i5">Vérifier mes réponses</button>
+<button class="toggle-btn">Voir la correction</button>
+<button class="reset-btn">Recommencer</button>
+</div>
+<div class="correction">Z = nombre de protons = <b>20</b>. A = Z + N = 20 + 20 = <b>40</b>.</div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-si-config"><div class="card" id="exo-si-config" style="border-left:4px solid var(--orange);">
 <span class="comp-badge rea">RÉALISER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 2 — Configuration électronique du silicium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Établis la configuration électronique de l'atome de silicium (Z = 14) :</p>
@@ -3462,29 +3444,7 @@ comme un atome, un ion ou une molécule.
 </div>
 <div class="correction">Avec 14 électrons, on remplit dans l'ordre : 1s (2), 2s (2), 2p (6), 3s (2), 3p (2) : <b>1s² 2s² 2p⁶ 3s² 3p²</b>.</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--orange);">
-<span class="comp-badge ana">ANALYSER</span>
-<div class="card-title" style="margin-top:6px;">Exercice 3 — Isotopes du carbone</div>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Les noyaux <span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span> et <span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span> sont :</p>
-<div class="exo-box" data-clear-selector=".nx-i3">
-<div class="quiz-options">
-<label><input type="radio" name="nx-i3" class="nx-i3" value="a" data-correct="false"> Le même atome</label>
-<label><input type="radio" name="nx-i3" class="nx-i3" value="b" data-correct="true"> Des isotopes</label>
-<label><input type="radio" name="nx-i3" class="nx-i3" value="c" data-correct="false"> Des ions</label>
-<label><input type="radio" name="nx-i3" class="nx-i3" value="d" data-correct="false"> Des éléments chimiques différents</label>
-</div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-i3">Vérifier ma réponse</button>
-<button class="toggle-btn">Voir la correction</button>
-<button class="reset-btn">Recommencer</button>
-</div>
-<div class="correction">Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (6 puis 8) : ce sont des <b>isotopes</b> du carbone.</div>
-</div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--orange);">
+</div></div><div class="exo-item-content" id="exoitem-k-famille"><div class="card" id="exo-k-famille" style="border-left:4px solid var(--orange);">
 <span class="comp-badge ana">ANALYSER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 4 — Famille chimique du potassium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'atome de potassium (Z = 19) a pour configuration électronique 1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹.</p>
@@ -3497,7 +3457,7 @@ comme un atome, un ion ou une molécule.
 <option value="8">8</option>
 <option value="19">19</option>
 </select>
-&nbsp;&nbsp; Famille chimique :
+   Famille chimique :
 <select class="exo-select nx-i4" data-answers="alcalins">
 <option value="">— choisir —</option>
 <option value="alcalins">Alcalins</option>
@@ -3513,65 +3473,37 @@ comme un atome, un ion ou une molécule.
 </div>
 <div class="correction">La dernière couche occupée (couche 4) ne contient qu'1 électron (4s¹) : <b>1 électron de valence</b>. Le potassium appartient donc à la famille des <b>alcalins</b> (colonne 1).</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--orange);">
-<span class="comp-badge rea">RÉALISER</span>
-<div class="card-title" style="margin-top:6px;">Exercice 5 — Notation symbolique du calcium</div>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Un noyau de calcium possède 20 protons et 20 neutrons. Complète sa notation symbolique <span class="nuc-notation"><span class="nuc-az"><span id="nxi5aplace">A</span><span id="nxi5zplace">Z</span></span><span class="nuc-sym">Ca</span></span> :</p>
-<div class="exo-box" data-clear-selector=".nx-i5">
-<p>A (nombre de masse) :
-<select class="exo-select nx-i5" data-answers="40">
-<option value="">— choisir —</option>
-<option value="20">20</option>
-<option value="40">40</option>
-<option value="60">60</option>
-</select>
-&nbsp;&nbsp; Z (numéro atomique) :
-<select class="exo-select nx-i5" data-answers="20">
-<option value="">— choisir —</option>
-<option value="20">20</option>
-<option value="40">40</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".nx-i5">Vérifier mes réponses</button>
-<button class="toggle-btn">Voir la correction</button>
-<button class="reset-btn">Recommencer</button>
-</div>
-<div class="correction">Z = nombre de protons = <b>20</b>. A = Z + N = 20 + 20 = <b>40</b>.</div>
-</div>
-</div>
-
-<div class="card">
+</div></div><div class="card">
 <div class="card-title">📖 II. L'atome et son noyau — Calculs</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Calcul du nombre de neutrons, de la masse d'un atome, comparaison d'isotopes.</p>
 <span class="exo-tag">p71 n°44</span>
 <span class="exo-tag">p72 n°45 et 49</span>
-</div>
-
-<div class="card">
+</div><div class="card">
 <div class="card-title">📖 II. Cortège électronique — Configuration et famille chimique</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Établir une configuration électronique, relier électrons de valence et position dans le tableau périodique.</p>
 <span class="exo-tag">p86 n°25</span>
 <span class="exo-tag">p91 n°49</span>
-</div>
-</div>
-
+</div></div>
 <!-- ===== DIFFICILE ===== -->
 <div class="sub-tab-content" id="sub-exo-diff">
-<div class="section-title"><span class="icon">🔴</span> Exercices difficiles</div>
 
-<div class="card" style="border-left:4px solid var(--rouge);">
+
+
+
+
+
+
+<div class="remarque-box">💡 D'autres exercices difficiles viendront enrichir cette partie au fil de l'année.</div>
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-mg-ion')" type="button">L'ion stable du magnésium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-nh3-energie')" type="button">Énergie de liaison de l'ammoniac <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-n2-lewis')" type="button">Schéma de Lewis du diazote <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-al-synthese')" type="button">Synthèse : l'atome d'aluminium <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-f-cl-famille')" type="button">Fluor et chlore, une même famille <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-mg-ion"><div class="card" id="exo-mg-ion" style="border-left:4px solid var(--rouge);">
 <span class="comp-badge val">VALIDER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 1 — L'ion stable du magnésium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'atome de magnésium (Z = 12, configuration 1s² 2s² 2p⁶ 3s²) forme un ion stable. Lequel ?</p>
 <div class="exo-box" data-clear-selector=".nx-d1">
 <div class="quiz-options">
-<label><input type="radio" name="nx-d1" class="nx-d1" value="a" data-correct="false"> Mg⁺</label>
-<label><input type="radio" name="nx-d1" class="nx-d1" value="b" data-correct="true"> Mg²⁺</label>
-<label><input type="radio" name="nx-d1" class="nx-d1" value="c" data-correct="false"> Mg²⁻</label>
-<label><input type="radio" name="nx-d1" class="nx-d1" value="d" data-correct="false"> Mg⁻</label>
+<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="a"/> Mg⁺</label>
+<label><input class="nx-d1" data-correct="true" name="nx-d1" type="radio" value="b"/> Mg²⁺</label>
+<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="c"/> Mg²⁻</label>
+<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="d"/> Mg⁻</label>
 </div>
 <div class="exo-actions">
 <button class="check-radio-btn" data-radio-name="nx-d1">Vérifier ma réponse</button>
@@ -3582,8 +3514,7 @@ comme un atome, un ion ou une molécule.
 </div>
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Justifie ta réponse en utilisant la notion de configuration électronique du gaz noble le plus proche :</p>
 <div class="exo-box">
-<textarea class="exo-input block keyword-check" placeholder="Ta justification…"
-data-keywords="2 electrons de valence,deux electrons de valence|perd,perdent,perte|neon,gaz noble,gaz rare|2+,dication,ion 2+,configuration stable"></textarea>
+<textarea class="exo-input block keyword-check" data-keywords="2 electrons de valence,deux electrons de valence|perd,perdent,perte|neon,gaz noble,gaz rare|2+,dication,ion 2+,configuration stable" placeholder="Ta justification…"></textarea>
 <div class="exo-actions">
 <button class="keyword-check-btn">Vérifier ma réponse</button>
 <button class="toggle-btn">Voir la correction</button>
@@ -3592,39 +3523,7 @@ data-keywords="2 electrons de valence,deux electrons de valence|perd,perdent,per
 <div class="keyword-feedback"></div>
 <div class="correction">Le magnésium a <b>2 électrons de valence</b>. En les <b>perdant</b>, il adopte la configuration électronique stable du <b>néon</b> (gaz noble le plus proche) et forme l'ion <b>Mg²⁺</b>.</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--rouge);">
-<span class="comp-badge ana">ANALYSER</span>
-<div class="card-title" style="margin-top:6px;">Exercice 2 — Schéma de Lewis du diazote</div>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">La molécule de diazote N₂ est formée d'une triple liaison N≡N. Chaque atome d'azote possède 5 électrons de valence.</p>
-<div class="exo-box" data-clear-selector=".nx-d2">
-<p>Nombre de doublets liants entre les deux atomes :
-<select class="exo-select nx-d2" data-answers="3">
-<option value="">— choisir —</option>
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-</select>
-</p>
-<p>Nombre de doublets non liants sur chaque atome d'azote :
-<select class="exo-select nx-d2" data-answers="1">
-<option value="">— choisir —</option>
-<option value="0">0</option>
-<option value="1">1</option>
-<option value="2">2</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".nx-d2">Vérifier mes réponses</button>
-<button class="toggle-btn">Voir la correction</button>
-<button class="reset-btn">Recommencer</button>
-</div>
-<div class="correction">La triple liaison N≡N correspond à <b>3 doublets liants</b>. Chaque azote (5 électrons de valence) utilise 3 électrons dans la liaison triple, il lui reste 2 électrons soit <b>1 doublet non liant</b> par atome. Chaque azote est ainsi entouré de 8 électrons (configuration du néon).</div>
-</div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--rouge);">
+</div></div><div class="exo-item-content" id="exoitem-nh3-energie"><div class="card" id="exo-nh3-energie" style="border-left:4px solid var(--rouge);">
 <span class="comp-badge rea">RÉALISER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 3 — Énergie de liaison de l'ammoniac</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">La molécule d'ammoniac NH₃ possède 3 liaisons N–H. L'énergie de liaison E(N–H) vaut 391 kJ/mol.</p>
@@ -3654,9 +3553,35 @@ data-keywords="2 electrons de valence,deux electrons de valence|perd,perdent,per
 </div>
 <div class="correction">Énergie totale = 3 × E(N–H) = 3 × 391 = <b>1173 kJ/mol</b>.</div>
 </div>
+</div></div><div class="exo-item-content" id="exoitem-n2-lewis"><div class="card" id="exo-n2-lewis" style="border-left:4px solid var(--rouge);">
+<span class="comp-badge ana">ANALYSER</span>
+<div class="card-title" style="margin-top:6px;">Exercice 2 — Schéma de Lewis du diazote</div>
+<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">La molécule de diazote N₂ est formée d'une triple liaison N≡N. Chaque atome d'azote possède 5 électrons de valence.</p>
+<div class="exo-box" data-clear-selector=".nx-d2">
+<p>Nombre de doublets liants entre les deux atomes :
+<select class="exo-select nx-d2" data-answers="3">
+<option value="">— choisir —</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+</select>
+</p>
+<p>Nombre de doublets non liants sur chaque atome d'azote :
+<select class="exo-select nx-d2" data-answers="1">
+<option value="">— choisir —</option>
+<option value="0">0</option>
+<option value="1">1</option>
+<option value="2">2</option>
+</select>
+</p>
+<div class="exo-actions">
+<button class="check-btn" data-check-selector=".nx-d2">Vérifier mes réponses</button>
+<button class="toggle-btn">Voir la correction</button>
+<button class="reset-btn">Recommencer</button>
 </div>
-
-<div class="card" style="border-left:4px solid var(--rouge);">
+<div class="correction">La triple liaison N≡N correspond à <b>3 doublets liants</b>. Chaque azote (5 électrons de valence) utilise 3 électrons dans la liaison triple, il lui reste 2 électrons soit <b>1 doublet non liant</b> par atome. Chaque azote est ainsi entouré de 8 électrons (configuration du néon).</div>
+</div>
+</div></div><div class="exo-item-content" id="exoitem-al-synthese"><div class="card" id="exo-al-synthese" style="border-left:4px solid var(--rouge);">
 <span class="comp-badge val">VALIDER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 4 — Synthèse : l'atome d'aluminium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Un atome X a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>27</span><span>13</span></span><span class="nuc-sym">Al</span></span>. Réponds aux questions suivantes :</p>
@@ -3700,15 +3625,12 @@ data-keywords="2 electrons de valence,deux electrons de valence|perd,perdent,per
 </div>
 <div class="correction">N = A − Z = 27 − 13 = <b>14 neutrons</b>. Configuration : <b>1s² 2s² 2p⁶ 3s² 3p¹</b> (13 électrons). Couche externe (3) : 2 + 1 = <b>3 électrons de valence</b>. En les perdant, l'aluminium adopte la configuration du néon et forme l'ion <b>Al³⁺</b>.</div>
 </div>
-</div>
-
-<div class="card" style="border-left:4px solid var(--rouge);">
+</div></div><div class="exo-item-content" id="exoitem-f-cl-famille"><div class="card" id="exo-f-cl-famille" style="border-left:4px solid var(--rouge);">
 <span class="comp-badge com">COMMUNIQUER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 5 — Fluor et chlore, une même famille</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Le fluor (Z = 9) et le chlore (Z = 17) appartiennent à la même famille chimique. Justifie cette affirmation et prédis le type d'ion que chacun formera.</p>
 <div class="exo-box">
-<textarea class="exo-input block tall keyword-check" placeholder="Ta réponse…"
-data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1-,ion 1-,gagnent un electron,gagne un electron"></textarea>
+<textarea class="exo-input block tall keyword-check" data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1-,ion 1-,gagnent un electron,gagne un electron" placeholder="Ta réponse…"></textarea>
 <div class="exo-actions">
 <button class="keyword-check-btn">Vérifier ma réponse</button>
 <button class="toggle-btn">Voir la correction</button>
@@ -3717,115 +3639,101 @@ data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1
 <div class="keyword-feedback"></div>
 <div class="correction">Le fluor et le chlore ont tous deux <b>7 électrons de valence</b> : ils appartiennent à la famille des <b>halogènes</b> (colonne 17). Pour saturer leur couche externe, ils tendent à <b>gagner 1 électron</b> et forment donc chacun un <b>anion</b> de charge −1 (F⁻ et Cl⁻).</div>
 </div>
-</div>
-
-<div class="card">
+</div></div><div class="card">
 <div class="card-title">📖 III. Molécules et énergie de liaison — Synthèse</div>
 <p style="font-size:.85rem;color:var(--texte-leger);margin-bottom:8px;">Schéma de Lewis, calcul d'énergie totale de liaison, exercice de synthèse mobilisant plusieurs notions de la séquence.</p>
 <span class="exo-tag">p93 n°53</span>
-</div>
-
-<div class="remarque-box">💡 D'autres exercices difficiles viendront enrichir cette partie au fil de l'année.</div>
-</div>
-
+</div></div>
 <!-- ===== ESCAPE GAME ===== -->
 <div class="sub-tab-content" id="sub-exo-escape">
-    <div class="esc-intro">
-      <h3>🔓 Décode l'Atome Mystère</h3>
-      <p><strong>Le Brief :</strong> Un chimiste facétieux a verrouillé un coffre numérique avec un code caché dans la structure d'un atome mystérieux. Retrouve les indices étape par étape pour reconstituer le code et ouvrir le coffre !</p>
-    </div>
-
-    <div class="esc-progress">
-      <div class="esc-progress-step current" id="escProg1"></div>
-      <div class="esc-progress-step" id="escProg2"></div>
-      <div class="esc-progress-step" id="escProg3"></div>
-      <div class="esc-progress-step" id="escProg4"></div>
-    </div>
-
-    <!-- ÉTAPE 1 -->
-    <div class="esc-step-card" id="escStep1">
-      <div class="esc-step-title"><span class="esc-step-badge">Étape 1</span> 🔎 L'élément mystère</div>
-      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Cet atome mystérieux possède <b>17 protons</b> et sa configuration électronique est <b>1s² 2s² 2p⁶ 3s² 3p⁵</b>. Quel est cet élément ?</p>
-      <div class="quiz-options" id="escQ1">
-        <label><input type="radio" name="escq1" value="a" data-correct="false"> Soufre (S)</label>
-        <label><input type="radio" name="escq1" value="b" data-correct="true"> Chlore (Cl)</label>
-        <label><input type="radio" name="escq1" value="c" data-correct="false"> Argon (Ar)</label>
-        <label><input type="radio" name="escq1" value="d" data-correct="false"> Phosphore (P)</label>
-      </div>
-      <div class="exo-btn-row" style="margin-top:10px;">
-        <button class="exo-btn" onclick="escCheck1()">Valider</button>
-      </div>
-      <div class="esc-tooltip" id="escTooltip1">Indice : le numéro atomique Z correspond au nombre de protons. Regarde sa position dans le tableau périodique.</div>
-      <div class="esc-success" id="escSuccess1">✅ <strong>Exact !</strong> Avec Z = 17, c'est le <b>chlore</b>. Premier indice trouvé : <b>Z = 17</b>. L'étape 2 est débloquée.</div>
-    </div>
-
-    <!-- ÉTAPE 2 -->
-    <div class="esc-step-card locked" id="escStep2">
-      <div class="esc-step-title"><span class="esc-step-badge">Étape 2</span> ⚛️ Le noyau</div>
-      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le noyau de cet atome de chlore contient <b>18 neutrons</b>. Complète sa notation symbolique <span class="nuc-notation"><span class="nuc-az"><span id="escAplace">A</span><span id="escZplace">Z</span></span><span class="nuc-sym">Cl</span></span> :</p>
-      <p>A (nombre de masse) :
-        <select class="exo-select" id="escA">
-          <option value="">— choisir —</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="35">35</option>
-          <option value="37">37</option>
-        </select>
-        &nbsp;&nbsp; Z (numéro atomique) :
-        <select class="exo-select" id="escZ">
-          <option value="">— choisir —</option>
-          <option value="17">17</option>
-          <option value="18">18</option>
-          <option value="35">35</option>
-        </select>
-      </p>
-      <div class="exo-btn-row" style="margin-top:10px;">
-        <button class="exo-btn" onclick="escCheck2()">Valider</button>
-      </div>
-      <div class="esc-tooltip" id="escTooltip2">Indice : A = Z + N (nombre de protons + nombre de neutrons).</div>
-      <div class="esc-success" id="escSuccess2">✅ <strong>Bravo !</strong> A = 17 + 18 = 35. Deuxième indice trouvé : <b>A = 35</b>. L'étape 3 est débloquée.</div>
-    </div>
-
-    <!-- ÉTAPE 3 -->
-    <div class="esc-step-card locked" id="escStep3">
-      <div class="esc-step-title"><span class="esc-step-badge">Étape 3</span> 🧲 L'ion stable</div>
-      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le chlore a 7 électrons de valence. Quel ion stable forme-t-il, en adoptant la configuration du gaz noble le plus proche ?</p>
-      <div class="quiz-options" id="escQ3">
-        <label><input type="radio" name="escq3" value="a" data-correct="false"> Cl⁺</label>
-        <label><input type="radio" name="escq3" value="b" data-correct="true"> Cl⁻</label>
-        <label><input type="radio" name="escq3" value="c" data-correct="false"> Cl²⁻</label>
-        <label><input type="radio" name="escq3" value="d" data-correct="false"> Le chlore ne forme pas d'ion</label>
-      </div>
-      <div class="exo-btn-row" style="margin-top:10px;">
-        <button class="exo-btn" onclick="escCheck3()">Valider</button>
-      </div>
-      <div class="esc-tooltip" id="escTooltip3">Indice : avec 7 électrons de valence, l'atome tend à gagner 1 électron pour saturer sa couche externe (configuration de l'argon).</div>
-      <div class="esc-success" id="escSuccess3">✅ <strong>Parfait !</strong> En gagnant 1 électron, le chlore forme l'ion <b>Cl⁻</b>. Troisième indice trouvé : <b>charge −1</b>. L'étape 4 est débloquée.</div>
-    </div>
-
-    <!-- ÉTAPE 4 : LE CODE FINAL -->
-    <div class="esc-step-card locked" id="escStep4">
-      <div class="esc-step-title"><span class="esc-step-badge">Étape 4</span> 🔐 Le code du coffre</div>
-      <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Rassemble tes trois indices dans l'ordre <b>Z – A – charge de l'ion</b> pour composer le code du coffre (exemple de format : <code>17-35--1</code>) :</p>
-      <p style="text-align:center;margin:14px 0;">
-        <input type="text" id="escCodeInput" placeholder="Tape le code ici…" style="font-family:'DM Mono',monospace;font-size:1rem;padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;text-align:center;width:220px;">
-      </p>
-      <div class="exo-btn-row" style="justify-content:center;">
-        <button class="exo-btn" onclick="escCheckFinal()">Ouvrir le coffre</button>
-      </div>
-      <div class="esc-tooltip" id="escTooltip4">Indice : reprends les 3 valeurs trouvées, séparées par des tirets, sans espace.</div>
-    </div>
-
-    <div class="esc-final" id="escFinal">
-      <h3>🎉 Coffre déverrouillé !</h3>
-      <p>Tu as reconstitué l'identité complète de l'atome mystère : le <b>chlore 35</b> (<span class="nuc-notation" style="color:#fff;"><span class="nuc-az"><span>35</span><span>17</span></span><span class="nuc-sym">Cl</span></span>), qui forme l'ion chlorure <b>Cl⁻</b>. Tu as mobilisé le numéro atomique, la notation symbolique du noyau et la stabilité des ions : bravo, tu maîtrises toute la séquence !</p>
-    </div>
+<div class="esc-intro">
+<h3>🔓 Décode l'Atome Mystère</h3>
+<p><strong>Le Brief :</strong> Un chimiste facétieux a verrouillé un coffre numérique avec un code caché dans la structure d'un atome mystérieux. Retrouve les indices étape par étape pour reconstituer le code et ouvrir le coffre !</p>
 </div>
-
+<div class="esc-progress">
+<div class="esc-progress-step current" id="escProg1"></div>
+<div class="esc-progress-step" id="escProg2"></div>
+<div class="esc-progress-step" id="escProg3"></div>
+<div class="esc-progress-step" id="escProg4"></div>
+</div>
+<!-- ÉTAPE 1 -->
+<div class="esc-step-card" id="escStep1">
+<div class="esc-step-title"><span class="esc-step-badge">Étape 1</span> 🔎 L'élément mystère</div>
+<p style="font-size:.88rem;line-height:1.6;margin:8px 0">Cet atome mystérieux possède <b>17 protons</b> et sa configuration électronique est <b>1s² 2s² 2p⁶ 3s² 3p⁵</b>. Quel est cet élément ?</p>
+<div class="quiz-options" id="escQ1">
+<label><input data-correct="false" name="escq1" type="radio" value="a"/> Soufre (S)</label>
+<label><input data-correct="true" name="escq1" type="radio" value="b"/> Chlore (Cl)</label>
+<label><input data-correct="false" name="escq1" type="radio" value="c"/> Argon (Ar)</label>
+<label><input data-correct="false" name="escq1" type="radio" value="d"/> Phosphore (P)</label>
+</div>
+<div class="exo-btn-row" style="margin-top:10px;">
+<button class="exo-btn" onclick="escCheck1()">Valider</button>
+</div>
+<div class="esc-tooltip" id="escTooltip1">Indice : le numéro atomique Z correspond au nombre de protons. Regarde sa position dans le tableau périodique.</div>
+<div class="esc-success" id="escSuccess1">✅ <strong>Exact !</strong> Avec Z = 17, c'est le <b>chlore</b>. Premier indice trouvé : <b>Z = 17</b>. L'étape 2 est débloquée.</div>
+</div>
+<!-- ÉTAPE 2 -->
+<div class="esc-step-card locked" id="escStep2">
+<div class="esc-step-title"><span class="esc-step-badge">Étape 2</span> ⚛️ Le noyau</div>
+<p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le noyau de cet atome de chlore contient <b>18 neutrons</b>. Complète sa notation symbolique <span class="nuc-notation"><span class="nuc-az"><span id="escAplace">A</span><span id="escZplace">Z</span></span><span class="nuc-sym">Cl</span></span> :</p>
+<p>A (nombre de masse) :
+        <select class="exo-select" id="escA">
+<option value="">— choisir —</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="35">35</option>
+<option value="37">37</option>
+</select>
+           Z (numéro atomique) :
+        <select class="exo-select" id="escZ">
+<option value="">— choisir —</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="35">35</option>
+</select>
+</p>
+<div class="exo-btn-row" style="margin-top:10px;">
+<button class="exo-btn" onclick="escCheck2()">Valider</button>
+</div>
+<div class="esc-tooltip" id="escTooltip2">Indice : A = Z + N (nombre de protons + nombre de neutrons).</div>
+<div class="esc-success" id="escSuccess2">✅ <strong>Bravo !</strong> A = 17 + 18 = 35. Deuxième indice trouvé : <b>A = 35</b>. L'étape 3 est débloquée.</div>
+</div>
+<!-- ÉTAPE 3 -->
+<div class="esc-step-card locked" id="escStep3">
+<div class="esc-step-title"><span class="esc-step-badge">Étape 3</span> 🧲 L'ion stable</div>
+<p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le chlore a 7 électrons de valence. Quel ion stable forme-t-il, en adoptant la configuration du gaz noble le plus proche ?</p>
+<div class="quiz-options" id="escQ3">
+<label><input data-correct="false" name="escq3" type="radio" value="a"/> Cl⁺</label>
+<label><input data-correct="true" name="escq3" type="radio" value="b"/> Cl⁻</label>
+<label><input data-correct="false" name="escq3" type="radio" value="c"/> Cl²⁻</label>
+<label><input data-correct="false" name="escq3" type="radio" value="d"/> Le chlore ne forme pas d'ion</label>
+</div>
+<div class="exo-btn-row" style="margin-top:10px;">
+<button class="exo-btn" onclick="escCheck3()">Valider</button>
+</div>
+<div class="esc-tooltip" id="escTooltip3">Indice : avec 7 électrons de valence, l'atome tend à gagner 1 électron pour saturer sa couche externe (configuration de l'argon).</div>
+<div class="esc-success" id="escSuccess3">✅ <strong>Parfait !</strong> En gagnant 1 électron, le chlore forme l'ion <b>Cl⁻</b>. Troisième indice trouvé : <b>charge −1</b>. L'étape 4 est débloquée.</div>
+</div>
+<!-- ÉTAPE 4 : LE CODE FINAL -->
+<div class="esc-step-card locked" id="escStep4">
+<div class="esc-step-title"><span class="esc-step-badge">Étape 4</span> 🔐 Le code du coffre</div>
+<p style="font-size:.88rem;line-height:1.6;margin:8px 0">Rassemble tes trois indices dans l'ordre <b>Z – A – charge de l'ion</b> pour composer le code du coffre (exemple de format : <code>17-35--1</code>) :</p>
+<p style="text-align:center;margin:14px 0;">
+<input id="escCodeInput" placeholder="Tape le code ici…" style="font-family:'DM Mono',monospace;font-size:1rem;padding:10px 14px;border:2px solid var(--gris-bord);border-radius:8px;text-align:center;width:220px;" type="text"/>
+</p>
+<div class="exo-btn-row" style="justify-content:center;">
+<button class="exo-btn" onclick="escCheckFinal()">Ouvrir le coffre</button>
+</div>
+<div class="esc-tooltip" id="escTooltip4">Indice : reprends les 3 valeurs trouvées, séparées par des tirets, sans espace.</div>
+</div>
+<div class="esc-final" id="escFinal">
+<h3>🎉 Coffre déverrouillé !</h3>
+<p>Tu as reconstitué l'identité complète de l'atome mystère : le <b>chlore 35</b> (<span class="nuc-notation" style="color:#fff;"><span class="nuc-az"><span>35</span><span>17</span></span><span class="nuc-sym">Cl</span></span>), qui forme l'ion chlorure <b>Cl⁻</b>. Tu as mobilisé le numéro atomique, la notation symbolique du noyau et la stabilité des ions : bravo, tu maîtrises toute la séquence !</p>
+</div>
+</div>
 </div>
 <!-- ══════════════════ TAB 4 — BILAN & RESSOURCES ══════════════════ -->
 <div class="panel" id="tab-bilan">
-
 <div class="sub-tabs-nav">
 <button class="sub-tab-btn active" onclick="showSub(this,'bilan-sub-0')">📋 Bilan</button>
 <button class="sub-tab-btn" onclick="showSub(this,'bilan-sub-1')">📖 Glossaire</button>
@@ -3885,7 +3793,7 @@ data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1
 <!-- ===== GLOSSAIRE ===== -->
 <div class="sub-tab-content" id="bilan-sub-1">
 <div class="section-title"><span class="icon">📖</span> Glossaire</div>
-<input class="gloss-search" id="glossSearch" oninput="glossFilter()" placeholder="🔎 Rechercher un mot du glossaire…" type="text"/>
+<input class="gloss-search" id="glossSearch" oninput="glossFilter()" placeholder="🔎 Rechercher un mot du glossaire…" type="text">
 <dl class="gloss-grid" id="glossGrid">
 <div class="gloss-item" data-term="atome neutralite electrique"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique. La neutralité électrique impose autant d'électrons que de protons.</dd></div>
 <div class="gloss-item" data-term="anion"><dt>Anion</dt><dd>Ion portant une charge électrique négative, résultant du gain d'un ou plusieurs électrons par un atome (ex: Cl⁻).</dd></div>
@@ -3924,7 +3832,7 @@ data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1
 <div class="gloss-item" data-term="schema de lewis"><dt>Schéma de Lewis</dt><dd>Représentation d'une molécule faisant apparaître tous les doublets liants (liaisons covalentes) et doublets non liants de chaque atome.</dd></div>
 <div class="gloss-item" data-term="structure lacunaire matiere"><dt>Structure lacunaire</dt><dd>La matière est essentiellement constituée de vide : le noyau (≈ 10⁻¹⁵ m) est environ 100 000 fois plus petit que l'atome (≈ 10⁻¹⁰ m), qui concentre pourtant la quasi-totalité de sa masse.</dd></div>
 </dl>
-</div>
+</input></div>
 <!-- /bilan-sub-1 -->
 <!-- ===== RESSOURCES ===== -->
 <div class="sub-tab-content" id="bilan-sub-2">
@@ -4110,14 +4018,10 @@ data-keywords="7 electrons de valence,sept electrons de valence|halogene|anion,1
 </div>
 </div>
 <!-- /bilan-sub-2 -->
-
-</div>
-
 </div>
 </div>
-
+</div>
 <button id="backToTop" title="Haut de page">↑</button>
-
 <script>
 
 // ===== Capacités exigibles =====
@@ -4126,6 +4030,15 @@ function showSub(btn, id) {
   const panel = btn.closest('.panel');
   panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
   panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+function showExoItem(btn, id){
+  const panel = btn.closest('.sub-tab-content');
+  if(!panel) return;
+  panel.querySelectorAll('.exo-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }

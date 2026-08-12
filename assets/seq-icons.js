@@ -92,7 +92,8 @@ const SEQ_ICONS = {
     </div>`,
 
   /* Séq. 05 — Pommier */
- apple-icon {
+ apple:
+   apple-icon {
   display: inline-block;
   position: relative;
   width: 60px;

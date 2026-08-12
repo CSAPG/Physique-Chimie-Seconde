@@ -513,7 +513,7 @@
 }
 .sand-top {
   animation: sand-top-empty 3s linear infinite;
-  transform-origin: center;
+  transform-origin:50px 58px;
 }
 @keyframes sand-top-empty {
   0%   { transform: scaleY(1); opacity: 1; }
@@ -522,7 +522,7 @@
 }
 .sand-bottom {
   animation: sand-bottom-fill 3s linear infinite;
-  transform-origin: center bottom;
+  transform-origin:58px 104px;
 }
 @keyframes sand-bottom-fill {
   0%   { transform: scaleY(0.05); opacity: 0; }

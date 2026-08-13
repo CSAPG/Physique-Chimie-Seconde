@@ -24,11 +24,30 @@
     --gris-fond:#F5F7FA;
     --gris-bord:#DDE3EC;
     --blanc:#FFFFFF;
+    /* Couleurs par auteur/site (Bilan & Ressources uniquement) */
+    --auteur-hatier:#C0392B;
+    --auteur-ostralo-moyen:#5B8FB9;
+    --auteur-ostralo:#2D5F8A;
+    --auteur-ostralo-clair:#7FA6D1;
+    --auteur-pccl:#7B4FA6;
+    --auteur-pccl-fonce:#2f034e;
+    --auteur-pccl-clair:#cfa3fa;
+    --auteur-phet:#FFA600;
+    --auteur-phet-fonce:#ff7300;
+    --auteur-phet-clair:#f1a008d5;
+    --auteur-paulolivier:#058616;
+    --auteur-stella:#eeb90a;
+    --auteur-eprofs:#40E0D0;
+    --auteur-bonsprofs:#FFD700;
+    --auteur-florenceraffin:#c90f63;
+    --auteur-gerardmoreau-clair:#76fab2d8;
+    --auteur-autres:#808080;
+    --auteur-sujetbac:#fa7186;
   }
   *{box-sizing:border-box;}
   body{
     font-family:'Nunito', sans-serif;
-    background:#F0F4F8;
+    background:#F0F4F8;;
     color:var(--texte);
     margin:0;
     padding:14px;
@@ -41,13 +60,13 @@
     border-radius:14px;
     padding:18px 24px 14px;
     max-width:1300px;
-    margin:16px auto 20px;
+    margin:0 auto 24px;
     position:sticky;
     top:0;
     z-index:100;
     box-shadow:0 2px 12px rgba(45,95,138,0.10);
   }
-  .header-top{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+  .header-top{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:0;}
   .header-left{display:flex; flex-direction:column; align-items:flex-start; gap:7px; flex-shrink:0; margin-top:2px;}
   .header-badge{
     background:var(--bleu);
@@ -61,8 +80,8 @@
     white-space:nowrap;
   }
   .header-titles{flex:1; min-width:200px; text-align:left;}
-  header h1{margin:0 0 4px 0; font-family:"Outfit",sans-serif; font-size:1.45rem; font-weight:800; color:var(--bleu); line-height:1.2;}
-  header p{margin:0; font-family:"Nunito",sans-serif; font-size:0.85rem; color:#5A6B7A; opacity:1;}
+  header h1{margin:0 0 4px 0; font-family:"Outfit",sans-serif; font-size:1.3rem; font-weight:800; color:var(--bleu); line-height:1.2;}
+  header p{margin:0; font-family:"Nunito",sans-serif; font-size:0.82rem; color:#5A6B7A; opacity:1;}
   header p span{color:var(--orange); font-weight:700;}
 
   .tabs{
@@ -86,10 +105,10 @@
     position:relative;
     bottom:-3px;
   }
-  .tab-btn:hover{color:var(--bleu);}
-  .tab-btn.active{background:var(--bleu-clair); color:var(--bleu); border-bottom:3px solid var(--bleu); border-radius:6px 6px 0 0;}
+  .tab-btn:hover{color:var(--orange);}
+  .tab-btn.active{background:var(--orange-clair); color:var(--orange); border-bottom:3px solid var(--orange); border-radius:6px 6px 0 0;}
 
-  .tab-content{display:none; padding:20px; max-width:1300px; margin:0 auto;}
+  .tab-content{display:none; background:var(--blanc); border:1.5px solid var(--gris-bord); border-radius:12px; padding:20px; max-width:1300px; margin:0 auto;}
   .tab-content.active{display:block; animation:fadein 0.35s;}
   @keyframes fadein{from{opacity:0;} to{opacity:1;}}
 
@@ -105,11 +124,21 @@
   }
   .box-capacites{background:var(--orange-clair); border-color:var(--orange);}
   .box-bilan{background:var(--vert-clair); border-color:var(--vert);}
-  .sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:nowrap;overflow-x:auto;}
-  .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:var(--bleu-clair);color:var(--bleu);font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
-  .sub-tab-btn.active{background:var(--bleu);color:#fff;}
+  .sub-tabs-nav{display:flex;gap:6px;margin-bottom:10px;flex-wrap:nowrap;overflow-x:auto;}
+  .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+  .sub-tab-btn:hover{background:var(--bleu);color:#fff;}
+  .sub-tab-btn.active{background:#1e4466;color:#fff;}
   .sub-tab-content{display:none;}
   .sub-tab-content.active{display:block;animation:fadein 0.3s ease;}
+  .sub3-tabs-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;font-family:'Nunito',sans-serif;}
+  .sub3-tab-btn{display:flex;align-items:center;gap:8px;flex:0 0 auto;padding:8px 18px;border:none;background:var(--orange-clair);color:var(--orange);font-family:'Nunito',sans-serif;font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap;}
+  .sub3-tab-btn:hover{background:var(--orange);color:#fff;}
+  .sub3-tab-btn.active{background:var(--orange);color:#fff;}
+  .sub3-tab-content{display:none;}
+  .sub3-tab-content.active{display:block;animation:fadein 0.3s ease;}
+  .card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  .card h2{margin-top:0;}
+  .card h2:has(+ .sub3-tabs-nav){margin-bottom:10px;}
   .gloss-search{width:100%;padding:10px 14px;border:1.5px solid var(--gris-bord);border-radius:20px;font-family:'Nunito',sans-serif;font-size:0.88rem;margin-bottom:16px;}
   .gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;list-style:none;padding:0;}
   @media (max-width:600px){ .gloss-grid{grid-template-columns:1fr;} }
@@ -152,6 +181,7 @@
     font-size: 0.92rem;
     font-weight: 700;
     color: var(--bleu);
+    margin-top: 0;
     margin-bottom: 8px;
     padding-bottom: 8px;
     border-bottom: 1.5px solid var(--gris-bord);
@@ -321,12 +351,14 @@
     width:110px; border-radius:6px; border:1px solid var(--gris-bord);
   }
 
-  @media (max-width:600px){
+  @media (max-width:680px){
     .tab-btn{font-size:0.78em; padding:8px 10px 10px;}
-    header{margin:10px 10px 16px; padding:14px 16px 10px;}
+    header{padding:14px 16px 10px;}
     header h1{font-size:1.1rem;}
     body{padding:6px;}
     .tab-content{padding:12px;}
+    .sub3-tab-btn{font-size:0.72rem; padding:5px 9px;}
+    .sub3-tabs-nav{gap:2px; margin-bottom:10px;}
   }
   /* ---- Capacités exigibles : pastille compacte en haut à gauche + panneau ---- */
 button.cap-toggle {
@@ -357,6 +389,9 @@ button.cap-toggle:hover { background: #1e4466; }
 .cap-panel.open { display: block; }
 .cap-panel ul { margin: 0; padding-left: 1.3rem; }
 .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+
+/* FOOTER */
+.footer-note{text-align:center;font-size:0.78rem;color:var(--texte-leger);padding:20px;border-top:1px solid var(--gris-bord);margin-top:30px}
 </style>
 </head>
 <body>
@@ -426,12 +461,20 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="tab-content active" id="t-cours">
   <div class="sub-tabs-nav">
     <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">1️⃣ Décrire un mouvement</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">⚡ Vitesse</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">2️⃣ Vitesse</button>
   </div>
 
   <div class="sub-tab-content active" id="cours-sub-0">
+  <div class="card">
   <h2>1. Décrire un mouvement</h2>
 
+  <div class="sub3-tabs-nav">
+    <button class="sub3-tab-btn active" onclick="showSub3(this,'cours0-a')">a. Système et référentiel</button>
+    <button class="sub3-tab-btn" onclick="showSub3(this,'cours0-b')">b. La trajectoire</button>
+    <button class="sub3-tab-btn" onclick="showSub3(this,'cours0-c')">c. Vecteur déplacement</button>
+  </div>
+
+  <div class="sub3-tab-content active" id="cours0-a">
   <h3>a. Système et référentiel</h3>
   <div class="box box-rappel">
     <p>Le mouvement d'un corps ne peut être étudié que par rapport à un solide de référence appelé <strong>référentiel</strong>. Le référentiel comporte :</p>
@@ -510,8 +553,10 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
   </div>
 
-  
-<h3>b. La trajectoire</h3>
+  </div>
+
+  <div class="sub3-tab-content" id="cours0-b">
+  <h3>b. La trajectoire</h3>
   <div class="box box-rappel">
     <p>On décrit le mouvement d'un système en le modélisant par un <strong>point</strong>, ce qui entraîne une <strong>perte d'informations</strong> (forme, rotation, taille de l'objet ne sont plus prises en compte).</p>
     <p><strong>La trajectoire d'un point</strong> est l'ensemble des positions successives occupées par ce point au cours du temps. C'est une courbe, une droite, un arc de cercle...</p>
@@ -535,8 +580,10 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
   </div>
 
-  
-<h3>c. Vecteur déplacement d'un point</h3>
+  </div>
+
+  <div class="sub3-tab-content" id="cours0-c">
+  <h3>c. Vecteur déplacement d'un point</h3>
   <div class="box box-rappel">
     <p>Le <strong>vecteur déplacement</strong> d'un point, noté <strong><span class="vec">MM'</span></strong>, est le segment de droite orienté joignant les positions successives M et M' prises par ce point au cours du temps.</p>
     <ul>
@@ -560,24 +607,39 @@ button.cap-toggle:hover { background: #1e4466; }
 
   </div>
 
+  </div>
+
+  </div>
+
   <div class="sub-tab-content" id="cours-sub-1">
+  <div class="card">
   <h2>2. Vitesse</h2>
 
+  <div class="sub3-tabs-nav">
+    <button class="sub3-tab-btn active" onclick="showSub3(this,'cours1-a')">a. Vitesse moyenne</button>
+    <button class="sub3-tab-btn" onclick="showSub3(this,'cours1-b')">b. Vitesse instantanée</button>
+    <button class="sub3-tab-btn" onclick="showSub3(this,'cours1-c')">c. Vecteur vitesse en M</button>
+    <button class="sub3-tab-btn" onclick="showSub3(this,'cours1-d')">d. MRU / non uniforme</button>
+  </div>
+
+  <div class="sub3-tab-content active" id="cours1-a">
   <h3>a. Vecteur vitesse moyenne d'un point</h3>
   <div class="box box-rappel">
     <p>Dans un référentiel donné, entre les positions M et M', le <strong>vecteur vitesse moyenne</strong> du système est le rapport du déplacement par la durée du parcours.</p>
     <div class="formula"><span class="vec">v<sub>moy</sub></span> = <span class="vec">MM'</span> / Δt</div>
     <p>Le vecteur vitesse moyenne est <strong>colinéaire</strong> au vecteur déplacement (même direction, même sens) et <strong>indépendant de la trajectoire</strong>.</p>
   </div>
+  </div>
 
-  
-<h3>b. La vitesse instantanée</h3>
+  <div class="sub3-tab-content" id="cours1-b">
+  <h3>b. La vitesse instantanée</h3>
   <div class="box">
     <p>C'est la vitesse à un instant donné de la trajectoire. Elle correspond à la <strong>vitesse moyenne sur un intervalle de temps très court</strong>, tel que l'on considère que la vitesse ne varie pas pendant cette durée.</p>
   </div>
+  </div>
 
-  
-<h3>c. Le vecteur vitesse en un point M</h3>
+  <div class="sub3-tab-content" id="cours1-c">
+  <h3>c. Le vecteur vitesse en un point M</h3>
   <div class="box box-rappel">
     <div class="formula"><span class="vec">v</span> = <span class="vec">MM'</span> / Δt &nbsp; (avec Δt extrêmement court)</div>
     <ul>
@@ -603,9 +665,10 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
     <p class="legend" id="legendVitesse">Observe : en mode "accéléré", la longueur de la flèche (= valeur de v) augmente le long de la trajectoire ; en mode "ralenti", elle diminue.</p>
   </div>
+  </div>
 
-  
-<h3>d. Mouvement rectiligne uniforme ou non uniforme</h3>
+  <div class="sub3-tab-content" id="cours1-d">
+  <h3>d. Mouvement rectiligne uniforme ou non uniforme</h3>
   <div class="box box-rappel">
     <table>
       <tr><th></th><th>Direction de v constante</th><th>Direction de v change</th></tr>
@@ -613,8 +676,9 @@ button.cap-toggle:hover { background: #1e4466; }
       <tr><th>Valeur de v change</th><td>Rectiligne non uniforme<br>(accéléré si v augmente, décéléré si v diminue)</td><td>Non rectiligne et non uniforme</td></tr>
     </table>
   </div>
+  </div>
 
-  
+  </div>
   </div>
 </div>
 
@@ -625,11 +689,13 @@ button.cap-toggle:hover { background: #1e4466; }
     <button class="sub-tab-btn active" onclick="showSub(this,'activite-sub-1')">1️⃣ Relativité du mouvement</button>
     <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-2')">2️⃣ Différentes trajectoires</button>
     <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-3')">3️⃣ Vecteurs</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-4')">4️⃣ TP : Atterrissage d'une fusée</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-4')">4️⃣ Étudier des mouvements réels</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-5')">5️⃣ TP : Atterrissage d'une fusée</button>
   </div>
 
   <!-- ===== ACTIVITE 1 : RELATIVITE DU MOUVEMENT ===== -->
   <div class="sub-tab-content active" id="activite-sub-1">
+  <div class="card">
   <h2>1. La relativité du mouvement</h2>
   <p>Tu vas manipuler <strong>deux simulations</strong> et répondre aux questions en observant ce qui se passe à l'écran.</p>
 
@@ -723,9 +789,11 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
   </div>
   </div>
+  </div>
 
   <!-- ===== ACTIVITE 2 : DIFFERENTES TRAJECTOIRES ===== -->
   <div class="sub-tab-content" id="activite-sub-2">
+  <div class="card">
   <h2>2. Différentes trajectoires</h2>
 
   <div class="box box-rappel">
@@ -812,9 +880,11 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
   </div>
   </div>
+  </div>
 
   <!-- ===== ACTIVITE 3 : VECTEURS ===== -->
   <div class="sub-tab-content" id="activite-sub-3">
+  <div class="card">
   <h2>3. Construire des vecteurs</h2>
 
   <div class="box box-rappel">
@@ -901,10 +971,43 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
   </div>
   </div>
+  </div>
 
-  <!-- ===== ACTIVITE 4 : TP ATTERRISSAGE D'UNE FUSEE ===== -->
+  <!-- ===== ACTIVITE 4 : ETUDIER DES MOUVEMENTS REELS ===== -->
   <div class="sub-tab-content" id="activite-sub-4">
-  <h2>4. TP — Atterrissage d'une fusée <span style="font-size:0.6em;font-weight:600;color:var(--texte-leger);">(activité expérimentale)</span></h2>
+  <div class="card">
+  <h2>4. Étudier des mouvements réels</h2>
+  <p>Cette série d'activités (site Hatier) propose d'exploiter des chronophotographies, de tracer des vecteurs vitesse et d'utiliser Python pour étudier des mouvements réels : chute d'un corps, lancer avec vitesse initiale, mouvement sur Mars…</p>
+  <p><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/index.htm" target="_blank" rel="noopener" class="btn">🔗 Ouvrir la page d'activités (Hatier)</a></p>
+  <p style="font-size:0.85rem;color:var(--texte-leger);">Clique sur un élément de la liste ci-dessous pour ouvrir l'activité correspondante.</p>
+
+  <ol style="line-height:1.9;">
+    <li><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/docs/act2a.htm" target="_blank" rel="noopener"><strong>Étudier le mouvement de chute d'un corps</strong></a><br>
+    <span style="font-size:0.85rem;color:var(--texte-leger);">Exploiter une chronophotographie d'un système en mouvement.</span></li>
+
+    <li style="margin-top:8px;"><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/docs/act3a.htm" target="_blank" rel="noopener"><strong>Étude de la chute d'un corps avec Python</strong></a><br>
+    <span style="font-size:0.85rem;color:var(--texte-leger);">Représenter des vecteurs vitesse d'un système à l'aide d'un langage de programmation.</span></li>
+
+    <li style="margin-top:8px;"><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/docs/act1a.htm" target="_blank" rel="noopener"><strong>Vecteur vitesse initiale et chute d'un corps</strong></a><br>
+    <span style="font-size:0.85rem;color:var(--texte-leger);">Étudier dans le référentiel terrestre le mouvement d'un corps lancé avec une vitesse initiale.</span></li>
+
+    <li style="margin-top:8px;"><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/docs/act4a.htm" target="_blank" rel="noopener"><strong>Nature du mouvement</strong></a><br>
+    <span style="font-size:0.85rem;color:var(--texte-leger);">Trajectoire et variation du vecteur vitesse dans deux situations sur Mars.</span></li>
+
+    <li style="margin-top:8px;"><a href="https://www.hatier-clic.fr/2019/01/9782401020658/Newton_seconde/docs/act5a.htm" target="_blank" rel="noopener"><strong>Une chandelle au golf</strong></a><br>
+    <span style="font-size:0.85rem;color:var(--texte-leger);">Chronophotographie ; tracé de vecteurs vitesse.</span></li>
+  </ol>
+
+  <div class="box box-rappel" style="margin-top:18px;">
+    <p style="margin:0;">ℹ️ Les activités <strong>« Un ballon de basket sur la Lune »</strong> et <strong>« Lancer d'une balle de tennis »</strong> (n°6 et 7 de la liste Hatier, sur le principe d'inertie) feront l'objet de la <strong>séquence 05</strong>.</p>
+  </div>
+  </div>
+  </div>
+
+  <!-- ===== ACTIVITE 5 : TP ATTERRISSAGE D'UNE FUSEE ===== -->
+  <div class="sub-tab-content" id="activite-sub-5">
+  <div class="card">
+  <h2>5. TP — Atterrissage d'une fusée <span style="font-size:0.6em;font-weight:600;color:var(--texte-leger);">(activité expérimentale)</span></h2>
 
   <div class="box box-rappel">
     <p style="font-style:italic;margin:0;">La société SpaceX s'est spécialisée dans la fabrication de lanceurs spatiaux à bas coût, en partie réutilisables après le retour sur Terre du premier étage. Cette prouesse technologique est rendue possible par l'utilisation de moteurs très puissants qui freinent la fusée au cours de la phase de descente et en particulier à l'atterrissage.</p>
@@ -1010,6 +1113,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
   <p style="font-size:0.85rem;color:var(--texte-leger);">💡 Pense à te munir de papier millimétré pour représenter les positions M et les vecteurs vitesse moyenne demandés.</p>
   </div>
+  </div>
 
 </div>
 
@@ -1030,6 +1134,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <div class="exo-item-content active" id="exo-facile-train">
+  <div class="card" style="border-left:4px solid var(--vert);">
   <h3>📝 Exercice — Le chef de gare, le passager et la pendule</h3>
   <p>Le chef de gare (A) est immobile sur le quai tandis que le train démarre. Le passager (B) est assis dans le train et regarde la pendule (C) pour s'assurer que son train ne part pas en retard. Préciser l'état de mouvement ou d'immobilité des objets A, B et C dans les référentiels liés à chacun de ces objets.</p>
 
@@ -1067,8 +1172,10 @@ button.cap-toggle:hover { background: #1e4466; }
     <button class="btn reset" onclick="resetGroup(['train1box','train2box','train3box'])">🔄 Recommencer</button>
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-facile-bille">
+  <div class="card" style="border-left:4px solid var(--vert);">
   <h3>📝 Exercice — La bille (chronophotographie)</h3>
   <p>On dispose de la chronophotographie des positions d'une bille, prises toutes les 0,020 s. Échelle : 1,0 cm ↔ 5,0 cm (distances), et 1,0 cm ↔ 1,5 m·s⁻¹ (vitesses).</p>
   <div class="canvas-wrap">
@@ -1105,8 +1212,10 @@ button.cap-toggle:hover { background: #1e4466; }
     <button class="btn reset" onclick="resetGroup(['bille1box','bille2box','bille3box'])">🔄 Recommencer</button>
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-facile-python">
+  <div class="card" style="border-left:4px solid var(--vert);">
   <h3>📝 Exercice — Lire un code Python : positions successives</h3>
   <p>Le code source Python suivant permet de représenter les positions successives d'un système modélisé par un point lors de son mouvement.</p>
 
@@ -1169,6 +1278,7 @@ print("y =", [round(v,2) for v in y])</textarea>
   </div>
   <p id="facile1-canvas-msg" style="font-size:0.82rem;color:var(--texte-leger);margin-top:6px;">📈 Le graphique se trace ici après un clic sur « ▶ Exécuter » (à partir des listes t, x, y calculées par ton code).</p>
   </div>
+  </div>
 
   </div>
 
@@ -1182,6 +1292,7 @@ print("y =", [round(v,2) for v in y])</textarea>
   </div>
 
   <div class="exo-item-content active" id="exo-inter-vecteur">
+  <div class="card" style="border-left:4px solid var(--orange);">
   <h3>📝 Exercice — Caractériser le mouvement à partir du vecteur vitesse</h3>
   <p>Pour chaque situation, indique le type de mouvement en fonction de la direction et de la valeur du vecteur vitesse.</p>
 
@@ -1223,8 +1334,10 @@ print("y =", [round(v,2) for v in y])</textarea>
     <button class="btn reset" onclick="resetGroup(['recap1box','recap2box','recap3box','recap4box'])">🔄 Recommencer</button>
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-inter-skieur">
+  <div class="card" style="border-left:4px solid var(--orange);">
   <h3>📝 Exercice — Le skieur</h3>
   <p>On a filmé un skieur puis pointé, à l'aide d'un logiciel d'analyse vidéo, son centre de gravité S à intervalles de temps réguliers. Les vecteurs vitesse <span class="vec">v</span>₁, <span class="vec">v</span>₂ et <span class="vec">v</span>₃ sont représentés aux points S₁, S₂ et S₃.</p>
   <div class="canvas-wrap">
@@ -1261,8 +1374,10 @@ print("y =", [round(v,2) for v in y])</textarea>
     <button class="btn reset" onclick="resetGroup(['ski1box','ski2box','ski3box'])">🔄 Recommencer</button>
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-inter-python">
+  <div class="card" style="border-left:4px solid var(--orange);">
   <h3>📝 Exercice — Lire un code Python : trajectoire et vecteurs vitesse</h3>
   <p>Le code source Python suivant permet de représenter la trajectoire et les vecteurs vitesse successifs d'un système modélisé par un point lors de son mouvement.</p>
 
@@ -1348,8 +1463,10 @@ print("y =", y)</textarea>
   </div>
   <p id="traj-canvas-msg" style="font-size:0.82rem;color:var(--texte-leger);margin-top:6px;">📈 Le graphique se trace ici après un clic sur « ▶ Exécuter » (à partir des listes t, x, y calculées par ton code).</p>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-inter-calculatrice">
+  <div class="card" style="border-left:4px solid var(--orange);">
   <h3>📝 Exercice — Représenter le mouvement à la calculatrice</h3>
   <p>Un tableur-grapheur permet de représenter les positions successives d'un système modélisé par un point lors de son mouvement. On reprend ici le <strong>même mouvement</strong> que celui décrit par le code source Python de l'exercice précédent.</p>
 
@@ -1406,8 +1523,10 @@ print("y =", y)</textarea>
     <button class="btn reset" onclick="resetGroup(['calc1box'])">🔄 Recommencer</button>
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content" id="exo-inter-solstice">
+  <div class="card" style="border-left:4px solid var(--orange);">
   <h3>📝 Exercice — Le solstice d'hiver : chronophotographie du Soleil</h3>
   <p>Le solstice d'hiver, le jour le plus court de l'année, a lieu le 21 décembre. Pour suivre le mouvement du Soleil dans le référentiel terrestre ce jour particulier de l'année, un photographe a réalisé la chronophotographie ci-dessous depuis le littoral italien.</p>
 
@@ -1454,6 +1573,7 @@ print("y =", y)</textarea>
     </div>
   </div>
   </div>
+  </div>
 
   </div>
 
@@ -1464,6 +1584,7 @@ print("y =", y)</textarea>
   </div>
 
   <div class="exo-item-content" id="exo-diff-projectile">
+  <div class="card" style="border-left:4px solid var(--rouge);">
   <h3>📝 Exercice — Modéliser le mouvement d'un projectile en Python</h3>
   <p>On souhaite écrire un programme en langage Python permettant de représenter le mouvement d'un point modélisant un projectile lancé à la surface de la Terre avec un vecteur vitesse de norme 18 m·s⁻¹ faisant un angle de 56° par rapport à l'horizontale.</p>
 
@@ -1615,8 +1736,10 @@ for i in range(0, 20, 2) :
 
   </div>
   </div>
+  </div>
 
   <div class="exo-item-content active" id="exo-diff-verglas">
+  <div class="card" style="border-left:4px solid var(--rouge);">
   <h3>📝 Exercice — Perte de contrôle sur le verglas</h3>
   <p>Pour modéliser la perte de contrôle d'un véhicule sur du verglas, on utilise un mobile autoporteur lancé sur une table horizontale. On enregistre les mouvements du point central A de sa base et d'un point B de son pourtour à des intervalles de temps réguliers.</p>
 
@@ -1726,6 +1849,7 @@ for i in range(0, 20, 2) :
     </div>
   </div>
   </div>
+  </div>
 
   </div>
 
@@ -1754,6 +1878,7 @@ for i in range(0, 20, 2) :
     .eg-hint-box.open{display:block;}
     .eg-success-badge{font-size:2.4rem;}
   </style>
+  <div class="card">
   <div class="eg-wrap">
 
     <div class="box box-rappel eg-intro" style="text-align:center;">
@@ -1848,6 +1973,7 @@ for i in range(0, 20, 2) :
 
   </div>
   </div>
+  </div>
 </div>
 
 <!-- ============ ONGLET 3 : BILAN ET RESSOURCES ============ -->
@@ -1861,8 +1987,8 @@ for i in range(0, 20, 2) :
   <!-- ===== BILAN ===== -->
   <div class="sub-tab-content active" id="bilan-sub-0">
     <div class="section-title"><span class="icon">📋</span> Bilan de la séquence</div>
-    <div class="box box-bilan">
-      <p style="text-align:center; font-size:1.1em;"><strong>Décrire le mouvement d'un objet, c'est donner sa trajectoire et l'évolution de sa vitesse dans un référentiel choisi, ce qui implique la relativité du mouvement.</strong></p>
+    <div class="box box-bilan" style="padding-top:10px;padding-bottom:10px;">
+      <p style="text-align:center; font-size:0.95em; margin:0;"><strong>Décrire le mouvement d'un objet, c'est donner sa trajectoire et l'évolution de sa vitesse dans un référentiel choisi, ce qui implique la relativité du mouvement.</strong></p>
     </div>
 
     <div class="bilan-grid">
@@ -1886,11 +2012,15 @@ for i in range(0, 20, 2) :
 
     <h3 style="margin-top:22px;">🏛️ Histoire des sciences</h3>
     <div class="history-card">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Nikolaus_Kopernikus.jpg/220px-Nikolaus_Kopernikus.jpg" alt="Copernic">
-      <div>
+      <div style="flex:0 0 140px; width:140px; text-align:center;">
+        <img src="copernic.jpg" alt="Copernic" style="style="width:115%;height:auto;border-radius:6px;display:block;">
+        <p style="margin:6px 0 0; font-size:0.78rem;"><a href="https://fr.wikipedia.org/wiki/Nicolas_Copernic" target="_blank" rel="noopener" style="color:var(--bleu); font-weight:700;">📖 Wikipédia</a></p>
+      </div>
+      <div style="flex:1 1 260px; min-width:220px;margin:0;">
         <h3 style="margin-top:0;">Nicolas Copernic (1473 – 1543)</h3>
         <p>Médecin, mathématicien et astronome polonais. Il reprend l'hypothèse héliocentrique émise par le Grec <strong>Aristarque de Samos</strong> (310-230 av. J.-C.).</p>
         <p>Au XVI<sup>e</sup> siècle, Copernic considère les orbites des planètes comme <strong>circulaires</strong> et tournant autour du <strong>Soleil</strong>.</p>
+        <p>Il publie après 36 ans l'ouvrage :<em>"Des révolutions des orbes célestes"</em>. Il y affirme que ce n’est pas la Terre, mais le Soleil, qui est au centre du monde. Il dédicace son ouvrage au pape Paul III et y revendique le droit à la liberté d’expression. Ce livre est interdit par l’Église en 1616 et le restera jusqu’en 1835.</p>
       </div>
     </div>
   </div>
@@ -1903,26 +2033,28 @@ for i in range(0, 20, 2) :
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="chronophotographie"><dt>Chronophotographie</dt><dd>Technique consistant à superposer les positions successives d'un système à intervalles de temps égaux, permettant d'en étudier le mouvement.</dd></div>
       <div class="gloss-item" data-term="modelisation"><dt>Modélisation</dt><dd>Représentation simplifiée de la réalité permettant de faciliter l'étude d'un phénomène physique complexe.</dd></div>
-      <div class="gloss-item" data-term="mouvement rectiligne uniforme"><dt>Mouvement rectiligne uniforme</dt><dd>Trajectoire rectiligne (direction de v constante) et valeur de v constante.</dd></div>
-      <div class="gloss-item" data-term="mouvement accelere decelere"><dt>Mouvement accéléré / décéléré</dt><dd>Mouvement rectiligne non uniforme : accéléré si la valeur de v augmente, décéléré si elle diminue.</dd></div>
       <div class="gloss-item" data-term="mouvement accelere"><dt>Mouvement accéléré</dt><dd>Mouvement au cours duquel la valeur de la vitesse du système augmente au fur et à mesure du temps.</dd></div>
+      <div class="gloss-item" data-term="mouvement accelere decelere"><dt>Mouvement accéléré / décéléré</dt><dd>Mouvement rectiligne non uniforme : accéléré si la valeur de v augmente, décéléré si elle diminue.</dd></div>
       <div class="gloss-item" data-term="mouvement circulaire"><dt>Mouvement circulaire</dt><dd>Mouvement dont la trajectoire décrite par le système correspond à un cercle ou à un arc de cercle.</dd></div>
       <div class="gloss-item" data-term="mouvement curviligne"><dt>Mouvement curviligne</dt><dd>Mouvement au cours duquel la trajectoire décrite par le système est une courbe quelconque, ni rectiligne ni parfaitement circulaire.</dd></div>
       <div class="gloss-item" data-term="mouvement ralenti"><dt>Mouvement ralenti</dt><dd>Mouvement au cours duquel la valeur de la vitesse du système diminue au fur et à mesure du temps (aussi appelé décéléré).</dd></div>
-      <div class="gloss-item" data-term="point materiel"><dt>Point matériel</dt><dd>Modèle physique simplificateur où l'on considère que toute la masse d'un système est concentrée en un point géométrique unique.</dd></div> 
+      <div class="gloss-item" data-term="mouvement rectiligne uniforme"><dt>Mouvement rectiligne uniforme</dt><dd>Trajectoire rectiligne (direction de v constante) et valeur de v constante.</dd></div>
+      <div class="gloss-item" data-term="point materiel"><dt>Point matériel</dt><dd>Modèle physique simplificateur où l'on considère que toute la masse d'un système est concentrée en un point géométrique unique.</dd></div>
       <div class="gloss-item" data-term="referentiel systeme"><dt>Référentiel</dt><dd>Solide de référence par rapport auquel on étudie le mouvement, comportant un repère d'espace et un repère de temps.</dd></div>
-      <div class="gloss-item" data-term="referentiel terrestre"><dt>Référentiel terrestre</dt><dd>Référentiel constitué par la Terre ou tout corps fixe par rapport à elle (ex : mouvement d'une voiture, d'un skieur).</dd></div>
       <div class="gloss-item" data-term="referentiel geocentrique"><dt>Référentiel géocentrique</dt><dd>Référentiel dont l'origine est le centre de la Terre, avec des étoiles considérées comme fixes (ex : mouvement de la Lune, des satellites).</dd></div>
       <div class="gloss-item" data-term="referentiel heliocentrique"><dt>Référentiel héliocentrique</dt><dd>Référentiel dont l'origine est le centre du Soleil, avec 3 étoiles lointaines fixes (ex : mouvement des planètes du système solaire).</dd></div>
+      <div class="gloss-item" data-term="referentiel terrestre"><dt>Référentiel terrestre</dt><dd>Référentiel constitué par la Terre ou tout corps fixe par rapport à elle (ex : mouvement d'une voiture, d'un skieur).</dd></div>
       <div class="gloss-item" data-term="relativite mouvement"><dt>Relativité du mouvement</dt><dd>Le mouvement d'un système dépend du référentiel choisi pour l'observer : un même système peut être immobile dans un référentiel et en mouvement dans un autre.</dd></div>
       <div class="gloss-item" data-term="repere espace"><dt>Repère d'espace</dt><dd>Système d'axes (muni d'une origine et d'unités de longueur) lié au référentiel, permettant de déterminer les coordonnées de la position du système.</dd></div>
-      <div class="gloss-item" data-term="repere temps"><dt>Repère de temps</dt><dd>Horloge associée au référentiel permettant de définir un instant initial (t=0) et d'associer une date à chaque position de la trajectoire.</dd></div> 
+      <div class="gloss-item" data-term="repere temps"><dt>Repère de temps</dt><dd>Horloge associée au référentiel permettant de définir un instant initial (t=0) et d'associer une date à chaque position de la trajectoire.</dd></div>
+      <div class="gloss-item" data-term="rotation"><dt>Rotation</dt><dd>Mouvement d'un solide autour d'un axe fixe : chaque point du solide décrit une trajectoire circulaire (ou un arc de cercle) centrée sur cet axe, sauf les points situés sur l'axe lui-même qui restent immobiles.</dd></div>
       <div class="gloss-item" data-term="systeme"><dt>Système</dt><dd>Corps ou objet dont on étudie le mouvement, souvent modélisé par un point.</dd></div>
       <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un point au cours du mouvement, dans un référentiel donné.</dd></div>
+      <div class="gloss-item" data-term="translation"><dt>Translation</dt><dd>Mouvement d'un solide au cours duquel tous les points ont, à chaque instant, des trajectoires superposables (identiques) : un segment reliant deux points quelconques du solide garde une direction constante au cours du mouvement.</dd></div>
       <div class="gloss-item" data-term="vecteur deplacement"><dt>Vecteur déplacement MM'</dt><dd>Segment orienté joignant les positions successives M et M' d'un point ; direction du segment, sens de M vers M', norme égale à la distance MM'.</dd></div>
+      <div class="gloss-item" data-term="vecteur vitesse point M"><dt>Vecteur vitesse en un point M</dt><dd>v = MM' / Δt (Δt très court) : direction tangente à la trajectoire, sens du mouvement, valeur la vitesse en m·s⁻¹.</dd></div>
       <div class="gloss-item" data-term="vecteur vitesse moyenne"><dt>Vecteur vitesse moyenne</dt><dd>v_moy = MM' / Δt : rapport du vecteur déplacement par la durée du parcours ; colinéaire au vecteur déplacement.</dd></div>
       <div class="gloss-item" data-term="vitesse instantanee"><dt>Vitesse instantanée</dt><dd>Vitesse à un instant donné, approchée par la vitesse moyenne sur un intervalle de temps très court.</dd></div>
-      <div class="gloss-item" data-term="vecteur vitesse point M"><dt>Vecteur vitesse en un point M</dt><dd>v = MM' / Δt (Δt très court) : direction tangente à la trajectoire, sens du mouvement, valeur la vitesse en m·s⁻¹.</dd></div>
   </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -1934,30 +2066,36 @@ for i in range(0, 20, 2) :
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://www.pearltrees.com/private/id104960065/item801645112?paccess=47d0cedc29b.2fc82238.7d46bb663f57d10051600b36109ceea8" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(198,40,40,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🎬 Bilan — Décrire un mouvement</h4>
-          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(198,40,40,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🎬 Bilan — Décrire un mouvement</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Durée 3min21.</p>
         </div>
       </a>
 
+      <a href="https://vimeo.com/350898950/14f5248266" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(198,40,40,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🎬 Utiliser les vecteurs</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Hatier — Durée 9min05.</p>
+        </div>
+      </a>
       <a href="https://www.pearltrees.com/private/id104960065/item801646356?paccess=47d0cee82a2.2fc82714.0fe577b815314e9e8c5f07bc0a291d2f" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Le vecteur vitesse</h4>
-          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-paulolivier);">🎬 Le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier — Durée 5min20.</p>
         </div>
       </a>
 
       <a href="https://www.pearltrees.com/private/id104960065/item801647939?paccess=47d0ceed119.2fc82d43.10e5abe82754b6cf0a1882c5c825f132" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Comment tracer le vecteur vitesse</h4>
-          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-paulolivier);">🎬 Comment tracer le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier — Durée 5min28.</p>
         </div>
       </a>
 
       <a href="https://www.pearltrees.com/private/id104960065/item801648803?paccess=47d0ceeff39.2fc830a3.67a24fad28bd459f99cdcd09c347db86" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Exercice sur le vecteur vitesse</h4>
-          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(46,125,50,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-paulolivier);">🎬 Exercice sur le vecteur vitesse</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Paul Olivier — Durée 7mn16.</p>
         </div>
       </a>
 
@@ -1967,37 +2105,72 @@ for i in range(0, 20, 2) :
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Relativité du mouvement</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo-moyen);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-ostralo-moyen);">🔬 Relativité du mouvement</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Ostralo.</p>
         </div>
       </a>
 
       <a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Différentes trajectoires</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-ostralo);">🔬 Différentes trajectoires</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Ostralo.</p>
         </div>
       </a>
 
       <a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Rappel sur les vecteurs</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo-clair);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-ostralo-clair);">🔬 Rappel sur les vecteurs</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Ostralo.</p>
         </div>
       </a>
 
       <a href="https://www.physics-chemistry-interactive-flash-animation.com/mechanics_forces_gravitation_energy_interactive/frame_of_reference_motion_child_ball_train_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Référentiel et relativité — le train</h4>
-          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Autre source.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl);">🔬 Référentiel et relativité — le train</h4>
+          <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">PCCL</p>
         </div>
       </a>
 
     </div>
-  </div>
-  <!-- /bilan-sub-2 -->n
+<div class="section-title" style="margin-top:22px;"><span class="icon">📝</span> QCM</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_10/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);">
+<h4 style="color:var(--auteur-hatier);">📝 QCM diagnostic</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
 </div>
+</a>
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_10/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);">
+<h4 style="color:var(--auteur-hatier);">📝 QCM de maîtrise des notions</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+</div>
+</a>
+</div>
+
+    <div class="section-title" style="margin-top:22px;"><span class="icon">🧩</span> Autres ressources</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+<a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);">
+<h4 style="color:var(--auteur-hatier);">🗂️ Flashcards interactives</h4>
+<p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
+</div>
+</a>
+<a href="https://observatoiredeparis.psl.eu/premiere-edition-critique-de.html" rel="noopener" style="text-decoration:none;" target="_blank">
+<div class="bilan-card" onmouseout="this.style.boxShadow=''" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-autres);">
+<h4 style="color:var(--auteur-autres);">🔭 Première édition critique de l’œuvre de Copernic <strong><em>***Revolutionibus orbium coelestium***</em></strong></h4>
+<p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Observatoire de Paris.</p>
+</div>
+</a>
+
+    </div>
+  </div>
+  <!-- /bilan-sub-2 -->
+</div>
+  <div class="footer-note">
+    2<sup>nde</sup> – Thème : Mouvement et interactions – 1 – Fiche de cours n°04 – C. Poirault-Gauvin
+  </div>
 
 
 <script>
@@ -2007,6 +2180,15 @@ function showSub(btn, id) {
   const panel = btn.closest('.tab-content');
   panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
   panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Sous-sous-onglets (niveau 3, ex : a/b/c du cours) ──
+function showSub3(btn, id) {
+  const panel = btn.closest('.sub-tab-content');
+  panel.querySelectorAll('.sub3-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub3-tab-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }

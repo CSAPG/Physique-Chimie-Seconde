@@ -10,20 +10,20 @@
 <style>
 
   :root{
-    --orange:#E8590C;
+    --orange:#E8783A;
     --orange-light:#FFA94D;
-    --orange-pale:#FFF4E8;
-    --black:#1a1a1a;
-    --gray:#5c5c5c;
-    --bg:#ffffff;
-    --panel:#fbfbfb;
-    --border:#ececec;
-    --green:#2b8a3e;
-    --green-bg:#ebfbee;
-    --red:#c92a2a;
-    --red-bg:#fff0f0;
-    --blue:#1864ab;
-    --blue-bg:#eaf4ff;
+    --orange-pale:#FDF0E8;
+    --black:#1A2A3A;
+    --gray:#5A6B7A;
+    --bg:#F0F4F8;
+    --panel:#ffffff;
+    --border:#DDE3EC;
+    --green:#3A8A6E;
+    --green-bg:#E8F5F0;
+    --red:#C0392B;
+    --red-bg:#FDEDEC;
+    --blue:#2D5F8A;
+    --blue-bg:#E8F1F8;
     --radius:14px;
     /* Système de couleurs partagé (Ressources / Bilan) — aligné sur les autres séquences */
     --bleu:#2D5F8A;
@@ -89,13 +89,13 @@
     border-radius:14px;
     padding:18px 24px 14px;
     max-width:1300px;
-    margin:0 auto 20px;
+    margin:0 auto 24px;
     position:sticky;
     top:0;
     z-index:100;
     box-shadow:0 2px 12px rgba(45,95,138,0.10);
   }
-  .header-top{display:flex; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:14px;}
+  .header-top{display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap; margin-bottom:0;}
   .header-left{display:flex; flex-direction:column; align-items:flex-start; gap:7px; flex-shrink:0; margin-top:2px;}
   .header-badge{
     background:#2D5F8A;
@@ -120,7 +120,7 @@
   .header-titles p{margin:0; font-family:"Nunito",sans-serif; font-size:0.85rem; color:#5A6B7A;}
   .header-titles p span{color:var(--orange); font-weight:700;}
   .header-titles .hero-quote{
-    max-width:560px;
+    max-width:100%;
     margin:10px 0 0;
     font-style:italic;
     color:var(--gray);
@@ -246,7 +246,7 @@
 
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
-  .tab-content{display:none; padding:20px; max-width:1300px; margin:0 auto;}
+  .tab-content{display:none; background:var(--blanc); border:1.5px solid var(--gris-bord); border-radius:12px; padding:20px; max-width:1300px; margin:0 auto;}
   .tab-content.active{display:block; animation:fadein 0.35s;}
   .box{
     border:1px solid var(--gris-bord);
@@ -266,6 +266,20 @@
   .exo-tab-btn.active .exo-tab-stars { color: #FFD9B3; }
   .exo-item-content { display: none; }
   .exo-item-content.active { display: block; animation: fadein 0.3s ease; }
+  .card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  .card h2{
+    font-size:1.25rem;
+    margin-top:0;
+    color:var(--bleu);
+    border-bottom:2px solid var(--bleu-clair);
+    padding-bottom:8px;
+  }
+  .card h3{
+    font-size:1.05rem;
+    color:var(--vert);
+    margin:18px 0 8px;
+  }
+  .sub-tab-content .card:first-child{margin-top:0}
   table{border-collapse:collapse; width:100%; margin:10px 0;}
   th, td{border:1px solid var(--gris-bord); padding:8px 10px; text-align:center;}
   th{background:var(--bleu-clair); color:var(--bleu);}
@@ -279,7 +293,7 @@
     margin-bottom:28px;
   }
   section.block h2{
-    color:var(--orange);
+    color:var(--bleu);
     font-size:1.25rem;
     margin:0 0 6px;
     display:flex;
@@ -297,7 +311,7 @@
     color:var(--black);
     font-size:1.05rem;
     margin:22px 0 10px;
-    border-left:4px solid var(--orange);
+    border-left:4px solid var(--bleu);
     padding-left:10px;
   }
   .bilan-box{
@@ -344,8 +358,8 @@
 
   button.action-btn, a.action-btn{
     background:#fff;
-    border:2px solid var(--orange);
-    color:var(--orange);
+    border:2px solid var(--bleu);
+    color:var(--bleu);
     font-weight:700;
     padding:8px 16px;
     border-radius:8px;
@@ -353,9 +367,9 @@
     font-size:0.88rem;
     margin:4px 4px 4px 0;
   }
-  button.action-btn:hover, a.action-btn:hover{background:var(--orange); color:#fff;}
-  button.action-btn.solid, a.action-btn.solid{background:var(--orange); color:#fff;}
-  button.action-btn.solid:hover, a.action-btn.solid:hover{background:#cf4c08;}
+  button.action-btn:hover, a.action-btn:hover{background:var(--bleu); color:#fff;}
+  button.action-btn.solid, a.action-btn.solid{background:var(--bleu); color:#fff;}
+  button.action-btn.solid:hover, a.action-btn.solid:hover{background:#1e4466;}
   button.action-btn:disabled{opacity:0.4; cursor:not-allowed;}
 
   .feedback{
@@ -500,13 +514,14 @@
   .mode-switch{display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
   .mode-switch button{flex:1; min-width:220px;}
 
-  footer{
-    text-align:center;
-    color:var(--gray);
-    font-size:0.85rem;
-    padding:20px;
+  .footer-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--texte-léger);
+    padding: 20px;
+    border-top: 1px solid var(--gris-bord);
+    margin-top: 30px;
   }
-  footer strong{color:var(--orange);}
 
   @media (max-width:600px){
     .header{padding:14px 16px 10px;}
@@ -685,12 +700,13 @@
 <!-- ============ ONGLET COURS ============ -->
 <div class="tab-content active" id="t-cours">
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">📐 Modéliser une force — Poids et gravitation</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">🪢 Actions réciproques</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">🛹 Principe d'inertie - Chute libre</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">1. Modéliser une force — Poids et gravitation</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">2. Actions réciproques</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">3. Principe d'inertie - Chute libre</button>
   </div>
 
   <div class="sub-tab-content active" id="cours-sub-0">
+<div class="card">
   <h2>1. Modéliser une force — Poids et gravitation</h2>
 
   <h3>a. Actions de contact et actions à distance</h3>
@@ -888,9 +904,11 @@
   </div>
   <div class="result-pill" id="resultAlt">g(0 km) = 9,82 N·kg⁻¹</div>
   <div class="formula-detail" id="formulaAlt"></div>
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="cours-sub-1">
+<div class="card">
   <h2>2. Principe des actions réciproques</h2>
   <div class="box box-rappel">
     <p>Lorsqu'un système A exerce une force <span class="vec">F</span><sub>A/B</sub> sur un système B, alors B exerce simultanément sur A une force <span class="vec">F</span><sub>B/A</sub> telle que :</p>
@@ -936,9 +954,11 @@
     <p style="margin:0 0 12px; font-size:0.88rem;">Une vidéo illustrant le principe des actions réciproques.</p>
     <a href="https://www.pearltrees.com/private/id104961564/item801649878?paccess=47d1788e78e.2fc834d6.24c1b6eb3da963e821cb6e3f57204db5" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block;">▶️ Voir la vidéo ↗</a>
   </div>
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="cours-sub-2">
+<div class="card">
   <h2>3. Principe d'inertie</h2>
   <div class="box box-rappel">
     <p><strong>Principe d'inertie :</strong> tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</p>
@@ -1045,7 +1065,8 @@
     </div>
   </div>
   <div class="info-box">Chaque vecteur vitesse est tracé <strong>verticalement</strong>, dans le sens du mouvement, avec son origine au point où il s'applique (M₄ pour <span class="vec">v</span><sub>4</sub>, M₅ pour <span class="vec">v</span><sub>5</sub>) — légèrement décalés à gauche et à droite de la trajectoire pour mieux les distinguer.</div>
-  </div>
+  
+</div></div>
 </div>
 
 <!-- ============ ONGLET ACTIVITÉS ============ -->
@@ -1061,6 +1082,7 @@
   </div>
 
   <div class="sub-tab-content active" id="activite-sub-1">
+<div class="card">
   <h2>1. Découvrir le principe d'inertie</h2>
       <div class="info-box" style="text-align:center; border-style:solid; max-width:420px; margin:0 auto 18px;">
         <p style="margin:0 0 8px; font-weight:600; color:var(--black);">📄 Activité documentaire — Découvrir le principe d'inertie</p>
@@ -1161,9 +1183,11 @@
         <strong>5.</strong> À mesure que le skateur ralentit, la vitesse de glissement/roulement diminue, ce qui réduit l'intensité de la force de frottement. Quand le skateur s'arrête, cette force devient nulle (voir question 3.c).<br><br>
         <strong>6.</strong> Aristote pensait qu'une force motrice était nécessaire pour entretenir tout mouvement. Or un système peut conserver un mouvement rectiligne uniforme sans aucune force motrice, tant que les forces qui s'exercent sur lui se compensent (principe d'inertie) — c'est l'absence de compensation (le frottement) qui freine le skateur, et non l'absence d'une « force motrice ».
       </div>
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="activite-sub-2">
+<div class="card">
   <h2>2. Simulation PhET « Forces and Motion: Basics »</h2>
       <p style="font-size:0.92rem;">Va dans l'onglet <strong>« Mouvement »</strong> de la simulation ci-dessous. Place un personnage ou un objet sur le chariot, choisis <strong>« Aucun »</strong> frottement, pousse-le brièvement puis relâche : observe l'aiguille du compteur de vitesse et le vecteur vitesse. Recommence ensuite avec un frottement réglé sur « Beaucoup ».</p>
       <div class="canvas-frame" style="padding:6px;">
@@ -1211,9 +1235,11 @@
         <strong>2.</strong> Verticalement, le poids et la réaction du support se compensent (l'objet ne s'enfonce pas et ne décolle pas) ; horizontalement, sans frottement, aucune force ne s'exerce une fois la poussée relâchée : les forces se compensent globalement, ce qui est cohérent avec la vitesse constante observée.<br><br>
         <strong>3.</strong> Avec du frottement, une force de frottement horizontale s'oppose au mouvement même après la fin de la poussée : les forces ne se compensent plus. D'après la réciproque du principe d'inertie, le vecteur vitesse varie donc — l'objet ralentit jusqu'à l'arrêt.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="activite-sub-3">
+<div class="card">
   <h2>3. Activité documentaire — Des satellites en orbite <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(Histoire des sciences)</span></h2>
 
   <div class="two-col">
@@ -1310,9 +1336,11 @@
     <div class="box box-rappel" id="corr-sat-5" style="display:none; margin-top:8px;">La seule force qui s'exerce sur le satellite est la force d'interaction gravitationnelle exercée par la Terre, dirigée vers le centre de la Terre. Cette force ne fait pas « tomber » le satellite : elle joue le rôle de force qui courbe en permanence sa trajectoire vers la Terre, l'empêchant de s'échapper en ligne droite (comme le prévoirait le principe d'inertie en son absence), tout en le maintenant à distance constante. C'est exactement l'analogie de Newton (DOC. 2) : comme la pierre lancée à la fronde (DOC. 1), plus la vitesse est grande, plus la « chute » est retardée, jusqu'à ne jamais retomber — le satellite reste en orbite.</div>
   </div>
 
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="activite-sub-4">
+<div class="card">
   <h2>4. Activité documentaire — Performances de Superman</h2>
 
   <div class="two-col">
@@ -1442,9 +1470,11 @@
     <div class="box box-rappel" id="corr-sup-3b" style="display:none; margin-top:8px;">Si les capacités « normales » de Superman (habitué à Krypton) correspondent à celles d'un simple athlète terrestre une fois sur Terre, c'est que la pesanteur terrestre est plus faible pour lui que celle à laquelle il est habitué : donc <strong>g<sub>Krypton</sub> &gt; g<sub>Terre</sub></strong> — exactement comme un astronaute (habitué à g<sub>Terre</sub>) bondit plus haut sur la Lune où g<sub>Lune</sub> &lt; g<sub>Terre</sub>.</div>
   </div>
 
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="activite-sub-5">
+<div class="card">
   <h2>5. TP — Rééducation en piscine : la poussée d'Archimède <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(activité expérimentale)</span></h2>
 
   <div class="box box-rappel">
@@ -1623,9 +1653,11 @@
     </div>
     <p class="feedback" id="correctionFormuleArchiUnites" style="display:none; font-weight:400;">avec Π en N, ρ<sub>fluide</sub> en kg·m⁻³, V<sub>immergé</sub> en m³ et g en N·kg⁻¹.</p>
   </div>
-  </div>
+  
+</div></div>
 
   <div class="sub-tab-content" id="activite-sub-6">
+<div class="card">
   <h2>6. TP — Chute d'un parachutiste <span style="font-size:0.6em;font-weight:600;color:var(--texte-léger);">(activité expérimentale — auto-correction)</span></h2>
 
   <div class="two-col">
@@ -1902,7 +1934,8 @@
     <strong>Q4.</strong> D'après le principe d'inertie (utilisé dans sa réciproque), puisque le vecteur vitesse du parachutiste ne varie plus (vitesse limite constante), la somme des forces qui s'exercent sur lui est nulle : elles se compensent.
   </div>
 
-  </div>
+  
+</div></div>
 </div>
 
 
@@ -1923,6 +1956,7 @@
   </div>
 
   <div class="exo-item-content" id="exo-facile-pissenlit">
+<div class="card" style="border-left:4px solid var(--vert);">
   <h3>🪶 La graine de pissenlit</h3>
       <img src="exercices/exfp.png" alt="Graine de pissenlit emportée par le vent" style="float:right; width:150px; max-width:35%; border-radius:8px; margin:0 0 12px 16px;">
       <p style="font-size:0.92rem;">Dans le référentiel terrestre, une graine de pissenlit chute verticalement à <strong>vitesse constante</strong>.</p>
@@ -1952,9 +1986,11 @@
         <strong>1.</strong> Le vecteur vitesse ne varie pas (mouvement rectiligne uniforme), donc d'après la contraposée du principe d'inertie, les forces se compensent. La force de l'air <span class="vec">F</span><sub>air</sub> compense donc exactement le poids <span class="vec">P</span> de la graine : elle est verticale, dirigée vers le haut, de même norme que le poids.<br><br>
         <strong>2.</strong> Sans air, la graine ne serait soumise qu'à son poids : elle serait en <strong>chute libre</strong>. Les forces ne se compenseraient plus (il n'y aurait que <span class="vec">P</span>), donc, d'après le principe d'inertie, son vecteur vitesse varierait : son mouvement serait accéléré.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="exo-item-content active" id="exo-facile-voilier">
+<div class="card" style="border-left:4px solid var(--vert);">
   <h3>⛵ Le voilier et ses actions mécaniques</h3>
       <p style="font-size:0.92rem;">Le système étudié est le <strong>voilier</strong>. Identifie les actions mécaniques qui s'exercent sur lui.</p>
       <div class="canvas-frame">
@@ -2006,9 +2042,11 @@
         <strong>3.</strong> La Terre attire le voilier vers son centre sans contact matériel : c'est une action à <strong>distance</strong> (le poids).<br><br>
         <strong>4.</strong> Dans un DOI, les actions de contact (Vent, Eau) sont en trait plein, les actions à distance (Terre) en pointillés.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="exo-item-content" id="exo-facile-poids">
+<div class="card" style="border-left:4px solid var(--vert);">
   <h3>⚖️ Le modèle du poids</h3>
       <div class="box box-rappel">
         <p style="margin-bottom:0;">Déterminer les quatre caractéristiques du poids d'une balle de masse <strong>m = 50 g</strong>.<br>
@@ -2069,7 +2107,8 @@
         <strong>3.</strong> Vers le bas (vers le centre de la Terre).<br><br>
         <strong>4.</strong> Formule : P = m × g. Calcul : la masse doit être en kg (50 g = 0,050 kg), donc P = 0,050 × 9,8. Résultat : P = <strong>0,49 N</strong>
       </div>
-  </div>
+  
+</div></div>
   </div>
 
   <div class="sub-tab-content" id="exo-sub-inter">
@@ -2079,6 +2118,7 @@
   </div>
 
   <div class="exo-item-content active" id="exo-inter-poing-table">
+<div class="card" style="border-left:4px solid var(--orange);">
   <h3>👊 Analyse des forces : poing et table</h3>
       <div class="canvas-frame">
         <img src="exercices/exf2.png" alt="Poing fermé sur une table" style="max-width:40%; border-radius:6px;">
@@ -2144,9 +2184,11 @@
         <strong>4.</strong> D'après le principe des actions réciproques, les deux forces ont rigoureusement la même valeur, quelle que soit la masse ou la nature des objets : <span class="vec">F</span>poing/table = <span class="vec">F</span>table/poing.<br><br>
         <strong>5.</strong> C'est le <strong>principe des actions réciproques</strong> (3ᵉ loi de Newton) : si A exerce une force sur B, alors B exerce sur A une force de même direction, même intensité, mais de sens opposé.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="exo-item-content" id="exo-inter-spatiale">
+<div class="card" style="border-left:4px solid var(--orange);">
   <h3>🧑‍🚀 Sortie extra-véhiculaire (1965)</h3>
       <div class="canvas-frame">
         <img src="exercices/exf3.png" alt="L'astronaute Alexeï Leonov relié à sa capsule spatiale" style="max-width:60%; border-radius:6px;">
@@ -2201,7 +2243,8 @@
         <strong>3.</strong> La Terre attire tous les corps massifs, quelle que soit l'altitude — c'est cette attraction qui maintient l'astronaute et la station en orbite (chute libre permanente).<br><br>
         <strong>4.</strong> Le filin nécessite un lien matériel direct (contact), tandis que la Terre attire l'astronaute vers son centre sans le toucher (à distance).
       </div>
-  </div>
+  
+</div></div>
   </div>
 
 
@@ -2213,6 +2256,7 @@
   </div>
 
   <div class="exo-item-content active" id="exo-difficile-jupiter">
+<div class="card" style="border-left:4px solid var(--rouge);">
   <h3>🪐 Peser sur Jupiter</h3>
       <p style="font-size:0.92rem;">Au laboratoire, on a mesuré le poids <span class="vec">P</span> d'objets de masse <em>m</em> connue à l'aide d'un dynamomètre, sur la planète <strong>Jupiter</strong>. Les résultats sont rassemblés dans le tableau et le graphique ci-dessous.</p>
 
@@ -2302,9 +2346,11 @@
         <strong>4.</strong> Méthode 2 : g<sub>Jupiter</sub> = 2,3 × g<sub>Terre</sub> = 2,3 × 9,8 ≈ <strong>22,5 N/kg</strong>.<br><br>
         <strong>5.</strong> Les deux méthodes (≈ 23,8 N/kg et ≈ 22,5 N/kg) donnent des résultats cohérents et proches de la valeur réelle de g<sub>Jupiter</sub> (≈ 24,8 N/kg) : l'écart s'explique par les incertitudes de lecture graphique et d'arrondi des données, pas par une erreur de méthode.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="exo-item-content" id="exo-difficile-aikins">
+<div class="card" style="border-left:4px solid var(--rouge);">
   <h3>🪂 Le saut sans parachute</h3>
       <div class="canvas-frame">
         <img src="exercices/exd2.png" alt="Luke Aikins sautant d'un avion sans parachute, le 30 juillet 2016" style="max-width:100%; border-radius:6px;">
@@ -2399,9 +2445,11 @@
         <strong>4.</strong> R est un vecteur vertical, dirigé vers le haut, d'origine le point de contact entre Aikins et le filet, de norme proportionnelle à 8,9×10² N (à comparer à la norme du poids trouvée en 1. et 2., environ 887 N — les deux normes sont cohérentes, aux incertitudes de mesure près).<br><br>
         <strong>5.</strong> Aikins étant immobile dans le filet, son vecteur vitesse ne varie pas : d'après la réciproque du principe d'inertie, les forces qui s'exercent sur lui se compensent. R (vers le haut) compense donc le poids P (vers le bas) : même direction, sens opposés, normes quasiment égales.
       </div>
-  </div>
+  
+</div></div>
 
   <div class="exo-item-content" id="exo-difficile-jupiter-soleil">
+<div class="card" style="border-left:4px solid var(--rouge);">
   <h3>🌞 Le Soleil, la Terre et Jupiter</h3>
       <div class="canvas-frame">
         <img src="exercices/exd3.png" alt="Le Soleil et la Terre, illustration des tailles relatives" style="max-width:100%; border-radius:6px;">
@@ -2475,10 +2523,12 @@
         <strong>3.</strong> Formule : F<sub>Soleil/Jupiter</sub> / F<sub>Soleil/Terre</sub> = (m<sub>Jupiter</sub>/m<sub>Terre</sub>) × (d<sub>Terre-Soleil</sub>/d<sub>Jupiter-Soleil</sub>)². Calcul : 318 × (1/5,2)². Résultat : le rapport vaut environ <strong>11,8</strong> — la force exercée par le Soleil sur Jupiter est donc environ 11,8 fois plus grande que celle exercée sur la Terre.<br><br>
         <strong>4.</strong> Bien que Jupiter soit 5,2 fois plus loin du Soleil que la Terre (ce qui tendrait à diminuer la force, en 1/d²), sa masse est 318 fois plus grande que celle de la Terre : l'effet de la masse l'emporte largement sur l'effet de la distance, et la force gravitationnelle exercée par le Soleil sur Jupiter est donc plus grande que celle exercée sur la Terre.
       </div>
-  </div>
+  
+</div></div>
   </div>
 
   <div class="sub-tab-content" id="exo-sub-escape">
+<div class="card">
 
   <div class="escape-intro">
     <h3>🔐 Escape Game — Le coffre du laboratoire</h3>
@@ -2577,7 +2627,8 @@
     </div>
   </div>
 
-  </div>
+  
+</div></div>
 </div>
 
 
@@ -2616,14 +2667,14 @@
       </div>
     </div>
 
-    <section class="block" id="bloc-bilans-img">
-      <h2>🖼️ Bilans visuels — Hatier</h2>
+    <div class="card" style="border-left:4px solid var(--rouge);">
+      <h2 style="color:var(--rouge);">🖼️ Bilans visuels — Hatier</h2>
       <p class="sub-label">Visionne la vidéo bilan, puis consulte l'image de synthèse</p>
 
       <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start;">
 
         <div style="flex:1; min-width:260px; text-align:center;">
-          <p style="font-weight:700; color:var(--black); margin:0 0 8px;">⚡ Actions et forces</p>
+          <p style="font-weight:700; color:var(--texte); margin:0 0 8px;">⚡ Actions et forces</p>
           <a href="https://www.pearltrees.com/private/id104961564/item801650212?paccess=47d178164e8.2fc83624.b6510ab3afb7b8a368fadecc81f117e8" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block; margin-bottom:10px;">🎬 Vidéo bilan ↗</a>
           <div class="canvas-frame" style="padding:10px; margin:0;">
             <img src="Bilan-forces-Hatier.png" alt="Bilan actions et forces — Hatier" style="width:100%; display:block; border-radius:6px;">
@@ -2631,7 +2682,7 @@
         </div>
 
         <div style="flex:1; min-width:260px; text-align:center;">
-          <p style="font-weight:700; color:var(--black); margin:0 0 8px;">🔄 Principe d'inertie</p>
+          <p style="font-weight:700; color:var(--texte); margin:0 0 8px;">🔄 Principe d'inertie</p>
           <a href="https://www.pearltrees.com/private/id104961625/item801650228?paccess=47d1783e041.2fc83634.32924d3fe03425c24706b26dc89e049d" target="_blank" rel="noopener" class="action-btn solid" style="text-decoration:none; display:inline-block; margin-bottom:10px;">🎬 Vidéo bilan ↗</a>
           <div class="canvas-frame" style="padding:10px; margin:0;">
             <img src="Bilan-principe-inertie-Hatier.png" alt="Bilan principe d'inertie — Hatier" style="width:100%; display:block; border-radius:6px;">
@@ -2639,7 +2690,7 @@
         </div>
 
       </div>
-    </section>
+    </div>
   </div>
   <!-- /bilan-sub-0 -->
 
@@ -2810,10 +2861,9 @@
   <!-- /bilan-sub-2 -->
 </div>
 
-<footer>
-  Fiche de cours interactive — Séquence 05 · <strong>C. Poirault-Gauvin</strong><br>
-  📝 Le quiz de révision associé est disponible dans un fichier séparé.
-</footer>
+<div class="footer-note">
+  2<sup>nde</sup> – Thème : Mouvement et interactions – 2-3 – Fiche de cours n°05 – C. Poirault-Gauvin
+</div>
 
 <script>
 // ===================== Sous-onglets (Cours / Bilan & Ressources) =====================

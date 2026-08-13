@@ -58,7 +58,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 0;
     flex-wrap: wrap;
   }
   .header-left {
@@ -109,7 +109,7 @@
   .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
   .header-titles h1 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: var(--bleu);
     line-height: 1.2;
@@ -175,9 +175,9 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 0 0 60px; }
 
-  .tab-content { display: none; }
+  .tab-content { display: none; background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -298,6 +298,7 @@
     border-bottom: 2px solid var(--bleu-clair);
   }
   .section-title .icon { font-size: 1.2rem; }
+  .section-title:first-child { margin-top: 0; }
 
   .intro-box {
     background: #FFFBF7;
@@ -1276,15 +1277,15 @@
   .btn-jeu:hover { background: #C9622A; transform: translateY(-1px); }
   .btn-jeu:active { transform: translateY(0); }
 
-  @media (max-width: 600px) {
+  @media (max-width: 680px) {
     .header { padding: 12px 16px 10px; }
     .header-titles h1 { font-size: 1.05rem; }
     .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
-    .main { padding: 18px 12px 50px; }
+    .main { padding: 18px 0 50px; }
     .lava-lamp-wrap { width: 30px; height: 58px; }
   }
 
-  .esc-digit{width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,0.15);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;border:2px solid rgba(255,255,255,0.3);transition:all .3s;}
+  .esc-digit{width:44px;height:44px;border-radius:8px;background:var(--bleu-clair);color:var(--bleu);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-weight:800;font-size:1.2rem;border:2px solid var(--bleu-moyen);transition:all .3s;}
   .esc-digit.found{background:var(--orange);border-color:var(--orange);transform:scale(1.1);}
 
 </style>
@@ -1343,6 +1344,7 @@
 <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. CCM &amp; Composition</button>
 </div>
 <div class="sub-tab-content active" id="cours-sub-1">
+<div class="card">
 <div class="section-title">
 <span class="icon">⚗️</span> Corps purs et mélanges
   </div>
@@ -1439,8 +1441,10 @@
 <div class="dq-feedback" id="dqf-cp4"></div>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-2">
+<div class="card">
 <div class="section-title">
 <span class="icon">🌡️</span> Température de changement d'état
   </div>
@@ -1513,8 +1517,10 @@
 <div class="dq-feedback" id="dqf4"></div>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-3">
+<div class="card">
 <div class="section-title">
 <span class="icon">⚖️</span> Masse volumique et densité
   </div>
@@ -1602,8 +1608,10 @@
 <div class="dq-feedback" id="dqfmv4"></div>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-4">
+<div class="card">
 <div class="section-title">
 <span class="icon">🔬</span> CCM &amp; Composition des mélanges
   </div>
@@ -1684,7 +1692,8 @@
 <div class="dq-feedback" id="dqf-cq4"></div>
 </div>
 </div><!-- fin QCM CCM & composition -->
-</div>
+
+</div></div>
 </div><!-- fin tab-0 Cours -->
 <div class="tab-content" id="tab-1">
 <div class="sub-tabs-nav">
@@ -1696,6 +1705,7 @@
 <button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🌬️ Activité 3 - Composition et masse volumique de l'air</button>
 </div>
 <div class="sub-tab-content active" id="act-sub-1">
+<div class="card">
 <div class="section-title"><span class="icon">🔺</span> Activité — Schéma des changements d'état</div>
 <div class="activite-card" id="triangle-wrapper" style="padding:20px 16px 16px;">
 <p style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--texte-léger);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Schéma des changements d'état</p>
@@ -1828,8 +1838,10 @@
 <button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--orange);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Voir la correction</button>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-2">
+<div class="card">
 <div class="section-title"><span class="icon">⚗️</span> Activité — Simulation PhET : masse volumique</div>
 <div class="activite-card" id="activite-phet">
 <h3>⚗️ Activité — Simulation PhET : masse volumique</h3>
@@ -1888,8 +1900,10 @@
 <button class="btn-reveal" onclick="recommencer('activite-phet')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-tp1">
+<div class="card">
 <div class="section-title"><span class="icon">🧪</span> TP1 — Retrouver une eau minérale (p.23 et p.25)</div>
 <!-- ══════════ PARTIE 1 — p.23 ══════════ -->
 <div class="activite-card">
@@ -1962,8 +1976,10 @@
 <textarea class="rep-zone" id="tp1p2-q3" placeholder="Concluez…"></textarea>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-3">
+<div class="card">
 <div class="section-title"><span class="icon">🧪</span> TP2 — Chromatographie sur couche mince (p.24)</div>
 <div class="activite-card">
 <div class="exo-header">
@@ -2031,8 +2047,10 @@
 <textarea class="rep-zone" id="tp2-q-valider" placeholder="Concluez et proposez des améliorations…"></textarea>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-4">
+<div class="card">
 <div class="section-title"><span class="icon">🔬</span> Activité — CCM des colorants de médicaments</div>
 <div class="activite-card">
 <div class="exo-header">
@@ -2046,8 +2064,10 @@
     ↗ Ouvrir la simulation CCM (ostralo.net)
   </a>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-5">
+<div class="card">
 <div class="section-title"><span class="icon">🌬️</span> Activité 3 — Composition et masse volumique de l'air</div>
 <div class="activite-card">
 <div class="exo-header">
@@ -2174,7 +2194,8 @@
 </div>
 </div>
 </div>
-</div>
+
+</div></div>
 </div><!-- fin tab-1 Activités -->
 <div class="tab-content" id="tab-2">
 <div class="sub-tabs-nav">
@@ -2189,7 +2210,7 @@
 
 <!-- fin exo-nouv-facile1 -->
 <!-- fin exo-nouv-facile2 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-corps-purs')" type="button">Corps pur ou mélange ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-etats-chgt')" type="button">États et changements d'état <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-mv')" type="button">Masse volumique d'un échantillon d'huile <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ethanol')" type="button">Masse volumique de l'éthanol <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-corps-purs"><div class="exo-card" id="exo-corps-purs">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-corps-purs')" type="button">Corps pur ou mélange ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-etats-chgt')" type="button">États et changements d'état <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-mv')" type="button">Masse volumique d'un échantillon d'huile <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ethanol')" type="button">Masse volumique de l'éthanol <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-corps-purs"><div class="card" id="exo-corps-purs" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice – Corps pur ou mélange ?</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2276,7 +2297,7 @@
 <div style="text-align:center;margin-top:16px;">
 <button class="btn-reveal" onclick="recommencer('exo-corps-purs')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-etats-chgt"><div class="exo-card" id="exo-nouv-facile1">
+</div></div><div class="exo-item-content" id="exoitem-etats-chgt"><div class="card" id="exo-nouv-facile1" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice 3 — États et changements d'état</h3>
 <span class="exo-pill">LISTE DÉROULANTE</span>
@@ -2318,7 +2339,7 @@
 </div>
 <div class="dq-feedback" id="dqf-nf1-4"></div>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-huile-mv"><div class="exo-card" id="exo-nouv-facile2">
+</div></div><div class="exo-item-content" id="exoitem-huile-mv"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice 4 — Masse volumique d'un échantillon d'huile</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2346,7 +2367,7 @@
 <div style="text-align:center;margin-top:16px;">
 <button class="btn-reveal" onclick="recommencer('exo-nouv-facile2')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-ethanol"><div class="exo-card" id="exo-ethanol">
+</div></div><div class="exo-item-content" id="exoitem-ethanol"><div class="card" id="exo-ethanol" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice 1 – Masse volumique de l'éthanol</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2473,7 +2494,7 @@
 
 
 <!-- fin exo-nouv-inter1 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-acetone')" type="button">Changements d'état de l'acétone <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton')" type="button">Composition du laiton <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-huiles')" type="button">Huiles essentielles d'orange et de citron <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-sirop')" type="button">CCM : identifier la composition d'un sirop <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-acetone"><div class="exo-card" id="exo-acetone">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-acetone')" type="button">Changements d'état de l'acétone <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton')" type="button">Composition du laiton <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-huiles')" type="button">Huiles essentielles d'orange et de citron <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-sirop')" type="button">CCM : identifier la composition d'un sirop <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-acetone"><div class="card" id="exo-acetone" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice – Changements d'état de l'acétone</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2570,7 +2591,7 @@
 <div class="calc-step">T<sub>ébullition</sub> = 56 °C (deuxième palier, entre t ≈ 400 s et t ≈ 460 s)</div>
     Valeur tabulée de l'acétone : 56 °C ✓
   </div>
-</div></div><div class="exo-item-content" id="exoitem-laiton"><div class="exo-card" id="exo-laiton">
+</div></div><div class="exo-item-content" id="exoitem-laiton"><div class="card" id="exo-laiton" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice 2 – Composition du laiton</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2700,7 +2721,7 @@
 <strong>Volume :</strong> 1 m<sup>3</sup> = 1 000 L = 1 × 10<sup>6</sup> cm<sup>3</sup>  |  1 mL = 1 cm<sup>3</sup>  |  1 L = 1 dm<sup>3</sup><br/>
 <strong>Masse volumique :</strong> 1 g·cm<sup>−3</sup> = 1 000 kg·m<sup>−3</sup> = 1 000 g·L<sup>−1</sup>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-ccm-huiles"><div class="exo-card" id="exo-ccm">
+</div></div><div class="exo-item-content" id="exoitem-ccm-huiles"><div class="card" id="exo-ccm" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice – Huiles essentielles d'orange et de citron</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2813,7 +2834,7 @@
 <div class="calc-step"><strong>Espèces communes :</strong> limonène et linalol — présents dans les deux chromatogrammes à la même hauteur.</div>
 </div>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-ccm-sirop"><div class="exo-card" id="exo-nouv-inter1">
+</div></div><div class="exo-item-content" id="exoitem-ccm-sirop"><div class="card" id="exo-nouv-inter1" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice 5 — CCM : identifier la composition d'un sirop</h3>
 <span class="exo-pill">LISTE DÉROULANTE</span>
@@ -2857,7 +2878,7 @@
 <!-- fin exo-nouv-diff1 -->
 <!-- fin exo-nouv-diff2 -->
 <!-- fin exo-nouv-diff3 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-substance-inc')" type="button">Identifier une substance inconnue <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-air-helium')" type="button">Composition d'un mélange air-hélium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton-fm')" type="button">Composition du laiton (fraction massique) <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-bac')" type="button">Authentifier une huile essentielle (type Bac) <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-substance-inc"><div class="exo-card" id="exo-nouv-diff1">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-substance-inc')" type="button">Identifier une substance inconnue <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-air-helium')" type="button">Composition d'un mélange air-hélium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton-fm')" type="button">Composition du laiton (fraction massique) <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-bac')" type="button">Authentifier une huile essentielle (type Bac) <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-substance-inc"><div class="card" id="exo-nouv-diff1" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice 6 — Identifier une substance inconnue</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2904,7 +2925,7 @@
 <div style="text-align:center;margin-top:16px;">
 <button class="btn-reveal" onclick="recommencer('exo-nouv-diff1')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-air-helium"><div class="exo-card" id="exo-nouv-diff2">
+</div></div><div class="exo-item-content" id="exoitem-air-helium"><div class="card" id="exo-nouv-diff2" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice 7 — Composition d'un mélange air-hélium</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2941,7 +2962,7 @@
 <div style="text-align:center;margin-top:16px;">
 <button class="btn-reveal" onclick="recommencer('exo-nouv-diff2')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-laiton-fm"><div class="exo-card" id="exo-comp-laiton">
+</div></div><div class="exo-item-content" id="exoitem-laiton-fm"><div class="card" id="exo-comp-laiton" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice – Composition du laiton (fraction massique)</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -3085,7 +3106,7 @@
 <button class="btn-reveal" onclick="toggleCorrMulti(['comp-corr1','comp-corr2','comp-corr3a','comp-corr3b','comp-corr3c'], this)">▶ Voir la correction</button>
 <button class="btn-reveal" onclick="recommencer('exo-comp-laiton')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-huile-bac"><div class="exo-card" id="exo-nouv-diff3">
+</div></div><div class="exo-item-content" id="exoitem-huile-bac"><div class="card" id="exo-nouv-diff3" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice 8 — Type Bac : authentifier une huile essentielle</h3>
 <span class="exo-pill">RÉDACTION</span>
@@ -3125,13 +3146,14 @@
 </div>
 </div></div></div>
 <div class="sub-tab-content" id="exo-sub-escape">
+<div class="card">
 <div class="section-title"><span class="icon">🎮</span> Escape Game</div>
-<div class="exo-card" id="esc-game" style="background:linear-gradient(135deg,#1A2A3A,#2D5F8A);border:none;">
-<div class="exo-header" style="border-bottom-color:rgba(255,255,255,0.2);">
-<h3 style="color:#fff;">🎮 Escape Game — Le flacon mystère</h3>
+<div class="exo-card" id="esc-game">
+<div class="exo-header">
+<h3>🎮 Escape Game — Le flacon mystère</h3>
 <span class="exo-pill" style="background:var(--orange);">DÉFI</span>
 </div>
-<div class="exo-enonce" style="background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.25);">
+<div class="exo-enonce">
     Un flacon non étiqueté a été retrouvé dans le laboratoire. Un coffre numérique protège son identification : résous les 4 indices pour reconstituer le <strong>code à 4 chiffres</strong> et découvrir la substance !
   </div>
 <div id="esc-progress" style="display:flex;gap:8px;justify-content:center;margin:16px 0;flex-wrap:wrap;">
@@ -3141,8 +3163,8 @@
 <div class="esc-digit" id="esc-d4">?</div>
 </div>
 <!-- Indice 1 -->
-<div class="question-block" style="background:rgba(255,255,255,0.06);border-radius:10px;padding:14px;">
-<div class="question-label" style="color:#fff;">🔍 Indice 1 — Le flacon contient un liquide incolore qui bout à température <strong>constante</strong> tout au long de l'ébullition. Que peut-on en déduire ?</div>
+<div class="question-block" style="border-radius:10px;padding:14px;">
+<div class="question-label">🔍 Indice 1 — Le flacon contient un liquide incolore qui bout à température <strong>constante</strong> tout au long de l'ébullition. Que peut-on en déduire ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="escCheck(1,true,this)">C'est un corps pur</div>
 <div class="qcm-opt" onclick="escCheck(1,false,this)">C'est un mélange homogène</div>
@@ -3151,15 +3173,15 @@
 <div class="dq-feedback" id="esc-fb1"></div>
 </div>
 <!-- Indice 2 -->
-<div class="question-block" style="background:rgba(255,255,255,0.06);border-radius:10px;padding:14px;margin-top:12px;">
-<div class="question-label" style="color:#fff;">🔍 Indice 2 — On prélève 100 mL du liquide : la masse mesurée est 79 g. Calcule sa masse volumique en g·cm⁻³.</div>
+<div class="question-block" style="border-radius:10px;padding:14px;margin-top:12px;">
+<div class="question-label">🔍 Indice 2 — On prélève 100 mL du liquide : la masse mesurée est 79 g. Calcule sa masse volumique en g·cm⁻³.</div>
 <input class="blank-in" id="esc-num2" placeholder="ρ en g·cm⁻³" step="0.01" style="max-width:160px;" type="number"/>
 <div class="exo-btn-row"><button class="exo-btn" onclick="escCheckNum(2, 'esc-num2', 0.79, 0.01)">Vérifier</button></div>
 <div class="dq-feedback" id="esc-fb2"></div>
 </div>
 <!-- Indice 3 -->
-<div class="question-block" style="background:rgba(255,255,255,0.06);border-radius:10px;padding:14px;margin-top:12px;">
-<div class="question-label" style="color:#fff;">🔍 Indice 3 — Une CCM du liquide est comparée à 3 références : eau, éthanol, cyclohexane. Le dépôt du flacon migre exactement à la même hauteur que la référence <strong>éthanol</strong>. Que peut-on en conclure ?</div>
+<div class="question-block" style="border-radius:10px;padding:14px;margin-top:12px;">
+<div class="question-label">🔍 Indice 3 — Une CCM du liquide est comparée à 3 références : eau, éthanol, cyclohexane. Le dépôt du flacon migre exactement à la même hauteur que la référence <strong>éthanol</strong>. Que peut-on en conclure ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="escCheck(3,false,this)">Le liquide est sûrement de l'eau</div>
 <div class="qcm-opt" onclick="escCheck(3,true,this)">Le liquide est probablement de l'éthanol</div>
@@ -3168,8 +3190,8 @@
 <div class="dq-feedback" id="esc-fb3"></div>
 </div>
 <!-- Indice 4 -->
-<div class="question-block" style="background:rgba(255,255,255,0.06);border-radius:10px;padding:14px;margin-top:12px;">
-<div class="question-label" style="color:#fff;">🔍 Indice 4 — Ta masse volumique calculée (0,79 g·cm⁻³) et le résultat de la CCM pointent tous les deux vers la même substance. Quelle est cette substance ?</div>
+<div class="question-block" style="border-radius:10px;padding:14px;margin-top:12px;">
+<div class="question-label">🔍 Indice 4 — Ta masse volumique calculée (0,79 g·cm⁻³) et le résultat de la CCM pointent tous les deux vers la même substance. Quelle est cette substance ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="escCheck(4,false,this)">Eau</div>
 <div class="qcm-opt" onclick="escCheck(4,true,this)">Éthanol</div>
@@ -3178,20 +3200,21 @@
 <div class="dq-feedback" id="esc-fb4"></div>
 </div>
 <!-- Coffre final -->
-<div style="text-align:center;margin-top:20px;padding:16px;background:rgba(255,255,255,0.06);border-radius:10px;">
-<p style="color:#fff;font-weight:700;margin-bottom:10px;">🔐 Entre le code à 4 chiffres pour ouvrir le coffre :</p>
+<div style="text-align:center;margin-top:20px;padding:16px;background:var(--gris-fond);border-radius:10px;">
+<p style="color:var(--texte);font-weight:700;margin-bottom:10px;">🔐 Entre le code à 4 chiffres pour ouvrir le coffre :</p>
 <input id="esc-code-input" maxlength="4" placeholder="••••" style="width:100px;text-align:center;font-size:1.3rem;letter-spacing:6px;padding:8px;border-radius:8px;border:none;" type="text"/>
 <div style="margin-top:10px;"><button class="exo-btn" onclick="escOpenChest()">Ouvrir le coffre</button></div>
 <div id="esc-final" style="display:none;margin-top:14px;padding:14px;background:var(--vert-clair);border-radius:8px;color:var(--vert);font-weight:700;">
       🎉 Bravo ! Le coffre s'ouvre : le flacon mystère contenait de l'<strong>éthanol</strong> (ρ = 0,79 g·cm⁻³, corps pur, confirmé par CCM).
     </div>
-<div id="esc-fail" style="display:none;margin-top:14px;color:#FFD6D0;font-weight:700;"></div>
+<div id="esc-fail" style="display:none;margin-top:14px;color:var(--rouge);font-weight:700;"></div>
 </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="escReset()" style="background:rgba(255,255,255,0.2);color:#fff;">↺ Recommencer le jeu</button>
+<button class="btn-reveal" onclick="escReset()" style="background:var(--bleu);color:#fff;">↺ Recommencer le jeu</button>
 </div>
 </div><!-- fin esc-game -->
-</div>
+
+</div></div>
 </div><!-- fin tab-2 Exercices -->
 <div class="tab-content" id="tab-3">
 <div class="sub-tabs-nav">

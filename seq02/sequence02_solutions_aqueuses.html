@@ -161,11 +161,11 @@
     position: relative;
     bottom: -3px;
   }
-  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn:hover { color: var(--orange); }
   .tab-btn.active {
-    color: var(--bleu);
-    border-bottom-color: var(--bleu);
-    background: var(--bleu-clair);
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+    background: var(--orange-clair);
     border-radius: 6px 6px 0 0;
   }
   .tab-num {
@@ -180,7 +180,7 @@
     flex-shrink: 0;
   }
   .tab-btn.active .tab-num {
-    background: var(--bleu);
+    background: var(--orange);
     color: white;
   }
 
@@ -302,6 +302,18 @@
   }
   .section-title .icon { font-size: 1.3rem; }
   .section-title:first-child { margin-top: 0; }
+  .card h2 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    color: var(--bleu);
+    border-bottom: 2px solid var(--bleu-clair);
+    padding-bottom: 8px;
+  }
+  .card h3 {
+    font-size: 1.05rem;
+    color: var(--orange);
+    margin: 18px 0 8px;
+  }
 
   .intro-box {
     background: #FFFBF7;
@@ -927,6 +939,7 @@
     transition: all 0.2s;
     white-space: nowrap;
   }
+  .sub-tab-btn:hover { background: var(--bleu); color: #fff; }
   .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
@@ -1087,16 +1100,14 @@
 <main class="main">
 <div class="tab-content active" id="tab-0">
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">I. Solution : solvant, soluté</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">II. Concentration en masse</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">III. Dissolution &amp; verrerie</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. Dilution &amp; étalonnage</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">1. Solution : solvant, soluté</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">2. Concentration en masse</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">3. Dissolution &amp; verrerie</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">4. Dilution &amp; étalonnage</button>
 </div>
 <div class="sub-tab-content active" id="cours-sub-1">
 <div class="card">
-<div class="section-title">
-<span class="icon">🧪</span> Solution : solvant, soluté
-  </div>
+<h2>1. Solution : solvant, soluté</h2>
 <div class="intro-box">
     Vidéo débat p38 : <strong>« La barbe à papa a-t-elle disparu ? »</strong><br/>
     Qu'est-ce qui différencie toutes ces eaux minérales ?
@@ -1147,9 +1158,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-2">
 <div class="card">
-<div class="section-title">
-<span class="icon">⚖️</span> Concentration en masse d'un soluté
-  </div>
+<h2>2. Concentration en masse d'un soluté</h2>
 <div class="def-card">
 <h3>Concentration en masse (titre massique)</h3>
 <p>La <strong>concentration en masse</strong> (C<sub>m</sub>) ou <strong>titre massique</strong> (t) d'une solution en une espèce chimique dissoute représente la masse de soluté dissoute dans un litre de solution.</p>
@@ -1194,9 +1203,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-3">
 <div class="card">
-<div class="section-title">
-<span class="icon">🥽</span> Dissolution d'une espèce moléculaire ou ionique
-  </div>
+<h2>3. Dissolution d'une espèce moléculaire ou ionique</h2>
 <div class="def-card">
 <h3>a) Qu'est-ce que la dissolution ?</h3>
 <p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
@@ -1266,9 +1273,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-4">
 <div class="card">
-<div class="section-title">
-<span class="icon">💧</span> Dilution d'une solution
-  </div>
+<h2>4. Dilution d'une solution</h2>
 <div class="def-card">
 <h3>a) Qu'est-ce que la dilution ?</h3>
 <p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>

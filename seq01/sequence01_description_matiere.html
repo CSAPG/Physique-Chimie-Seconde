@@ -152,11 +152,11 @@
     position: relative;
     bottom: -3px;
   }
-  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn:hover { color: var(--orange); }
   .tab-btn.active {
-    color: var(--bleu);
-    border-bottom-color: var(--bleu);
-    background: var(--bleu-clair);
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+    background: var(--orange-clair);
     border-radius: 6px 6px 0 0;
   }
   .tab-num {
@@ -171,7 +171,7 @@
     flex-shrink: 0;
   }
   .tab-btn.active .tab-num {
-    background: var(--bleu);
+    background: var(--orange);
     color: white;
   }
 
@@ -300,6 +300,18 @@
   }
   .section-title .icon { font-size: 1.2rem; }
   .section-title:first-child { margin-top: 0; }
+  .card h2 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    color: var(--bleu);
+    border-bottom: 2px solid var(--bleu-clair);
+    padding-bottom: 8px;
+  }
+  .card h3 {
+    font-size: 1.05rem;
+    color: var(--orange);
+    margin: 18px 0 8px;
+  }
 
   .intro-box {
     background: #FFFBF7;
@@ -816,6 +828,7 @@
     transition: all 0.2s;
     white-space: nowrap;
   }
+  .sub-tab-btn:hover { background: var(--bleu); color: #fff; }
   .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
@@ -1339,16 +1352,14 @@
 <main class="main">
 <div class="tab-content active" id="tab-0">
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">I. Corps purs &amp; mélanges</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">II. Changements d'état</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">III. Masse volumique &amp; densité</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. CCM &amp; Composition</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-1')">1. Corps purs &amp; mélanges</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-2')">2. Changements d'état</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-3')">3. Masse volumique &amp; densité</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">4. CCM &amp; Composition</button>
 </div>
 <div class="sub-tab-content active" id="cours-sub-1">
 <div class="card">
-<div class="section-title">
-<span class="icon">⚗️</span> Corps purs et mélanges
-  </div>
+<h2>1. Corps purs et mélanges</h2>
 <div class="intro-box">
     La matière est constituée d'<strong>entités chimiques</strong> (molécules, atomes, ions).<br/>
     Une <strong>espèce chimique</strong> est un ensemble d'entités chimiques identiques.
@@ -1446,9 +1457,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-2">
 <div class="card">
-<div class="section-title">
-<span class="icon">🌡️</span> Température de changement d'état
-  </div>
+<h2>2. Température de changement d'état</h2>
 <div class="def-card">
 <h3>Définition</h3>
 <p>Un <strong>changement d'état</strong> est une transformation physique correspondant au passage d'un état (solide, liquide, gazeux) à un autre.</p>
@@ -1522,9 +1531,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-3">
 <div class="card">
-<div class="section-title">
-<span class="icon">⚖️</span> Masse volumique et densité
-  </div>
+<h2>3. Masse volumique et densité</h2>
 <div class="def-card">
 <h3>Masse volumique <span style="text-transform:none;">ρ</span></h3>
 <p>La masse volumique est le <strong>quotient de la masse d'un échantillon par son volume</strong>.</p>
@@ -1613,9 +1620,7 @@
 </div></div>
 <div class="sub-tab-content" id="cours-sub-4">
 <div class="card">
-<div class="section-title">
-<span class="icon">🔬</span> CCM &amp; Composition des mélanges
-  </div>
+<h2>4. CCM &amp; Composition des mélanges</h2>
 <div class="def-card">
 <h3>Chromatographie sur couche mince (CCM) — <a href="https://culturesciences.chimie.ens.fr/thematiques/chimie-analytique/chromatographie/fiche-sur-la-technique-de-la-chromatographie-sur" style="color:var(--bleu);font-weight:600;font-size:0.85rem;" target="_blank">voir la technique ↗</a></h3>
 <p>Technique de <strong>séparation et d'identification</strong> des espèces chimiques.</p>
@@ -1628,9 +1633,7 @@
 <li>Identification : on compare les hauteurs de taches avec des références</li>
 </ul>
 </div>
-<div class="section-title" style="margin-top:28px;">
-<span class="icon">📊</span> Composition d'un mélange
-  </div>
+<h3 style="margin-top:28px;">Composition d'un mélange</h3>
 <div class="def-card">
 <h3>Composition massique</h3>
 <div class="formule-box">

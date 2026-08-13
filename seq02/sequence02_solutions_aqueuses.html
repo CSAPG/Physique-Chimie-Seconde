@@ -43,8 +43,12 @@
   /* ── HEADER ── */
   .header {
     background: var(--blanc);
+    border: 1px solid #E3E8EE;
     border-bottom: 3px solid var(--bleu);
-    padding: 18px 32px 0;
+    border-radius: 14px;
+    padding: 18px 24px 14px;
+    max-width: 1300px;
+    margin: 0 auto 24px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -54,7 +58,15 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 0;
+  }
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   .header-badge {
@@ -67,11 +79,38 @@
     padding: 4px 10px;
     border-radius: 20px;
     white-space: nowrap;
-    margin-top: 3px;
   }
+  button.cap-toggle {
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button.cap-toggle:hover { background: #1e4466; }
+  .cap-panel {
+    display: none;
+    margin: 0 0 14px;
+    background: #fff;
+    border: 1px solid #B8D4EC;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.88rem;
+    color: var(--texte);
+  }
+  .cap-panel.open { display: block; }
+  .cap-panel ul { margin: 0; padding-left: 1.3rem; }
+  .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+  .header-titles { flex: 1; min-width: 180px; }
   .header-titles h1 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: var(--bleu);
     line-height: 1.2;
@@ -146,9 +185,9 @@
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 0 0 60px; }
 
-  .tab-content { display: none; }
+  .tab-content { display: none; background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -262,6 +301,7 @@
     border-bottom: 2px solid var(--bleu-clair);
   }
   .section-title .icon { font-size: 1.3rem; }
+  .section-title:first-child { margin-top: 0; }
 
   .intro-box {
     background: #FFFBF7;
@@ -593,27 +633,28 @@
 
   /* ── Escape Game ── */
   .eg-intro {
-    background: linear-gradient(135deg,#1e2a3a,#2D5F8A);
-    color: #fff;
+    background: var(--bleu-clair);
+    color: var(--texte);
+    border: 1.5px solid #B8D4EC;
     border-radius: 14px;
     padding: 22px 24px;
     margin-bottom: 18px;
-    box-shadow: 0 4px 18px rgba(20,30,50,0.25);
   }
   .eg-intro h3 {
     font-family: 'Outfit', sans-serif;
     font-size: 1.15rem;
     margin-bottom: 8px;
+    color: var(--bleu);
   }
-  .eg-intro p { font-size: 0.90rem; line-height: 1.6; color: #dce8f5; }
+  .eg-intro p { font-size: 0.90rem; line-height: 1.6; color: var(--texte); }
   .eg-intro .eg-mission {
-    background: rgba(255,255,255,0.10);
-    border: 1px dashed rgba(255,255,255,0.4);
+    background: var(--blanc);
+    border: 1.5px dashed var(--bleu);
     border-radius: 8px;
     padding: 10px 14px;
     margin-top: 12px;
     font-size: 0.88rem;
-    color: #fff;
+    color: var(--texte);
   }
   .eg-progress {
     display: flex;
@@ -624,13 +665,13 @@
   .eg-slot {
     width: 46px; height: 46px;
     border-radius: 8px;
-    background: rgba(255,255,255,0.08);
-    border: 2px solid rgba(255,255,255,0.35);
+    background: var(--blanc);
+    border: 2px solid var(--bleu-moyen);
     display: flex; align-items: center; justify-content: center;
     font-family: 'Outfit', sans-serif;
     font-weight: 800;
     font-size: 1.15rem;
-    color: rgba(255,255,255,0.6);
+    color: var(--bleu);
     transition: all 0.25s;
   }
   .eg-slot.solved {
@@ -643,7 +684,8 @@
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
-    background: rgba(255,255,255,0.12);
+    background: var(--blanc);
+    color: var(--bleu);
     border-radius: 20px;
     padding: 5px 14px;
     display: inline-block;
@@ -746,14 +788,15 @@
   }
   .eg-hint.visible { display: block; animation: fadeIn 0.2s; }
   .eg-final {
-    background: linear-gradient(135deg,#2D5F8A,#1e2a3a);
-    color: #fff;
+    background: var(--vert-clair);
+    color: var(--vert);
+    border: 1.5px solid var(--vert);
     border-radius: 14px;
     padding: 22px 24px;
     text-align: center;
   }
-  .eg-final h3 { font-family: 'Outfit', sans-serif; margin-bottom: 10px; }
-  .eg-final p { color: #dce8f5; font-size: 0.90rem; margin-bottom: 14px; }
+  .eg-final h3 { font-family: 'Outfit', sans-serif; margin-bottom: 10px; color: var(--vert); }
+  .eg-final p { color: var(--texte); font-size: 0.90rem; margin-bottom: 14px; }
   .eg-code-boxes { display: flex; justify-content: center; gap: 10px; margin: 14px 0; }
   .eg-code-box {
     width: 48px; height: 56px;
@@ -1001,11 +1044,11 @@
     border-top: 1px solid var(--gris-bord);
   }
 
-  @media (max-width: 600px) {
-    .header { padding: 12px 14px 0; }
+  @media (max-width: 680px) {
+    .header { padding: 14px 16px 10px; }
     .header-titles h1 { font-size: 1.05rem; }
     .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
-    .main { padding: 18px 12px 50px; }
+    .main { padding: 18px 0 50px; }
     .calc-row label { min-width: 100%; }
   }
 </style>
@@ -1013,8 +1056,10 @@
 <body>
 <div class="header">
 <div class="header-top">
-
+<div class="header-left">
 <div class="header-badge">2<sup>nde</sup> – Séq. 02</div>
+<button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
+</div>
 <div class="header-titles">
 <h1>Les solutions aqueuses, un exemple de mélanges</h1>
 <p>Thème : <span>Constitution et transformations de la matière</span> · C. Poirault-Gauvin</p>
@@ -1027,6 +1072,17 @@
 <button class="tab-btn" onclick="switchTab(2)">✏️ Exercices</button>
 <button class="tab-btn" onclick="switchTab(3)">🗂️ Bilan &amp; Ressources</button>
 </nav>
+<div class="cap-panel" id="capPanel">
+<ul>
+<li>Identifier le soluté et le solvant à partir de la composition ou du mode opératoire de préparation d'une solution.</li>
+<li>Distinguer la masse volumique d'un échantillon et la concentration en masse d'un soluté au sein d'une solution.</li>
+<li>Déterminer la valeur de la concentration en masse d'un soluté à partir du mode opératoire de préparation d'une solution par dissolution ou par dilution.</li>
+<li>Mesurer des masses pour étudier la variabilité du volume mesuré par une pièce de verrerie ; choisir et utiliser la verrerie adaptée pour préparer une solution par dissolution ou par dilution.</li>
+<li>Déterminer la valeur d'une concentration en masse et d'une concentration maximale à partir de résultats expérimentaux.</li>
+<li>Déterminer la valeur d'une concentration en masse à l'aide d'une gamme d'étalonnage (échelle de teinte ou mesure de masse volumique).</li>
+<li><strong>Capacité mathématique :</strong> utiliser une grandeur quotient pour déterminer le numérateur ou le dénominateur.</li>
+</ul>
+</div>
 </div>
 <main class="main">
 <div class="tab-content active" id="tab-0">
@@ -1037,6 +1093,7 @@
 <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-4')">IV. Dilution &amp; étalonnage</button>
 </div>
 <div class="sub-tab-content active" id="cours-sub-1">
+<div class="card">
 <div class="section-title">
 <span class="icon">🧪</span> Solution : solvant, soluté
   </div>
@@ -1086,8 +1143,10 @@
 </div>
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['qcrit'])">↺ Recommencer</button>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-2">
+<div class="card">
 <div class="section-title">
 <span class="icon">⚖️</span> Concentration en masse d'un soluté
   </div>
@@ -1131,8 +1190,10 @@
 <div class="calc-result" id="res-cm"></div>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-3">
+<div class="card">
 <div class="section-title">
 <span class="icon">🥽</span> Dissolution d'une espèce moléculaire ou ionique
   </div>
@@ -1201,8 +1262,10 @@
 </div>
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['qdiss1','qdiss2','qdiss3'])">↺ Recommencer</button>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="cours-sub-4">
+<div class="card">
 <div class="section-title">
 <span class="icon">💧</span> Dilution d'une solution
   </div>
@@ -1276,7 +1339,8 @@
 <div class="calc-result" id="res-dil"></div>
 </div>
 </div>
-</div>
+
+</div></div>
 </div><!-- fin tab-0 Cours -->
 <div class="tab-content" id="tab-1">
 <div class="sub-tabs-nav">
@@ -1287,6 +1351,7 @@
 <button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🎨 TP5 étalonnage</button>
 </div>
 <div class="sub-tab-content active" id="act-sub-1">
+<div class="card">
 <div class="section-title"><span class="icon">🧃</span> Activité 1 p40 : Caféine dans les boissons énergisantes</div>
 <div class="activite-card">
 <h3>Activité 1 p40 : Caféine dans les boissons énergisantes</h3>
@@ -1343,8 +1408,10 @@
 <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-2">
+<div class="card">
 <div class="section-title"><span class="icon">🏭</span> Activité 2 : Contrôle du travail d'un fabricant</div>
 <div class="activite-card">
 <h3>Activité 2 : Contrôle du travail d'un fabricant</h3>
@@ -1355,8 +1422,10 @@
       </a>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-3">
+<div class="card">
 <div class="section-title"><span class="icon">⚗️</span> Simulation — Concentration d'une solution</div>
 <div class="exo-card">
 <div class="exo-header">
@@ -1417,8 +1486,10 @@
 <strong>5.</strong> Non, deux solutés différents à la même concentration n'ont pas nécessairement la même intensité de couleur : chaque espèce chimique possède sa propre couleur caractéristique. L'intensité colorée dépend donc à la fois de la concentration <em>et</em> de la nature du soluté (notion que vous retrouverez avec les échelles de teinte et la spectrophotométrie).
     </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-4">
+<div class="card">
 <div class="section-title"><span class="icon">🥽</span> TP4 : Dissolution-Coca</div>
 <div class="activite-card">
 <h3>TP4 : Dissolution-Coca</h3>
@@ -1571,8 +1642,10 @@
 <textarea class="rep-zone" id="r-tp4-p2q7" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
-</div>
+
+</div></div>
 <div class="sub-tab-content" id="act-sub-5">
+<div class="card">
 <div class="section-title"><span class="icon">🎨</span> TP5 : Dosage à l'aide d'une gamme d'étalonnage</div>
 <div class="activite-card">
 <h3>TP5 : Dosage d'une solution très foncée — exercice n°52 p57</h3>
@@ -1609,7 +1682,8 @@
 <textarea class="rep-zone" id="r-tp5-q5" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
-</div>
+
+</div></div>
 </div><!-- fin tab-1 Activités -->
 <div class="tab-content" id="tab-2">
 <div class="sub-tabs-nav">
@@ -1624,7 +1698,7 @@
 
 <!-- fin exo-nouv-facile1 -->
 <!-- fin exo-nouv-facile2 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-solution-test')" type="button">Qu'est-ce qu'une solution ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-solvants-solutes')" type="button">Solvants et solutés <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identif-solvant-solute')" type="button">Identifier solvant et soluté <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-conc-eau-sucree')" type="button">Concentration en masse d'une eau sucrée <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-solution-test"><div class="exo-card" id="exo-solution-test">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-solution-test')" type="button">Qu'est-ce qu'une solution ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-solvants-solutes')" type="button">Solvants et solutés <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identif-solvant-solute')" type="button">Identifier solvant et soluté <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-conc-eau-sucree')" type="button">Concentration en masse d'une eau sucrée <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-solution-test"><div class="card" id="exo-solution-test" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Test – Qu'est-ce qu'une solution ?</h3>
 <span class="exo-pill">📝 QCM</span>
@@ -1663,7 +1737,7 @@
 </div>
 </div>
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
-</div></div><div class="exo-item-content" id="exoitem-solvants-solutes"><div class="exo-card" id="exo-solvants-solutes">
+</div></div><div class="exo-item-content" id="exoitem-solvants-solutes"><div class="card" id="exo-solvants-solutes" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice – Solvants et solutés</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1699,7 +1773,7 @@
 </tbody>
 </table>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-identif-solvant-solute"><div class="exo-card" id="exo-nouv-facile1">
+</div></div><div class="exo-item-content" id="exoitem-identif-solvant-solute"><div class="card" id="exo-nouv-facile1" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice — Identifier solvant et soluté</h3>
 <span class="exo-pill">📝 QCM</span>
@@ -1747,7 +1821,7 @@
 </div>
 </div>
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['nf1q1','nf1q2','nf1q3','nf1q4'])">↺ Recommencer</button>
-</div></div><div class="exo-item-content" id="exoitem-conc-eau-sucree"><div class="exo-card" id="exo-nouv-facile2">
+</div></div><div class="exo-item-content" id="exoitem-conc-eau-sucree"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice — Concentration en masse d'une eau sucrée</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1772,7 +1846,7 @@
 
 
 <!-- fin exo-nouv-inter1 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-verrerie')" type="button">Choisir la verrerie adaptée <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-glucose')" type="button">Solution de glucose <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-diiode')" type="button">Dilution d'une solution de diiode <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-masse-solute')" type="button">Masse de soluté à peser <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-verrerie"><div class="exo-card" id="exo-verrerie">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-verrerie')" type="button">Choisir la verrerie adaptée <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-glucose')" type="button">Solution de glucose <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-diiode')" type="button">Dilution d'une solution de diiode <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-masse-solute')" type="button">Masse de soluté à peser <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-verrerie"><div class="card" id="exo-verrerie" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice – Choisir la verrerie adaptée</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1824,7 +1898,7 @@
 <strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
     </div>
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])" style="margin-top:14px;">↺ Recommencer</button>
-</div></div><div class="exo-item-content" id="exoitem-glucose"><div class="exo-card" id="exo-glucose">
+</div></div><div class="exo-item-content" id="exoitem-glucose"><div class="card" id="exo-glucose" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice – Solution de glucose</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1851,7 +1925,7 @@
 <div class="calc-step">t = 5,0 g·L⁻¹ ≪ ρ<sub>glucose</sub> = 1544 g·L⁻¹</div>
       La concentration en masse du soluté est très inférieure à la masse volumique du glucose pur : la solution est très <strong>diluée</strong> (peu de glucose dissous par rapport au solvant).
     </div>
-</div></div><div class="exo-item-content" id="exoitem-dilution-diiode"><div class="exo-card" id="exo-dilution-diiode">
+</div></div><div class="exo-item-content" id="exoitem-dilution-diiode"><div class="card" id="exo-dilution-diiode" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice – Dilution d'une solution de diiode</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1876,7 +1950,7 @@
 <div class="calc-step">F = V<sub>f</sub> / V<sub>m</sub>  →  V<sub>m</sub> = V<sub>f</sub> / F = 0,200 / 2,5 = <strong>0,080 L = 80 mL</strong></div>
       Vérification : on prélève 80 mL de solution mère et on complète à 200 mL avec de l'eau distillée.
     </div>
-</div></div><div class="exo-item-content" id="exoitem-masse-solute"><div class="exo-card" id="exo-nouv-inter1">
+</div></div><div class="exo-item-content" id="exoitem-masse-solute"><div class="card" id="exo-nouv-inter1" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice — Masse de soluté à peser</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1908,7 +1982,7 @@
 
 <!-- fin exo-nouv-diff1 -->
 <!-- fin exo-nouv-diff2 -->
-<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-conc-max-nacl')" type="button">Concentration maximale du chlorure de sodium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-tp4-etalonnage')" type="button">TP4 : dosage par étalonnage <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-saturation')" type="button">Dilution proche de la saturation <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-type-bac-desinfection')" type="button">Type Bac — solution de désinfection <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-conc-max-nacl"><div class="exo-card" id="exo-conc-max-nacl">
+<div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-conc-max-nacl')" type="button">Concentration maximale du chlorure de sodium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-tp4-etalonnage')" type="button">TP4 : dosage par étalonnage <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-saturation')" type="button">Dilution proche de la saturation <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-type-bac-desinfection')" type="button">Type Bac — solution de désinfection <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-conc-max-nacl"><div class="card" id="exo-conc-max-nacl" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice – Concentration maximale du chlorure de sodium</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1936,7 +2010,7 @@
 <div class="calc-step">V<sub>solution</sub> = 50,0 mL = 0,0500 L</div>
 <div class="calc-step">m<sub>max</sub> = C<sub>max</sub> × V = 358 × 0,0500 = <strong>17,9 g</strong></div>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-tp4-etalonnage"><div class="exo-card" id="exo-tp4-etalonnage">
+</div></div><div class="exo-item-content" id="exoitem-tp4-etalonnage"><div class="card" id="exo-tp4-etalonnage" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice – TP4 : dosage par étalonnage (échelle de teinte)</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -1992,7 +2066,7 @@
       – Comparer la teinte de la solution de concentration inconnue à celles des solutions de l'échelle de teinte.<br/>
       – En déduire un encadrement de la concentration en masse de la solution inconnue, à partir des concentrations des deux solutions étalons encadrant sa teinte.</div>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-dilution-saturation"><div class="exo-card" id="exo-nouv-diff1">
+</div></div><div class="exo-item-content" id="exoitem-dilution-saturation"><div class="card" id="exo-nouv-diff1" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice — Dilution d'une solution proche de la saturation</h3>
 <span class="exo-pill">INTERACTIF</span>
@@ -2023,7 +2097,7 @@
 <strong>3. Volume de solution mère à prélever :</strong>
 <div class="calc-step">V<sub>m</sub> = V<sub>f</sub> / F = 100 / 4,0 = <strong>25 mL</strong></div>
 </div>
-</div></div><div class="exo-item-content" id="exoitem-type-bac-desinfection"><div class="exo-card" id="exo-nouv-diff2">
+</div></div><div class="exo-item-content" id="exoitem-type-bac-desinfection"><div class="card" id="exo-nouv-diff2" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
 <h3>Exercice type Bac — Préparer une solution de désinfection</h3>
 <span class="exo-pill">RÉDACTION</span>
@@ -2056,6 +2130,7 @@
     </div>
 </div></div></div>
 <div class="sub-tab-content" id="exo-sub-escape">
+<div class="card">
 <div class="eg-intro">
 <h3>🔓 Escape Game — Le labo verrouillé</h3>
 <p>17h32. La sonnerie a retenti et le professeur a fermé la salle de chimie… avec votre sac à l'intérieur ! Par chance, la porte est équipée d'un digicode à 4 chiffres. Quatre indices, laissés sur les paillasses, correspondent aux quatre grandes idées du chapitre sur les solutions aqueuses. Résolvez-les dans l'ordre pour reconstituer le code et sortir avant la fermeture du lycée à 18h00 !</p>
@@ -2162,7 +2237,8 @@
       </div>
 </div>
 <button class="btn-eg-reset" onclick="resetEscapeGame()">↺ Recommencer l'escape game</button>
-</div>
+
+</div></div>
 </div><!-- fin tab-2 Exercices -->
 <div class="tab-content" id="tab-3">
 <div class="sub-tabs-nav">
@@ -2323,6 +2399,15 @@
 </main>
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Retour en haut">↑</button>
 <script>
+// ── Capacités exigibles ──
+document.getElementById("capToggle").addEventListener("click", function () {
+  var panel = document.getElementById("capPanel");
+  panel.classList.toggle("open");
+  this.textContent = panel.classList.contains("open")
+    ? "📋 Masquer les capacités"
+    : "📋 Capacités exigibles";
+});
+
 // ── Navigation onglets ──
 function switchTab(n) {
   document.querySelectorAll('.tab-content').forEach((t,i) => {

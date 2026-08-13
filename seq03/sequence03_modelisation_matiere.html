@@ -494,36 +494,38 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 .subtabs{
   display:flex;
   flex-wrap:wrap;
-  gap:12px;
+  gap:8px;
   margin-bottom:18px;
   font-family:'Nunito',sans-serif;
 }
 .subtab-btn{
-  flex:1 1 260px;
   display:flex;
-  flex-direction:column;
-  gap:4px;
-  text-align:left;
-  padding:16px 18px;
-  background:var(--paper);
-  border:2px solid var(--line);
-  border-radius:12px;
+  align-items:center;
+  gap:8px;
+  padding:8px 18px;
+  border:none;
+  background:var(--accent2-light);
+  color:var(--accent2);
+  font-family:'Nunito',sans-serif;
+  font-size:.84rem;
+  font-weight:700;
   cursor:pointer;
-  transition:all .15s ease;
+  border-radius:999px;
+  transition:all .2s;
+  white-space:nowrap;
 }
-.subtab-btn:hover{border-color:var(--bleu);}
+.subtab-btn:hover{background:var(--accent2); color:#fff;}
 .subtab-btn.active{
-  background:var(--bleu-clair);
-  border-color:var(--bleu);
+  background:var(--orange);
+  color:#fff;
 }
 .subtab-title{
-  font-size:1rem;
+  font-size:.84rem;
   font-weight:700;
-  color:var(--bleu);
+  color:inherit;
 }
 .subtab-desc{
-  font-size:0.8rem;
-  color:#6b756f;
+  display:none;
 }
 .subpanel{display:none;animation:fade .35s ease;}
 .subpanel.active{display:block;}

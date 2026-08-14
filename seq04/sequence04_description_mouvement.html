@@ -26,15 +26,9 @@
     --blanc:#FFFFFF;
     /* Couleurs par auteur/site (Bilan & Ressources uniquement) */
     --auteur-hatier:#C0392B;
-    --auteur-ostralo-moyen:#5B8FB9;
     --auteur-ostralo:#2D5F8A;
-    --auteur-ostralo-clair:#7FA6D1;
-    --auteur-pccl:#7B4FA6;
     --auteur-pccl-fonce:#2f034e;
-    --auteur-pccl-clair:#cfa3fa;
-    --auteur-phet:#FFA600;
     --auteur-phet-fonce:#ff7300;
-    --auteur-phet-clair:#f1a008d5;
     --auteur-paulolivier:#058616;
     --auteur-stella:#eeb90a;
     --auteur-eprofs:#40E0D0;
@@ -113,7 +107,7 @@
   @keyframes fadein{from{opacity:0;} to{opacity:1;}}
 
   h2{color:var(--bleu); border-bottom:2px solid var(--bleu-clair); padding-bottom:6px;}
-  h3{color:var(--vert);}
+  h3{color:var(--orange);}
 
   .box{
     border:1px solid var(--gris-bord);
@@ -436,7 +430,7 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
   <div class="tabs" id="tabs">
     <button class="tab-btn active" onclick="showTab(this,'t-cours')">📘 Cours</button>
-    <button class="tab-btn" onclick="showTab(this,'t-activites')">🚀 Activités</button>
+    <button class="tab-btn" onclick="showTab(this,'t-activites')">📚 Activités</button>
     <button class="tab-btn" onclick="showTab(this,'t-exercices')">✏️ Exercices</button>
     <button class="tab-btn" onclick="showTab(this,'t-bilan')">🗂️ Bilan &amp; Ressources</button>
   </div>
@@ -460,8 +454,8 @@ button.cap-toggle:hover { background: #1e4466; }
 <!-- ============ ONGLET COURS ============ -->
 <div class="tab-content active" id="t-cours">
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">1️⃣ Décrire un mouvement</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">2️⃣ Vitesse</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'cours-sub-0')">1️. Décrire un mouvement</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-sub-1')">2️. Vitesse</button>
   </div>
 
   <div class="sub-tab-content active" id="cours-sub-0">
@@ -2105,8 +2099,8 @@ for i in range(0, 20, 2) :
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo-moyen);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-ostralo-moyen);">🔬 Relativité du mouvement</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-ostralo);">🔬 Relativité du mouvement</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Ostralo.</p>
         </div>
       </a>
@@ -2119,15 +2113,15 @@ for i in range(0, 20, 2) :
       </a>
 
       <a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo-clair);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-ostralo-clair);">🔬 Rappel sur les vecteurs</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-ostralo);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-ostralo);">🔬 Rappel sur les vecteurs</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">Ostralo.</p>
         </div>
       </a>
 
       <a href="https://www.physics-chemistry-interactive-flash-animation.com/mechanics_forces_gravitation_energy_interactive/frame_of_reference_motion_child_ball_train_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-pccl);">🔬 Référentiel et relativité — le train</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Référentiel et relativité — le train</h4>
           <p style="font-size:0.82rem;color:var(--texte-leger);margin-top:4px;line-height:1.5;">PCCL</p>
         </div>
       </a>

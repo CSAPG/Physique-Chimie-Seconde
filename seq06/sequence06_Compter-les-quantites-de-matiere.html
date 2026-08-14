@@ -11,14 +11,14 @@
 :root{
   --font-sans: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-  --color-text-primary:#1e293b;
-  --color-text-secondary:#64748b;
-  --color-text-info:#0e7490;
-  --color-background-primary:#ffffff;
-  --color-background-secondary:#f8fafc;
-  --color-border-primary:#cbd5e1;
-  --color-border-secondary:#e2e8f0;
-  --color-border-tertiary:#eef2f7;
+  --color-text-primary:#1A2A3A;
+  --color-text-secondary:#5A6B7A;
+  --color-text-info:#2D5F8A;
+  --color-background-primary:#FFFFFF;
+  --color-background-secondary:#F5F7FA;
+  --color-border-primary:#DDE3EC;
+  --color-border-secondary:#DDE3EC;
+  --color-border-tertiary:#DDE3EC;
   /* Système de couleurs partagé (Bilan / Ressources) — aligné sur les autres séquences */
   --bleu:#2D5F8A;
   --bleu-clair:#E8F1F8;
@@ -35,6 +35,11 @@
   --gris-fond:#F5F7FA;
   --gris-bord:#DDE3EC;
   --blanc:#FFFFFF;
+  --bleu-moyen:#5B8FB9;
+  --bleu-activite:#EEF5FB;
+  --bleu-activite-bord:#B8D4EC;
+  --vert-exo:#F0FAF6;
+  --vert-exo-bord:#B2DDD0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#F0F4F8}
@@ -43,7 +48,7 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 
 /* ---- structure de page ---- */
 .page-wrap{max-width:1300px;margin:0 auto;padding:0 0 48px}
-.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0e7490;text-decoration:none;margin-bottom:14px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:1rem;font-weight:600;color:#0e7490;text-decoration:none;margin-bottom:14px}
 .back-link:hover{text-decoration:underline}
 
 /* ---- en-tête de cours (aligné sur séq. 03) ---- */
@@ -68,8 +73,8 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 .sub-tab-content .card:first-child{margin-top:0}
 .card h2{font-size:1.25rem;margin-top:0;color:var(--bleu);border-bottom:2px solid var(--bleu-clair);padding-bottom:8px}
 .card h3{font-size:1.05rem;color:var(--orange);margin:18px 0 8px}
-.def{background:#E6F1FB;border-left:3px solid #185FA5;border-radius:0;padding:12px 14px;font-size:14px;line-height:1.6;margin:10px 0;color:#0C447C}
-.formule-block{border:0.5px solid var(--color-border-secondary);border-radius:12px;padding:16px;margin:12px 0;background:var(--color-background-secondary)}
+.def{background:#E6F1FB;border-left:3px solid #185FA5;border-radius:0;padding:12px 14px;font-size:1rem;line-height:1.6;margin:10px 0;color:var(--texte)}
+.formule-block{border:1.5px solid var(--color-border-secondary);border-radius:12px;padding:16px;margin:12px 0;background:var(--color-background-secondary)}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 .sub-tabs-nav{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;overflow-x:auto}
 .sub-tab-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;border:none;background:#b8cfe0;color:var(--bleu);font-size:0.84rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s;white-space:nowrap}
@@ -97,6 +102,7 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
   border-bottom: 2px solid var(--bleu-clair);
 }
 .section-title .icon { font-size: 1.3rem; }
+.card > .section-title:first-child{margin-top:0}
 .bilan-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -130,64 +136,84 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
   color: var(--texte);
 }
 .gloss-item dd{font-size:0.84rem;color:var(--color-text-primary);line-height:1.55}
-.formule-title{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:10px}
-.formule-main{text-align:center;font-size:1.2em;font-weight:500;color:#A32D2D;background:#FCEBEB;padding:12px 16px;border-radius:8px;margin-bottom:10px}
-.formule-vars{font-size:13px;line-height:2;color:var(--color-text-secondary);padding:0 4px}
-.formule-vars span{display:inline-block;background:var(--color-background-primary);border-radius:6px;padding:2px 8px;margin:2px 3px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);font-size:13px}
-.anim-box{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin:12px 0}
+.formule-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:10px}
+.formule-main{text-align:center;font-size:1.2em;font-weight:600;color:var(--bleu);background:var(--bleu-clair);padding:12px 16px;border-radius:8px;margin-bottom:10px}
+.formule-vars{font-size:1rem;line-height:2;color:var(--color-text-secondary);padding:0 4px}
+.formule-vars span{display:inline-block;background:var(--color-background-primary);border-radius:6px;padding:2px 8px;margin:2px 3px;border:1.5px solid var(--color-border-tertiary);color:var(--color-text-primary);font-size:1rem}
+.anim-box{border:1.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin:12px 0}
 .exo-card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px;margin:14px 0}
-.exo-title{font-size:14px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.badge-exo{background:#EAF3DE;color:#27500A;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px}
+.exo-title{font-size:1rem;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge-exo{background:#EAF3DE;color:#27500A;font-size:14px;font-weight:600;padding:2px 8px;border-radius:99px}
+.exo-tabs-nav{display:flex;gap:8px;margin:8px 0 20px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.exo-tab-btn{flex-shrink:0;white-space:nowrap;display:flex;align-items:center;gap:7px;padding:8px 16px;border:1.5px solid var(--color-border-primary);background:#fff;color:var(--bleu);font-family:var(--font-sans);font-size:0.82rem;font-weight:700;cursor:pointer;border-radius:999px;transition:all 0.2s}
+.exo-tab-btn:hover{border-color:var(--bleu)}
+.exo-tab-btn.active{background:var(--bleu);color:#fff;border-color:var(--bleu)}
+.exo-tab-btn .exo-tab-stars{font-size:0.76rem;color:var(--orange);font-weight:400}
+.exo-tab-btn.active .exo-tab-stars{color:#FFD9B3}
+.exo-item-content{display:none}
+.exo-item-content.active{display:block;animation:fadein 0.3s ease}
 .inp-row{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
-.inp-row label{font-size:13px;color:var(--color-text-secondary);white-space:nowrap}
-.fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px;line-height:1.6;display:none}
+.inp-row label{font-size:1rem;color:var(--color-text-secondary);white-space:nowrap}
+.fb{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:1rem;line-height:1.6;display:none}
 .fb.ok{background:#EAF3DE;color:#27500A;display:block}
 .fb.ko{background:#FCEBEB;color:#791F1F;display:block}
 .fb.hint{background:#FAEEDA;color:#633806;display:block}
 .slider-row{display:flex;align-items:center;gap:10px;margin:8px 0}
-.slider-row label{font-size:13px;color:var(--color-text-secondary);width:100px}
+.slider-row label{font-size:1rem;color:var(--color-text-secondary);width:100px}
 .slider-row input[type=range]{flex:1}
-.slider-val{font-size:13px;font-weight:500;min-width:70px;font-family:var(--font-mono)}
-.big-num{font-size:22px;font-weight:500;text-align:center;padding:10px;margin:6px 0}
+.slider-val{font-size:1rem;font-weight:600;min-width:70px;font-family:var(--font-mono)}
+.big-num{font-size:22px;font-weight:600;text-align:center;padding:10px;margin:6px 0}
 .progress-bar{height:6px;border-radius:99px;background:var(--color-border-tertiary);margin:6px 0;overflow:hidden}
 .progress-fill{height:100%;border-radius:99px;background:#185FA5;transition:width .4s}
 .odo-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center;padding:10px 0}
 .odo-block{display:flex;flex-direction:column;align-items:center;gap:8px}
 .odo-row{display:flex;align-items:flex-end;gap:2px}
-.odo-digit{font-family:var(--font-mono);font-size:22px;font-weight:500;min-width:22px;text-align:center;padding:6px 2px;background:#E6F1FB;color:#0C447C;border-radius:6px}
-.odo-sep{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--color-text-secondary);padding:6px 2px}
-.odo-times{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--color-text-secondary);padding:6px 2px}
-.odo-exp{font-family:var(--font-mono);font-size:14px;font-weight:500;color:#0C447C;background:#E6F1FB;border-radius:6px;padding:2px 5px;margin-bottom:16px;align-self:flex-start}
+.odo-digit{font-family:var(--font-mono);font-size:22px;font-weight:600;min-width:22px;text-align:center;padding:6px 2px;background:#E6F1FB;color:#0C447C;border-radius:6px}
+.odo-sep{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--color-text-secondary);padding:6px 2px}
+.odo-times{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--color-text-secondary);padding:6px 2px}
+.odo-exp{font-family:var(--font-mono);font-size:1rem;font-weight:600;color:#0C447C;background:#E6F1FB;border-radius:6px;padding:2px 5px;margin-bottom:16px;align-self:flex-start}
 .odo-label{font-size:12px;color:var(--color-text-secondary)}
-.formula-applied{font-family:var(--font-mono);font-size:13px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px;margin:8px 0;line-height:2;text-align:center}
+.formula-applied{font-family:var(--font-mono);font-size:1rem;background:var(--color-background-primary);border:1.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 12px;margin:8px 0;line-height:2;text-align:center}
 .arrow-down{text-align:center;font-size:18px;color:var(--color-text-secondary);margin:4px 0}
-.result-highlight{text-align:center;font-size:17px;font-weight:500;color:#0F6E56;background:#E1F5EE;border-radius:8px;padding:10px;margin:6px 0}
+.result-highlight{text-align:center;font-size:17px;font-weight:600;color:#0F6E56;background:#E1F5EE;border-radius:8px;padding:10px;margin:6px 0}
 .vid-box{background:var(--color-background-secondary);border-radius:12px;padding:32px 16px;text-align:center;margin:10px 0;border:0.5px dashed var(--color-border-secondary);transition:.15s}
 .vid-box:hover{border-color:#185FA5;background:#E6F1FB}
-.hist-card{border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:14px;line-height:1.6;display:flex;gap:12px}
-.hist-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;flex-shrink:0}
-.cap-box{background:#EEEDFE;border-radius:8px;padding:14px 16px;margin-top:10px;font-size:14px;line-height:1.9;color:#3C3489}
+.hist-card{border:1.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:1rem;line-height:1.6;display:flex;gap:12px}
+.hist-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:600;flex-shrink:0}
+.cap-box{background:#EEEDFE;border-radius:8px;padding:14px 16px;margin-top:10px;font-size:1rem;line-height:1.9;color:#3C3489}
 .step-row{display:flex;align-items:flex-start;gap:12px;margin:10px 0}
-.step-num{width:26px;height:26px;border-radius:50%;background:#E6F1FB;color:#0C447C;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-num{width:26px;height:26px;border-radius:50%;background:#E6F1FB;color:#0C447C;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .step-input-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 6px 38px}
 .mol-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:7px;margin-bottom:14px}
-.mol-btn{padding:8px 6px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:500;text-align:center;color:var(--color-text-primary);transition:.15s;line-height:1.5}
+.mol-btn{padding:8px 6px;border-radius:8px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:600;text-align:center;color:var(--color-text-primary);transition:.15s;line-height:1.5}
 .mol-btn:hover{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
 .mol-btn.selected{background:#185FA5;color:#fff;border-color:#185FA5}
-.mol-btn2{padding:8px 6px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:500;text-align:center;color:var(--color-text-primary);transition:.15s;line-height:1.5}
+.mol-btn2{padding:8px 6px;border-radius:8px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:12px;font-weight:600;text-align:center;color:var(--color-text-primary);transition:.15s;line-height:1.5}
 .mol-btn2:hover{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
 .mol-btn2.selected{background:#185FA5;color:#fff;border-color:#185FA5}
-.qcm-btn{padding:10px 8px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:13px;font-weight:500;text-align:center;color:var(--color-text-primary);transition:.15s;font-family:var(--font-mono)}
+.qcm-btn{padding:10px 8px;border-radius:8px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:1rem;font-weight:600;text-align:center;color:var(--color-text-primary);transition:.15s;font-family:var(--font-mono)}
 .qcm-btn:hover:not(:disabled){background:#E6F1FB;border-color:#185FA5;color:#0C447C}
 .qcm-btn.correct{background:#1D9E75;color:#fff;border-color:#1D9E75}
 .qcm-btn.wrong{background:#E24B4A;color:#fff;border-color:#E24B4A}
 .qcm-btn:disabled{cursor:default;opacity:.9}
-.exo-select{width:100%;max-width:480px;font-size:13px;padding:7px 10px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
-.data-table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
-.data-table th{background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:500;border-bottom:0.5px solid var(--color-border-secondary)}
-.data-table td{padding:7px 10px;border-bottom:0.5px solid var(--color-border-tertiary);font-family:var(--font-mono)}
+.exo-select{width:100%;max-width:480px;font-size:1rem;padding:7px 10px;border-radius:6px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.data-table{width:100%;border-collapse:collapse;font-size:1rem;margin:10px 0}
+.data-table th{background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:600;border-bottom:1.5px solid var(--color-border-secondary)}
+.data-table td{padding:7px 10px;border-bottom:1.5px solid var(--color-border-tertiary);font-family:var(--font-mono)}
 .atom-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:middle;border:1.5px solid rgba(30,41,59,.35);box-shadow:inset -2px -2px 3px rgba(0,0,0,.25),inset 1px 1px 2px rgba(255,255,255,.7)}
 .check-inline{font-size:12px;padding:5px 12px}
+.qcm-radio-group{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.qcm-radio-option{display:flex;align-items:flex-start;gap:8px;font-size:0.92rem;line-height:1.5;padding:9px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;cursor:pointer;transition:.15s;background:var(--blanc)}
+.qcm-radio-option:hover{background:#E6F1FB;border-color:#185FA5}
+.qcm-radio-option input[type="radio"]{margin-top:3px;flex-shrink:0;accent-color:var(--bleu);cursor:pointer}
+.qcm-radio-option.correct{background:#EAF3DE;border-color:#1D9E75;color:#27500A;font-weight:600}
+.qcm-radio-option.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F;font-weight:600}
+.qcm-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.btn-correction,.btn-recommencer{font-family:"Nunito",sans-serif;font-size:0.8rem;font-weight:700;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.15s;border:none}
+.btn-correction{background:var(--vert);color:#fff}
+.btn-correction:hover{background:#2b6e56}
+.btn-recommencer{background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord)}
+.btn-recommencer:hover{background:#e4e9ef}
 .score-bar{display:flex;gap:6px;align-items:center;margin:10px 0}
 .score-dot{width:14px;height:14px;border-radius:50%;background:var(--color-border-tertiary);transition:.3s}
 .score-dot.ok{background:#1D9E75}
@@ -195,7 +221,37 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 .deux-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
 .stat-card{background:var(--color-background-secondary);border-radius:8px;padding:12px;text-align:center}
 .stat-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px}
-.stat-val{font-size:18px;font-weight:500}
+.stat-val{font-size:18px;font-weight:600}
+
+/* ── ACTIVITÉ : fond bleu pâle (aligné sur séq. 02) ── */
+.activite-card{background:var(--bleu-activite);border:1.5px solid var(--bleu-activite-bord);border-left:4px solid var(--bleu-moyen);border-radius:0 12px 12px 0;padding:16px 22px;margin-bottom:16px;position:relative}
+.activite-card::before{content:'ACTIVITÉ';position:absolute;top:12px;right:14px;font-family:"Outfit",sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--bleu-moyen);opacity:.8}
+.activite-card h3{font-family:"Outfit",sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin:0 0 8px}
+.exo-enonce{background:var(--blanc);border-radius:8px;padding:12px 16px;font-size:1rem;line-height:1.65;margin-bottom:12px;border:1px solid var(--vert-exo-bord)}
+
+/* ===== Style "Peser sur Jupiter" (import depuis séquence 05) pour les exercices à champs FCR encadrés ===== */
+.qa-doc{border:1px solid var(--color-border-secondary);border-radius:10px;margin:10px 0;padding:14px 16px;background:var(--blanc)}
+.qa-doc .qa-question{font-weight:600;margin:0 0 8px}
+input.blank{border:1px solid var(--color-border-secondary);background:var(--blanc);padding:6px 8px;border-radius:6px;font-size:.95rem;font-family:inherit;color:var(--texte);font-weight:600;width:100%}
+input.blank.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+input.blank.wrong{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+button.action-btn.solid{background:var(--bleu);color:#fff;border:2px solid var(--bleu);font-weight:700;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;margin:4px 4px 4px 0}
+button.action-btn.solid:hover{background:#1e4466;border-color:#1e4466}
+.feedback{margin-top:10px;font-size:.9rem;font-weight:600;min-height:1.3em}
+.feedback.ok{color:var(--vert)}
+.feedback.ko{color:var(--rouge)}
+.question-block{margin-bottom:14px}
+.question-label{font-size:.88rem;font-weight:700;color:var(--texte);margin-bottom:7px;padding-left:8px;border-left:3px solid var(--vert)}
+.rep-zone{width:100%;min-height:52px;padding:10px 14px;border:1.5px solid var(--vert-exo-bord);border-radius:8px;font-family:var(--font-sans);font-size:.88rem;background:var(--blanc);color:var(--texte);resize:vertical;transition:border-color .2s}
+.rep-zone:focus{outline:none;border-color:var(--vert)}
+.aide-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 12px;border:1.5px dashed var(--orange);border-radius:999px;background:var(--orange-clair);color:#8a4a1a;font-family:var(--font-sans);font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
+.aide-toggle:hover{background:var(--orange);color:#fff}
+.aide-box{display:none;margin-top:8px;padding:10px 14px;border-left:3px solid var(--orange);border-radius:0 8px 8px 0;background:var(--orange-clair);font-size:.84rem;line-height:1.55;color:#5c3212}
+.aide-box.open{display:block;animation:fadein .2s ease}
+.correction-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:7px 16px;border:1.5px dashed var(--vert);border-radius:999px;background:#EAF3DE;color:#27500A;font-family:var(--font-sans);font-size:.82rem;font-weight:700;cursor:pointer;transition:.15s}
+.correction-toggle:hover{background:var(--vert);color:#fff}
+.correction-box{display:none;margin-top:10px;padding:12px 16px;border-left:3px solid var(--vert);border-radius:0 8px 8px 0;background:#EAF3DE;font-size:.9rem;line-height:1.65;color:#27500A}
+.correction-box.open{display:block;animation:fadein .2s ease}
 
 /* ---- Capacités exigibles : bouton pastille + panneau ---- */
 button.cap-toggle{background:var(--bleu);color:#fff;border:none;padding:5px 12px;border-radius:999px;font-family:"Nunito",sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;white-space:nowrap}
@@ -246,7 +302,7 @@ button.cap-toggle:hover{background:#1e4466}
 
     <div class="tabs">
       <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
-      <div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+      <div class="tab" onclick="showTab(this,'activites')">📚 Activités</div>
       <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
       <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
     </div>
@@ -266,11 +322,14 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="sub-tab-content active" id="cours-I">
 <div class="card">
   <h2>1. Masse d'une entité</h2>
-  <div class="def">La masse d'une entité = somme des masses de tous ses atomes. Si un atome apparaît plusieurs fois, on le multiplie.</div>
+  <div class="def">
+    <p><strong>La masse d'une entité = somme des masses de tous ses atomes. </strong></p>
+    <p><em>Si un atome apparaît plusieurs fois, on le multiplie.</em></p>
+  </div>
 
   <h3>Calculer la masse d'une molécule</h3>
 
-  <div class="deux-cols" style="align-items:center">
+  <div class="deux-cols" style="align-items:flex-start">
     <div>
       <div class="def">Pour calculer la masse d'une molécule, on additionne les masses de tous les atomes qui la composent. Si un atome est présent plusieurs fois, on multiplie sa masse atomique par son nombre d'occurrences.</div>
       <div class="formula-applied" style="text-align:left;margin-top:8px">
@@ -286,17 +345,17 @@ button.cap-toggle:hover{background:#1e4466}
   </div>
 
   <div class="anim-box">
-    <div style="font-size:14px;color:var(--color-text-secondary);margin-bottom:14px"><strong>Choisis une molécule, puis calcule sa masse étape par étape :</strong></div>
+    <div style="font-size:1rem;color:var(--color-text-secondary);margin-bottom:14px"><strong>Choisis une molécule, puis calcule sa masse étape par étape :</strong></div>
     <div class="mol-grid" id="molGrid"></div>
     <div id="molExo" style="display:none">
       <div id="molHeader" style="margin-bottom:10px"></div>
-      <div style="font-size:13px;font-weight:500;margin-bottom:4px;color:var(--color-text-secondary)">Données :</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:4px;color:var(--color-text-secondary)">Données :</div>
       <table class="data-table" id="dataTable"><thead><tr><th>Atome</th><th>Masse (kg)</th><th>Nb dans la molécule</th></tr></thead><tbody id="dataBody"></tbody></table>
 
       <div class="step-row" style="margin-top:18px">
         <div class="step-num">1</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> de la masse totale de la molécule ?</div>
+          <div style="font-size:1rem;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> de la masse totale de la molécule ?</div>
           <select id="c1select" class="exo-select"></select>
           <div style="margin-top:6px"><button class="check-inline" onclick="checkC1()">Vérifier</button></div>
           <div id="fbC1" class="fb"></div>
@@ -306,7 +365,7 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-row" style="margin-top:14px">
         <div class="step-num">2</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir cette masse ?</div>
+          <div style="font-size:1rem;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir cette masse ?</div>
           <select id="c2select" class="exo-select"></select>
           <div style="margin-top:6px"><button class="check-inline" onclick="checkC2()">Vérifier</button></div>
           <div id="fbC2" class="fb"></div>
@@ -316,13 +375,13 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-row" style="margin-top:14px">
         <div class="step-num">3</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:8px">Quelle est la <strong>masse</strong> de cette molécule (<span id="molFinalLabel"></span>) ?</div>
+          <div style="font-size:1rem;margin-bottom:8px">Quelle est la <strong>masse</strong> de cette molécule (<span id="molFinalLabel"></span>) ?</div>
           <div class="mol-grid" id="c3grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))"></div>
           <div id="fbC3" class="fb"></div>
         </div>
       </div>
 
-      <div style="margin-top:16px"><button onclick="nextMol()" style="font-size:13px">Molécule suivante →</button></div>
+      <div style="margin-top:16px"><button onclick="nextMol()" style="font-size:1rem">Molécule suivante →</button></div>
     </div>
   </div>
 
@@ -335,7 +394,6 @@ button.cap-toggle:hover{background:#1e4466}
   <h2>2. Nombre d'entités N</h2>
 
   <div class="formule-block">
-    <div class="formule-title">Formule</div>
     <div class="formule-main">N = m<sub>échantillon</sub> / m<sub>entité</sub></div>
     <div class="formule-vars">
       <span><strong>N</strong> : nombre d'entités (sans unité)</span>
@@ -344,7 +402,7 @@ button.cap-toggle:hover{background:#1e4466}
     </div>
   </div>
 
-  <h3>Simulation — explorer N</h3>
+  <h3>Simulation — explorer le nombre d'entités N</h3>
   <div class="anim-box">
     <div class="slider-row">
       <label>Masse (g) :</label>
@@ -353,7 +411,7 @@ button.cap-toggle:hover{background:#1e4466}
     </div>
     <div class="slider-row">
       <label>Molécule :</label>
-      <select id="slMol" onchange="updateN()" style="font-size:13px;padding:4px 8px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+      <select id="slMol" onchange="updateN()" style="font-size:1rem;padding:4px 8px;border-radius:6px;border:1.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
         <option value="3.01e-26">H₂O</option>
         <option value="7.35e-26">CO₂</option>
         <option value="2.83e-26">NH₃</option>
@@ -385,12 +443,12 @@ button.cap-toggle:hover{background:#1e4466}
 
   <div class="exo-card">
     <div class="exo-title"><span class="badge-exo">Application</span> Nombre de molécules de NH₃</div>
-    <div style="font-size:14px;margin-bottom:12px">Un échantillon a m = 5,66×10⁻²⁶ kg. Combien de molécules de NH₃ contient-il ?<br><span style="font-size:13px;color:var(--color-text-secondary)">Donnée : m(NH₃) = 2,83×10⁻²⁶ kg</span></div>
+    <div style="font-size:1rem;margin-bottom:12px">Un échantillon a m = 5,66×10<sup style="font-size:0.65em;">-26</sup> kg. Combien de molécules de NH₃ contient-il ?<br><span style="font-size:1rem;color:var(--color-text-secondary)">Donnée : m(NH₃) = 2,83×10<sup style="font-size:0.65em;">-26</sup>kg</span></div>
 
     <div class="step-row">
       <div class="step-num">1</div>
       <div style="flex:1">
-        <div style="font-size:14px;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> permettant de calculer N ?</div>
+        <div style="font-size:1rem;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> permettant de calculer N ?</div>
         <select id="a2select1" class="exo-select"></select>
         <div style="margin-top:6px"><button class="check-inline" onclick="checkA2Q1()">Vérifier</button></div>
         <div id="fbA2Q1" class="fb"></div>
@@ -400,7 +458,7 @@ button.cap-toggle:hover{background:#1e4466}
     <div class="step-row" style="margin-top:14px">
       <div class="step-num">2</div>
       <div style="flex:1">
-        <div style="font-size:14px;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir N ?</div>
+        <div style="font-size:1rem;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir N ?</div>
         <select id="a2select2" class="exo-select"></select>
         <div style="margin-top:6px"><button class="check-inline" onclick="checkA2Q2()">Vérifier</button></div>
         <div id="fbA2Q2" class="fb"></div>
@@ -410,7 +468,7 @@ button.cap-toggle:hover{background:#1e4466}
     <div class="step-row" style="margin-top:14px">
       <div class="step-num">3</div>
       <div style="flex:1">
-        <div style="font-size:14px;margin-bottom:8px">Quel est le <strong>résultat</strong> ?</div>
+        <div style="font-size:1rem;margin-bottom:8px">Quel est le <strong>résultat</strong> ?</div>
         <div class="mol-grid" id="a2grid3" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
         <div id="fbA2Q3" class="fb"></div>
       </div>
@@ -424,11 +482,10 @@ button.cap-toggle:hover{background:#1e4466}
 <div class="card">
   <h2>3. La quantité de matière n</h2>
 
-  <div class="def">Manipuler des nombres comme 10²⁶ est peu pratique. Les chimistes regroupent les entités par « lots » de <strong>N<sub>A</sub> = 6,02×10²³</strong> entités, appelés <strong>moles</strong>.</div>
+  <div class="def">Manipuler des nombres comme 10<sup style="font-size:0.65em;">26</sup> est peu pratique. Les chimistes regroupent les entités par « lots » de <strong>N<sub>A</sub> = 6,02×10²³</strong> entités, appelés <strong>moles</strong>.</div>
 
   <!-- Formule principale bien mise en avant -->
   <div class="formule-block">
-    <div class="formule-title">Formule fondamentale</div>
     <div class="formule-main">n = N / N<sub>A</sub></div>
     <div class="formule-vars">
       <span><strong>n</strong> : quantité de matière en <strong>mol</strong></span>
@@ -440,14 +497,14 @@ button.cap-toggle:hover{background:#1e4466}
   <!-- Exemple pas à pas avec formule visible -->
   <h3>Exemple appliqué — CO₂ (10 kg)</h3>
   <div class="anim-box">
-    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">Donnée : m(CO₂) = 7,35×10⁻²⁶ kg — échantillon m = 10 kg</div>
+    <div style="font-size:1rem;color:var(--color-text-secondary);margin-bottom:10px">Donnée : m(CO₂) = 7,35×10⁻²⁶ kg — échantillon m = 10 kg</div>
 
-    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:4px">Étape 1 — calculer N :</div>
+    <div style="font-size:1rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:4px">Étape 1 — calculer N :</div>
     <div class="formula-applied">N = m<sub>échantillon</sub> / m<sub>entité</sub> = 10 / (7,35×10⁻²⁶)</div>
     <div class="arrow-down">↓</div>
     <div class="result-highlight">N = 1,4×10²⁶ molécules</div>
 
-    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:12px 0 4px">Étape 2 — calculer n :</div>
+    <div style="font-size:1rem;font-weight:600;color:var(--color-text-secondary);margin:12px 0 4px">Étape 2 — calculer n :</div>
     <div class="formula-applied">n = N / N<sub>A</sub> = (1,4×10²⁶) / (6,02×10²³)</div>
     <div class="arrow-down">↓</div>
     <div class="result-highlight">n = 2,3×10² mol</div>
@@ -455,9 +512,9 @@ button.cap-toggle:hover{background:#1e4466}
 
   <h3>Animation — l'échelle de la mole</h3>
   <div class="anim-box">
-    <div style="font-size:14px;margin-bottom:8px;color:var(--color-text-secondary)">Si on comptait 1 milliard d'entités par seconde, combien de temps pour compter 1 mole ?</div>
+    <div style="font-size:1rem;margin-bottom:8px;color:var(--color-text-secondary)">Si on comptait 1 milliard d'entités par seconde, combien de temps pour compter 1 mole ?</div>
     <canvas id="timeCanvas" style="display:block;width:100%;height:80px"></canvas>
-    <div style="font-size:13px;color:var(--color-text-secondary);text-align:center;margin-top:6px">Résultat : ≈ <strong style="color:#185FA5">19 millions d'années</strong></div>
+    <div style="font-size:1rem;color:var(--color-text-secondary);text-align:center;margin-top:6px">Résultat : ≈ <strong style="color:#185FA5">19 millions d'années</strong></div>
     <button style="margin-top:10px" onclick="animTime()">Animer</button>
   </div>
 
@@ -485,56 +542,10 @@ button.cap-toggle:hover{background:#1e4466}
   </div>
 
   <!-- Exercice 1 : cola -->
-  <div class="exo-card">
-    <div class="exo-title"><span class="badge-exo">Exercice 1</span> Acide phosphorique dans 1 L de cola</div>
-    <div style="font-size:14px;margin-bottom:12px">m = 0,50 g — m<sub>entité</sub> = 1,63×10⁻²⁵ kg</div>
-
-    <div class="step-row">
-      <div class="step-num">1</div>
-      <div style="flex:1">
-        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Convertir m en kg :</div>
-        <div class="formula-applied" style="text-align:left;font-size:13px">m (kg) = m (g) × 10⁻³</div>
-        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>m = </label><input type="text" id="e3s1" placeholder="?.??e-?? kg" style="width:150px;font-family:var(--font-mono);font-size:13px"></div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">2</div>
-      <div style="flex:1">
-        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Calculer N :</div>
-        <div class="formula-applied" style="text-align:left;font-size:13px">N = m<sub>échantillon</sub> / m<sub>entité</sub></div>
-        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>N = </label><input type="text" id="e3s2" placeholder="?.??e??" style="font-family:var(--font-mono);font-size:13px"></div>
-      </div>
-    </div>
-
-    <div class="step-row">
-      <div class="step-num">3</div>
-      <div style="flex:1">
-        <div style="font-size:14px;padding-top:2px;margin-bottom:4px">Calculer n :</div>
-        <div class="formula-applied" style="text-align:left;font-size:13px">n = N / N<sub>A</sub></div>
-        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>n = </label><input type="text" id="e3s3" placeholder="?.?e-? mol" style="width:130px;font-family:var(--font-mono);font-size:13px"><span style="font-size:13px">mol</span></div>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-      <button onclick="checkE3(1)">Étape 1</button>
-      <button onclick="checkE3(2)">Étape 2</button>
-      <button onclick="checkE3(3)">Étape 3</button>
-    </div>
-    <div id="fb3" class="fb"></div>
-  </div>
+  
 
   <!-- Exercice 2 : atomes dans 1 mole -->
-  <div class="exo-card">
-    <div class="exo-title"><span class="badge-exo">Exercice 2</span> Atomes dans 1 mole</div>
-    <div style="font-size:14px;margin-bottom:6px">En utilisant <strong>N = n × N<sub>A</sub></strong> :</div>
-    <div class="formula-applied" style="text-align:left;font-size:13px;margin-bottom:12px">N = n × N<sub>A</sub> = 1 mol × 6,02×10²³ mol⁻¹</div>
-    <div style="font-size:14px;margin-bottom:8px;color:var(--color-text-secondary)">Combien d'atomes Fe dans 1 mol de fer ? Combien d'atomes H dans 1 mol de H₂O ?</div>
-    <div class="inp-row"><label>N(Fe) = </label><input type="text" id="e4a" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:13px"></div>
-    <div class="inp-row"><label>N(H) = </label><input type="text" id="e4b" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:13px"></div>
-    <button onclick="checkE4()">Vérifier</button>
-    <div id="fb4" class="fb"></div>
-  </div>
+  
   
 </div></div>
   <!-- /cours-III -->
@@ -544,35 +555,397 @@ button.cap-toggle:hover{background:#1e4466}
 
 <!-- ══════════════════ TAB 2 — ACTIVITÉS ══════════════════ -->
 <div class="panel" id="tab-activites">
-  <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'act-1')">⚫ Activité 1</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-2')">🧪 Activité 2 (TP)</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-3')">🖥️ Activité 3 (numérique)</button>
+  </div>
+
+  <div class="sub-tab-content active" id="act-1">
+  <div class="card">
+  <div class="section-title"><span class="icon">⚫</span> Activité : Une autre façon de compter</div>
+
+  <div class="activite-card">
+    <h3>Une autre façon de compter</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>Objectif :</strong> le chimiste doit, dans ses activités, dénombrer les entités (atomes, molécules ou ions) contenues dans un échantillon de matière. La quantité de matière lui permet de compter d'une autre façon. L'objectif de l'activité est de savoir compter en utilisant cette nouvelle grandeur : la quantité de matière.
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>Doc. 1 — Le charbon végétal</h3>
+    <img alt="Doc. 1 : Le charbon végétal — remède contre les troubles digestifs, obtenu par combustion de végétaux, constitué de l'espèce chimique carbone" src="AD1-1.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+
+  <div class="activite-card">
+    <h3>Doc. 2 — Une nouvelle grandeur pour les chimistes</h3>
+    <img alt="Doc. 2 : hypothèse d'Avogadro, détermination du nombre d'Avogadro par Jean Perrin, relation entre quantité de matière n et nombre d'entités N" src="AD1-2.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+
+  <div class="activite-card">
+    <h3>Données</h3>
+    <img alt="Données : représentation du noyau de carbone 12, masse d'un proton/neutron assimilée à 1,67×10⁻²⁷ kg" src="AD1-3.png" style="width:40%;max-width:700px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+
+  <div class="activite-card">
+    <h3>1. [APP] S'approprier</h3>
+    <div class="question-block">
+      <div class="question-label">De quel type sont les entités contenues dans le charbon végétal : atomes, molécules ou ions (doc. 1) ?</div>
+      <textarea class="rep-zone" id="r-ad1-1" placeholder="Rédigez votre réponse…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-1')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-1">Le document 1 précise que le charbon végétal est constitué de l'espèce chimique <strong>carbone</strong>. Relis la définition d'un atome, d'une molécule et d'un ion : le carbone (élément chimique seul, non associé à d'autres) correspond à l'une de ces trois catégories.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>2. [REA] Réaliser</h3>
+    <div class="question-block">
+      <div class="question-label">Déterminer la masse m<sub>C</sub> d'une entité.</div>
+      <textarea class="rep-zone" id="r-ad1-2" placeholder="Rédigez votre démarche…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-2')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-2">D'après les données, un noyau de carbone 12 contient 12 protons/neutrons, chacun de masse ≈1,67×10⁻²⁷ kg. La masse d'une entité de carbone est donc, en première approximation, égale à la masse totale de son noyau : m<sub>C</sub> = 12 × (masse d'un proton ou neutron). Pense à bien exprimer le résultat avec l'unité (kg) et un nombre cohérent de chiffres significatifs.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>3. [REA] Réaliser</h3>
+    <div class="question-block">
+      <div class="question-label">Calculer le nombre N d'entités contenues dans une gélule.</div>
+      <textarea class="rep-zone" id="r-ad1-3" placeholder="Rédigez votre démarche…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-3')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-3">Tu connais la masse totale de carbone dans une gélule (doc. 1) et la masse m<sub>C</sub> d'une seule entité (question 2). Le nombre d'entités s'obtient en divisant la masse totale par la masse d'une seule entité : N = m<sub>gélule</sub> / m<sub>C</sub>. Vérifie que les deux masses sont exprimées dans la même unité avant de diviser.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>4. [ANA-RAI] Analyser - Raisonner</h3>
+    <div class="question-block">
+      <div class="question-label">Peut-on les compter aisément ?</div>
+      <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre réponse…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-4')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-4">Regarde l'ordre de grandeur du nombre N calculé à la question 3 : compare-le à des quantités que l'on peut compter « à la main » (par dizaines, centaines…). Que peux-tu en conclure sur la possibilité de dénombrer les entités une par une ?</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>5. [REA] Réaliser</h3>
+    <div class="question-block">
+      <div class="question-label">Déterminer la quantité de matière de carbone que contient une gélule (doc. 2).</div>
+      <textarea class="rep-zone" id="r-ad1-5" placeholder="Rédigez votre démarche…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-5')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-5">Le document 2 donne la relation entre le nombre d'entités N et la quantité de matière n, à l'aide du nombre d'Avogadro N<sub>A</sub> ≈ 6,02×10²³ mol⁻¹ : n = N / N<sub>A</sub>. Réutilise la valeur de N trouvée à la question 3 pour calculer n, en mol.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>6. [VAL] Valider</h3>
+    <div class="question-block">
+      <div class="question-label">Qu'est-il préférable d'utiliser : le nombre N d'entités ou la quantité de matière n ?</div>
+      <textarea class="rep-zone" id="r-ad1-6" placeholder="Rédigez votre réponse…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-6')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-6">Compare les ordres de grandeur des deux nombres trouvés aux questions 3 et 5 (N très grand vs n plus « maniable »). Laquelle de ces deux grandeurs est plus pratique à manipuler et à écrire au quotidien pour un chimiste ?</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Synthèse [COM] Communiquer</h3>
+    <div class="question-block">
+      <div class="question-label">Expliquer l'intérêt de la grandeur quantité de matière.</div>
+      <textarea class="rep-zone" id="r-ad1-synthese" placeholder="Rédigez votre synthèse…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-synthese')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ad1-synthese">Reprends les grandes étapes de l'activité : le nombre d'entités N dans un échantillon macroscopique est immense (question 4), tandis que la quantité de matière n regroupe les entités par « paquets » de N<sub>A</sub> grâce à la relation n = N/N<sub>A</sub>. Explique en quoi cela facilite le travail du chimiste (comptage, calculs, comparaisons).</div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <div class="sub-tab-content" id="act-2">
+  <div class="card">
+  <div class="section-title"><span class="icon">🧪</span> TP : La mole, unité adaptée à notre échelle</div>
+
+  <div class="activite-card">
+    <h3>TP : La mole, unité adaptée à notre échelle</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      Une personne doit absorber quotidiennement des quantités précises en sucre, en sel et en eau pour se maintenir en bonne santé.<br>
+      <strong>Objectif :</strong> vérifier par l'expérience, avec un exemple, que la mole est une unité adaptée à l'échelle macroscopique, c'est-à-dire à notre échelle.
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>Doc. 1 — Les apports journaliers recommandés en sel, en sucre et en eau</h3>
+    <img alt="Doc. 1 : apports journaliers recommandés en sel, sucre et eau selon l'OMS" src="TP-1.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+
+  <div class="activite-card">
+    <h3>Doc. 2 — Entités et espèces chimiques</h3>
+    <img alt="Doc. 2 : entités et espèces chimiques, saccharose et chlorure de sodium" src="TP-2.png" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+
+  <div class="activite-card">
+    <h3>Données</h3>
+    <img alt="Données : masses des atomes d'hydrogène, carbone, oxygène, sodium, chlore et masse volumique de l'eau" src="TP-3.png" style="width:100%;max-width:700px;display:block;margin:0 auto;border-radius:8px;">
+    <p style="font-size:0.85rem;margin-top:10px;background:var(--gris-fond);border-radius:8px;padding:10px 14px;">
+      <strong>Matériel à disposition :</strong> 1 cuillère – 2 coupelles – 1 balance – sel en poudre – sucre en poudre – sucre en morceaux.
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>1. [ANA-RAI] Élaborer un protocole <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(5 à 10 min max)</span></h3>
+    <div class="question-block">
+      <div class="question-label">a. Proposer un protocole pour vérifier que l'apport journalier recommandé en sel correspond bien à la donnée de l'OMS en cuillerée (doc. 1).</div>
+      <textarea class="rep-zone" id="r-tp-1a" placeholder="Rédigez votre protocole…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1a')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-tp-1a">Le doc. 1 annonce une masse de sel recommandée par jour et une équivalence approximative en cuillerées à café. Pense à utiliser la balance pour peser cette masse de sel, puis à la transvaser dans une cuillère à café pour comparer le résultat obtenu à l'affirmation du document.</div>
+    </div>
+    <div class="question-block">
+      <div class="question-label">b. Proposer un protocole pour déterminer le nombre de sucres en morceaux qu'une personne peut absorber quotidiennement sans nuire à sa santé (doc. 1).</div>
+      <textarea class="rep-zone" id="r-tp-1b" placeholder="Rédigez votre protocole…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1b')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-tp-1b">Il faut d'abord connaître la masse d'un seul morceau de sucre (pesée à la balance), puis comparer cette masse à la masse journalière de sucre recommandée par l'OMS (doc. 1) pour en déduire un nombre de morceaux.</div>
+    </div>
+  </div>
+
+  <div class="activite-card" style="background:var(--bleu-clair);border-left-color:var(--bleu);">
+    <h3 style="color:var(--bleu);">📞 APPEL 1</h3>
+    <p style="font-size:0.88rem;">Faire vérifier vos deux protocoles par le professeur avant de passer à l'étape suivante.</p>
+  </div>
+
+  <div class="activite-card">
+    <h3>2. [REA] Mettre en œuvre chaque protocole <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(15 min max)</span></h3>
+    <div class="question-block">
+      <div class="question-label">Réaliser les manipulations et noter vos mesures (masses pesées, observations…).</div>
+      <textarea class="rep-zone" id="r-tp-2" placeholder="Notez vos résultats expérimentaux…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-2')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-tp-2">Pense à noter systématiquement l'unité de chaque mesure (g) et à répéter la pesée si besoin pour être sûr de ta valeur. Organise tes résultats clairement, par exemple sous forme de petit tableau (sel / sucre).</div>
+    </div>
+  </div>
+
+  <div class="activite-card" style="background:var(--bleu-clair);border-left-color:var(--bleu);">
+    <h3 style="color:var(--bleu);">📞 APPEL 2</h3>
+    <p style="font-size:0.88rem;">Faire vérifier la mise en œuvre des protocoles par le professeur.</p>
+  </div>
+
+  <div class="activite-card">
+    <h3>3. [REA] Exploitation des résultats <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(20 min max)</span></h3>
+    <div class="question-block">
+      <div class="question-label">Calculer les quantités de matière n<sub>sel</sub> de sel, n<sub>sucre</sub> de sucre et n<sub>eau</sub> d'eau nécessaires chaque jour à nos besoins.</div>
+      <textarea class="rep-zone" id="r-tp-3" placeholder="Rédigez votre démarche et vos calculs…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-3')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-tp-3">Pour chaque espèce, calcule d'abord la masse d'une entité (somme des masses des atomes qui la composent, doc. 2 et Données), puis le nombre d'entités N = masse totale / masse d'une entité, puis la quantité de matière n = N / N<sub>A</sub>. Pour l'eau, utilise la masse volumique ρ pour convertir le volume journalier (1,5 L) en masse avant de commencer le calcul. N'oublie pas : NaCl est un composé ionique (une entité = un ion Na⁺ et un ion Cl⁻), le saccharose et l'eau sont des espèces moléculaires.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Synthèse [COM] Communiquer</h3>
+    <div class="question-block">
+      <div class="question-label">Expliquer pourquoi il est judicieux d'utiliser la mole à notre échelle.</div>
+      <textarea class="rep-zone" id="r-tp-synthese" placeholder="Rédigez votre synthèse…"></textarea>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-synthese')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-tp-synthese">Compare les valeurs des quantités de matière n calculées à la question 3 avec les nombres d'entités N correspondants (immenses). Explique en quoi la mole, grandeur adaptée à notre échelle (quelques dixièmes à quelques dizaines de moles ici), permet de manipuler des nombres « raisonnables » au quotidien, contrairement au dénombrement direct des entités.</div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <div class="sub-tab-content" id="act-3">
+  <div class="card">
+  <div class="section-title"><span class="icon">🖥️</span> Activité 3 — Animation interactive : la quantité de matière</div>
+
+  <div class="activite-card">
+    <h3>Animation interactive : compter avec la quantité de matière</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>Objectif :</strong> manipuler une animation interactive pour visualiser le lien entre la quantité de matière n, le nombre d'entités N et le nombre d'Avogadro N<sub>A</sub>, et consolider les méthodes de calcul vues dans les activités précédentes.
+    </p>
+    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;">
+      Ressource : <em>Physique-Chimie Seconde</em>, éditions Hatier — Hatier Clic.
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>Animation</h3>
+    <div style="position:relative;width:100%;max-width:900px;margin:0 auto;border:1.5px solid var(--gris-bord);border-radius:12px;overflow:hidden;background:var(--gris-fond);">
+      <iframe src="https://www.hatier-clic.fr/miniliens/mie/9782401049611/ai_quantitematiere/index.html" title="Animation interactive — la quantité de matière" style="width:100%;height:520px;border:0;display:block;" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <p style="text-align:center;margin-top:10px;">
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401049611/ai_quantitematiere/index.html" target="_blank" rel="noopener" style="font-size:0.85rem;font-weight:600;color:var(--bleu);text-decoration:none;">
+        ↗ Ouvrir l'animation dans un nouvel onglet
+      </a>
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>1. [APP] S'approprier — QCM</h3>
+    <div class="question-block">
+      <div class="question-label">Quelles grandeurs l'animation met-elle en jeu ?</div>
+      <div class="qcm-radio-group" id="ai1-group">
+        <label class="qcm-radio-option"><input type="radio" name="ai1" value="a">Le nombre d'entités N et la masse molaire M</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai1" value="b">Le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub></label>
+        <label class="qcm-radio-option"><input type="radio" name="ai1" value="c">La masse m et le volume V uniquement</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai1" value="d">La concentration c et le volume V</label>
+      </div>
+      <div class="qcm-actions">
+        <button class="btn-correction" onclick="checkQCM('ai1','b','fb-ai1')">✔️ Correction</button>
+        <button class="btn-recommencer" onclick="resetQCM('ai1','fb-ai1')">↺ Recommencer</button>
+      </div>
+      <div id="fb-ai1" class="fb"></div>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-1')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ai-1">Repère dans l'animation les grandeurs déjà rencontrées dans les activités précédentes : le nombre d'entités N (sans unité), la quantité de matière n (en mol) et le nombre d'Avogadro N<sub>A</sub> ≈ 6,02×10²³ mol⁻¹.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>2. [REA] Réaliser — QCM</h3>
+    <div class="question-block">
+      <div class="question-label">En faisant varier les paramètres de l'animation, quelle relation relie N, n et N<sub>A</sub> ?</div>
+      <div class="qcm-radio-group" id="ai2-group">
+        <label class="qcm-radio-option"><input type="radio" name="ai2" value="a">N = n × N<sub>A</sub></label>
+        <label class="qcm-radio-option"><input type="radio" name="ai2" value="b">N = n / N<sub>A</sub></label>
+        <label class="qcm-radio-option"><input type="radio" name="ai2" value="c">N = N<sub>A</sub> / n</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai2" value="d">n = N × N<sub>A</sub></label>
+      </div>
+      <div class="qcm-actions">
+        <button class="btn-correction" onclick="checkQCM('ai2','a','fb-ai2')">✔️ Correction</button>
+        <button class="btn-recommencer" onclick="resetQCM('ai2','fb-ai2')">↺ Recommencer</button>
+      </div>
+      <div id="fb-ai2" class="fb"></div>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-2')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ai-2">Observe comment évolue le nombre d'entités N lorsque tu augmentes ou diminues la quantité de matière n dans l'animation. Tu dois retrouver la relation déjà établie en cours : N = n × N<sub>A</sub> (ou, de façon équivalente, n = N / N<sub>A</sub>).</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>3. [ANA-RAI] Analyser - Raisonner — QCM</h3>
+    <div class="question-block">
+      <div class="question-label">Pourquoi ne peut-on pas dénombrer directement les entités à notre échelle, et en quoi la quantité de matière résout-elle ce problème ?</div>
+      <div class="qcm-radio-group" id="ai3-group">
+        <label class="qcm-radio-option"><input type="radio" name="ai3" value="a">Parce que N est trop petit pour être mesuré</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai3" value="b">Parce que N est immense (souvent 10²⁰ à 10²⁴ entités), impossible à compter une par une ; la mole permet de manipuler des nombres raisonnables</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai3" value="c">Parce que les entités sont visibles uniquement au microscope électronique</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai3" value="d">Parce que la masse molaire des entités est toujours inconnue</label>
+      </div>
+      <div class="qcm-actions">
+        <button class="btn-correction" onclick="checkQCM('ai3','b','fb-ai3')">✔️ Correction</button>
+        <button class="btn-recommencer" onclick="resetQCM('ai3','fb-ai3')">↺ Recommencer</button>
+      </div>
+      <div id="fb-ai3" class="fb"></div>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-3')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ai-3">Compare, comme dans l'activité 1, l'ordre de grandeur de N (très grand) à celui de n (quelques dixièmes à quelques dizaines de mol). La mole permet de regrouper les entités par « paquets » de N<sub>A</sub>, ce qui ramène les nombres manipulés à une échelle raisonnable.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Synthèse [COM] Communiquer — QCM</h3>
+    <div class="question-block">
+      <div class="question-label">Quelle affirmation résume le mieux ce que l'animation apporte par rapport au cours ?</div>
+      <div class="qcm-radio-group" id="ai4-group">
+        <label class="qcm-radio-option"><input type="radio" name="ai4" value="a">Elle montre que n et N sont deux grandeurs indépendantes l'une de l'autre</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai4" value="b">Elle illustre dynamiquement la relation n = N/N<sub>A</sub>, en reliant l'échelle microscopique (N) à l'échelle macroscopique mesurable (n)</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai4" value="c">Elle remplace le calcul de la masse molaire d'une espèce</label>
+        <label class="qcm-radio-option"><input type="radio" name="ai4" value="d">Elle sert uniquement à calculer des masses d'échantillons</label>
+      </div>
+      <div class="qcm-actions">
+        <button class="btn-correction" onclick="checkQCM('ai4','b','fb-ai4')">✔️ Correction</button>
+        <button class="btn-recommencer" onclick="resetQCM('ai4','fb-ai4')">↺ Recommencer</button>
+      </div>
+      <div id="fb-ai4" class="fb"></div>
+      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-synthese')">💡 Un coup de pouce ?</button>
+      <div class="aide-box" id="aide-ai-synthese">Pense à mentionner la relation n = N/N<sub>A</sub> et l'intérêt de visualiser dynamiquement le lien entre une grandeur microscopique (N) et une grandeur macroscopique et mesurable (n).</div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
 </div>
 
 <!-- ══════════════════ TAB 3 — EXERCICES ══════════════════ -->
 <div class="panel" id="tab-exercices">
 
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'exo-faciles')">🟢 Faciles</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'Données')">📌 Données</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-faciles')">🟢 Faciles</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-inter')">🟠 Intermédiaires</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-difficiles')">🔴 Difficiles</button>
     <button class="sub-tab-btn" onclick="showSub(this,'exo-escape')">🔓 Escape Game</button>
   </div>
 
-  <div class="sub-tab-content active" id="exo-faciles">
+<div class="sub-tab-content active" id="Données">
+<div class="activite-card">
+    <h3>Données pour tous les exercices de la séquence 06</h3>
+    <img src="ongletexos.png" style="width:80%;max-width:900px;display:block;margin:0 auto;border-radius:8px;">
+  </div>
+</div>
 
-  <div class="exo-card" style="border-left:4px solid var(--vert);">
+<div class="sub-tab-content" id="exo-faciles">
+  <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-cola')" type="button">Acide phosphorique dans 1 L de cola <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-atomes-mole')" type="button">Atomes dans 1 mole <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-masse-molecule')" type="button">Calculer la masse d'une molécule <span class="exo-tab-stars">★☆☆</span></button></div>
+
+  <div class="exo-item-content active" id="exoitem-cola"><div class="card" id="exo-cola" style="border-left:4px solid var(--vert);">
+    <div class="exo-title"><span class="badge-exo">Exercice 1</span> Acide phosphorique dans 1 L de cola</div>
+    <div style="font-size:1rem;margin-bottom:12px">m = 0,50 g — m<sub>entité</sub> = 1,63×10<sup style="font-size:0.65em;">-25</sup> kg</div>
+
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div style="flex:1">
+        <div style="font-size:1rem;padding-top:2px;margin-bottom:4px">Convertir m en kg :</div>
+        <div class="formula-applied" style="text-align:left;font-size:1rem">m (kg) = m (g) × 10⁻³</div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>m = </label><input type="text" id="e3s1" placeholder="?.??e-?? kg" style="width:150px;font-family:var(--font-mono);font-size:1rem"></div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div style="flex:1">
+        <div style="font-size:1rem;padding-top:2px;margin-bottom:4px">Calculer N :</div>
+        <div class="formula-applied" style="text-align:left;font-size:1rem">N = m<sub>échantillon</sub> / m<sub>entité</sub></div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>N = </label><input type="text" id="e3s2" placeholder="?.??e??" style="font-family:var(--font-mono);font-size:1rem"></div>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div style="flex:1">
+        <div style="font-size:1rem;padding-top:2px;margin-bottom:4px">Calculer n :</div>
+        <div class="formula-applied" style="text-align:left;font-size:1rem">n = N / N<sub>A</sub></div>
+        <div class="step-input-row" style="margin-left:0;margin-top:6px"><label>n = </label><input type="text" id="e3s3" placeholder="?.?e-? mol" style="width:130px;font-family:var(--font-mono);font-size:1rem"><span style="font-size:1rem">mol</span></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+      <button onclick="checkE3(1)">Étape 1</button>
+      <button onclick="checkE3(2)">Étape 2</button>
+      <button onclick="checkE3(3)">Étape 3</button>
+    </div>
+    <div id="fb3" class="fb"></div>
+  </div></div>
+
+  <div class="exo-item-content" id="exoitem-atomes-mole"><div class="card" id="exo-atomes-mole" style="border-left:4px solid var(--vert);">
+    <div class="exo-title"><span class="badge-exo">Exercice 2</span> Atomes dans 1 mole</div>
+    <div style="font-size:1rem;margin-bottom:6px">En utilisant <strong>N = n × N<sub>A</sub></strong> :</div>
+    <div class="formula-applied" style="text-align:left;font-size:1rem;margin-bottom:12px">N = n × N<sub>A</sub> = 1 mol × 6,02×10²³ mol⁻¹</div>
+    <div style="font-size:1rem;margin-bottom:8px;color:var(--color-text-secondary)">Combien d'atomes Fe dans 1 mol de fer ? Combien d'atomes H dans 1 mol de H₂O ?</div>
+    <div class="inp-row"><label>N(Fe) = </label><input type="text" id="e4a" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:1rem"></div>
+    <div class="inp-row"><label>N(H) = </label><input type="text" id="e4b" placeholder="?.??e??" style="width:130px;font-family:var(--font-mono);font-size:1rem"></div>
+    <button onclick="checkE4()">Vérifier</button>
+    <div id="fb4" class="fb"></div>
+  </div></div>
+
+  <div class="exo-item-content" id="exoitem-masse-molecule"><div class="card" id="exo-masse-molecule" style="border-left:4px solid var(--vert);">
     <div class="exo-title"><span class="badge-exo">Exercice</span> Calculer la masse d'une molécule (presque) incompréhensible 😅</div>
-    <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">Choisis une molécule au nom qui donne le tournis, puis détermine sa masse en trois étapes :</div>
+    <div style="font-size:1rem;color:var(--color-text-secondary);margin-bottom:10px">Choisis une molécule au nom qui donne le tournis, puis détermine sa masse en trois étapes :</div>
     <div class="mol-grid" id="molGridQ"></div>
 
     <div id="molQExo" style="display:none">
       <div id="molQHeader" style="margin:14px 0 10px"></div>
-      <div style="font-size:13px;font-weight:500;margin-bottom:4px;color:var(--color-text-secondary)">Données :</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:4px;color:var(--color-text-secondary)">Données :</div>
       <table class="data-table" id="dataTableQ"><thead><tr><th>Atome</th><th>Masse (kg)</th><th>Nb dans la molécule</th></tr></thead><tbody id="dataBodyQ"></tbody></table>
 
       <div class="step-row" style="margin-top:18px">
         <div class="step-num">1</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> de la masse totale de la molécule ?</div>
+          <div style="font-size:1rem;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> de la masse totale de la molécule ?</div>
           <select id="q1select" class="exo-select"></select>
           <div style="margin-top:6px"><button class="check-inline" onclick="checkQ1()">Vérifier</button></div>
           <div id="fbQ1" class="fb"></div>
@@ -582,7 +955,7 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-row" style="margin-top:14px">
         <div class="step-num">2</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir cette masse ?</div>
+          <div style="font-size:1rem;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir cette masse ?</div>
           <select id="q2select" class="exo-select"></select>
           <div style="margin-top:6px"><button class="check-inline" onclick="checkQ2()">Vérifier</button></div>
           <div id="fbQ2" class="fb"></div>
@@ -592,22 +965,425 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-row" style="margin-top:14px">
         <div class="step-num">3</div>
         <div style="flex:1">
-          <div style="font-size:14px;margin-bottom:8px">Quelle est la <strong>masse</strong> de cette molécule ?</div>
+          <div style="font-size:1rem;margin-bottom:8px">Quelle est la <strong>masse</strong> de cette molécule ?</div>
           <div class="mol-grid" id="q3grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))"></div>
           <div id="fbQ3" class="fb"></div>
         </div>
       </div>
 
-      <div style="margin-top:16px"><button onclick="nextMolQ()" style="font-size:13px">Molécule suivante →</button></div>
+      <div style="margin-top:16px"><button onclick="nextMolQ()" style="font-size:1rem">Molécule suivante →</button></div>
     </div>
-  </div>
+  </div></div>
 
   </div>
   <div class="sub-tab-content" id="exo-inter">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+  <div class="exo-tabs-nav">
+    <button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-amalgame')" type="button">Mercure dans les amalgames dentaires <span class="exo-tab-stars">★★☆</span></button>
+    <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-arome-rose')" type="button">Arôme de rose <span class="exo-tab-stars">★★☆</span></button>
+  </div>
+
+  <div class="exo-item-content active" id="exoitem-amalgame"><div class="card" id="exo-amalgame" style="border-left:4px solid var(--orange);">
+    <div class="exo-title"><span class="badge-exo">Exercice</span> Le mercure dans les amalgames dentaires</div>
+
+    <div class="exo-enonce">
+      Les amalgames dentaires sont des mélanges de métaux en poudre à base d'argent (30&nbsp;% en masse) et de mercure (50&nbsp;% en masse), encore largement utilisés dans le traitement des caries.<br>
+      Une masse <strong>m = 2,0 g</strong> d'amalgame dentaire est utilisée pour soigner une dent.<br>
+      Donnée : masse d'un atome de mercure, <strong>m<sub>Hg</sub> = 3,36×10⁻²⁵ kg</strong>.
+    </div>
+    <img src="ex30.png" alt="Composition de l'amalgame dentaire (document)" style="width:60%;max-width:420px;display:block;margin:10px auto;border-radius:8px;border:1px solid var(--color-border-secondary)">
+
+    <div class="qa-doc" style="background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>a.</strong> Exprimer puis calculer la masse m<sub>Hg</sub> de mercure présente dans l'amalgame permettant de soigner une dent.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="amalAForm" placeholder="Ex : A = B × C">
+      <div class="feedback" id="feedback-amalAForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="amalACalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-amalACalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat (avec unité) :</p>
+      <input type="text" class="blank" id="amalARes" placeholder="Ex : 10 unité">
+      <div class="feedback" id="feedback-amalARes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAmalA()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>b.</strong> Exprimer puis calculer le nombre N d'atomes de mercure présents dans cet amalgame.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="amalBForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-amalBForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="amalBCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-amalBCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="amalBRes" placeholder="?.??e?? atomes">
+      <div class="feedback" id="feedback-amalBRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAmalB()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px">
+      <p class="qa-question"><strong>c.</strong> Les données présentes dans l'énoncé sont-elles cohérentes avec le document ci-dessus ?</p>
+      <input type="text" id="amalCRep" placeholder="Rédigez votre réponse en une phrase…" style="width:100%;font-size:1rem">
+    </div>
+    <button onclick="checkAmalC()">Vérifier la question c</button>
+    <div id="fbAmalC" class="fb"></div>
+
+    <button class="correction-toggle" onclick="toggleCorrection(this,'correction-amalgame')">👁️ Afficher la correction</button>
+    <div class="correction-box" id="correction-amalgame">
+      <strong>a.</strong> m<sub>Hg</sub> = m × 50% = 2,0 × 0,50 = <strong>1,0 g</strong><br><br>
+      <strong>b.</strong> En convertissant m<sub>Hg</sub> = 1,0 g = 1,0×10⁻³ kg : N = m<sub>Hg</sub> / m<sub>atome</sub> = 1,0×10⁻³ / 3,36×10⁻²⁵ ≈ <strong>2,98×10²¹ atomes</strong><br><br>
+      <strong>c.</strong> Oui, les données sont cohérentes : le document indique un pourcentage massique d'argent compris entre 20 et 30% et de mercure entre 42 et 50%. Les valeurs de l'énoncé (30% pour Ag, 50% pour Hg) correspondent aux <strong>bornes hautes</strong> de ces intervalles.
+    </div>
+
+  </div></div>
+
+  <div class="exo-item-content" id="exoitem-arome-rose"><div class="card" id="exo-arome-rose" style="border-left:4px solid var(--orange);">
+    <div class="exo-title"><span class="badge-exo">Exercice</span> Arôme de rose</div>
+
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+      <div class="exo-enonce" style="flex:1;min-width:240px;margin-bottom:0">
+        Le citronellol, de formule brute C<sub>10</sub>H<sub>20</sub>O, est la molécule responsable de l'arôme de rose. Il faut environ 4 tonnes de pétales pour obtenir 1 kg d'huile essentielle de rose contenant 45&nbsp;% en masse de citronellol. Le seuil de détection olfactif est tel que notre nez peut en détecter une masse aussi faible que 500 femtogrammes (5,00×10⁻¹³ g).
+      </div>
+      <img src="ex40.png" alt="Illustration : arôme de rose" style="width:140px;height:120px;max-width:35%;object-fit:cover;border-radius:8px;border:1px solid var(--color-border-secondary)">
+    </div>
+
+    <div class="qa-doc" style="background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>1.</strong> Exprimer puis calculer la masse m d'une molécule de citronellol.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="aromeQ1Form" placeholder="Ex : A = B × C + D × E + ...">
+      <div class="feedback" id="feedback-aromeQ1Form"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="aromeQ1Calc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-aromeQ1Calc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat (avec unité) :</p>
+      <input type="text" class="blank" id="aromeQ1Res" placeholder="Ex : 10 unité">
+      <div class="feedback" id="feedback-aromeQ1Res"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAromeQ1()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>2.</strong> Exprimer puis calculer la quantité n de citronellol dans m = 1 kg d'huile essentielle de rose.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="aromeQ2Form" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-aromeQ2Form"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="aromeQ2Calc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-aromeQ2Calc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="aromeQ2Res" placeholder="?.?? mol">
+      <div class="feedback" id="feedback-aromeQ2Res"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAromeQ2()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>3.</strong> Exprimer puis calculer le nombre N de molécules de citronellol correspondant au seuil de détection olfactif.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="aromeQ3Form" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-aromeQ3Form"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="aromeQ3Calc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-aromeQ3Calc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="aromeQ3Res" placeholder="?.??e?? molécules">
+      <div class="feedback" id="feedback-aromeQ3Res"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAromeQ3()">✅ Vérifier et corriger</button>
+
+    <button class="correction-toggle" onclick="toggleCorrection(this,'correction-arome-rose')">👁️ Afficher la correction</button>
+    <div class="correction-box" id="correction-arome-rose">
+      <strong>1.</strong> Formule : m = 10×m(C) + 20×m(H) + m(O). Calcul : m = 10×2,00×10⁻²⁶ + 20×1,67×10⁻²⁷ + 2,67×10⁻²⁶. Résultat : m ≈ <strong>2,60×10⁻²⁵ kg</strong>.<br><br>
+      <strong>2.</strong> Formule : n = N / N<sub>A</sub> avec N = m<sub>citronellol</sub> / m. Calcul : m<sub>citronellol</sub> = 1000 × 0,45 = 450 g = 0,450 kg ; N = 0,450 / 2,60×10⁻²⁵ ≈ 1,73×10²⁴ ; n = 1,73×10²⁴ / 6,02×10²³. Résultat : n ≈ <strong>2,88 mol</strong>.<br><br>
+      <strong>3.</strong> Formule : N = m<sub>seuil</sub> / m. Calcul : m<sub>seuil</sub> = 5,00×10⁻¹³ g = 5,00×10⁻¹⁶ kg ; N = 5,00×10⁻¹⁶ / 2,60×10⁻²⁵. Résultat : N ≈ <strong>1,92×10⁹ molécules</strong>.
+    </div>
+
+  </div></div>
+
   </div>
   <div class="sub-tab-content" id="exo-difficiles">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+  <div class="exo-tabs-nav">
+    <button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-antman')" type="button">Ant-Man et les molécules d'eau <span class="exo-tab-stars">★★☆</span></button>
+    <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-riz')" type="button">Compter les grains de riz <span class="exo-tab-stars">★★★</span></button>
+  </div>
+
+<div class="exo-item-content active" id="exoitem-antman"><div class="card" id="exo-antman" style="border-left:4px solid var(--orange);">
+    <div class="exo-title"><span class="badge-exo">Exercice</span> Ant-Man et les molécules d'eau</div>
+
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+      <div class="exo-enonce" style="flex:1;min-width:240px;margin-bottom:0">
+        Dans le film <em>Ant-Man</em>, réalisé par Peyton Reed (2015), Scott se transforme en super-héros et prend la taille d'une fourmi.<br><br>
+        <strong>Données :</strong><br>
+        • masse volumique de l'eau ρ = 1,0 kg·L⁻¹<br>
+        • masses des atomes : voir onglet Données
+      </div>
+      <img src="ant-man.jpg" alt="Illustration : Ant-Man" style="width:140px;height:120px;max-width:35%;object-fit:cover;border-radius:8px;border:1px solid var(--color-border-secondary)">
+    </div>
+
+    <div class="qa-doc" style="background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>1.</strong> Avant de devenir un super-héros, Scott a une masse m<sub>S</sub> = 70 kg et a besoin de boire une bouteille d'eau de volume V = 1,5 L par jour pour se désaltérer.</p>
+    </div>
+
+    <div class="qa-doc" style="background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>a.</strong> Exprimer puis calculer la masse m<sub>eau</sub> d'une molécule d'eau.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="antman1aForm" placeholder="Ex : A = 2×B + C">
+      <div class="feedback" id="feedback-antman1aForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="antman1aCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-antman1aCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat (avec unité) :</p>
+      <input type="text" class="blank" id="antman1aRes" placeholder="Ex : 10 unité">
+      <div class="feedback" id="feedback-antman1aRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAntman1a()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>b.</strong> Exprimer puis calculer le nombre N<sub>S</sub> de molécules d'eau nécessaires à Scott pour se désaltérer quotidiennement.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="antman1bForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-antman1bForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="antman1bCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-antman1bCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="antman1bRes" placeholder="?.??e?? molécules">
+      <div class="feedback" id="feedback-antman1bRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAntman1b()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:22px;background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>2.</strong> En état de super-héros, Ant-Man a une masse voisine de celle d'une fourmi, soit m<sub>A</sub> = 1,0 mg.</p>
+    </div>
+
+    <div class="qa-doc" style="background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>a.</strong> En faisant une hypothèse, exprimer puis calculer le volume d'eau V<sub>eau</sub> nécessaire à Ant-Man pour se désaltérer quotidiennement.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="antman2aForm" placeholder="Ex : A = B × C / D">
+      <div class="feedback" id="feedback-antman2aForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="antman2aCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-antman2aCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="antman2aRes" placeholder="?.??e-?? L">
+      <div class="feedback" id="feedback-antman2aRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAntman2a()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>b.</strong> Exprimer puis calculer le nombre N<sub>A</sub> de molécules d'eau nécessaires à Ant-Man pour se désaltérer quotidiennement.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="antman2bForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-antman2bForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="antman2bCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-antman2bCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="antman2bRes" placeholder="?.??e?? molécules">
+      <div class="feedback" id="feedback-antman2bRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkAntman2b()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:12px">
+      <p class="qa-question">Ce nombre reste-t-il « considérable » ?</p>
+      <input type="text" id="antmanReflect" placeholder="Rédigez votre réponse en une phrase…" style="width:100%;font-size:1rem">
+    </div>
+    <button onclick="checkAntmanReflect()">Vérifier cette réponse</button>
+    <div id="fbAntmanReflect" class="fb"></div>
+
+    <button class="correction-toggle" onclick="toggleCorrection(this,'correction-antman')">👁️ Afficher la correction</button>
+    <div class="correction-box" id="correction-antman">
+      <strong>1a.</strong> Formule : m<sub>eau</sub> = 2×m(H) + m(O). Calcul : m<sub>eau</sub> = 2×1,67×10⁻²⁷ + 2,67×10⁻²⁶. Résultat : m<sub>eau</sub> ≈ <strong>3,00×10⁻²⁶ kg</strong>.<br><br>
+      <strong>1b.</strong> Formule : N<sub>S</sub> = m<sub>eau totale</sub> / m<sub>eau</sub>, avec m<sub>eau totale</sub> = ρ × V. Calcul : m<sub>eau totale</sub> = 1,0 × 1,5 = 1,5 kg ; N<sub>S</sub> = 1,5 / 3,00×10⁻²⁶. Résultat : N<sub>S</sub> ≈ <strong>5,0×10²⁵ molécules</strong>.<br><br>
+      <strong>2a.</strong> Hypothèse : le volume d'eau bu est proportionnel à la masse corporelle (même ratio V/m que pour Scott). Formule : V<sub>eau</sub> = V × m<sub>A</sub> / m<sub>S</sub>. Calcul : V<sub>eau</sub> = 1,5 × (1,0×10⁻⁶ / 70). Résultat : V<sub>eau</sub> ≈ <strong>2,1×10⁻⁸ L</strong>.<br><br>
+      <strong>2b.</strong> Formule : N<sub>A</sub> = m<sub>eau totale (A)</sub> / m<sub>eau</sub>, avec m<sub>eau totale (A)</sub> = ρ × V<sub>eau</sub>. Calcul : m<sub>eau totale (A)</sub> = 1,0 × 2,1×10⁻⁸ ≈ 2,1×10⁻⁸ kg ; N<sub>A</sub> = 2,1×10⁻⁸ / 3,00×10⁻²⁶. Résultat : N<sub>A</sub> ≈ <strong>7,1×10¹⁷ molécules</strong>. Ce nombre reste <strong>considérable</strong> : même réduit à la taille d'une fourmi, Ant-Man doit encore compter avec plus de 10¹⁷ molécules d'eau, un nombre bien trop grand pour être dénombré un par un.
+    </div>
+  </div></div>
+
+  <div class="exo-item-content" id="exoitem-riz"><div class="card" id="exo-riz" style="border-left:4px solid var(--orange);">
+    <div class="exo-title"><span class="badge-exo">Exercice</span> Utiliser un modèle : compter les grains de riz</div>
+
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+      <div class="exo-enonce" style="flex:1;min-width:240px;margin-bottom:0">
+        Le riz est la deuxième céréale alimentaire la plus produite dans le monde. Il existe de nombreuses variétés de riz et la production mondiale annuelle s'élève au total à m = 503 millions de tonnes, soit près de 15,9 paquets d'un kilogramme de riz produits par seconde pour l'année 2017. La Chine et l'Inde fournissent ensemble plus de la moitié du riz mondial.<br><br>
+        Un paquet de 1 kg de riz contient en moyenne N<sub>g</sub> = 40 000 grains de riz.
+      </div>
+      <img src="ex47.png" alt="Illustration : grains de riz" style="width:140px;height:120px;max-width:35%;object-fit:cover;border-radius:8px;border:1px solid var(--color-border-secondary)">
+    </div>
+
+    <div class="qa-doc" style="background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>A. Compter en « paquets de riz »</strong></p>
+    </div>
+
+    <div class="qa-doc" style="background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>a.</strong> Expliquer pourquoi le nombre de grains de riz (supposés tous identiques) par paquet de 1 kg est donné « en moyenne ».</p>
+      <input type="text" id="rizAaRep" placeholder="Rédigez votre réponse en une phrase…" style="width:100%;font-size:1rem">
+    </div>
+    <button onclick="checkRizAa()">Vérifier cette réponse</button>
+    <div id="fbRizAa" class="fb"></div>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>b.</strong> Exprimer puis calculer la masse moyenne m<sub>g</sub> d'un grain de riz.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="rizAbForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-rizAbForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="rizAbCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-rizAbCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat (avec unité) :</p>
+      <input type="text" class="blank" id="rizAbRes" placeholder="Ex : 10 unité">
+      <div class="feedback" id="feedback-rizAbRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkRizAb()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>c.</strong> Exprimer puis calculer le nombre N de grains de riz produits annuellement.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="rizAcForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-rizAcForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul (attention aux unités) :</p>
+      <input type="text" class="blank" id="rizAcCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-rizAcCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="rizAcRes" placeholder="?.??e?? grains">
+      <div class="feedback" id="feedback-rizAcRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkRizAc()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>d.</strong> Citer la grandeur évoquée dans le texte qui joue un rôle similaire à celui de la constante d'Avogadro N<sub>A</sub> utilisée pour déterminer une quantité de matière.</p>
+      <input type="text" id="rizAdRep" placeholder="Rédigez votre réponse en une phrase…" style="width:100%;font-size:1rem">
+    </div>
+    <button onclick="checkRizAd()">Vérifier cette réponse</button>
+    <div id="fbRizAd" class="fb"></div>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>e.</strong> Exprimer puis calculer le nombre p de paquets de grains de riz produits annuellement dans le monde.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="rizAeForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-rizAeForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="rizAeCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-rizAeCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="rizAeRes" placeholder="?.??e?? paquets">
+      <div class="feedback" id="feedback-rizAeRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkRizAe()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:22px;background:var(--vert-exo);border-color:var(--vert-exo-bord)">
+      <p class="qa-question"><strong>B. Compter en quantité de matière</strong></p>
+    </div>
+
+    <div class="qa-doc" style="background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>a.</strong> Calculer la quantité n de grains de riz (exprimée en mole) produite annuellement.</p>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Formule :</p>
+      <input type="text" class="blank" id="rizBaForm" placeholder="Ex : A = B / C">
+      <div class="feedback" id="feedback-rizBaForm"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Calcul :</p>
+      <input type="text" class="blank" id="rizBaCalc" placeholder="Remplacer les lettres par les valeurs">
+      <div class="feedback" id="feedback-rizBaCalc"></div>
+    </div>
+    <div class="qa-doc">
+      <p class="qa-question">Résultat :</p>
+      <input type="text" class="blank" id="rizBaRes" placeholder="?.??e-?? mol">
+      <div class="feedback" id="feedback-rizBaRes"></div>
+    </div>
+    <button class="action-btn solid" onclick="checkRizBa()">✅ Vérifier et corriger</button>
+
+    <div class="qa-doc" style="margin-top:18px;background:var(--bleu-clair);border-color:var(--bleu-moyen)">
+      <p class="qa-question"><strong>b.</strong> La mole vous paraît-elle une unité adaptée pour évaluer des quantités d'entités macroscopiques comme des grains de riz ?</p>
+      <input type="text" id="rizBbRep" placeholder="Rédigez votre réponse en une phrase…" style="width:100%;font-size:1rem">
+    </div>
+    <button onclick="checkRizBb()">Vérifier cette réponse</button>
+    <div id="fbRizBb" class="fb"></div>
+
+    <button class="correction-toggle" onclick="toggleCorrection(this,'correction-riz')">👁️ Afficher la correction</button>
+    <div class="correction-box" id="correction-riz">
+      <strong>A.a.</strong> La masse (et donc la taille) de chaque grain de riz varie légèrement d'un grain à l'autre : le nombre de grains dans 1 kg n'est donc pas rigoureusement constant d'un paquet à l'autre, d'où une valeur donnée « en moyenne ».<br><br>
+      <strong>A.b.</strong> Formule : m<sub>g</sub> = m<sub>paquet</sub> / N<sub>g</sub>. Calcul : m<sub>g</sub> = 1 / 40000. Résultat : m<sub>g</sub> ≈ <strong>2,5×10⁻⁵ kg</strong> (25 mg).<br><br>
+      <strong>A.c.</strong> Formule : N = m / m<sub>g</sub>. Calcul : m = 503 millions de tonnes = 5,03×10¹¹ kg ; N = 5,03×10¹¹ / 2,5×10⁻⁵. Résultat : N ≈ <strong>2,01×10¹⁶ grains</strong>.<br><br>
+      <strong>A.d.</strong> Le nombre de grains par paquet, N<sub>g</sub> = 40 000, joue un rôle analogue à celui de la constante d'Avogadro N<sub>A</sub> : il permet de regrouper un très grand nombre d'entités (les grains) en un « paquet » de référence plus facile à manipuler, tout comme N<sub>A</sub> regroupe des entités par mole.<br><br>
+      <strong>A.e.</strong> Formule : p = N / N<sub>g</sub>. Calcul : p = 2,01×10¹⁶ / 40000. Résultat : p ≈ <strong>5,03×10¹¹ paquets</strong> (cohérent avec 15,9 paquets/s sur une année : 5,03×10¹¹ / (365×24×3600) ≈ 15,9 paquets/s ✓).<br><br>
+      <strong>B.a.</strong> Formule : n = N / N<sub>A</sub>. Calcul : n = 2,01×10¹⁶ / 6,02×10²³. Résultat : n ≈ <strong>3,34×10⁻⁸ mol</strong>.<br><br>
+      <strong>B.b.</strong> Non, la mole n'est pas une unité adaptée ici : elle a été construite pour compter des entités microscopiques (atomes, molécules) extrêmement nombreuses (N<sub>A</sub> ≈ 6,02×10²³). Pour des objets macroscopiques comme des grains de riz, la quantité de matière obtenue est ridiculement petite (3,34×10⁻⁸ mol) : il est bien plus pertinent de compter directement en grains ou en paquets, comme fait en partie A.
+    </div>
+
+  </div></div>
+
   </div>
   <div class="sub-tab-content" id="exo-escape">
     <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
@@ -648,7 +1424,7 @@ button.cap-toggle:hover{background:#1e4466}
     <div class="section-title" style="margin-top:22px;"><span class="icon">🏛️</span> Histoire des sciences</div>
     <a href="https://view.genially.com/6a326a04285f20a29c6e84b0" target="_blank" class="vid-box" style="display:block;text-decoration:none;cursor:pointer">
       <span style="font-size:32px" aria-hidden="true">🕰️</span>
-      <div style="font-size:14px;color:#185FA5;font-weight:500;margin-top:10px">Découvrir la frise interactive — Histoire de la mole</div>
+      <div style="font-size:1rem;color:#185FA5;font-weight:600;margin-top:10px">Découvrir la frise interactive — Histoire de la mole</div>
     </a>
   </div>
   <!-- /bilan-sub-0 -->
@@ -759,10 +1535,28 @@ document.getElementById("capToggle").addEventListener("click", function () {
     : "📋 Capacités exigibles";
 });
 
+function toggleAide(btn, id) {
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? "💡 Masquer l'aide" : "💡 Un coup de pouce ?";
+}
+function toggleCorrection(btn, id) {
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('open');
+  btn.textContent = open ? "🙈 Masquer la correction" : "👁️ Afficher la correction";
+}
 function showSub(btn, id) {
   const panel = btn.closest('.panel');
   panel.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
   panel.querySelectorAll('.sub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+function showExoItem(btn, id){
+  const panel = btn.closest('.sub-tab-content');
+  if(!panel) return;
+  panel.querySelectorAll('.exo-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
@@ -803,6 +1597,38 @@ function parseVal(s){return parseFloat(String(s).replace(',','.').replace(/[×x]
 function approxEq(a,b,pct=0.06){return b!==0&&Math.abs(a-b)/Math.abs(b)<pct;}
 function setFb(id,type,msg){const el=document.getElementById(id);el.className='fb '+type;el.innerHTML=msg;el.style.display='block';}
 
+const QCM_EXPL={
+  ai1:{ok:"✓ Exact ! L'animation met en scène le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub>.",ko:"✗ Ce ne sont pas les bonnes grandeurs. Relance l'animation et repère celles qui apparaissent réellement : N, n et N<sub>A</sub>."},
+  ai2:{ok:"✓ Exact ! N = n × N<sub>A</sub> (ce qui équivaut à n = N / N<sub>A</sub>).",ko:"✗ Reprends l'observation de l'animation : quand n augmente, N augmente proportionnellement, dans le rapport N<sub>A</sub>. La relation est N = n × N<sub>A</sub>."},
+  ai3:{ok:"✓ Exact ! N est un nombre immense, impossible à dénombrer un par un ; la mole regroupe les entités par paquets de N<sub>A</sub> pour manipuler des nombres raisonnables.",ko:"✗ Reviens sur l'ordre de grandeur de N (souvent 10²⁰ à 10²⁴) : c'est ce nombre gigantesque qui rend le comptage direct impossible, pas la taille ou la visibilité des entités."},
+  ai4:{ok:"✓ Exact ! L'animation illustre dynamiquement la relation n = N/N<sub>A</sub>, qui relie l'échelle microscopique (N) et l'échelle macroscopique mesurable (n).",ko:"✗ Reviens à l'objectif de l'animation : elle sert à visualiser le lien entre N et n via N<sub>A</sub>, pas à remplacer d'autres calculs ni à montrer une indépendance entre les grandeurs."}
+};
+function checkQCM(group,correctValue,fbId){
+  const selected=document.querySelector('input[name="'+group+'"]:checked');
+  const options=document.querySelectorAll('#'+group+'-group .qcm-radio-option');
+  options.forEach(opt=>{
+    const input=opt.querySelector('input');
+    opt.classList.remove('correct','wrong');
+    input.disabled=true;
+    if(input.value===correctValue) opt.classList.add('correct');
+    else if(selected && input.value===selected.value) opt.classList.add('wrong');
+  });
+  if(!selected){setFb(fbId,'ko','Sélectionne une réponse avant de valider la correction.');return;}
+  const isOk=selected.value===correctValue;
+  setFb(fbId,isOk?'ok':'ko',QCM_EXPL[group][isOk?'ok':'ko']);
+}
+function resetQCM(group,fbId){
+  const options=document.querySelectorAll('#'+group+'-group .qcm-radio-option');
+  options.forEach(opt=>{
+    const input=opt.querySelector('input');
+    opt.classList.remove('correct','wrong');
+    input.disabled=false;
+    input.checked=false;
+  });
+  const fb=document.getElementById(fbId);
+  fb.className='fb';fb.innerHTML='';fb.style.display='none';
+}
+
 let currentMol=null,molIdx=0,stepResults=[];
 
 function buildMolGrid(){
@@ -820,13 +1646,13 @@ function loadMol(idx){
   document.querySelectorAll('.mol-btn').forEach((b,i)=>b.classList.toggle('selected',i===idx));
   document.getElementById('molExo').style.display='block';
   const mol=currentMol;
-  document.getElementById('molHeader').innerHTML='<span style="background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px">'+mol.label+'</span> <strong style="font-size:15px">'+mol.name+'</strong>';
+  document.getElementById('molHeader').innerHTML='<span style="background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px">'+mol.label+'</span> <strong style="font-size:15px">'+mol.name+'</strong>';
   document.getElementById('molFinalLabel').textContent='m('+mol.label+')';
 
   const tbody=document.getElementById('dataBody');tbody.innerHTML='';
   Object.entries(mol.comp).forEach(([sym,cnt])=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td><span class="atom-dot" style="background:${ATOM_COLORS[sym]||'#888'}"></span>${sym}</td><td>${fmtSci(ATOMS[sym]||0)}</td><td style="font-weight:500">${cnt}</td>`;
+    tr.innerHTML=`<td><span class="atom-dot" style="background:${ATOM_COLORS[sym]||'#888'}"></span>${sym}</td><td>${fmtSci(ATOMS[sym]||0)}</td><td style="font-weight:600">${cnt}</td>`;
     tbody.appendChild(tr);
   });
 
@@ -879,13 +1705,34 @@ function checkC3(btn){
 }
 function nextMol(){loadMol((molIdx+1)%MOLS.length);}
 
+// Plage réelle de log10(N) atteignable par les curseurs (masse × liste des molécules),
+// calculée une seule fois pour caler le remplissage du bécher sur ses vraies bornes
+// (au lieu des constantes figées 15/12 qui ne couvraient qu'une fraction de la course).
+let _logNRange=null;
+function getLogNRange(){
+  if(_logNRange) return _logNRange;
+  const slMEl=document.getElementById('slM');
+  const massMinKg=parseFloat(slMEl.min)/1000;
+  const massMaxKg=parseFloat(slMEl.max)/1000;
+  const meValues=[...document.getElementById('slMol').options].map(o=>parseFloat(o.value));
+  let min=Infinity,max=-Infinity;
+  meValues.forEach(me=>{
+    const l1=Math.log10(massMinKg/me);
+    const l2=Math.log10(massMaxKg/me);
+    min=Math.min(min,l1,l2);
+    max=Math.max(max,l1,l2);
+  });
+  _logNRange={min,max};
+  return _logNRange;
+}
 function updateN(){
   const mg=parseFloat(document.getElementById('slM').value);
   const m=mg/1000;
   const me=parseFloat(document.getElementById('slMol').value);
   document.getElementById('slMv').textContent=mg+' g';
   const N=m/me;
-  const e=Math.floor(Math.log10(Math.abs(N)));
+  const logN=Math.log10(Math.abs(N));
+  const e=Math.floor(logN);
   const mant=(N/Math.pow(10,e)).toFixed(2);
   const row=document.getElementById('odoRow');
   row.innerHTML='';
@@ -901,7 +1748,8 @@ function updateN(){
   const expBox=document.createElement('div');
   expBox.className='odo-exp';expBox.textContent=e;
   row.appendChild(expBox);
-  const orderOfMag=Math.max(0,Math.min(1,(e-15)/12));
+  const {min:logNMin,max:logNMax}=getLogNRange();
+  const orderOfMag=Math.max(0,Math.min(1,(logN-logNMin)/(logNMax-logNMin)));
   document.getElementById('beakerFill').setAttribute('y', 83-33*orderOfMag);
   document.getElementById('beakerFill').setAttribute('height', 33*orderOfMag);
   document.getElementById('beakerLine').setAttribute('y1', 83-33*orderOfMag);
@@ -921,7 +1769,7 @@ function updateMole(){
   const shown=Math.min(full,15);
   for(let i=0;i<shown;i++){
     const p=document.createElement('div');
-    p.style.cssText='width:36px;height:36px;border-radius:8px;background:#EAF3DE;border:0.5px solid #97C459;display:flex;align-items:center;justify-content:center;font-size:11px;color:#27500A;font-weight:500';
+    p.style.cssText='width:36px;height:36px;border-radius:8px;background:#EAF3DE;border:0.5px solid #97C459;display:flex;align-items:center;justify-content:center;font-size:11px;color:#27500A;font-weight:600';
     p.textContent='Nₐ';
     viz.appendChild(p);
   }
@@ -1021,6 +1869,277 @@ function checkE4(){
   setFb('fb4',ok?'ok':'ko',msg);
 }
 
+// ===== Exercice intermédiaire — Amalgames dentaires =====
+function normMaths(s){ return String(s).trim().toLowerCase().replace(/\s+/g,'').replace(/,/g,'.'); }
+function normTxt(s){ return String(s).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+function setFieldAmal(id, ok, msg){
+  const input=document.getElementById(id);
+  const fb=document.getElementById('feedback-'+id);
+  input.classList.remove('correct','wrong');
+  input.classList.add(ok?'correct':'wrong');
+  fb.textContent=msg;
+  fb.className='feedback '+(ok?'ok':'ko');
+}
+
+function checkAmalA(){
+  const form=normMaths(document.getElementById('amalAForm').value);
+  const calc=normMaths(document.getElementById('amalACalc').value);
+  const res=parseVal(document.getElementById('amalARes').value);
+
+  const formOk=(form.includes('mhg')||form.includes('hg'))&&(form.includes('0.5')||form.includes('50%')||form.includes('50'));
+  setFieldAmal('amalAForm',formOk,formOk?'✅ Correct ! m_Hg = m × 50%':'❌ Indice : m_Hg représente 50% de la masse totale m de l\'amalgame (écris 50% sous forme décimale : 0,50).');
+
+  const calcOk=calc.includes('2')&&(calc.includes('0.5')||calc.includes('50%')||calc.includes('50'));
+  setFieldAmal('amalACalc',calcOk,calcOk?'✅ Correct ! Calcul : 2,0 × 0,50':'❌ Indice : remplace m par 2,0 g et 50% par 0,50 dans ta formule.');
+
+  const resOk=approxEq(res,1.0);
+  setFieldAmal('amalARes',resOk,resOk?'✅ Excellent ! m_Hg = 1,0 g':'❌ Refais le calcul : 2,0 × 0,50.');
+}
+
+function checkAmalB(){
+  const form=normMaths(document.getElementById('amalBForm').value);
+  const calc=normMaths(document.getElementById('amalBCalc').value);
+  const res=parseVal(document.getElementById('amalBRes').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&(form.includes('mhg')||form.includes('hg'));
+  setFieldAmal('amalBForm',formOk,formOk?'✅ Correct ! N = m_Hg / m_atome':'❌ Indice : N s\'obtient en divisant la masse de mercure (en kg) par la masse d\'un atome de mercure.');
+
+  const calcOk=calc.includes('3.36')&&(calc.includes('1e-3')||calc.includes('0.001')||calc.includes('1.0e-3')||calc.includes('1'));
+  setFieldAmal('amalBCalc',calcOk,calcOk?'✅ Correct, pense à vérifier que m_Hg est bien convertie en kg.':'❌ Indice : convertis m_Hg en kg (1,0 g = 1,0×10⁻³ kg) avant de diviser par 3,36×10⁻²⁵ kg.');
+
+  const resOk=approxEq(res,2.98e21);
+  setFieldAmal('amalBRes',resOk,resOk?'✅ Excellent ! N ≈ 2,98×10²¹ atomes':'❌ Relis les valeurs et recalcule N = 1,0×10⁻³ ÷ 3,36×10⁻²⁵.');
+}
+
+function checkAmalC(){
+  const rep=normTxt(document.getElementById('amalCRep').value);
+  const saysIncoherent=rep.includes('incoherent')||rep.includes('pas coherent')||rep.includes('non');
+  const saysCoherent=rep.includes('coherent')&&!saysIncoherent;
+  const mentionsRange=rep.includes('haut')||rep.includes('max')||rep.includes('superieur')||rep.includes('borne')||rep.includes('42')||rep.includes('20');
+
+  if(saysCoherent&&mentionsRange){
+    setFb('fbAmalC','ok','✓ Les données sont cohérentes : 30% (Ag) et 50% (Hg) correspondent aux bornes hautes des intervalles du document (Ag : 20-30% ; Hg : 42-50%).');
+  }else if(saysCoherent){
+    setFb('fbAmalC','hint','Tu as la bonne conclusion ! Précise ta justification : compare les valeurs 30% et 50% de l\'énoncé aux intervalles Ag et Hg donnés sur le document.');
+  }else{
+    setFb('fbAmalC','hint','Indice : regarde où se situent 30% (Ag) et 50% (Hg) par rapport aux intervalles Ag 20-30% et Hg 42-50% du document ci-dessus.');
+  }
+}
+
+// ===== Exercice intermédiaire — Arôme de rose (citronellol) =====
+function checkAromeQ1(){
+  const form=normMaths(document.getElementById('aromeQ1Form').value);
+  const calc=normMaths(document.getElementById('aromeQ1Calc').value);
+  const res=parseVal(document.getElementById('aromeQ1Res').value);
+
+  const formOk=form.includes('m')&&(form.includes('10')||form.includes('c'))&&(form.includes('20')||form.includes('h'))&&form.includes('o');
+  setFieldAmal('aromeQ1Form',formOk,formOk?'✅ Correct ! m = 10×m(C) + 20×m(H) + m(O)':'❌ Indice : la molécule C₁₀H₂₀O contient 10 atomes de C, 20 atomes de H et 1 atome de O — additionne leurs masses.');
+
+  const calcOk=calc.includes('2')&&calc.includes('1.67')&&calc.includes('2.67');
+  setFieldAmal('aromeQ1Calc',calcOk,calcOk?'✅ Correct ! Calcul : 10×2,00×10⁻²⁶ + 20×1,67×10⁻²⁷ + 2,67×10⁻²⁶':'❌ Indice : utilise les masses atomiques m(C)=2,00×10⁻²⁶ kg, m(H)=1,67×10⁻²⁷ kg, m(O)=2,67×10⁻²⁶ kg.');
+
+  const resOk=approxEq(res,2.60e-25);
+  setFieldAmal('aromeQ1Res',resOk,resOk?'✅ Excellent ! m ≈ 2,60×10⁻²⁵ kg':'❌ Refais le calcul : 10×2,00×10⁻²⁶ + 20×1,67×10⁻²⁷ + 2,67×10⁻²⁶.');
+}
+
+function checkAromeQ2(){
+  const form=normMaths(document.getElementById('aromeQ2Form').value);
+  const calc=normMaths(document.getElementById('aromeQ2Calc').value);
+  const res=parseVal(document.getElementById('aromeQ2Res').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&(form.includes('na')||form.includes('avogadro'));
+  setFieldAmal('aromeQ2Form',formOk,formOk?'✅ Correct ! n = N / N_A (avec N = m_citronellol / m)':'❌ Indice : calcule d\'abord N = m_citronellol / m (masse d\'une molécule trouvée en 1.), puis n = N / N_A.');
+
+  const calcOk=calc.includes('0.45')&&calc.includes('6.02');
+  setFieldAmal('aromeQ2Calc',calcOk,calcOk?'✅ Correct, pense à vérifier tes conversions d\'unités.':'❌ Indice : la masse de citronellol dans 1 kg d\'huile est 1000 × 0,45 = 450 g = 0,450 kg.');
+
+  const resOk=approxEq(res,2.88);
+  setFieldAmal('aromeQ2Res',resOk,resOk?'✅ Excellent ! n ≈ 2,88 mol':'❌ Relis les étapes : m_citronellol = 0,450 kg, N = m_citronellol / m, puis n = N / N_A.');
+}
+
+function checkAromeQ3(){
+  const form=normMaths(document.getElementById('aromeQ3Form').value);
+  const calc=normMaths(document.getElementById('aromeQ3Calc').value);
+  const res=parseVal(document.getElementById('aromeQ3Res').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&form.includes('m');
+  setFieldAmal('aromeQ3Form',formOk,formOk?'✅ Correct ! N = m_seuil / m':'❌ Indice : N s\'obtient en divisant la masse détectable (le seuil) par la masse d\'une molécule (trouvée en 1.).');
+
+  const calcOk=calc.includes('5')&&calc.includes('2.6');
+  setFieldAmal('aromeQ3Calc',calcOk,calcOk?'✅ Correct, pense à vérifier que le seuil est bien converti en kg.':'❌ Indice : convertis d\'abord 5,00×10⁻¹³ g en kg (= 5,00×10⁻¹⁶ kg) avant de diviser par m.');
+
+  const resOk=approxEq(res,1.92e9);
+  setFieldAmal('aromeQ3Res',resOk,resOk?'✅ Excellent ! N ≈ 1,92×10⁹ molécules':'❌ Relis les étapes : m_seuil = 5,00×10⁻¹⁶ kg, puis N = m_seuil / m.');
+}
+
+// ===== Exercice intermédiaire — Ant-Man et les molécules d'eau =====
+function checkAntman1a(){
+  const form=normMaths(document.getElementById('antman1aForm').value);
+  const calc=normMaths(document.getElementById('antman1aCalc').value);
+  const res=parseVal(document.getElementById('antman1aRes').value);
+
+  const formOk=(form.includes('2')&&form.includes('h'))&&form.includes('o');
+  setFieldAmal('antman1aForm',formOk,formOk?'✅ Correct ! m_eau = 2×m(H) + m(O)':'❌ Indice : la molécule d\'eau H₂O contient 2 atomes de H et 1 atome de O — additionne leurs masses.');
+
+  const calcOk=calc.includes('1.67')&&calc.includes('2.67')&&calc.includes('2');
+  setFieldAmal('antman1aCalc',calcOk,calcOk?'✅ Correct ! Calcul : 2×1,67×10⁻²⁷ + 2,67×10⁻²⁶':'❌ Indice : utilise les masses atomiques m(H)=1,67×10⁻²⁷ kg et m(O)=2,67×10⁻²⁶ kg (onglet Données).');
+
+  const resOk=approxEq(res,3.00e-26);
+  setFieldAmal('antman1aRes',resOk,resOk?'✅ Excellent ! m_eau ≈ 3,00×10⁻²⁶ kg':'❌ Refais le calcul : 2×1,67×10⁻²⁷ + 2,67×10⁻²⁶.');
+}
+
+function checkAntman1b(){
+  const form=normMaths(document.getElementById('antman1bForm').value);
+  const calc=normMaths(document.getElementById('antman1bCalc').value);
+  const res=parseVal(document.getElementById('antman1bRes').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&(form.includes('meau')||form.includes('eau'));
+  setFieldAmal('antman1bForm',formOk,formOk?'✅ Correct ! N_S = m_eau totale / m_eau':'❌ Indice : calcule d\'abord la masse totale d\'eau bue (m = ρ×V), puis divise par la masse d\'une molécule (trouvée en a.).');
+
+  const calcOk=calc.includes('1.5')&&calc.includes('3');
+  setFieldAmal('antman1bCalc',calcOk,calcOk?'✅ Correct, pense à vérifier tes unités.':'❌ Indice : la masse d\'eau bue est m = ρ×V = 1,0 × 1,5 = 1,5 kg.');
+
+  const resOk=approxEq(res,5.0e25);
+  setFieldAmal('antman1bRes',resOk,resOk?'✅ Excellent ! N_S ≈ 5,0×10²⁵ molécules':'❌ Relis les étapes : m_eau totale = 1,5 kg, puis N_S = m_eau totale / m_eau.');
+}
+
+function checkAntman2a(){
+  const form=normMaths(document.getElementById('antman2aForm').value);
+  const calc=normMaths(document.getElementById('antman2aCalc').value);
+  const res=parseVal(document.getElementById('antman2aRes').value);
+
+  const formOk=form.includes('v')&&form.includes('m')&&(form.includes('/')||form.includes('x')||form.includes('*')||form.includes('×'));
+  setFieldAmal('antman2aForm',formOk,formOk?'✅ Correct ! V_eau = V × m_A / m_S (hypothèse : consommation proportionnelle à la masse)':'❌ Indice : fais l\'hypothèse que le volume bu est proportionnel à la masse corporelle, comme pour Scott (même rapport V/m).');
+
+  const calcOk=calc.includes('1.5')&&calc.includes('70');
+  setFieldAmal('antman2aCalc',calcOk,calcOk?'✅ Correct, pense à convertir m_A en kg (1,0 mg = 1,0×10⁻⁶ kg).':'❌ Indice : V_eau = 1,5 × (m_A / 70), avec m_A en kg (1,0 mg = 1,0×10⁻⁶ kg).');
+
+  const resOk=approxEq(res,2.14e-8,0.1);
+  setFieldAmal('antman2aRes',resOk,resOk?'✅ Excellent ! V_eau ≈ 2,1×10⁻⁸ L':'❌ Relis les étapes : V_eau = 1,5 × (1,0×10⁻⁶ / 70).');
+}
+
+function checkAntman2b(){
+  const form=normMaths(document.getElementById('antman2bForm').value);
+  const calc=normMaths(document.getElementById('antman2bCalc').value);
+  const res=parseVal(document.getElementById('antman2bRes').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&(form.includes('meau')||form.includes('eau'));
+  setFieldAmal('antman2bForm',formOk,formOk?'✅ Correct ! N_A = m_eau totale (A) / m_eau':'❌ Indice : calcule d\'abord la masse d\'eau bue par Ant-Man (m = ρ×V_eau trouvé en a.), puis divise par la masse d\'une molécule.');
+
+  const calcOk=calc.includes('3')&&(calc.includes('2.1')||calc.includes('2.14')||calc.includes('e-8'));
+  setFieldAmal('antman2bCalc',calcOk,calcOk?'✅ Correct, pense à vérifier tes unités.':'❌ Indice : la masse d\'eau bue par Ant-Man est m = ρ×V_eau ≈ 1,0 × 2,1×10⁻⁸ ≈ 2,1×10⁻⁸ kg.');
+
+  const resOk=approxEq(res,7.1e17,0.1);
+  setFieldAmal('antman2bRes',resOk,resOk?'✅ Excellent ! N_A ≈ 7,1×10¹⁷ molécules':'❌ Relis les étapes : m_eau totale (A) ≈ 2,1×10⁻⁸ kg, puis N_A = m_eau totale (A) / m_eau.');
+}
+
+function checkAntmanReflect(){
+  const rep=normTxt(document.getElementById('antmanReflect').value);
+  const saysNo=rep.includes('non')||rep.includes('plus considerable')||rep.includes('pas considerable')||rep.includes('petit');
+  const saysYes=(rep.includes('oui')||rep.includes('considerable')||rep.includes('enorme')||rep.includes('grand')||rep.includes('beaucoup'))&&!saysNo;
+
+  if(saysYes){
+    setFb('fbAntmanReflect','ok','✓ Oui : même réduit à la taille d\'une fourmi, Ant-Man doit encore compter avec environ 7,1×10¹⁷ molécules — un nombre bien trop grand pour être dénombré un par un.');
+  }else{
+    setFb('fbAntmanReflect','hint','Indice : compare l\'ordre de grandeur de N_A (10¹⁷) à des quantités que l\'on peut compter « à la main ». Ce nombre est-il encore immense ?');
+  }
+}
+
+// ===== Exercice difficile — Compter les grains de riz =====
+function checkRizAa(){
+  const rep=normTxt(document.getElementById('rizAaRep').value);
+  const ok=(rep.includes('varie')||rep.includes('differe')||rep.includes('pas identique')||rep.includes('inegal'))&&(rep.includes('masse')||rep.includes('taille')||rep.includes('grain'));
+  if(ok){
+    setFb('fbRizAa','ok','✓ Exact : la masse de chaque grain varie légèrement d\'un grain à l\'autre, donc le nombre de grains dans 1 kg n\'est pas rigoureusement constant.');
+  }else{
+    setFb('fbRizAa','hint','Indice : les grains de riz sont-ils rigoureusement identiques en masse ? Que se passe-t-il alors pour le nombre de grains dans 1 kg d\'un paquet à l\'autre ?');
+  }
+}
+
+function checkRizAb(){
+  const form=normMaths(document.getElementById('rizAbForm').value);
+  const calc=normMaths(document.getElementById('rizAbCalc').value);
+  const res=parseVal(document.getElementById('rizAbRes').value);
+
+  const formOk=form.includes('m')&&(form.includes('/')||form.includes('÷'))&&(form.includes('n')||form.includes('40000'));
+  setFieldAmal('rizAbForm',formOk,formOk?'✅ Correct ! m_g = m_paquet / N_g':'❌ Indice : divise la masse d\'un paquet (1 kg) par le nombre de grains qu\'il contient.');
+
+  const calcOk=calc.includes('1')&&calc.includes('40000');
+  setFieldAmal('rizAbCalc',calcOk,calcOk?'✅ Correct ! Calcul : 1 / 40000':'❌ Indice : remplace m_paquet par 1 kg et N_g par 40 000.');
+
+  const resOk=approxEq(res,2.5e-5);
+  setFieldAmal('rizAbRes',resOk,resOk?'✅ Excellent ! m_g ≈ 2,5×10⁻⁵ kg':'❌ Refais le calcul : 1 / 40000.');
+}
+
+function checkRizAc(){
+  const form=normMaths(document.getElementById('rizAcForm').value);
+  const calc=normMaths(document.getElementById('rizAcCalc').value);
+  const res=parseVal(document.getElementById('rizAcRes').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&form.includes('m');
+  setFieldAmal('rizAcForm',formOk,formOk?'✅ Correct ! N = m / m_g':'❌ Indice : divise la masse totale de riz produite annuellement par la masse d\'un grain (trouvée en b.).');
+
+  const calcOk=calc.includes('5.03')&&calc.includes('2.5');
+  setFieldAmal('rizAcCalc',calcOk,calcOk?'✅ Correct, pense à vérifier que m est bien convertie en kg.':'❌ Indice : convertis d\'abord m = 503 millions de tonnes en kg (5,03×10¹¹ kg).');
+
+  const resOk=approxEq(res,2.01e16);
+  setFieldAmal('rizAcRes',resOk,resOk?'✅ Excellent ! N ≈ 2,01×10¹⁶ grains':'❌ Relis les étapes : m = 5,03×10¹¹ kg, puis N = m / m_g.');
+}
+
+function checkRizAd(){
+  const rep=normTxt(document.getElementById('rizAdRep').value);
+  const ok=rep.includes('ng')||rep.includes('40000')||(rep.includes('paquet')&&rep.includes('grain'));
+  if(ok){
+    setFb('fbRizAd','ok','✓ Exact : N_g = 40 000 grains par paquet joue un rôle analogue à N_A — il permet de regrouper les entités en « paquets » de référence.');
+  }else{
+    setFb('fbRizAd','hint','Indice : quelle grandeur du texte permet de regrouper un grand nombre de grains en un « paquet » de référence, comme N_A regroupe les entités en une mole ?');
+  }
+}
+
+function checkRizAe(){
+  const form=normMaths(document.getElementById('rizAeForm').value);
+  const calc=normMaths(document.getElementById('rizAeCalc').value);
+  const res=parseVal(document.getElementById('rizAeRes').value);
+
+  const formOk=form.includes('p')&&(form.includes('/')||form.includes('÷'))&&(form.includes('n')||form.includes('40000'));
+  setFieldAmal('rizAeForm',formOk,formOk?'✅ Correct ! p = N / N_g':'❌ Indice : divise le nombre total de grains (trouvé en c.) par le nombre de grains par paquet N_g.');
+
+  const calcOk=calc.includes('2.01')&&calc.includes('40000');
+  setFieldAmal('rizAeCalc',calcOk,calcOk?'✅ Correct !':'❌ Indice : remplace N par 2,01×10¹⁶ et N_g par 40 000.');
+
+  const resOk=approxEq(res,5.03e11);
+  setFieldAmal('rizAeRes',resOk,resOk?'✅ Excellent ! p ≈ 5,03×10¹¹ paquets':'❌ Relis les étapes : p = N / N_g = 2,01×10¹⁶ / 40000.');
+}
+
+function checkRizBa(){
+  const form=normMaths(document.getElementById('rizBaForm').value);
+  const calc=normMaths(document.getElementById('rizBaCalc').value);
+  const res=parseVal(document.getElementById('rizBaRes').value);
+
+  const formOk=form.includes('n')&&(form.includes('/')||form.includes('÷'))&&(form.includes('na')||form.includes('avogadro'));
+  setFieldAmal('rizBaForm',formOk,formOk?'✅ Correct ! n = N / N_A':'❌ Indice : divise le nombre de grains (trouvé en A.c.) par la constante d\'Avogadro N_A.');
+
+  const calcOk=calc.includes('2.01')&&calc.includes('6.02');
+  setFieldAmal('rizBaCalc',calcOk,calcOk?'✅ Correct !':'❌ Indice : remplace N par 2,01×10¹⁶ et N_A par 6,02×10²³.');
+
+  const resOk=approxEq(res,3.34e-8);
+  setFieldAmal('rizBaRes',resOk,resOk?'✅ Excellent ! n ≈ 3,34×10⁻⁸ mol':'❌ Relis les étapes : n = 2,01×10¹⁶ / 6,02×10²³.');
+}
+
+function checkRizBb(){
+  const rep=normTxt(document.getElementById('rizBbRep').value);
+  const saysYes=rep.includes('oui')&&!rep.includes('non');
+  const saysNo=rep.includes('non')||rep.includes('pas adapt')||rep.includes('inadapt')||rep.includes('mal adapt');
+  if(saysNo){
+    setFb('fbRizBb','ok','✓ Exact : la mole est adaptée aux entités microscopiques (N_A ≈ 6,02×10²³), pas à des objets macroscopiques comme les grains de riz — ici n est ridiculement petit (3,34×10⁻⁸ mol), mieux vaut compter en grains ou en paquets.');
+  }else if(saysYes){
+    setFb('fbRizBb','hint','Indice : compare la valeur de n trouvée en B.a. (très petite) à des quantités de matière habituelles en chimie (souvent proches de 1 mol). La mole te semble-t-elle vraiment adaptée ici ?');
+  }else{
+    setFb('fbRizBb','hint','Indice : regarde l\'ordre de grandeur de n calculé en B.a. — est-il pratique à manipuler pour décrire une quantité de grains de riz ?');
+  }
+}
+
 buildMolGrid();updateN();updateMole();initApp2();
 
 // ===== Exercice facile — masse d'une molécule (avec choix de la molécule) =====
@@ -1091,12 +2210,12 @@ function selectMolQ(idx){
   document.querySelectorAll('#molGridQ .mol-btn2').forEach((b,i)=>b.classList.toggle('selected',i===idx));
   document.getElementById('molQExo').style.display='block';
   const mol=currentMolQ;
-  document.getElementById('molQHeader').innerHTML='<span style="background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px">'+mol.label+'</span> <strong style="font-size:15px">'+mol.name+'</strong>';
+  document.getElementById('molQHeader').innerHTML='<span style="background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px">'+mol.label+'</span> <strong style="font-size:15px">'+mol.name+'</strong>';
 
   const tbody=document.getElementById('dataBodyQ');tbody.innerHTML='';
   Object.entries(mol.comp).forEach(([sym,cnt])=>{
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td><span class="atom-dot" style="background:${ATOM_COLORS[sym]||'#888'}"></span>${sym}</td><td>${fmtSci(ATOMS[sym]||0)}</td><td style="font-weight:500">${cnt}</td>`;
+    tr.innerHTML=`<td><span class="atom-dot" style="background:${ATOM_COLORS[sym]||'#888'}"></span>${sym}</td><td>${fmtSci(ATOMS[sym]||0)}</td><td style="font-weight:600">${cnt}</td>`;
     tbody.appendChild(tr);
   });
 

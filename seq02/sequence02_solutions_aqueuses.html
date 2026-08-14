@@ -222,7 +222,7 @@
     letter-spacing: 0.04em;
   }
   .def-card p, .def-card ul {
-    font-size: 0.92rem;
+    font-size: 1rem;
     line-height: 1.65;
     color: var(--texte);
   }
@@ -1081,7 +1081,7 @@
 </div>
 <nav class="tabs-nav">
 <button class="tab-btn active" onclick="switchTab(0)">📘 Cours</button>
-<button class="tab-btn" onclick="switchTab(1)">🧪 Activités</button>
+<button class="tab-btn" onclick="switchTab(1)">📚 Activités</button>
 <button class="tab-btn" onclick="switchTab(2)">✏️ Exercices</button>
 <button class="tab-btn" onclick="switchTab(3)">🗂️ Bilan &amp; Ressources</button>
 </nav>
@@ -1160,7 +1160,7 @@
 <div class="card">
 <h2>2. Concentration en masse d'un soluté</h2>
 <div class="def-card">
-<h3>Concentration en masse (titre massique)</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Concentration en masse (titre massique)</h3>
 <p>La <strong>concentration en masse</strong> (C<sub>m</sub>) ou <strong>titre massique</strong> (t) d'une solution en une espèce chimique dissoute représente la masse de soluté dissoute dans un litre de solution.</p>
 <div class="formule-box">
       C<sub>m</sub>(soluté) = m<sub>soluté</sub> / V<sub>solution</sub>
@@ -1168,7 +1168,7 @@
 </div>
 </div>
 <div class="def-card">
-<h3>Masse volumique de la solution</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">b. Masse volumique de la solution</h3>
 <p>La <strong>masse volumique</strong> ρ<sub>solution</sub> d'une solution a la même unité que la concentration massique, mais il s'agit de la masse de la <em>solution</em> et non de la masse de soluté.</p>
 <div class="formule-box" style="background:var(--vert-clair);border-color:var(--vert);">
       ρ<sub>solution</sub> = m<sub>solution</sub> / V<sub>solution</sub>
@@ -1205,7 +1205,7 @@
 <div class="card">
 <h2>3. Dissolution d'une espèce moléculaire ou ionique</h2>
 <div class="def-card">
-<h3>a) Qu'est-ce que la dissolution ?</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Qu'est-ce que la dissolution ?</h3>
 <p>La <strong>dissolution</strong> est le processus par lequel une substance solide, liquide ou gazeuse, mise au contact d'un liquide, passe à l'état de solution (les entités du soluté se dispersent de façon homogène dans le solvant).</p>
 <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
 <img alt="Étapes de la dissolution : peser le solide, l'introduire dans la fiole jaugée, ajouter de l'eau distillée, agiter pour dissoudre, puis compléter jusqu'au trait de jauge" src="dissolution_complet.png" style="width:100%;max-width:700px;display:block;margin:0 auto;"/>
@@ -1219,7 +1219,7 @@
 </div>
 </div>
 <div class="def-card">
-<h3>b) Masse de soluté à dissoudre</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">b. Masse de soluté à dissoudre</h3>
 <p>Pour préparer une solution de volume V contenant un soluté à la concentration en masse C<sub>m</sub>, la masse de soluté à dissoudre est :</p>
 <div class="formule-box">
       m<sub>soluté</sub> = C<sub>m</sub> × V
@@ -1227,7 +1227,7 @@
 </div>
 </div>
 <div class="def-card">
-<h3>c) Solution saturée</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">c. Solution saturée</h3>
 <p>Une solution est dite <strong>saturée</strong> lorsqu'elle ne peut plus dissoudre de soluté supplémentaire : tout ajout de soluté reste alors sous forme non dissoute (solide non dissous au fond du récipient, par exemple). La concentration correspondante est appelée <strong>concentration maximale</strong> C<sub>max</sub>.</p>
 </div>
 <div class="exo-card">
@@ -1275,21 +1275,21 @@
 <div class="card">
 <h2>4. Dilution d'une solution</h2>
 <div class="def-card">
-<h3>a) Qu'est-ce que la dilution ?</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Qu'est-ce que la dilution ?</h3>
 <p>La <strong>dilution</strong> consiste à diminuer la concentration d'une solution (dite <em>solution mère</em>) en y ajoutant du solvant, afin d'obtenir une <em>solution fille</em> moins concentrée.</p>
 <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin-top:12px;overflow-x:auto;">
 <img alt="Protocole de dilution : prélever le volume Vm de solution mère à la pipette jaugée, le verser dans la fiole jaugée, compléter avec de l'eau distillée jusqu'au trait de jauge pour obtenir la solution fille de volume Vf" src="dilution_complet.png" style="width:100%;max-width:900px;display:block;margin:0 auto;"/>
 </div>
 </div>
 <div class="def-card">
-<h3>b) Grandeurs qui changent ou non au cours de la dilution</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">b. Grandeurs qui changent ou non au cours de la dilution</h3>
 <ul>
 <li><strong>Ne change pas</strong> : la quantité (la masse) de soluté dissous, qui est seulement répartie dans un plus grand volume.</li>
 <li><strong>Change</strong> : le volume total de la solution (augmente) et la concentration en masse du soluté (diminue).</li>
 </ul>
 </div>
 <div class="def-card">
-<h3>c) Grandeurs caractéristiques d'une solution</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">c. Grandeurs caractéristiques d'une solution</h3>
 <ul>
 <li>La <strong>concentration en masse</strong> (ou titre massique) C<sub>m</sub> (en g·L⁻¹)</li>
 <li>La <strong>masse volumique</strong> ρ<sub>solution</sub> (en g·L⁻¹)</li>
@@ -1297,7 +1297,7 @@
 </ul>
 </div>
 <div class="def-card">
-<h3>d) Facteur de dilution</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">d. Facteur de dilution</h3>
 <p>Le <strong>facteur de dilution</strong> F est le rapport entre la concentration de la solution mère et celle de la solution fille (ou, de manière équivalente, le rapport entre le volume de solution fille et le volume de solution mère prélevé) :</p>
 <div class="formule-box">
       F = t<sub>m</sub> / t<sub>f</sub> = V<sub>f</sub> / V<sub>m</sub>
@@ -1311,7 +1311,7 @@
 </div>
 </div>
 <div class="def-card">
-<h3>e) Protocole expérimental d'une dilution</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">e. Protocole expérimental d'une dilution</h3>
 <ol style="padding-left:20px;font-size:0.92rem;line-height:1.8;">
 <li>Prélever, avec une <strong>pipette jaugée</strong> munie d'une poire à pipeter, le volume V<sub>m</sub> de solution mère calculé.</li>
 <li>Verser ce volume dans une <strong>fiole jaugée</strong> de volume V<sub>f</sub>.</li>
@@ -1319,7 +1319,7 @@
 </ol>
 </div>
 <div class="def-card">
-<h3>f) Échelle de teinte</h3>
+<h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">f. Échelle de teinte</h3>
 <p>Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.</p>
 </div>
 <div class="def-card">

@@ -528,6 +528,7 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
   display:none;
 }
 .subpanel{display:none;animation:fade .35s ease;}
+.subpanel .card h2{color:var(--orange);border-bottom-color:var(--orange-clair);}
 .subpanel.active{display:block;}
 
 .card h2{
@@ -1106,7 +1107,7 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="tabs">
 <div class="tab on" onclick="showTab(this,'cours')">📘 Cours</div>
-<div class="tab" onclick="showTab(this,'activites')">🧪 Activités</div>
+<div class="tab" onclick="showTab(this,'activites')">📚 Activités</div>
 <div class="tab" onclick="showTab(this,'exercices')">✏️ Exercices</div>
 <div class="tab" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</div>
 </div>
@@ -1115,10 +1116,10 @@ button.cap-toggle:hover { background: #1e4466; }
 <!-- ══════════════════ TAB 1 — COURS ══════════════════ -->
 <div class="panel on" id="tab-cours">
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">I. Espèce chimique → entité</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-II')">II. L'atome et son noyau</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-III')">III. Entités stables</button>
-<button class="sub-tab-btn" onclick="showSub(this,'cours-IV')">IV. Tableau périodique</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">1. Espèce chimique → entité</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-II')">2. L'atome et son noyau</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-III')">3. Entités stables</button>
+<button class="sub-tab-btn" onclick="showSub(this,'cours-IV')">4. Tableau périodique</button>
 </div>
 <!-- ===== I. Espèce chimique → entité ===== -->
 <div class="sub-tab-content active" id="cours-I">

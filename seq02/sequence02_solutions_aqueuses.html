@@ -455,6 +455,25 @@
   .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
   .btn-correction:active { transform: translateY(0); }
 
+  .btn-verif {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 9px 20px;
+    background: var(--bleu);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-verif:hover { background: #244B6B; transform: translateY(-1px); }
+  .btn-verif:active { transform: translateY(0); }
+
   .correction {
     display: none;
     background: #F0FAF6;
@@ -599,7 +618,7 @@
   }
   .btn-calc {
     padding: 9px 22px;
-    background: var(--orange);
+    background: var(--bleu);
     color: white;
     border: none;
     border-radius: 8px;
@@ -610,7 +629,7 @@
     transition: background 0.2s;
     margin-top: 4px;
   }
-  .btn-calc:hover { background: #C9622A; }
+  .btn-calc:hover { background: #244B6B; }
   .calc-result {
     display: none;
     background: var(--vert-clair);
@@ -1384,10 +1403,14 @@
 <h3>1. S'approprier</h3>
 <div class="question-block">
 <div class="question-label">a. Citer le solvant des boissons énergisantes et au moins deux solutés de ces solutions.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-1a')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-1a">Le solvant est le liquide majoritaire de la solution. Les solutés sont les espèces dissoutes en plus petite quantité (cite-en au moins deux d'après le document 1 ou 2).</div>
 <textarea class="rep-zone" id="r-ad1-1a" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">b. Citer le numéro de la boisson de 250 mL qui permet d'ingérer le moins de caféine si cette boisson est bue en totalité.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-1b')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-1b">Compare directement les masses (ou concentrations) de caféine indiquées pour chaque boisson dans le document : la quantité ingérée dépend de la composition de la boisson bue en totalité.</div>
 <textarea class="rep-zone" id="r-ad1-1b" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
@@ -1395,10 +1418,14 @@
 <h3>2. Réaliser</h3>
 <div class="question-block">
 <div class="question-label">a. Calculer la masse de caféine contenue dans la boisson numéro 1.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-2a')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-2a">Relève dans le document la teneur en caféine (souvent donnée en mg/L ou mg/100 mL) et le volume total de la boisson n°1, puis combine ces deux données pour obtenir une masse.</div>
 <textarea class="rep-zone" id="r-ad1-2a" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">b. On appelle <strong>concentration en masse</strong> c<sub>m</sub> de caféine dans une boisson la masse de caféine par unité de volume de boisson. Calculer la concentration en masse de caféine, exprimée en grammes par litre (g·L⁻¹), dans la première, puis dans la deuxième boisson.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-2b')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-2b">Utilise c<sub>m</sub> = m<sub>caféine</sub> / V<sub>boisson</sub>. Attention aux unités : convertis la masse en grammes et le volume en litres avant de diviser.</div>
 <textarea class="rep-zone" id="r-ad1-2b" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 </div>
@@ -1407,10 +1434,14 @@
 <div class="question-block">
 <div class="question-label">a. Choisir, parmi les quatre expressions suivantes, celle qui définit la concentration en masse c<sub>m</sub> d'un soluté dans une solution, m désignant une masse et V un volume :<br/>
       c<sub>m</sub> = m<sub>solution</sub>/V<sub>soluté</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>solution</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>soluté</sub></div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-3a')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-3a">La concentration en masse compare la quantité de soluté dissous (pas la solution entière) au volume total de la solution obtenue (pas au volume du soluté seul).</div>
 <textarea class="rep-zone" id="r-ad1-3a" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">b. La masse volumique de la boisson numéro 2 est ρ = 1 100 g·L⁻¹. Déterminer un point commun et une différence entre la masse volumique de la boisson et la concentration en masse de caféine de la boisson.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-3b')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-3b">Les deux grandeurs se calculent comme un rapport masse/volume (même unité g·L⁻¹), mais l'une porte sur la solution entière et l'autre uniquement sur le soluté dissous.</div>
 <textarea class="rep-zone" id="r-ad1-3b" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
@@ -1418,6 +1449,8 @@
 <h3>4. Valider</h3>
 <div class="question-block">
 <div class="question-label">D'après l'EFSA, pour la seule analyse de la caféine, boire deux cannettes par jour de la troisième boisson énergisante ne présente pas de risque pour la santé d'un adulte. Valider cette recommandation par un calcul approprié.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-4')">💡 Indice</button>
+<div class="indice-box" id="ind-ad1-4">Calcule d'abord la masse de caféine ingérée en buvant deux cannettes de la troisième boisson, puis compare-la à la dose journalière maximale recommandée par l'EFSA pour un adulte.</div>
 <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 </div>
@@ -1807,7 +1840,7 @@
 <tr><td>Eau de toilette</td><td><input class="tbl-input" id="r-toil-solvant" placeholder="…"/></td><td><input class="tbl-input" id="r-toil-solute" placeholder="…"/></td></tr>
 </tbody>
 </table>
-<button class="btn-correction" onclick="verifierTableau1()">✓ Vérifier mes réponses</button>
+<button class="btn-verif" onclick="verifierTableau1()">✓ Vérifier mes réponses</button>
 <button class="btn-recommencer" onclick="reinitialiserTableau1()">↺ Recommencer</button>
 <div class="calc-result" id="verif-tableau1-result"></div>
 <button class="btn-correction" onclick="toggleCorr('corr-tableau1')" style="margin-top:10px;">▶ Voir le corrigé complet</button>

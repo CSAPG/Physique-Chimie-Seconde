@@ -29,6 +29,8 @@
     --rouge-clair: #FDEDEC;
     --violet: #7B4FA6;
     --violet-clair: #F3EDF9;
+    --indice: #C98A00;
+    --indice-clair: #FFF6E0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -427,6 +429,12 @@
     transition: border-color 0.2s;
   }
   .rep-zone:focus { outline: none; border-color: var(--vert); }
+
+  .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
+  .btn-indice:hover { background: var(--indice); color: white; }
+  .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
+  .indice-box.visible { display: block; animation: fadeIn 0.2s ease; }
+  .indice-box strong { color: var(--indice); }
 
   .btn-correction {
     display: inline-flex;
@@ -1349,15 +1357,15 @@
 </div><!-- fin tab-0 Cours -->
 <div class="tab-content" id="tab-1">
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')">🧃 Activité 1</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')">🏭 Activité 2</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')">⚗️ Simu. concentration</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')">🥽 TP4 : Dissolution-Coca</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🎨 TP5 étalonnage</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')"> Activité 1</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')"> Activité 2 - Appli. Hatier</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')">Activité 3 -  Simu. concentration</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')"> TP4 : Dissolution-Coca</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">TP5 étalonnage</button>
 </div>
 <div class="sub-tab-content active" id="act-sub-1">
 <div class="card">
-<div class="section-title"><span class="icon">🧃</span> Activité 1 p40 : Caféine dans les boissons énergisantes</div>
+<div class="section-title">Activité 1 p40 : Caféine dans les boissons énergisantes</div>
 <div class="activite-card">
 <h3>Activité 1 p40 : Caféine dans les boissons énergisantes</h3>
 <p style="font-size:0.9rem;line-height:1.6;">
@@ -1417,7 +1425,7 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-2">
 <div class="card">
-<div class="section-title"><span class="icon">🏭</span> Activité 2 : Contrôle du travail d'un fabricant</div>
+<div class="section-title"> Activité 2 : Contrôle du travail d'un fabricant</div>
 <div class="activite-card">
 <h3>Activité 2 : Contrôle du travail d'un fabricant</h3>
 <p style="font-size:0.9rem;line-height:1.6;">À compléter avec l'application : remplir la fiche de cours partie 2.</p>
@@ -1431,7 +1439,7 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-3">
 <div class="card">
-<div class="section-title"><span class="icon">⚗️</span> Simulation — Concentration d'une solution</div>
+<div class="section-title">Activité 3 :Simulation — Concentration d'une solution</div>
 <div class="exo-card">
 <div class="exo-header">
 <h3>Simulation – Concentration d'une solution</h3>
@@ -1463,22 +1471,32 @@
 </div>
 <div class="question-block">
 <div class="question-label">1. Lorsqu'on ajoute progressivement du soluté dans l'eau (volume constant), comment évolue l'intensité de la couleur de la solution ? À quelle grandeur physique cette évolution est-elle liée ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-simu1')">💡 Indice</button>
+<div class="indice-box" id="ind-simu1">Observe le rapport entre la masse de soluté dissous et le volume de solution : c'est la définition même de la concentration en masse C<sub>m</sub>.</div>
 <textarea class="rep-zone" id="r-simu1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Relevez sur l'interface une masse de soluté dissous et le volume de solution correspondant. Retrouvez par le calcul la valeur de la concentration en masse affichée.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-simu2')">💡 Indice</button>
+<div class="indice-box" id="ind-simu2">Utilise la formule C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Attention aux unités : le volume doit être exprimé en litres.</div>
 <textarea class="rep-zone" id="r-simu2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. Que se passe-t-il lorsque vous continuez à ajouter du soluté après l'apparition du dépôt au fond du bécher ? La concentration de la solution continue-t-elle d'augmenter ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-simu3')">💡 Indice</button>
+<div class="indice-box" id="ind-simu3">Un dépôt solide au fond du bécher signifie que le soluté ne se dissout plus : seule la partie effectivement dissoute compte pour la concentration.</div>
 <textarea class="rep-zone" id="r-simu3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">4. Dans l'onglet « Dilutions », ajoutez de l'eau à une solution existante. Comment évolue la concentration ? Est-ce cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-simu4')">💡 Indice</button>
+<div class="indice-box" id="ind-simu4">Lors d'une dilution, la quantité de soluté ne change pas : seul le volume de solution augmente. Cette relation traduit la conservation de la matière dissoute entre solution mère et solution fille.</div>
 <textarea class="rep-zone" id="r-simu4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">5. Comparez deux solutés différents réglés à la même valeur de concentration. Ont-ils la même intensité de couleur ? Comment l'expliquer ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-simu5')">💡 Indice</button>
+<div class="indice-box" id="ind-simu5">La concentration renseigne sur la quantité de soluté dissous, mais l'intensité de couleur dépend aussi de la nature chimique de l'espèce dissoute (chaque espèce a sa propre « signature » colorée).</div>
 <textarea class="rep-zone" id="r-simu5" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-simu')">▶ Voir la correction</button>
@@ -1495,7 +1513,7 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-4">
 <div class="card">
-<div class="section-title"><span class="icon">🥽</span> TP4 : Dissolution-Coca</div>
+<div class="section-title"> TP4 : Dissolution-Coca</div>
 <div class="activite-card">
 <h3>TP4 : Dissolution-Coca</h3>
 <p style="font-size:0.9rem;line-height:1.6;">À faire avant le TP4 : test sur la verrerie en laboratoire <em>(blouse obligatoire)</em></p>
@@ -1554,6 +1572,8 @@
 <h3>Partie 1 : Réalisation d'une courbe d'étalonnage</h3>
 <div class="question-block">
 <div class="question-label">1. À l'aide du document 3, compléter la ligne 3 du tableau (document 6). Noter votre calcul.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q1')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p1q1">Isole la masse de soluté dans la relation c<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> : m<sub>soluté</sub> = c<sub>m</sub> × V<sub>solution</sub>, avec V<sub>solution</sub> = 100,0 mL = 0,1000 L pour chaque solution étalon.</div>
 <textarea class="rep-zone" id="r-tp4-p1q1" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
@@ -1561,14 +1581,20 @@
 </div>
 <div class="question-block">
 <div class="question-label">3. Comment différencier les solutions obtenues ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q3')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p1q3">Toutes les solutions contiennent le même solvant (eau) mais des masses de sucre dissous différentes : pense à une observation visuelle simple ou à une grandeur physique mesurable.</div>
 <textarea class="rep-zone" id="r-tp4-p1q3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">4. Calculer la masse volumique de l'eau sucrée à l'aide du document 2 et de la valeur de la masse de solution d'eau sucrée trouvée précédemment. Compléter la ligne 4 du tableau.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q4')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p1q4">Utilise ρ = m<sub>solution</sub> / V<sub>solution</sub>, avec la masse de solution pesée (fiole pleine moins fiole vide) et un volume de solution de 100,0 mL.</div>
 <textarea class="rep-zone" id="r-tp4-p1q4" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">5. Sur un tableur (ici Regressi), tracer le graphique représentant la masse volumique de la solution d'eau sucrée ρ<sub>s</sub> en fonction de la concentration massique en sucre C<sub>m</sub>. Décrire ce que vous obtenez.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q5')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p1q5">Place C<sub>m</sub> en abscisse et ρ<sub>s</sub> en ordonnée. Observe si les points semblent alignés : cela permettrait d'établir une relation affine entre les deux grandeurs (droite d'étalonnage).</div>
 <textarea class="rep-zone" id="r-tp4-p1q5" placeholder="Décrivez votre graphique…"></textarea>
 </div>
 <h3 style="margin-top:18px;">Document 6 : Tableau à compléter</h3>
@@ -1620,6 +1646,8 @@
 <h3>Partie 2 : Utilisation de la courbe d'étalonnage</h3>
 <div class="question-block">
 <div class="question-label">1. Comme proposé dans le document 1, on considère le soda dégazé comme une solution aqueuse sucrée. Proposer un protocole expérimental pour mesurer sa masse volumique.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q1')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q1">Reprends la démarche utilisée pour les solutions étalons (document 5) : peser un volume précis de soda dégazé à l'aide de la verrerie adaptée, puis appliquer ρ = m / V.</div>
 <textarea class="rep-zone" id="r-tp4-p2q1" placeholder="Rédigez votre protocole…"></textarea>
 </div>
 <div class="question-block">
@@ -1628,22 +1656,32 @@
 </div>
 <div class="question-block">
 <div class="question-label">3. À l'aide du document 1, calculer la masse volumique ρ<sub>soda</sub>.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q3')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q3">Le document 1 donne la masse d'une canette vide et pleine, ainsi que son volume (33 cL). Calcule la masse de soda contenue, puis applique ρ = m / V.</div>
 <textarea class="rep-zone" id="r-tp4-p2q3" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">4. Connaissant la masse volumique expérimentale du soda, comment trouver à l'aide de la courbe d'étalonnage sa concentration massique expérimentale C<sub>m-exp</sub> ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q4')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q4">Place la valeur de ρ<sub>exp-soda</sub> sur l'axe des ordonnées de la courbe d'étalonnage, puis lis par projection horizontale puis verticale la concentration massique correspondante en abscisse.</div>
 <textarea class="rep-zone" id="r-tp4-p2q4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">5. En déduire la masse expérimentale de sucre contenue dans le soda.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q5')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q5">Utilise C<sub>m-exp</sub> = m<sub>sucre</sub> / V<sub>soda</sub> avec le volume total de la canette (33 cL = 0,33 L) pour retrouver la masse de sucre.</div>
 <textarea class="rep-zone" id="r-tp4-p2q5" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">6. Comparer la masse expérimentale à celle théorique.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q6')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q6">La masse théorique est donnée dans le document 1 (jusqu'à 40 g par canette de 33 cL). Calcule l'écart relatif entre valeur expérimentale et valeur théorique pour juger de la cohérence du résultat.</div>
 <textarea class="rep-zone" id="r-tp4-p2q6" placeholder="Rédigez votre comparaison…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">7. Quelle approximation a-t-on faite en comparant notre soda avec les solutions d'eau sucrée ? Cette approximation vous semble-t-elle justifiée ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q7')">💡 Indice</button>
+<div class="indice-box" id="ind-tp4-p2q7">Le soda contient d'autres espèces dissoutes que le sucre (arômes, additifs, gaz…) : on a supposé que seul le sucre influence la masse volumique.</div>
 <textarea class="rep-zone" id="r-tp4-p2q7" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
@@ -1651,7 +1689,7 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-5">
 <div class="card">
-<div class="section-title"><span class="icon">🎨</span> TP5 : Dosage à l'aide d'une gamme d'étalonnage</div>
+<div class="section-title"> TP5 : Dosage à l'aide d'une gamme d'étalonnage</div>
 <div class="activite-card">
 <h3>TP5 : Dosage d'une solution très foncée — exercice n°52 p57</h3>
 <p style="font-size:0.9rem;line-height:1.6;"><em>(blouse obligatoire)</em></p>
@@ -1667,10 +1705,14 @@
 <h3>Répondre aux questions suivantes</h3>
 <div class="question-block">
 <div class="question-label">1. L'éosine aqueuse commercialisée a-t-elle une couleur permettant sa comparaison à celles de l'échelle de teintes ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q1')">💡 Indice</button>
+<div class="indice-box" id="ind-tp5-q1">Observe le document (photo des flacons) : compare l'intensité de la teinte de la solution commerciale à celle des solutions étalons de l'échelle de teintes.</div>
 <textarea class="rep-zone" id="r-tp5-q1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Proposer un protocole expérimental permettant de réaliser avec précision 100 mL d'une solution aqueuse diluée d'éosine dont la concentration en masse est vingt fois plus petite que celle de la concentration en masse de la solution mère.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q2')">💡 Indice</button>
+<div class="indice-box" id="ind-tp5-q2">Un facteur de dilution de 20 signifie qu'il faut prélever un volume de solution mère V<sub>m</sub> = V<sub>f</sub> / 20 (ici V<sub>f</sub> = 100 mL) à l'aide d'une pipette jaugée adaptée, puis compléter avec de l'eau distillée jusqu'au trait de jauge d'une fiole jaugée de 100 mL.</div>
 <textarea class="rep-zone" id="r-tp5-q2" placeholder="Rédigez votre protocole…"></textarea>
 </div>
 <div class="remarque-box">📞 <strong>Appel n°1 :</strong> appeler le professeur pour lui présenter le protocole ou en cas de difficulté.</div>
@@ -1679,11 +1721,15 @@
 </div>
 <div class="question-block">
 <div class="question-label">4. En déduire un encadrement de la concentration en masse de la solution diluée, puis de celle du produit pharmaceutique.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q4')">💡 Indice</button>
+<div class="indice-box" id="ind-tp5-q4">Repère entre quelles deux teintes de l'échelle se situe la couleur de ta solution diluée pour encadrer sa concentration, puis remonte à la concentration de la solution mère en multipliant les bornes par le facteur de dilution (20).</div>
 <textarea class="rep-zone" id="r-tp5-q4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="remarque-box">📞 <strong>Appel n°2 :</strong> appeler le professeur pour lui présenter le résultat ou en cas de difficulté. Demander au professeur de vous présenter l'étiquette du produit commercial.</div>
 <div class="question-block">
 <div class="question-label">5. Valider ou invalider le résultat.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q5')">💡 Indice</button>
+<div class="indice-box" id="ind-tp5-q5">Compare l'encadrement obtenu par ta manipulation à la valeur indiquée sur l'étiquette du produit commercial : la valeur annoncée appartient-elle à ton encadrement ?</div>
 <textarea class="rep-zone" id="r-tp5-q5" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 </div>
@@ -2593,6 +2639,12 @@ function toggleCorr(id) {
   } else {
     btn.textContent = '▶ Voir la correction';
   }
+}
+
+// ── Bouton indice (aide méthodologique) ──
+function toggleIndice(id) {
+  const box = document.getElementById(id);
+  if (box) box.classList.toggle('visible');
 }
 
 // ── Escape Game : chrono ──

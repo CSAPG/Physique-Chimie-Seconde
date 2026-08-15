@@ -28,6 +28,8 @@
     --rouge-clair: #FDEDEC;
     --violet: #7B4FA6;
     --violet-clair: #F3EDF9;
+    --indice: #C98A00;
+    --indice-clair: #FFF6E0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -458,6 +460,13 @@
   }
   .reveal-body.open { display: block; animation: fadeIn 0.2s ease; }
   .reveal-body strong { color: var(--vert); }
+
+  /* ── INDICES ── */
+  .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
+  .btn-indice:hover { background: var(--indice); color: white; }
+  .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
+  .indice-box.visible { display: block; animation: fadeIn 0.2s ease; }
+  .indice-box strong { color: var(--indice); }
   .reveal-body .calc-step {
     background: var(--gris-fond);
     border-radius: 6px;
@@ -1701,16 +1710,16 @@
 </div><!-- fin tab-0 Cours -->
 <div class="tab-content" id="tab-1">
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')">🔺 Triangle des états</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')">⚗️ Simu. PhET- Masse volumique</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-tp1')">🧪 TP1 - Retrouver une eau minérale</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')">🧪 TP2 - Chromatographie sur couche mince</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')">🔬 Simu. Ostralo-CCM colorants</button>
-<button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">🌬️ Activité 3 - Composition et masse volumique de l'air</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'act-sub-1')">Activité 1 - Triangle des états</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-2')">Activité 2 - Simu. PhET- Masse volumique</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-tp1')"> TP1 - Retrouver une eau minérale</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-3')"> TP2 - Chromatographie sur couche mince</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-4')">Activité 3 - Simu. Ostralo-CCM colorants</button>
+<button class="sub-tab-btn" onclick="showSub(this,'act-sub-5')">Activité 4 - Composition et masse volumique de l'air</button>
 </div>
 <div class="sub-tab-content active" id="act-sub-1">
 <div class="card">
-<div class="section-title"><span class="icon">🔺</span> Activité — Schéma des changements d'état</div>
+<div class="section-title">Activité 1 — Schéma des changements d'état</div>
 <div class="activite-card" id="triangle-wrapper" style="padding:20px 16px 16px;">
 <p style="font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:700;color:var(--texte-léger);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Schéma des changements d'état</p>
 <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Associe chaque numéro du schéma au bon changement d'état ✦</p>
@@ -1846,9 +1855,9 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-2">
 <div class="card">
-<div class="section-title"><span class="icon">⚗️</span> Activité — Simulation PhET : masse volumique</div>
+<div class="section-title">Activité 2 — Simulation PhET : masse volumique</div>
 <div class="activite-card" id="activite-phet">
-<h3>⚗️ Activité — Simulation PhET : masse volumique</h3>
+<h3>Activité 1 — Simulation PhET : masse volumique</h3>
 <p style="font-size:0.88rem;margin-bottom:12px;">
       Simulation interactive (PhET, Université du Colorado, licence libre) : comparez des blocs de matériaux différents pour relier masse, volume et masse volumique.
     </p>
@@ -1927,15 +1936,24 @@
 <p style="font-size:0.76rem;color:var(--texte-léger);margin-top:6px;line-height:1.4;font-style:italic;">Document — étiquettes des 3 eaux minérales &amp; Données — tests caractéristiques des ions sulfate, chlorure et calcium.</p>
 </div>
 <div class="question-block">
-<div class="question-label">1. Analyser – Raisonner : à partir des documents, proposer des expériences permettant de répondre à la question posée, puis rédiger le protocole que vous comptez mettre en œuvre.</div>
+<div class="question-label">1. Analyser – Raisonner : à partir des documents, proposer des expériences permettant de répondre à la question posée, puis rédiger le protocole que vous comptez mettre en œuvre.
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p1-q1')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p1-q1">Compare les étiquettes des trois eaux minérales : quels ions sont présents en quantités très différentes d'une eau à l'autre ? Choisis les tests caractéristiques (données) qui permettent de les distinguer.</div>
 <textarea class="rep-zone" id="tp1p1-q1" placeholder="Rédigez votre protocole…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Réaliser : mettre en œuvre le protocole proposé et noter les observations dans un tableau (carafe testée / réactif utilisé / observation).</div>
+<div class="question-label">2. Réaliser : mettre en œuvre le protocole proposé et noter les observations dans un tableau (carafe testée / réactif utilisé / observation).
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p1-q2')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p1-q2">Pense à tester chaque carafe avec chaque réactif caractéristique, et note précisément si un précipité (ou une autre observation) apparaît ou non pour chaque combinaison.</div>
 <textarea class="rep-zone" id="tp1p1-q2" placeholder="Notez vos observations…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. Valider : déterminer l'eau minérale versée dans chaque bécher.</div>
+<div class="question-label">3. Valider : déterminer l'eau minérale versée dans chaque bécher.
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p1-q3')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p1-q3">Reviens aux étiquettes des eaux minérales et compare les résultats positifs/négatifs de tes tests à la présence ou absence des ions caractéristiques annoncés sur chaque étiquette.</div>
 <textarea class="rep-zone" id="tp1p1-q3" placeholder="Concluez…"></textarea>
 </div>
 </div>
@@ -1968,15 +1986,24 @@
 </p>
 </div>
 <div class="question-block">
-<div class="question-label">1. Analyser – Raisonner : quels tests peut-on réaliser selon l'espèce chimique encadrée sur l'étiquette (glycérol, amidon, acide ascorbique, eau) ? Écrire le protocole que vous comptez mettre en œuvre.</div>
+<div class="question-label">1. Analyser – Raisonner : quels tests peut-on réaliser selon l'espèce chimique encadrée sur l'étiquette (glycérol, amidon, acide ascorbique, eau) ? Écrire le protocole que vous comptez mettre en œuvre.
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p2-q1')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p2-q1">Compare les propriétés physiques (aspect, température de fusion, masse volumique) et les tests caractéristiques donnés dans les documents pour chaque espèce à identifier, puis choisis les tests adaptés à l'espèce encadrée.</div>
 <textarea class="rep-zone" id="tp1p2-q1" placeholder="Rédigez votre protocole…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Réaliser : mettre en œuvre le protocole proposé et noter les résultats dans un tableau.</div>
+<div class="question-label">2. Réaliser : mettre en œuvre le protocole proposé et noter les résultats dans un tableau.
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p2-q2')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p2-q2">Utilise le banc Köfler pour la température de fusion et une pesée/mesure de volume pour la masse volumique ; compare tes mesures aux valeurs de référence du doc.2 pour chaque espèce testée.</div>
 <textarea class="rep-zone" id="tp1p2-q2" placeholder="Notez vos résultats…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. Valider : déterminer si les ingrédients reçus par l'industriel sont correctement étiquetés.</div>
+<div class="question-label">3. Valider : déterminer si les ingrédients reçus par l'industriel sont correctement étiquetés.
+<button class="btn-indice" onclick="toggleIndice('ind-tp1p2-q3')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp1p2-q3">Compare pour chaque échantillon testé les valeurs mesurées (température de fusion, masse volumique, aspect, test caractéristique) aux valeurs de référence de l'espèce annoncée sur l'étiquette.</div>
 <textarea class="rep-zone" id="tp1p2-q3" placeholder="Concluez…"></textarea>
 </div>
 </div>
@@ -2039,15 +2066,24 @@
 </div>
 <div class="question-block">
 <div class="question-label">🔍 Analyser – Raisonner</div>
-<p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:8px;">a. Faire un schéma annoté de votre expérience.<br/>b. Dessiner et annoter votre chromatogramme.</p>
+<p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:8px;">a. Faire un schéma annoté de votre expérience.<br/>b. Dessiner et annoter votre chromatogramme.
+<button class="btn-indice" onclick="toggleIndice('ind-tp2-ar')">💡 Indice</button>
+</p>
+<div class="indice-box" id="ind-tp2-ar">Représente le bécher contenant l'éluant, la plaque à moitié immergée (sans que la ligne de dépôt touche l'éluant), et sur le chromatogramme final les taches colorées positionnées à leur hauteur de migration, avec les échantillons témoins à côté du dépôt étudié.</div>
 <textarea class="rep-zone" id="tp2-q-ar" placeholder="Décrivez votre schéma et votre chromatogramme (à joindre sur votre compte-rendu papier si besoin)…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">c. Exploiter le chromatogramme pour déterminer si les colorants utilisés dans les dragées chocolatées ou bonbons sont des mélanges ou des corps purs. Identifier, si possible, les colorants alimentaires utilisés.</div>
+<div class="question-label">c. Exploiter le chromatogramme pour déterminer si les colorants utilisés dans les dragées chocolatées ou bonbons sont des mélanges ou des corps purs. Identifier, si possible, les colorants alimentaires utilisés.
+<button class="btn-indice" onclick="toggleIndice('ind-tp2-exploit')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp2-exploit">Compte le nombre de taches pour le dépôt étudié : une seule tache = corps pur, plusieurs taches = mélange. Puis compare la hauteur de chaque tache à celle des colorants témoins déposés sur la même plaque : une même hauteur signale la même espèce chimique.</div>
 <textarea class="rep-zone" id="tp2-q-exploit" placeholder="Rédigez votre analyse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">✅ Valider : comparer vos résultats aux indications données. Proposer des améliorations à votre expérience.</div>
+<div class="question-label">✅ Valider : comparer vos résultats aux indications données. Proposer des améliorations à votre expérience.
+<button class="btn-indice" onclick="toggleIndice('ind-tp2-valider')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-tp2-valider">Reviens à la question de départ (quels colorants dans les dragées chocolatées ?) : tes conclusions correspondent-elles aux colorants annoncés sur l'emballage ? Pense aussi aux sources d'imprécision possibles (dépôt trop gros, éluant mal choisi, lecture des hauteurs…).</div>
 <textarea class="rep-zone" id="tp2-q-valider" placeholder="Concluez et proposez des améliorations…"></textarea>
 </div>
 </div>
@@ -2055,10 +2091,10 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-4">
 <div class="card">
-<div class="section-title"><span class="icon">🔬</span> Activité — CCM des colorants de médicaments</div>
+<div class="section-title"> Activité 2 — CCM des colorants de médicaments</div>
 <div class="activite-card">
 <div class="exo-header">
-<h3>Activité – CCM des colorants de médicaments</h3>
+<h3>Activité 2 – CCM des colorants de médicaments</h3>
 <span class="exo-pill simulation">SIMULATION</span>
 </div>
 <div class="exo-enonce">
@@ -2072,10 +2108,10 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-5">
 <div class="card">
-<div class="section-title"><span class="icon">🌬️</span> Activité 3 — Composition et masse volumique de l'air</div>
+<div class="section-title"> Activité 3 — Composition et masse volumique de l'air</div>
 <div class="activite-card">
 <div class="exo-header">
-<h3>Activité documentaire 3 : Composition et masse volumique de l'air</h3>
+<h3>Activité  3 : Composition et masse volumique de l'air</h3>
 <span class="exo-pill activite">DOC</span>
 </div>
 <div class="exo-enonce">
@@ -2107,95 +2143,58 @@
     </p>
 </div>
 <div class="question-block" id="ad3-q1">
-<div class="question-label">1. [APP] Quel est le gaz propre à la respiration et à la combustion ? Quel gaz n'a pas réagi (doc.1) ?</div>
+<div class="question-label">1. [APP] Quel est le gaz propre à la respiration et à la combustion ? Quel gaz n'a pas réagi (doc.1) ?
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q1')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q1">Relis le texte de Lavoisier : quel gaz est consommé par le mercure porté à ébullition (couche rougeâtre) ? Quel gaz reste inerte, occupant les cinq sixièmes du volume restant ?</div>
 <textarea class="rep-zone" id="ad3-q1-rep" placeholder="Rédigez votre réponse…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr1')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q1')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr1">
-<div class="calc-step">Le gaz propre à la respiration et à la combustion est le <strong>dioxygène O₂</strong> : c'est lui qui réagit avec le mercure porté à ébullition pour former la couche rougeâtre (oxyde de mercure).</div>
-<div class="calc-step">Le gaz qui n'a pas réagi est le <strong>diazote N₂</strong> : c'est lui qui constitue les cinq sixièmes de volume restants, impropres à la respiration et à la combustion.</div>
-</div>
 </div>
 <div class="question-block" id="ad3-q2a">
-<div class="question-label">2a. [REA] Donner en fraction, puis en pourcentage, la composition volumique de l'air trouvée par Lavoisier (doc.1).</div>
+<div class="question-label">2a. [REA] Donner en fraction, puis en pourcentage, la composition volumique de l'air trouvée par Lavoisier (doc.1).
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q2a')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q2a">Le volume initial d'air correspond à 6/6 (soit 1). Après l'expérience, il reste 5/6 de ce volume. Le gaz consommé correspond donc à la fraction manquante entre le volume initial et le volume final.</div>
 <textarea class="rep-zone" id="ad3-q2a-rep" placeholder="Rédigez votre calcul…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr2a')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q2a')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr2a">
-<div class="calc-step">Le gaz ayant réagi (O₂) représente 1/6 du volume : fraction = 1/6 ≈ 0,17, soit environ <strong>16,7 %</strong>.</div>
-<div class="calc-step">Le gaz restant (N₂) représente 5/6 du volume : fraction = 5/6 ≈ 0,83, soit environ <strong>83,3 %</strong>.</div>
-</div>
 </div>
 <div class="question-block" id="ad3-q2b">
-<div class="question-label">2b. [ANA-RAI] Justifier les valeurs différentes pour la composition volumique de l'air dans le doc.1 et le doc.2.</div>
+<div class="question-label">2b. [ANA-RAI] Justifier les valeurs différentes pour la composition volumique de l'air dans le doc.1 et le doc.2.
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q2b')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q2b">Compare la précision des deux méthodes (estimation visuelle d'un volume au XVIII<sup>e</sup> siècle vs mesures instrumentales modernes) et la nature du gaz "restant" : un seul gaz supposé chez Lavoisier, alors qu'il s'agit en réalité d'un mélange de deux gaz (N₂ et Ar).</div>
 <textarea class="rep-zone" id="ad3-q2b-rep" placeholder="Rédigez votre justification…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr2b')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q2b')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr2b">
-<div class="calc-step">La méthode de Lavoisier (fin du XVIII<sup>e</sup> siècle) repose sur une estimation visuelle du volume d'air restant dans la cloche : elle est peu précise et sujette à des erreurs expérimentales (lecture du niveau, fuites, variations de température et de pression pendant l'expérience).</div>
-<div class="calc-step">De plus, Lavoisier assimile tout le gaz restant à un seul gaz non réactif, alors qu'il s'agit en réalité d'un mélange de N₂ et d'Ar (qui ne réagissent pas non plus) — d'où un léger écart avec la valeur moderne de 78,09 % de N₂.</div>
-<div class="calc-step">Le doc.2 donne une composition établie par des mesures modernes bien plus précises (analyse instrumentale), d'où l'écart avec la valeur de Lavoisier.</div>
-</div>
 </div>
 <div class="question-block" id="ad3-q3a">
-<div class="question-label">3a. [REA] Calculer la masse volumique de l'air déterminée dans le doc.3.</div>
+<div class="question-label">3a. [REA] Calculer la masse volumique de l'air déterminée dans le doc.3.
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q3a')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q3a">Calcule d'abord la masse d'air contenue dans le ballon en faisant la différence entre la masse du ballon gonflé et celle du ballon dégonflé (m₁ − m₂). Divise ensuite cette masse par le volume V d'air pour obtenir la masse volumique ρ = m / V.</div>
 <div class="fcr-step">
 <label class="fcr-label">Résultat — masse volumique ρ (en g·L⁻¹)</label>
 <input class="blank-in" id="ad3-q3a-input" placeholder="en g·L⁻¹" step="0.01" type="number"/>
 <div class="exo-btn-row"><button class="exo-btn" onclick="verifierNum('ad3-q3a-input', 1.4, 0.05, 'ad3-q3a-fb', 'ad3-corr3a')">Vérifier</button></div>
 <div class="dq-feedback" id="ad3-q3a-fb"></div>
 </div>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr3a')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q3a')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr3a">
-<div class="calc-step">La masse d'air contenue dans le volume V = 5,0 L est : m = m₁ − m₂ = 445 − 438 = 7 g.</div>
-<div class="calc-step">ρ = m / V = 7 / 5,0 = <strong>1,4 g·L⁻¹</strong></div>
-</div>
 </div>
 <div class="question-block" id="ad3-q3b">
-<div class="question-label">3b. [ANA-RAI] Cette masse volumique a-t-elle été déterminée précisément ? Préciser les sources d'erreurs.</div>
+<div class="question-label">3b. [ANA-RAI] Cette masse volumique a-t-elle été déterminée précisément ? Préciser les sources d'erreurs.
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q3b')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q3b">Compare l'écart de masse mesuré (m₁ − m₂, soit quelques grammes) à la précision de la balance utilisée pour peser des masses d'environ 440 g. Pense aussi aux incertitudes liées à la mesure du volume par déplacement d'eau.</div>
 <textarea class="rep-zone" id="ad3-q3b-rep" placeholder="Rédigez votre réponse…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr3b')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q3b')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr3b">
-<div class="calc-step">Non, la mesure n'est pas très précise : la différence de masse (7 g) est petite devant les masses mesurées (≈ 440 g), donc l'incertitude relative de la balance pèse proportionnellement beaucoup sur le résultat.</div>
-<div class="calc-step">Autres sources d'erreur : mesure du volume par déplacement d'eau (imprécision de la lecture sur l'éprouvette), air résiduel non totalement évacué du ballon, variations de température et de pression non contrôlées pendant la manipulation.</div>
-</div>
 </div>
 <div class="question-block" id="ad3-q4">
-<div class="question-label">4. [APP] De quelles grandeurs macroscopiques la masse volumique de l'air dépend-elle (doc.4) ?</div>
+<div class="question-label">4. [APP] De quelles grandeurs macroscopiques la masse volumique de l'air dépend-elle (doc.4) ?
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-q4')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-q4">Observe comment la valeur de ρ<sub>air</sub> évolue dans le tableau du doc.4 lorsque la température change, à pression atmosphérique fixée. Pense aussi à ce qui se passerait si la pression changeait.</div>
 <textarea class="rep-zone" id="ad3-q4-rep" placeholder="Rédigez votre réponse…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr4')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-q4')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr4">
-<div class="calc-step">D'après le doc.4, à pression atmosphérique fixée (niveau de la mer), la masse volumique de l'air diminue quand la <strong>température</strong> augmente (1,292 g·L⁻¹ à 0 °C jusqu'à 1,184 g·L⁻¹ à 25 °C).</div>
-<div class="calc-step">Plus généralement, la masse volumique d'un gaz dépend de la <strong>température</strong> et de la <strong>pression</strong>.</div>
-</div>
 </div>
 <div class="question-block" id="ad3-qsynthese" style="background:var(--vert-clair);border-radius:10px;padding:14px 16px;">
-<div class="question-label">Synthèse [COM] Expliquer pourquoi la valeur de 1,3 g·L⁻¹ pour la masse volumique de l'air est seulement un ordre de grandeur.</div>
+<div class="question-label">Synthèse [COM] Expliquer pourquoi la valeur de 1,3 g·L⁻¹ pour la masse volumique de l'air est seulement un ordre de grandeur.
+<button class="btn-indice" onclick="toggleIndice('ind-ad3-synth')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-ad3-synth">Repense aux questions précédentes : ρ<sub>air</sub> varie-t-elle avec la température et la pression ? La composition de l'air (humidité, altitude…) est-elle toujours exactement la même ? Une valeur qui varie selon les conditions ne peut être qu'approximative.</div>
 <textarea class="rep-zone" id="ad3-qsynthese-rep" placeholder="Rédigez votre synthèse…"></textarea>
-<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
-<button class="btn-reveal" onclick="toggleCorr('ad3-corr-synth')">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('ad3-qsynthese')" style="background:var(--texte-léger);">↺ Recommencer</button>
-</div>
-<div class="reveal-body" id="ad3-corr-synth">
-<div class="calc-step">La masse volumique de l'air varie selon les conditions de température et de pression (doc.4 : de 1,184 à 1,292 g·L⁻¹ selon la température, à pression fixée) : il n'existe donc pas une valeur unique et figée.</div>
-<div class="calc-step">Elle dépend aussi de la composition exacte de l'air (humidité, altitude…), elle-même variable.</div>
-<div class="calc-step">La valeur de 1,3 g·L⁻¹ n'est donc qu'un <strong>ordre de grandeur</strong>, valable dans des conditions courantes, et non une constante physique exacte.</div>
-</div>
 </div>
 </div>
 
@@ -3549,6 +3548,11 @@ function repondreQCM(id, correct, choix, explication, fbId) {
 }
 
 // ── Correction multiple (une correction par question) ──
+function toggleIndice(id) {
+  const box = document.getElementById(id);
+  if (box) box.classList.toggle('visible');
+}
+
 function toggleCorrMulti(ids, btn) {
   const first = document.getElementById(ids[0]);
   const show = !first.classList.contains('open');

@@ -20,13 +20,30 @@
     --vert-exo-bord: #B2DDD0;
     --rouge: #C0392B;
     --rouge-clair: #FDEDEC;
+    --rouge-activite: #FDF3F2;
+    --rouge-activite-bord: #F0BEB8;
     --violet: #7B4FA6;
     --violet-clair: #F3EDF9;
+    --indice: #C98A00;
+    --indice-clair: #FFF6E0;
     --gris-fond: #F5F7FA;
     --gris-bord: #DDE3EC;
     --texte: #1A2A3A;
     --texte-léger: #5A6B7A;
     --blanc: #FFFFFF;
+    /* Couleurs par auteur/site (Bilan & Ressources uniquement) */
+    --auteur-hatier:#C0392B;
+    --auteur-ostralo:#2D5F8A;
+    --auteur-pccl-fonce:#2f034e;
+    --auteur-phet-fonce:#ff7300;
+    --auteur-paulolivier:#058616;
+    --auteur-stella:#eeb90a;
+    --auteur-eprofs:#40E0D0;
+    --auteur-bonsprofs:#FFD700;
+    --auteur-florenceraffin:#c90f63;
+    --auteur-gerardmoreau-clair:#76fab2d8;
+    --auteur-autres:#808080;
+    --auteur-sujetbac:#fa7186;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Nunito', sans-serif; background: #F0F4F8; padding: 14px; color: var(--texte); min-height: 100vh; }
@@ -43,7 +60,7 @@
     position: sticky; top: 0; z-index: 100;
     box-shadow: 0 2px 12px rgba(45,95,138,0.10);
   }
-  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 0; }
   .header-left { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; flex-shrink: 0; margin-top: 2px; }
   .header-badge { background: var(--bleu); color: white; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
   button.cap-toggle { background: var(--bleu); color: #fff; border: none; padding: 5px 12px; border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.74rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
@@ -52,7 +69,8 @@
   .cap-panel.open { display: block; }
   .cap-panel ul { margin: 0; padding-left: 1.3rem; }
   .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
-  .header-titles h1 { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--bleu); line-height: 1.2; }
+  .header-titles { flex: 1; min-width: 180px; }
+  .header-titles h1 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--bleu); line-height: 1.2; }
   .header-titles p { font-size: 0.82rem; color: var(--texte-léger); margin-top: 2px; }
   .header-titles p span { color: var(--orange); font-weight: 700; }
 
@@ -60,14 +78,14 @@
   .tabs-nav { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
   .tabs-nav::-webkit-scrollbar { display: none; }
   .tab-btn { display: flex; align-items: center; gap: 8px; padding: 10px 20px 12px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--texte-léger); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; position: relative; bottom: -3px; }
-  .tab-btn:hover { color: var(--bleu); }
-  .tab-btn.active { color: var(--bleu); border-bottom-color: var(--bleu); background: var(--bleu-clair); border-radius: 6px 6px 0 0; }
+  .tab-btn:hover { color: var(--orange); }
+  .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); background: var(--orange-clair); border-radius: 6px 6px 0 0; }
   .tab-num { width: 22px; height: 22px; border-radius: 50%; background: var(--gris-bord); color: var(--texte-léger); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
-  .tab-btn.active .tab-num { background: var(--bleu); color: white; }
+  .tab-btn.active .tab-num { background: var(--orange); color: white; }
 
   /* ── CONTENU ── */
-  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
-  .tab-content { display: none; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 0 0 60px; }
+  .tab-content { display: none; background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -75,19 +93,27 @@
   .def-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-left: 4px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
   .def-card::before { content: 'COURS'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--bleu-moyen); opacity: 0.6; }
   .def-card h3 { font-family: 'Outfit', sans-serif; font-size: 0.98rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .def-card p, .def-card ul { font-size: 0.92rem; line-height: 1.65; color: var(--texte); }
+  .def-card p, .def-card ul { font-size: 1rem; line-height: 1.65; color: var(--texte); }
   .def-card ul { padding-left: 18px; }
   .def-card ul li { margin-bottom: 5px; }
 
   .activite-card { background: var(--bleu-activite); border: 1.5px solid var(--bleu-activite-bord); border-left: 4px solid var(--bleu-moyen); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
   .activite-card::before { content: 'ACTIVITÉ'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--bleu-moyen); opacity: 0.8; }
-  .activite-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; }
+  .activite-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--bleu); margin-top: 0; margin-bottom: 8px; }
 
   .exo-card { background: var(--vert-exo); border: 1.5px solid var(--vert-exo-bord); border-left: 4px solid var(--vert); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
   .exo-card::before { content: 'APPLICATION'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--vert); opacity: 0.7; }
   .exo-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); margin-bottom: 10px; }
 
+  .exercice-card { background: var(--vert-exo); border: 1.5px solid var(--vert-exo-bord); border-left: 4px solid var(--vert); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
+  .exercice-card::before { content: 'EXERCICE'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--vert); opacity: 0.7; }
+  .exercice-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); margin-top: 0; margin-bottom: 8px; }
+
   .section-title { font-family: 'Outfit', sans-serif; font-size: 1.18rem; font-weight: 800; color: var(--bleu); margin: 28px 0 14px; display: flex; align-items: center; gap: 10px; padding-bottom: 8px; border-bottom: 2px solid var(--bleu-clair); }
+  .card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  .sub-tab-content .card:first-child{margin-top:0}
+  .card h2{font-size:1.25rem;margin-top:0;color:var(--bleu);border-bottom:2px solid var(--bleu-clair);padding-bottom:8px}
+  .card h3{font-size:1.05rem;color:var(--orange);margin:18px 0 8px}
 
   .formule-box { background: var(--orange-clair); border: 2px solid var(--orange); border-radius: 10px; padding: 14px 20px; margin: 14px 0; text-align: center; font-size: 1.05rem; font-weight: 700; color: var(--texte); }
   .formule-box .legend { font-size: 0.80rem; font-weight: 500; color: var(--texte-léger); margin-top: 6px; text-align: left; }
@@ -107,6 +133,40 @@
   .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
   .btn-reset { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 9px 20px; background: var(--gris-fond); color: var(--texte-léger); border: 1.5px solid var(--gris-bord); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
   .btn-reset:hover { background: var(--gris-bord); }
+
+  /* ── INDICES ── */
+  .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
+  .btn-indice:hover { background: var(--indice); color: white; }
+  .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
+  .indice-box.visible { display: block; animation: fadeIn 0.2s ease; }
+  .indice-box strong { color: var(--indice); }
+
+  /* ── TABLEAU DE DONNÉES / TABLEAU À COMPLÉTER ── */
+  .donnees-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; background: var(--blanc); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .donnees-table th { background: var(--bleu); color: white; padding: 9px 10px; text-align: center; font-family: 'Outfit', sans-serif; font-size: 0.80rem; font-weight: 700; }
+  .donnees-table td { padding: 8px 10px; border-bottom: 1px solid var(--gris-bord); text-align: center; }
+  .donnees-table tr:last-child td { border-bottom: none; }
+  .donnees-table td:first-child { text-align: left; font-weight: 600; background: var(--gris-fond); }
+  .table-input { width: 62px; padding: 6px; border: 2px solid var(--gris-bord); border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 0.90rem; font-weight: 700; text-align: center; background: white; color: var(--texte); transition: border-color 0.2s; }
+  .table-input:focus { outline: none; border-color: var(--bleu); }
+  .table-input.correct { border-color: var(--vert); background: var(--vert-clair); }
+  .table-input.wrong { border-color: var(--rouge); background: var(--rouge-clair); }
+
+  /* ── CHAMPS DE RÉPONSE À VÉRIFIER ── */
+  .champ-reponse { margin-top:10px; }
+  .champ-reponse label { display:block; font-size:0.82rem; font-weight:600; color:var(--texte-léger); margin-bottom:4px; }
+  .blank-input { width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--gris-bord); border-radius:8px; font-family:'Nunito',sans-serif; font-size:0.88rem; color:var(--texte); background:white; transition:border-color 0.2s; }
+  .blank-input:focus { outline:none; border-color:var(--bleu); }
+  .blank-input.correct { border-color:var(--vert); background:var(--vert-clair); color:var(--vert); font-weight:600; }
+  .blank-input.wrong { border-color:var(--rouge); background:var(--rouge-clair); color:var(--rouge); font-weight:600; }
+  .champs-row { display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; }
+  .champs-row .champ-reponse { flex:1; min-width:160px; margin-top:0; }
+  .field-feedback { margin-top:5px; font-size:0.8rem; font-weight:600; min-height:1.1em; }
+  .field-feedback.ok { color:var(--vert); }
+  .field-feedback.ko { color:var(--rouge); }
+  .btn-verif-sm { display:inline-flex; align-items:center; gap:6px; margin-top:10px; padding:7px 16px; background:var(--bleu); color:white; border:none; border-radius:8px; font-family:'Nunito',sans-serif; font-size:0.82rem; font-weight:700; cursor:pointer; transition:background 0.2s; }
+  .btn-verif-sm:hover { background:#1e4466; }
+  .diff-etoiles { display:inline-block; letter-spacing:1px; color:#D9A400; font-size:0.85rem; margin-left:6px; }
 
   .feedback { display: none; border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.88rem; line-height: 1.7; }
   .feedback.visible { display: block; animation: fadeIn 0.2s ease; }
@@ -240,17 +300,18 @@
 
   .bilan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
   @media (max-width: 560px) { .bilan-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 600px) {
+  @media (max-width: 680px) {
     body { padding: 6px; }
     .header { padding: 12px 16px 10px; }
     .header-titles h1 { font-size: 1.05rem; }
-    .main { padding: 18px 12px 50px; }
+    .main { padding: 18px 0 50px; }
   }
   .bilan-card { background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 16px; }
   .bilan-card h4 { font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--bleu); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1.5px solid var(--gris-bord); }
   .sub-tabs-nav { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: nowrap; overflow-x: auto; }
-  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: var(--bleu-clair); color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
-  .sub-tab-btn.active { background: var(--bleu); color: #fff; }
+  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: #b8cfe0; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
+  .sub-tab-btn:hover { background: var(--bleu); color: #fff; }
+  .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
   .gloss-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gris-bord); border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; margin-bottom: 16px; }
@@ -348,7 +409,7 @@
   </div>
   <div class="tabs-nav">
     <button class="tab-btn active" onclick="showTab(this,'cours')">📘 Cours</button>
-    <button class="tab-btn" onclick="showTab(this,'activites')">🧪 Activités</button>
+    <button class="tab-btn" onclick="showTab(this,'activites')">📚 Activités</button>
     <button class="tab-btn" onclick="showTab(this,'exercices')">✏️ Exercices</button>
     <button class="tab-btn" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</button>
   </div>
@@ -361,17 +422,19 @@
 <div class="tab-content active" id="tab-cours">
 
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">I. Transformation chimique</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'cours-II')">II. Synthèse chimique</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">1. Transformation chimique</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-II')">2. Synthèse chimique</button>
   </div>
 
   <div class="sub-tab-content active" id="cours-I">
+<div class="card">
 
   <div class="intro-box">
     L'étude des transformations chimiques est complétée par les notions de stœchiométrie, d'espèce spectatrice et de réactif limitant. L'analyse de l'évolution d'un système pour modéliser sa transformation chimique illustre une démarche de modélisation au niveau macroscopique.
   </div>
 
-  <div class="section-title">⚗️ I. Définitions</div>
+  <h2>1. Transformation chimique</h2>
+  <h3>a. Définitions</h3>
 
   <div class="def-card">
     <h3>Transformation chimique</h3>
@@ -394,7 +457,7 @@
   </div>
 
   <!-- ── ÉQUILIBREUR ── -->
-  <div class="section-title">⚖️ II. Équilibrer une équation — activité interactive</div>
+  <h3>b. Équilibrer une équation — activité interactive</h3>
 
   <div class="activite-card">
     <h3>🔥 Combustion du propane C₃H₈</h3>
@@ -445,7 +508,7 @@
   </div>
 
   <!-- ── RÉACTIF LIMITANT ── -->
-  <div class="section-title">📊 III. Réactif limitant</div>
+  <h3>c. Réactif limitant</h3>
 
   <div class="def-card">
     <h3>Réactif limitant</h3>
@@ -517,12 +580,15 @@
     <div class="feedback" id="fb-corrosion"></div>
   </div>
 
-  </div>
+  
+</div></div>
   <!-- /cours-I -->
 
   <div class="sub-tab-content" id="cours-II">
+<div class="card">
 
-  <div class="section-title">🌿 I. Espèces naturelles, synthétiques et artificielles</div>
+  <h2>2. Synthèse chimique</h2>
+  <h3>a. Espèces naturelles, synthétiques et artificielles</h3>
 
   <div class="def-card">
     <h3>Définitions</h3>
@@ -555,7 +621,7 @@
   </div>
 
   <!-- ── 4 ÉTAPES CLIQUABLES ── -->
-  <div class="section-title">🧪 II. Les étapes d'une synthèse chimique</div>
+  <h3>b. Les étapes d'une synthèse chimique</h3>
   <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:14px;">👆 Clique sur une étape pour afficher les détails.</p>
 
   <div class="etapes-grid">
@@ -680,7 +746,7 @@
   </div>
 
   <!-- ── MONTAGE À REFLUX ── -->
-  <div class="section-title">♨️ III. Montage à reflux</div>
+  <h3>c. Montage à reflux</h3>
 
   <div class="def-card">
     <h3>Principe du montage à reflux</h3>
@@ -719,7 +785,7 @@
   </div>
 
   <!-- ── APPLICATION GUIDÉE MENTHONE ── -->
-  <div class="section-title">📝 IV. Application guidée — Synthèse de la menthone</div>
+  <h3>d. Application guidée — Synthèse de la menthone</h3>
 
   <div class="exo-card">
     <h3>🌿 Synthèse de la menthone à partir du menthol</h3>
@@ -859,7 +925,8 @@
 
   </div><!-- /exo-card -->
 
-  </div>
+  
+</div></div>
   <!-- /cours-II -->
 
 </div>
@@ -867,7 +934,379 @@
 
 <!-- ══════════════════ TAB — ACTIVITÉS ══════════════════ -->
 <div class="tab-content" id="tab-activites">
-  <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'act-1')">Activité 1</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-2')">Activité 2</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'act-3')">Activité 3</button>
+  </div>
+
+  <div class="sub-tab-content active" id="act-1">
+  <div class="card">
+  <div class="section-title">Activité 1 — Combustion du méthane</div>
+  <div class="activite-card">
+    <h3>Contexte</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">Le méthane, de formule CH<sub>4</sub>, est le constituant principal du gaz naturel. Il est essentiellement utilisé pour chauffer les habitations, car sa combustion libère de l'énergie.</p>
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:8px;"><strong>Comment établir l'équation de réaction modélisant cette combustion ?</strong></p>
+  </div>
+  <div class="activite-card">
+    <h3>Document — Montage expérimental pour étudier la combustion du méthane dans l'air</h3>
+    <img src="p130-1.png" alt="Montage expérimental pour étudier la combustion du méthane dans l'air" style="width:100%;border-radius:10px;border:1.5px solid var(--gris-bord);">
+  </div>
+  <div class="activite-card">
+    <h3>Vidéo</h3>
+    <a class="ressource-link" href="https://www.pearltrees.com/private/id104964411/item801674513?paccess=47e420d4e2f.2fc89511.3322ecba6dab00c965217946a65441e4" target="_blank">
+      <span class="r-icon">▶️</span>
+      <div>
+        <div class="r-label">Vidéo — Combustion du méthane dans l'air</div>
+        <div class="r-sub">Pearltrees · Visionner et prendre des notes pendant le visionnage</div>
+      </div>
+      <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
+    </a>
+  </div>
+  <div class="activite-card">
+    <h3>1. S'approprier</h3>
+    <ol style="font-size:0.9rem;line-height:1.8;padding-left:20px;">
+      <li>Visualiser la vidéo et prendre des notes pendant le visionnage.</li>
+      <li>Citer les espèces consommées (appelées réactifs) lors de la combustion du méthane dans l'air. Préciser les formules de ces espèces chimiques.
+        <button class="btn-indice" onclick="toggleIndice('ind-sa2')">💡 Indice</button>
+        <div class="indice-box" id="ind-sa2">Regarde les deux arrivées de gaz sur le montage : l'une amène le méthane, l'autre est simplement le milieu dans lequel il brûle. Une combustion consomme toujours un combustible <strong>et</strong> un comburant.</div>
+      </li>
+      <li>Associer chacun des deux tests caractéristiques à l'espèce chimique qu'il met en évidence. Préciser les formules de ces deux espèces chimiques.
+        <button class="btn-indice" onclick="toggleIndice('ind-sa3')">💡 Indice</button>
+        <div class="indice-box" id="ind-sa3">Le sulfate de cuivre anhydre change de couleur (blanc → bleu) en présence d'une espèce précise. L'eau de chaux se trouble en présence d'une autre espèce, gazeuse. À quels tests caractéristiques correspondent ces deux observations ?</div>
+      </li>
+      <li>À partir de vos observations, déduire les espèces chimiques formées (appelées produits de réaction) au cours de la combustion.
+        <button class="btn-indice" onclick="toggleIndice('ind-sa4')">💡 Indice</button>
+        <div class="indice-box" id="ind-sa4">Si les deux tests caractéristiques sont positifs, cela signifie que les deux espèces qu'ils révèlent sont présentes dans les produits de la réaction.</div>
+      </li>
+    </ol>
+  </div>
+  <div class="activite-card">
+    <h3>2. Réaliser</h3>
+    <ol style="font-size:0.9rem;line-height:1.8;padding-left:20px;">
+      <li>Construire le modèle moléculaire de chaque espèce (réactifs et produits) mise en jeu lors de la combustion du méthane dans l'air.
+        <button class="btn-indice" onclick="toggleIndice('ind-re1')">💡 Indice</button>
+        <div class="indice-box" id="ind-re1">Utilise les formules brutes établies dans la partie précédente et le code couleur habituel des modèles moléculaires : carbone en noir, hydrogène en blanc, oxygène en rouge.</div>
+      </li>
+      <li>Construire les modèles moléculaires supplémentaires afin d'avoir le même nombre d'atomes au total dans les réactifs que dans les produits.
+        <button class="btn-indice" onclick="toggleIndice('ind-re2')">💡 Indice</button>
+        <div class="indice-box" id="ind-re2">Compte séparément le nombre d'atomes de carbone, d'hydrogène et d'oxygène du côté des réactifs et du côté des produits. Ajoute des molécules identiques (pas de nouveaux types de molécules) jusqu'à ce que les totaux correspondent.</div>
+      </li>
+      <li>Reproduire et compléter le dessin ci-dessous afin que le système initial, modélisé par les réactifs, et le système final, modélisé par les produits, respectent la conservation des éléments.
+        <button class="btn-indice" onclick="toggleIndice('ind-re3')">💡 Indice</button>
+        <div class="indice-box" id="ind-re3">Lors d'une transformation chimique, les atomes ne disparaissent pas : chaque élément chimique présent dans l'état initial doit se retrouver, en même quantité, dans l'état final.</div>
+      </li>
+    </ol>
+    <img src="p130-2.png" alt="Modèles moléculaires — réactifs et produits" style="max-width:500px;width:100%;display:block;margin:10px auto 0;border-radius:10px;border:1.5px solid var(--gris-bord);">
+  </div>
+  <div class="activite-card">
+    <h3>3. Valider</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">Écrire l'équation de la réaction modélisant la transformation étudiée.
+      <button class="btn-indice" onclick="toggleIndice('ind-val')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-val">Une équation de réaction s'écrit sous la forme réactifs → produits, avec des coefficients stœchiométriques (nombres entiers devant les formules) ajustés pour respecter la conservation des éléments.</div>
+  </div>
+  </div>
+  </div>
+  <!-- /act-1 -->
+
+  <div class="sub-tab-content" id="act-2">
+  <div class="card">
+  <div class="section-title">Activité 2 — Identification du bonbon limitant</div>
+  <div class="activite-card">
+    <h3>Contexte</h3>
+    <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;">
+      <div style="flex:1;min-width:220px;">
+        <p style="font-size:0.9rem;line-height:1.6;">À l'occasion de son anniversaire, un adolescent souhaite préparer pour ses amis des sachets-cadeaux identiques de bonbons. Pour cela, il doit acheter des paquets de bonbons. Dans le magasin, il y a trois paquets différents de bonbons qui pourraient convenir pour son projet.</p>
+        <p style="font-size:0.9rem;line-height:1.6;margin-top:8px;"><strong>Quel paquet doit-il choisir ?</strong></p>
+      </div>
+      <img src="p131-1.png" alt="Sachets-cadeaux de bonbons en forme de fraises et de crocodiles" style="max-width:240px;width:100%;flex-shrink:0;border-radius:10px;border:1.5px solid var(--gris-bord);">
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>Données — Tableau 1 : composition des paquets de bonbons disponibles dans le magasin</h3>
+    <table class="donnees-table">
+      <tr><th></th><th>Paquet A</th><th>Paquet B</th><th>Paquet C</th></tr>
+      <tr><td>Fraises en guimauve (notées F)</td><td>10</td><td>10</td><td>10</td></tr>
+      <tr><td>Crocodiles gélifiés (notés C)</td><td>20</td><td>30</td><td>25</td></tr>
+    </table>
+    <p style="font-size:0.85rem;line-height:1.6;margin-top:10px;">
+      On note <em>N<sub>F,i</sub></em> et <em>N<sub>C,i</sub></em> les nombres initiaux respectivement de fraises et de crocodiles dans un paquet de bonbons, et <em>N<sub>F,f</sub></em> et <em>N<sub>C,f</sub></em> les nombres finaux respectivement de fraises et de crocodiles restants dans le paquet à l'issue de la préparation des sachets-cadeaux.
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>1. Réaliser</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>a.</strong> En analysant la photographie, écrire l'équation traduisant la préparation d'un sachet-cadeau sous la forme <em>a</em> F + <em>b</em> C → S, <em>a</em> et <em>b</em> étant des entiers positifs appelés nombres stœchiométriques.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-1a')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-1a">Regarde la photo : combien de bonbons "fraise" et combien de bonbons "crocodile" apparaissent ensemble dans un même sachet-cadeau ? Ce sont ces nombres qui deviennent les coefficients <em>a</em> et <em>b</em>.</div>
+
+    <div class="champ-reponse">
+      <label for="a2-1a-eq">Ta réponse (équation) :</label>
+      <input type="text" class="blank-input" id="a2-1a-eq" placeholder="Ex : a F + b C → S">
+      <div class="field-feedback" id="fb-a2-1a-eq"></div>
+    </div>
+    <button class="btn-verif-sm" onclick="verifA2_1a()">✔ Vérifier</button>
+
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
+      <strong>b.</strong> Pour chaque paquet de bonbons, préparer le plus possible de sachets-cadeaux ; déterminer leur nombre et le nombre de bonbons non utilisés. Recopier et compléter le tableau 2.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-1b')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-1b">Pour un paquet donné, divise <em>N<sub>F,i</sub></em> par <em>a</em> et <em>N<sub>C,i</sub></em> par <em>b</em> : le plus petit des deux résultats (arrondi à l'entier inférieur) donne le nombre maximum de sachets réalisables. Ensuite, <em>N<sub>F,f</sub></em> et <em>N<sub>C,f</sub></em> sont ce qu'il reste après avoir retiré les bonbons utilisés.</div>
+
+    <p style="font-size:0.85rem;font-weight:700;color:var(--bleu);margin-top:14px;">Tableau 2 — Notations et constitution des sachets-cadeaux</p>
+    <table class="donnees-table">
+      <tr><th></th><th>Paquet A</th><th>Paquet B</th><th>Paquet C</th></tr>
+      <tr><td>N<sub>F,i</sub></td>
+        <td><input class="table-input" id="t2-a-nfi" type="number" step="any"></td>
+        <td>10</td>
+        <td><input class="table-input" id="t2-c-nfi" type="number" step="any"></td>
+      </tr>
+      <tr><td>N<sub>F,f</sub></td>
+        <td>2</td>
+        <td><input class="table-input" id="t2-b-nff" type="number" step="any"></td>
+        <td><input class="table-input" id="t2-c-nff" type="number" step="any"></td>
+      </tr>
+      <tr><td>N<sub>C,i</sub></td>
+        <td><input class="table-input" id="t2-a-nci" type="number" step="any"></td>
+        <td><input class="table-input" id="t2-b-nci" type="number" step="any"></td>
+        <td>25</td>
+      </tr>
+      <tr><td>N<sub>C,f</sub></td>
+        <td><input class="table-input" id="t2-a-ncf" type="number" step="any"></td>
+        <td>5</td>
+        <td><input class="table-input" id="t2-c-ncf" type="number" step="any"></td>
+      </tr>
+      <tr><td>N<sub>F,i</sub> / N<sub>C,i</sub></td>
+        <td>0,5</td>
+        <td><input class="table-input" id="t2-b-ratio" type="number" step="any"></td>
+        <td><input class="table-input" id="t2-c-ratio" type="number" step="any"></td>
+      </tr>
+      <tr><td><em>a</em> / <em>b</em></td>
+        <td><input class="table-input" id="t2-a-ab" type="number" step="any"></td>
+        <td>0,4</td>
+        <td><input class="table-input" id="t2-c-ab" type="number" step="any"></td>
+      </tr>
+    </table>
+    <p style="text-align:center;margin-top:10px;">
+      <button class="btn-verif" onclick="verifierTableau2()">✔ Vérifier</button>
+      <button class="btn-reset" onclick="resetTableau2()">↺ Recommencer</button>
+    </p>
+  </div>
+
+  <div class="activite-card">
+    <h3>2. Analyser-Raisonner</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>a.</strong> Pour les paquets de bonbons A et B : indiquer le type de bonbon qui limite la préparation des sachets-cadeaux ; préciser si le quotient N<sub>F,i</sub>/N<sub>C,i</sub> des nombres initiaux de bonbons est inférieur ou supérieur au quotient <em>a</em>/<em>b</em> des nombres stœchiométriques.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-2a')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-2a">Le bonbon limitant est celui dont le nombre final restant est nul. Compare ensuite les deux quotients calculés dans le tableau 2 pour ce paquet.</div>
+
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-2a-limA">Paquet A — bonbon limitant :</label>
+        <input type="text" class="blank-input" id="a2-2a-limA" placeholder="…">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-2a-compA">Paquet A — N<sub>F,i</sub>/N<sub>C,i</sub> … <em>a</em>/<em>b</em> :</label>
+        <input type="text" class="blank-input" id="a2-2a-compA" placeholder="&lt;, &gt; ou =">
+      </div>
+    </div>
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-2a-limB">Paquet B — bonbon limitant :</label>
+        <input type="text" class="blank-input" id="a2-2a-limB" placeholder="…">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-2a-compB">Paquet B — N<sub>F,i</sub>/N<sub>C,i</sub> … <em>a</em>/<em>b</em> :</label>
+        <input type="text" class="blank-input" id="a2-2a-compB" placeholder="&lt;, &gt; ou =">
+      </div>
+    </div>
+    <div class="field-feedback" id="fb-a2-2a"></div>
+    <button class="btn-verif-sm" onclick="verifA2_2a()">✔ Vérifier</button>
+
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
+      <strong>b.</strong> Indiquer le paquet qu'il serait le plus judicieux d'acheter. Justifier la réponse.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-2b')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-2b">Le paquet le plus judicieux est celui pour lequel il ne reste aucun bonbon inutilisé à la fin — c'est-à-dire celui où les deux quotients calculés sont égaux.</div>
+
+    <div class="champ-reponse">
+      <label for="a2-2b-paquet">Quel paquet acheter ?</label>
+      <input type="text" class="blank-input" id="a2-2b-paquet" placeholder="A, B ou C" style="max-width:120px;">
+      <div class="field-feedback" id="fb-a2-2b-paquet"></div>
+    </div>
+    <button class="btn-verif-sm" onclick="verifA2_2b()">✔ Vérifier</button>
+
+    <button class="btn-correction" onclick="corrAct2(2)" style="margin-top:14px;">👁 Correction</button>
+    <div class="correction-block" id="corr-act2-2">
+      <p><strong>Paquet A</strong> — C'est le crocodile gélifié qui limite la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> &gt; <em>a</em>/<em>b</em>.</p>
+      <p style="margin-top:8px;"><strong>Paquet B</strong> — C'est la fraise en guimauve qui limite la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> &lt; <em>a</em>/<em>b</em>.</p>
+      <p style="margin-top:8px;"><strong>Paquet C</strong> — La fraise en guimauve et le crocodile gélifié limitent tous les deux la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> = <em>a</em>/<em>b</em>.</p>
+      <div class="calc-step"><strong>b.</strong> Il est judicieux d'acheter le paquet C. En effet, à la fin de la préparation des sachets-cadeaux, il ne reste aucun bonbon : tous les bonbons ont été utilisés.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>3. Réaliser</h3>
+    <p style="font-size:0.85rem;font-style:italic;color:var(--texte-léger);">Pour toute cette partie, on ne travaille qu'avec le paquet de bonbons A.</p>
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:8px;">
+      <strong>a.</strong> On utilise 6,02×10²³ paquets. Déterminer le nombre de fraises et de crocodiles disponibles.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-3a')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-3a">Multiplie le nombre de paquets par le nombre de fraises (puis de crocodiles) contenu dans un seul paquet A (donné dans le tableau 1).</div>
+
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-3a-f">Nombre de fraises :</label>
+        <input type="text" class="blank-input" id="a2-3a-f" placeholder="Ex : 6,02×10²⁴">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-3a-c">Nombre de crocodiles :</label>
+        <input type="text" class="blank-input" id="a2-3a-c" placeholder="Ex : 1,204×10²⁵">
+      </div>
+    </div>
+    <div class="field-feedback" id="fb-a2-3a"></div>
+    <button class="btn-verif-sm" onclick="verifA2_3a()">✔ Vérifier</button>
+
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
+      <strong>b.</strong> En déduire les quantités de matière : initiale n<sub>F,i</sub> de fraises et finale n<sub>F,f</sub> de fraises non utilisées pour préparer les sachets-cadeaux ; initiale n<sub>C,i</sub> de crocodiles et finale n<sub>C,f</sub> de crocodiles non utilisés pour préparer les sachets-cadeaux.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-3b')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-3b">Une mole correspond à 6,02×10²³ entités. Pour convertir un nombre d'entités en quantité de matière, divise-le par la constante d'Avogadro N<sub>A</sub> = 6,02×10²³ mol⁻¹. Réutilise les valeurs N<sub>F,f</sub> et N<sub>C,f</sub> du tableau 2 (paquet A) pour les quantités finales.</div>
+
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-3b-nfi">n<sub>F,i</sub> (mol) :</label>
+        <input type="text" class="blank-input" id="a2-3b-nfi" placeholder="…">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-3b-nff">n<sub>F,f</sub> (mol) :</label>
+        <input type="text" class="blank-input" id="a2-3b-nff" placeholder="…">
+      </div>
+    </div>
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-3b-nci">n<sub>C,i</sub> (mol) :</label>
+        <input type="text" class="blank-input" id="a2-3b-nci" placeholder="…">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-3b-ncf">n<sub>C,f</sub> (mol) :</label>
+        <input type="text" class="blank-input" id="a2-3b-ncf" placeholder="…">
+      </div>
+    </div>
+    <div class="field-feedback" id="fb-a2-3b"></div>
+    <button class="btn-verif-sm" onclick="verifA2_3b()">✔ Vérifier</button>
+
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
+      <strong>c.</strong> Calculer le quotient n<sub>F,i</sub>/n<sub>C,i</sub> et le comparer au quotient <em>a</em>/<em>b</em>.
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-3c')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-3c">Le rapport des quantités de matière est le même que le rapport des nombres d'entités calculé au tableau 2, car la conversion en moles se fait avec la même constante N<sub>A</sub> pour les deux espèces.</div>
+
+    <div class="champs-row">
+      <div class="champ-reponse">
+        <label for="a2-3c-q">n<sub>F,i</sub>/n<sub>C,i</sub> =</label>
+        <input type="text" class="blank-input" id="a2-3c-q" placeholder="…">
+      </div>
+      <div class="champ-reponse">
+        <label for="a2-3c-comp">Comparaison à <em>a</em>/<em>b</em> :</label>
+        <input type="text" class="blank-input" id="a2-3c-comp" placeholder="&lt;, &gt; ou =">
+      </div>
+    </div>
+    <div class="field-feedback" id="fb-a2-3c"></div>
+    <button class="btn-verif-sm" onclick="verifA2_3c()">✔ Vérifier</button>
+
+    <button class="btn-correction" onclick="corrAct2(3)" style="margin-top:14px;">👁 Correction</button>
+    <div class="correction-block" id="corr-act2-3">
+      <div class="calc-step"><strong>a.</strong> 6,02×10²³ paquets A → 6,02×10²⁴ fraises et 1,204×10²⁵ crocodiles.</div>
+      <div class="calc-step"><strong>b.</strong> Pour F : n<sub>F,i</sub> = 6,02×10²⁴ / 6,02×10²³ = 10 mol ; n<sub>F,f</sub> = 2×6,02×10²³ / 6,02×10²³ = 2 mol.<br>Pour C : n<sub>C,i</sub> = 1,204×10²⁵ / 6,02×10²³ = 20 mol ; n<sub>C,f</sub> = 0 mol.</div>
+      <div class="calc-step"><strong>c.</strong> n<sub>F,i</sub>/n<sub>C,i</sub> = 10/20 = 0,5. Comme à la question 2.a, le crocodile est le bonbon limitant, et n<sub>F,i</sub>/n<sub>C,i</sub> &gt; <em>a</em>/<em>b</em>.</div>
+    </div>
+  </div>
+
+  <div class="activite-card">
+    <h3>4. Communiquer</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      Le réactif limitant dans une transformation chimique est le réactif qui est entièrement consommé à la fin de cette transformation.
+    </p>
+    <p style="font-size:0.9rem;line-height:1.6;margin-top:8px;">
+      <strong>Réaliser un support visuel expliquant comment déterminer le réactif limitant à partir des quantités de matière des réactifs et de l'équation de réaction.</strong>
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-4')">💡 Indice</button>
+    </p>
+    <div class="indice-box" id="ind-a2-4">Généralise le raisonnement mené sur les bonbons F et C : pour une réaction <em>a</em> A + <em>b</em> B → produits, compare le quotient n<sub>A,i</sub>/n<sub>B,i</sub> au quotient <em>a</em>/<em>b</em> des nombres stœchiométriques.</div>
+
+    <div class="champ-reponse">
+      <label for="a2-4-a">Si n<sub>A,i</sub>/n<sub>B,i</sub> … <em>a</em>/<em>b</em>, alors A est limitant :</label>
+      <input type="text" class="blank-input" id="a2-4-a" placeholder="&lt;, &gt; ou =">
+    </div>
+    <div class="champ-reponse">
+      <label for="a2-4-b">Si n<sub>A,i</sub>/n<sub>B,i</sub> … <em>a</em>/<em>b</em>, alors B est limitant :</label>
+      <input type="text" class="blank-input" id="a2-4-b" placeholder="&lt;, &gt; ou =">
+    </div>
+    <div class="champ-reponse">
+      <label for="a2-4-eq">Si n<sub>A,i</sub>/n<sub>B,i</sub> … <em>a</em>/<em>b</em>, alors A et B sont tous les deux limitants :</label>
+      <input type="text" class="blank-input" id="a2-4-eq" placeholder="&lt;, &gt; ou =">
+    </div>
+    <div class="field-feedback" id="fb-a2-4"></div>
+    <button class="btn-verif-sm" onclick="verifA2_4()">✔ Vérifier</button>
+
+    <button class="btn-correction" onclick="corrAct2(4)" style="margin-top:14px;">👁 Correction</button>
+    <div class="correction-block" id="corr-act2-4">
+      <p>On considère la réaction d'équation <em>a</em> A + <em>b</em> B → produits, avec n<sub>A,i</sub> et n<sub>B,i</sub> les quantités de matière initiales des réactifs A et B.</p>
+      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> &lt; <em>a</em>/<em>b</em>, alors le réactif A est limitant.</div>
+      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> &gt; <em>a</em>/<em>b</em>, alors le réactif B est limitant.</div>
+      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> = <em>a</em>/<em>b</em>, alors les réactifs A et B sont tous les deux limitants.</div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  <!-- /act-2 -->
+
+  <div class="sub-tab-content" id="act-3">
+  <div class="card">
+  <div class="section-title">Activité 3 — Identifier le réactif limitant</div>
+  <div class="activite-card">
+    <h3>Animation interactive : le réactif limitant</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      <strong>Objectif :</strong> manipuler une animation interactive simulant une transformation chimique entre deux réactifs dans des proportions variables, pour visualiser directement quel réactif est entièrement consommé selon les quantités initiales.
+    </p>
+    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;">
+      Ressource : <em>Physique-Chimie Seconde</em>, éditions Hatier — Hatier Clic.
+    </p>
+  </div>
+  <div class="activite-card">
+    <h3>Animation</h3>
+    <div style="position:relative;width:100%;max-width:900px;margin:0 auto;border:1.5px solid var(--gris-bord);border-radius:12px;overflow:hidden;background:var(--gris-fond);">
+      <iframe src="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_reactiflimitant/index.html" title="Animation interactive — le réactif limitant" style="width:100%;height:520px;border:0;display:block;" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <p style="text-align:center;margin-top:10px;">
+      <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_reactiflimitant/index.html" target="_blank" rel="noopener" style="font-size:0.85rem;font-weight:600;color:var(--bleu);text-decoration:none;">
+        ↗ Ouvrir l'animation dans un nouvel onglet
+      </a>
+    </p>
+  </div>
+  <div class="activite-card">
+    <h3>Consigne et questions</h3>
+    <p style="font-size:0.9rem;line-height:1.6;">
+      Lance l'animation, fais varier les quantités initiales des deux réactifs proposés, puis observe l'état final du système pour répondre aux questions suivantes.
+    </p>
+    <ol style="font-size:0.9rem;line-height:1.8;padding-left:20px;margin-top:8px;">
+      <li>Pour un mélange donné, quel réactif a totalement disparu dans l'état final ? Quel réactif reste-t-il en excès ?</li>
+      <li>Que peut-on dire de ce réactif totalement consommé ? Comment le qualifie-t-on ?</li>
+      <li>En faisant varier les proportions initiales, peux-tu trouver un mélange où <strong>aucun</strong> réactif n'est en excès ? Comment appelle-t-on ce type de mélange ?</li>
+      <li>À partir de tes observations, propose une méthode générale (sans utiliser l'animation) pour prévoir quel réactif sera limitant, à partir des quantités de matière initiales et des coefficients stœchiométriques.</li>
+    </ol>
+  </div>
+  </div>
+  </div>
+  <!-- /act-3 -->
+
 </div>
 
 <!-- ══════════════════ TAB — EXERCICES ══════════════════ -->
@@ -881,7 +1320,30 @@
   </div>
 
   <div class="sub-tab-content active" id="exo-faciles">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/formules_chimiques_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Formules chimiques <span class="diff-etoiles">⭐</span></h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (1) <span class="diff-etoiles">⭐⭐</span></h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_2_charges_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (2) — charges <span class="diff-etoiles">⭐⭐⭐</span></h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        </div>
+      </a>
+
+    </div>
   </div>
   <div class="sub-tab-content" id="exo-inter">
     <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
@@ -890,7 +1352,26 @@
     <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
   </div>
   <div class="sub-tab-content" id="exo-escape">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+
+    <div style="border-radius:14px;overflow:hidden;border:2px solid var(--rouge-activite-bord);margin-bottom:20px;box-shadow:0 2px 12px rgba(192,57,43,0.10);">
+      <div style="background:var(--rouge);padding:10px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:1.1rem;">🔓</span>
+        <span style="font-family:'Outfit',sans-serif;font-weight:700;color:white;font-size:0.92rem;">Escape Game — Transformation chimique</span>
+      </div>
+      <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;background:var(--rouge-activite);">
+        <iframe
+          src="https://view.genially.com/6075b12d701ac40d376a89c7"
+          title="Escape Game — Transformation chimique"
+          allowfullscreen
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"
+          loading="lazy">
+        </iframe>
+      </div>
+      <div style="background:var(--rouge-activite);padding:8px 18px;font-size:0.78rem;color:var(--texte-léger);display:flex;align-items:center;gap:6px;">
+        <span>💡</span> Résous les énigmes pour progresser dans l'escape game et réviser la séquence.
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -948,7 +1429,7 @@
     </div>
   </div>
 
-  <div class="footer-note">Séquence 07 · Physique-Chimie 2<sup>nde</sup> · C. Poirault-Gauvin</div>
+  <div class="footer-note">2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 2B – Fiche de cours n°07 – C. Poirault-Gauvin</div>
   </div>
   <!-- /bilan-sub-0 -->
 
@@ -973,27 +1454,27 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://www.pearltrees.com/private/id104964411/item801674569?paccess=47d1d580203.2fc89549.6cbd35141306a2d6110643cadd87fca2" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🎬 Vidéo bilan — Transformation chimique et synthèse</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🎬 Vidéo bilan — Transformation chimique et synthèse</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier . 4 min 33 </p>
         </div>
       </a>
 
       <a href="https://www.pearltrees.com/private/id104964411/item809868627?paccess=47dfa5040e9.30459d53.d66be597b7a877269e9a0bec1995793c" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 TRANSFORMATION CHIMIQUE — L'essentiel pour réviser</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-paulolivier);">🎬 TRANSFORMATION CHIMIQUE — L'essentiel pour réviser</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 3 min 53</p>
         </div>
       </a>
             <a href="https://www.pearltrees.com/private/id104964411/item801674745?paccess=47d1d5b6c4d.2fc895f9.fee5bf4ab0a44753f96b355b2723d80d" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Montage à reflux</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-autres);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-autres);">🔬 Montage à reflux</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">CultureSciences Chimie . 12 min 08</p>
         </div>
       </a>
       <a href="https://www.pearltrees.com/private/id104964411/item809868860?paccess=47dfa5c0fb6.30459e3c.42c0a0ed1e072ab83ca96ad528f54f86" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--vert);">🎬 Montage de CHAUFFAGE à REFLUX ✅ Schéma + Explications</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-paulolivier);">🎬 Montage de CHAUFFAGE à REFLUX ✅ Schéma + Explications</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 1 min 55</p>
         </div>
       </a>
@@ -1003,57 +1484,57 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/formules_chimiques_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🔬 Formules chimiques</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Formules chimiques</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
         </div>
       </a>
 
       <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/molecules_en_3D_flash_animation_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🔬 Molécules en 3D</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Molécules en 3D</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
         </div>
       </a>
 
       <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/reactions_chimiques_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🔬 Réactions chimiques</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Réactions chimiques</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
         </div>
       </a>
 
       <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🔬 Ajuster la stœchiométrie (1)</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (1)</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
         </div>
       </a>
 
       <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_2_charges_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--violet);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--violet);">🔬 Ajuster la stœchiométrie (2) — charges</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (2) — charges</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
         </div>
       </a>
 
       <a href="https://phet.colorado.edu/sims/html/reactants-products-and-leftovers/latest/reactants-products-and-leftovers_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 PhET — Réactifs, produits et excès</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-phet-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-phet-fonce);">🔬 PhET — Réactifs, produits et excès</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
         </div>
       </a>
 
       <a href="https://phet.colorado.edu/sims/html/balancing-chemical-equations/latest/balancing-chemical-equations_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 PhET — Ajuster des équations chimiques </h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-phet-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-phet-fonce);">🔬 PhET — Ajuster des équations chimiques </h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
         </div>
       </a>
 
       <a href="https://physique-chimie.ac-normandie.fr/spip.php?article222" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">🔬 Ajuster des équations</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-autres);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-autres);">🔬 Ajuster des équations</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Académie de Normandie.</p>
         </div>
       </a>
@@ -1064,15 +1545,15 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_07/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">📝 QCM diagnostic</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">📝 QCM diagnostic</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
         </div>
       </a>
 
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_07/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">📝 QCM de maîtrise des notions</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">📝 QCM de maîtrise des notions</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
         </div>
       </a>
@@ -1083,29 +1564,29 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_reactiflimitant/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🧩 Activité — Réactif limitant</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🧩 Activité — Réactif limitant</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
         </div>
       </a>
 
       <a href="https://view.genially.com/6075b12d701ac40d376a89c7" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🧩 Activité — Transformation</h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · Genially.</p>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🔓 Escape Game — Transformation</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · Genially · aussi disponible dans l'onglet Exercices.</p>
         </div>
       </a>
 
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/flashcards_pc2de/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rouge);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--rouge);">🗂️ Flashcards interactives</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-hatier);">🗂️ Flashcards interactives</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier.</p>
         </div>
       </a>
 
       <a href="seq07/fiche-de-cours-07.pdf" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--bleu);">📄 Fiche de cours PDF</h4>
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-autres);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-autres);">📄 Fiche de cours PDF</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">C. Poirault-Gauvin.</p>
         </div>
       </a>
@@ -1261,6 +1742,158 @@ function repCorrosion(btn, rep) {
 
 // ── ÉTAPES CLIQUABLES ──
 let etapeOuverte = null;
+function toggleIndice(id) {
+  const box = document.getElementById(id);
+  if (box) box.classList.toggle('visible');
+}
+
+// ── ACTIVITÉ 2 : Tableau à compléter (bonbon limitant) ──
+const tableau2Solutions = {
+  't2-a-nfi': 10, 't2-c-nfi': 10,
+  't2-b-nff': 0, 't2-c-nff': 0,
+  't2-a-nci': 20, 't2-b-nci': 30,
+  't2-a-ncf': 0, 't2-c-ncf': 0,
+  't2-b-ratio': 0.33, 't2-c-ratio': 0.4,
+  't2-a-ab': 0.4, 't2-c-ab': 0.4
+};
+
+function verifierTableau2() {
+  for (const id in tableau2Solutions) {
+    const input = document.getElementById(id);
+    if (!input) continue;
+    const val = parseFloat(input.value.replace(',', '.'));
+    const sol = tableau2Solutions[id];
+    const tol = (id.includes('ratio') || id.includes('ab')) ? 0.02 : 0.001;
+    if (!isNaN(val) && Math.abs(val - sol) <= tol) {
+      input.className = 'table-input correct';
+    } else {
+      input.className = 'table-input wrong';
+    }
+  }
+}
+
+function resetTableau2() {
+  for (const id in tableau2Solutions) {
+    const input = document.getElementById(id);
+    if (!input) continue;
+    input.value = '';
+    input.className = 'table-input';
+  }
+}
+
+function corrAct2(n) {
+  const block = document.getElementById('corr-act2-' + n);
+  if (block) block.classList.toggle('visible');
+}
+
+// ── ACTIVITÉ 2 : champs de réponse libres à vérifier ──
+function normTxtA2(s){ return (s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function normNumA2(s){
+  s = (s||'').toLowerCase().replace(/\s/g,'').replace(',', '.');
+  s = s.replace('×10²⁴','e24').replace('×10²⁵','e25').replace('×10²³','e23');
+  s = s.replace(/x10\^?(-?\d+)/,'e$1').replace(/×10\^?(-?\d+)/,'e$1');
+  return parseFloat(s);
+}
+function setBlank(id, ok){
+  const input = document.getElementById(id);
+  if (!input) return;
+  input.classList.remove('correct','wrong');
+  input.classList.add(ok ? 'correct' : 'wrong');
+}
+function setFb(id, ok, indiceId){
+  const fb = document.getElementById(id);
+  if (!fb) return;
+  if (ok) {
+    fb.textContent = '✅ Correct !';
+    fb.className = 'field-feedback ok';
+  } else {
+    const indice = document.getElementById(indiceId);
+    fb.textContent = '❌ ' + (indice ? indice.textContent : 'Réessaie.');
+    fb.className = 'field-feedback ko';
+  }
+}
+
+function verifA2_1a(){
+  const t = normTxtA2(document.getElementById('a2-1a-eq').value).replace(/\s/g,'');
+  const ok = t.includes('2f') && t.includes('5c') && t.includes('s');
+  setBlank('a2-1a-eq', ok);
+  setFb('fb-a2-1a-eq', ok, 'ind-a2-1a');
+}
+
+function verifA2_2a(){
+  const limA = normTxtA2(document.getElementById('a2-2a-limA').value);
+  const compA = document.getElementById('a2-2a-compA').value;
+  const limB = normTxtA2(document.getElementById('a2-2a-limB').value);
+  const compB = document.getElementById('a2-2a-compB').value;
+  const okLimA = limA.includes('crocodile');
+  const okCompA = compA.includes('>') || normTxtA2(compA).includes('superieur');
+  const okLimB = limB.includes('fraise');
+  const okCompB = compB.includes('<') || normTxtA2(compB).includes('inferieur');
+  setBlank('a2-2a-limA', okLimA);
+  setBlank('a2-2a-compA', okCompA);
+  setBlank('a2-2a-limB', okLimB);
+  setBlank('a2-2a-compB', okCompB);
+  setFb('fb-a2-2a', okLimA && okCompA && okLimB && okCompB, 'ind-a2-2a');
+}
+
+function verifA2_2b(){
+  const t = normTxtA2(document.getElementById('a2-2b-paquet').value);
+  const ok = /\bc\b/.test(t) || t === 'c';
+  setBlank('a2-2b-paquet', ok);
+  setFb('fb-a2-2b-paquet', ok, 'ind-a2-2b');
+}
+
+function verifA2_3a(){
+  const f = normNumA2(document.getElementById('a2-3a-f').value);
+  const c = normNumA2(document.getElementById('a2-3a-c').value);
+  const okF = !isNaN(f) && Math.abs(f - 6.02e24)/6.02e24 < 0.02;
+  const okC = !isNaN(c) && Math.abs(c - 1.204e25)/1.204e25 < 0.02;
+  setBlank('a2-3a-f', okF);
+  setBlank('a2-3a-c', okC);
+  setFb('fb-a2-3a', okF && okC, 'ind-a2-3a');
+}
+
+function verifA2_3b(){
+  const vals = {
+    'a2-3b-nfi': [document.getElementById('a2-3b-nfi').value, 10],
+    'a2-3b-nff': [document.getElementById('a2-3b-nff').value, 2],
+    'a2-3b-nci': [document.getElementById('a2-3b-nci').value, 20],
+    'a2-3b-ncf': [document.getElementById('a2-3b-ncf').value, 0]
+  };
+  let allOk = true;
+  for (const id in vals) {
+    const v = normNumA2(vals[id][0]);
+    const sol = vals[id][1];
+    const ok = !isNaN(v) && Math.abs(v - sol) < 0.05;
+    setBlank(id, ok);
+    if (!ok) allOk = false;
+  }
+  setFb('fb-a2-3b', allOk, 'ind-a2-3b');
+}
+
+function verifA2_3c(){
+  const q = normNumA2(document.getElementById('a2-3c-q').value);
+  const comp = document.getElementById('a2-3c-comp').value;
+  const okQ = !isNaN(q) && Math.abs(q - 0.5) < 0.02;
+  const okComp = comp.includes('>') || normTxtA2(comp).includes('superieur');
+  setBlank('a2-3c-q', okQ);
+  setBlank('a2-3c-comp', okComp);
+  setFb('fb-a2-3c', okQ && okComp, 'ind-a2-3c');
+}
+
+function verifA2_4(){
+  const a = document.getElementById('a2-4-a').value;
+  const b = document.getElementById('a2-4-b').value;
+  const eq = document.getElementById('a2-4-eq').value;
+  const okA = a.includes('<') || normTxtA2(a).includes('inferieur');
+  const okB = b.includes('>') || normTxtA2(b).includes('superieur');
+  const okEq = eq.includes('=') || normTxtA2(eq).includes('egal');
+  setBlank('a2-4-a', okA);
+  setBlank('a2-4-b', okB);
+  setBlank('a2-4-eq', okEq);
+  setFb('fb-a2-4', okA && okB && okEq, 'ind-a2-4');
+}
+
 function toggleEtape(n) {
   const card = document.getElementById('etape-'+n);
   const detail = document.getElementById('detail-'+n);

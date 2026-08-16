@@ -516,6 +516,17 @@
   }
   .qcm-item .substance { font-size: 0.93rem; font-weight: 600; flex: 1; }
   .qcm-choices { display: flex; gap: 8px; flex-wrap: wrap; }
+  .qcm-choices::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: var(--bleu-moyen);
+    margin-bottom: 2px;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.01em;
+  }
   .qcm-btn {
     padding: 5px 14px;
     border: 1.5px solid var(--gris-bord);
@@ -1203,26 +1214,29 @@
 </div>
 </div>
 <div style="background:var(--gris-fond);border-radius:10px;padding:12px;margin:0 0 16px 0;overflow-x:auto;">
-<img alt="Comparaison concentration en masse (masse de soluté sur volume de solution) et masse volumique de la solution (masse de la solution sur volume de solution)" src="illustration_sousonglet2.png" style="width:100%;max-width:900px;display:block;margin:0 auto;"/>
+<img alt="Comparaison concentration en masse (masse de soluté sur volume de solution) et masse volumique de la solution (masse de la solution sur volume de solution)" src="illustration_sousonglet2.png" style="width:60%;max-width:900px;display:block;margin:0 auto;"/>
 </div>
 <div class="remarque-box">
 <strong>🔑 À ne pas confondre :</strong> C<sub>m</sub>(soluté) ne tient compte que de la masse de soluté dissous, alors que ρ<sub>solution</sub> tient compte de la masse <em>totale</em> de la solution (solvant + soluté). On a toujours C<sub>m</sub>(soluté) ≤ ρ<sub>solution</sub>.
   </div>
 <div class="def-card">
 <h3>Calculateur – Concentration en masse</h3>
-<p style="margin-bottom:10px;">Entre deux des trois grandeurs pour calculer la troisième :</p>
+<p style="margin-bottom:10px;">Renseigne la masse de soluté dissoute et le volume de la solution obtenue : le calculateur convertit automatiquement le volume en litres, puis applique la formule ci-dessus pour déterminer C<sub>m</sub>.</p>
 <div class="composition-calc">
 <div class="calc-row">
 <label for="cm-m">Masse de soluté m<sub>soluté</sub> :</label>
-<input class="calc-input" id="cm-m" placeholder="ex : 2,5" type="number"/>
+<input class="calc-input" id="cm-m" min="0" placeholder="ex : 2,5" step="any" type="number"/>
 <span class="calc-unit">g</span>
 </div>
 <div class="calc-row">
 <label for="cm-v">Volume de solution V<sub>solution</sub> :</label>
-<input class="calc-input" id="cm-v" placeholder="ex : 500" type="number"/>
+<input class="calc-input" id="cm-v" min="0" placeholder="ex : 500" step="any" type="number"/>
 <span class="calc-unit">mL</span>
 </div>
+<div class="exo-btn-row">
 <button class="btn-calc" onclick="calcConcentration()">Calculer C<sub>m</sub></button>
+<button class="btn-recommencer" onclick="resetConcentrationCalc()">↺ Recommencer</button>
+</div>
 <div class="calc-result" id="res-cm"></div>
 </div>
 </div>
@@ -1347,7 +1361,10 @@
 </div>
 <div class="def-card">
 <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">f. Échelle de teinte</h3>
-<p>Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.</p>
+<div style="display:grid;grid-template-columns:1.8fr 1fr;gap:14px;align-items:start;">
+<p style="margin:0;">Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.<br/><br/>Sur l'exemple ci-contre, une gamme étalon de sulfate de cuivre pentahydraté (CuSO<sub>4</sub>·5H<sub>2</sub>O) permet d'encadrer la concentration d'une solution inconnue X par comparaison de sa teinte à celles des tubes témoins.</p>
+<img alt="Échelle de teinte et colorimétrie : gamme étalon de sulfate de cuivre pentahydraté CuSO4·5H2O de concentrations croissantes (0,001 à 0,20 mol/L) et solution inconnue X" src="echelle_teinte_cu.png" style="width:80%;display:block;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.12);"/>
+</div>
 </div>
 <div class="def-card">
 <h3>Calculateur – Facteur de dilution et volume à prélever</h3>
@@ -1784,7 +1801,7 @@
 <!-- fin exo-nouv-facile2 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-solution-test')" type="button">Qu'est-ce qu'une solution ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-solvants-solutes')" type="button">Solvants et solutés <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identif-solvant-solute')" type="button">Identifier solvant et soluté <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-conc-eau-sucree')" type="button">Concentration en masse d'une eau sucrée <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-solution-test"><div class="card" id="exo-solution-test" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Test – Qu'est-ce qu'une solution ?</h3>
+<h3>Exercice 1 — Qu'est-ce qu'une solution ?</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
 <div class="qcm-grid">
@@ -1823,7 +1840,7 @@
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
 </div></div><div class="exo-item-content" id="exoitem-solvants-solutes"><div class="card" id="exo-solvants-solutes" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice – Solvants et solutés</h3>
+<h3>Exercice 2 — Solvants et solutés</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour chaque solution, indique le solvant et le ou les soluté(s) :</p>
@@ -1859,7 +1876,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-identif-solvant-solute"><div class="card" id="exo-nouv-facile1" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice — Identifier solvant et soluté</h3>
+<h3>Exercice 3 — Identifier solvant et soluté</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
 <div class="qcm-grid">
@@ -1907,7 +1924,7 @@
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['nf1q1','nf1q2','nf1q3','nf1q4'])">↺ Recommencer</button>
 </div></div><div class="exo-item-content" id="exoitem-conc-eau-sucree"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice — Concentration en masse d'une eau sucrée</h3>
+<h3>Exercice 4 — Concentration en masse d'une eau sucrée</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -1915,6 +1932,8 @@
     </div>
 <div class="question-block">
 <div class="question-label">Calculer la concentration en masse (titre massique) t de cette solution, en g·L⁻¹.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nf2')">💡 Indice</button>
+<div class="indice-box" id="ind-nf2">Utilise la formule t = m<sub>sucre</sub> / V<sub>solution</sub>. Attention aux unités : convertis d'abord le volume de mL en L.</div>
 <textarea class="rep-zone" id="r-nf2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-nf2')">▶ Voir la correction</button>
@@ -1932,7 +1951,7 @@
 <!-- fin exo-nouv-inter1 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-verrerie')" type="button">Choisir la verrerie adaptée <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-glucose')" type="button">Solution de glucose <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-diiode')" type="button">Dilution d'une solution de diiode <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-masse-solute')" type="button">Masse de soluté à peser <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-verrerie"><div class="card" id="exo-verrerie" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice – Choisir la verrerie adaptée</h3>
+<h3>Exercice 1 — Choisir la verrerie adaptée</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour préparer une solution par <strong>dissolution</strong> (volume précis), quelle verrerie utilise-t-on pour chaque étape ? Clique sur la bonne réponse :</p>
@@ -1984,7 +2003,7 @@
 <button class="btn-recommencer" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])" style="margin-top:14px;">↺ Recommencer</button>
 </div></div><div class="exo-item-content" id="exoitem-glucose"><div class="card" id="exo-glucose" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice – Solution de glucose</h3>
+<h3>Exercice 2 — Solution de glucose</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -1993,10 +2012,14 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. Calculer le titre massique t de la solution de glucose.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-gl1')">💡 Indice</button>
+<div class="indice-box" id="ind-gl1">Applique t = m<sub>glucose</sub> / V<sub>solution</sub>, en convertissant d'abord le volume de mL en L.</div>
 <textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-gl2')">💡 Indice</button>
+<div class="indice-box" id="ind-gl2">Compare la valeur trouvée pour t à celle de ρ<sub>glucose</sub> : plus t est petite devant ρ<sub>glucose</sub>, plus la solution contient peu de soluté par rapport à ce que pourrait contenir le glucose pur (solution diluée).</div>
 <textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-glucose')">▶ Voir la correction</button>
@@ -2011,7 +2034,7 @@
     </div>
 </div></div><div class="exo-item-content" id="exoitem-dilution-diiode"><div class="card" id="exo-dilution-diiode" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice – Dilution d'une solution de diiode</h3>
+<h3>Exercice 3 — Dilution d'une solution de diiode</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2019,10 +2042,14 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. Calculer le facteur de dilution F.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-di1')">💡 Indice</button>
+<div class="indice-box" id="ind-di1">Le facteur de dilution se calcule par F = t<sub>m</sub> / t<sub>f</sub> (rapport des concentrations mère et fille).</div>
 <textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-di2')">💡 Indice</button>
+<div class="indice-box" id="ind-di2">Utilise la relation F = V<sub>f</sub> / V<sub>m</sub>, avec V<sub>f</sub> = 0,200 L donné dans l'énoncé, pour isoler V<sub>m</sub>.</div>
 <textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-diiode')">▶ Voir la correction</button>
@@ -2036,7 +2063,7 @@
     </div>
 </div></div><div class="exo-item-content" id="exoitem-masse-solute"><div class="card" id="exo-nouv-inter1" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice — Masse de soluté à peser</h3>
+<h3>Exercice 4 — Masse de soluté à peser</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2044,10 +2071,14 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. Quelle masse m de sulfate de cuivre faut-il peser ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ni1-1')">💡 Indice</button>
+<div class="indice-box" id="ind-ni1-1">Isole la masse dans la formule t = m / V<sub>solution</sub> : m = t × V<sub>solution</sub>, avec V<sub>solution</sub> converti en litres.</div>
 <textarea class="rep-zone" id="r-ni1-1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Décrire brièvement la verrerie à utiliser pour peser cette masse puis ajuster le volume final.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ni1-2')">💡 Indice</button>
+<div class="indice-box" id="ind-ni1-2">Pense à l'instrument utilisé pour peser un solide, puis à la verrerie qui permet d'ajuster précisément un volume final jusqu'à un trait de jauge.</div>
 <textarea class="rep-zone" id="r-ni1-2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-ni1')">▶ Voir la correction</button>
@@ -2068,7 +2099,7 @@
 <!-- fin exo-nouv-diff2 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-conc-max-nacl')" type="button">Concentration maximale du chlorure de sodium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-tp4-etalonnage')" type="button">TP4 : dosage par étalonnage <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-dilution-saturation')" type="button">Dilution proche de la saturation <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-type-bac-desinfection')" type="button">Type Bac — solution de désinfection <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-conc-max-nacl"><div class="card" id="exo-conc-max-nacl" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice – Concentration maximale du chlorure de sodium</h3>
+<h3>Exercice 1 — Concentration maximale du chlorure de sodium</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2076,10 +2107,14 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-na1')">💡 Indice</button>
+<div class="indice-box" id="ind-na1">Calcule la masse maximale de NaCl dissolvable dans 200 mL à l'aide de m<sub>max</sub> = C<sub>max</sub> × V, puis compare-la à 68 g.</div>
 <textarea class="rep-zone" id="r-na1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-na2')">💡 Indice</button>
+<div class="indice-box" id="ind-na2">Utilise à nouveau m<sub>max</sub> = C<sub>max</sub> × V, mais avec V = 50,0 mL converti en litres.</div>
 <textarea class="rep-zone" id="r-na2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-nacl')">▶ Voir la correction</button>
@@ -2108,6 +2143,8 @@
 </div>
 <div class="question-block">
 <div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-teinte1')">💡 Indice</button>
+<div class="indice-box" id="ind-teinte1">Calcule F = V<sub>f</sub> / V<sub>m</sub>, puis utilise t<sub>f1</sub> = t<sub>m</sub> / F avec t<sub>m</sub> = 1,0 g·L⁻¹.</div>
 <textarea class="rep-zone" id="r-teinte1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <table class="ions-table">
@@ -2124,14 +2161,20 @@
 </table>
 <div class="question-block">
 <div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-teinte2')">💡 Indice</button>
+<div class="indice-box" id="ind-teinte2">Lis dans le tableau les concentrations en masse de S<sub>f5</sub> et S<sub>f6</sub> : elles encadrent directement celle de S'.</div>
 <textarea class="rep-zone" id="r-teinte2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-teinte3')">💡 Indice</button>
+<div class="indice-box" id="ind-teinte3">Compare l'encadrement de t<sub>S'</sub> trouvé à la question 2 aux deux valeurs de concentration recommandées (0,10 g·L⁻¹ et 0,5 g·L⁻¹).</div>
 <textarea class="rep-zone" id="r-teinte3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-teinte4')">💡 Indice</button>
+<div class="indice-box" id="ind-teinte4">Repense à la démarche suivie dans cet exercice : comment la gamme de solutions étalons a-t-elle été préparée, puis comment as-tu utilisé la teinte de S' pour encadrer sa concentration ?</div>
 <textarea class="rep-zone" id="r-teinte4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-teinte')">▶ Voir la correction</button>
@@ -2152,7 +2195,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-dilution-saturation"><div class="card" id="exo-nouv-diff1" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice — Dilution d'une solution proche de la saturation</h3>
+<h3>Exercice 3 — Dilution d'une solution proche de la saturation</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2160,14 +2203,20 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. La solution mère est-elle saturée ? Justifier.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-1')">💡 Indice</button>
+<div class="indice-box" id="ind-nd1-1">Compare t<sub>m</sub> à t<sub>max</sub> : une solution est saturée lorsque sa concentration a atteint la valeur maximale de dissolution possible.</div>
 <textarea class="rep-zone" id="r-nd1-1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Calculer le facteur de dilution F entre la solution mère et la solution fille.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-2')">💡 Indice</button>
+<div class="indice-box" id="ind-nd1-2">Utilise F = t<sub>m</sub> / t<sub>f</sub>, avec les valeurs de concentration mère et fille données dans l'énoncé.</div>
 <textarea class="rep-zone" id="r-nd1-2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-3')">💡 Indice</button>
+<div class="indice-box" id="ind-nd1-3">Repars de F = V<sub>f</sub> / V<sub>m</sub> pour isoler V<sub>m</sub>, en utilisant le facteur F trouvé à la question précédente et V<sub>f</sub> = 100 mL.</div>
 <textarea class="rep-zone" id="r-nd1-3" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-nd1')">▶ Voir la correction</button>
@@ -2183,7 +2232,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-type-bac-desinfection"><div class="card" id="exo-nouv-diff2" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice type Bac — Préparer une solution de désinfection</h3>
+<h3>Exercice 4 — Préparer une solution de désinfection</h3>
 <span class="exo-pill">RÉDACTION</span>
 </div>
 <div class="exo-enonce">
@@ -2191,14 +2240,20 @@
     </div>
 <div class="question-block">
 <div class="question-label">1. Identifier le solvant et le ou les soluté(s) de la solution antiseptique.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-1')">💡 Indice</button>
+<div class="indice-box" id="ind-nd2-1">Le solvant est l'espèce majoritaire de la solution. Les solutés sont les espèces chimiques dissoutes en plus petite quantité, citées dans l'énoncé.</div>
 <textarea class="rep-zone" id="r-nd2-1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Calculer le facteur de dilution puis le volume de solution mère à prélever.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-2')">💡 Indice</button>
+<div class="indice-box" id="ind-nd2-2">Calcule d'abord F = t<sub>m</sub> / t<sub>f</sub>, puis utilise F = V<sub>f</sub> / V<sub>m</sub> pour en déduire V<sub>m</sub>, avec V<sub>f</sub> = 500 mL.</div>
 <textarea class="rep-zone" id="r-nd2-2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. Citer la verrerie nécessaire pour réaliser cette dilution avec précision, et décrire brièvement le protocole.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-3')">💡 Indice</button>
+<div class="indice-box" id="ind-nd2-3">Pense à l'instrument permettant de prélever un volume précis de solution mère, puis à la verrerie utilisée pour ajuster le volume final jusqu'au trait de jauge.</div>
 <textarea class="rep-zone" id="r-nd2-3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <button class="btn-correction" onclick="toggleCorr('corr-nd2')">▶ Voir la correction</button>
@@ -2773,12 +2828,30 @@ function resetEscapeGame() {
 
 // ── Calcul Cm générique ──
 function calcConcentration() {
-  const m = parseFloat(document.getElementById('cm-m').value);
-  const vML = parseFloat(document.getElementById('cm-v').value);
+  const mInput = document.getElementById('cm-m');
+  const vInput = document.getElementById('cm-v');
+  const m = parseFloat(mInput.value);
+  const vML = parseFloat(vInput.value);
   const res = document.getElementById('res-cm');
-  if (isNaN(m) || isNaN(vML) || vML <= 0) {
-    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides.</span>';
-    res.className = 'calc-result visible';
+
+  if (mInput.value.trim() === '' || vInput.value.trim() === '') {
+    res.innerHTML = '<span style="color:var(--rouge)">Merci de renseigner la masse de soluté et le volume de solution.</span>';
+    res.className = 'calc-result visible partial';
+    return;
+  }
+  if (isNaN(m) || isNaN(vML)) {
+    res.innerHTML = '<span style="color:var(--rouge)">Valeurs invalides : entre uniquement des nombres.</span>';
+    res.className = 'calc-result visible partial';
+    return;
+  }
+  if (m < 0 || vML < 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Une masse ou un volume ne peut pas être négatif : vérifie les valeurs saisies.</span>';
+    res.className = 'calc-result visible partial';
+    return;
+  }
+  if (vML === 0) {
+    res.innerHTML = '<span style="color:var(--rouge)">Le volume de solution doit être strictement positif (division par zéro impossible).</span>';
+    res.className = 'calc-result visible partial';
     return;
   }
   const v = vML / 1000;
@@ -2786,10 +2859,18 @@ function calcConcentration() {
   res.innerHTML = `
     <strong>Conversion du volume :</strong>
     <div class="res-line">V<sub>solution</sub> = ${vML} mL = ${v} L</div>
-    <strong>Concentration en masse :</strong>
+    <strong>Application de la formule :</strong>
     <div class="res-line">C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> = ${m} / ${v} = <strong>${cm.toFixed(2)} g·L⁻¹</strong></div>
   `;
   res.className = 'calc-result visible';
+}
+
+function resetConcentrationCalc() {
+  document.getElementById('cm-m').value = '';
+  document.getElementById('cm-v').value = '';
+  const res = document.getElementById('res-cm');
+  res.innerHTML = '';
+  res.className = 'calc-result';
 }
 
 // ── Calcul dilution ──

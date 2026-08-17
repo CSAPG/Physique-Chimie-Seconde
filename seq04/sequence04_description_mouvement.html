@@ -39,6 +39,8 @@
     --auteur-sujetbac:#fa7186;
     --indice:#C98A00;
     --indice-clair:#FFF6E0;
+    --bleu-activite:#EEF5FB;
+    --bleu-activite-bord:#B8D4EC;
   }
   *{box-sizing:border-box;}
   body{
@@ -268,6 +270,91 @@
 
   .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
   .btn-indice:hover { background: var(--indice); color: white; }
+
+  /* ── ACTIVITÉ : fond bleu pâle (même design que séq. Seconde, activité 2) ── */
+  .activite-card {
+    background: var(--bleu-activite);
+    border: 1.5px solid var(--bleu-activite-bord);
+    border-left: 4px solid var(--bleu-moyen);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 22px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .activite-card::before {
+    content: 'ACTIVITÉ';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--bleu-moyen);
+    opacity: 0.8;
+  }
+  .activite-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: var(--bleu);
+    margin-bottom: 8px;
+  }
+
+  /* ── QCM à correction immédiate (dropdown-qcm) ── */
+  .dropdown-qcm { margin-bottom: 18px; }
+  .dropdown-qcm .dq-question {
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 8px;
+    padding-left: 8px;
+    border-left: 3px solid var(--vert);
+    line-height: 1.5;
+  }
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opt {
+    background: #fff;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    padding: 7px 13px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texte);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+  .dq-feedback {
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-height: 18px;
+    color: var(--vert);
+    margin-top: 5px;
+  }
+  .dq-feedback.wrong { color: var(--rouge); }
+
+  /* ── Bouton Recommencer (fin d'activité) ── */
+  .btn-reveal {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: var(--texte-leger);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-reveal:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
   .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
   .indice-box.visible { display: block; animation: fadein 0.2s ease; }
   .indice-box strong { color: var(--indice); }
@@ -745,97 +832,92 @@ button.cap-toggle:hover { background: #1e4466; }
   <!-- ===== ACTIVITE 1 : RELATIVITE DU MOUVEMENT ===== -->
   <div class="sub-tab-content active" id="activite-sub-1">
   <div class="card">
-  <h2>1. La relativité du mouvement</h2>
-  <p>Tu vas manipuler <strong>deux simulations</strong> et répondre aux questions en observant ce qui se passe à l'écran.</p>
-
-  <div class="box box-rappel">
-    <h4>🔬 Simulation A — "Relativité du mouvement" (Ostralo, trois voitures)</h4>
-    <p>Trois voitures (jaune, rouge, bleue) roulent sur la route. Pour chacune, tu peux choisir une <strong>caméra latérale</strong> (qui avance à côté de la voiture choisie, à la même vitesse qu'elle) ou une <strong>caméra embarquée</strong> (tu es assis à l'intérieur de la voiture choisie, tu regardes par le pare-brise). Le paysage du haut ne bouge pas : seul l'écran du bas change selon la caméra choisie.</p>
-    <p><a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" target="_blank" rel="noopener" class="btn">🔗 Ouvrir la simulation</a></p>
+  <div class="activite-card" id="activite-relativite">
+  <h3>Activité 1 — La relativité du mouvement</h3>
+  <p style="font-size:0.88rem;margin-bottom:12px;">
+    Tu vas manipuler deux simulations et répondre aux questions en observant ce qui se passe à l'écran.
+  </p>
+  <div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+  <iframe allowfullscreen="" height="480" loading="lazy" src="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" style="display:block;border:none;background:#fff;" title="Simulation Ostralo — Relativité du mouvement (voitures)" width="100%">
+  </iframe>
+  </div>
+  <div style="text-align:center;margin-bottom:16px;">
+  <a href="https://physique.ostralo.net/relativite_mvt_voitures_animateHTML5/" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank" rel="noopener">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+  <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation — Simulation A</p>
+  <p style="font-size:0.86rem;line-height:1.7;margin:0;">Trois voitures (jaune, rouge, bleue) roulent sur la route. Pour chacune, choisis une <strong>caméra latérale</strong> (qui avance à côté de la voiture choisie, à la même vitesse qu'elle) ou une <strong>caméra embarquée</strong> (tu es assis à l'intérieur de la voiture, tu regardes par le pare-brise). Le paysage du haut ne bouge pas : seul l'écran du bas change selon la caméra choisie.</p>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 1 — Choisis la <strong>caméra latérale</strong> de la voiture bleue et lance l'animation. Cette caméra avance à la même vitesse que la voiture bleue : sur l'écran, la voiture bleue apparaît donc...</p>
-    <label><input type="radio" name="act1q1" value="a"> immobile par rapport à la caméra, alors que la caméra elle-même avance par rapport au paysage.</label>
-    <label><input type="radio" name="act1q1" value="b"> en train de s'éloigner vers l'avant de l'écran.</label>
-    <label><input type="radio" name="act1q1" value="c"> en train de reculer vers l'arrière de l'écran.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q1box'], {'act1q1':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q1box'], {'act1q1':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q1box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1. Choisis la caméra latérale de la voiture bleue et lance l'animation. Cette caméra avance à la même vitesse que la voiture bleue : sur l'écran, la voiture bleue apparaît donc...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act1-q1')">Immobile par rapport à la caméra, alors que la caméra elle-même avance par rapport au paysage</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act1-q1')">En train de s'éloigner vers l'avant de l'écran</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q1')">En train de reculer vers l'arrière de l'écran</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 2 — Passe maintenant à la <strong>caméra embarquée</strong> de la voiture bleue (vue de l'intérieur, comme sur l'image du pare-brise). Le référentiel utilisé (celui auquel la caméra est attachée) est-il le même que pour la caméra latérale bleue de la question précédente ?</p>
-    <label><input type="radio" name="act1q2" value="a"> Non, ce sont deux référentiels différents.</label>
-    <label><input type="radio" name="act1q2" value="b"> Oui, c'est le même référentiel (celui de la voiture bleue) : seul l'angle de vue change, pas le mouvement observé.</label>
-    <label><input type="radio" name="act1q2" value="c"> Impossible à dire sans connaître la vitesse exacte de la voiture.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q2box'], {'act1q2':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q2box'], {'act1q2':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q2box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2. Passe maintenant à la caméra embarquée de la voiture bleue (vue de l'intérieur, comme sur l'image du pare-brise). Le référentiel utilisé est-il le même que pour la caméra latérale bleue de la question précédente ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act1-q2')">Non, ce sont deux référentiels différents</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act1-q2')">Oui, c'est le même référentiel (celui de la voiture bleue) : seul l'angle de vue change</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q2')">Impossible à dire sans connaître la vitesse exacte de la voiture</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q2"></div>
   </div>
 
-  <div class="box box-rappel" style="margin-top:20px;">
-    <h4>🔬 Simulation B — "Référentiel et relativité — le train"</h4>
-    <p>Un voyageur assis dans un train lance une balle verticalement. Choisis le référentiel d'observation affiché (« The frame of reference is the train » ou « ... is the Earth ») et observe la trajectoire décrite par la balle dans chaque cas.</p>
-    <p><a href="https://www.physics-chemistry-interactive-flash-animation.com/mechanics_forces_gravitation_energy_interactive/frame_of_reference_motion_child_ball_train_flash.htm" target="_blank" rel="noopener" class="btn">🔗 Ouvrir la simulation</a></p>
+  <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin:16px 0 14px;">
+  <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation — Simulation B</p>
+  <p style="font-size:0.86rem;line-height:1.7;margin:0 0 8px;">Un voyageur assis dans un train lance une balle verticalement. Choisis le référentiel d'observation affiché (« The frame of reference is the train » ou « ... is the Earth ») et observe la trajectoire décrite par la balle dans chaque cas.</p>
+  <p style="text-align:center;margin:0;"><a href="https://www.physics-chemistry-interactive-flash-animation.com/mechanics_forces_gravitation_energy_interactive/frame_of_reference_motion_child_ball_train_flash.htm" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank" rel="noopener">🔗 Ouvrir la simulation « Référentiel et relativité — le train »</a></p>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 3 — Lorsque le référentiel choisi est <strong>le train</strong>, quelle est la forme de la trajectoire de la balle ?</p>
-    <label><input type="radio" name="act1q3" value="a"> une droite verticale.</label>
-    <label><input type="radio" name="act1q3" value="b"> une courbe.</label>
-    <label><input type="radio" name="act1q3" value="c"> un cercle.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q3box'], {'act1q3':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q3box'], {'act1q3':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q3box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3. Lorsque le référentiel choisi est le train, quelle est la forme de la trajectoire de la balle ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act1-q3')">Une droite verticale</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act1-q3')">Une courbe</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q3')">Un cercle</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q3"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 4 — Lorsque le référentiel choisi est <strong>la Terre</strong> (vue de l'extérieur du train), quelle est la forme de la trajectoire de la balle ?</p>
-    <label><input type="radio" name="act1q4" value="a"> une droite verticale, identique au cas précédent.</label>
-    <label><input type="radio" name="act1q4" value="b"> une courbe, car la balle avance en même temps qu'elle monte et descend.</label>
-    <label><input type="radio" name="act1q4" value="c"> un cercle complet.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q4box'], {'act1q4':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q4box'], {'act1q4':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q4box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">4. Lorsque le référentiel choisi est la Terre (vue de l'extérieur du train), quelle est la forme de la trajectoire de la balle ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act1-q4')">Une droite verticale, identique au cas précédent</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act1-q4')">Une courbe, car la balle avance en même temps qu'elle monte et descend</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q4')">Un cercle complet</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q4"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 5 — En comparant les deux simulations, tu peux conclure que le mouvement d'un objet — son état (immobile ou en mouvement) et la forme de sa trajectoire — dépend...</p>
-    <label><input type="radio" name="act1q5" value="a"> uniquement de sa vitesse réelle.</label>
-    <label><input type="radio" name="act1q5" value="b"> du référentiel choisi par l'observateur.</label>
-    <label><input type="radio" name="act1q5" value="c"> de la couleur ou de la taille de l'objet.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q5box'], {'act1q5':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q5box'], {'act1q5':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q5box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">5. En comparant les deux simulations, tu peux conclure que le mouvement d'un objet — son état (immobile ou en mouvement) et la forme de sa trajectoire — dépend...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act1-q5')">Uniquement de sa vitesse réelle</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act1-q5')">Du référentiel choisi par l'observateur</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q5')">De la couleur ou de la taille de l'objet</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q5"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 6 — 🕰️ Histoire des sciences : cette même idée (le mouvement dépend de l'observateur) a mis des siècles à s'imposer, car sur Terre, nous ne "sentons" pas...</p>
-    <label><input type="radio" name="act1q6" value="a"> le mouvement de rotation et de révolution de la Terre, comme le voyageur ne sent pas le mouvement régulier du train.</label>
-    <label><input type="radio" name="act1q6" value="b"> la force de gravité.</label>
-    <label><input type="radio" name="act1q6" value="c"> la présence du Soleil.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q6box'], {'act1q6':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q6box'], {'act1q6':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q6box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">6. 🕰️ Histoire des sciences : cette même idée (le mouvement dépend de l'observateur) a mis des siècles à s'imposer, car sur Terre, nous ne « sentons » pas...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act1-q6')">Le mouvement de rotation et de révolution de la Terre, comme le voyageur ne sent pas le mouvement régulier du train</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act1-q6')">La force de gravité</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act1-q6')">La présence du Soleil</div>
+  </div>
+  <div class="dq-feedback" id="fb-act1-q6"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('activite-relativite')">↺ Recommencer</button>
+  </div>
   </div>
   </div>
   </div>
@@ -843,90 +925,83 @@ button.cap-toggle:hover { background: #1e4466; }
   <!-- ===== ACTIVITE 2 : DIFFERENTES TRAJECTOIRES ===== -->
   <div class="sub-tab-content" id="activite-sub-2">
   <div class="card">
-  <h2>2. Différentes trajectoires</h2>
-
-  <div class="box box-rappel">
-    <h4>🔬 Simulation "Translation / rotation" (Ostralo)</h4>
-    <p>Choisis un mode (translation ou rotation), place un point sur le solide à l'endroit de ton choix, lance l'animation et observe la trace qu'il laisse.</p>
-    <p><a href="https://physique.ostralo.net/mvt_translation_rotation/" target="_blank" rel="noopener" class="btn">🔗 Ouvrir la simulation</a></p>
+  <div class="activite-card" id="activite-trajectoires">
+  <h3>Activité 2 — Différentes trajectoires</h3>
+  <div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+  <iframe allowfullscreen="" height="480" loading="lazy" src="https://physique.ostralo.net/mvt_translation_rotation/" style="display:block;border:none;background:#fff;" title="Simulation Ostralo — Translation / rotation" width="100%">
+  </iframe>
+  </div>
+  <div style="text-align:center;margin-bottom:16px;">
+  <a href="https://physique.ostralo.net/mvt_translation_rotation/" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank" rel="noopener">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+  <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+  <p style="font-size:0.86rem;line-height:1.7;margin:0;">Choisis un mode (translation ou rotation), place un point sur le solide à l'endroit de ton choix, lance l'animation et observe la trace qu'il laisse.</p>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 1 — En mode <strong>translation</strong>, place un point n'importe où sur le solide et lance l'animation. La trace laissée par ce point est...</p>
-    <label><input type="radio" name="act2q1" value="a"> une droite (ou une courbe, mais identique quel que soit le point choisi).</label>
-    <label><input type="radio" name="act2q1" value="b"> différente selon l'endroit où tu places le point.</label>
-    <label><input type="radio" name="act2q1" value="c"> toujours un cercle.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q1box'], {'act2q1':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q1box'], {'act2q1':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q1box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1. En mode translation, place un point n'importe où sur le solide et lance l'animation. La trace laissée par ce point est...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act2-q1')">Une droite (ou une courbe), mais identique quel que soit le point choisi</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act2-q1')">Différente selon l'endroit où tu places le point</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act2-q1')">Toujours un cercle</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 2 — Passe en mode <strong>rotation</strong>. Place un point loin du centre du solide, puis lance l'animation. Sa trajectoire est...</p>
-    <label><input type="radio" name="act2q2" value="a"> une droite.</label>
-    <label><input type="radio" name="act2q2" value="b"> un cercle de grand rayon.</label>
-    <label><input type="radio" name="act2q2" value="c"> un point fixe.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q2box'], {'act2q2':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q2box'], {'act2q2':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q2box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2. Passe en mode rotation. Place un point loin du centre du solide, puis lance l'animation. Sa trajectoire est...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act2-q2')">Une droite</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act2-q2')">Un cercle de grand rayon</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act2-q2')">Un point fixe</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 3 — Toujours en rotation, place cette fois un point tout près du centre (l'axe) du solide. Que devient sa trajectoire, comparée à celle de la question précédente ?</p>
-    <label><input type="radio" name="act2q3" value="a"> Elle reste identique, la distance à l'axe ne change rien.</label>
-    <label><input type="radio" name="act2q3" value="b"> C'est un cercle de rayon beaucoup plus petit.</label>
-    <label><input type="radio" name="act2q3" value="c"> Elle devient une droite.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q3box'], {'act2q3':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q3box'], {'act2q3':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q3box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3. Toujours en rotation, place cette fois un point tout près du centre (l'axe) du solide. Que devient sa trajectoire, comparée à celle de la question précédente ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act2-q3')">Elle reste identique, la distance à l'axe ne change rien</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act2-q3')">C'est un cercle de rayon beaucoup plus petit</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act2-q3')">Elle devient une droite</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q3"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 4 — Place un point exactement sur l'axe de rotation, puis lance l'animation. Ce point...</p>
-    <label><input type="radio" name="act2q4" value="a"> décrit un grand cercle, comme les autres.</label>
-    <label><input type="radio" name="act2q4" value="b"> reste immobile : c'est le seul point fixe du solide en rotation.</label>
-    <label><input type="radio" name="act2q4" value="c"> décrit une droite.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q4box'], {'act2q4':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q4box'], {'act2q4':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q4box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">4. Place un point exactement sur l'axe de rotation, puis lance l'animation. Ce point...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act2-q4')">Décrit un grand cercle, comme les autres</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act2-q4')">Reste immobile : c'est le seul point fixe du solide en rotation</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act2-q4')">Décrit une droite</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q4"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 5 — En comparant les traces obtenues en translation (Q1) et en rotation (Q2-Q3), une trajectoire qui n'est ni une droite ni un cercle (par exemple si tu combines les deux mouvements) est dite...</p>
-    <label><input type="radio" name="act2q5" value="a"> rectiligne.</label>
-    <label><input type="radio" name="act2q5" value="b"> circulaire.</label>
-    <label><input type="radio" name="act2q5" value="c"> curviligne (quelconque).</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q5box'], {'act2q5':'c'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q5box'], {'act2q5':'c'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q5box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">5. En comparant les traces obtenues en translation (Q1) et en rotation (Q2-Q3), une trajectoire qui n'est ni une droite ni un cercle (par exemple si tu combines les deux mouvements) est dite...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act2-q5')">Rectiligne</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act2-q5')">Circulaire</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'c','fb-act2-q5')">Curviligne (quelconque)</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q5"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 6 — D'après tes essais dans la simulation, la forme de la trajectoire d'un point d'un solide dépend surtout...</p>
-    <label><input type="radio" name="act2q6" value="a"> de la couleur du solide.</label>
-    <label><input type="radio" name="act2q6" value="b"> du mouvement du solide (translation ou rotation) et de la position du point sur ce solide.</label>
-    <label><input type="radio" name="act2q6" value="c"> uniquement de la vitesse du solide.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q6box'], {'act2q6':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q6box'], {'act2q6':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q6box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">6. D'après tes essais dans la simulation, la forme de la trajectoire d'un point d'un solide dépend surtout...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act2-q6')">De la couleur du solide</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act2-q6')">Du mouvement du solide (translation ou rotation) et de la position du point sur ce solide</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act2-q6')">Uniquement de la vitesse du solide</div>
+  </div>
+  <div class="dq-feedback" id="fb-act2-q6"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('activite-trajectoires')">↺ Recommencer</button>
+  </div>
   </div>
   </div>
   </div>
@@ -934,93 +1009,87 @@ button.cap-toggle:hover { background: #1e4466; }
   <!-- ===== ACTIVITE 3 : VECTEURS ===== -->
   <div class="sub-tab-content" id="activite-sub-3">
   <div class="card">
-  <h2>3. Construire des vecteurs</h2>
-
-  <div class="box box-rappel">
-    <h4>🔬 Simulation "Rappels sur les vecteurs" (Ostralo)</h4>
-    <p>Place un point A (origine) puis un point B (extrémité) pour construire un vecteur, et observe comment la flèche change quand tu déplaces A ou B.</p>
-    <p><a href="https://physique.ostralo.net/cours_vecteurs/" target="_blank" rel="noopener" class="btn">🔗 Ouvrir la simulation</a></p>
+  <div class="activite-card" id="activite-vecteurs">
+  <h3>Activité 3 — Construire des vecteurs</h3>
+  <div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+  <iframe allowfullscreen="" height="480" loading="lazy" src="https://physique.ostralo.net/cours_vecteurs/" style="display:block;border:none;background:#fff;" title="Simulation Ostralo — Rappels sur les vecteurs" width="100%">
+  </iframe>
+  </div>
+  <div style="text-align:center;margin-bottom:16px;">
+  <a href="https://physique.ostralo.net/cours_vecteurs/" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank" rel="noopener">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+  <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+  <p style="font-size:0.86rem;line-height:1.7;margin:0;">Place un point A (origine) puis un point B (extrémité) pour construire un vecteur, et observe comment la flèche change quand tu déplaces A ou B.</p>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 1 — Place l'origine du vecteur en A et son extrémité en B. La flèche obtenue à l'écran pointe...</p>
-    <label><input type="radio" name="act3q1" value="a"> de B vers A.</label>
-    <label><input type="radio" name="act3q1" value="b"> de A vers B.</label>
-    <label><input type="radio" name="act3q1" value="c"> dans une direction indépendante de A et B.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q1box'], {'act3q1':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q1box'], {'act3q1':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q1box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1. Place l'origine du vecteur en A et son extrémité en B. La flèche obtenue à l'écran pointe...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act3-q1')">De B vers A</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act3-q1')">De A vers B</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q1')">Dans une direction indépendante de A et B</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 2 — Sans bouger A ni B, échange l'origine et l'extrémité (construis le vecteur BA au lieu de AB). Qu'est-ce qui change sur le schéma ?</p>
-    <label><input type="radio" name="act3q2" value="a"> Rien, la flèche est identique.</label>
-    <label><input type="radio" name="act3q2" value="b"> Le sens de la flèche s'inverse, mais elle garde la même direction et la même longueur.</label>
-    <label><input type="radio" name="act3q2" value="c"> La flèche devient deux fois plus longue.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q2box'], {'act3q2':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q2box'], {'act3q2':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q2box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2. Sans bouger A ni B, échange l'origine et l'extrémité (construis le vecteur BA au lieu de AB). Qu'est-ce qui change sur le schéma ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act3-q2')">Rien, la flèche est identique</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act3-q2')">Le sens de la flèche s'inverse, mais elle garde la même direction et la même longueur</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q2')">La flèche devient deux fois plus longue</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 3 — Éloigne progressivement le point B du point A, sans changer la direction. Que devient la longueur de la flèche affichée ?</p>
-    <label><input type="radio" name="act3q3" value="a"> Elle augmente : plus A et B sont éloignés, plus la norme du vecteur est grande.</label>
-    <label><input type="radio" name="act3q3" value="b"> Elle ne change pas.</label>
-    <label><input type="radio" name="act3q3" value="c"> Elle diminue.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q3box'], {'act3q3':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q3box'], {'act3q3':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q3box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3. Éloigne progressivement le point B du point A, sans changer la direction. Que devient la longueur de la flèche affichée ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act3-q3')">Elle augmente : plus A et B sont éloignés, plus la norme du vecteur est grande</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act3-q3')">Elle ne change pas</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q3')">Elle diminue</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q3"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 4 — Déplace maintenant A et B ensemble (sans changer la distance ni la direction entre eux, juste leur position sur l'écran). Le vecteur affiché...</p>
-    <label><input type="radio" name="act3q4" value="a"> change de norme.</label>
-    <label><input type="radio" name="act3q4" value="b"> reste identique en direction, sens et norme : seul son point d'application a changé.</label>
-    <label><input type="radio" name="act3q4" value="c"> s'inverse de sens.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q4box'], {'act3q4':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q4box'], {'act3q4':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q4box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">4. Déplace maintenant A et B ensemble (sans changer la distance ni la direction entre eux, juste leur position sur l'écran). Le vecteur affiché...</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act3-q4')">Change de norme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act3-q4')">Reste identique en direction, sens et norme : seul son point d'application a changé</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q4')">S'inverse de sens</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q4"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 5 — Construis deux vecteurs de même longueur (même norme) mais avec des directions différentes. Peux-tu dire qu'ils sont égaux ?</p>
-    <label><input type="radio" name="act3q5" value="a"> Oui, seule la norme compte pour comparer deux vecteurs.</label>
-    <label><input type="radio" name="act3q5" value="b"> Non, deux vecteurs ne sont égaux que s'ils ont même direction, même sens et même norme.</label>
-    <label><input type="radio" name="act3q5" value="c"> Oui, du moment qu'ils partent du même point.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q5box'], {'act3q5':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q5box'], {'act3q5':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q5box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">5. Construis deux vecteurs de même longueur (même norme) mais avec des directions différentes. Peux-tu dire qu'ils sont égaux ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-act3-q5')">Oui, seule la norme compte pour comparer deux vecteurs</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-act3-q5')">Non, deux vecteurs ne sont égaux que s'ils ont même direction, même sens et même norme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q5')">Oui, du moment qu'ils partent du même point</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q5"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Question 6 — Fais le lien avec le cours : pour représenter le vecteur déplacement d'un point M₁ vers M₂, quelle construction fais-tu dans la simulation ?</p>
-    <label><input type="radio" name="act3q6" value="a"> Origine en M₁, extrémité en M₂.</label>
-    <label><input type="radio" name="act3q6" value="b"> Origine en M₂, extrémité en M₁.</label>
-    <label><input type="radio" name="act3q6" value="c"> Un point quelconque entre M₁ et M₂.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q6box'], {'act3q6':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q6box'], {'act3q6':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q6box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">6. Fais le lien avec le cours : pour représenter le vecteur déplacement d'un point M₁ vers M₂, quelle construction fais-tu dans la simulation ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-act3-q6')">Origine en M₁, extrémité en M₂</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-act3-q6')">Origine en M₂, extrémité en M₁</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-act3-q6')">Un point quelconque entre M₁ et M₂</div>
+  </div>
+  <div class="dq-feedback" id="fb-act3-q6"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('activite-vecteurs')">↺ Recommencer</button>
   </div>
   </div>
   </div>
+  </div>
+
 
   <!-- ===== ACTIVITE 4 : ETUDIER DES MOUVEMENTS REELS ===== -->
   <div class="sub-tab-content" id="activite-sub-4">
@@ -3444,6 +3513,160 @@ function toggleAccordion(id){
 function toggleIndice(id){
   var box = document.getElementById(id);
   if (box) box.classList.toggle('visible');
+}
+
+/* ══════ ACTIVITÉS 1-3 : QCM à correction immédiate (même mécanique que séq. Seconde, activité 2) ══════ */
+const MVT_FEEDBACK = {
+  'fb-act1-q1': {
+    correct: "✓ Exact ! Vue depuis la caméra latérale (attachée à la même vitesse que la voiture bleue), celle-ci apparaît immobile : c'est la caméra qui avance par rapport au paysage, pas la voiture par rapport à la caméra.",
+    wrong: {
+      b: "✗ Non — si la caméra avance exactement à la même vitesse que la voiture, il n'y a pas de mouvement relatif entre elles : la voiture reste à la même place sur l'écran.",
+      c: "✗ Non — la voiture ne recule pas par rapport à la caméra : comme elles avancent à la même vitesse, la voiture apparaît immobile sur l'écran."
+    }
+  },
+  'fb-act1-q2': {
+    correct: "✓ Exact ! C'est le même référentiel — celui de la voiture bleue — seule la perspective (vue de côté ou vue de l'intérieur) change, pas le mouvement observé.",
+    wrong: {
+      a: "✗ Non — dans les deux cas, la caméra est attachée à la voiture bleue et se déplace avec elle : c'est le même référentiel, seul l'angle de vue diffère.",
+      c: "✗ Il n'est pas nécessaire de connaître la vitesse exacte : ce qui définit le référentiel, c'est l'objet auquel la caméra est attachée (ici la voiture bleue), pas sa vitesse."
+    }
+  },
+  'fb-act1-q3': {
+    correct: "✓ Exact ! Dans le référentiel du train, la balle est lancée verticalement et retombe au même endroit : sa trajectoire est une droite verticale.",
+    wrong: {
+      b: "✗ Non — dans le référentiel du train, la balle n'a pas de mouvement horizontal : sa trajectoire est une droite verticale, pas une courbe.",
+      c: "✗ Non — rien dans le mouvement de la balle (lancée puis retombant) ne justifie une trajectoire circulaire dans le référentiel du train."
+    }
+  },
+  'fb-act1-q4': {
+    correct: "✓ Exact ! Vu depuis la Terre, la balle avance avec le train tout en montant puis en redescendant : sa trajectoire combine ces deux mouvements et forme une courbe (parabole).",
+    wrong: {
+      a: "✗ Non — vu depuis la Terre, la balle avance avec le train en plus de monter et descendre : la trajectoire n'est donc pas une simple droite verticale.",
+      c: "✗ Non — la balle ne fait pas un tour complet : elle monte, avance avec le train, puis redescend, ce qui dessine une courbe, pas un cercle."
+    }
+  },
+  'fb-act1-q5': {
+    correct: "✓ Exact ! Le mouvement d'un objet — immobile ou non, trajectoire rectiligne ou courbe — dépend du référentiel choisi par l'observateur : c'est la relativité du mouvement.",
+    wrong: {
+      a: "✗ La notion de « vitesse réelle » absolue n'existe pas en physique classique : la vitesse et le mouvement dépendent toujours du référentiel choisi.",
+      c: "✗ La couleur ou la taille de l'objet n'ont aucune influence sur le mouvement observé : seul le référentiel choisi change la description du mouvement."
+    }
+  },
+  'fb-act1-q6': {
+    correct: "✓ Exact ! Comme le voyageur du train ne perçoit pas son mouvement uniforme, nous ne « sentons » pas le mouvement régulier de rotation et de révolution de la Terre : notre référentiel terrestre nous semble immobile.",
+    wrong: {
+      b: "✗ La gravité n'est pas en cause ici : c'est le caractère régulier (vitesse quasi constante) du mouvement de la Terre qui le rend imperceptible, comme pour le voyageur du train.",
+      c: "✗ La présence du Soleil n'explique pas pourquoi on ne ressent pas le mouvement de la Terre : c'est le caractère uniforme de ce mouvement qui le rend indétectable sans repère extérieur."
+    }
+  },
+  'fb-act2-q1': {
+    correct: "✓ Exact ! En translation pure, tous les points du solide suivent des trajectoires identiques (superposables par translation), quel que soit l'endroit où on place le point.",
+    wrong: {
+      b: "✗ Non — en translation, tous les points du solide décrivent la même trajectoire (à une translation près) : elle ne dépend pas de la position du point sur le solide.",
+      c: "✗ Non — en translation, la trajectoire n'est pas forcément un cercle : elle dépend du mouvement global du solide, mais elle est la même pour tous les points."
+    }
+  },
+  'fb-act2-q2': {
+    correct: "✓ Exact ! En rotation, un point éloigné du centre décrit un cercle de rayon égal à sa distance à l'axe : plus il est loin, plus le cercle est grand.",
+    wrong: {
+      a: "✗ Non — en rotation, un point ne suit pas une droite : il tourne autour de l'axe et décrit un cercle.",
+      c: "✗ Non — seul le centre exact de rotation reste fixe ; un point éloigné du centre est bien en mouvement, il décrit un cercle."
+    }
+  },
+  'fb-act2-q3': {
+    correct: "✓ Exact ! En rotation, le rayon du cercle décrit par un point est égal à sa distance à l'axe : plus le point est proche du centre, plus le cercle est petit.",
+    wrong: {
+      a: "✗ Non — la distance à l'axe change justement le rayon du cercle décrit : un point proche du centre décrit un cercle bien plus petit qu'un point éloigné.",
+      c: "✗ Non — en rotation, la trajectoire d'un point reste un cercle (de rayon égal à sa distance à l'axe), jamais une droite, sauf pour le point situé exactement sur l'axe."
+    }
+  },
+  'fb-act2-q4': {
+    correct: "✓ Exact ! Le point situé exactement sur l'axe de rotation ne se déplace pas : c'est le seul point fixe du solide en rotation, son rayon de rotation est nul.",
+    wrong: {
+      a: "✗ Non — un point sur l'axe de rotation a un rayon nul : il ne peut donc pas décrire un cercle, contrairement aux autres points du solide.",
+      c: "✗ Non — un point exactement sur l'axe ne se déplace pas du tout : il reste fixe, il ne décrit ni droite ni cercle."
+    }
+  },
+  'fb-act2-q5': {
+    correct: "✓ Exact ! Une trajectoire qui n'est ni une droite ni un cercle est dite curviligne (quelconque) : c'est le cas général obtenu en combinant translation et rotation.",
+    wrong: {
+      a: "✗ Une trajectoire rectiligne est une droite : ici, en combinant translation et rotation, la trajectoire n'est pas une simple droite.",
+      b: "✗ Une trajectoire circulaire est un cercle : ici, en combinant translation et rotation, la trajectoire obtenue n'est pas un cercle parfait."
+    }
+  },
+  'fb-act2-q6': {
+    correct: "✓ Exact ! La forme de la trajectoire d'un point d'un solide dépend du type de mouvement du solide (translation ou rotation) et de la position du point sur ce solide (distance à l'axe en rotation).",
+    wrong: {
+      a: "✗ La couleur du solide n'a évidemment aucune influence sur la trajectoire décrite par un de ses points.",
+      c: "✗ La vitesse du solide peut changer la rapidité du parcours, mais ce n'est pas elle qui détermine la forme (droite, cercle...) de la trajectoire : c'est le type de mouvement et la position du point."
+    }
+  },
+  'fb-act3-q1': {
+    correct: "✓ Exact ! Un vecteur va toujours de son origine (A) vers son extrémité (B) : la flèche pointe donc de A vers B.",
+    wrong: {
+      a: "✗ Non — la flèche d'un vecteur va de l'origine vers l'extrémité, donc ici de A (origine) vers B (extrémité), pas l'inverse.",
+      c: "✗ Non — la direction de la flèche n'est pas indépendante de A et B : elle est entièrement déterminée par la position de l'origine et de l'extrémité."
+    }
+  },
+  'fb-act3-q2': {
+    correct: "✓ Exact ! Échanger origine et extrémité inverse le sens du vecteur, mais la direction (la droite support) et la norme (la longueur) restent inchangées : BA est le vecteur opposé de AB.",
+    wrong: {
+      a: "✗ Non — échanger l'origine et l'extrémité change bien le sens de la flèche, même si direction et longueur restent identiques.",
+      c: "✗ Non — la longueur (norme) du vecteur ne change pas quand on échange origine et extrémité : seul le sens de la flèche s'inverse."
+    }
+  },
+  'fb-act3-q3': {
+    correct: "✓ Exact ! La norme d'un vecteur correspond à la distance entre son origine et son extrémité : plus A et B sont éloignés, plus le vecteur est long.",
+    wrong: {
+      b: "✗ Non — la longueur de la flèche représente justement la distance entre A et B : si on les éloigne, la norme du vecteur augmente.",
+      c: "✗ Non — éloigner B de A augmente la distance entre les deux points, donc augmente la norme du vecteur, elle ne diminue pas."
+    }
+  },
+  'fb-act3-q4': {
+    correct: "✓ Exact ! Un vecteur est caractérisé par sa direction, son sens et sa norme : si on déplace A et B ensemble sans changer la distance ni l'orientation entre eux, le vecteur reste le même, seul son point d'application change.",
+    wrong: {
+      a: "✗ Non — la norme dépend de la distance entre A et B, qui n'a pas changé ici : elle reste donc identique.",
+      c: "✗ Non — le sens du vecteur dépend de l'orientation de A vers B, qui n'a pas changé lors d'un déplacement conjoint des deux points."
+    }
+  },
+  'fb-act3-q5': {
+    correct: "✓ Exact ! Deux vecteurs ne sont égaux que s'ils ont la même direction, le même sens et la même norme. Une norme identique ne suffit pas si les directions diffèrent.",
+    wrong: {
+      a: "✗ Non — la norme seule ne suffit pas : deux vecteurs de même longueur mais de directions différentes ne sont pas égaux.",
+      c: "✗ Non — le point de départ (point d'application) n'entre pas dans la définition de l'égalité de deux vecteurs : seules direction, sens et norme comptent."
+    }
+  },
+  'fb-act3-q6': {
+    correct: "✓ Exact ! Le vecteur déplacement d'un point M₁ vers M₂ a pour origine M₁ et pour extrémité M₂, exactement comme dans la simulation où l'origine du vecteur AB était placée en A.",
+    wrong: {
+      b: "✗ Non — inverser origine et extrémité donnerait le vecteur de M₂ vers M₁, qui est le vecteur opposé du déplacement recherché.",
+      c: "✗ Non — un vecteur n'a pas de point de départ « quelconque » entre les deux points : son origine doit être exactement en M₁ et son extrémité exactement en M₂."
+    }
+  }
+};
+
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = MVT_FEEDBACK[feedbackId];
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
+}
+
+function recommencer(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(btn => {
+    btn.classList.remove('correct', 'incorrect');
+  });
+  card.querySelectorAll('.dq-feedback').forEach(fb => {
+    fb.textContent = '';
+    fb.className = 'dq-feedback';
+  });
 }
 
 /* ══════ EXERCICE INTERMÉDIAIRE — Lecture de code : trajectoire + vecteurs vitesse ══════ */

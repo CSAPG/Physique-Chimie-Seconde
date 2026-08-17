@@ -37,6 +37,8 @@
     --auteur-gerardmoreau-clair:#76fab2d8;
     --auteur-autres:#808080;
     --auteur-sujetbac:#fa7186;
+    --indice:#C98A00;
+    --indice-clair:#FFF6E0;
   }
   *{box-sizing:border-box;}
   body{
@@ -108,6 +110,9 @@
 
   h2{color:var(--bleu); border-bottom:2px solid var(--bleu-clair); padding-bottom:6px;}
   h3{color:var(--orange);}
+  .card[style*="--vert"] h3{color:var(--vert);}
+  .card[style*="--orange"] h3{color:var(--orange);}
+  .card[style*="--rouge"] h3{color:var(--rouge);}
 
   .box{
     border:1px solid var(--gris-bord);
@@ -260,6 +265,12 @@
     margin:14px 0;
   }
   .exo p.q-text{font-weight:600; margin-top:0;}
+
+  .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
+  .btn-indice:hover { background: var(--indice); color: white; }
+  .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
+  .indice-box.visible { display: block; animation: fadein 0.2s ease; }
+  .indice-box strong { color: var(--indice); }
   .exo label{
     display:block;
     padding:8px 12px;
@@ -515,7 +526,7 @@ button.cap-toggle:hover { background: #1e4466; }
       <label><input type="radio" name="pointMarteau" value="tete" checked onchange="setPointMarteau('tete')"> La tête du marteau</label>
       <label><input type="radio" name="pointMarteau" value="manche" onchange="setPointMarteau('manche')"> L'extrémité du manche</label>
       <button class="btn secondary" onclick="lancerMarteau()">🏃 Lancer le marteau !</button>
-      <button class="btn reset" onclick="resetMarteau()">🔄 Recommencer</button>
+      <button class="btn reset" onclick="resetMarteau()">↺ Recommencer</button>
     </div>
     <p class="legend" id="legendTrans">Dans le référentiel du sol, M trace une droite horizontale (translation). Dans le référentiel du chariot, M est immobile : le mouvement dépend bien du référentiel choisi.</p>
   </div>
@@ -541,9 +552,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="concl1" value="c"> Le référentiel géocentrique est faux, seul l'héliocentrique est correct.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['concl1box'], {'concl1':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['concl1box'], {'concl1':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['concl1box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['concl1box'], {'concl1':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['concl1box'], {'concl1':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['concl1box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -594,7 +605,7 @@ button.cap-toggle:hover { background: #1e4466; }
   <div class="canvas-wrap">
     <canvas id="canvasDeplacement" width="700" height="200"></canvas>
     <div class="controls">
-      <button class="btn reset" onclick="resetDeplacement()">🔄 Recommencer</button>
+      <button class="btn reset" onclick="resetDeplacement()">↺ Recommencer</button>
     </div>
     <p class="legend" id="legendDeplacement">Clique sur M₁ puis sur M₂ pour tracer le vecteur M₁M₂.</p>
   </div>
@@ -623,12 +634,40 @@ button.cap-toggle:hover { background: #1e4466; }
     <div class="formula"><span class="vec">v<sub>moy</sub></span> = <span class="vec">MM'</span> / Δt</div>
     <p>Le vecteur vitesse moyenne est <strong>colinéaire</strong> au vecteur déplacement (même direction, même sens) et <strong>indépendant de la trajectoire</strong>.</p>
   </div>
+
+  <h3>🎬 Animation — Un vecteur vitesse moyenne indépendant de la trajectoire</h3>
+  <p>Le système part toujours du point A (départ, t = 0 s) et arrive toujours au point B (arrivée, t = Δt = 2,0 s), quel que soit le trajet réellement suivi entre les deux. Choisis un trajet, lance l'animation, puis observe les deux vecteurs obtenus à l'arrivée, tous deux tracés au point A : le vecteur déplacement <span class="vec">AB</span> (bleu) et le vecteur vitesse moyenne (vert), colinéaire mais d'échelle différente.</p>
+  <div class="canvas-wrap">
+    <canvas id="canvasVmoy" width="700" height="280"></canvas>
+    <div class="controls">
+      <label><strong>Trajet suivi :</strong></label>
+      <label><input type="radio" name="trajetVmoy" value="direct" checked onchange="setTrajetVmoy('direct')"> Trajectoire directe</label>
+      <label><input type="radio" name="trajetVmoy" value="detour" onchange="setTrajetVmoy('detour')"> Trajectoire détournée</label>
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="lancerVmoy()">▶️ Lancer l'animation (Δt = 2,0 s)</button>
+      <button class="btn secondary" onclick="resetVmoy()">↺ Recommencer</button>
+    </div>
+    <p class="legend" id="legendVmoy">Choisis un trajet puis clique sur « Lancer l'animation ».</p>
+  </div>
   </div>
 
   <div class="sub3-tab-content" id="cours1-b">
   <h3>b. La vitesse instantanée</h3>
   <div class="box">
     <p>C'est la vitesse à un instant donné de la trajectoire. Elle correspond à la <strong>vitesse moyenne sur un intervalle de temps très court</strong>, tel que l'on considère que la vitesse ne varie pas pendant cette durée.</p>
+  </div>
+
+  <h3>🎬 Animation — De la vitesse moyenne à la vitesse instantanée</h3>
+  <p>Le point M est fixe sur la trajectoire. Fais diminuer Δt avec le curseur pour rapprocher M' de M, et observe le vecteur vitesse moyenne sur [M ; M'] (bleu) se rapprocher du vecteur vitesse instantanée en M (vert, tangent à la trajectoire).</p>
+  <div class="canvas-wrap">
+    <canvas id="canvasInstant" width="700" height="300"></canvas>
+    <div class="controls">
+      <label>Valeur de Δt (grand → très petit) :
+        <input type="range" id="sliderDeltaT" min="1" max="40" value="35" oninput="drawInstant()">
+      </label>
+    </div>
+    <p class="legend" id="legendInstant">Le vecteur vert (vitesse moyenne sur [M ; M']) est affiché à une échelle agrandie pour rester visible : c'est sa <strong>direction</strong> qu'il faut comparer à celle du vecteur orange (vitesse instantanée en M), pas sa longueur.</p>
   </div>
   </div>
 
@@ -645,7 +684,7 @@ button.cap-toggle:hover { background: #1e4466; }
 
   
 <h3>🎮 Animation — Tracer le vecteur vitesse</h3>
-  <p>Déplace le curseur pour faire avancer le point M le long de la trajectoire. Le vecteur vitesse (tangent, dans le sens du mouvement) s'affiche automatiquement.</p>
+  <p>Déplace le curseur pour faire avancer le point M le long de la trajectoire (la même trajectoire détournée que dans l'animation de l'onglet a.). Le vecteur vitesse instantanée (orange) reste <strong>tangent</strong> à la trajectoire en M et <strong>change de direction</strong> à chaque position — contrairement au vecteur vitesse moyenne (vert, rappel activable ci-dessous), dont la direction reste fixe.</p>
   <div class="canvas-wrap">
     <canvas id="canvasVitesse" width="700" height="300"></canvas>
     <div class="controls">
@@ -657,7 +696,10 @@ button.cap-toggle:hover { background: #1e4466; }
       <label><input type="radio" name="modeVitesse" value="accel" onchange="drawVitesse()"> Accéléré (la vitesse augmente)</label>
       <label><input type="radio" name="modeVitesse" value="ralenti" onchange="drawVitesse()"> Ralenti (la vitesse diminue)</label>
     </div>
-    <p class="legend" id="legendVitesse">Observe : en mode "accéléré", la longueur de la flèche (= valeur de v) augmente le long de la trajectoire ; en mode "ralenti", elle diminue.</p>
+    <div class="controls">
+      <label><input type="checkbox" id="checkAB" onchange="drawVitesse()"> Afficher le rappel : vecteur déplacement AB (bleu) et vecteur vitesse moyenne (vert)</label>
+    </div>
+    <p class="legend" id="legendVitesse">Observe : le vecteur vitesse instantanée (orange) tourne en même temps que la trajectoire ; en mode "accéléré", sa longueur augmente le long du parcours, en mode "ralenti" elle diminue.</p>
   </div>
   </div>
 
@@ -670,6 +712,19 @@ button.cap-toggle:hover { background: #1e4466; }
       <tr><th>Valeur de v change</th><td>Rectiligne non uniforme<br>(accéléré si v augmente, décéléré si v diminue)</td><td>Non rectiligne et non uniforme</td></tr>
     </table>
   </div>
+
+  <h3>🎬 Animation — Chronophotographie et vecteurs vitesse</h3>
+  <p>Chaque position du système a été enregistrée à intervalles de temps <strong>Δt égaux</strong>. Observe l'écart entre les positions successives, puis les vecteurs vitesse tracés en dessous.</p>
+  <div class="canvas-wrap">
+    <canvas id="canvasChrono" width="700" height="240"></canvas>
+    <div class="controls">
+      <label><strong>Type de mouvement :</strong></label>
+      <label><input type="radio" name="modeChrono" value="uniforme" checked onchange="drawChrono()"> Rectiligne uniforme (Δt égaux, écarts égaux)</label>
+      <label><input type="radio" name="modeChrono" value="accel" onchange="drawChrono()"> Rectiligne accéléré (écarts croissants)</label>
+      <label><input type="radio" name="modeChrono" value="ralenti" onchange="drawChrono()"> Rectiligne décéléré (écarts décroissants)</label>
+    </div>
+    <p class="legend" id="legendChrono">Mode uniforme : les positions sont équidistantes (Δt constant) → les vecteurs vitesse ont tous la même longueur et la même direction.</p>
+  </div>
   </div>
 
   </div>
@@ -680,11 +735,11 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="tab-content" id="t-activites">
 
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'activite-sub-1')">1️⃣ Relativité du mouvement</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-2')">2️⃣ Différentes trajectoires</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-3')">3️⃣ Vecteurs</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-4')">4️⃣ Étudier des mouvements réels</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-5')">5️⃣ TP : Atterrissage d'une fusée</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'activite-sub-1')">Activité 1 - Relativité du mouvement</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-2')">Activité 2 - Différentes trajectoires</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-3')">Activité 3️ - Vecteurs</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-4')">Activité 4️ - Étudier des mouvements réels</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activite-sub-5')">Activité 5️ - TP : Atterrissage d'une fusée</button>
   </div>
 
   <!-- ===== ACTIVITE 1 : RELATIVITE DU MOUVEMENT ===== -->
@@ -706,9 +761,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q1" value="c"> en train de reculer vers l'arrière de l'écran.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q1box'], {'act1q1':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q1box'], {'act1q1':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q1box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q1box'], {'act1q1':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q1box'], {'act1q1':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q1box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -719,9 +774,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q2" value="c"> Impossible à dire sans connaître la vitesse exacte de la voiture.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q2box'], {'act1q2':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q2box'], {'act1q2':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q2box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q2box'], {'act1q2':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q2box'], {'act1q2':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q2box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -738,9 +793,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q3" value="c"> un cercle.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q3box'], {'act1q3':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q3box'], {'act1q3':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q3box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q3box'], {'act1q3':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q3box'], {'act1q3':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q3box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -751,9 +806,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q4" value="c"> un cercle complet.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q4box'], {'act1q4':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q4box'], {'act1q4':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q4box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q4box'], {'act1q4':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q4box'], {'act1q4':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q4box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -764,9 +819,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q5" value="c"> de la couleur ou de la taille de l'objet.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q5box'], {'act1q5':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q5box'], {'act1q5':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q5box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q5box'], {'act1q5':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q5box'], {'act1q5':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q5box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -777,9 +832,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act1q6" value="c"> la présence du Soleil.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act1q6box'], {'act1q6':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act1q6box'], {'act1q6':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act1q6box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act1q6box'], {'act1q6':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act1q6box'], {'act1q6':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act1q6box'])">↺ Recommencer</button>
     </div>
   </div>
   </div>
@@ -803,9 +858,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q1" value="c"> toujours un cercle.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q1box'], {'act2q1':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q1box'], {'act2q1':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q1box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q1box'], {'act2q1':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q1box'], {'act2q1':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q1box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -816,9 +871,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q2" value="c"> un point fixe.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q2box'], {'act2q2':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q2box'], {'act2q2':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q2box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q2box'], {'act2q2':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q2box'], {'act2q2':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q2box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -829,9 +884,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q3" value="c"> Elle devient une droite.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q3box'], {'act2q3':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q3box'], {'act2q3':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q3box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q3box'], {'act2q3':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q3box'], {'act2q3':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q3box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -842,9 +897,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q4" value="c"> décrit une droite.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q4box'], {'act2q4':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q4box'], {'act2q4':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q4box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q4box'], {'act2q4':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q4box'], {'act2q4':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q4box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -855,9 +910,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q5" value="c"> curviligne (quelconque).</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q5box'], {'act2q5':'c'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q5box'], {'act2q5':'c'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q5box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q5box'], {'act2q5':'c'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q5box'], {'act2q5':'c'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q5box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -868,9 +923,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act2q6" value="c"> uniquement de la vitesse du solide.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act2q6box'], {'act2q6':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act2q6box'], {'act2q6':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act2q6box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act2q6box'], {'act2q6':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act2q6box'], {'act2q6':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act2q6box'])">↺ Recommencer</button>
     </div>
   </div>
   </div>
@@ -894,9 +949,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q1" value="c"> dans une direction indépendante de A et B.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q1box'], {'act3q1':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q1box'], {'act3q1':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q1box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q1box'], {'act3q1':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q1box'], {'act3q1':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q1box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -907,9 +962,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q2" value="c"> La flèche devient deux fois plus longue.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q2box'], {'act3q2':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q2box'], {'act3q2':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q2box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q2box'], {'act3q2':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q2box'], {'act3q2':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q2box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -920,9 +975,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q3" value="c"> Elle diminue.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q3box'], {'act3q3':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q3box'], {'act3q3':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q3box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q3box'], {'act3q3':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q3box'], {'act3q3':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q3box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -933,9 +988,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q4" value="c"> s'inverse de sens.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q4box'], {'act3q4':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q4box'], {'act3q4':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q4box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q4box'], {'act3q4':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q4box'], {'act3q4':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q4box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -946,9 +1001,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q5" value="c"> Oui, du moment qu'ils partent du même point.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q5box'], {'act3q5':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q5box'], {'act3q5':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q5box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q5box'], {'act3q5':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q5box'], {'act3q5':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q5box'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -959,9 +1014,9 @@ button.cap-toggle:hover { background: #1e4466; }
     <label><input type="radio" name="act3q6" value="c"> Un point quelconque entre M₁ et M₂.</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['act3q6box'], {'act3q6':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['act3q6box'], {'act3q6':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['act3q6box'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['act3q6box'], {'act3q6':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['act3q6box'], {'act3q6':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['act3q6box'])">↺ Recommencer</button>
     </div>
   </div>
   </div>
@@ -1073,12 +1128,16 @@ button.cap-toggle:hover { background: #1e4466; }
   <h3>🧠 Analyser – Raisonner</h3>
   <div class="exo">
     <p class="q-text">Décrire les variations du vecteur vitesse moyenne et caractériser le mouvement de la fusée lors de son atterrissage.</p>
+    <button class="btn-indice" onclick="toggleIndice('ind-fusee-analyser')">💡 Indice</button>
+    <div class="indice-box" id="ind-fusee-analyser">Compare les longueurs des vecteurs vitesse tracés en M₁, M₅ et M₉ sur le papier millimétré : une longueur qui diminue traduit une norme de vitesse qui diminue.</div>
     <textarea rows="4" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
   </div>
 
   <h3>✅ Valider</h3>
   <div class="exo">
     <p class="q-text">Expliquer pourquoi les valeurs calculées de la coordonnée v<sub>y</sub> du vecteur vitesse moyenne sont de signe négatif.</p>
+    <button class="btn-indice" onclick="toggleIndice('ind-fusee-valider')">💡 Indice</button>
+    <div class="indice-box" id="ind-fusee-valider">L'axe (Oy) est orienté positivement vers le haut, mais la fusée se déplace vers le bas lors de son atterrissage : que peut-on en déduire sur le signe de la coordonnée du vecteur déplacement, puis du vecteur vitesse ?</div>
     <textarea rows="3" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;"></textarea>
   </div>
 
@@ -1114,22 +1173,22 @@ button.cap-toggle:hover { background: #1e4466; }
 <!-- ============ ONGLET EXERCICES ============ -->
 <div class="tab-content" id="t-exercices">
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟠 Intermédiaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">🔴 Difficile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔐 Escape game</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">Escape game</button>
   </div>
 
   <div class="sub-tab-content active" id="exo-sub-facile">
   <div class="exo-tabs-nav">
-    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-facile-train')">Le chef de gare, le passager et la pendule <span class="exo-tab-stars">★☆☆</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-bille')">La bille (chronophotographie) <span class="exo-tab-stars">★☆☆</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-python')">Lire un code Python : positions successives <span class="exo-tab-stars">★★☆</span></button>
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-facile-train')">Exercice 1 – Le chef de gare, le passager et la pendule <span class="exo-tab-stars">★☆☆</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-bille')">Exercice 2 – La bille (chronophotographie) <span class="exo-tab-stars">★☆☆</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-facile-python')">Exercice 3 – Lire un code Python : positions successives <span class="exo-tab-stars">★★☆</span></button>
   </div>
 
   <div class="exo-item-content active" id="exo-facile-train">
   <div class="card" style="border-left:4px solid var(--vert);">
-  <h3>📝 Exercice — Le chef de gare, le passager et la pendule</h3>
+  <h3>Exercice 1 — Le chef de gare, le passager et la pendule</h3>
   <p>Le chef de gare (A) est immobile sur le quai tandis que le train démarre. Le passager (B) est assis dans le train et regarde la pendule (C) pour s'assurer que son train ne part pas en retard. Préciser l'état de mouvement ou d'immobilité des objets A, B et C dans les référentiels liés à chacun de ces objets.</p>
 
   <div class="canvas-wrap">
@@ -1161,16 +1220,16 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['train1box','train2box','train3box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['train1box','train2box','train3box'])">↺ Recommencer</button>
   </div>
   </div>
   </div>
 
   <div class="exo-item-content" id="exo-facile-bille">
   <div class="card" style="border-left:4px solid var(--vert);">
-  <h3>📝 Exercice — La bille (chronophotographie)</h3>
+  <h3>Exercice 2 — La bille (chronophotographie)</h3>
   <p>On dispose de la chronophotographie des positions d'une bille, prises toutes les 0,020 s. Échelle : 1,0 cm ↔ 5,0 cm (distances), et 1,0 cm ↔ 1,5 m·s⁻¹ (vitesses).</p>
   <div class="canvas-wrap">
     <canvas id="canvasBille" width="700" height="160"></canvas>
@@ -1201,16 +1260,16 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['bille1box','bille2box','bille3box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['bille1box','bille2box','bille3box'])">↺ Recommencer</button>
   </div>
   </div>
   </div>
 
   <div class="exo-item-content" id="exo-facile-python">
   <div class="card" style="border-left:4px solid var(--vert);">
-  <h3>📝 Exercice — Lire un code Python : positions successives</h3>
+  <h3>Exercice 3 — Lire un code Python : positions successives</h3>
   <p>Le code source Python suivant permet de représenter les positions successives d'un système modélisé par un point lors de son mouvement.</p>
 
   <div class="py-static-code">import numpy as np
@@ -1244,9 +1303,9 @@ plt.show()</div>
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['facpy1box','facpy2box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['facpy1box','facpy2box'])">↺ Recommencer</button>
   </div>
 
   <div class="box box-rappel" style="margin-top:20px;">
@@ -1278,16 +1337,16 @@ print("y =", [round(v,2) for v in y])</textarea>
 
   <div class="sub-tab-content" id="exo-sub-inter">
   <div class="exo-tabs-nav">
-    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-inter-vecteur')">Caractériser le mouvement à partir du vecteur vitesse <span class="exo-tab-stars">★☆☆</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-skieur')">Le skieur <span class="exo-tab-stars">★★☆</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-python')">Lire un code Python : trajectoire et vecteurs vitesse <span class="exo-tab-stars">★★★</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-calculatrice')">Représenter le mouvement à la calculatrice <span class="exo-tab-stars">★★☆</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-solstice')">Le solstice d'hiver <span class="exo-tab-stars">★★☆</span></button>
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-inter-vecteur')">Exercice 1 – Caractériser le mouvement à partir du vecteur vitesse <span class="exo-tab-stars">★☆☆</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-skieur')">Exercice 2 – Le skieur <span class="exo-tab-stars">★★☆</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-python')">Exercice 3 – Lire un code Python : trajectoire et vecteurs vitesse <span class="exo-tab-stars">★★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-calculatrice')">Exercice 4 – Représenter le mouvement à la calculatrice <span class="exo-tab-stars">★★☆</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-inter-solstice')">Exercice 5 – Le solstice d'hiver <span class="exo-tab-stars">★★☆</span></button>
   </div>
 
   <div class="exo-item-content active" id="exo-inter-vecteur">
   <div class="card" style="border-left:4px solid var(--orange);">
-  <h3>📝 Exercice — Caractériser le mouvement à partir du vecteur vitesse</h3>
+  <h3>Exercice 1 — Caractériser le mouvement à partir du vecteur vitesse</h3>
   <p>Pour chaque situation, indique le type de mouvement en fonction de la direction et de la valeur du vecteur vitesse.</p>
 
   <div class="exo">
@@ -1323,16 +1382,16 @@ print("y =", [round(v,2) for v in y])</textarea>
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['recap1box','recap2box','recap3box','recap4box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['recap1box','recap2box','recap3box','recap4box'])">↺ Recommencer</button>
   </div>
   </div>
   </div>
 
   <div class="exo-item-content" id="exo-inter-skieur">
   <div class="card" style="border-left:4px solid var(--orange);">
-  <h3>📝 Exercice — Le skieur</h3>
+  <h3>Exercice 2 — Le skieur</h3>
   <p>On a filmé un skieur puis pointé, à l'aide d'un logiciel d'analyse vidéo, son centre de gravité S à intervalles de temps réguliers. Les vecteurs vitesse <span class="vec">v</span>₁, <span class="vec">v</span>₂ et <span class="vec">v</span>₃ sont représentés aux points S₁, S₂ et S₃.</p>
   <div class="canvas-wrap">
     <img src="skieur.png" alt="Chronophotographie d'un skieur sur une pente, avec les positions S1, S2, S3 et les vecteurs vitesse v1, v2, v3 de longueurs croissantes" style="max-width:100%; border-radius:6px;">
@@ -1363,16 +1422,16 @@ print("y =", [round(v,2) for v in y])</textarea>
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['ski1box','ski2box','ski3box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['ski1box','ski2box','ski3box'])">↺ Recommencer</button>
   </div>
   </div>
   </div>
 
   <div class="exo-item-content" id="exo-inter-python">
   <div class="card" style="border-left:4px solid var(--orange);">
-  <h3>📝 Exercice — Lire un code Python : trajectoire et vecteurs vitesse</h3>
+  <h3>Exercice 3 — Lire un code Python : trajectoire et vecteurs vitesse</h3>
   <p>Le code source Python suivant permet de représenter la trajectoire et les vecteurs vitesse successifs d'un système modélisé par un point lors de son mouvement.</p>
 
   <div class="py-static-code">from matplotlib import pyplot as plt
@@ -1429,9 +1488,9 @@ plt.show()</div>
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'])">↺ Recommencer</button>
   </div>
 
   <div class="box box-rappel" style="margin-top:20px;">
@@ -1461,7 +1520,7 @@ print("y =", y)</textarea>
 
   <div class="exo-item-content" id="exo-inter-calculatrice">
   <div class="card" style="border-left:4px solid var(--orange);">
-  <h3>📝 Exercice — Représenter le mouvement à la calculatrice</h3>
+  <h3>Exercice 4 — Représenter le mouvement à la calculatrice</h3>
   <p>Un tableur-grapheur permet de représenter les positions successives d'un système modélisé par un point lors de son mouvement. On reprend ici le <strong>même mouvement</strong> que celui décrit par le code source Python de l'exercice précédent.</p>
 
   <div class="box box-rappel">
@@ -1512,16 +1571,16 @@ print("y =", y)</textarea>
   </div>
 
   <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['calc1box'], {'calc1':'a'})">✅ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['calc1box'], {'calc1':'a'})">💡 Correction</button>
-    <button class="btn reset" onclick="resetGroup(['calc1box'])">🔄 Recommencer</button>
+    <button class="btn" onclick="checkGroup(['calc1box'], {'calc1':'a'})">✓ Vérifier</button>
+    <button class="btn secondary" onclick="showCorrection(['calc1box'], {'calc1':'a'})">▶ Voir la correction</button>
+    <button class="btn reset" onclick="resetGroup(['calc1box'])">↺ Recommencer</button>
   </div>
   </div>
   </div>
 
   <div class="exo-item-content" id="exo-inter-solstice">
   <div class="card" style="border-left:4px solid var(--orange);">
-  <h3>📝 Exercice — Le solstice d'hiver : chronophotographie du Soleil</h3>
+  <h3>Exercice 5 — Le solstice d'hiver : chronophotographie du Soleil</h3>
   <p>Le solstice d'hiver, le jour le plus court de l'année, a lieu le 21 décembre. Pour suivre le mouvement du Soleil dans le référentiel terrestre ce jour particulier de l'année, un photographe a réalisé la chronophotographie ci-dessous depuis le littoral italien.</p>
 
   <div class="canvas-wrap">
@@ -1554,7 +1613,7 @@ print("y =", y)</textarea>
 
   <div class="accordion" id="acc-solstice-correction">
     <button class="accordion-header" type="button" onclick="toggleAccordion('acc-solstice-correction')">
-      <span>✅ Correction</span>
+      <span>▶ Voir la correction</span>
       <span class="chevron">▶</span>
     </button>
     <div class="accordion-panel">
@@ -1573,13 +1632,13 @@ print("y =", y)</textarea>
 
   <div class="sub-tab-content" id="exo-sub-difficile">
   <div class="exo-tabs-nav">
-    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-diff-verglas')">Perte de contrôle sur le verglas <span class="exo-tab-stars">★★</span></button>
-    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-diff-projectile')">Modéliser un projectile en Python <span class="exo-tab-stars">★★★</span></button>
+    <button type="button" class="exo-tab-btn active" onclick="showExoItem(this,'exo-diff-verglas')">Exercice 1 – Perte de contrôle sur le verglas <span class="exo-tab-stars">★★</span></button>
+    <button type="button" class="exo-tab-btn" onclick="showExoItem(this,'exo-diff-projectile')">Exercice 2 – Modéliser un projectile en Python <span class="exo-tab-stars">★★★</span></button>
   </div>
 
   <div class="exo-item-content" id="exo-diff-projectile">
   <div class="card" style="border-left:4px solid var(--rouge);">
-  <h3>📝 Exercice — Modéliser le mouvement d'un projectile en Python</h3>
+  <h3>Exercice 2 — Modéliser le mouvement d'un projectile en Python</h3>
   <p>On souhaite écrire un programme en langage Python permettant de représenter le mouvement d'un point modélisant un projectile lancé à la surface de la Terre avec un vecteur vitesse de norme 18 m·s⁻¹ faisant un angle de 56° par rapport à l'horizontale.</p>
 
   <div class="box box-rappel">
@@ -1591,7 +1650,7 @@ print("y =", y)</textarea>
 
   <p><strong>a.</strong> Complète le code source Python fourni afin de proposer un programme permettant de représenter 20 positions du point modélisant le projectile sur une durée de 4,0 s et un vecteur vitesse du point toutes les deux positions.</p>
 
-  <button class="btn secondary" type="button" onclick="toggleProjHelp()" style="margin-bottom:10px;">💡 Aide : code python</button>
+  <button class="btn-indice" type="button" onclick="toggleProjHelp()" style="margin-bottom:10px;">💡 Indice : code python</button>
   <div class="box box-rappel" id="proj-help-box" style="display:none;">
     <p><code>import numpy as np</code> : charge la bibliothèque <strong>numpy</strong>, qui permet de manipuler facilement des listes de nombres (appelées tableaux) et de faire des calculs sur toutes leurs valeurs en une seule ligne.</p>
     <p><code>from matplotlib import pyplot as plt</code> : charge la bibliothèque <strong>matplotlib</strong>, qui sert à tracer des graphiques (courbes, points, vecteurs...).</p>
@@ -1690,16 +1749,16 @@ print("y =", [round(v,2) for v in y])</textarea>
     <label><input type="radio" name="projvb" value="d"> v_x dépend de la position choisie</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['projvbbox'], {'projvb':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['projvbbox'], {'projvb':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['projvbbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['projvbbox'], {'projvb':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['projvbbox'], {'projvb':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['projvbbox'])">↺ Recommencer</button>
     </div>
   </div>
 
   <div style="margin-top:22px;">
     <p class="q-text"><strong>c.</strong> Propose une méthode (graphique ou en modifiant le code source) pour montrer que la coordonnée v_x du vecteur vitesse du point est une constante.</p>
     <div class="exo-buttons">
-      <button class="btn secondary" onclick="showProjMethodC()">💡 Voir une méthode</button>
+      <button class="btn-indice" onclick="showProjMethodC()">💡 Indice : une méthode</button>
     </div>
     <div class="py-corr" id="proj-method-c">
       <strong>Méthode 1 — graphique :</strong> sur le graphique des vecteurs vitesse, toutes les flèches magenta ont la même longueur horizontale et pointent dans la même direction (vers la droite) : la composante v_x ne varie donc pas au cours du mouvement.
@@ -1734,7 +1793,7 @@ for i in range(0, 20, 2) :
 
   <div class="exo-item-content active" id="exo-diff-verglas">
   <div class="card" style="border-left:4px solid var(--rouge);">
-  <h3>📝 Exercice — Perte de contrôle sur le verglas</h3>
+  <h3>Exercice 1 — Perte de contrôle sur le verglas</h3>
   <p>Pour modéliser la perte de contrôle d'un véhicule sur du verglas, on utilise un mobile autoporteur lancé sur une table horizontale. On enregistre les mouvements du point central A de sa base et d'un point B de son pourtour à des intervalles de temps réguliers.</p>
 
   <div class="canvas-wrap">
@@ -1755,9 +1814,9 @@ for i in range(0, 20, 2) :
     <label><input type="radio" name="verglasA" value="d"> Système : le conducteur ; référentiel héliocentrique</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasAbox'], {'verglasA':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasAbox'], {'verglasA':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasAbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['verglasAbox'], {'verglasA':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['verglasAbox'], {'verglasA':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['verglasAbox'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1769,9 +1828,9 @@ for i in range(0, 20, 2) :
     <label><input type="radio" name="verglasB" value="d"> A et B ont tous les deux une trajectoire rectiligne uniforme</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasBbox'], {'verglasB':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasBbox'], {'verglasB':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasBbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['verglasBbox'], {'verglasB':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['verglasBbox'], {'verglasB':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['verglasBbox'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1783,9 +1842,9 @@ for i in range(0, 20, 2) :
     <label><input type="radio" name="verglasC" value="d"> Superposer les deux trajectoires enregistrées telles quelles</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasCbox'], {'verglasC':'a'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasCbox'], {'verglasC':'a'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasCbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['verglasCbox'], {'verglasC':'a'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['verglasCbox'], {'verglasC':'a'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['verglasCbox'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1797,9 +1856,9 @@ for i in range(0, 20, 2) :
     <label><input type="radio" name="verglasD" value="d"> Trajectoire quelconque, mouvement quelconque, sans régularité</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasDbox'], {'verglasD':'b'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasDbox'], {'verglasD':'b'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasDbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['verglasDbox'], {'verglasD':'b'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['verglasDbox'], {'verglasD':'b'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['verglasDbox'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1811,9 +1870,9 @@ for i in range(0, 20, 2) :
     <label><input type="radio" name="verglasE" value="d"> Le véhicule s'arrête immédiatement</label>
     <div class="feedback"></div>
     <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasEbox'], {'verglasE':'c'})">✅ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasEbox'], {'verglasE':'c'})">💡 Correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasEbox'])">🔄 Recommencer</button>
+      <button class="btn" onclick="checkGroup(['verglasEbox'], {'verglasE':'c'})">✓ Vérifier</button>
+      <button class="btn secondary" onclick="showCorrection(['verglasEbox'], {'verglasE':'c'})">▶ Voir la correction</button>
+      <button class="btn reset" onclick="resetGroup(['verglasEbox'])">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1831,7 +1890,7 @@ for i in range(0, 20, 2) :
 
   <div class="accordion" id="acc-verglas-correction">
     <button class="accordion-header" type="button" onclick="toggleAccordion('acc-verglas-correction')">
-      <span>✅ Correction</span>
+      <span>▶ Voir la correction</span>
       <span class="chevron">▶</span>
     </button>
     <div class="accordion-panel">
@@ -1962,7 +2021,7 @@ for i in range(0, 20, 2) :
       <div class="eg-success-badge">🎉🚪🏛️</div>
       <h4 style="color:var(--vert);">Bravo, tu t'es échappé(e) !</h4>
       <p>La porte s'ouvre en grinçant. En sortant, tu réalises que c'est exactement en observant le mouvement des astres — depuis <strong>différents référentiels</strong> — que Copernic a bouleversé la vision du monde en proposant un modèle héliocentrique. Décrire un mouvement, ce n'est jamais anodin : c'est toujours par rapport à un référentiel !</p>
-      <button class="btn-run" onclick="resetEscapeGame()">🔄 Recommencer l'escape game</button>
+      <button class="btn-run" onclick="resetEscapeGame()">↺ Recommencer l'escape game</button>
     </div>
 
   </div>
@@ -2897,54 +2956,343 @@ drawDeplacement();
 let vitCanvas = document.getElementById('canvasVitesse');
 let vitCtx = vitCanvas.getContext('2d');
 
+/* ================== VECTEUR VITESSE MOYENNE (ONGLET 2, a) ================== */
+let vmoyCanvas = document.getElementById('canvasVmoy');
+let vmoyCtx = vmoyCanvas.getContext('2d');
+
+const vmoyA = {x: 90, y: 190};
+const vmoyB = {x: 500, y: 60};
+const vmoyDt = 2.0; // secondes
+const vmoyEchelle = 10; // 10 px ↔ 1 m
+let vmoyTrajet = 'direct';
+let vmoyAnimId = null;
+let vmoyT0 = null;
+let vmoyArrived = false;
+
+// points de contrôle de la trajectoire détournée (courbe de Bézier cubique), entièrement dans le canevas
+const vmoyCtrl1 = {x: 190, y: 40};
+const vmoyCtrl2 = {x: 380, y: 200};
+
+function vmoyPointOnPath(t){
+  if(vmoyTrajet === 'direct'){
+    return { x: vmoyA.x + (vmoyB.x - vmoyA.x)*t, y: vmoyA.y + (vmoyB.y - vmoyA.y)*t };
+  } else {
+    const x = Math.pow(1-t,3)*vmoyA.x + 3*Math.pow(1-t,2)*t*vmoyCtrl1.x + 3*(1-t)*t*t*vmoyCtrl2.x + Math.pow(t,3)*vmoyB.x;
+    const y = Math.pow(1-t,3)*vmoyA.y + 3*Math.pow(1-t,2)*t*vmoyCtrl1.y + 3*(1-t)*t*t*vmoyCtrl2.y + Math.pow(t,3)*vmoyB.y;
+    return {x,y};
+  }
+}
+
+function drawVmoy(t){
+  if(t === undefined) t = vmoyArrived ? 1 : 0;
+  vmoyCtx.clearRect(0,0,700,280);
+  vmoyCtx.fillStyle="#fff"; vmoyCtx.fillRect(0,0,700,280);
+
+  // trajet réel (pointillés)
+  vmoyCtx.strokeStyle="#bbb"; vmoyCtx.lineWidth=2; vmoyCtx.setLineDash([6,5]);
+  vmoyCtx.beginPath();
+  if(vmoyTrajet === 'direct'){
+    vmoyCtx.moveTo(vmoyA.x, vmoyA.y); vmoyCtx.lineTo(vmoyB.x, vmoyB.y);
+  } else {
+    vmoyCtx.moveTo(vmoyA.x, vmoyA.y);
+    vmoyCtx.bezierCurveTo(vmoyCtrl1.x, vmoyCtrl1.y, vmoyCtrl2.x, vmoyCtrl2.y, vmoyB.x, vmoyB.y);
+  }
+  vmoyCtx.stroke();
+  vmoyCtx.setLineDash([]);
+
+  // quelques positions intermédiaires réelles (chronophotographie du trajet suivi)
+  vmoyCtx.fillStyle = "#999";
+  [0.2,0.4,0.6,0.8].forEach(tt=>{
+    const p = vmoyPointOnPath(tt);
+    vmoyCtx.beginPath(); vmoyCtx.arc(p.x, p.y, 3, 0, 2*Math.PI); vmoyCtx.fill();
+  });
+
+  // points A (départ) et B (arrivée)
+  vmoyCtx.font="13px sans-serif";
+  vmoyCtx.beginPath(); vmoyCtx.arc(vmoyA.x, vmoyA.y, 5, 0, 2*Math.PI); vmoyCtx.fillStyle="#333"; vmoyCtx.fill();
+  vmoyCtx.fillText("A (départ, t = 0 s)", vmoyA.x-10, vmoyA.y+38);
+  vmoyCtx.beginPath(); vmoyCtx.arc(vmoyB.x, vmoyB.y, 5, 0, 2*Math.PI); vmoyCtx.fillStyle="#333"; vmoyCtx.fill();
+  vmoyCtx.fillText("B (arrivée, t = Δt)", vmoyB.x+8, vmoyB.y-10);
+
+  // point mobile en cours d'animation, suit le VRAI trajet (direct ou détourné)
+  if(!vmoyArrived && t>0 && t<1){
+    const p = vmoyPointOnPath(t);
+    vmoyCtx.font="18px sans-serif"; vmoyCtx.textAlign="center"; vmoyCtx.textBaseline="middle";
+    vmoyCtx.fillText("🔵", p.x, p.y);
+    vmoyCtx.textAlign="left"; vmoyCtx.textBaseline="alphabetic";
+  }
+
+  const distanceM = Math.hypot(vmoyB.x-vmoyA.x, vmoyB.y-vmoyA.y) / vmoyEchelle;
+  const vMoy = distanceM / vmoyDt;
+
+  // à l'arrivée : les deux vecteurs partent tous les deux du point A
+  if(vmoyArrived){
+    const dABx = vmoyB.x-vmoyA.x, dABy = vmoyB.y-vmoyA.y;
+    const norm = Math.hypot(dABx,dABy);
+    const ux = dABx/norm, uy = dABy/norm;
+    // perpendiculaire unitaire, pour décaler légèrement le vecteur vitesse moyenne et éviter qu'il se superpose exactement au vecteur déplacement
+    const px = -uy, py = ux;
+    const decalage = 6;
+    const origVmoy = { x: vmoyA.x + px*decalage, y: vmoyA.y + py*decalage };
+
+    // vecteur déplacement AB, en bleu, part de A
+    drawArrow(vmoyCtx, vmoyA.x, vmoyA.y, vmoyB.x, vmoyB.y, "#1f6feb", 2, 12);
+    drawVecLabel(vmoyCtx, "AB", (vmoyA.x+vmoyB.x)/2 - 10, (vmoyA.y+vmoyB.y)/2 - 16, "#1f6feb");
+
+    // vecteur vitesse moyenne, en vert, part aussi de A (légèrement décalé), même direction que AB mais échelle différente (m·s⁻¹)
+    const vecLen = 110; // longueur fixe à l'écran, échelle propre (m·s⁻¹), non comparable à celle du vecteur AB
+    const vEnd = { x: origVmoy.x + ux*vecLen, y: origVmoy.y + uy*vecLen };
+    drawArrow(vmoyCtx, origVmoy.x, origVmoy.y, vEnd.x, vEnd.y, "#2e7d32", 3, 12);
+    drawVecLabel(vmoyCtx, "v moy", vEnd.x+8, vEnd.y, "#2e7d32");
+
+    vmoyCtx.fillStyle="#1f6feb"; vmoyCtx.font="12px sans-serif";
+    vmoyCtx.fillText("vecteur déplacement AB ≈ " + distanceM.toFixed(1) + " m", 20, 235);
+    vmoyCtx.fillStyle="#2e7d32";
+    vmoyCtx.fillText("vecteur vitesse moyenne = AB / Δt ≈ " + vMoy.toFixed(1) + " m·s⁻¹  (échelle propre, colinéaire à AB)", 20, 255);
+  }
+}
+
+function setTrajetVmoy(val){
+  vmoyTrajet = val;
+  resetVmoy();
+}
+
+function lancerVmoy(){
+  if(vmoyAnimId) return;
+  vmoyArrived = false;
+  vmoyT0 = null;
+  const duree = 1800; // durée de l'animation à l'écran (ms), représente Δt = 2,0 s
+  function step(ts){
+    if(!vmoyT0) vmoyT0 = ts;
+    const t = Math.min((ts - vmoyT0)/duree, 1);
+    drawVmoy(t);
+    if(t < 1){
+      vmoyAnimId = requestAnimationFrame(step);
+    } else {
+      vmoyArrived = true;
+      vmoyAnimId = null;
+      drawVmoy(1);
+      const legend = document.getElementById('legendVmoy');
+      legend.textContent = "Le vecteur vitesse moyenne (vert), tracé au point A, est colinéaire au vecteur déplacement AB (bleu) mais représente une autre grandeur physique (AB divisé par Δt, en m·s⁻¹). Les deux vecteurs sont identiques quel que soit le trajet réellement suivi entre A et B.";
+    }
+  }
+  vmoyAnimId = requestAnimationFrame(step);
+}
+
+function resetVmoy(){
+  if(vmoyAnimId){ cancelAnimationFrame(vmoyAnimId); vmoyAnimId = null; }
+  vmoyArrived = false;
+  vmoyT0 = null;
+  document.getElementById('legendVmoy').textContent = "Choisis un trajet puis clique sur « Lancer l'animation ».";
+  drawVmoy(0);
+}
+drawVmoy(0);
+
+// Fonctions génériques pour une courbe de Bézier cubique (réutilisées ici avec les points A, Ctrl1, Ctrl2, B de l'onglet a)
+function bezierPoint(t, P0, P1, P2, P3){
+  const x = Math.pow(1-t,3)*P0.x + 3*Math.pow(1-t,2)*t*P1.x + 3*(1-t)*t*t*P2.x + Math.pow(t,3)*P3.x;
+  const y = Math.pow(1-t,3)*P0.y + 3*Math.pow(1-t,2)*t*P1.y + 3*(1-t)*t*t*P2.y + Math.pow(t,3)*P3.y;
+  return {x,y};
+}
+function bezierTangent(t, P0, P1, P2, P3){
+  const dx = 3*Math.pow(1-t,2)*(P1.x-P0.x) + 6*(1-t)*t*(P2.x-P1.x) + 3*t*t*(P3.x-P2.x);
+  const dy = 3*Math.pow(1-t,2)*(P1.y-P0.y) + 6*(1-t)*t*(P2.y-P1.y) + 3*t*t*(P3.y-P2.y);
+  return {x: dx, y: dy};
+}
+
+/* ================== VITESSE MOYENNE → VITESSE INSTANTANÉE (ONGLET 2, b) ================== */
+let instantCanvas = document.getElementById('canvasInstant');
+let instantCtx = instantCanvas.getContext('2d');
+const instantT0 = 0.45; // position fixe de M sur la courbe A→B
+
+function drawInstant(){
+  instantCtx.clearRect(0,0,700,300);
+  instantCtx.fillStyle="#fff"; instantCtx.fillRect(0,0,700,300);
+
+  // trajectoire (même courbe A → B que les autres animations)
+  instantCtx.strokeStyle="#bbb"; instantCtx.lineWidth=2; instantCtx.setLineDash([6,5]);
+  instantCtx.beginPath();
+  instantCtx.moveTo(vmoyA.x, vmoyA.y);
+  instantCtx.bezierCurveTo(vmoyCtrl1.x, vmoyCtrl1.y, vmoyCtrl2.x, vmoyCtrl2.y, vmoyB.x, vmoyB.y);
+  instantCtx.stroke();
+  instantCtx.setLineDash([]);
+
+  const deltaT = parseFloat(document.getElementById('sliderDeltaT').value)/100; // écart en paramètre t (image de Δt)
+  const tPrime = Math.min(instantT0 + deltaT, 0.98);
+
+  const M  = bezierPoint(instantT0, vmoyA, vmoyCtrl1, vmoyCtrl2, vmoyB);
+  const Mp = bezierPoint(tPrime,    vmoyA, vmoyCtrl1, vmoyCtrl2, vmoyB);
+
+  // point M (fixe)
+  instantCtx.fillStyle="#333"; instantCtx.font="13px sans-serif";
+  instantCtx.beginPath(); instantCtx.arc(M.x, M.y, 5, 0, 2*Math.PI); instantCtx.fill();
+  instantCtx.fillText("M", M.x-16, M.y+6);
+
+  // point M' (se rapproche de M quand Δt diminue)
+  instantCtx.fillStyle="#1f6feb";
+  instantCtx.beginPath(); instantCtx.arc(Mp.x, Mp.y, 4, 0, 2*Math.PI); instantCtx.fill();
+  instantCtx.fillText("M'", Mp.x+7, Mp.y-6);
+
+  // vrai segment MM' (fin trait bleu clair), pour montrer qu'il rétrécit réellement quand Δt diminue
+  instantCtx.strokeStyle="#9ab8e8"; instantCtx.lineWidth=1.5;
+  instantCtx.beginPath(); instantCtx.moveTo(M.x, M.y); instantCtx.lineTo(Mp.x, Mp.y); instantCtx.stroke();
+
+  // direction de MM', affichée à une échelle FIXE pour rester visible même quand Δt est très petit (vecteur vitesse moyenne : vert)
+  const dABx = Mp.x-M.x, dABy = Mp.y-M.y;
+  const normAB = Math.hypot(dABx,dABy) || 1;
+  const uABx = dABx/normAB, uABy = dABy/normAB;
+  const vecLenAffiche = 90;
+  drawArrow(instantCtx, M.x, M.y, M.x+uABx*vecLenAffiche, M.y+uABy*vecLenAffiche, "#2e7d32", 3, 12);
+  drawVecLabel(instantCtx, "v moy(Δt)", M.x+uABx*vecLenAffiche+8, M.y+uABy*vecLenAffiche-10, "#2e7d32");
+
+  // vecteur vitesse instantanée en M : tangent à la trajectoire, fixe, échelle identique pour comparaison directe (orange)
+  const tan = bezierTangent(instantT0, vmoyA, vmoyCtrl1, vmoyCtrl2, vmoyB);
+  const normTan = Math.hypot(tan.x, tan.y) || 1;
+  const uTx = tan.x/normTan, uTy = tan.y/normTan;
+  drawArrow(instantCtx, M.x, M.y, M.x+uTx*vecLenAffiche, M.y+uTy*vecLenAffiche, "#E8783A", 2.5, 12);
+  drawVecLabel(instantCtx, "v (instantanée)", M.x+uTx*vecLenAffiche+8, M.y+uTy*vecLenAffiche+14, "#E8783A");
+
+  instantCtx.fillStyle="#333"; instantCtx.font="12px sans-serif";
+  instantCtx.fillText("Δt " + (deltaT<0.06 ? "très petit" : deltaT<0.20 ? "petit" : "grand") + " : plus Δt diminue, plus le vecteur vert se rapproche du vecteur orange.", 20, 25);
+
+  const legend = document.getElementById('legendInstant');
+  if(deltaT < 0.06){
+    legend.textContent = "Δt est maintenant très petit : le vecteur vitesse moyenne sur [M ; M'] (vert) est presque confondu en direction avec le vecteur vitesse instantanée en M (orange), tangent à la trajectoire.";
+  } else {
+    legend.textContent = "Le vecteur vert (vitesse moyenne sur [M ; M']) est affiché à une échelle agrandie pour rester visible : c'est sa direction qu'il faut comparer à celle du vecteur orange (vitesse instantanée en M), pas sa longueur.";
+  }
+}
+drawInstant();
+
 function drawVitesse(){
   vitCtx.clearRect(0,0,700,300);
   vitCtx.fillStyle="#fff"; vitCtx.fillRect(0,0,700,300);
 
   const t = parseFloat(document.getElementById('sliderVitesse').value)/100;
   const mode = document.querySelector('input[name="modeVitesse"]:checked').value;
+  const showAB = document.getElementById('checkAB').checked;
 
-  vitCtx.strokeStyle="#1f6feb"; vitCtx.lineWidth=2;
+  // trajectoire : la même courbe détournée A → B que dans l'animation de l'onglet a
+  vitCtx.strokeStyle="#bbb"; vitCtx.lineWidth=2; vitCtx.setLineDash([6,5]);
   vitCtx.beginPath();
-  for(let s=0; s<=1; s+=0.01){
-    const x = 50 + s*600;
-    const y = 200 - 100*Math.sin(s*Math.PI);
-    if(s===0) vitCtx.moveTo(x,y); else vitCtx.lineTo(x,y);
-  }
+  vitCtx.moveTo(vmoyA.x, vmoyA.y);
+  vitCtx.bezierCurveTo(vmoyCtrl1.x, vmoyCtrl1.y, vmoyCtrl2.x, vmoyCtrl2.y, vmoyB.x, vmoyB.y);
   vitCtx.stroke();
+  vitCtx.setLineDash([]);
 
-  const x = 50 + t*600;
-  const y = 200 - 100*Math.sin(t*Math.PI);
+  vitCtx.font="12px sans-serif"; vitCtx.fillStyle="#333";
+  vitCtx.beginPath(); vitCtx.arc(vmoyA.x, vmoyA.y, 4, 0, 2*Math.PI); vitCtx.fill();
+  vitCtx.fillText("A", vmoyA.x-6, vmoyA.y+18);
+  vitCtx.beginPath(); vitCtx.arc(vmoyB.x, vmoyB.y, 4, 0, 2*Math.PI); vitCtx.fill();
+  vitCtx.fillText("B", vmoyB.x+6, vmoyB.y-8);
 
-  const dx = 600;
-  const dy = -100*Math.PI*Math.cos(t*Math.PI);
-  const norm = Math.hypot(dx,dy);
-  const ux = dx/norm, uy = dy/norm;
+  // rappel : vecteur déplacement AB (bleu, position, échelle réelle) + vecteur vitesse moyenne AB/Δt (vert, échelle propre, légèrement décalé)
+  if(showAB){
+    drawArrow(vitCtx, vmoyA.x, vmoyA.y, vmoyB.x, vmoyB.y, "#1f6feb", 2, 11);
+    vitCtx.fillStyle="#1f6feb"; vitCtx.font="12px sans-serif";
+    vitCtx.fillText("vecteur déplacement AB (position, direction fixe)", 20, 270);
+
+    const dABx = vmoyB.x-vmoyA.x, dABy = vmoyB.y-vmoyA.y;
+    const normAB = Math.hypot(dABx,dABy);
+    const uABx = dABx/normAB, uABy = dABy/normAB;
+    const pABx = -uABy, pABy = uABx; // perpendiculaire, pour décaler légèrement le vecteur vitesse moyenne
+    const decalage = 6;
+    const origVmoyC = { x: vmoyA.x + pABx*decalage, y: vmoyA.y + pABy*decalage };
+    const vecLenC = 110;
+    const vEndC = { x: origVmoyC.x + uABx*vecLenC, y: origVmoyC.y + uABy*vecLenC };
+    drawArrow(vitCtx, origVmoyC.x, origVmoyC.y, vEndC.x, vEndC.y, "#2e7d32", 2, 11);
+    vitCtx.fillStyle="#2e7d32"; vitCtx.font="12px sans-serif";
+    vitCtx.fillText("vecteur vitesse moyenne = AB / Δt (échelle propre, direction fixe)", 20, 285);
+  }
+
+  // position et tangente instantanée en M (dépendent de t : direction change avec la position sur la trajectoire)
+  const p = bezierPoint(t, vmoyA, vmoyCtrl1, vmoyCtrl2, vmoyB);
+  const tan = bezierTangent(t, vmoyA, vmoyCtrl1, vmoyCtrl2, vmoyB);
+  const normTan = Math.hypot(tan.x, tan.y) || 1;
+  const ux = tan.x/normTan, uy = tan.y/normTan;
 
   let speedLen = 60;
   if(mode === "accel") speedLen = 30 + t*90;
   else if(mode === "ralenti") speedLen = 120 - t*90;
 
-  const vx = x + ux*speedLen;
-  const vy = y + uy*speedLen;
+  const vx = p.x + ux*speedLen;
+  const vy = p.y + uy*speedLen;
 
   vitCtx.font="20px sans-serif"; vitCtx.textAlign="center"; vitCtx.textBaseline="middle";
-  vitCtx.fillText("🚗", x, y);
+  vitCtx.fillText("🚗", p.x, p.y);
   vitCtx.textAlign="left"; vitCtx.textBaseline="alphabetic";
   vitCtx.font="13px sans-serif"; vitCtx.fillStyle="#333";
-  vitCtx.fillText("M", x-5, y-16);
+  vitCtx.fillText("M", p.x-5, p.y-16);
 
-  drawArrow(vitCtx, x, y, vx, vy, "#2e7d32", 3.5, 14);
+  drawArrow(vitCtx, p.x, p.y, vx, vy, "#E8783A", 3.5, 14);
   vitCtx.font="13px sans-serif";
-  drawVecLabel(vitCtx, "v", vx+5, vy, "#2e7d32");
+  drawVecLabel(vitCtx, "v", vx+5, vy, "#E8783A");
 
   vitCtx.fillStyle="#333";
-  let msg = "La longueur de v reste constante : mouvement uniforme";
-  if(mode === "accel") msg = "Mouvement accéléré : la valeur de v augmente le long de la trajectoire";
-  else if(mode === "ralenti") msg = "Mouvement ralenti : la valeur de v diminue le long de la trajectoire";
+  let msg = "La longueur de v reste constante : mouvement uniforme (le vecteur v tourne car il reste tangent à la trajectoire)";
+  if(mode === "accel") msg = "Mouvement accéléré : la valeur de v augmente le long de la trajectoire (le vecteur v tourne aussi car il reste tangent)";
+  else if(mode === "ralenti") msg = "Mouvement ralenti : la valeur de v diminue le long de la trajectoire (le vecteur v tourne aussi car il reste tangent)";
   vitCtx.fillText(msg, 20, 25);
 }
 drawVitesse();
+
+/* ================== CHRONOPHOTOGRAPHIE (ONGLET 2, c-d) ================== */
+let chronoCanvas = document.getElementById('canvasChrono');
+let chronoCtx = chronoCanvas.getContext('2d');
+
+function drawChrono(){
+  chronoCtx.clearRect(0,0,700,240);
+  chronoCtx.fillStyle="#fff"; chronoCtx.fillRect(0,0,700,240);
+
+  const mode = document.querySelector('input[name="modeChrono"]:checked').value;
+
+  // écarts entre les 6 positions (5 intervalles), Δt constant dans les 3 cas
+  let gaps;
+  if(mode === "accel")       gaps = [50,70,90,110,130];
+  else if(mode === "ralenti") gaps = [130,110,90,70,50];
+  else                        gaps = [90,90,90,90,90];
+
+  const yLigne = 70;
+  const xStart = 40;
+  let positions = [xStart];
+  for(let i=0;i<gaps.length;i++) positions.push(positions[i]+gaps[i]);
+
+  // trajectoire
+  chronoCtx.strokeStyle="#999"; chronoCtx.lineWidth=1;
+  chronoCtx.beginPath(); chronoCtx.moveTo(20,yLigne); chronoCtx.lineTo(680,yLigne); chronoCtx.stroke();
+
+  // positions + labels
+  positions.forEach((x,i)=>{
+    chronoCtx.font="16px sans-serif"; chronoCtx.textAlign="center"; chronoCtx.textBaseline="middle";
+    chronoCtx.fillText("🔵", x, yLigne);
+    chronoCtx.textAlign="left"; chronoCtx.textBaseline="alphabetic";
+    chronoCtx.fillStyle="#333"; chronoCtx.font="12px sans-serif";
+    chronoCtx.fillText("M"+(i+1), x-6, yLigne-14);
+  });
+
+  // vecteurs vitesse (proportionnels à l'écart vers la position suivante), tracés sous la trajectoire
+  const yVec = 108;
+  const scale = 0.9;
+  for(let i=0;i<gaps.length;i++){
+    const x1 = positions[i];
+    const x2 = positions[i] + gaps[i]*scale;
+    drawArrow(chronoCtx, x1, yVec, x2, yVec, "#2e7d32", 3, 12);
+    chronoCtx.font="12px sans-serif";
+    drawVecLabel(chronoCtx, "v"+(i+1), x1, yVec+16, "#2e7d32");
+  }
+
+  chronoCtx.fillStyle="#333"; chronoCtx.font="12px sans-serif";
+  chronoCtx.fillText("Δt constant entre chaque cliché", 20, 20);
+
+  const legend = document.getElementById('legendChrono');
+  if(mode === "uniforme")
+    legend.textContent = "Mode uniforme : les positions sont équidistantes (Δt constant) → les vecteurs vitesse ont tous la même longueur et la même direction.";
+  else if(mode === "accel")
+    legend.textContent = "Mode accéléré : les écarts entre positions augmentent → la longueur des vecteurs vitesse augmente (la valeur de v augmente).";
+  else
+    legend.textContent = "Mode décéléré : les écarts entre positions diminuent → la longueur des vecteurs vitesse diminue (la valeur de v diminue).";
+}
+drawChrono();
 
 /* ================== BILLE (ONGLET 2) ================== */
 let billeCanvas = document.getElementById('canvasBille');
@@ -3090,6 +3438,12 @@ function toggleAccordion(id){
   var acc = document.getElementById(id);
   if(!acc) return;
   acc.classList.toggle('open');
+}
+
+// ── Bouton indice (aide méthodologique) ──
+function toggleIndice(id){
+  var box = document.getElementById(id);
+  if (box) box.classList.toggle('visible');
 }
 
 /* ══════ EXERCICE INTERMÉDIAIRE — Lecture de code : trajectoire + vecteurs vitesse ══════ */

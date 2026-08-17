@@ -381,6 +381,10 @@
     font-weight: 700;
     color: var(--vert);
   }
+  /* Couleur du titre selon le niveau de difficulté de la carte (facile/inter/difficile) */
+  .card[style*="--vert"] .exo-header h3   { color: var(--vert); }
+  .card[style*="--orange"] .exo-header h3 { color: var(--orange); }
+  .card[style*="--rouge"] .exo-header h3  { color: var(--rouge); }
   .exo-pill {
     font-size: 0.68rem;
     font-weight: 700;
@@ -1437,17 +1441,17 @@
 <div class="dropdown-qcm">
 <div class="dq-question">2. Le dioxygène O₂ est un…</div>
 <div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'mélange homogène','dqf-cp2')">mélange homogène</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'corps pur simple','dqf-cp2')">corps pur simple</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps pur composé','dqf-cp2')">corps pur composé</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'mélange homogène','dqf-cp2')">mélange homogène</div>
 </div>
 <div class="dq-feedback" id="dqf-cp2"></div>
 </div>
 <div class="dropdown-qcm">
 <div class="dq-question">3. L'air atmosphérique est un mélange…</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'homogène','dqf-cp3')">homogène (une seule phase visible)</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'hétérogène','dqf-cp3')">hétérogène (plusieurs phases visibles)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'homogène','dqf-cp3')">homogène (une seule phase visible)</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'de corps purs simples uniquement','dqf-cp3')">de corps purs simples uniquement</div>
 </div>
 <div class="dq-feedback" id="dqf-cp3"></div>
@@ -1455,8 +1459,8 @@
 <div class="dropdown-qcm">
 <div class="dq-question">4. Pour identifier un corps pur, on peut mesurer sa température de changement d'état. Pour un corps pur, cette température est…</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'unique et fixe','dqf-cp4')">unique et fixe (caractéristique de l'espèce)</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'variable selon la masse','dqf-cp4')">variable selon la masse de l'échantillon</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'unique et fixe','dqf-cp4')">unique et fixe (caractéristique de l'espèce)</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'différente à chaque mesure','dqf-cp4')">différente à chaque mesure</div>
 </div>
 <div class="dq-feedback" id="dqf-cp4"></div>
@@ -1502,9 +1506,9 @@
 <div class="dropdown-qcm">
 <div class="dq-question">1. On chauffe de l'eau solide (glace). La température reste à 0 °C pendant un moment. Comment appelle-t-on ce phénomène ?</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'fusion','dqf1')">Fusion</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'solidification','dqf1')">Solidification</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'vaporisation','dqf1')">Vaporisation</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'fusion','dqf1')">Fusion</div>
 </div>
 <div class="dq-feedback" id="dqf1"></div>
 </div>
@@ -1591,9 +1595,9 @@
 <div class="dropdown-qcm">
 <div class="dq-question">1. Un cube de laiton de 2 cm d'arête a une masse de 62,8 g. Quelle est sa masse volumique ?</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'7850','dqfmv1')">7 850 kg·m⁻³ (soit 7,85 g·cm⁻³)</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'62800','dqfmv1')">62 800 kg·m⁻³</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'3,14','dqfmv1')">3,14 g·cm⁻³</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'62800','dqfmv1')">62 800 kg·m⁻³</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'7850','dqfmv1')">7 850 kg·m⁻³ (soit 7,85 g·cm⁻³)</div>
 </div>
 <div class="dq-feedback" id="dqfmv1"></div>
 </div>
@@ -1610,8 +1614,8 @@
 <div class="dq-question">3. Le dioxyde de carbone CO₂ a une densité d ≈ 1,52 par rapport à l'air. Que peut-on en déduire ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'lourd','dqfmv3')">Le CO₂ est plus lourd que l'air : il s'accumule dans les points bas (caves, fosses…)</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'léger','dqfmv3')">Le CO₂ est plus léger que l'air : il s'élève</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'insoluble','dqfmv3')">Le CO₂ est insoluble dans l'air</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'léger','dqfmv3')">Le CO₂ est plus léger que l'air : il s'élève</div>
 </div>
 <div class="dq-feedback" id="dqfmv3"></div>
 </div>
@@ -1671,9 +1675,9 @@
 <div class="dropdown-qcm">
 <div class="dq-question">1. Sur un chromatogramme, une espèce chimique pure donne…</div>
 <div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'aucune tache','dqf-cq1')">aucune tache</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'une seule tache','dqf-cq1')">une seule tache</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'plusieurs taches','dqf-cq1')">toujours plusieurs taches</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'aucune tache','dqf-cq1')">aucune tache</div>
 </div>
 <div class="dq-feedback" id="dqf-cq1"></div>
 </div>
@@ -1689,17 +1693,17 @@
 <div class="dropdown-qcm">
 <div class="dq-question">3. La fraction massique d'une espèce dans un mélange est égale à…</div>
 <div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'masse fois volume','dqf-cq3')">masse de l'espèce × volume total</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'masse espece sur masse totale','dqf-cq3')">masse de l'espèce ÷ masse totale du mélange</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'masse totale sur masse espece','dqf-cq3')">masse totale du mélange ÷ masse de l'espèce</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'masse fois volume','dqf-cq3')">masse de l'espèce × volume total</div>
 </div>
 <div class="dq-feedback" id="dqf-cq3"></div>
 </div>
 <div class="dropdown-qcm">
 <div class="dq-question">4. L'air atmosphérique est composé approximativement de…</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'78% N2 21% O2','dqf-cq4')">78 % de N₂ et 21 % de O₂</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'50% N2 50% O2','dqf-cq4')">50 % de N₂ et 50 % de O₂</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'78% N2 21% O2','dqf-cq4')">78 % de N₂ et 21 % de O₂</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'21% N2 78% O2','dqf-cq4')">21 % de N₂ et 78 % de O₂</div>
 </div>
 <div class="dq-feedback" id="dqf-cq4"></div>
@@ -1848,7 +1852,7 @@
 <!-- Boutons -->
 <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
 <button onclick="reinitTriangle()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
-<button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--vert);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Voir la correction</button>
+<button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--vert);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">▶ Voir la correction</button>
 </div>
 </div>
 
@@ -1884,8 +1888,8 @@
 <div class="dq-question">1. Pour deux blocs de même volume, lequel est le plus lourd ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'plus grande masse volumique','fb-phet1')">Celui de plus grande masse volumique</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'plus petite masse volumique','fb-phet1')">Celui de plus petite masse volumique</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'meme poids','fb-phet1')">Les deux pèsent pareil, le volume n'a pas d'influence</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'plus petite masse volumique','fb-phet1')">Celui de plus petite masse volumique</div>
 </div>
 <div class="dq-feedback" id="fb-phet1"></div>
 </div>
@@ -2215,7 +2219,7 @@
 <!-- fin exo-nouv-facile2 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-corps-purs')" type="button">Corps pur ou mélange ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-etats-chgt')" type="button">États et changements d'état <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-mv')" type="button">Masse volumique d'un échantillon d'huile <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ethanol')" type="button">Masse volumique de l'éthanol <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-corps-purs"><div class="card" id="exo-corps-purs" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice – Corps pur ou mélange ?</h3>
+<h3>Exercice 1 — Corps pur ou mélange ?</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Clique sur la bonne réponse pour chaque substance :</p>
@@ -2302,16 +2306,16 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-etats-chgt"><div class="card" id="exo-nouv-facile1" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice 3 — États et changements d'état</h3>
+<h3>Exercice 2 — États et changements d'état</h3>
 <span class="exo-pill">LISTE DÉROULANTE</span>
 </div>
 <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:16px;">Complète chaque affirmation.</p>
 <div class="dropdown-qcm">
 <div class="dq-question">1. L'eau qui bout dans une casserole passe de l'état liquide à l'état gazeux : ce changement d'état s'appelle…</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'vaporisation','dqf-nf1-1')">la vaporisation</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fusion','dqf-nf1-1')">la fusion</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'sublimation','dqf-nf1-1')">la sublimation</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'vaporisation','dqf-nf1-1')">la vaporisation</div>
 </div>
 <div class="dq-feedback" id="dqf-nf1-1"></div>
 </div>
@@ -2327,9 +2331,9 @@
 <div class="dropdown-qcm">
 <div class="dq-question">3. Sous une pression donnée, la température de changement d'état d'un corps pur est…</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'constante et caracteristique','dqf-nf1-3')">constante, et caractéristique de l'espèce</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'variable selon la masse','dqf-nf1-3')">variable selon la masse de l'échantillon</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'toujours 100 degres','dqf-nf1-3')">toujours égale à 100 °C</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'constante et caracteristique','dqf-nf1-3')">constante, et caractéristique de l'espèce</div>
 </div>
 <div class="dq-feedback" id="dqf-nf1-3"></div>
 </div>
@@ -2342,9 +2346,12 @@
 </div>
 <div class="dq-feedback" id="dqf-nf1-4"></div>
 </div>
+<div style="text-align:center;margin-top:16px;">
+<button class="btn-reveal" onclick="recommencer('exo-nouv-facile1')" style="background:var(--texte-léger);">↺ Recommencer</button>
+</div>
 </div></div><div class="exo-item-content" id="exoitem-huile-mv"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice 4 — Masse volumique d'un échantillon d'huile</h3>
+<h3>Exercice 3 — Masse volumique d'un échantillon d'huile</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2362,17 +2369,18 @@
 <div class="dropdown-qcm">
 <div class="dq-question">L'huile est-elle plus ou moins dense que l'eau (ρ<sub>eau</sub> = 1,00 g·cm⁻³) ?</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'moins dense','dqf-nf2-2')">Moins dense : elle flotte sur l'eau</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'plus dense','dqf-nf2-2')">Plus dense : elle coule dans l'eau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'moins dense','dqf-nf2-2')">Moins dense : elle flotte sur l'eau</div>
 </div>
 <div class="dq-feedback" id="dqf-nf2-2"></div>
 </div>
-<div style="text-align:center;margin-top:16px;">
+<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+<button class="btn-reveal" onclick="toggleCorrMulti(['corr-nf2-1'], this)">▶ Voir la correction</button>
 <button class="btn-reveal" onclick="recommencer('exo-nouv-facile2')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-ethanol"><div class="card" id="exo-ethanol" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
-<h3>Exercice 1 – Masse volumique de l'éthanol</h3>
+<h3>Exercice 4 — Masse volumique de l'éthanol</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2384,11 +2392,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('eth1',this,true)">ρ = m / V</div>
-<div class="qcm-opt" onclick="fcrFormule('eth1',this,false)">ρ = V / m</div>
-<div class="qcm-opt" onclick="fcrFormule('eth1',this,false)">ρ = m × V</div>
+<div class="qcm-opt" onclick="fcrFormule('eth1',this,false,'c\'est l\'inverse de la bonne formule : ρ = m / V, pas V / m.')">ρ = V / m</div>
+<div class="qcm-opt" onclick="fcrFormule('eth1',this,false,'la masse volumique est un quotient, pas un produit : ρ = m / V.')">ρ = m × V</div>
+<div class="qcm-opt" onclick="fcrFormule('eth1',this,true,'la masse volumique est le rapport de la masse sur le volume.')">ρ = m / V</div>
 </div>
 </div>
+<div class="exo-fb" id="eth1-formule-fb"></div>
 <div class="fcr-step" id="eth1-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="eth1-calc" placeholder="ton calcul (ex : nombre/nombre)" type="text"/>
@@ -2411,11 +2420,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('eth2a',this,true)">m(kg) = m(g) × 10⁻³</div>
-<div class="qcm-opt" onclick="fcrFormule('eth2a',this,false)">m(kg) = m(g) × 10³</div>
-<div class="qcm-opt" onclick="fcrFormule('eth2a',this,false)">m(kg) = m(g) × 10⁻²</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2a',this,false,'10⁻² correspond à une conversion en centi-, pas en kilo- (le bon facteur est 10⁻³).')">m(kg) = m(g) × 10⁻²</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2a',this,true,'pour convertir des grammes en kilogrammes, on divise par 1000 (facteur 10⁻³).')">m(kg) = m(g) × 10⁻³</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2a',this,false,'multiplier par 10³ convertirait des kg en g, pas l\'inverse.')">m(kg) = m(g) × 10³</div>
 </div>
 </div>
+<div class="exo-fb" id="eth2a-formule-fb"></div>
 <div class="fcr-step" id="eth2a-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="eth2a-calc" placeholder="ton calcul (ex : nombre×10^-3)" type="text"/>
@@ -2437,11 +2447,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('eth2b',this,true)">V(m³) = V(cm³) × 10⁻⁶</div>
-<div class="qcm-opt" onclick="fcrFormule('eth2b',this,false)">V(m³) = V(cm³) × 10⁶</div>
-<div class="qcm-opt" onclick="fcrFormule('eth2b',this,false)">V(m³) = V(cm³) × 10⁻³</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2b',this,false,'ce facteur convertirait des m³ en cm³, pas l\'inverse.')">V(m³) = V(cm³) × 10⁶</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2b',this,false,'10⁻³ correspondrait à une conversion en litres, pas en m³ (le bon facteur est 10⁻⁶).')">V(m³) = V(cm³) × 10⁻³</div>
+<div class="qcm-opt" onclick="fcrFormule('eth2b',this,true,'1 cm³ = 10⁻⁶ m³, donc on multiplie par 10⁻⁶.')">V(m³) = V(cm³) × 10⁻⁶</div>
 </div>
 </div>
+<div class="exo-fb" id="eth2b-formule-fb"></div>
 <div class="fcr-step" id="eth2b-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="eth2b-calc" placeholder="ton calcul (ex : nombre×10^-6)" type="text"/>
@@ -2464,11 +2475,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('eth3',this,true)">ρ = m / V</div>
-<div class="qcm-opt" onclick="fcrFormule('eth3',this,false)">ρ = V / m</div>
-<div class="qcm-opt" onclick="fcrFormule('eth3',this,false)">ρ = m + V</div>
+<div class="qcm-opt" onclick="fcrFormule('eth3',this,true,'même formule que pour la masse volumique en g·cm⁻³, avec des unités SI cette fois.')">ρ = m / V</div>
+<div class="qcm-opt" onclick="fcrFormule('eth3',this,false,'la masse volumique est un quotient, pas une somme.')">ρ = m + V</div>
+<div class="qcm-opt" onclick="fcrFormule('eth3',this,false,'c\'est l\'inverse de la bonne formule : ρ = m / V.')">ρ = V / m</div>
 </div>
 </div>
+<div class="exo-fb" id="eth3-formule-fb"></div>
 <div class="fcr-step" id="eth3-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="eth3-calc" placeholder="ton calcul (ex : nombre/nombre)" type="text"/>
@@ -2499,7 +2511,7 @@
 <!-- fin exo-nouv-inter1 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-acetone')" type="button">Changements d'état de l'acétone <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton')" type="button">Composition du laiton <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-huiles')" type="button">Huiles essentielles d'orange et de citron <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-ccm-sirop')" type="button">CCM : identifier la composition d'un sirop <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-acetone"><div class="card" id="exo-acetone" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice – Changements d'état de l'acétone</h3>
+<h3>Exercice 1 — Changements d'état de l'acétone</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2570,17 +2582,26 @@
 </div>
 <div class="question-block">
 <div class="question-label">1. Justifier que l'acétone est un corps pur.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ac1')">💡 Indice</button>
+<div class="indice-box" id="ind-ac1">Observe l'allure de la courbe pendant les changements d'état : la température varie-t-elle ou reste-t-elle constante sur un palier ?</div>
 <textarea class="rep-zone" id="r-ac1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Déterminer la température de fusion de l'acétone.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ac2')">💡 Indice</button>
+<div class="indice-box" id="ind-ac2">Repère le premier palier horizontal sur le graphique et lis la température correspondante sur l'axe des ordonnées.</div>
 <textarea class="rep-zone" id="r-ac2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. Déterminer la température d'ébullition de l'acétone.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-ac3')">💡 Indice</button>
+<div class="indice-box" id="ind-ac3">Repère le second palier horizontal (aux temps plus élevés) et lis la température correspondante.</div>
 <textarea class="rep-zone" id="r-ac3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
-<button class="btn-reveal" onclick="toggleCorr('corr-acetone')">▶ Voir la correction</button>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button class="btn-reveal" onclick="toggleCorrMulti(['corr-acetone'], this)">▶ Voir la correction</button>
+<button class="btn-reveal" onclick="recommencer('exo-acetone')" style="background:var(--texte-léger);">↺ Recommencer</button>
+</div>
 <div class="reveal-body" id="corr-acetone">
 <strong>1. Justification corps pur :</strong><br/>
     La courbe présente des <em>paliers horizontaux</em> lors des changements d'état (températures constantes). C'est la caractéristique d'un corps pur : ses changements d'état se font à une température fixe et bien définie.
@@ -2596,7 +2617,7 @@
   </div>
 </div></div><div class="exo-item-content" id="exoitem-laiton"><div class="card" id="exo-laiton" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice 2 – Composition du laiton</h3>
+<h3>Exercice 2 — Composition du laiton</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2609,11 +2630,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('lait1',this,true)">V = a³</div>
-<div class="qcm-opt" onclick="fcrFormule('lait1',this,false)">V = a²</div>
-<div class="qcm-opt" onclick="fcrFormule('lait1',this,false)">V = 3 × a</div>
+<div class="qcm-opt" onclick="fcrFormule('lait1',this,false,'a² donne une surface, pas un volume — il manque une dimension.')">V = a²</div>
+<div class="qcm-opt" onclick="fcrFormule('lait1',this,true,'le volume d\'un cube est le cube de son arête.')">V = a³</div>
+<div class="qcm-opt" onclick="fcrFormule('lait1',this,false,'ce n\'est pas une multiplication simple : le volume d\'un cube s\'obtient en élevant l\'arête au cube.')">V = 3 × a</div>
 </div>
 </div>
+<div class="exo-fb" id="lait1-formule-fb"></div>
 <div class="fcr-step" id="lait1-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="lait1-calc" placeholder="ton calcul (ex : nombre**3)" type="text"/>
@@ -2636,11 +2658,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('lait2',this,true)">m = ρ × V</div>
-<div class="qcm-opt" onclick="fcrFormule('lait2',this,false)">m = ρ / V</div>
-<div class="qcm-opt" onclick="fcrFormule('lait2',this,false)">m = ρ + V</div>
+<div class="qcm-opt" onclick="fcrFormule('lait2',this,false,'ρ et V ne s\'additionnent pas : ce sont des grandeurs liées par un produit, pas une somme.')">m = ρ + V</div>
+<div class="qcm-opt" onclick="fcrFormule('lait2',this,true,'la masse volumique est le rapport m/V, donc m = ρ × V.')">m = ρ × V</div>
+<div class="qcm-opt" onclick="fcrFormule('lait2',this,false,'diviser ρ par V ne redonne pas une masse d\'un point de vue des unités.')">m = ρ / V</div>
 </div>
 </div>
+<div class="exo-fb" id="lait2-formule-fb"></div>
 <div class="fcr-step" id="lait2-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="lait2-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -2663,11 +2686,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('lait3a',this,true)">m_Zn = %Zn × m_total</div>
-<div class="qcm-opt" onclick="fcrFormule('lait3a',this,false)">m_Zn = m_total / %Zn</div>
-<div class="qcm-opt" onclick="fcrFormule('lait3a',this,false)">m_Zn = %Zn / m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3a',this,true,'la masse de zinc est la fraction massique de zinc multipliée par la masse totale.')">m_Zn = %Zn × m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3a',this,false,'diviser la masse totale par le pourcentage ne donne pas une masse cohérente ici.')">m_Zn = m_total / %Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3a',this,false,'il faut multiplier le pourcentage par la masse totale, pas diviser %Zn par m_total.')">m_Zn = %Zn / m_total</div>
 </div>
 </div>
+<div class="exo-fb" id="lait3a-formule-fb"></div>
 <div class="fcr-step" id="lait3a-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="lait3a-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -2689,11 +2713,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('lait3b',this,true)">m_Cu = %Cu × m_total</div>
-<div class="qcm-opt" onclick="fcrFormule('lait3b',this,false)">m_Cu = m_total − %Cu</div>
-<div class="qcm-opt" onclick="fcrFormule('lait3b',this,false)">m_Cu = %Cu / m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3b',this,false,'on ne soustrait pas un pourcentage à une masse : les unités ne sont pas homogènes.')">m_Cu = m_total − %Cu</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3b',this,true,'même logique que pour le zinc : masse = fraction massique × masse totale.')">m_Cu = %Cu × m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('lait3b',this,false,'il faut multiplier %Cu par m_total, pas diviser %Cu par m_total.')">m_Cu = %Cu / m_total</div>
 </div>
 </div>
+<div class="exo-fb" id="lait3b-formule-fb"></div>
 <div class="fcr-step" id="lait3b-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="lait3b-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -2726,7 +2751,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-ccm-huiles"><div class="card" id="exo-ccm" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice – Huiles essentielles d'orange et de citron</h3>
+<h3>Exercice 3 — Huiles essentielles d'orange et de citron</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2839,7 +2864,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-ccm-sirop"><div class="card" id="exo-nouv-inter1" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
-<h3>Exercice 5 — CCM : identifier la composition d'un sirop</h3>
+<h3>Exercice 4 — CCM : identifier la composition d'un sirop</h3>
 <span class="exo-pill">LISTE DÉROULANTE</span>
 </div>
 <div class="exo-enonce">
@@ -2848,9 +2873,9 @@
 <div class="dropdown-qcm">
 <div class="dq-question">1. Que peut-on en conclure sur la composition du sirop ?</div>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="qcmOptCheck(this,true,'A et C presents','dqf-ni1-1')">Le sirop contient probablement les colorants A et C, mais pas B</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'les trois presents','dqf-ni1-1')">Le sirop contient les trois colorants A, B et C</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'aucun identifiable','dqf-ni1-1')">On ne peut identifier aucun colorant avec cette méthode</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'les trois presents','dqf-ni1-1')">Le sirop contient les trois colorants A, B et C</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'A et C presents','dqf-ni1-1')">Le sirop contient probablement les colorants A et C, mais pas B</div>
 </div>
 <div class="dq-feedback" id="dqf-ni1-1"></div>
 </div>
@@ -2858,8 +2883,8 @@
 <div class="dq-question">2. Pourquoi peut-on affirmer que deux taches situées à la même hauteur correspondent probablement à la même espèce chimique ?</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'meme migration','dqf-ni1-2')">Car dans les mêmes conditions (même plaque, même éluant), une espèce migre toujours à la même hauteur</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'hasard','dqf-ni1-2')">C'est une coïncidence sans signification chimique</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'couleur','dqf-ni1-2')">Car les deux taches ont exactement la même couleur visuellement</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'hasard','dqf-ni1-2')">C'est une coïncidence sans signification chimique</div>
 </div>
 <div class="dq-feedback" id="dqf-ni1-2"></div>
 </div>
@@ -2883,7 +2908,7 @@
 <!-- fin exo-nouv-diff3 -->
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-substance-inc')" type="button">Identifier une substance inconnue <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-air-helium')" type="button">Composition d'un mélange air-hélium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-laiton-fm')" type="button">Composition du laiton (fraction massique) <span class="exo-tab-stars">★★★</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-huile-bac')" type="button">Authentifier une huile essentielle (type Bac) <span class="exo-tab-stars">★★★</span></button></div><div class="exo-item-content active" id="exoitem-substance-inc"><div class="card" id="exo-nouv-diff1" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice 6 — Identifier une substance inconnue</h3>
+<h3>Exercice 1 — Identifier une substance inconnue</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2912,8 +2937,8 @@
 <div class="dq-question">2. Le palier de température constant observé lors de l'ébullition permet d'affirmer que le liquide est…</div>
 <div class="qcm-opts">
 <div class="qcm-opt" onclick="qcmOptCheck(this,true,'un corps pur','dqf-nd1-2')">un corps pur</div>
-<div class="qcm-opt" onclick="qcmOptCheck(this,false,'un melange','dqf-nd1-2')">certainement un mélange</div>
 <div class="qcm-opt" onclick="qcmOptCheck(this,false,'indetermine','dqf-nd1-2')">impossible à déterminer avec cette seule information</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'un melange','dqf-nd1-2')">certainement un mélange</div>
 </div>
 <div class="dq-feedback" id="dqf-nd1-2"></div>
 </div>
@@ -2921,6 +2946,10 @@
 <div class="question-label">3. En combinant les deux mesures (ρ et température d'ébullition), quelle est la substance la plus probable ? Justifier.</div>
 <textarea class="rep-zone" id="nd1-rep3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
+<div class="exo-btn-row">
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-q3')">💡 Indice</button>
+</div>
+<div class="indice-box" id="ind-nd1-q3">Reprends chaque substance du tableau une par une : élimine celles dont la masse volumique calculée à la question 1 ne correspond pas, puis parmi les substances restantes, élimine celles dont la température d'ébullition ne correspond pas au palier observé. La substance qui vérifie les deux critères à la fois est la bonne réponse.</div>
 <button class="btn-reveal" onclick="toggleCorr('corr-nd1-3')">▶ Voir la correction</button>
 <div class="reveal-body" id="corr-nd1-3">
     L'acétone a la bonne masse volumique (0,79) mais bout à 56 °C, ce qui ne correspond pas. Le cyclohexane a une température d'ébullition proche (81 °C) mais une masse volumique légèrement différente (0,78). C'est l'<strong>éthanol</strong> qui correspond aux deux critères à la fois : ρ = 0,79 g·cm⁻³ ET T° ébullition = 78 °C. On ne peut identifier une espèce de façon fiable qu'en croisant plusieurs grandeurs caractéristiques.
@@ -2930,7 +2959,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-air-helium"><div class="card" id="exo-nouv-diff2" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice 7 — Composition d'un mélange air-hélium</h3>
+<h3>Exercice 2 — Composition d'un mélange air-hélium</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2962,12 +2991,13 @@
 </div>
 <div class="dq-feedback" id="dqf-nd2-3"></div>
 </div>
-<div style="text-align:center;margin-top:16px;">
+<div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+<button class="btn-reveal" onclick="toggleCorrMulti(['corr-nd2-1','corr-nd2-2'], this)">▶ Voir la correction</button>
 <button class="btn-reveal" onclick="recommencer('exo-nouv-diff2')" style="background:var(--texte-léger);">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-laiton-fm"><div class="card" id="exo-comp-laiton" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice – Composition du laiton (fraction massique)</h3>
+<h3>Exercice 3 — Composition du laiton (fraction massique)</h3>
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <div class="exo-enonce">
@@ -2979,11 +3009,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('comp1',this,true)">V = a³</div>
-<div class="qcm-opt" onclick="fcrFormule('comp1',this,false)">V = a²</div>
-<div class="qcm-opt" onclick="fcrFormule('comp1',this,false)">V = 3 × a</div>
+<div class="qcm-opt" onclick="fcrFormule('comp1',this,false,'ce n\'est pas une multiplication simple : le volume d\'un cube s\'obtient en élevant l\'arête au cube.')">V = 3 × a</div>
+<div class="qcm-opt" onclick="fcrFormule('comp1',this,false,'a² donne une surface, pas un volume — il manque une dimension.')">V = a²</div>
+<div class="qcm-opt" onclick="fcrFormule('comp1',this,true,'le volume d\'un cube est le cube de son arête.')">V = a³</div>
 </div>
 </div>
+<div class="exo-fb" id="comp1-formule-fb"></div>
 <div class="fcr-step" id="comp1-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="comp1-calc" placeholder="ton calcul (ex : nombre**3)" type="text"/>
@@ -3005,11 +3036,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('comp2',this,true)">m = ρ × V</div>
-<div class="qcm-opt" onclick="fcrFormule('comp2',this,false)">m = ρ / V</div>
-<div class="qcm-opt" onclick="fcrFormule('comp2',this,false)">m = V / ρ</div>
+<div class="qcm-opt" onclick="fcrFormule('comp2',this,false,'diviser ρ par V ne redonne pas une masse d\'un point de vue des unités.')">m = ρ / V</div>
+<div class="qcm-opt" onclick="fcrFormule('comp2',this,true,'la masse volumique est le rapport m/V, donc m = ρ × V.')">m = ρ × V</div>
+<div class="qcm-opt" onclick="fcrFormule('comp2',this,false,'c\'est l\'inverse de la bonne formule : m = ρ × V, pas V / ρ.')">m = V / ρ</div>
 </div>
 </div>
+<div class="exo-fb" id="comp2-formule-fb"></div>
 <div class="fcr-step" id="comp2-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="comp2-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -3031,11 +3063,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('comp3a',this,true)">f_Zn = m%_Zn / 100</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3a',this,false)">f_Zn = m%_Zn × 100</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3a',this,false)">f_Zn = 100 / m%_Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3a',this,false,'ce n\'est pas 100 divisé par le pourcentage : il faut diviser le pourcentage par 100.')">f_Zn = 100 / m%_Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3a',this,true,'la fraction massique s\'obtient en divisant le pourcentage massique par 100.')">f_Zn = m%_Zn / 100</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3a',this,false,'multiplier par 100 transformerait une fraction en pourcentage, pas l\'inverse.')">f_Zn = m%_Zn × 100</div>
 </div>
 </div>
+<div class="exo-fb" id="comp3a-formule-fb"></div>
 <div class="fcr-step" id="comp3a-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="comp3a-calc" placeholder="ton calcul (ex : nombre/100)" type="text"/>
@@ -3057,11 +3090,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('comp3b',this,true)">m_Zn = f_Zn × m_total</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3b',this,false)">m_Zn = m_total / f_Zn</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3b',this,false)">m_Zn = f_Zn / m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3b',this,false,'il faut multiplier f_Zn par m_total, pas diviser f_Zn par m_total.')">m_Zn = f_Zn / m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3b',this,false,'diviser la masse totale par la fraction ne donne pas une masse cohérente ici.')">m_Zn = m_total / f_Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3b',this,true,'la masse de zinc est la fraction massique de zinc multipliée par la masse totale.')">m_Zn = f_Zn × m_total</div>
 </div>
 </div>
+<div class="exo-fb" id="comp3b-formule-fb"></div>
 <div class="fcr-step" id="comp3b-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="comp3b-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -3083,11 +3117,12 @@
 <div class="fcr-step">
 <label class="fcr-label">1. Formule — choisis la bonne expression</label>
 <div class="qcm-opts">
-<div class="qcm-opt" onclick="fcrFormule('comp3c',this,true)">m_Cu = f_Cu × m_total</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3c',this,false)">m_Cu = m_total / f_Cu</div>
-<div class="qcm-opt" onclick="fcrFormule('comp3c',this,false)">m_Cu = m_total − f_Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3c',this,false,'on ne soustrait pas une fraction (sans unité) à une masse (en g) : les grandeurs ne sont pas homogènes.')">m_Cu = m_total − f_Zn</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3c',this,true,'même logique que pour le zinc : masse = fraction massique × masse totale.')">m_Cu = f_Cu × m_total</div>
+<div class="qcm-opt" onclick="fcrFormule('comp3c',this,false,'diviser la masse totale par la fraction ne donne pas une masse cohérente ici.')">m_Cu = m_total / f_Cu</div>
 </div>
 </div>
+<div class="exo-fb" id="comp3c-formule-fb"></div>
 <div class="fcr-step" id="comp3c-calc-step" style="display:none;">
 <label class="fcr-label">2. Calcul — remplace les valeurs numériques</label>
 <input class="blank-in" id="comp3c-calc" placeholder="ton calcul (ex : nombre×nombre)" type="text"/>
@@ -3111,7 +3146,7 @@
 </div>
 </div></div><div class="exo-item-content" id="exoitem-huile-bac"><div class="card" id="exo-nouv-diff3" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
-<h3>Exercice 8 — Type Bac : authentifier une huile essentielle</h3>
+<h3>Exercice 4 — Type Bac : authentifier une huile essentielle</h3>
 <span class="exo-pill">RÉDACTION</span>
 </div>
 <div class="exo-enonce">
@@ -3123,14 +3158,20 @@
   </div>
 <div class="question-block">
 <div class="question-label">1. Calculer la masse volumique de l'échantillon et vérifier si elle est compatible avec la valeur de référence.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-1')">💡 Indice</button>
+<div class="indice-box" id="ind-nd3-1">Calcule ρ = m / V avec les données de l'énoncé, puis compare au ρ de référence en tenant compte de l'incertitude ± 0,010.</div>
 <textarea class="rep-zone" id="nd3-rep1" placeholder="Rédigez votre réponse (calcul + comparaison)…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">2. Que révèle la présence de cette tache supplémentaire sur le chromatogramme ?</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-2')">💡 Indice</button>
+<div class="indice-box" id="ind-nd3-2">Une tache supplémentaire sur le chromatogramme correspond-elle à une espèce chimique présente ou absente dans la référence ?</div>
 <textarea class="rep-zone" id="nd3-rep2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
 <div class="question-label">3. En confrontant les deux analyses, l'échantillon peut-il être qualifié d'huile essentielle « pure » ? Conclure et argumenter.</div>
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-3')">💡 Indice</button>
+<div class="indice-box" id="ind-nd3-3">Croise les deux résultats : un seul critère compatible suffit-il à garantir la pureté si l'autre révèle une anomalie ?</div>
 <textarea class="rep-zone" id="nd3-rep3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <button class="btn-reveal" onclick="toggleCorrMulti(['corr-nd3-1','corr-nd3-2','corr-nd3-3'], this)">▶ Voir la correction</button>
@@ -3491,10 +3532,15 @@ function safeEvalExpr(str) {
     return v;
   } catch (e) { return null; }
 }
-function fcrFormule(id, el, isCorrect) {
+function fcrFormule(id, el, isCorrect, feedback) {
   const opts = el.parentElement.querySelectorAll('.qcm-opt');
   opts.forEach(o => o.classList.remove('correct', 'incorrect'));
   el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(id + '-formule-fb');
+  if (fb && feedback) {
+    fb.textContent = (isCorrect ? '✓ ' : '✗ ') + feedback;
+    fb.className = 'exo-fb' + (isCorrect ? ' ok' : ' ko');
+  }
   if (isCorrect) {
     const step = document.getElementById(id + '-calc-step');
     if (step) step.style.display = 'block';
@@ -3965,9 +4011,25 @@ function recommencerCCM() {
 
 // Init au chargement
 document.addEventListener('DOMContentLoaded', function() {
-  buildCCMPool();
-  buildTriQCM();
+  try { buildCCMPool(); } catch (e) { console.error('buildCCMPool a échoué :', e); }
+  try { buildTriQCM(); } catch (e) { console.error('buildTriQCM a échoué :', e); }
 });
+
+// Écouteur indépendant : s'exécute toujours, même si le bloc ci-dessus plante.
+document.addEventListener('DOMContentLoaded', shuffleQcmOpts);
+
+// ── Mélange aléatoire des options QCM à l'affichage (évite tout biais de position) ──
+function shuffleQcmOpts() {
+  document.querySelectorAll('.qcm-opts').forEach(group => {
+    const opts = Array.from(group.children).filter(c => c.classList.contains('qcm-opt'));
+    if (opts.length < 2) return;
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    opts.forEach(o => group.appendChild(o));
+  });
+}
 
 // ── Tooltip CCM ──
 function showTooltip(e, text) {
@@ -4009,6 +4071,37 @@ const DQ_FEEDBACK = {
   'dqf4': {
     correct: '✓ Exact ! Condensation et vaporisation sont les deux sens inverses du même changement d\'état (palier commun).',
     wrong: { 'fusion': '✗ La fusion concerne le passage solide → liquide, pas gaz → liquide.', 'solidification': '✗ La solidification est le passage liquide → solide.' }
+  },
+  // Onglet 2 — Exercice 3 : états et changements d'état
+  'dqf-nf1-1': {
+    correct: '✓ Exact ! Le passage de l\'état liquide à l\'état gazeux s\'appelle la vaporisation.',
+    wrong: { 'fusion': '✗ La fusion est le passage de l\'état solide à l\'état liquide, pas liquide → gaz.', 'sublimation': '✗ La sublimation est un passage direct solide → gaz, sans étape liquide.' }
+  },
+  'dqf-nf1-2': {
+    correct: '✓ Exact ! Le passage de l\'état gazeux à l\'état liquide s\'appelle la liquéfaction.',
+    wrong: { 'evaporation': '✗ L\'évaporation est un passage liquide → gaz, pas gaz → liquide.', 'solidification': '✗ La solidification est le passage liquide → solide, pas gaz → liquide.' }
+  },
+  'dqf-nf1-3': {
+    correct: '✓ Exact ! Sous une pression donnée, la température de changement d\'état d\'un corps pur est constante et caractéristique de l\'espèce chimique.',
+    wrong: { 'variable selon la masse': '✗ Non — la température de changement d\'état ne dépend pas de la quantité de matière.', 'toujours 100 degres': '✗ 100 °C est la température d\'ébullition de l\'eau uniquement ; chaque corps pur a sa propre température.' }
+  },
+  'dqf-nf1-4': {
+    correct: '✓ Exact ! Le passage direct de l\'état solide à l\'état gazeux, sans étape liquide, est une sublimation.',
+    wrong: { 'fusion': '✗ La fusion est le passage solide → liquide ; ici il n\'y a pas d\'étape liquide.', 'vaporisation': '✗ La vaporisation part de l\'état liquide, pas de l\'état solide.' }
+  },
+  // Onglet 2 — Exercice 4 : CCM identifier la composition d'un sirop
+  'dqf-ni1-1': {
+    correct: '✓ Exact ! Deux taches du sirop migrent aux mêmes hauteurs que les références A et C : le sirop contient probablement ces deux colorants. Aucune tache à la hauteur de B, donc B est absent.',
+    wrong: { 'les trois presents': '✗ Non — aucune tache n\'apparaît à la hauteur de la référence B : rien n\'indique sa présence dans le sirop.', 'aucun identifiable': '✗ Au contraire — la comparaison des hauteurs de migration avec des références permet justement d\'identifier des espèces présentes.' }
+  },
+  'dqf-ni1-2': {
+    correct: '✓ Exact ! Dans des conditions identiques (même plaque, même éluant, même température), une espèce chimique migre toujours à la même hauteur : c\'est le principe de l\'identification par CCM.',
+    wrong: { 'hasard': '✗ Non — la hauteur de migration dépend de propriétés physico-chimiques précises de l\'espèce, ce n\'est pas le fruit du hasard.', 'couleur': '✗ La couleur seule ne suffit pas à identifier une espèce ; c\'est la hauteur de migration (le rapport frontal) qui est caractéristique.' }
+  },
+  // Onglet 3 — Exercice 4 : masse volumique d'un échantillon d'huile
+  'dqf-nf2-2': {
+    correct: '✓ Exact ! ρ(huile) = 0,92 g·cm⁻³ < ρ(eau) = 1,00 g·cm⁻³ : l\'huile est moins dense, elle flotte sur l\'eau.',
+    wrong: { 'plus dense': '✗ Non — 0,92 g·cm⁻³ est inférieur à 1,00 g·cm⁻³, l\'huile est donc moins dense que l\'eau (elle flotte).' }
   },
   // Onglet 3 — masse volumique
   'dqfmv1': {
@@ -4052,6 +4145,33 @@ const DQ_FEEDBACK = {
   'dqf-cp4': {
     correct: '✓ Exact ! La température de changement d\'état est une constante physique caractéristique de chaque espèce chimique.',
     wrong: { 'variable selon la masse': '✗ La masse ne change pas la température de changement d\'état d\'un corps pur.', 'différente à chaque mesure': '✗ Elle est reproductible : c\'est justement ce qui permet d\'identifier un corps pur !' }
+  },
+  // Application — CCM et composition
+  'dqf-cq1': {
+    correct: '✓ Exact ! Une espèce chimique pure migre à une seule hauteur caractéristique : elle donne donc une seule tache.',
+    wrong: { 'plusieurs taches': '✗ Plusieurs taches signaleraient un mélange de plusieurs espèces, pas une espèce pure.', 'aucune tache': '✗ Une espèce pure migre bien et donne une tache (à condition de pouvoir la révéler si elle est incolore).' }
+  },
+  'dqf-cq2': {
+    correct: '✓ Exact ! Dans des conditions identiques (même plaque, même éluant), deux taches à la même hauteur correspondent très probablement à la même espèce chimique.',
+    wrong: { 'forcément différentes': '✗ Au contraire — une même hauteur de migration, dans les mêmes conditions, indique que ce sont probablement les mêmes espèces.', 'sans lien': '✗ La hauteur de migration n\'est pas due au hasard : elle dépend de propriétés physico-chimiques précises de l\'espèce.' }
+  },
+  'dqf-cq3': {
+    correct: '✓ Exact ! La fraction massique se calcule en divisant la masse de l\'espèce par la masse totale du mélange.',
+    wrong: { 'masse totale sur masse espece': '✗ C\'est l\'inverse de la bonne formule : il faut diviser la masse de l\'espèce par la masse totale, pas l\'inverse.', 'masse fois volume': '✗ La fraction massique est un quotient de masses, pas un produit masse × volume.' }
+  },
+  'dqf-cq4': {
+    correct: '✓ Exact ! L\'air est composé d\'environ 78 % de diazote (N₂) et 21 % de dioxygène (O₂), le reste étant principalement de l\'argon.',
+    wrong: { '50% N2 50% O2': '✗ La composition de l\'air n\'est pas équilibrée : le diazote domine très largement.', '21% N2 78% O2': '✗ Les proportions sont inversées : c\'est N₂ qui est majoritaire (78 %), pas O₂.' }
+  },
+  // Exercice 1 — Identifier une substance inconnue
+  'dqf-nd1-2': {
+    correct: '✓ Exact ! Un palier de température constant pendant tout le changement d\'état est la signature d\'un corps pur.',
+    wrong: { 'un melange': '✗ Au contraire — un mélange change d\'état sur une plage de températures, pas à température constante.', 'indetermine': '✗ Cette seule information suffit : un palier constant caractérise justement un corps pur.' }
+  },
+  // Exercice 2 — Composition d'un mélange air-hélium
+  'dqf-nd2-3': {
+    correct: '✓ Exact ! L\'air et l\'hélium sont des gaz totalement miscibles : ils se mélangent intimement en une seule phase, sans distinction visible.',
+    wrong: { 'heterogene': '✗ Un mélange hétérogène présenterait plusieurs phases distinctes. Ici, air et hélium se mélangent en une seule phase gazeuse homogène.' }
   }
 };
 

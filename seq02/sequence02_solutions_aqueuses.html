@@ -411,13 +411,17 @@
 
   .question-block { margin-bottom: 14px; }
   .question-label {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
     font-size: 0.88rem;
     font-weight: 700;
     color: var(--texte);
     margin-bottom: 7px;
     padding-left: 8px;
     border-left: 3px solid var(--vert);
-  }
+}
 
   .rep-zone {
     width: 100%;
@@ -434,8 +438,8 @@
   }
   .rep-zone:focus { outline: none; border-color: var(--vert); }
 
-  .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
-  .btn-indice:hover { background: var(--indice); color: white; }
+.btn-indice { display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; white-space: nowrap; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
+.btn-indice:hover { background: var(--indice); color: white; }
 
   /* ── QCM à correction immédiate (dropdown-qcm) ── */
   .dropdown-qcm { margin-bottom: 18px; }
@@ -449,6 +453,15 @@
     line-height: 1.5;
   }
   .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    margin-bottom: 4px;
+}
   .qcm-opt {
     background: #fff;
     border: 1.5px solid var(--gris-bord);
@@ -1551,14 +1564,14 @@
 <div class="activite-card">
 <h3>1. S'approprier</h3>
 <div class="question-block">
-<div class="question-label">a. Citer le solvant des boissons énergisantes et au moins deux solutés de ces solutions.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-1a')">💡 Indice</button>
+<div class="question-label">a. Citer le solvant des boissons énergisantes et au moins deux solutés de ces solutions.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-1a')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-1a">Le solvant est le liquide majoritaire de la solution. Les solutés sont les espèces dissoutes en plus petite quantité (cite-en au moins deux d'après le document 1 ou 2).</div>
 <textarea class="rep-zone" id="r-ad1-1a" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">b. Citer le numéro de la boisson de 250 mL qui permet d'ingérer le moins de caféine si cette boisson est bue en totalité.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-1b')">💡 Indice</button>
+<div class="question-label">b. Citer le numéro de la boisson de 250 mL qui permet d'ingérer le moins de caféine si cette boisson est bue en totalité.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-1b')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-1b">Compare directement les masses (ou concentrations) de caféine indiquées pour chaque boisson dans le document : la quantité ingérée dépend de la composition de la boisson bue en totalité.</div>
 <textarea class="rep-zone" id="r-ad1-1b" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -1566,14 +1579,14 @@
 <div class="activite-card">
 <h3>2. Réaliser</h3>
 <div class="question-block">
-<div class="question-label">a. Calculer la masse de caféine contenue dans la boisson numéro 1.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-2a')">💡 Indice</button>
+<div class="question-label">a. Calculer la masse de caféine contenue dans la boisson numéro 1.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-2a')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-2a">Relève dans le document la teneur en caféine (souvent donnée en mg/L ou mg/100 mL) et le volume total de la boisson n°1, puis combine ces deux données pour obtenir une masse.</div>
 <textarea class="rep-zone" id="r-ad1-2a" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">b. On appelle <strong>concentration en masse</strong> c<sub>m</sub> de caféine dans une boisson la masse de caféine par unité de volume de boisson. Calculer la concentration en masse de caféine, exprimée en grammes par litre (g·L⁻¹), dans la première, puis dans la deuxième boisson.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-2b')">💡 Indice</button>
+<div class="question-label">b. On appelle <strong>concentration en masse</strong> c<sub>m</sub> de caféine dans une boisson la masse de caféine par unité de volume de boisson. Calculer la concentration en masse de caféine, exprimée en grammes par litre (g·L⁻¹), dans la première, puis dans la deuxième boisson.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-2b')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-2b">Utilise c<sub>m</sub> = m<sub>caféine</sub> / V<sub>boisson</sub>. Attention aux unités : convertis la masse en grammes et le volume en litres avant de diviser.</div>
 <textarea class="rep-zone" id="r-ad1-2b" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -1582,14 +1595,14 @@
 <h3>3. Analyser-Raisonner</h3>
 <div class="question-block">
 <div class="question-label">a. Choisir, parmi les quatre expressions suivantes, celle qui définit la concentration en masse c<sub>m</sub> d'un soluté dans une solution, m désignant une masse et V un volume :<br/>
-      c<sub>m</sub> = m<sub>solution</sub>/V<sub>soluté</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>solution</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>soluté</sub></div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-3a')">💡 Indice</button>
+      c<sub>m</sub> = m<sub>solution</sub>/V<sub>soluté</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>solution</sub>/V<sub>solution</sub>  ;  c<sub>m</sub> = m<sub>soluté</sub>/V<sub>soluté</sub>
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-3a')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-3a">La concentration en masse compare la quantité de soluté dissous (pas la solution entière) au volume total de la solution obtenue (pas au volume du soluté seul).</div>
 <textarea class="rep-zone" id="r-ad1-3a" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">b. La masse volumique de la boisson numéro 2 est ρ = 1 100 g·L⁻¹. Déterminer un point commun et une différence entre la masse volumique de la boisson et la concentration en masse de caféine de la boisson.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-3b')">💡 Indice</button>
+<div class="question-label">b. La masse volumique de la boisson numéro 2 est ρ = 1 100 g·L⁻¹. Déterminer un point commun et une différence entre la masse volumique de la boisson et la concentration en masse de caféine de la boisson.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-3b')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-3b">Les deux grandeurs se calculent comme un rapport masse/volume (même unité g·L⁻¹), mais l'une porte sur la solution entière et l'autre uniquement sur le soluté dissous.</div>
 <textarea class="rep-zone" id="r-ad1-3b" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -1597,8 +1610,8 @@
 <div class="activite-card">
 <h3>4. Valider</h3>
 <div class="question-block">
-<div class="question-label">D'après l'EFSA, pour la seule analyse de la caféine, boire deux cannettes par jour de la troisième boisson énergisante ne présente pas de risque pour la santé d'un adulte. Valider cette recommandation par un calcul approprié.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ad1-4')">💡 Indice</button>
+<div class="question-label">D'après l'EFSA, pour la seule analyse de la caféine, boire deux cannettes par jour de la troisième boisson énergisante ne présente pas de risque pour la santé d'un adulte. Valider cette recommandation par un calcul approprié.
+<button class="btn-indice" onclick="toggleIndice('ind-ad1-4')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ad1-4">Calcule d'abord la masse de caféine ingérée en buvant deux cannettes de la troisième boisson, puis compare-la à la dose journalière maximale recommandée par l'EFSA pour un adulte.</div>
 <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -1657,8 +1670,8 @@
 </div>
 <!-- Q2 — Calcul vérifié automatiquement -->
 <div class="question-block">
-<div class="question-label">2. Un groupe a mesuré, dans l'onglet « Solutés » : m = 15 g de soluté dissous dans un volume V = 250 mL de solution. Calculez la concentration en masse C<sub>m</sub> (en g·L⁻¹).</div>
-<button class="btn-indice" onclick="toggleIndice('ind-conc2')">💡 Indice</button>
+<div class="question-label">2. Un groupe a mesuré, dans l'onglet « Solutés » :m=15g de soluté dissous dans un volume V=250mL de solution.Calculez la concentration en masse Cm (en g·L⁻¹).
+<button class="btn-indice" onclick="toggleIndice('ind-conc2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-conc2">Utilise la formule C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Attention aux unités : le volume doit être exprimé en litres (250 mL = 0,250 L).</div>
 <input class="blank-in" id="conc-num2" placeholder="Cₘ en g·L⁻¹" step="0.01" style="max-width:160px;" type="number"/>
 <div class="exo-btn-row"><button class="exo-btn" onclick="verifierNum('conc-num2', 60, 1, 'fb-conc2', 'corr-conc2')">Vérifier</button></div>
@@ -1763,8 +1776,8 @@
 <div class="activite-card">
 <h3>Partie 1 : Réalisation d'une courbe d'étalonnage</h3>
 <div class="question-block">
-<div class="question-label">1. À l'aide du document 3, compléter la ligne 3 du tableau (document 6). Noter votre calcul.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q1')">💡 Indice</button>
+<div class="question-label">1. À l'aide du document 3, compléter la ligne 3 du tableau (document 6). Noter votre calcul.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p1q1">Isole la masse de soluté dans la relation c<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub> : m<sub>soluté</sub> = c<sub>m</sub> × V<sub>solution</sub>, avec V<sub>solution</sub> = 100,0 mL = 0,1000 L pour chaque solution étalon.</div>
 <textarea class="rep-zone" id="r-tp4-p1q1" placeholder="Rédigez votre calcul…"></textarea>
 </div>
@@ -1772,20 +1785,20 @@
 <div class="question-label">2. Chaque groupe réalise au moins une solution étalon d'eau sucrée par dissolution en suivant les étapes du protocole proposé dans le document 5.</div>
 </div>
 <div class="question-block">
-<div class="question-label">3. Comment différencier les solutions obtenues ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q3')">💡 Indice</button>
+<div class="question-label">3. Comment différencier les solutions obtenues ?
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p1q3">Toutes les solutions contiennent le même solvant (eau) mais des masses de sucre dissous différentes : pense à une observation visuelle simple ou à une grandeur physique mesurable.</div>
 <textarea class="rep-zone" id="r-tp4-p1q3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">4. Calculer la masse volumique de l'eau sucrée à l'aide du document 2 et de la valeur de la masse de solution d'eau sucrée trouvée précédemment. Compléter la ligne 4 du tableau.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q4')">💡 Indice</button>
+<div class="question-label">4. Calculer la masse volumique de l'eau sucrée à l'aide du document 2 et de la valeur de la masse de solution d'eau sucrée trouvée précédemment. Compléter la ligne 4 du tableau.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q4')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p1q4">Utilise ρ = m<sub>solution</sub> / V<sub>solution</sub>, avec la masse de solution pesée (fiole pleine moins fiole vide) et un volume de solution de 100,0 mL.</div>
 <textarea class="rep-zone" id="r-tp4-p1q4" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">5. Sur un tableur (ici Regressi), tracer le graphique représentant la masse volumique de la solution d'eau sucrée ρ<sub>s</sub> en fonction de la concentration massique en sucre C<sub>m</sub>. Décrire ce que vous obtenez.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q5')">💡 Indice</button>
+<div class="question-label">5. Sur un tableur (ici Regressi), tracer le graphique représentant la masse volumique de la solution d'eau sucrée ρ<sub>s</sub> en fonction de la concentration massique en sucre C<sub>m</sub>. Décrire ce que vous obtenez.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p1q5')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p1q5">Place C<sub>m</sub> en abscisse et ρ<sub>s</sub> en ordonnée. Observe si les points semblent alignés : cela permettrait d'établir une relation affine entre les deux grandeurs (droite d'étalonnage).</div>
 <textarea class="rep-zone" id="r-tp4-p1q5" placeholder="Décrivez votre graphique…"></textarea>
 </div>
@@ -1837,8 +1850,8 @@
 <div class="activite-card">
 <h3>Partie 2 : Utilisation de la courbe d'étalonnage</h3>
 <div class="question-block">
-<div class="question-label">1. Comme proposé dans le document 1, on considère le soda dégazé comme une solution aqueuse sucrée. Proposer un protocole expérimental pour mesurer sa masse volumique.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q1')">💡 Indice</button>
+<div class="question-label">1. Comme proposé dans le document 1, on considère le soda dégazé comme une solution aqueuse sucrée. Proposer un protocole expérimental pour mesurer sa masse volumique.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q1">Reprends la démarche utilisée pour les solutions étalons (document 5) : peser un volume précis de soda dégazé à l'aide de la verrerie adaptée, puis appliquer ρ = m / V.</div>
 <textarea class="rep-zone" id="r-tp4-p2q1" placeholder="Rédigez votre protocole…"></textarea>
 </div>
@@ -1847,32 +1860,32 @@
 <textarea class="rep-zone" id="r-tp4-p2q2" placeholder="Notez votre valeur…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. À l'aide du document 1, calculer la masse volumique ρ<sub>soda</sub>.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q3')">💡 Indice</button>
+<div class="question-label">3. À l'aide du document 1, calculer la masse volumique ρ<sub>soda</sub>.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q3">Le document 1 donne la masse d'une canette vide et pleine, ainsi que son volume (33 cL). Calcule la masse de soda contenue, puis applique ρ = m / V.</div>
 <textarea class="rep-zone" id="r-tp4-p2q3" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">4. Connaissant la masse volumique expérimentale du soda, comment trouver à l'aide de la courbe d'étalonnage sa concentration massique expérimentale C<sub>m-exp</sub> ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q4')">💡 Indice</button>
+<div class="question-label">4. Connaissant la masse volumique expérimentale du soda, comment trouver à l'aide de la courbe d'étalonnage sa concentration massique expérimentale C<sub>m-exp</sub> ?
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q4')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q4">Place la valeur de ρ<sub>exp-soda</sub> sur l'axe des ordonnées de la courbe d'étalonnage, puis lis par projection horizontale puis verticale la concentration massique correspondante en abscisse.</div>
 <textarea class="rep-zone" id="r-tp4-p2q4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">5. En déduire la masse expérimentale de sucre contenue dans le soda.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q5')">💡 Indice</button>
+<div class="question-label">5. En déduire la masse expérimentale de sucre contenue dans le soda.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q5')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q5">Utilise C<sub>m-exp</sub> = m<sub>sucre</sub> / V<sub>soda</sub> avec le volume total de la canette (33 cL = 0,33 L) pour retrouver la masse de sucre.</div>
 <textarea class="rep-zone" id="r-tp4-p2q5" placeholder="Rédigez votre calcul…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">6. Comparer la masse expérimentale à celle théorique.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q6')">💡 Indice</button>
+<div class="question-label">6. Comparer la masse expérimentale à celle théorique.
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q6')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q6">La masse théorique est donnée dans le document 1 (jusqu'à 40 g par canette de 33 cL). Calcule l'écart relatif entre valeur expérimentale et valeur théorique pour juger de la cohérence du résultat.</div>
 <textarea class="rep-zone" id="r-tp4-p2q6" placeholder="Rédigez votre comparaison…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">7. Quelle approximation a-t-on faite en comparant notre soda avec les solutions d'eau sucrée ? Cette approximation vous semble-t-elle justifiée ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q7')">💡 Indice</button>
+<div class="question-label">7. Quelle approximation a-t-on faite en comparant notre soda avec les solutions d'eau sucrée ? Cette approximation vous semble-t-elle justifiée ?
+<button class="btn-indice" onclick="toggleIndice('ind-tp4-p2q7')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp4-p2q7">Le soda contient d'autres espèces dissoutes que le sucre (arômes, additifs, gaz…) : on a supposé que seul le sucre influence la masse volumique.</div>
 <textarea class="rep-zone" id="r-tp4-p2q7" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -1896,14 +1909,14 @@
 <div class="activite-card">
 <h3>Répondre aux questions suivantes</h3>
 <div class="question-block">
-<div class="question-label">1. L'éosine aqueuse commercialisée a-t-elle une couleur permettant sa comparaison à celles de l'échelle de teintes ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp5-q1')">💡 Indice</button>
+<div class="question-label">1. L'éosine aqueuse commercialisée a-t-elle une couleur permettant sa comparaison à celles de l'échelle de teintes ?
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp5-q1">Observe le document (photo des flacons) : compare l'intensité de la teinte de la solution commerciale à celle des solutions étalons de l'échelle de teintes.</div>
 <textarea class="rep-zone" id="r-tp5-q1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Proposer un protocole expérimental permettant de réaliser avec précision 100 mL d'une solution aqueuse diluée d'éosine dont la concentration en masse est vingt fois plus petite que celle de la concentration en masse de la solution mère.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp5-q2')">💡 Indice</button>
+<div class="question-label">2. Proposer un protocole expérimental permettant de réaliser avec précision 100 mL d'une solution aqueuse diluée d'éosine dont la concentration en masse est vingt fois plus petite que celle de la concentration en masse de la solution mère.
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp5-q2">Un facteur de dilution de 20 signifie qu'il faut prélever un volume de solution mère V<sub>m</sub> = V<sub>f</sub> / 20 (ici V<sub>f</sub> = 100 mL) à l'aide d'une pipette jaugée adaptée, puis compléter avec de l'eau distillée jusqu'au trait de jauge d'une fiole jaugée de 100 mL.</div>
 <textarea class="rep-zone" id="r-tp5-q2" placeholder="Rédigez votre protocole…"></textarea>
 </div>
@@ -1912,15 +1925,15 @@
 <div class="question-label">3. Mettre en œuvre le protocole.</div>
 </div>
 <div class="question-block">
-<div class="question-label">4. En déduire un encadrement de la concentration en masse de la solution diluée, puis de celle du produit pharmaceutique.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp5-q4')">💡 Indice</button>
+<div class="question-label">4. En déduire un encadrement de la concentration en masse de la solution diluée, puis de celle du produit pharmaceutique.
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q4')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp5-q4">Repère entre quelles deux teintes de l'échelle se situe la couleur de ta solution diluée pour encadrer sa concentration, puis remonte à la concentration de la solution mère en multipliant les bornes par le facteur de dilution (20).</div>
 <textarea class="rep-zone" id="r-tp5-q4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="remarque-box">📞 <strong>Appel n°2 :</strong> appeler le professeur pour lui présenter le résultat ou en cas de difficulté. Demander au professeur de vous présenter l'étiquette du produit commercial.</div>
 <div class="question-block">
-<div class="question-label">5. Valider ou invalider le résultat.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-tp5-q5')">💡 Indice</button>
+<div class="question-label">5. Valider ou invalider le résultat.
+<button class="btn-indice" onclick="toggleIndice('ind-tp5-q5')">💡 Indice</button></div>
 <div class="indice-box" id="ind-tp5-q5">Compare l'encadrement obtenu par ta manipulation à la valeur indiquée sur l'étiquette du produit commercial : la valeur annoncée appartient-elle à ton encadrement ?</div>
 <textarea class="rep-zone" id="r-tp5-q5" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -2073,8 +2086,8 @@
       On dissout <strong>15 g</strong> de sucre dans de l'eau pour obtenir <strong>250 mL</strong> de solution sucrée.
     </div>
 <div class="question-block">
-<div class="question-label">Calculer la concentration en masse (titre massique) t de cette solution, en g·L⁻¹.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nf2')">💡 Indice</button>
+<div class="question-label">Calculer la concentration en masse (titre massique) t de cette solution, en g·L⁻¹.
+<button class="btn-indice" onclick="toggleIndice('ind-nf2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nf2">Utilise la formule t = m<sub>sucre</sub> / V<sub>solution</sub>. Attention aux unités : convertis d'abord le volume de mL en L.</div>
 <textarea class="rep-zone" id="r-nf2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2153,14 +2166,14 @@
       Que peut-on dire de cette solution de glucose, sachant que la masse volumique du glucose pur est ρ<sub>glucose</sub> = 1544 g·L⁻¹ ?
     </div>
 <div class="question-block">
-<div class="question-label">1. Calculer le titre massique t de la solution de glucose.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-gl1')">💡 Indice</button>
+<div class="question-label">1. Calculer le titre massique t de la solution de glucose.
+<button class="btn-indice" onclick="toggleIndice('ind-gl1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-gl1">Applique t = m<sub>glucose</sub> / V<sub>solution</sub>, en convertissant d'abord le volume de mL en L.</div>
 <textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-gl2')">💡 Indice</button>
+<div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.
+<button class="btn-indice" onclick="toggleIndice('ind-gl2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-gl2">Compare la valeur trouvée pour t à celle de ρ<sub>glucose</sub> : plus t est petite devant ρ<sub>glucose</sub>, plus la solution contient peu de soluté par rapport à ce que pourrait contenir le glucose pur (solution diluée).</div>
 <textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2183,14 +2196,14 @@
       À partir d'une solution mère de concentration en masse en diiode t<sub>m</sub> = 0,25 g·L⁻¹, on souhaite préparer un volume V<sub>f</sub> = 0,200 L de solution fille de concentration en masse en diiode t<sub>f</sub> = 0,10 g·L⁻¹.
     </div>
 <div class="question-block">
-<div class="question-label">1. Calculer le facteur de dilution F.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-di1')">💡 Indice</button>
+<div class="question-label">1. Calculer le facteur de dilution F.
+<button class="btn-indice" onclick="toggleIndice('ind-di1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-di1">Le facteur de dilution se calcule par F = t<sub>m</sub> / t<sub>f</sub> (rapport des concentrations mère et fille).</div>
 <textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-di2')">💡 Indice</button>
+<div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.
+<button class="btn-indice" onclick="toggleIndice('ind-di2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-di2">Utilise la relation F = V<sub>f</sub> / V<sub>m</sub>, avec V<sub>f</sub> = 0,200 L donné dans l'énoncé, pour isoler V<sub>m</sub>.</div>
 <textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2212,14 +2225,14 @@
       On souhaite préparer <strong>V = 200 mL</strong> d'une solution aqueuse de sulfate de cuivre de concentration en masse t = 4,0 g·L⁻¹.
     </div>
 <div class="question-block">
-<div class="question-label">1. Quelle masse m de sulfate de cuivre faut-il peser ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ni1-1')">💡 Indice</button>
+<div class="question-label">1. Quelle masse m de sulfate de cuivre faut-il peser ?
+<button class="btn-indice" onclick="toggleIndice('ind-ni1-1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ni1-1">Isole la masse dans la formule t = m / V<sub>solution</sub> : m = t × V<sub>solution</sub>, avec V<sub>solution</sub> converti en litres.</div>
 <textarea class="rep-zone" id="r-ni1-1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Décrire brièvement la verrerie à utiliser pour peser cette masse puis ajuster le volume final.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-ni1-2')">💡 Indice</button>
+<div class="question-label">2. Décrire brièvement la verrerie à utiliser pour peser cette masse puis ajuster le volume final.
+<button class="btn-indice" onclick="toggleIndice('ind-ni1-2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-ni1-2">Pense à l'instrument utilisé pour peser un solide, puis à la verrerie qui permet d'ajuster précisément un volume final jusqu'à un trait de jauge.</div>
 <textarea class="rep-zone" id="r-ni1-2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -2248,14 +2261,14 @@
       La concentration maximale de chlorure de sodium dans l'eau est C<sub>max</sub> = 358 g·L⁻¹ à T = 20 °C.
     </div>
 <div class="question-block">
-<div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-na1')">💡 Indice</button>
+<div class="question-label">1. Est-il possible de dissoudre 68 g de chlorure de sodium dans de l'eau pour obtenir 200 mL de solution ? Justifier.
+<button class="btn-indice" onclick="toggleIndice('ind-na1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-na1">Calcule la masse maximale de NaCl dissolvable dans 200 mL à l'aide de m<sub>max</sub> = C<sub>max</sub> × V, puis compare-la à 68 g.</div>
 <textarea class="rep-zone" id="r-na1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-na2')">💡 Indice</button>
+<div class="question-label">2. Quelle masse maximale de chlorure de sodium peut-on dissoudre dans de l'eau pour obtenir 50,0 mL de solution ?
+<button class="btn-indice" onclick="toggleIndice('ind-na2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-na2">Utilise à nouveau m<sub>max</sub> = C<sub>max</sub> × V, mais avec V = 50,0 mL converti en litres.</div>
 <textarea class="rep-zone" id="r-na2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2284,8 +2297,8 @@
 <img alt="Gamme d'étalonnage de solutions de permanganate de potassium, du plus clair au plus foncé" src="echelle_teinte_permanganate.jpg" style="width:100%;max-width:900px;display:block;margin:0 auto;border-radius:6px;"/>
 </div>
 <div class="question-block">
-<div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-teinte1')">💡 Indice</button>
+<div class="question-label">1. Pour la solution S<sub>f1</sub> (V<sub>m</sub> = 30 mL prélevés, V<sub>f</sub> = 50 mL), calculer le facteur de dilution F, puis en déduire la concentration en masse t de S<sub>f1</sub>.
+<button class="btn-indice" onclick="toggleIndice('ind-teinte1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-teinte1">Calcule F = V<sub>f</sub> / V<sub>m</sub>, puis utilise t<sub>f1</sub> = t<sub>m</sub> / F avec t<sub>m</sub> = 1,0 g·L⁻¹.</div>
 <textarea class="rep-zone" id="r-teinte1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2302,20 +2315,20 @@
 </tbody>
 </table>
 <div class="question-block">
-<div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-teinte2')">💡 Indice</button>
+<div class="question-label">2. La teinte d'une solution inconnue S' de permanganate de potassium est comprise entre celles de S<sub>f5</sub> et S<sub>f6</sub>. Donner un encadrement de la concentration en masse t<sub>S'</sub>.
+<button class="btn-indice" onclick="toggleIndice('ind-teinte2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-teinte2">Lis dans le tableau les concentrations en masse de S<sub>f5</sub> et S<sub>f6</sub> : elles encadrent directement celle de S'.</div>
 <textarea class="rep-zone" id="r-teinte2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-teinte3')">💡 Indice</button>
+<div class="question-label">3. La solution S' peut-elle être utilisée pour soigner les érythèmes (concentration recommandée voisine de 0,10 g·L⁻¹) ? Peut-elle être utilisée pour désinfecter de l'eau de boisson (concentration nécessaire d'environ 0,5 g·L⁻¹) ?
+<button class="btn-indice" onclick="toggleIndice('ind-teinte3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-teinte3">Compare l'encadrement de t<sub>S'</sub> trouvé à la question 2 aux deux valeurs de concentration recommandées (0,10 g·L⁻¹ et 0,5 g·L⁻¹).</div>
 <textarea class="rep-zone" id="r-teinte3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-teinte4')">💡 Indice</button>
+<div class="question-label">4. Citer les étapes à suivre pour déterminer un encadrement de la concentration en masse d'une solution colorée à l'aide d'une gamme d'étalonnage.
+<button class="btn-indice" onclick="toggleIndice('ind-teinte4')">💡 Indice</button></div>
 <div class="indice-box" id="ind-teinte4">Repense à la démarche suivie dans cet exercice : comment la gamme de solutions étalons a-t-elle été préparée, puis comment as-tu utilisé la teinte de S' pour encadrer sa concentration ?</div>
 <textarea class="rep-zone" id="r-teinte4" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -2344,20 +2357,20 @@
       On dispose d'une solution mère de chlorure de sodium de concentration en masse t<sub>m</sub> = 320 g·L⁻¹. La concentration maximale de dissolution du chlorure de sodium dans l'eau est t<sub>max</sub> = 358 g·L⁻¹ à 20 °C. On souhaite préparer V<sub>f</sub> = 100 mL d'une solution fille par dilution, telle que t<sub>f</sub> = 80 g·L⁻¹.
     </div>
 <div class="question-block">
-<div class="question-label">1. La solution mère est-elle saturée ? Justifier.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd1-1')">💡 Indice</button>
+<div class="question-label">1. La solution mère est-elle saturée ? Justifier.
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd1-1">Compare t<sub>m</sub> à t<sub>max</sub> : une solution est saturée lorsque sa concentration a atteint la valeur maximale de dissolution possible.</div>
 <textarea class="rep-zone" id="r-nd1-1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Calculer le facteur de dilution F entre la solution mère et la solution fille.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd1-2')">💡 Indice</button>
+<div class="question-label">2. Calculer le facteur de dilution F entre la solution mère et la solution fille.
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd1-2">Utilise F = t<sub>m</sub> / t<sub>f</sub>, avec les valeurs de concentration mère et fille données dans l'énoncé.</div>
 <textarea class="rep-zone" id="r-nd1-2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd1-3')">💡 Indice</button>
+<div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.
+<button class="btn-indice" onclick="toggleIndice('ind-nd1-3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd1-3">Repars de F = V<sub>f</sub> / V<sub>m</sub> pour isoler V<sub>m</sub>, en utilisant le facteur F trouvé à la question précédente et V<sub>f</sub> = 100 mL.</div>
 <textarea class="rep-zone" id="r-nd1-3" placeholder="Rédigez votre démarche…"></textarea>
 </div>
@@ -2381,20 +2394,20 @@
       Une solution antiseptique du commerce est composée d'eau, d'éthanol et de chlorhexidine (principe actif). L'étiquette indique une concentration en masse en chlorhexidine de t = 0,50 g·L⁻¹. Un infirmier souhaite préparer, à partir d'une solution mère plus concentrée (t<sub>m</sub> = 5,0 g·L⁻¹) disponible au laboratoire, un volume V<sub>f</sub> = 500 mL de cette solution antiseptique par dilution.
     </div>
 <div class="question-block">
-<div class="question-label">1. Identifier le solvant et le ou les soluté(s) de la solution antiseptique.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd2-1')">💡 Indice</button>
+<div class="question-label">1. Identifier le solvant et le ou les soluté(s) de la solution antiseptique.
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd2-1">Le solvant est l'espèce majoritaire de la solution. Les solutés sont les espèces chimiques dissoutes en plus petite quantité, citées dans l'énoncé.</div>
 <textarea class="rep-zone" id="r-nd2-1" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Calculer le facteur de dilution puis le volume de solution mère à prélever.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd2-2')">💡 Indice</button>
+<div class="question-label">2. Calculer le facteur de dilution puis le volume de solution mère à prélever.
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd2-2">Calcule d'abord F = t<sub>m</sub> / t<sub>f</sub>, puis utilise F = V<sub>f</sub> / V<sub>m</sub> pour en déduire V<sub>m</sub>, avec V<sub>f</sub> = 500 mL.</div>
 <textarea class="rep-zone" id="r-nd2-2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. Citer la verrerie nécessaire pour réaliser cette dilution avec précision, et décrire brièvement le protocole.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd2-3')">💡 Indice</button>
+<div class="question-label">3. Citer la verrerie nécessaire pour réaliser cette dilution avec précision, et décrire brièvement le protocole.
+<button class="btn-indice" onclick="toggleIndice('ind-nd2-3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd2-3">Pense à l'instrument permettant de prélever un volume précis de solution mère, puis à la verrerie utilisée pour ajuster le volume final jusqu'au trait de jauge.</div>
 <textarea class="rep-zone" id="r-nd2-3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -3102,6 +3115,18 @@ const CONC_FEEDBACK = {
   }
 };
 
+// ── Mélange aléatoire de l'ordre des réponses des QCM ──
+function shuffleQcmOptions() {
+  document.querySelectorAll('.qcm-opts').forEach(container => {
+    const options = Array.from(container.children); // les .qcm-opt
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    options.forEach(opt => container.appendChild(opt));
+  });
+}
+document.addEventListener('DOMContentLoaded', shuffleQcmOptions);
 function qcmOptCheck(el, isCorrect, val, feedbackId) {
   const group = el.parentElement;
   group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));

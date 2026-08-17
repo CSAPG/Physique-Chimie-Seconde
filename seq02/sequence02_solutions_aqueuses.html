@@ -383,6 +383,10 @@
     font-weight: 700;
     color: var(--vert);
   }
+  /* Couleur du titre selon le niveau de difficulté de la carte (facile/inter/difficile) */
+  .card[style*="--vert"] .exo-header h3   { color: var(--vert); }
+  .card[style*="--orange"] .exo-header h3 { color: var(--orange); }
+  .card[style*="--rouge"] .exo-header h3  { color: var(--rouge); }
   .exo-pill {
     font-size: 0.68rem;
     font-weight: 700;
@@ -679,7 +683,11 @@
     transition: opacity 0.15s;
   }
   .btn-recommencer:hover { opacity: 0.85; }
-  .exo-btn-row { display: flex; flex-wrap: wrap; gap: 0; align-items: center; }
+  .exo-btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .exo-btn-row .btn-calc, .exo-btn-row .btn-correction, .exo-btn-row .btn-recommencer, .exo-btn-row .btn-indice {
+    margin-top: 0;
+    margin-left: 0;
+  }
 
   /* ── Escape Game ── */
   .eg-intro {
@@ -1362,8 +1370,34 @@
 <div class="def-card">
 <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">f. Échelle de teinte</h3>
 <div style="display:grid;grid-template-columns:1.8fr 1fr;gap:14px;align-items:start;">
+<div>
 <p style="margin:0;">Une <strong>échelle de teinte</strong> est une série de solutions de concentrations connues et croissantes, d'une espèce colorée. Elle permet de déterminer par comparaison visuelle (couleur) la concentration approximative d'une solution de concentration inconnue.<br/><br/>Sur l'exemple ci-contre, une gamme étalon de sulfate de cuivre pentahydraté (CuSO<sub>4</sub>·5H<sub>2</sub>O) permet d'encadrer la concentration d'une solution inconnue X par comparaison de sa teinte à celles des tubes témoins.</p>
-<img alt="Échelle de teinte et colorimétrie : gamme étalon de sulfate de cuivre pentahydraté CuSO4·5H2O de concentrations croissantes (0,001 à 0,20 mol/L) et solution inconnue X" src="echelle_teinte_cu.png" style="width:80%;display:block;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.12);"/>
+<div class="question-block" style="margin-top:10px;margin-bottom:0;">
+<div class="question-label">À toi de jouer : d'après la teinte de la solution X sur l'image ci-contre, entre quels tubes de la gamme se situe sa concentration ?</div>
+<select id="sel-teinte-x" style="width:100%;padding:7px 10px;border:1.5px solid var(--orange);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;color:var(--texte);background:var(--blanc);margin:4px 0;">
+<option value="">— Choisis un encadrement —</option>
+<option value="c1c2">Entre C₁ (0,001 mol/L) et C₂ (0,005 mol/L)</option>
+<option value="c2c3">Entre C₂ (0,005 mol/L) et C₃ (0,01 mol/L)</option>
+<option value="c3c4">Entre C₃ (0,01 mol/L) et C₄ (0,02 mol/L)</option>
+<option value="c4c5">Entre C₄ (0,02 mol/L) et C₅ (0,05 mol/L)</option>
+<option value="c5c6">Entre C₅ (0,05 mol/L) et C₆ (0,10 mol/L)</option>
+<option value="c6c7">Entre C₆ (0,10 mol/L) et C₇ (0,15 mol/L)</option>
+<option value="c7c8">Entre C₇ (0,15 mol/L) et C₈ (0,20 mol/L)</option>
+</select>
+<div class="exo-btn-row">
+<button class="btn-calc" onclick="verifierTeinteX()">Vérifier ma réponse</button>
+<button class="btn-correction" onclick="toggleCorr('corr-teinte-x')">▶ Voir la correction</button>
+<button class="btn-recommencer" onclick="resetTeinteX()">↺ Recommencer</button>
+</div>
+<div class="qcm-feedback" id="fb-teinte-x"></div>
+<div class="correction" id="corr-teinte-x">
+      Par comparaison visuelle, la teinte de la solution X se situe entre celle du tube C₄ (0,02 mol/L) et celle du tube C₅ (0,05 mol/L) : elle est plus foncée que C₄ mais plus claire que C₅.
+<div class="calc-step">On peut donc encadrer la concentration de la solution X : <strong>0,02 mol/L &lt; [X] &lt; 0,05 mol/L</strong></div>
+      Cette méthode ne donne qu'un <strong>encadrement</strong> (et non une valeur exacte) : la précision dépend du nombre de tubes témoins et de la finesse de l'œil pour distinguer les teintes.
+    </div>
+</div>
+</div>
+<img alt="Échelle de teinte et colorimétrie : gamme étalon de sulfate de cuivre pentahydraté CuSO4·5H2O de concentrations croissantes (0,001 à 0,20 mol/L) et solution inconnue X" src="echelle_teinte_cu.png" style="width:100%;display:block;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.12);"/>
 </div>
 </div>
 <div class="def-card">
@@ -2702,6 +2736,32 @@ function reinitialiserOnglet(tabId) {
   });
 }
 
+function verifierTeinteX() {
+  const sel = document.getElementById('sel-teinte-x');
+  const fb = document.getElementById('fb-teinte-x');
+  if (sel.value === '') {
+    fb.textContent = 'Choisis d\'abord un encadrement dans la liste.';
+    fb.className = 'qcm-feedback wrong';
+    return;
+  }
+  const ok = sel.value === 'c4c5';
+  fb.textContent = ok
+    ? '✓ Exact ! La teinte de X est intermédiaire entre celles de C₄ et C₅ : 0,02 mol/L < [X] < 0,05 mol/L.'
+    : '✗ Ce n\'est pas le bon encadrement. Regarde à nouveau l\'image : entre quels deux tubes la couleur de X se situe-t-elle ?';
+  fb.className = 'qcm-feedback' + (ok ? '' : ' wrong');
+}
+
+function resetTeinteX() {
+  document.getElementById('sel-teinte-x').value = '';
+  const fb = document.getElementById('fb-teinte-x');
+  fb.textContent = '';
+  fb.className = 'qcm-feedback';
+  const corr = document.getElementById('corr-teinte-x');
+  corr.classList.remove('visible');
+  const btn = document.querySelector(`.btn-correction[onclick*="toggleCorr('corr-teinte-x')"]`);
+  if (btn) btn.textContent = '▶ Voir la correction';
+}
+
 function repondreQCM(id, correct, choix, explication, fbId) {
   const item = document.getElementById(id);
   const fb = document.getElementById(fbId);
@@ -2721,7 +2781,7 @@ function repondreQCM(id, correct, choix, explication, fbId) {
 function toggleCorr(id) {
   const el = document.getElementById(id);
   el.classList.toggle('visible');
-  const btn = el.previousElementSibling;
+  const btn = document.querySelector(`.btn-correction[onclick*="toggleCorr('${id}')"]`) || el.previousElementSibling;
   if (el.classList.contains('visible')) {
     btn.textContent = '▼ Masquer la correction';
   } else {

@@ -16,6 +16,7 @@
   --texte:#1A2A3A; --texte-leger:#5A6B7A; --blanc:#FFFFFF;
   --rouge:#C0392B; --rouge-clair:#FDEDEC;
   --violet:#7B4FA6; --violet-clair:#F3EDF9;
+  --bleu-activite:#EEF5FB; --bleu-activite-bord:#B8D4EC;
   /* Alias de compatibilité (ancien système séq.03) */
   --ink:#1A2A3A; --paper:#FFFFFF; --line:#DDE3EC;
   --accent:#3A8A6E; --accent-light:#E8F5F0;
@@ -142,6 +143,27 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 .comp-badge.ana{background:var(--vert)}
 .comp-badge.com{background:var(--bleu)}
 .comp-badge.val{background:var(--bleu)}
+
+/* ── ACTIVITÉ : fond bleu pâle (même design que séq. Seconde, activité 2) ── */
+.activite-card{background:var(--bleu-activite);border:1.5px solid var(--bleu-activite-bord);border-left:4px solid var(--bleu-moyen);border-radius:0 12px 12px 0;padding:16px 22px;margin-bottom:16px;position:relative}
+.activite-card::before{content:'ACTIVITÉ';position:absolute;top:12px;right:14px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--bleu-moyen);opacity:.8}
+.activite-card h3{font-family:'Outfit',sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin-bottom:8px}
+
+/* ── QCM à correction immédiate (dropdown-qcm) ── */
+.dropdown-qcm{margin-bottom:18px}
+.dropdown-qcm .dq-question{font-size:.90rem;font-weight:700;color:var(--texte);margin-bottom:8px;padding-left:8px;border-left:3px solid var(--vert);line-height:1.5}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.dq-feedback{font-size:.82rem;font-weight:700;min-height:18px;color:var(--vert);margin-top:5px}
+.dq-feedback.wrong{color:var(--rouge)}
+
+/* ── Bouton Recommencer (fin d'activité) ── */
+.btn-reveal{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 16px;background:var(--texte-leger);color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s}
+.btn-reveal:hover{opacity:.85;transform:translateY(-1px)}
+.btn-reveal:active{transform:translateY(0)}
 .btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
 .btn-reveal:hover{background:#c8602a}
 .reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
@@ -2773,65 +2795,45 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="sub-tab-content" id="sub-act-4">
 <div class="section-title"> Activité 4 — Des ions dans les eaux minérales <span style="font-size:.7rem;font-weight:600;color:var(--texte-leger);margin-left:6px;">p.80</span></div>
-<div class="card">
+<div class="activite-card" id="activite-ions">
+<h3>Activité 4 — Des ions dans les eaux minérales</h3>
 <span class="comp-badge ana">ANALYSER</span>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Pourquoi les gaz nobles sont-ils chimiquement stables ?</p>
-<div class="exo-box" data-clear-selector=".q-gaznoble">
-<div class="quiz-options">
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="a"/> Parce qu'ils n'ont pas de noyau</label>
-<label><input class="q-gaznoble" data-correct="true" name="q-gaznoble" type="radio" value="b"/> Parce que leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium)</label>
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="c"/> Parce qu'ils possèdent un seul électron de valence</label>
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="d"/> Parce qu'ils sont radioactifs</label>
+<div class="dropdown-qcm">
+<div class="dq-question">Pourquoi les gaz nobles sont-ils chimiquement stables ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ions-q1')">Parce qu'ils n'ont pas de noyau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ions-q1')">Parce que leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ions-q1')">Parce qu'ils possèdent un seul électron de valence</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ions-q1')">Parce qu'ils sont radioactifs</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-gaznoble">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dq-feedback" id="fb-ions-q1"></div>
 </div>
-<div class="correction">
-        Les gaz nobles possèdent une <b>couche de valence saturée</b> (8 électrons, ou 2 pour l'hélium). Cette configuration électronique très stable explique leur faible réactivité chimique : ils ne cherchent ni à gagner ni à perdre d'électrons.
-      </div>
-</div>
+
 <span class="comp-badge rea">RÉALISER</span>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Donne la configuration électronique de l'ion sodium Na⁺ :</p>
-<div class="exo-box" data-clear-selector=".naplus-select">
-<p>Configuration électronique de Na⁺ :
-        <select class="exo-select naplus-select" data-answers="1s2 2s2 2p6">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
-<option value="1s2 2s2 2p6">1s² 2s² 2p⁶</option>
-<option value="1s2 2s2 2p6 3s2">1s² 2s² 2p⁶ 3s²</option>
-<option value="1s2 2s2 2p5">1s² 2s² 2p⁵</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".naplus-select">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dropdown-qcm">
+<div class="dq-question">Donne la configuration électronique de l'ion sodium Na⁺ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ions-q2')">1s² 2s² 2p⁶ 3s¹</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ions-q2')">1s² 2s² 2p⁶</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ions-q2')">1s² 2s² 2p⁶ 3s²</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ions-q2')">1s² 2s² 2p⁵</div>
 </div>
-<div class="correction">
-        Le sodium (Z=11) a pour configuration 1s² 2s² 2p⁶ 3s¹. En perdant son électron de valence, Na⁺ a pour configuration <b>1s² 2s² 2p⁶</b> : il adopte la configuration du néon (gaz noble qui le précède).
-      </div>
+<div class="dq-feedback" id="fb-ions-q2"></div>
 </div>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Donne la configuration électronique de l'ion chlorure Cl⁻ :</p>
-<div class="exo-box" data-clear-selector=".clmoins-select">
-<p>Configuration électronique de Cl⁻ :
-        <select class="exo-select clmoins-select" data-answers="1s2 2s2 2p6 3s2 3p6">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p6 3s2 3p5">1s² 2s² 2p⁶ 3s² 3p⁵</option>
-<option value="1s2 2s2 2p6 3s2 3p6">1s² 2s² 2p⁶ 3s² 3p⁶</option>
-<option value="1s2 2s2 2p6 3s2 3p4">1s² 2s² 2p⁶ 3s² 3p⁴</option>
-<option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".clmoins-select">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+
+<div class="dropdown-qcm">
+<div class="dq-question">Donne la configuration électronique de l'ion chlorure Cl⁻ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ions-q3')">1s² 2s² 2p⁶ 3s² 3p⁵</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ions-q3')">1s² 2s² 2p⁶ 3s² 3p⁶</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ions-q3')">1s² 2s² 2p⁶ 3s² 3p⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ions-q3')">1s² 2s² 2p⁶ 3s¹</div>
 </div>
-<div class="correction">
-        Le chlore (Z=17) a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁵. En gagnant 1 électron, Cl⁻ a pour configuration <b>1s² 2s² 2p⁶ 3s² 3p⁶</b> : il adopte la configuration de l'argon (gaz noble qui le suit).
-      </div>
+<div class="dq-feedback" id="fb-ions-q3"></div>
+</div>
+
+<div style="text-align:center;margin-top:16px;">
+<button class="btn-reveal" onclick="recommencer('activite-ions')">↺ Recommencer</button>
 </div>
 </div>
 </div>
@@ -3144,67 +3146,74 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 <div class="sub-tab-content" id="sub-act-6">
 <div class="section-title"> Activité 6 — Simulation PhET : construire un atome</div>
-<div class="card">
+<div class="activite-card" id="activite-buildatom">
+<h3>Activité 6 — Simulation PhET : construire un atome</h3>
 <span class="comp-badge app">S'APPROPRIER</span>
-<div class="remarque-box">🔗 Simulation PhET — <a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" rel="noopener" target="_blank"><b>Construire un atome (Build an Atom)</b></a> — ouvre la simulation dans un nouvel onglet et laisse-la ouverte à côté de cette page.</div>
-<p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Dans la simulation, va dans l'écran <b>« Symbole »</b>. Construis un atome en plaçant <b>6 protons</b>, <b>6 neutrons</b> et <b>6 électrons</b>, puis réponds :</p>
-<div class="exo-box" data-clear-selector=".phet-q1">
-<p>Quel est le nom de cet élément ?
-<select class="exo-select phet-q1" data-answers="carbone">
-<option value="">— choisir —</option>
-<option value="carbone">Carbone</option>
-<option value="azote">Azote</option>
-<option value="oxygene">Oxygène</option>
-<option value="bore">Bore</option>
-</select>
+<p style="font-size:.88rem;margin:8px 0 12px;">
+  Simulation interactive (PhET, Université du Colorado, licence libre) : construis un atome en ajustant son nombre de protons, neutrons et électrons.
 </p>
-<p>Nombre de masse A affiché :
-<select class="exo-select phet-q1" data-answers="12">
-<option value="">— choisir —</option>
-<option value="6">6</option>
-<option value="12">12</option>
-<option value="13">13</option>
-<option value="18">18</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".phet-q1">Vérifier mes réponses</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+<iframe allowfullscreen="" height="480" loading="lazy" src="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" style="display:block;border:none;background:#fff;" title="Simulation PhET — Construire un atome" width="100%">
+</iframe>
 </div>
-<div class="correction">Avec 6 protons, l'élément est le <b>carbone</b> (Z = 6). Avec 6 neutrons, A = Z + N = 6 + 6 = <b>12</b> : c'est le carbone 12.</div>
+<div style="text-align:center;margin-bottom:16px;">
+<a href="https://phet.colorado.edu/sims/html/build-an-atom/latest/build-an-atom_fr.html" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank" rel="noopener">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
 </div>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Sans changer le nombre de protons ni de neutrons, <b>retire un électron</b>. Observe la charge affichée par la simulation :</p>
-<div class="exo-box" data-clear-selector=".phet-q2">
-<div class="quiz-options">
-<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="a"/> L'atome reste neutre</label>
-<label><input class="phet-q2" data-correct="true" name="phet-q2" type="radio" value="b"/> On obtient un cation (charge +1)</label>
-<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="c"/> On obtient un anion (charge −1)</label>
-<label><input class="phet-q2" data-correct="false" name="phet-q2" type="radio" value="d"/> On obtient un isotope</label>
+<div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+<p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+<p style="font-size:0.86rem;line-height:1.7;margin:0;">Va dans l'écran <strong>« Symbole »</strong>. Construis un atome en plaçant <strong>6 protons</strong>, <strong>6 neutrons</strong> et <strong>6 électrons</strong>, puis réponds aux questions ci-dessous au fur et à mesure de ta manipulation.</p>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="phet-q2">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+
+<div class="dropdown-qcm">
+<div class="dq-question">1. Quel est le nom de cet élément (6 protons) ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'carbone','fb-atom-q1a')">Carbone</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'azote','fb-atom-q1a')">Azote</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'oxygene','fb-atom-q1a')">Oxygène</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'bore','fb-atom-q1a')">Bore</div>
 </div>
-<div class="correction">En retirant un électron, il y a plus de protons (charges +) que d'électrons (charges −) : l'atome devient un <b>cation</b> de charge <b>+1</b> (ici l'ion C⁺).</div>
+<div class="dq-feedback" id="fb-atom-q1a"></div>
 </div>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Remets l'électron manquant, puis <b>ajoute un neutron</b> (7 neutrons au total). Que représente ce nouvel atome par rapport au précédent ?</p>
-<div class="exo-box" data-clear-selector=".phet-q3">
-<div class="quiz-options">
-<label><input class="phet-q3" data-correct="true" name="phet-q3" type="radio" value="a"/> C'est un isotope du premier atome (carbone 13)</label>
-<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="b"/> C'est un ion du premier atome</label>
-<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="c"/> C'est un élément chimique différent</label>
-<label><input class="phet-q3" data-correct="false" name="phet-q3" type="radio" value="d"/> C'est une molécule</label>
+
+<div class="dropdown-qcm">
+<div class="dq-question">2. Nombre de masse A affiché par la simulation ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'6','fb-atom-q1b')">6</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'12','fb-atom-q1b')">12</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'13','fb-atom-q1b')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'18','fb-atom-q1b')">18</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="phet-q3">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dq-feedback" id="fb-atom-q1b"></div>
 </div>
-<div class="correction">Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (7 au lieu de 6) donc A différent (13 au lieu de 12) : ce sont des <b>isotopes</b> (carbone 12 et carbone 13).</div>
+
+<p style="font-size:0.86rem;line-height:1.6;margin:14px 0 8px;">Sans changer le nombre de protons ni de neutrons, <strong>retire un électron</strong>. Observe la charge affichée par la simulation :</p>
+<div class="dropdown-qcm">
+<div class="dq-question">3. Que devient la charge de l'atome ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-atom-q2')">L'atome reste neutre</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-atom-q2')">On obtient un cation (charge +1)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-atom-q2')">On obtient un anion (charge −1)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-atom-q2')">On obtient un isotope</div>
 </div>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">💡 Utilise l'écran <b>« Jeu »</b> de la simulation pour t'entraîner à retrouver le nom, le symbole, le numéro atomique et le nombre de masse à partir de la composition d'un atome, ou l'inverse.</p>
+<div class="dq-feedback" id="fb-atom-q2"></div>
+</div>
+
+<p style="font-size:0.86rem;line-height:1.6;margin:14px 0 8px;">Remets l'électron manquant, puis <strong>ajoute un neutron</strong> (7 neutrons au total). Que représente ce nouvel atome par rapport au précédent ?</p>
+<div class="dropdown-qcm">
+<div class="dq-question">4. Quelle relation avec l'atome précédent (6 protons, 6 neutrons) ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-atom-q3')">C'est un isotope du premier atome (carbone 13)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-atom-q3')">C'est un ion du premier atome</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-atom-q3')">C'est un élément chimique différent</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-atom-q3')">C'est une molécule</div>
+</div>
+<div class="dq-feedback" id="fb-atom-q3"></div>
+</div>
+
+<p style="font-size:0.86rem;line-height:1.6;margin:14px 0 0;">💡 Utilise l'écran <strong>« Jeu »</strong> de la simulation pour t'entraîner à retrouver le nom, le symbole, le numéro atomique et le nombre de masse à partir de la composition d'un atome, ou l'inverse.</p>
+
+<div style="text-align:center;margin-top:16px;">
+<button class="btn-reveal" onclick="recommencer('activite-buildatom')">↺ Recommencer</button>
 </div>
 </div>
 </div>
@@ -4453,6 +4462,90 @@ function buildPtable(containerId){
 }
 
 buildPtable('ptable');
+
+/* ══════ ACTIVITÉS 4 et 6 : QCM à correction immédiate (même mécanique que séq. Seconde, activité 2) ══════ */
+const ATOM_FEEDBACK = {
+  'fb-ions-q1': {
+    correct: "✓ Exact ! Les gaz nobles possèdent une couche de valence saturée (8 électrons, ou 2 pour l'hélium) : cette configuration très stable explique leur faible réactivité chimique.",
+    wrong: {
+      a: "✗ Non — tous les atomes, y compris les gaz nobles, possèdent un noyau. Ce n'est pas l'absence de noyau qui explique leur stabilité.",
+      c: "✗ Non — c'est l'inverse : un seul électron de valence rend un atome très réactif (il cherche à le perdre). Les gaz nobles ont au contraire une couche de valence saturée.",
+      d: "✗ Non — la stabilité chimique des gaz nobles n'a rien à voir avec la radioactivité (un phénomène nucléaire) : elle s'explique par leur configuration électronique saturée."
+    }
+  },
+  'fb-ions-q2': {
+    correct: "✓ Exact ! Le sodium (Z=11) a pour configuration 1s² 2s² 2p⁶ 3s¹. En perdant son électron de valence, Na⁺ a pour configuration 1s² 2s² 2p⁶ : il adopte la configuration du néon (gaz noble qui le précède).",
+    wrong: {
+      a: "✗ C'est la configuration de l'atome de sodium neutre, pas de l'ion Na⁺. En formant l'ion, le sodium perd justement son électron 3s¹.",
+      c: "✗ Cette configuration correspondrait à un ion ayant gagné un électron (3s²), alors que Na⁺ en a perdu un : Na⁺ n'a plus d'électron sur la couche 3s.",
+      d: "✗ Cette configuration correspond à la perte de 3 électrons (jusqu'en 2p⁵), alors que Na⁺ ne perd qu'un seul électron, celui de la couche 3s."
+    }
+  },
+  'fb-ions-q3': {
+    correct: "✓ Exact ! Le chlore (Z=17) a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁵. En gagnant 1 électron, Cl⁻ a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁶ : il adopte la configuration de l'argon (gaz noble qui le suit).",
+    wrong: {
+      a: "✗ C'est la configuration de l'atome de chlore neutre, pas de l'ion Cl⁻. En formant l'ion, le chlore gagne justement un électron supplémentaire sur la couche 3p.",
+      c: "✗ Cette configuration correspondrait à une perte d'électron (3p⁴), alors que Cl⁻ en gagne un : la couche 3p doit être complète (3p⁶), pas incomplète.",
+      d: "✗ Cette configuration ne correspond à aucun ion réaliste du chlore : elle perd beaucoup trop d'électrons par rapport à l'atome neutre, alors que Cl⁻ en gagne un."
+    }
+  },
+  'fb-atom-q1a': {
+    correct: "✓ Exact ! Avec 6 protons, le numéro atomique est Z = 6 : c'est l'élément carbone.",
+    wrong: {
+      azote: "✗ Non — l'azote a pour numéro atomique Z = 7 (7 protons), pas 6. Ici on a placé 6 protons : c'est le carbone.",
+      oxygene: "✗ Non — l'oxygène a pour numéro atomique Z = 8 (8 protons), pas 6. Avec 6 protons, l'élément est le carbone.",
+      bore: "✗ Non — le bore a pour numéro atomique Z = 5 (5 protons), pas 6. Avec 6 protons, l'élément est le carbone."
+    }
+  },
+  'fb-atom-q1b': {
+    correct: "✓ Exact ! A = Z + N = 6 protons + 6 neutrons = 12 : c'est le carbone 12.",
+    wrong: {
+      '6': "✗ Non — A = Z + N compte à la fois les protons ET les neutrons, pas seulement les protons (qui donnent Z = 6, pas A).",
+      '13': "✗ Non — A = 13 correspondrait à 7 neutrons (le carbone 13), mais ici on a placé seulement 6 neutrons : A = 6 + 6 = 12.",
+      '18': "✗ Non — A = 18 additionnerait par erreur les électrons en plus des protons et neutrons : seuls protons et neutrons entrent dans le nombre de masse."
+    }
+  },
+  'fb-atom-q2': {
+    correct: "✓ Exact ! En retirant un électron, il y a plus de protons (charges +) que d'électrons (charges −) : l'atome devient un cation de charge +1 (ici l'ion C⁺).",
+    wrong: {
+      a: "✗ Non — retirer un électron déséquilibre le nombre de charges positives et négatives : l'atome n'est plus neutre, il devient chargé positivement.",
+      c: "✗ Non — un anion se forme en gagnant un électron (excès de charges négatives), pas en en retirant un. Retirer un électron donne un cation, chargé positivement.",
+      d: "✗ Non — un isotope se forme en changeant le nombre de neutrons, pas le nombre d'électrons. Ici, retirer un électron change la charge de l'atome, pas son isotope."
+    }
+  },
+  'fb-atom-q3': {
+    correct: "✓ Exact ! Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (7 au lieu de 6) donc A différent (13 au lieu de 12) : ce sont des isotopes (carbone 12 et carbone 13).",
+    wrong: {
+      b: "✗ Non — un ion se forme en changeant le nombre d'électrons (donc la charge), pas le nombre de neutrons. Ici, la charge n'a pas changé : on a seulement ajouté un neutron.",
+      c: "✗ Non — l'élément chimique est déterminé par le numéro atomique Z (nombre de protons), qui n'a pas changé ici (toujours 6) : c'est donc toujours du carbone.",
+      d: "✗ Non — une molécule est un assemblage d'atomes liés entre eux. Ici, on modifie un seul atome (ajout d'un neutron) : ce n'est pas une molécule."
+    }
+  }
+};
+
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = ATOM_FEEDBACK[feedbackId];
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
+}
+
+function recommencer(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(btn => {
+    btn.classList.remove('correct', 'incorrect');
+  });
+  card.querySelectorAll('.dq-feedback').forEach(fb => {
+    fb.textContent = '';
+    fb.className = 'dq-feedback';
+  });
+}
 
 /* ============== EXERCICES INTERACTIFS : correction + recommencer ============== */
 function normalize(str){

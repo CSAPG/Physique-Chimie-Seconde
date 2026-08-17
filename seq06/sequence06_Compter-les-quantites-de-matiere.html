@@ -219,8 +219,9 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 .btn-correction:hover{background:#2b6e56}
 .btn-verif{background:var(--bleu);color:#fff}
 .btn-verif:hover{background:#1e4466}
-.btn-recommencer{background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord)}
-.btn-recommencer:hover{background:#e4e9ef}
+.btn-recommencer{background:var(--texte-léger);color:#fff;border:none;border-radius:7px}
+.btn-recommencer:hover{background:#2A6B52;transform:translateY(-1px)}
+.btn-recommencer:active{transform:translateY(0)}
 .score-bar{display:flex;gap:6px;align-items:center;margin:10px 0}
 .score-dot{width:14px;height:14px;border-radius:50%;background:var(--color-border-tertiary);transition:.3s}
 .score-dot.ok{background:#1D9E75}
@@ -234,6 +235,17 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 .activite-card{background:var(--bleu-activite);border:1.5px solid var(--bleu-activite-bord);border-left:4px solid var(--bleu-moyen);border-radius:0 12px 12px 0;padding:16px 22px;margin-bottom:16px;position:relative}
 .activite-card::before{content:'ACTIVITÉ';position:absolute;top:12px;right:14px;font-family:"Outfit",sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.08em;color:var(--bleu-moyen);opacity:.8}
 .activite-card h3{font-family:"Outfit",sans-serif;font-size:1.0rem;font-weight:700;color:var(--bleu);margin:0 0 8px}
+
+/* ── QCM à correction immédiate (dropdown-qcm) ── */
+.dropdown-qcm{margin-bottom:18px}
+.dropdown-qcm .dq-question{font-size:.90rem;font-weight:700;color:var(--texte);margin-bottom:8px;padding-left:8px;border-left:3px solid var(--vert);line-height:1.5}
+.qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
+.qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
+.qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
+.qcm-opt.incorrect{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
+.dq-feedback{font-size:.82rem;font-weight:700;min-height:18px;color:var(--vert);margin-top:5px}
+.dq-feedback.wrong{color:var(--rouge)}
 .exo-enonce{background:var(--blanc);border-radius:8px;padding:12px 16px;font-size:1rem;line-height:1.65;margin-bottom:12px;border:1px solid var(--vert-exo-bord)}
 
 /* ===== Style "Peser sur Jupiter" (import depuis séquence 05) pour les exercices à champs FCR encadrés ===== */
@@ -248,7 +260,7 @@ button.action-btn.solid:hover{background:#1e4466;border-color:#1e4466}
 .feedback.ok{color:var(--vert)}
 .feedback.ko{color:var(--rouge)}
 .question-block{margin-bottom:14px}
-.question-label{font-size:.88rem;font-weight:700;color:var(--texte);margin-bottom:7px;padding-left:8px;border-left:3px solid var(--vert)}
+.question-label{display: flex;align-items: flex-start;justify-content: space-between;gap: 10px;font-size:.88rem;font-weight:700;color:var(--texte);margin-bottom:7px;padding-left:8px;border-left:3px solid var(--vert)}
 .rep-zone{width:100%;min-height:52px;padding:10px 14px;border:1.5px solid var(--vert-exo-bord);border-radius:8px;font-family:var(--font-sans);font-size:.88rem;background:var(--blanc);color:var(--texte);resize:vertical;transition:border-color .2s}
 .rep-zone:focus{outline:none;border-color:var(--vert)}
 .aide-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 12px;border:1.5px solid var(--indice);border-radius:999px;background:var(--indice-clair);color:var(--indice);font-family:var(--font-sans);font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
@@ -631,9 +643,10 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>1. [APP] S'approprier</h3>
     <div class="question-block">
-      <div class="question-label">De quel type sont les entités contenues dans le charbon végétal : atomes, molécules ou ions (doc. 1) ?</div>
+      <div class="question-label">De quel type sont les entités contenues dans le charbon végétal : atomes, molécules ou ions (doc. 1) ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-1')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-1" placeholder="Rédigez votre réponse…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-1')">💡 Indice</button>
       <div class="aide-box" id="aide-ad1-1">Le document 1 précise que le charbon végétal est constitué de l'espèce chimique <strong>carbone</strong>. Relis la définition d'un atome, d'une molécule et d'un ion : le carbone (élément chimique seul, non associé à d'autres) correspond à l'une de ces trois catégories.</div>
     </div>
   </div>
@@ -641,9 +654,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>2. [REA] Réaliser</h3>
     <div class="question-block">
-      <div class="question-label">Déterminer la masse m<sub>C</sub> d'une entité.</div>
-      <textarea class="rep-zone" id="r-ad1-2" placeholder="Rédigez votre démarche…"></textarea>
+      <div class="question-label">Déterminer la masse m<sub>C</sub> d'une entité.
       <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-2')">💡 Indice</button>
+    </div>
+      <textarea class="rep-zone" id="r-ad1-2" placeholder="Rédigez votre démarche…"></textarea>
+      
       <div class="aide-box" id="aide-ad1-2">D'après les données, un noyau de carbone 12 contient 12 protons/neutrons, chacun de masse ≈1,67×10⁻²⁷ kg. La masse d'une entité de carbone est donc, en première approximation, égale à la masse totale de son noyau : m<sub>C</sub> = 12 × (masse d'un proton ou neutron). Pense à bien exprimer le résultat avec l'unité (kg) et un nombre cohérent de chiffres significatifs.</div>
     </div>
   </div>
@@ -651,9 +666,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>3. [REA] Réaliser</h3>
     <div class="question-block">
-      <div class="question-label">Calculer le nombre N d'entités contenues dans une gélule.</div>
+      <div class="question-label">Calculer le nombre N d'entités contenues dans une gélule.
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-3')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-3" placeholder="Rédigez votre démarche…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-3')">💡 Indice</button>
+      
       <div class="aide-box" id="aide-ad1-3">Tu connais la masse totale de carbone dans une gélule (doc. 1) et la masse m<sub>C</sub> d'une seule entité (question 2). Le nombre d'entités s'obtient en divisant la masse totale par la masse d'une seule entité : N = m<sub>gélule</sub> / m<sub>C</sub>. Vérifie que les deux masses sont exprimées dans la même unité avant de diviser.</div>
     </div>
   </div>
@@ -661,9 +678,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>4. [ANA-RAI] Analyser - Raisonner</h3>
     <div class="question-block">
-      <div class="question-label">Peut-on les compter aisément ?</div>
+      <div class="question-label">Peut-on les compter aisément ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-4')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-4" placeholder="Rédigez votre réponse…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-4')">💡 Indice</button>
+      
       <div class="aide-box" id="aide-ad1-4">Regarde l'ordre de grandeur du nombre N calculé à la question 3 : compare-le à des quantités que l'on peut compter « à la main » (par dizaines, centaines…). Que peux-tu en conclure sur la possibilité de dénombrer les entités une par une ?</div>
     </div>
   </div>
@@ -671,9 +690,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>5. [REA] Réaliser</h3>
     <div class="question-block">
-      <div class="question-label">Déterminer la quantité de matière de carbone que contient une gélule (doc. 2).</div>
+      <div class="question-label">Déterminer la quantité de matière de carbone que contient une gélule (doc. 2).
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-5')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-5" placeholder="Rédigez votre démarche…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-5')">💡 Indice</button>
+
       <div class="aide-box" id="aide-ad1-5">Le document 2 donne la relation entre le nombre d'entités N et la quantité de matière n, à l'aide du nombre d'Avogadro N<sub>A</sub> ≈ 6,02×10²³ mol⁻¹ : n = N / N<sub>A</sub>. Réutilise la valeur de N trouvée à la question 3 pour calculer n, en mol.</div>
     </div>
   </div>
@@ -681,9 +702,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>6. [VAL] Valider</h3>
     <div class="question-block">
-      <div class="question-label">Qu'est-il préférable d'utiliser : le nombre N d'entités ou la quantité de matière n ?</div>
+      <div class="question-label">Qu'est-il préférable d'utiliser : le nombre N d'entités ou la quantité de matière n ?
+       <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-6')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-6" placeholder="Rédigez votre réponse…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-6')">💡 Indice</button>
+      
       <div class="aide-box" id="aide-ad1-6">Compare les ordres de grandeur des deux nombres trouvés aux questions 3 et 5 (N très grand vs n plus « maniable »). Laquelle de ces deux grandeurs est plus pratique à manipuler et à écrire au quotidien pour un chimiste ?</div>
     </div>
   </div>
@@ -691,9 +714,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>Synthèse [COM] Communiquer</h3>
     <div class="question-block">
-      <div class="question-label">Expliquer l'intérêt de la grandeur quantité de matière.</div>
+      <div class="question-label">Expliquer l'intérêt de la grandeur quantité de matière.
+       <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-synthese')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-ad1-synthese" placeholder="Rédigez votre synthèse…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ad1-synthese')">💡 Indice</button>
+
       <div class="aide-box" id="aide-ad1-synthese">Reprends les grandes étapes de l'activité : le nombre d'entités N dans un échantillon macroscopique est immense (question 4), tandis que la quantité de matière n regroupe les entités par « paquets » de N<sub>A</sub> grâce à la relation n = N/N<sub>A</sub>. Explique en quoi cela facilite le travail du chimiste (comptage, calculs, comparaisons).</div>
     </div>
   </div>
@@ -734,15 +759,18 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>1. [ANA-RAI] Élaborer un protocole <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(5 à 10 min max)</span></h3>
     <div class="question-block">
-      <div class="question-label">a. Proposer un protocole pour vérifier que l'apport journalier recommandé en sel correspond bien à la donnée de l'OMS en cuillerée (doc. 1).</div>
+      <div class="question-label">a. Proposer un protocole pour vérifier que l'apport journalier recommandé en sel correspond bien à la donnée de l'OMS en cuillerée (doc. 1).
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1a')">💡 Indice</button>
+
+      </div>
       <textarea class="rep-zone" id="r-tp-1a" placeholder="Rédigez votre protocole…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1a')">💡 Indice</button>
       <div class="aide-box" id="aide-tp-1a">Le doc. 1 annonce une masse de sel recommandée par jour et une équivalence approximative en cuillerées à café. Pense à utiliser la balance pour peser cette masse de sel, puis à la transvaser dans une cuillère à café pour comparer le résultat obtenu à l'affirmation du document.</div>
     </div>
     <div class="question-block">
-      <div class="question-label">b. Proposer un protocole pour déterminer le nombre de sucres en morceaux qu'une personne peut absorber quotidiennement sans nuire à sa santé (doc. 1).</div>
+      <div class="question-label">b. Proposer un protocole pour déterminer le nombre de sucres en morceaux qu'une personne peut absorber quotidiennement sans nuire à sa santé (doc. 1).
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1b')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-tp-1b" placeholder="Rédigez votre protocole…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-1b')">💡 Indice</button>
       <div class="aide-box" id="aide-tp-1b">Il faut d'abord connaître la masse d'un seul morceau de sucre (pesée à la balance), puis comparer cette masse à la masse journalière de sucre recommandée par l'OMS (doc. 1) pour en déduire un nombre de morceaux.</div>
     </div>
   </div>
@@ -755,9 +783,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>2. [REA] Mettre en œuvre chaque protocole <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(15 min max)</span></h3>
     <div class="question-block">
-      <div class="question-label">Réaliser les manipulations et noter vos mesures (masses pesées, observations…).</div>
+      <div class="question-label">Réaliser les manipulations et noter vos mesures (masses pesées, observations…).
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-2')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-tp-2" placeholder="Notez vos résultats expérimentaux…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-2')">💡 Indice</button>
+    
       <div class="aide-box" id="aide-tp-2">Pense à noter systématiquement l'unité de chaque mesure (g) et à répéter la pesée si besoin pour être sûr de ta valeur. Organise tes résultats clairement, par exemple sous forme de petit tableau (sel / sucre).</div>
     </div>
   </div>
@@ -770,9 +800,10 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>3. [REA] Exploitation des résultats <span style="font-weight:400;font-size:0.8rem;color:var(--texte-léger);">(20 min max)</span></h3>
     <div class="question-block">
-      <div class="question-label">Calculer les quantités de matière n<sub>sel</sub> de sel, n<sub>sucre</sub> de sucre et n<sub>eau</sub> d'eau nécessaires chaque jour à nos besoins.</div>
+      <div class="question-label">Calculer les quantités de matière n<sub>sel</sub> de sel, n<sub>sucre</sub> de sucre et n<sub>eau</sub> d'eau nécessaires chaque jour à nos besoins.
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-3')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-tp-3" placeholder="Rédigez votre démarche et vos calculs…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-3')">💡 Indice</button>
       <div class="aide-box" id="aide-tp-3">Pour chaque espèce, calcule d'abord la masse d'une entité (somme des masses des atomes qui la composent, doc. 2 et Données), puis le nombre d'entités N = masse totale / masse d'une entité, puis la quantité de matière n = N / N<sub>A</sub>. Pour l'eau, utilise la masse volumique ρ pour convertir le volume journalier (1,5 L) en masse avant de commencer le calcul. N'oublie pas : NaCl est un composé ionique (une entité = un ion Na⁺ et un ion Cl⁻), le saccharose et l'eau sont des espèces moléculaires.</div>
     </div>
   </div>
@@ -780,9 +811,11 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="activite-card">
     <h3>Synthèse [COM] Communiquer</h3>
     <div class="question-block">
-      <div class="question-label">Expliquer pourquoi il est judicieux d'utiliser la mole à notre échelle.</div>
+      <div class="question-label">Expliquer pourquoi il est judicieux d'utiliser la mole à notre échelle. 
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-synthese')">💡 Indice</button>
+      </div>
       <textarea class="rep-zone" id="r-tp-synthese" placeholder="Rédigez votre synthèse…"></textarea>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-tp-synthese')">💡 Indice</button>
+     
       <div class="aide-box" id="aide-tp-synthese">Compare les valeurs des quantités de matière n calculées à la question 3 avec les nombres d'entités N correspondants (immenses). Explique en quoi la mole, grandeur adaptée à notre échelle (quelques dixièmes à quelques dizaines de moles ici), permet de manipuler des nombres « raisonnables » au quotidien, contrairement au dénombrement direct des entités.</div>
     </div>
   </div>
@@ -794,105 +827,90 @@ button.cap-toggle:hover{background:#1e4466}
   <div class="card">
   <div class="section-title"><span class="icon">🖥️</span> Activité 3 — Animation interactive : la quantité de matière</div>
 
-  <div class="activite-card">
+  <div class="activite-card" id="activite-quantitemat">
     <h3>Animation interactive : compter avec la quantité de matière</h3>
     <p style="font-size:0.9rem;line-height:1.6;">
       <strong>Objectif :</strong> manipuler une animation interactive pour visualiser le lien entre la quantité de matière n, le nombre d'entités N et le nombre d'Avogadro N<sub>A</sub>, et consolider les méthodes de calcul vues dans les activités précédentes.
     </p>
-    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;">
+    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;margin-bottom:12px;">
       Ressource : <em>Physique-Chimie Seconde</em>, éditions Hatier — Hatier Clic.
     </p>
-  </div>
 
-  <div class="activite-card">
-    <h3>Animation</h3>
     <div style="position:relative;width:100%;max-width:900px;margin:0 auto;border:1.5px solid var(--gris-bord);border-radius:12px;overflow:hidden;background:var(--gris-fond);">
       <iframe src="https://www.hatier-clic.fr/miniliens/mie/9782401049611/ai_quantitematiere/index.html" title="Animation interactive — la quantité de matière" style="width:100%;height:520px;border:0;display:block;" loading="lazy" allowfullscreen></iframe>
     </div>
-    <p style="text-align:center;margin-top:10px;">
+    <p style="text-align:center;margin:10px 0 16px;">
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401049611/ai_quantitematiere/index.html" target="_blank" rel="noopener" style="font-size:0.85rem;font-weight:600;color:var(--bleu);text-decoration:none;">
         ↗ Ouvrir l'animation dans un nouvel onglet
       </a>
     </p>
-  </div>
 
-  <div class="activite-card">
-    <h3>1. [APP] S'approprier — QCM</h3>
-    <div class="question-block">
-      <div class="question-label">Quelles grandeurs l'animation met-elle en jeu ?</div>
-      <div class="qcm-radio-group" id="ai1-group">
-        <label class="qcm-radio-option"><input type="radio" name="ai1" value="a">Le nombre d'entités N et la masse molaire M</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai1" value="b">Le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub></label>
-        <label class="qcm-radio-option"><input type="radio" name="ai1" value="c">La masse m et le volume V uniquement</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai1" value="d">La concentration c et le volume V</label>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--bleu-moyen);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">1. [APP] S'approprier</p>
+    <div class="dropdown-qcm">
+      <div class="dq-question">Quelles grandeurs l'animation met-elle en jeu ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-1')">💡 Indice</button>
       </div>
-      <div class="qcm-actions">
-        <button class="btn-verif" onclick="checkQCM('ai1','b','fb-ai1')">✓ Vérifier</button>
-        <button class="btn-recommencer" onclick="resetQCM('ai1','fb-ai1')">↺ Recommencer</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ai1')">Le nombre d'entités N et la masse molaire M</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ai1')">Le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ai1')">La masse m et le volume V uniquement</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ai1')">La concentration c et le volume V</div>
       </div>
-      <div id="fb-ai1" class="fb"></div>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-1')">💡 Indice</button>
+      <div class="dq-feedback" id="fb-ai1"></div>
+      
       <div class="aide-box" id="aide-ai-1">Repère dans l'animation les grandeurs déjà rencontrées dans les activités précédentes : le nombre d'entités N (sans unité), la quantité de matière n (en mol) et le nombre d'Avogadro N<sub>A</sub> ≈ 6,02×10²³ mol⁻¹.</div>
     </div>
-  </div>
 
-  <div class="activite-card">
-    <h3>2. [REA] Réaliser — QCM</h3>
-    <div class="question-block">
-      <div class="question-label">En faisant varier les paramètres de l'animation, quelle relation relie N, n et N<sub>A</sub> ?</div>
-      <div class="qcm-radio-group" id="ai2-group">
-        <label class="qcm-radio-option"><input type="radio" name="ai2" value="a">N = n × N<sub>A</sub></label>
-        <label class="qcm-radio-option"><input type="radio" name="ai2" value="b">N = n / N<sub>A</sub></label>
-        <label class="qcm-radio-option"><input type="radio" name="ai2" value="c">N = N<sub>A</sub> / n</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai2" value="d">n = N × N<sub>A</sub></label>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--bleu-moyen);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">2. [REA] Réaliser</p>
+    <div class="dropdown-qcm">
+      <div class="dq-question">En faisant varier les paramètres de l'animation, quelle relation relie N, n et N<sub>A</sub> ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-2')">💡 Indice</button>
       </div>
-      <div class="qcm-actions">
-        <button class="btn-verif" onclick="checkQCM('ai2','a','fb-ai2')">✓ Vérifier</button>
-        <button class="btn-recommencer" onclick="resetQCM('ai2','fb-ai2')">↺ Recommencer</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-ai2')">N = n × N<sub>A</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-ai2')">N = n / N<sub>A</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ai2')">N = N<sub>A</sub> / n</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ai2')">n = N × N<sub>A</sub></div>
       </div>
-      <div id="fb-ai2" class="fb"></div>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-2')">💡 Indice</button>
+      <div class="dq-feedback" id="fb-ai2"></div>
+      
       <div class="aide-box" id="aide-ai-2">Observe comment évolue le nombre d'entités N lorsque tu augmentes ou diminues la quantité de matière n dans l'animation. Tu dois retrouver la relation déjà établie en cours : N = n × N<sub>A</sub> (ou, de façon équivalente, n = N / N<sub>A</sub>).</div>
     </div>
-  </div>
 
-  <div class="activite-card">
-    <h3>3. [ANA-RAI] Analyser - Raisonner — QCM</h3>
-    <div class="question-block">
-      <div class="question-label">Pourquoi ne peut-on pas dénombrer directement les entités à notre échelle, et en quoi la quantité de matière résout-elle ce problème ?</div>
-      <div class="qcm-radio-group" id="ai3-group">
-        <label class="qcm-radio-option"><input type="radio" name="ai3" value="a">Parce que N est trop petit pour être mesuré</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai3" value="b">Parce que N est immense (souvent 10²⁰ à 10²⁴ entités), impossible à compter une par une ; la mole permet de manipuler des nombres raisonnables</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai3" value="c">Parce que les entités sont visibles uniquement au microscope électronique</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai3" value="d">Parce que la masse molaire des entités est toujours inconnue</label>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--bleu-moyen);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">3. [ANA-RAI] Analyser - Raisonner</p>
+    <div class="dropdown-qcm">
+      <div class="dq-question">Pourquoi ne peut-on pas dénombrer directement les entités à notre échelle, et en quoi la quantité de matière résout-elle ce problème ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-3')">💡 Indice</button>
       </div>
-      <div class="qcm-actions">
-        <button class="btn-verif" onclick="checkQCM('ai3','b','fb-ai3')">✓ Vérifier</button>
-        <button class="btn-recommencer" onclick="resetQCM('ai3','fb-ai3')">↺ Recommencer</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ai3')">Parce que N est trop petit pour être mesuré</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ai3')">Parce que N est immense (souvent 10²⁰ à 10²⁴ entités), impossible à compter une par une ; la mole permet de manipuler des nombres raisonnables</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ai3')">Parce que les entités sont visibles uniquement au microscope électronique</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ai3')">Parce que la masse molaire des entités est toujours inconnue</div>
       </div>
-      <div id="fb-ai3" class="fb"></div>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-3')">💡 Indice</button>
+      <div class="dq-feedback" id="fb-ai3"></div>
+      
       <div class="aide-box" id="aide-ai-3">Compare, comme dans l'activité 1, l'ordre de grandeur de N (très grand) à celui de n (quelques dixièmes à quelques dizaines de mol). La mole permet de regrouper les entités par « paquets » de N<sub>A</sub>, ce qui ramène les nombres manipulés à une échelle raisonnable.</div>
     </div>
-  </div>
 
-  <div class="activite-card">
-    <h3>Synthèse [COM] Communiquer — QCM</h3>
-    <div class="question-block">
-      <div class="question-label">Quelle affirmation résume le mieux ce que l'animation apporte par rapport au cours ?</div>
-      <div class="qcm-radio-group" id="ai4-group">
-        <label class="qcm-radio-option"><input type="radio" name="ai4" value="a">Elle montre que n et N sont deux grandeurs indépendantes l'une de l'autre</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai4" value="b">Elle illustre dynamiquement la relation n = N/N<sub>A</sub>, en reliant l'échelle microscopique (N) à l'échelle macroscopique mesurable (n)</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai4" value="c">Elle remplace le calcul de la masse molaire d'une espèce</label>
-        <label class="qcm-radio-option"><input type="radio" name="ai4" value="d">Elle sert uniquement à calculer des masses d'échantillons</label>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--bleu-moyen);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;">Synthèse [COM] Communiquer</p>
+    <div class="dropdown-qcm">
+      <div class="dq-question">Quelle affirmation résume le mieux ce que l'animation apporte par rapport au cours ?
+        <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-synthese')">💡 Indice</button>
       </div>
-      <div class="qcm-actions">
-        <button class="btn-verif" onclick="checkQCM('ai4','b','fb-ai4')">✓ Vérifier</button>
-        <button class="btn-recommencer" onclick="resetQCM('ai4','fb-ai4')">↺ Recommencer</button>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ai4')">Elle montre que n et N sont deux grandeurs indépendantes l'une de l'autre</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ai4')">Elle illustre dynamiquement la relation n = N/N<sub>A</sub>, en reliant l'échelle microscopique (N) à l'échelle macroscopique mesurable (n)</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ai4')">Elle remplace le calcul de la masse molaire d'une espèce</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-ai4')">Elle sert uniquement à calculer des masses d'échantillons</div>
       </div>
-      <div id="fb-ai4" class="fb"></div>
-      <button class="aide-toggle" onclick="toggleAide(this,'aide-ai-synthese')">💡 Indice</button>
+      <div class="dq-feedback" id="fb-ai4"></div>
+      
       <div class="aide-box" id="aide-ai-synthese">Pense à mentionner la relation n = N/N<sub>A</sub> et l'intérêt de visualiser dynamiquement le lien entre une grandeur microscopique (N) et une grandeur macroscopique et mesurable (n).</div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn-recommencer" onclick="recommencerActivite('activite-quantitemat')">↺ Recommencer</button>
     </div>
   </div>
 
@@ -1790,37 +1808,63 @@ function parseVal(s){return parseFloat(String(s).replace(',','.').replace(/[×x]
 function approxEq(a,b,pct=0.06){return b!==0&&Math.abs(a-b)/Math.abs(b)<pct;}
 function setFb(id,type,msg){const el=document.getElementById(id);el.className='fb '+type;el.innerHTML=msg;el.style.display='block';}
 
-const QCM_EXPL={
-  ai1:{ok:"✓ Exact ! L'animation met en scène le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub>.",ko:"✗ Ce ne sont pas les bonnes grandeurs. Relance l'animation et repère celles qui apparaissent réellement : N, n et N<sub>A</sub>."},
-  ai2:{ok:"✓ Exact ! N = n × N<sub>A</sub> (ce qui équivaut à n = N / N<sub>A</sub>).",ko:"✗ Reprends l'observation de l'animation : quand n augmente, N augmente proportionnellement, dans le rapport N<sub>A</sub>. La relation est N = n × N<sub>A</sub>."},
-  ai3:{ok:"✓ Exact ! N est un nombre immense, impossible à dénombrer un par un ; la mole regroupe les entités par paquets de N<sub>A</sub> pour manipuler des nombres raisonnables.",ko:"✗ Reviens sur l'ordre de grandeur de N (souvent 10²⁰ à 10²⁴) : c'est ce nombre gigantesque qui rend le comptage direct impossible, pas la taille ou la visibilité des entités."},
-  ai4:{ok:"✓ Exact ! L'animation illustre dynamiquement la relation n = N/N<sub>A</sub>, qui relie l'échelle microscopique (N) et l'échelle macroscopique mesurable (n).",ko:"✗ Reviens à l'objectif de l'animation : elle sert à visualiser le lien entre N et n via N<sub>A</sub>, pas à remplacer d'autres calculs ni à montrer une indépendance entre les grandeurs."}
+/* ══════ ACTIVITÉ 3 : QCM à correction immédiate (même mécanique que séq. Seconde, activité 2) ══════ */
+const AI_FEEDBACK = {
+  'fb-ai1': {
+    correct: "✓ Exact ! L'animation met en scène le nombre d'entités N, la quantité de matière n et le nombre d'Avogadro N<sub>A</sub>.",
+    wrong: {
+      a: "✗ La masse molaire M n'intervient pas dans cette animation : elle met en jeu N, n et N<sub>A</sub>, pas M.",
+      c: "✗ La masse m et le volume V ne sont pas les grandeurs illustrées ici : relance l'animation et repère plutôt N, n et N<sub>A</sub>.",
+      d: "✗ La concentration c n'apparaît pas dans cette animation, qui porte sur le lien entre N, n et N<sub>A</sub>."
+    }
+  },
+  'fb-ai2': {
+    correct: "✓ Exact ! N = n × N<sub>A</sub> (ce qui équivaut à n = N / N<sub>A</sub>).",
+    wrong: {
+      b: "✗ Non — en augmentant n, tu dois observer que N augmente lui aussi (pas l'inverse) : la relation est N = n × N<sub>A</sub>, pas une division.",
+      c: "✗ Non — cette relation ferait diminuer N quand n augmente, ce qui est l'inverse de ce qu'on observe dans l'animation.",
+      d: "✗ Attention aux unités : n (en mol) est bien plus petit que N (sans unité, très grand) ; ce n'est pas n qui vaut N × N<sub>A</sub>, mais l'inverse : N = n × N<sub>A</sub>."
+    }
+  },
+  'fb-ai3': {
+    correct: "✓ Exact ! N est un nombre immense, impossible à dénombrer un par un ; la mole regroupe les entités par paquets de N<sub>A</sub> pour manipuler des nombres raisonnables.",
+    wrong: {
+      a: "✗ Au contraire, N est bien trop grand (pas trop petit) pour être compté un par un : c'est justement ce nombre immense qui pose problème.",
+      c: "✗ Le problème n'est pas la visibilité des entités mais leur nombre astronomique : même visibles, on ne pourrait pas les compter une par une.",
+      d: "✗ La masse molaire n'est pas en cause ici : c'est le nombre immense d'entités (N) qui empêche le comptage direct, pas une masse molaire inconnue."
+    }
+  },
+  'fb-ai4': {
+    correct: "✓ Exact ! L'animation illustre dynamiquement la relation n = N/N<sub>A</sub>, qui relie l'échelle microscopique (N) et l'échelle macroscopique mesurable (n).",
+    wrong: {
+      a: "✗ Au contraire, n et N sont directement liées par la relation N = n × N<sub>A</sub> : elles ne sont pas indépendantes.",
+      c: "✗ Cette animation ne concerne pas la masse molaire : elle illustre le lien entre N et n via N<sub>A</sub>, pas un calcul de masse molaire.",
+      d: "✗ L'animation ne sert pas à calculer des masses : elle illustre le lien entre le nombre d'entités N et la quantité de matière n."
+    }
+  }
 };
-function checkQCM(group,correctValue,fbId){
-  const selected=document.querySelector('input[name="'+group+'"]:checked');
-  const options=document.querySelectorAll('#'+group+'-group .qcm-radio-option');
-  options.forEach(opt=>{
-    const input=opt.querySelector('input');
-    opt.classList.remove('correct','wrong');
-    input.disabled=true;
-    if(input.value===correctValue) opt.classList.add('correct');
-    else if(selected && input.value===selected.value) opt.classList.add('wrong');
-  });
-  if(!selected){setFb(fbId,'ko','Sélectionne une réponse avant de valider la correction.');return;}
-  const isOk=selected.value===correctValue;
-  setFb(fbId,isOk?'ok':'ko',QCM_EXPL[group][isOk?'ok':'ko']);
+
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = AI_FEEDBACK[feedbackId];
+  if (fb && data) {
+    fb.innerHTML = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
 }
-function resetQCM(group,fbId){
-  const options=document.querySelectorAll('#'+group+'-group .qcm-radio-option');
-  options.forEach(opt=>{
-    const input=opt.querySelector('input');
-    opt.classList.remove('correct','wrong');
-    input.disabled=false;
-    input.checked=false;
-  });
-  const fb=document.getElementById(fbId);
-  fb.className='fb';fb.innerHTML='';fb.style.display='none';
+
+function recommencerActivite(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.innerHTML = ''; fb.className = 'dq-feedback'; });
+  card.querySelectorAll('.aide-box.open').forEach(box => box.classList.remove('open'));
+  card.querySelectorAll('.aide-toggle').forEach(btn => btn.textContent = '💡 Indice');
 }
+
 
 let currentMol=null,molIdx=0,stepResults=[];
 

@@ -3704,6 +3704,69 @@ const TRI_LABELS = [
 
 let triAnswered = {};
 
+const TRI_FEEDBACK = {
+  1: {
+    correct: '✓ Exact ! La zone 1 relie Solide → Liquide à température constante : c\'est la fusion.',
+    wrong: {
+      solidification: '✗ La solidification est le sens inverse (Liquide → Solide), c\'est la zone n°2 juste en dessous. Ici la flèche part du Solide vers le Liquide.',
+      sublimation: '✗ La sublimation relie Solide à Gazeux directement (côté gauche du triangle), pas Solide à Liquide (bas).',
+      condensation: '✗ La condensation solide relie Gazeux à Solide (côté gauche), pas Solide à Liquide (bas).',
+      vaporisation: '✗ La vaporisation relie Liquide à Gazeux (côté droit), pas Solide à Liquide (bas).',
+      liquefaction: '✗ La liquéfaction relie Gazeux à Liquide (côté droit), pas Solide à Liquide (bas).'
+    }
+  },
+  2: {
+    correct: '✓ Exact ! La zone 2 relie Liquide → Solide à température constante : c\'est la solidification.',
+    wrong: {
+      fusion: '✗ La fusion est le sens inverse (Solide → Liquide), c\'est la zone n°1 juste au-dessus. Ici la flèche part du Liquide vers le Solide.',
+      sublimation: '✗ La sublimation relie Solide à Gazeux (côté gauche), pas Liquide à Solide (bas).',
+      condensation: '✗ La condensation solide relie Gazeux à Solide (côté gauche), pas Liquide à Solide (bas).',
+      vaporisation: '✗ La vaporisation relie Liquide à Gazeux (côté droit), pas Liquide à Solide (bas).',
+      liquefaction: '✗ La liquéfaction relie Gazeux à Liquide (côté droit), pas Liquide à Solide (bas).'
+    }
+  },
+  3: {
+    correct: '✓ Exact ! La zone 3 relie Solide → Gazeux directement, sans passer par l\'état liquide : c\'est la sublimation.',
+    wrong: {
+      fusion: '✗ La fusion relie Solide à Liquide (bas), pas Solide à Gazeux (côté gauche).',
+      solidification: '✗ La solidification relie Liquide à Solide (bas), pas Solide à Gazeux (côté gauche).',
+      condensation: '✗ La condensation solide est le sens inverse (Gazeux → Solide), c\'est la zone n°4 juste à côté. Ici la flèche part du Solide vers le Gazeux.',
+      vaporisation: '✗ La vaporisation relie Liquide à Gazeux (côté droit), pas Solide à Gazeux (côté gauche).',
+      liquefaction: '✗ La liquéfaction relie Gazeux à Liquide (côté droit), pas Solide à Gazeux (côté gauche).'
+    }
+  },
+  4: {
+    correct: '✓ Exact ! La zone 4 relie Gazeux → Solide directement, sans passer par l\'état liquide : c\'est la condensation solide.',
+    wrong: {
+      fusion: '✗ La fusion relie Solide à Liquide (bas), pas Gazeux à Solide (côté gauche).',
+      solidification: '✗ La solidification relie Liquide à Solide (bas), pas Gazeux à Solide (côté gauche).',
+      sublimation: '✗ La sublimation est le sens inverse (Solide → Gazeux), c\'est la zone n°3 juste à côté. Ici la flèche part du Gazeux vers le Solide.',
+      vaporisation: '✗ La vaporisation relie Liquide à Gazeux (côté droit), pas Gazeux à Solide (côté gauche).',
+      liquefaction: '✗ La liquéfaction relie Gazeux à Liquide (côté droit), pas Gazeux à Solide (côté gauche).'
+    }
+  },
+  5: {
+    correct: '✓ Exact ! La zone 5 relie Liquide → Gazeux : c\'est la vaporisation.',
+    wrong: {
+      fusion: '✗ La fusion relie Solide à Liquide (bas), pas Liquide à Gazeux (côté droit).',
+      solidification: '✗ La solidification relie Liquide à Solide (bas), pas Liquide à Gazeux (côté droit).',
+      sublimation: '✗ La sublimation relie Solide à Gazeux (côté gauche), pas Liquide à Gazeux (côté droit).',
+      condensation: '✗ La condensation solide relie Gazeux à Solide (côté gauche), pas Liquide à Gazeux (côté droit).',
+      liquefaction: '✗ La liquéfaction est le sens inverse (Gazeux → Liquide), c\'est la zone n°6 juste à côté. Ici la flèche part du Liquide vers le Gazeux.'
+    }
+  },
+  6: {
+    correct: '✓ Exact ! La zone 6 relie Gazeux → Liquide : c\'est la liquéfaction.',
+    wrong: {
+      fusion: '✗ La fusion relie Solide à Liquide (bas), pas Gazeux à Liquide (côté droit).',
+      solidification: '✗ La solidification relie Liquide à Solide (bas), pas Gazeux à Liquide (côté droit).',
+      sublimation: '✗ La sublimation relie Solide à Gazeux (côté gauche), pas Gazeux à Liquide (côté droit).',
+      condensation: '✗ La condensation solide relie Gazeux à Solide (côté gauche), pas Gazeux à Liquide (côté droit).',
+      vaporisation: '✗ La vaporisation est le sens inverse (Liquide → Gazeux), c\'est la zone n°5 juste à côté. Ici la flèche part du Gazeux vers le Liquide.'
+    }
+  }
+};
+
 function buildTriQCM() {
   const container = document.getElementById('tri-qcm-list');
   container.innerHTML = '';
@@ -3725,8 +3788,12 @@ function buildTriQCM() {
       btn.onclick = () => triQcmCheck(btn, lab.num, opt.id);
       opts.appendChild(btn);
     });
+    const feedback = document.createElement('div');
+    feedback.className = 'dq-feedback';
+    feedback.id = 'fb-tri-' + lab.num;
     row.appendChild(question);
     row.appendChild(opts);
+    row.appendChild(feedback);
     container.appendChild(row);
   });
 }
@@ -3737,6 +3804,12 @@ function triQcmCheck(el, num, chosenId) {
   group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
   const isCorrect = chosenId === correctLab.id;
   el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById('fb-tri-' + num);
+  const data = TRI_FEEDBACK[num];
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[chosenId]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
   if (isCorrect) {
     triAnswered[num] = true;
     afficherEtiquette(correctLab.id, true);
@@ -3795,6 +3868,12 @@ function corrigerTriangle() {
         btn.classList.remove('correct', 'incorrect');
         if (btn.textContent === lab.text) btn.classList.add('correct');
       });
+    }
+    const fb = document.getElementById('fb-tri-' + lab.num);
+    const data = TRI_FEEDBACK[lab.num];
+    if (fb && data) {
+      fb.textContent = data.correct;
+      fb.className = 'dq-feedback';
     }
   });
   const scoreEl = document.getElementById('tri-score');

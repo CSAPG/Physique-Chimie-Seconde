@@ -436,6 +436,104 @@
 
   .btn-indice { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; padding: 3px 12px; background: var(--indice-clair); color: var(--indice); border: 1.5px solid var(--indice); border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; vertical-align: middle; }
   .btn-indice:hover { background: var(--indice); color: white; }
+
+  /* ── QCM à correction immédiate (dropdown-qcm) ── */
+  .dropdown-qcm { margin-bottom: 18px; }
+  .dropdown-qcm .dq-question {
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 8px;
+    padding-left: 8px;
+    border-left: 3px solid var(--vert);
+    line-height: 1.5;
+  }
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opt {
+    background: #fff;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    padding: 7px 13px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texte);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+  .dq-feedback {
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-height: 18px;
+    color: var(--vert);
+    margin-top: 5px;
+  }
+  .dq-feedback.wrong { color: var(--rouge); }
+
+  /* ── Champ numérique vérifié automatiquement ── */
+  .blank-in {
+    padding: 6px 9px;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    width: 130px;
+  }
+  .exo-btn {
+    background: var(--bleu);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+
+  /* ── Bouton et bloc « Voir la correction » (réutilisés depuis l'Activité 2 de la séquence Seconde) ── */
+  .btn-reveal {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: var(--vert);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-reveal:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
+  .reveal-body {
+    display: none;
+    background: #fff;
+    border: 1.5px solid var(--vert);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.86rem;
+    line-height: 1.6;
+  }
+  .reveal-body.open { display: block; animation: fadeIn 0.2s ease; }
+  .reveal-body strong { color: var(--vert); }
+  .reveal-body .calc-step {
+    background: var(--gris-fond);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 7px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    border-left: 3px solid var(--vert);
+  }
   .indice-box { display: none; background: var(--indice-clair); border: 1.5px solid var(--indice); border-left: 4px solid var(--indice); border-radius: 0 10px 10px 0; padding: 10px 16px; margin: 8px 0 4px; font-size: 0.85rem; line-height: 1.6; color: var(--texte); }
   .indice-box.visible { display: block; animation: fadeIn 0.2s ease; }
   .indice-box strong { color: var(--indice); }
@@ -1523,23 +1621,23 @@
 </div></div>
 <div class="sub-tab-content" id="act-sub-3">
 <div class="card">
-<div class="section-title">Activité 3 :Simulation — Concentration d'une solution</div>
-<div class="exo-card">
-<div class="exo-header">
-<h3>Simulation – Concentration d'une solution</h3>
-<span class="exo-pill simulation">🔬 SIMULATION</span>
+<div class="section-title">Activité 3 — Simulation : Concentration d'une solution</div>
+<div class="activite-card" id="activite-concentration">
+<h3>Activité 3 — Simulation PhET : concentration d'une solution</h3>
+<p style="font-size:0.88rem;margin-bottom:12px;">
+      Simulation interactive (PhET, Université du Colorado, licence libre) : visualisez l'effet du soluté dissous et de la dilution sur la concentration d'une solution.
+    </p>
+<div style="position:relative;max-width:660px;margin:0 auto 12px;border:1.5px solid var(--bleu-activite-bord);border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(45,95,138,0.08);">
+<iframe allowfullscreen="" height="480" loading="lazy" src="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" style="display:block;border:none;background:#fff;" title="Simulation PhET — Concentration d'une solution" width="100%">
+</iframe>
 </div>
-<div class="exo-enonce">
-      Utilisez la simulation interactive PhET pour visualiser l'effet du soluté dissous et de la dilution sur la concentration d'une solution, et vérifier vos calculs.
-    </div>
-<div style="text-align:center;margin-top:14px;">
-<a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" rel="noopener" style="display:inline-flex; align-items:center; gap:8px; background:var(--bleu); color:white; padding:10px 22px; border-radius:8px; font-weight:700; text-decoration:none; font-size:0.88rem; box-shadow:0 2px 8px rgba(45,95,138,0.20);" target="_blank">
-        🔬  Ouvrir la simulation PhET
-      </a>
+<div style="text-align:center;margin-bottom:16px;">
+<a href="https://phet.colorado.edu/sims/html/concentration/latest/concentration_all.html?locale=fr" style="font-size:0.8rem;color:var(--bleu);font-weight:600;" target="_blank">↗ Ouvrir la simulation en plein écran (si l'aperçu ne s'affiche pas)</a>
 </div>
-<div style="background:var(--gris-fond);border-radius:10px;padding:14px 16px;margin-top:16px;">
-<h4 style="margin:0 0 8px 0;font-size:0.95rem;">🧭 Mode d'emploi</h4>
-<ol style="font-size:0.88rem;color:var(--texte-léger);line-height:1.7;padding-left:20px;margin:0;">
+<!-- Guide d'utilisation -->
+<div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+<p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+<ol style="font-size:0.86rem;line-height:1.7;padding-left:20px;">
 <li>Ouvrez l'onglet <strong>« Solutés »</strong> de la simulation et choisissez un soluté (ex : chlorure de cobalt(II)).</li>
 <li>Ajoutez progressivement du soluté à l'aide de la cuillère et observez l'évolution de la couleur et de la valeur de concentration affichée.</li>
 <li>Continuez à ajouter du soluté jusqu'à observer un dépôt au fond du bécher (solution saturée).</li>
@@ -1547,51 +1645,61 @@
 <li>Répondez aux questions ci-dessous au fur et à mesure de votre manipulation.</li>
 </ol>
 </div>
+<!-- Q1 — QCM conceptuel, corrigé immédiatement -->
+<div class="dropdown-qcm">
+<div class="dq-question">1. Lorsqu'on ajoute progressivement du soluté dans l'eau (volume constant), comment évolue l'intensité de la couleur de la solution ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'augmente','fb-conc1')">Elle augmente : plus la concentration en masse C<sub>m</sub> est élevée, plus la teinte est intense</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'diminue','fb-conc1')">Elle diminue quand on ajoute du soluté</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'constante','fb-conc1')">Elle reste constante, seul le volume compte</div>
 </div>
-<div class="exo-card" style="margin-top:16px;">
-<div class="exo-header">
-<h3>Questions – Simulation concentration</h3>
-<span class="exo-pill simulation">🔬 SIMULATION</span>
+<div class="dq-feedback" id="fb-conc1"></div>
 </div>
+<!-- Q2 — Calcul vérifié automatiquement -->
 <div class="question-block">
-<div class="question-label">1. Lorsqu'on ajoute progressivement du soluté dans l'eau (volume constant), comment évolue l'intensité de la couleur de la solution ? À quelle grandeur physique cette évolution est-elle liée ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-simu1')">💡 Indice</button>
-<div class="indice-box" id="ind-simu1">Observe le rapport entre la masse de soluté dissous et le volume de solution : c'est la définition même de la concentration en masse C<sub>m</sub>.</div>
-<textarea class="rep-zone" id="r-simu1" placeholder="Rédigez votre réponse…"></textarea>
+<div class="question-label">2. Un groupe a mesuré, dans l'onglet « Solutés » : m = 15 g de soluté dissous dans un volume V = 250 mL de solution. Calculez la concentration en masse C<sub>m</sub> (en g·L⁻¹).</div>
+<button class="btn-indice" onclick="toggleIndice('ind-conc2')">💡 Indice</button>
+<div class="indice-box" id="ind-conc2">Utilise la formule C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Attention aux unités : le volume doit être exprimé en litres (250 mL = 0,250 L).</div>
+<input class="blank-in" id="conc-num2" placeholder="Cₘ en g·L⁻¹" step="0.01" style="max-width:160px;" type="number"/>
+<div class="exo-btn-row"><button class="exo-btn" onclick="verifierNum('conc-num2', 60, 1, 'fb-conc2', 'corr-conc2')">Vérifier</button></div>
+<div class="dq-feedback" id="fb-conc2"></div>
+<div class="reveal-body" id="corr-conc2">
+<div class="calc-step">C<sub>m</sub> = m / V = 15 g / 0,250 L = <strong>60 g·L⁻¹</strong></div>
 </div>
-<div class="question-block">
-<div class="question-label">2. Relevez sur l'interface une masse de soluté dissous et le volume de solution correspondant. Retrouvez par le calcul la valeur de la concentration en masse affichée.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-simu2')">💡 Indice</button>
-<div class="indice-box" id="ind-simu2">Utilise la formule C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Attention aux unités : le volume doit être exprimé en litres.</div>
-<textarea class="rep-zone" id="r-simu2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
-<div class="question-block">
-<div class="question-label">3. Que se passe-t-il lorsque vous continuez à ajouter du soluté après l'apparition du dépôt au fond du bécher ? La concentration de la solution continue-t-elle d'augmenter ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-simu3')">💡 Indice</button>
-<div class="indice-box" id="ind-simu3">Un dépôt solide au fond du bécher signifie que le soluté ne se dissout plus : seule la partie effectivement dissoute compte pour la concentration.</div>
-<textarea class="rep-zone" id="r-simu3" placeholder="Rédigez votre réponse…"></textarea>
+<!-- Q3 — QCM conceptuel, corrigé immédiatement -->
+<div class="dropdown-qcm">
+<div class="dq-question">3. Que se passe-t-il lorsque vous continuez à ajouter du soluté après l'apparition du dépôt au fond du bécher ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'sature','fb-conc3')">La concentration n'augmente plus : la solution est saturée</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'augmente','fb-conc3')">La concentration continue d'augmenter</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'diminue','fb-conc3')">La concentration diminue</div>
 </div>
-<div class="question-block">
-<div class="question-label">4. Dans l'onglet « Dilutions », ajoutez de l'eau à une solution existante. Comment évolue la concentration ? Est-ce cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-simu4')">💡 Indice</button>
-<div class="indice-box" id="ind-simu4">Lors d'une dilution, la quantité de soluté ne change pas : seul le volume de solution augmente. Cette relation traduit la conservation de la matière dissoute entre solution mère et solution fille.</div>
-<textarea class="rep-zone" id="r-simu4" placeholder="Rédigez votre réponse…"></textarea>
+<div class="dq-feedback" id="fb-conc3"></div>
 </div>
-<div class="question-block">
-<div class="question-label">5. Comparez deux solutés différents réglés à la même valeur de concentration. Ont-ils la même intensité de couleur ? Comment l'expliquer ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-simu5')">💡 Indice</button>
-<div class="indice-box" id="ind-simu5">La concentration renseigne sur la quantité de soluté dissous, mais l'intensité de couleur dépend aussi de la nature chimique de l'espèce dissoute (chaque espèce a sa propre « signature » colorée).</div>
-<textarea class="rep-zone" id="r-simu5" placeholder="Rédigez votre réponse…"></textarea>
+<!-- Q4 — QCM conceptuel, corrigé immédiatement -->
+<div class="dropdown-qcm">
+<div class="dq-question">4. Dans l'onglet « Dilutions », vous ajoutez de l'eau à une solution existante. Comment évolue la concentration, et est-ce cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'dilue','fb-conc4')">Elle diminue : la quantité de soluté ne change pas, seul le volume augmente — cohérent avec t<sub>m</sub>V<sub>m</sub> = t<sub>f</sub>V<sub>f</sub></div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'elimine','fb-conc4')">Elle diminue car une partie du soluté est éliminée avec l'eau ajoutée</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'constante','fb-conc4')">Elle reste constante, l'eau ajoutée ne change rien</div>
 </div>
-<button class="btn-correction" onclick="toggleCorr('corr-simu')">▶ Voir la correction</button>
-<button class="btn-recommencer" onclick="recommencerExo(this,'corr-simu')">↺ Recommencer</button>
-<div class="correction" id="corr-simu">
-<strong>1.</strong> Plus on ajoute de soluté (à volume constant), plus la couleur de la solution devient intense. Cette évolution est liée à la <strong>concentration en masse</strong> du soluté dans la solution : plus elle est élevée, plus la teinte est foncée (tant que la solution n'est pas saturée).<br/><br/>
-<strong>2.</strong> On applique la relation C<sub>m</sub> = m<sub>soluté</sub> / V<sub>solution</sub>. Par exemple, pour m = 10 g dissous dans V = 0,50 L, on retrouve C<sub>m</sub> = 10 / 0,50 = 20 g·L⁻¹, cohérent avec la valeur affichée par la simulation.<br/><br/>
-<strong>3.</strong> Au-delà de l'apparition du dépôt, la solution est <strong>saturée</strong> : la concentration n'augmente plus, elle reste égale à la concentration maximale de dissolution (concentration de saturation). Le soluté ajouté en excès reste sous forme solide, non dissous, au fond du bécher.<br/><br/>
-<strong>4.</strong> Ajouter de l'eau (sans ajouter de soluté) <strong>dilue</strong> la solution : le volume augmente alors que la quantité de soluté reste inchangée, donc la concentration diminue. C'est cohérent avec la relation t<sub>m</sub> × V<sub>m</sub> = t<sub>f</sub> × V<sub>f</sub> (conservation de la quantité de soluté lors d'une dilution).<br/><br/>
-<strong>5.</strong> Non, deux solutés différents à la même concentration n'ont pas nécessairement la même intensité de couleur : chaque espèce chimique possède sa propre couleur caractéristique. L'intensité colorée dépend donc à la fois de la concentration <em>et</em> de la nature du soluté (notion que vous retrouverez avec les échelles de teinte et la spectrophotométrie).
-    </div>
+<div class="dq-feedback" id="fb-conc4"></div>
+</div>
+<!-- Q5 — QCM conceptuel, corrigé immédiatement -->
+<div class="dropdown-qcm">
+<div class="dq-question">5. Vous comparez deux solutés différents réglés à la même valeur de concentration. Ont-ils la même intensité de couleur ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'nature','fb-conc5')">Non : chaque espèce chimique a sa propre teinte caractéristique</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'oui','fb-conc5')">Oui : la couleur ne dépend que de la concentration</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'concentration','fb-conc5')">Non, car les deux solutions n'ont en réalité pas la même concentration</div>
+</div>
+<div class="dq-feedback" id="fb-conc5"></div>
+</div>
+<div style="text-align:center;margin-top:16px;">
+<button class="btn-reveal" onclick="recommencer('activite-concentration')" style="background:var(--texte-léger);">↺ Recommencer</button>
+</div>
 </div>
 
 </div></div>
@@ -2960,6 +3068,95 @@ function calcDilution() {
     <div style="margin-top:8px;font-size:0.83rem;color:var(--texte-léger);">Protocole : prélever ${(vm*1000).toFixed(1)} mL de solution mère à la pipette jaugée, verser dans une fiole jaugée de ${vfML} mL et compléter avec de l'eau distillée jusqu'au trait de jauge.</div>
   `;
   res.className = 'calc-result visible';
+}
+
+// ── Activité 3 : QCM et vérification numérique (même mécanique que l'Activité 2 de la séquence Seconde) ──
+const CONC_FEEDBACK = {
+  'fb-conc1': {
+    correct: '✓ Exact ! Plus on ajoute de soluté à volume constant, plus la concentration en masse Cₘ = m/V augmente, et plus la couleur devient intense.',
+    wrong: {
+      'diminue': '✗ Au contraire : plus on ajoute de soluté à volume constant, plus la couleur devient intense (davantage de matière dissoute par litre).',
+      'constante': '✗ La couleur évolue bien : elle dépend de la quantité de soluté dissous rapportée au volume, c\'est-à-dire de la concentration en masse Cₘ, qui augmente quand on ajoute du soluté.'
+    }
+  },
+  'fb-conc3': {
+    correct: '✓ Exact ! Une fois la solution saturée, la concentration reste égale à la concentration de saturation : tout excès de soluté ajouté reste solide, non dissous, au fond du bécher.',
+    wrong: {
+      'augmente': '✗ Non — au-delà de la saturation, le soluté ajouté ne se dissout plus : il reste solide et n\'augmente donc plus la concentration de la solution.',
+      'diminue': '✗ La concentration ne diminue pas non plus : elle reste stable, égale à la valeur de saturation, tant qu\'un dépôt solide est visible au fond.'
+    }
+  },
+  'fb-conc4': {
+    correct: '✓ Exact ! Lors d\'une dilution, la quantité de soluté est conservée : seul le volume augmente, donc la concentration diminue. C\'est exactement ce que traduit tₘ × Vₘ = t_f × V_f.',
+    wrong: {
+      'elimine': '✗ Non — l\'eau ajoutée ne retire aucun soluté : la quantité de matière dissoute reste la même, seul le volume de solution change.',
+      'constante': '✗ Attention : c\'est la quantité de soluté qui reste constante, pas la concentration. Comme le volume augmente, la concentration diminue forcément (Cₘ = m/V).'
+    }
+  },
+  'fb-conc5': {
+    correct: '✓ Exact ! La concentration renseigne sur la quantité de soluté dissous, mais l\'intensité de la couleur dépend aussi de la nature chimique de l\'espèce dissoute : chaque soluté a sa propre « signature » colorée.',
+    wrong: {
+      'oui': '✗ Non — à concentration égale, deux espèces chimiques différentes peuvent avoir des teintes très différentes : la couleur ne dépend pas que de la concentration.',
+      'concentration': '✗ La simulation permet justement de régler deux solutés à la même concentration affichée : l\'écart de teinte vient bien de la nature chimique du soluté, pas d\'un écart de concentration.'
+    }
+  }
+};
+
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = CONC_FEEDBACK[feedbackId];
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
+}
+
+function verifierNum(inputId, valeur, tolerance, feedbackId, corrId) {
+  const input = document.getElementById(inputId);
+  const val = parseFloat(input.value);
+  const fb = document.getElementById(feedbackId);
+  const corr = document.getElementById(corrId);
+  if (isNaN(val)) {
+    fb.textContent = '✗ Merci de saisir une valeur numérique.';
+    fb.className = 'dq-feedback wrong';
+    return;
+  }
+  const ok = Math.abs(val - valeur) <= tolerance;
+  if (ok) {
+    fb.textContent = '✓ Bonne réponse !';
+    fb.className = 'dq-feedback';
+    input.style.borderColor = 'var(--vert)';
+  } else {
+    fb.textContent = '✗ Incorrect — vérifie ton calcul (voir la correction ci-dessous).';
+    fb.className = 'dq-feedback wrong';
+    input.style.borderColor = 'var(--rouge)';
+  }
+  if (corr) corr.classList.add('open');
+}
+
+function recommencer(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(btn => {
+    btn.classList.remove('correct', 'incorrect');
+  });
+  card.querySelectorAll('.dq-feedback').forEach(fb => {
+    fb.textContent = '';
+    fb.className = 'dq-feedback';
+  });
+  card.querySelectorAll('.blank-in').forEach(input => {
+    input.value = '';
+    input.style.borderColor = '';
+  });
+  card.querySelectorAll('.reveal-body').forEach(corr => {
+    corr.classList.remove('open');
+  });
+  card.querySelectorAll('.indice-box').forEach(box => {
+    box.classList.remove('visible');
+  });
 }
 
 // ── Back to top ──

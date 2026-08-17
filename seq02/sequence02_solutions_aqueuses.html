@@ -1291,25 +1291,23 @@
 <div class="exemple-box">
 <strong>Autres solvants :</strong> cyclohexane, dichlorométhane — utilisés pour l'extraction en chimie organique.
   </div>
-<div class="exo-card">
+<div class="exo-card" id="exo-card-qcrit">
 <div class="exo-header">
 <h3>Question – Critère de distinction</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
-<div class="qcm-grid">
-<div class="qcm-item" id="qcrit">
-<div>
-<div class="substance">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
-<div class="qcm-feedback" id="fb-qcrit"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">Sur le schéma ci-dessus, quel critère permet de distinguer le solvant du soluté ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'proportion','fb-qcrit')">La proportion (majoritaire / minoritaire)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'couleur','fb-qcrit')">La couleur des espèces</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'taille','fb-qcrit')">La taille des particules</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La proportion (majoritaire / minoritaire)','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La proportion (majoritaire / minoritaire)</button>
-<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La couleur des espèces','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La couleur des espèces</button>
-<button class="qcm-btn" onclick="repondreQCM('qcrit','La proportion (majoritaire / minoritaire)','La taille des particules','C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.','fb-qcrit')">La taille des particules</button>
+<div class="dq-feedback" id="fb-qcrit"></div>
 </div>
+<div style="text-align:center;margin-top:14px;">
+<button class="btn-recommencer" onclick="recommencer('exo-card-qcrit')">↺ Recommencer</button>
 </div>
-</div>
-<button class="btn-recommencer" onclick="recommencerExo(this,null,['qcrit'])">↺ Recommencer</button>
 </div>
 
 </div></div>
@@ -1390,44 +1388,38 @@
 <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">c. Solution saturée</h3>
 <p>Une solution est dite <strong>saturée</strong> lorsqu'elle ne peut plus dissoudre de soluté supplémentaire : tout ajout de soluté reste alors sous forme non dissoute (solide non dissous au fond du récipient, par exemple). La concentration correspondante est appelée <strong>concentration maximale</strong> C<sub>max</sub>.</p>
 </div>
-<div class="exo-card">
+<div class="exo-card" id="exo-card-qdiss">
 <div class="exo-header">
 <h3>Application — Dissolution et saturation</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
-<div class="qcm-grid">
-<div class="qcm-item" id="qdiss1">
-<div>
-<div class="substance">a. Dissoudre un solide dans un solvant signifie…</div>
-<div class="qcm-feedback" id="fb-qdiss1"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">a. Dissoudre un solide dans un solvant signifie…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'fondre','fb-qdiss1')">Faire fondre le solide (changement d'état)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'disperser','fb-qdiss1')">Faire disparaître les cristaux visibles, dispersés à l'échelle moléculaire ou ionique</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire fondre le solide','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire fondre le solide (changement d'état)</button>
-<button class="qcm-btn" onclick="repondreQCM('qdiss1','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Faire disparaître les cristaux visibles, dispersés à l\'échelle moléculaire ou ionique','Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.','fb-qdiss1')">Faire disparaître les cristaux visibles, dispersés à l'échelle moléculaire ou ionique</button>
+<div class="dq-feedback" id="fb-qdiss1"></div>
 </div>
+<div class="dropdown-qcm">
+<div class="dq-question">b. Une solution est dite saturée quand…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'sature','fb-qdiss2')">elle ne peut plus dissoudre de soluté, qui reste alors visible au fond</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'chaude','fb-qdiss2')">elle est devenue trop chaude</div>
 </div>
-<div class="qcm-item" id="qdiss2">
-<div>
-<div class="substance">b. Une solution est dite saturée quand…</div>
-<div class="qcm-feedback" id="fb-qdiss2"></div>
+<div class="dq-feedback" id="fb-qdiss2"></div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle ne peut plus dissoudre de soluté, qui reste alors visible au fond</button>
-<button class="qcm-btn" onclick="repondreQCM('qdiss2','elle ne peut plus dissoudre de soluté, qui reste alors visible au fond','elle est devenue trop chaude','Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).','fb-qdiss2')">elle est devenue trop chaude</button>
+<div class="dropdown-qcm">
+<div class="dq-question">c. Pour peser précisément la masse de soluté à dissoudre, on utilise…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'eprouvette','fb-qdiss3')">une éprouvette graduée</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'balance','fb-qdiss3')">une balance (avec coupelle ou sabot de pesée)</div>
 </div>
+<div class="dq-feedback" id="fb-qdiss3"></div>
 </div>
-<div class="qcm-item" id="qdiss3">
-<div>
-<div class="substance">c. Pour peser précisément la masse de soluté à dissoudre, on utilise…</div>
-<div class="qcm-feedback" id="fb-qdiss3"></div>
+<div style="text-align:center;margin-top:14px;">
+<button class="btn-recommencer" onclick="recommencer('exo-card-qdiss')">↺ Recommencer</button>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une éprouvette graduée','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une éprouvette graduée</button>
-<button class="qcm-btn" onclick="repondreQCM('qdiss3','une balance (avec coupelle ou sabot de pesée)','une balance (avec coupelle ou sabot de pesée)','On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.','fb-qdiss3')">une balance (avec coupelle ou sabot de pesée)</button>
-</div>
-</div>
-</div>
-<button class="btn-recommencer" onclick="recommencerExo(this,null,['qdiss1','qdiss2','qdiss3'])">↺ Recommencer</button>
 </div>
 
 </div></div>
@@ -1959,40 +1951,34 @@
 <h3>Exercice 1 — Qu'est-ce qu'une solution ?</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
-<div class="qcm-grid">
-<div class="qcm-item" id="q1">
-<div>
-<div class="substance">a. Une solution est toujours...</div>
-<div class="qcm-feedback" id="fb-q1"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">a. Une solution est toujours...</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'corps-pur','fb-q1')">Un corps pur</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'homogene','fb-q1')">Un mélange homogène</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'heterogene','fb-q1')">Un mélange hétérogène</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un corps pur</button>
-<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange homogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange homogène</button>
-<button class="qcm-btn" onclick="repondreQCM('q1','Un mélange homogène','Un mélange hétérogène','Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).','fb-q1')">Un mélange hétérogène</button>
+<div class="dq-feedback" id="fb-q1"></div>
 </div>
+<div class="dropdown-qcm">
+<div class="dq-question">b. Dans une solution sucrée, le sucre est...</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'solute','fb-q2')">le soluté</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'solvant','fb-q2')">le solvant</div>
 </div>
-<div class="qcm-item" id="q2">
-<div>
-<div class="substance">b. Dans une solution sucrée, le sucre est...</div>
-<div class="qcm-feedback" id="fb-q2"></div>
+<div class="dq-feedback" id="fb-q2"></div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le soluté','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le soluté</button>
-<button class="qcm-btn" onclick="repondreQCM('q2','le soluté','le solvant','Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.','fb-q2')">le solvant</button>
+<div class="dropdown-qcm">
+<div class="dq-question">c. Un soluté peut être...</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'solide-seul','fb-q3')">Solide uniquement</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'tous-etats','fb-q3')">Solide, liquide ou gazeux</div>
 </div>
+<div class="dq-feedback" id="fb-q3"></div>
 </div>
-<div class="qcm-item" id="q3">
-<div>
-<div class="substance">c. Un soluté peut être...</div>
-<div class="qcm-feedback" id="fb-q3"></div>
+<div style="text-align:center;margin-top:14px;">
+<button class="btn-recommencer" onclick="recommencer('exo-solution-test')">↺ Recommencer</button>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide uniquement','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide uniquement</button>
-<button class="qcm-btn" onclick="repondreQCM('q3','Solide, liquide ou gazeux','Solide, liquide ou gazeux','Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.','fb-q3')">Solide, liquide ou gazeux</button>
-</div>
-</div>
-</div>
-<button class="btn-recommencer" onclick="recommencerExo(this,null,['q1','q2','q3'])">↺ Recommencer</button>
 </div></div><div class="exo-item-content" id="exoitem-solvants-solutes"><div class="card" id="exo-solvants-solutes" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice 2 — Solvants et solutés</h3>
@@ -2034,49 +2020,41 @@
 <h3>Exercice 3 — Identifier solvant et soluté</h3>
 <span class="exo-pill">📝 QCM</span>
 </div>
-<div class="qcm-grid">
-<div class="qcm-item" id="nf1q1">
-<div>
-<div class="substance">a. Dans le sérum physiologique (eau + chlorure de sodium à 9 g·L⁻¹), le solvant est…</div>
-<div class="qcm-feedback" id="fb-nf1q1"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">a. Dans le sérum physiologique (eau + chlorure de sodium à 9 g·L⁻¹), le solvant est…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'eau','fb-nf1q1')">l'eau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'nacl','fb-nf1q1')">le chlorure de sodium</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','l\'eau','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">l'eau</button>
-<button class="qcm-btn" onclick="repondreQCM('nf1q1','l\'eau','le chlorure de sodium','L\'eau est très largement majoritaire : c\'est le solvant.','fb-nf1q1')">le chlorure de sodium</button>
+<div class="dq-feedback" id="fb-nf1q1"></div>
 </div>
+<div class="dropdown-qcm">
+<div class="dq-question">b. Dans un vernis à ongles (acétone + colorants + résines), le soluté est…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'colorants','fb-nf1q2')">les colorants et résines</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'acetone','fb-nf1q2')">l'acétone</div>
 </div>
-<div class="qcm-item" id="nf1q2">
-<div>
-<div class="substance">b. Dans un vernis à ongles (acétone + colorants + résines), le soluté est…</div>
-<div class="qcm-feedback" id="fb-nf1q2"></div>
+<div class="dq-feedback" id="fb-nf1q2"></div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','les colorants et résines','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">les colorants et résines</button>
-<button class="qcm-btn" onclick="repondreQCM('nf1q2','les colorants et résines','l\'acétone','L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.','fb-nf1q2')">l'acétone</button>
+<div class="dropdown-qcm">
+<div class="dq-question">c. Un soda (eau + sucre + CO₂ dissous + arômes) est un mélange…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'homogene','fb-nf1q3')">homogène</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'heterogene','fb-nf1q3')">hétérogène</div>
 </div>
+<div class="dq-feedback" id="fb-nf1q3"></div>
 </div>
-<div class="qcm-item" id="nf1q3">
-<div>
-<div class="substance">c. Un soda (eau + sucre + CO₂ dissous + arômes) est un mélange…</div>
-<div class="qcm-feedback" id="fb-nf1q3"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">d. Un soluté peut être de nature…</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'moleculaire-seul','fb-nf1q4')">moléculaire uniquement</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'moleculaire-ou-ionique','fb-nf1q4')">moléculaire ou ionique</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','homogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">homogène</button>
-<button class="qcm-btn" onclick="repondreQCM('nf1q3','homogène','hétérogène','Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.','fb-nf1q3')">hétérogène</button>
+<div class="dq-feedback" id="fb-nf1q4"></div>
 </div>
+<div style="text-align:center;margin-top:14px;">
+<button class="btn-recommencer" onclick="recommencer('exo-nouv-facile1')">↺ Recommencer</button>
 </div>
-<div class="qcm-item" id="nf1q4">
-<div>
-<div class="substance">d. Un soluté peut être de nature…</div>
-<div class="qcm-feedback" id="fb-nf1q4"></div>
-</div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire uniquement','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire uniquement</button>
-<button class="qcm-btn" onclick="repondreQCM('nf1q4','moléculaire ou ionique','moléculaire ou ionique','Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).','fb-nf1q4')">moléculaire ou ionique</button>
-</div>
-</div>
-</div>
-<button class="btn-recommencer" onclick="recommencerExo(this,null,['nf1q1','nf1q2','nf1q3','nf1q4'])">↺ Recommencer</button>
 </div></div><div class="exo-item-content" id="exoitem-conc-eau-sucree"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
 <h3>Exercice 4 — Concentration en masse d'une eau sucrée</h3>
@@ -2110,52 +2088,44 @@
 <span class="exo-pill">INTERACTIF</span>
 </div>
 <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:12px;">Pour préparer une solution par <strong>dissolution</strong> (volume précis), quelle verrerie utilise-t-on pour chaque étape ? Clique sur la bonne réponse :</p>
-<div class="qcm-grid">
-<div class="qcm-item" id="v1">
-<div>
-<div class="substance">Peser le solide (soluté)</div>
-<div class="qcm-feedback" id="fb-v1"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">Peser le solide (soluté)</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'balance','fb-v1')">Balance + coupelle</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'eprouvette','fb-v1')">Éprouvette graduée</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Balance + coupelle','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Balance + coupelle</button>
-<button class="qcm-btn" onclick="repondreQCM('v1','Balance + coupelle','Éprouvette graduée','La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.','fb-v1')">Éprouvette graduée</button>
+<div class="dq-feedback" id="fb-v1"></div>
 </div>
+<div class="dropdown-qcm">
+<div class="dq-question">Dissoudre le solide puis ajuster au trait de jauge</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'becher','fb-v2')">Bécher</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'fiole','fb-v2')">Fiole jaugée</div>
 </div>
-<div class="qcm-item" id="v2">
-<div>
-<div class="substance">Dissoudre le solide puis ajuster au trait de jauge</div>
-<div class="qcm-feedback" id="fb-v2"></div>
+<div class="dq-feedback" id="fb-v2"></div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Bécher','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Bécher</button>
-<button class="qcm-btn" onclick="repondreQCM('v2','Fiole jaugée','Fiole jaugée','La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.','fb-v2')">Fiole jaugée</button>
+<div class="dropdown-qcm">
+<div class="dq-question">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'pipette','fb-v3')">Pipette jaugée</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'verre-pied','fb-v3')">Verre à pied</div>
 </div>
+<div class="dq-feedback" id="fb-v3"></div>
 </div>
-<div class="qcm-item" id="v3">
-<div>
-<div class="substance">Mesurer un petit volume avec précision (ex : 10,0 mL)</div>
-<div class="qcm-feedback" id="fb-v3"></div>
+<div class="dropdown-qcm">
+<div class="dq-question">Mesurer un volume approximatif (ex : pour rincer)</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'becher','fb-v4')">Bécher</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'fiole','fb-v4')">Fiole jaugée</div>
 </div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Pipette jaugée','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Pipette jaugée</button>
-<button class="qcm-btn" onclick="repondreQCM('v3','Pipette jaugée','Verre à pied','La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.','fb-v3')">Verre à pied</button>
-</div>
-</div>
-<div class="qcm-item" id="v4">
-<div>
-<div class="substance">Mesurer un volume approximatif (ex : pour rincer)</div>
-<div class="qcm-feedback" id="fb-v4"></div>
-</div>
-<div class="qcm-choices">
-<button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Bécher','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Bécher</button>
-<button class="qcm-btn" onclick="repondreQCM('v4','Bécher','Fiole jaugée','Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.','fb-v4')">Fiole jaugée</button>
-</div>
-</div>
+<div class="dq-feedback" id="fb-v4"></div>
 </div>
 <div class="remarque-box" style="margin-top:14px;">
 <strong>🔑 À retenir :</strong> plus la verrerie est précise (fiole jaugée, pipette jaugée), plus elle est réservée à des mesures de volumes fixes et exacts. Le bécher et l'éprouvette graduée donnent des mesures approximatives.
     </div>
-<button class="btn-recommencer" onclick="recommencerExo(this,null,['v1','v2','v3','v4'])" style="margin-top:14px;">↺ Recommencer</button>
+<div style="text-align:center;margin-top:14px;">
+<button class="btn-recommencer" onclick="recommencer('exo-verrerie')">↺ Recommencer</button>
+</div>
 </div></div><div class="exo-item-content" id="exoitem-glucose"><div class="card" id="exo-glucose" style="border-left:4px solid var(--orange);">
 <div class="exo-header">
 <h3>Exercice 2 — Solution de glucose</h3>
@@ -2172,7 +2142,7 @@
 <textarea class="rep-zone" id="r-gl1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Comparer t à ρ<sub>glucose</sub> et conclure.
+<div class="question-label"><span>2. Comparer t à ρ<sub>glucose</sub> et conclure.</span>
 <button class="btn-indice" onclick="toggleIndice('ind-gl2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-gl2">Compare la valeur trouvée pour t à celle de ρ<sub>glucose</sub> : plus t est petite devant ρ<sub>glucose</sub>, plus la solution contient peu de soluté par rapport à ce que pourrait contenir le glucose pur (solution diluée).</div>
 <textarea class="rep-zone" id="r-gl2" placeholder="Rédigez votre démarche…"></textarea>
@@ -2202,7 +2172,7 @@
 <textarea class="rep-zone" id="r-di1" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Calculer le volume v<sub>m</sub> de solution mère à prélever.
+<div class="question-label"><span>2. Calculer le volume Vm de solution mère à prélever.</span>
 <button class="btn-indice" onclick="toggleIndice('ind-di2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-di2">Utilise la relation F = V<sub>f</sub> / V<sub>m</sub>, avec V<sub>f</sub> = 0,200 L donné dans l'énoncé, pour isoler V<sub>m</sub>.</div>
 <textarea class="rep-zone" id="r-di2" placeholder="Rédigez votre démarche…"></textarea>
@@ -2369,7 +2339,7 @@
 <textarea class="rep-zone" id="r-nd1-2" placeholder="Rédigez votre démarche…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.
+<div class="question-label"><span>3. Calculer le volume V<sub>m</sub> de solution mère à prélever pour préparer la solution fille.</span>
 <button class="btn-indice" onclick="toggleIndice('ind-nd1-3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd1-3">Repars de F = V<sub>f</sub> / V<sub>m</sub> pour isoler V<sub>m</sub>, en utilisant le facteur F trouvé à la question précédente et V<sub>f</sub> = 100 mL.</div>
 <textarea class="rep-zone" id="r-nd1-3" placeholder="Rédigez votre démarche…"></textarea>
@@ -3084,7 +3054,99 @@ function calcDilution() {
 }
 
 // ── Activité 3 : QCM et vérification numérique (même mécanique que l'Activité 2 de la séquence Seconde) ──
-const CONC_FEEDBACK = {
+const QCM_FEEDBACK = {
+  'fb-qcrit': {
+    correct: '✓ Exact ! C\'est la proportion qui définit les rôles. Le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires, quelle que soit leur nature.',
+    wrong: {
+      'couleur': '✗ La couleur des espèces n\'entre pas en jeu. C\'est la proportion qui définit les rôles : le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires.',
+      'taille': '✗ La taille des particules n\'entre pas en jeu. C\'est la proportion qui définit les rôles : le solvant est l\'espèce majoritaire, le ou les solutés sont minoritaires.'
+    }
+  },
+  'fb-qdiss1': {
+    correct: '✓ Exact ! Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.',
+    wrong: {
+      'fondre': '✗ Dissoudre n\'est pas fondre : le solide disparaît sans changement d\'état, ses entités se dispersent dans le solvant.'
+    }
+  },
+  'fb-qdiss2': {
+    correct: '✓ Exact ! Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).',
+    wrong: {
+      'chaude': '✗ La température n\'est pas en cause ici. Au-delà de la concentration maximale, le soluté supplémentaire ne se dissout plus et reste visible (dépôt, précipité).'
+    }
+  },
+  'fb-qdiss3': {
+    correct: '✓ Exact ! On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.',
+    wrong: {
+      'eprouvette': '✗ On pèse une masse avec une balance ; l\'éprouvette graduée sert à mesurer un volume, pas une masse.'
+    }
+  },
+  'fb-q1': {
+    correct: '✓ Exact ! Une solution est par définition un mélange liquide homogène (les constituants ne sont pas distinguables, même au microscope optique).',
+    wrong: {
+      'corps-pur': '✗ Une solution est un mélange (au moins deux espèces), pas un corps pur. C\'est un mélange liquide homogène.',
+      'heterogene': '✗ Une solution est au contraire homogène : les constituants ne sont pas distinguables, même au microscope optique.'
+    }
+  },
+  'fb-q2': {
+    correct: '✓ Exact ! Le sucre est l\'espèce dissoute : c\'est le soluté. L\'eau, majoritaire, est le solvant.',
+    wrong: {
+      'solvant': '✗ Le sucre n\'est pas le solvant : c\'est l\'espèce dissoute (minoritaire), donc le soluté. L\'eau, majoritaire, est le solvant.'
+    }
+  },
+  'fb-q3': {
+    correct: '✓ Exact ! Un soluté peut être de l\'état solide, liquide ou gazeux, et de nature moléculaire ou ionique.',
+    wrong: {
+      'solide-seul': '✗ Un soluté n\'est pas forcément solide : il peut être solide, liquide ou gazeux, et de nature moléculaire ou ionique.'
+    }
+  },
+  'fb-nf1q1': {
+    correct: '✓ Exact ! L\'eau est très largement majoritaire : c\'est le solvant.',
+    wrong: {
+      'nacl': '✗ Le chlorure de sodium est ici minoritaire et dissous : c\'est le soluté. L\'eau, majoritaire, est le solvant.'
+    }
+  },
+  'fb-nf1q2': {
+    correct: '✓ Exact ! L\'acétone, majoritaire, est le solvant ; colorants et résines, minoritaires et dissous, sont les solutés.',
+    wrong: {
+      'acetone': '✗ L\'acétone est ici le solvant (majoritaire) et non un soluté. Les colorants et résines, minoritaires, sont les solutés.'
+    }
+  },
+  'fb-nf1q3': {
+    correct: '✓ Exact ! Aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.',
+    wrong: {
+      'heterogene': '✗ Au contraire, aucun constituant n\'est visible séparément à l\'œil nu : le mélange est homogène.'
+    }
+  },
+  'fb-nf1q4': {
+    correct: '✓ Exact ! Un soluté peut être moléculaire (ex : sucre) ou ionique (ex : sel, qui se dissocie en ions).',
+    wrong: {
+      'moleculaire-seul': '✗ Un soluté n\'est pas uniquement moléculaire : il peut aussi être ionique (ex : le sel, qui se dissocie en ions).'
+    }
+  },
+  'fb-v1': {
+    correct: '✓ Exact ! La masse de soluté à peser est calculée par m = Cm × V, puis pesée à l\'aide d\'une balance et d\'une coupelle.',
+    wrong: {
+      'eprouvette': '✗ L\'éprouvette graduée sert à mesurer un volume, pas une masse. On pèse le solide avec une balance et une coupelle.'
+    }
+  },
+  'fb-v2': {
+    correct: '✓ Exact ! La fiole jaugée permet d\'ajuster précisément le volume final de la solution au trait de jauge.',
+    wrong: {
+      'becher': '✗ Le bécher ne permet pas un ajustement précis au trait de jauge. C\'est la fiole jaugée qui joue ce rôle.'
+    }
+  },
+  'fb-v3': {
+    correct: '✓ Exact ! La pipette jaugée (avec poire à pipeter) donne un volume précis pour un petit volume de liquide.',
+    wrong: {
+      'verre-pied': '✗ Le verre à pied ne donne pas une mesure précise. C\'est la pipette jaugée qui permet de mesurer précisément un petit volume.'
+    }
+  },
+  'fb-v4': {
+    correct: '✓ Exact ! Le bécher convient pour les volumes approximatifs (rinçage, transferts), pas pour les mesures précises.',
+    wrong: {
+      'fiole': '✗ La fiole jaugée est réservée aux mesures précises d\'un volume fixe. Pour un volume approximatif, on utilise un bécher.'
+    }
+  },
   'fb-conc1': {
     correct: '✓ Exact ! Plus on ajoute de soluté à volume constant, plus la concentration en masse Cₘ = m/V augmente, et plus la couleur devient intense.',
     wrong: {
@@ -3132,7 +3194,7 @@ function qcmOptCheck(el, isCorrect, val, feedbackId) {
   group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
   el.classList.add(isCorrect ? 'correct' : 'incorrect');
   const fb = document.getElementById(feedbackId);
-  const data = CONC_FEEDBACK[feedbackId];
+  const data = QCM_FEEDBACK[feedbackId];
   if (fb && data) {
     fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
     fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');

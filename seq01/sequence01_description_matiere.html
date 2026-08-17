@@ -439,7 +439,7 @@
     gap: 7px;
     margin-top: 12px;
     padding: 8px 16px;
-    background: var(--vert);
+    background: var(--texte-léger);
     color: white;
     border: none;
     border-radius: 7px;
@@ -449,7 +449,7 @@
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
   }
-  .btn-reveal:hover { background: #2A6B52; transform: translateY(-1px); }
+  .btn-reveal:hover { background: #444 transform: translateY(-1px); }
   .btn-reveal:active { transform: translateY(0); }
 
   .reveal-body {
@@ -1466,7 +1466,7 @@
 <div class="dq-feedback" id="dqf-cp4"></div>
 </div>
 <div style="text-align:center;margin-top:12px;">
-<button class="btn-reveal" onclick="recommencer('exo-corps-purs-melanges')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-corps-purs-melanges')">↺ Recommencer</button>
 </div>
 </div>
 
@@ -1543,7 +1543,7 @@
 <div class="dq-feedback" id="dqf4"></div>
 </div>
 <div style="text-align:center;margin-top:12px;">
-<button class="btn-reveal" onclick="recommencer('exo-changements-etat')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-changements-etat')">↺ Recommencer</button>
 </div>
 </div>
 
@@ -1635,7 +1635,7 @@
 <div class="dq-feedback" id="dqfmv4"></div>
 </div>
 <div style="text-align:center;margin-top:12px;">
-<button class="btn-reveal" onclick="recommencer('exo-masse-volumique-densite')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-masse-volumique-densite')">↺ Recommencer</button>
 </div>
 </div>
 
@@ -1718,7 +1718,7 @@
 <div class="dq-feedback" id="dqf-cq4"></div>
 </div>
 <div style="text-align:center;margin-top:12px;">
-<button class="btn-reveal" onclick="recommencer('exo-ccm-composition')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-ccm-composition')">↺ Recommencer</button>
 </div>
 </div><!-- fin QCM CCM & composition -->
 
@@ -1863,8 +1863,8 @@
 <div id="tri-qcm-list" style="margin-top:16px;"></div>
 <!-- Boutons -->
 <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
-<button onclick="reinitTriangle()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
-<button onclick="corrigerTriangle()" style="padding:8px 20px;background:var(--vert);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">▶ Voir la correction</button>
+<button class="btn-reveal" onclick="reinitTriangle()">↺ Recommencer</button>
+<button class="btn-reveal" onclick="corrigerTriangle()" style="background:var(--vert);">▶ Voir la correction</button>
 </div>
 </div>
 
@@ -1926,7 +1926,7 @@
 <div class="dq-feedback" id="fb-phet3"></div>
 </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('activite-phet')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('activite-phet')">↺ Recommencer</button>
 </div>
 </div>
 
@@ -2314,7 +2314,7 @@
 </div></div>
 </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('exo-corps-purs')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-corps-purs')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-etats-chgt"><div class="card" id="exo-nouv-facile1" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
@@ -2359,7 +2359,7 @@
 <div class="dq-feedback" id="dqf-nf1-4"></div>
 </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('exo-nouv-facile1')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-facile1')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-huile-mv"><div class="card" id="exo-nouv-facile2" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
@@ -2388,7 +2388,7 @@
 </div>
 <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['corr-nf2-1'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-nouv-facile2')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-facile2')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-ethanol"><div class="card" id="exo-ethanol" style="border-left:4px solid var(--vert);">
 <div class="exo-header">
@@ -2512,7 +2512,7 @@
 </div>
 <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['eth-corr1','eth-corr2a','eth-corr2b','eth-corr3'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-ethanol')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-ethanol')">↺ Recommencer</button>
 </div>
 </div></div></div>
 <div class="sub-tab-content" id="exo-sub-inter">
@@ -2612,7 +2612,7 @@
 </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['corr-acetone'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-acetone')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-acetone')">↺ Recommencer</button>
 </div>
 <div class="reveal-body" id="corr-acetone">
 <strong>1. Justification corps pur :</strong><br/>
@@ -2750,7 +2750,7 @@
 </div>
 <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['lait-corr1','lait-corr2','lait-corr3a','lait-corr3b'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-laiton')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-laiton')">↺ Recommencer</button>
 </div>
 <!-- BILAN UNITÉS -->
 <button class="accord-btn" onclick="toggleAccord(this)" style="margin-top:14px;">
@@ -2866,7 +2866,7 @@
 <div style="display:flex;gap:10px;flex-wrap:wrap;">
 <button class="btn-check-dq" onclick="verifierCCM()">✔ Vérifier</button>
 <button class="btn-reveal" onclick="corrigerCCM()">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencerCCM()" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencerCCM()">↺ Recommencer</button>
 </div>
 <div class="reveal-body" id="corr-ccm-global" style="margin-top:12px;">
 <div class="calc-step"><strong>HEC :</strong> 3 taches → limonène (y=75), linalol (y=105), géraniol (y=140) — c'est un <em>mélange</em>.</div>
@@ -2909,7 +2909,7 @@
     Le sirop peut contenir <strong>d'autres espèces</strong> non révélées par cette CCM : des espèces incolores (arômes, sucres…) ne donnent pas de tache visible à l'œil nu, et seules les espèces présentes parmi les références déposées (A, B, C) peuvent être identifiées par comparaison.
   </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('exo-nouv-inter1')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-inter1')">↺ Recommencer</button>
 </div>
 </div></div></div>
 <div class="sub-tab-content" id="exo-sub-diff">
@@ -2955,11 +2955,10 @@
 <div class="dq-feedback" id="dqf-nd1-2"></div>
 </div>
 <div class="question-block">
-<div class="question-label">3. En combinant les deux mesures (ρ et température d'ébullition), quelle est la substance la plus probable ? Justifier.</div>
+<div class="question-label">3. En combinant les deux mesures (ρ et température d'ébullition), quelle est la substance la plus probable ? Justifier.<button class="btn-indice" onclick="toggleIndice('ind-nd1-q3')">💡 Indice</button></div>
 <textarea class="rep-zone" id="nd1-rep3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="exo-btn-row">
-<button class="btn-indice" onclick="toggleIndice('ind-nd1-q3')">💡 Indice</button>
 </div>
 <div class="indice-box" id="ind-nd1-q3">Reprends chaque substance du tableau une par une : élimine celles dont la masse volumique calculée à la question 1 ne correspond pas, puis parmi les substances restantes, élimine celles dont la température d'ébullition ne correspond pas au palier observé. La substance qui vérifie les deux critères à la fois est la bonne réponse.</div>
 <button class="btn-reveal" onclick="toggleCorr('corr-nd1-3')">▶ Voir la correction</button>
@@ -2967,7 +2966,7 @@
     L'acétone a la bonne masse volumique (0,79) mais bout à 56 °C, ce qui ne correspond pas. Le cyclohexane a une température d'ébullition proche (81 °C) mais une masse volumique légèrement différente (0,78). C'est l'<strong>éthanol</strong> qui correspond aux deux critères à la fois : ρ = 0,79 g·cm⁻³ ET T° ébullition = 78 °C. On ne peut identifier une espèce de façon fiable qu'en croisant plusieurs grandeurs caractéristiques.
   </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('exo-nouv-diff1')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-diff1')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-air-helium"><div class="card" id="exo-nouv-diff2" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
@@ -3005,7 +3004,7 @@
 </div>
 <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['corr-nd2-1','corr-nd2-2'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-nouv-diff2')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-diff2')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-laiton-fm"><div class="card" id="exo-comp-laiton" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
@@ -3154,7 +3153,7 @@
 </div>
 <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
 <button class="btn-reveal" onclick="toggleCorrMulti(['comp-corr1','comp-corr2','comp-corr3a','comp-corr3b','comp-corr3c'], this)">▶ Voir la correction</button>
-<button class="btn-reveal" onclick="recommencer('exo-comp-laiton')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-comp-laiton')">↺ Recommencer</button>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-huile-bac"><div class="card" id="exo-nouv-diff3" style="border-left:4px solid var(--rouge);">
 <div class="exo-header">
@@ -3169,20 +3168,20 @@
 <strong>Analyse 2 — CCM :</strong> une CCM de l'échantillon est comparée à une CCM de référence d'huile essentielle de lavande pure. Le chromatogramme de l'échantillon présente exactement les mêmes taches, aux mêmes hauteurs, que celui de la référence — mais une tache supplémentaire apparaît, absente de la référence.
   </div>
 <div class="question-block">
-<div class="question-label">1. Calculer la masse volumique de l'échantillon et vérifier si elle est compatible avec la valeur de référence.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd3-1')">💡 Indice</button>
+<div class="question-label">1. Calculer la masse volumique de l'échantillon et vérifier si elle est compatible avec la valeur de référence.
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-1')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd3-1">Calcule ρ = m / V avec les données de l'énoncé, puis compare au ρ de référence en tenant compte de l'incertitude ± 0,010.</div>
 <textarea class="rep-zone" id="nd3-rep1" placeholder="Rédigez votre réponse (calcul + comparaison)…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">2. Que révèle la présence de cette tache supplémentaire sur le chromatogramme ?</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd3-2')">💡 Indice</button>
+<div class="question-label">2. Que révèle la présence de cette tache supplémentaire sur le chromatogramme ?
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-2')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd3-2">Une tache supplémentaire sur le chromatogramme correspond-elle à une espèce chimique présente ou absente dans la référence ?</div>
 <textarea class="rep-zone" id="nd3-rep2" placeholder="Rédigez votre réponse…"></textarea>
 </div>
 <div class="question-block">
-<div class="question-label">3. En confrontant les deux analyses, l'échantillon peut-il être qualifié d'huile essentielle « pure » ? Conclure et argumenter.</div>
-<button class="btn-indice" onclick="toggleIndice('ind-nd3-3')">💡 Indice</button>
+<div class="question-label">3. En confrontant les deux analyses, l'échantillon peut-il être qualifié d'huile essentielle « pure » ? Conclure et argumenter.
+<button class="btn-indice" onclick="toggleIndice('ind-nd3-3')">💡 Indice</button></div>
 <div class="indice-box" id="ind-nd3-3">Croise les deux résultats : un seul critère compatible suffit-il à garantir la pureté si l'autre révèle une anomalie ?</div>
 <textarea class="rep-zone" id="nd3-rep3" placeholder="Rédigez votre réponse…"></textarea>
 </div>
@@ -3198,7 +3197,7 @@
     Bien que la masse volumique soit compatible avec la référence, la CCM révèle une <strong>espèce supplémentaire</strong> : l'échantillon n'est donc <strong>pas pur</strong>. Il s'agit probablement d'une huile essentielle de lavande <em>additionnée</em> d'une autre substance (dilution, ajout d'un arôme de synthèse…). Ceci illustre l'intérêt de croiser plusieurs méthodes d'identification : une seule grandeur physique (masse volumique) ne suffit pas à garantir la pureté d'un échantillon.
   </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="recommencer('exo-nouv-diff3')" style="background:var(--texte-léger);">↺ Recommencer</button>
+<button class="btn-reveal" onclick="recommencer('exo-nouv-diff3')">↺ Recommencer</button>
 </div>
 </div></div></div>
 <div class="sub-tab-content" id="exo-sub-escape">
@@ -3266,7 +3265,7 @@
 <div id="esc-fail" style="display:none;margin-top:14px;color:var(--rouge);font-weight:700;"></div>
 </div>
 <div style="text-align:center;margin-top:16px;">
-<button class="btn-reveal" onclick="escReset()" style="background:var(--texte-léger);">↺ Recommencer le jeu</button>
+<button class="btn-reveal" onclick="escReset()">↺ Recommencer le jeu</button>
 </div>
 </div><!-- fin esc-game -->
 

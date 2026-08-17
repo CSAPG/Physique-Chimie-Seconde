@@ -114,6 +114,9 @@
   .sub-tab-content .card:first-child{margin-top:0}
   .card h2{font-size:1.25rem;margin-top:0;color:var(--bleu);border-bottom:2px solid var(--bleu-clair);padding-bottom:8px}
   .card h3{font-size:1.05rem;color:var(--orange);margin:18px 0 8px}
+  .card[style*="--vert"] > h3{color:var(--vert)}
+  .card[style*="--orange"] > h3{color:var(--orange)}
+  .card[style*="--rouge"] > h3{color:var(--rouge)}
 
   .formule-box { background: var(--orange-clair); border: 2px solid var(--orange); border-radius: 10px; padding: 14px 20px; margin: 14px 0; text-align: center; font-size: 1.05rem; font-weight: 700; color: var(--texte); }
   .formule-box .legend { font-size: 0.80rem; font-weight: 500; color: var(--texte-léger); margin-top: 6px; text-align: left; }
@@ -214,6 +217,12 @@
   .choix-btn.selected-multi { border-color: var(--bleu); background: var(--bleu-clair); color: var(--bleu); }
   .choix-btn:disabled { cursor: default; }
 
+  .select-exo { width: 100%; padding: 10px 14px; border-radius: 8px; border: 2px solid var(--gris-bord); background: var(--gris-fond); font-family: 'Nunito', sans-serif; font-size: 0.90rem; font-weight: 600; cursor: pointer; color: var(--texte); margin-bottom: 8px; }
+  .select-exo:hover { border-color: var(--bleu); }
+  .select-exo.correct { border-color: var(--vert); background: var(--vert-clair); color: var(--vert); }
+  .select-exo.wrong { border-color: var(--rouge); background: var(--rouge-clair); color: var(--rouge); }
+  .select-exo:disabled { cursor: default; opacity: 1; }
+
   /* ── ÉTAPES SYNTHÈSE CLIQUABLES ── */
   .etapes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 14px 0; }
   .etape-card {
@@ -276,6 +285,57 @@
   .correction-block.visible { display: block; animation: fadeIn 0.2s ease; }
   .correction-block strong { color: var(--vert); }
   .correction-block .calc-step { background: white; border-radius: 6px; padding: 8px 12px; margin: 6px 0; font-family: 'Outfit', sans-serif; font-size: 0.90rem; border-left: 3px solid var(--vert); }
+  .correction-block.orange { background: var(--orange-clair); border-color: var(--orange); }
+  .correction-block.orange strong { color: var(--orange); }
+  .correction-block.orange .calc-step { border-left-color: var(--orange); }
+  .correction-block.rouge { background: var(--rouge-clair); border-color: var(--rouge); }
+  .correction-block.rouge strong { color: var(--rouge); }
+  .correction-block.rouge .calc-step { border-left-color: var(--rouge); }
+
+  .select-exo.mini { width: auto; min-width: 110px; padding: 6px 10px; margin-bottom: 0; font-size: 0.85rem; }
+
+  /* ── ÉDITEUR PYTHON (thème clair, coloration façon Jupyter) ── */
+  .py-editor-wrap { position: relative; width: 100%; margin: 0 0 4px; }
+  .py-highlight, .python-editor {
+    box-sizing: border-box; width: 100%; min-height: 260px; margin: 0; padding: 14px 16px;
+    font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.82rem; line-height: 1.55;
+    white-space: pre; tab-size: 4; border-radius: 8px;
+  }
+  .py-highlight {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: auto;
+    background: #fbfbfd; border: 1.5px solid #d7dde5; color: #24292e; pointer-events: none; z-index: 1;
+  }
+  .py-highlight code { font-family: inherit; white-space: pre; }
+  .python-editor {
+    position: relative; z-index: 2; background: transparent; color: transparent; caret-color: #24292e;
+    border: 1.5px solid transparent; resize: none; overflow: auto;
+  }
+  .python-editor:focus { outline: none; }
+  .python-editor:focus ~ .py-highlight, .py-editor-wrap:focus-within .py-highlight { border-color: var(--bleu); }
+  /* Jeton de coloration syntaxique (palette claire type Jupyter/Pygments) */
+  .py-tok-keyword { color: #008000; font-weight: 700; }
+  .py-tok-builtin { color: #7952b3; font-weight: 600; }
+  .py-tok-string  { color: #b22222; }
+  .py-tok-number  { color: #0a6ebd; }
+  .py-tok-comment { color: #8a8f98; font-style: italic; }
+
+  /* ── MENUS DÉROULANTS DE COMPLÉTION DU PROGRAMME ── */
+  .py-blanks-toolbar { background: #f8f9fb; border: 1.5px solid var(--gris-bord); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .py-blanks-toolbar > p { font-size: 0.82rem; font-weight: 700; color: var(--texte-léger); margin-bottom: 8px; }
+  .py-blank-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .py-blank-row:last-child { margin-bottom: 0; }
+  .py-blank-row label { font-size: 0.82rem; font-weight: 600; color: var(--texte-léger); min-width: 190px; }
+  .py-blank-row label code { background: #eef1f5; padding: 1px 5px; border-radius: 4px; font-size: 0.78rem; }
+  .py-blank-row select { flex: 1; min-width: 220px; }
+  .btn-run { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: #2E8B57; color: #fff; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-top: 8px; margin-right: 8px; }
+  .btn-run:hover { background: #256e46; }
+  .btn-run:disabled { background: #9bbfae; cursor: wait; }
+  .python-output { margin-top: 10px; padding: 12px 16px; background: #f4f6f8; border: 1.5px solid var(--gris-bord); border-radius: 8px; min-height: 24px; }
+  .python-output:empty { display: none; }
+  .python-output pre { margin: 0; white-space: pre-wrap; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.82rem; }
+  .py-stdout { color: #1e1e2e; }
+  .py-error { color: var(--rouge); font-weight: 600; }
+  .python-output img.py-figure { max-width: 100%; border-radius: 6px; margin-top: 6px; display: block; }
   .btn-next { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 9px 20px; background: var(--orange); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
   .btn-next:hover { background: #C9622A; }
   .score-final { display: none; text-align: center; padding: 28px 20px; background: var(--blanc); border: 2px solid var(--bleu); border-radius: 14px; }
@@ -314,6 +374,16 @@
   .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+
+  /* ── SOUS-SOUS-ONGLETS (3e niveau) — style identique à sequence02 (.exo-tab-btn) ── */
+  .subsub-tabs-nav { display: flex; gap: 8px; margin: 8px 0 20px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .subsub-tab-btn { flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 7px; padding: 8px 16px; border: 1.5px solid var(--gris-bord); background: #fff; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; }
+  .subsub-tab-btn:hover { border-color: var(--bleu); }
+  .subsub-tab-btn.active { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+  .subsub-tab-btn .subsub-tab-stars { font-size: 0.76rem; color: var(--orange); font-weight: 400; }
+  .subsub-tab-btn.active .subsub-tab-stars { color: #FFD9B3; }
+  .subsub-tab-content { display: none; }
+  .subsub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
   .gloss-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gris-bord); border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; margin-bottom: 16px; }
   .gloss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; list-style: none; padding: 0; }
   @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
@@ -358,6 +428,7 @@
   }
   @media (max-width: 480px) { .reflux-icon { width: 52px; height: 70px; } }
 </style>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
 </head>
 <body>
 
@@ -496,8 +567,8 @@
     </div>
 
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
-      <button class="btn-verif" onclick="verifierEq()">✔ Vérifier</button>
-      <button class="btn-correction" onclick="corrigerEq()">👁 Correction</button>
+      <button class="btn-verif" onclick="verifierEq()">✓ Vérifier</button>
+      <button class="btn-correction" onclick="corrigerEq()">▶ Voir la correction</button>
       <button class="btn-reset" onclick="resetEq()">↺ Recommencer</button>
     </div>
     <div class="feedback" id="fb-eq"></div>
@@ -750,9 +821,16 @@
 
   <div class="def-card">
     <h3>Principe du montage à reflux</h3>
-    <p>Le montage à reflux permet de <strong>chauffer le milieu réactionnel</strong> pour accélérer la transformation chimique <em>sans perte de matière</em> : les vapeurs qui se dégagent du ballon sont condensées par le réfrigérant à eau et retombent dans le ballon.</p>
-    <div class="exemple-box" style="margin-top:10px;">
-      <strong>Éléments du montage (à connaître et à schématiser) :</strong> support élévateur · chauffe-ballon · pierre ponce · ballon réacteur · réfrigérant à eau (entrée eau froide en bas, sortie en haut) · pinces serrée et ouverte · statif.
+    <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+      <div style="flex:2;min-width:240px;">
+        <p>Le montage à reflux permet de <strong>chauffer le milieu réactionnel</strong> pour accélérer la transformation chimique <em>sans perte de matière</em> : les vapeurs qui se dégagent du ballon sont condensées par le réfrigérant à eau et retombent dans le ballon.</p>
+        <div class="exemple-box" style="margin-top:10px;">
+          <strong>Éléments du montage (à connaître et à schématiser) :</strong> support élévateur · chauffe-ballon · pierre ponce · ballon réacteur · réfrigérant à eau (entrée eau froide en bas, sortie en haut) · pinces serrée et ouverte · statif.
+        </div>
+      </div>
+      <div style="flex:1;min-width:160px;max-width:220px;text-align:center;">
+        <img src="montage-a-reflux-complet.png" alt="Schéma d'un montage à reflux légendé" style="width:100%;border-radius:8px;border:1.5px solid var(--gris-bord);">
+      </div>
     </div>
   </div>
 
@@ -814,7 +892,7 @@
         <button class="choix-btn" onclick="repQcm(0,this,'C')">C) Réactifs : menthol + cyclohexane · Produit : menthone</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
-        <button class="btn-correction" onclick="corrQcm(0)">👁 Correction</button>
+        <button class="btn-correction" onclick="corrQcm(0)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(0)" style="display:none;" id="next-0">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-0">
@@ -836,7 +914,7 @@
         <button class="choix-btn" onclick="repQcm(1,this,'C')">C) n = 0,975 mol</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
-        <button class="btn-correction" onclick="corrQcm(1)">👁 Correction</button>
+        <button class="btn-correction" onclick="corrQcm(1)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(1)" style="display:none;" id="next-1">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-1">
@@ -857,7 +935,7 @@
         <button class="choix-btn" onclick="repQcm(2,this,'C')">C) Pour séparer la menthone du mélange réactionnel par distillation</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
-        <button class="btn-correction" onclick="corrQcm(2)">👁 Correction</button>
+        <button class="btn-correction" onclick="corrQcm(2)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(2)" style="display:none;" id="next-2">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-2">
@@ -877,7 +955,7 @@
         <button class="choix-btn" onclick="repQcm(3,this,'C')">C) La menthone se répartit dans les deux phases car elle est soluble partout</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
-        <button class="btn-correction" onclick="corrQcm(3)">👁 Correction</button>
+        <button class="btn-correction" onclick="corrQcm(3)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(3)" style="display:none;" id="next-3">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-3">
@@ -900,8 +978,8 @@
         <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">E) Mesure du volume du ballon réacteur</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
-        <button class="btn-verif" onclick="verifierMulti(4)">✔ Vérifier</button>
-        <button class="btn-correction" onclick="corrQcm(4)">👁 Correction</button>
+        <button class="btn-verif" onclick="verifierMulti(4)">✓ Vérifier</button>
+        <button class="btn-correction" onclick="corrQcm(4)">▶ Voir la correction</button>
         <button class="btn-next" onclick="showScore()" style="display:none;" id="next-4">📊 Voir le bilan →</button>
       </div>
       <div class="correction-block" id="corr-4">
@@ -1050,7 +1128,6 @@
       <input type="text" class="blank-input" id="a2-1a-eq" placeholder="Ex : a F + b C → S">
       <div class="field-feedback" id="fb-a2-1a-eq"></div>
     </div>
-    <button class="btn-verif-sm" onclick="verifA2_1a()">✔ Vérifier</button>
 
     <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
       <strong>b.</strong> Pour chaque paquet de bonbons, préparer le plus possible de sachets-cadeaux ; déterminer leur nombre et le nombre de bonbons non utilisés. Recopier et compléter le tableau 2.
@@ -1093,9 +1170,9 @@
       </tr>
     </table>
     <p style="text-align:center;margin-top:10px;">
-      <button class="btn-verif" onclick="verifierTableau2()">✔ Vérifier</button>
-      <button class="btn-reset" onclick="resetTableau2()">↺ Recommencer</button>
+      <button class="btn-indice" onclick="toggleIndice('ind-a2-tableau2')">💡 Indice</button>
     </p>
+    <div class="indice-box" id="ind-a2-tableau2" style="text-align:left;">Pour chaque paquet, divise N<sub>F,i</sub> par <em>a</em> et N<sub>C,i</sub> par <em>b</em> : le plus petit des deux résultats (arrondi à l'entier inférieur) donne le nombre de sachets réalisables, et permet de calculer les nombres finaux restants.</div>
   </div>
 
   <div class="activite-card">
@@ -1127,7 +1204,6 @@
       </div>
     </div>
     <div class="field-feedback" id="fb-a2-2a"></div>
-    <button class="btn-verif-sm" onclick="verifA2_2a()">✔ Vérifier</button>
 
     <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
       <strong>b.</strong> Indiquer le paquet qu'il serait le plus judicieux d'acheter. Justifier la réponse.
@@ -1139,15 +1215,6 @@
       <label for="a2-2b-paquet">Quel paquet acheter ?</label>
       <input type="text" class="blank-input" id="a2-2b-paquet" placeholder="A, B ou C" style="max-width:120px;">
       <div class="field-feedback" id="fb-a2-2b-paquet"></div>
-    </div>
-    <button class="btn-verif-sm" onclick="verifA2_2b()">✔ Vérifier</button>
-
-    <button class="btn-correction" onclick="corrAct2(2)" style="margin-top:14px;">👁 Correction</button>
-    <div class="correction-block" id="corr-act2-2">
-      <p><strong>Paquet A</strong> — C'est le crocodile gélifié qui limite la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> &gt; <em>a</em>/<em>b</em>.</p>
-      <p style="margin-top:8px;"><strong>Paquet B</strong> — C'est la fraise en guimauve qui limite la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> &lt; <em>a</em>/<em>b</em>.</p>
-      <p style="margin-top:8px;"><strong>Paquet C</strong> — La fraise en guimauve et le crocodile gélifié limitent tous les deux la préparation des sachets-cadeaux. On constate que N<sub>F,i</sub>/N<sub>C,i</sub> = <em>a</em>/<em>b</em>.</p>
-      <div class="calc-step"><strong>b.</strong> Il est judicieux d'acheter le paquet C. En effet, à la fin de la préparation des sachets-cadeaux, il ne reste aucun bonbon : tous les bonbons ont été utilisés.</div>
     </div>
   </div>
 
@@ -1171,7 +1238,6 @@
       </div>
     </div>
     <div class="field-feedback" id="fb-a2-3a"></div>
-    <button class="btn-verif-sm" onclick="verifA2_3a()">✔ Vérifier</button>
 
     <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
       <strong>b.</strong> En déduire les quantités de matière : initiale n<sub>F,i</sub> de fraises et finale n<sub>F,f</sub> de fraises non utilisées pour préparer les sachets-cadeaux ; initiale n<sub>C,i</sub> de crocodiles et finale n<sub>C,f</sub> de crocodiles non utilisés pour préparer les sachets-cadeaux.
@@ -1200,7 +1266,6 @@
       </div>
     </div>
     <div class="field-feedback" id="fb-a2-3b"></div>
-    <button class="btn-verif-sm" onclick="verifA2_3b()">✔ Vérifier</button>
 
     <p style="font-size:0.9rem;line-height:1.6;margin-top:14px;">
       <strong>c.</strong> Calculer le quotient n<sub>F,i</sub>/n<sub>C,i</sub> et le comparer au quotient <em>a</em>/<em>b</em>.
@@ -1219,14 +1284,6 @@
       </div>
     </div>
     <div class="field-feedback" id="fb-a2-3c"></div>
-    <button class="btn-verif-sm" onclick="verifA2_3c()">✔ Vérifier</button>
-
-    <button class="btn-correction" onclick="corrAct2(3)" style="margin-top:14px;">👁 Correction</button>
-    <div class="correction-block" id="corr-act2-3">
-      <div class="calc-step"><strong>a.</strong> 6,02×10²³ paquets A → 6,02×10²⁴ fraises et 1,204×10²⁵ crocodiles.</div>
-      <div class="calc-step"><strong>b.</strong> Pour F : n<sub>F,i</sub> = 6,02×10²⁴ / 6,02×10²³ = 10 mol ; n<sub>F,f</sub> = 2×6,02×10²³ / 6,02×10²³ = 2 mol.<br>Pour C : n<sub>C,i</sub> = 1,204×10²⁵ / 6,02×10²³ = 20 mol ; n<sub>C,f</sub> = 0 mol.</div>
-      <div class="calc-step"><strong>c.</strong> n<sub>F,i</sub>/n<sub>C,i</sub> = 10/20 = 0,5. Comme à la question 2.a, le crocodile est le bonbon limitant, et n<sub>F,i</sub>/n<sub>C,i</sub> &gt; <em>a</em>/<em>b</em>.</div>
-    </div>
   </div>
 
   <div class="activite-card">
@@ -1253,15 +1310,6 @@
       <input type="text" class="blank-input" id="a2-4-eq" placeholder="&lt;, &gt; ou =">
     </div>
     <div class="field-feedback" id="fb-a2-4"></div>
-    <button class="btn-verif-sm" onclick="verifA2_4()">✔ Vérifier</button>
-
-    <button class="btn-correction" onclick="corrAct2(4)" style="margin-top:14px;">👁 Correction</button>
-    <div class="correction-block" id="corr-act2-4">
-      <p>On considère la réaction d'équation <em>a</em> A + <em>b</em> B → produits, avec n<sub>A,i</sub> et n<sub>B,i</sub> les quantités de matière initiales des réactifs A et B.</p>
-      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> &lt; <em>a</em>/<em>b</em>, alors le réactif A est limitant.</div>
-      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> &gt; <em>a</em>/<em>b</em>, alors le réactif B est limitant.</div>
-      <div class="calc-step">Si n<sub>A,i</sub>/n<sub>B,i</sub> = <em>a</em>/<em>b</em>, alors les réactifs A et B sont tous les deux limitants.</div>
-    </div>
   </div>
 
   </div>
@@ -1294,14 +1342,40 @@
   <div class="activite-card">
     <h3>Consigne et questions</h3>
     <p style="font-size:0.9rem;line-height:1.6;">
-      Lance l'animation, fais varier les quantités initiales des deux réactifs proposés, puis observe l'état final du système pour répondre aux questions suivantes.
+      Lance l'animation, fais varier les quantités initiales des deux réactifs proposés, puis observe l'état final du système pour répondre au QCM ci-dessous.
     </p>
-    <ol style="font-size:0.9rem;line-height:1.8;padding-left:20px;margin-top:8px;">
-      <li>Pour un mélange donné, quel réactif a totalement disparu dans l'état final ? Quel réactif reste-t-il en excès ?</li>
-      <li>Que peut-on dire de ce réactif totalement consommé ? Comment le qualifie-t-on ?</li>
-      <li>En faisant varier les proportions initiales, peux-tu trouver un mélange où <strong>aucun</strong> réactif n'est en excès ? Comment appelle-t-on ce type de mélange ?</li>
-      <li>À partir de tes observations, propose une méthode générale (sans utiliser l'animation) pour prévoir quel réactif sera limitant, à partir des quantités de matière initiales et des coefficients stœchiométriques.</li>
-    </ol>
+
+    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:14px;">1. Pour un mélange donné, quel réactif a totalement disparu dans l'état final, et lequel reste en excès ?</p>
+    <div id="a3-choices-1">
+      <button class="choix-btn" onclick="repA3Q1(this,'A')">A) Le réactif dont la quantité affichée tombe à zéro a disparu ; l'autre reste en excès.</button>
+      <button class="choix-btn" onclick="repA3Q1(this,'B')">B) Les deux réactifs disparaissent toujours en même temps.</button>
+      <button class="choix-btn" onclick="repA3Q1(this,'C')">C) C'est toujours le réactif introduit en plus grande quantité qui disparaît.</button>
+    </div>
+    <div class="feedback" id="fb-a3-q1"></div>
+
+    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">2. Comment qualifie-t-on le réactif totalement consommé ?</p>
+    <div id="a3-choices-2">
+      <button class="choix-btn" onclick="repA3Q2(this,'A')">A) Le réactif limitant.</button>
+      <button class="choix-btn" onclick="repA3Q2(this,'B')">B) Le réactif en excès.</button>
+      <button class="choix-btn" onclick="repA3Q2(this,'C')">C) Le réactif catalyseur.</button>
+    </div>
+    <div class="feedback" id="fb-a3-q2"></div>
+
+    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">3. Peut-on trouver un mélange où aucun réactif n'est en excès ? Comment l'appelle-t-on ?</p>
+    <div id="a3-choices-3">
+      <button class="choix-btn" onclick="repA3Q3(this,'A')">A) Oui, en ajustant les proportions initiales : on parle de mélange stœchiométrique.</button>
+      <button class="choix-btn" onclick="repA3Q3(this,'B')">B) Non, il y a toujours un réactif en excès quelle que soit la quantité introduite.</button>
+      <button class="choix-btn" onclick="repA3Q3(this,'C')">C) Oui, on parle alors de réactif limitant.</button>
+    </div>
+    <div class="feedback" id="fb-a3-q3"></div>
+
+    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">4. Quelle méthode générale permet de prévoir le réactif limitant à partir des quantités initiales et des coefficients stœchiométriques (sans utiliser l'animation) ?</p>
+    <div id="a3-choices-4">
+      <button class="choix-btn" onclick="repA3Q4(this,'A')">A) C'est toujours le réactif dont la quantité initiale (en mol) est la plus petite.</button>
+      <button class="choix-btn" onclick="repA3Q4(this,'B')">B) On compare le quotient (quantité initiale / coefficient stœchiométrique) de chaque réactif : le plus petit quotient désigne le réactif limitant.</button>
+      <button class="choix-btn" onclick="repA3Q4(this,'C')">C) On ne peut pas le prévoir sans faire l'expérience.</button>
+    </div>
+    <div class="feedback" id="fb-a3-q4"></div>
   </div>
   </div>
   </div>
@@ -1320,36 +1394,762 @@
   </div>
 
   <div class="sub-tab-content active" id="exo-faciles">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
-      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/formules_chimiques_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Formules chimiques <span class="diff-etoiles">⭐</span></h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+  <div class="subsub-tabs-nav">
+    <button class="subsub-tab-btn active" onclick="showSubSub(this,'facile-exercice')">Exercice <span class="subsub-tab-stars">★★★</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'facile-pccl-1')">Formules chimiques <span class="subsub-tab-stars">★☆☆</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'facile-pccl-2')">Stœchiométrie (1) <span class="subsub-tab-stars">★★☆</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'facile-pccl-3')">Stœchiométrie (2) — charges <span class="subsub-tab-stars">★★★</span></button>
+  </div>
+
+  <div class="subsub-tab-content active" id="facile-exercice">
+
+    <div class="card" id="exo-hcl-aluminium" style="border-left:4px solid var(--vert);">
+      <h3>Exercice — Aluminium et acide chlorhydrique <span class="diff-etoiles">⭐⭐⭐</span></h3>
+      <p style="font-size:0.9rem;line-height:1.65;margin-bottom:16px;">
+        De la poudre d'aluminium Al(s) et de l'acide chlorhydrique sont introduits dans un tube à essais. L'acide chlorhydrique contient l'ion hydrogène H⁺(aq) et l'ion chlorure Cl⁻(aq).<br>
+        Une effervescence apparaît en raison de la production de dihydrogène H₂.<br>
+        L'ion aluminium est également formé.
+      </p>
+
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Indiquer comment mettre en évidence la présence de dihydrogène.</p>
+        <div id="qcm-alf-a">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">A) Approcher une allumette enflammée de l'embouchure du tube : une détonation caractéristique confirme la présence de dihydrogène.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">B) Sentir l'odeur du gaz produit.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">C) Approcher un bâtonnet incandescent : s'il se rallume, c'est du dihydrogène.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">D) Mesurer la température du gaz avec un thermomètre.</button>
         </div>
-      </a>
-
-      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (1) <span class="diff-etoiles">⭐⭐</span></h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-a','corr-alf-a')">▶ Voir la correction</button>
+        <div class="correction-block" id="corr-alf-a">
+          <strong>✅ Réponse A.</strong><br>
+          Le test caractéristique du dihydrogène consiste à approcher une <strong>allumette enflammée</strong> de l'embouchure du tube : la combustion du gaz produit une <strong>détonation</strong> (petit « aboiement »).<br>
+          <em>Le bâtonnet incandescent (C) est le test du dioxygène, pas du dihydrogène.</em>
         </div>
-      </a>
+      </div>
 
-      <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_2_charges_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
-        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
-          <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (2) — charges <span class="diff-etoiles">⭐⭐⭐</span></h4>
-          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL.</p>
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Dans cette transformation, il y a trois fois plus d'ion hydrogène consommé que d'aluminium. En déduire la formule de l'ion aluminium.</p>
+        <div id="qcm-alf-b">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">A) Al⁺</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">B) Al³⁺</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">C) Al³⁻</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">D) Al²⁺</button>
         </div>
-      </a>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-b','corr-alf-b')">▶ Voir la correction</button>
+        <div class="correction-block" id="corr-alf-b">
+          <strong>✅ Réponse B.</strong><br>
+          Pour former un ion, l'aluminium cède des électrons. Comme il faut <strong>3 fois plus d'ions H⁺</strong> consommés que d'atomes d'aluminium (et que chaque H⁺ capte 1 électron pour donner ½ H₂), chaque atome d'aluminium doit céder <strong>3 électrons</strong>.<br>
+          L'ion aluminium formé est donc <strong>Al³⁺</strong>.
+        </div>
+      </div>
 
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">c. Écrire l'équation de réaction ajustée, sachant que les seuls produits de la transformation sont le dihydrogène et l'ion aluminium.</p>
+        <select id="sel-alf-c" class="select-exo">
+          <option value="">— Choisir l'équation ajustée —</option>
+          <option value="A">Al(s) + H⁺(aq) → Al³⁺(aq) + H₂(g)</option>
+          <option value="B">2 Al(s) + 6 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g)</option>
+          <option value="C">Al(s) + 3 H⁺(aq) → Al³⁺(aq) + 3 H₂(g)</option>
+          <option value="D">2 Al(s) + 3 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g)</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-alf-c','corr-alf-c')">▶ Voir la correction</button>
+        <div class="correction-block" id="corr-alf-c">
+          <strong>✅ Réponse B.</strong><br>
+          On ajuste d'abord les charges, puis les atomes, sur la base du transfert de <strong>3 électrons</strong> par aluminium :
+          <span class="calc-step">2 Al(s) + 6 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g)</span>
+          Vérification : 2 Al à gauche et à droite ; 6 H à gauche (3 × H₂) et à droite ; charges +6 à gauche (6 H⁺) et +6 à droite (2 × 3+).<br>
+          <em>Les propositions A et C ne conservent pas les charges électriques, et D ne conserve pas le nombre d'atomes d'hydrogène.</em>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">d. Identifier l'espèce spectatrice.</p>
+        <div id="qcm-alf-d">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">A) H⁺(aq)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">B) Al(s)</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">C) Cl⁻(aq)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">D) H₂(g)</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-d','corr-alf-d')">▶ Voir la correction</button>
+        <div class="correction-block" id="corr-alf-d">
+          <strong>✅ Réponse C.</strong><br>
+          L'ion chlorure <strong>Cl⁻(aq)</strong> est apporté par l'acide chlorhydrique mais n'apparaît dans aucun des produits (H₂ et Al³⁺) : il ne participe pas à la réaction, c'est l'<strong>espèce spectatrice</strong>.
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExoAlFacile(this)">↺ Recommencer</button>
     </div>
+
+  </div>
+
+  <div class="subsub-tab-content" id="facile-pccl-1">
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/chimie/formules_chimiques_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-pccl-fonce);">🔬 Formules chimiques <span class="diff-etoiles">⭐</span></h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL. Cliquer pour ouvrir la simulation dans un nouvel onglet.</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="subsub-tab-content" id="facile-pccl-2">
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_1_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (1) <span class="diff-etoiles">⭐⭐</span></h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL. Cliquer pour ouvrir la simulation dans un nouvel onglet.</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="subsub-tab-content" id="facile-pccl-3">
+    <a href="https://www.pccl.fr/physique_chimie_college_lycee/lycee/seconde/ajuster_stoechiometrie_2_charges_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(123,79,166,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-pccl-fonce);">🔬 Ajuster la stœchiométrie (2) — charges <span class="diff-etoiles">⭐⭐⭐</span></h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">PCCL. Cliquer pour ouvrir la simulation dans un nouvel onglet.</p>
+      </div>
+    </a>
+  </div>
+
   </div>
   <div class="sub-tab-content" id="exo-inter">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+
+  <div class="subsub-tabs-nav">
+    <button class="subsub-tab-btn active" onclick="showSubSub(this,'inter-corrosion')">Corrosion du magnésium <span class="subsub-tab-stars">★★☆</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'inter-aspirine')">L'aspirine : un remède ancien <span class="subsub-tab-stars">★★☆</span></button>
+  </div>
+
+  <div class="subsub-tab-content active" id="inter-corrosion">
+
+    <div class="card" id="exo-corrosion-mg" style="border-left:4px solid var(--orange);">
+      <h3>Exercice — Corrosion du magnésium <span class="diff-etoiles">⭐⭐</span></h3>
+      <p style="font-size:0.9rem;line-height:1.65;margin-bottom:16px;">
+        Un morceau de ruban de magnésium et de l'acide chlorhydrique, contenant l'ion hydrogène H⁺ et l'ion chlorure Cl⁻, sont introduits dans un tube à essais. Un gaz se forme. Une flamme est approchée de l'entrée du tube : une légère détonation se produit. Une fois le dégagement gazeux terminé, il ne reste pas de solide au fond du tube. À la fin de la transformation, l'ion magnésium Mg²⁺ est mis en évidence par un test caractéristique.<br>
+        L'état initial est constitué de <strong>20 mmol</strong> de magnésium et de <strong>50 mmol</strong> d'ion hydrogène. L'ion chlorure est spectateur.
+      </p>
+
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">1. Écrire l'équation de réaction modélisant la transformation décrite.</p>
+        <select id="sel-mg-1" class="select-exo">
+          <option value="">— Choisir l'équation ajustée —</option>
+          <option value="A">Mg(s) + H⁺(aq) → Mg²⁺(aq) + H₂(g)</option>
+          <option value="B">Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g)</option>
+          <option value="C">Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + 2 H₂(g)</option>
+          <option value="D">2 Mg(s) + 2 H⁺(aq) → 2 Mg²⁺(aq) + H₂(g)</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-mg-1','corr-mg-1')">▶ Voir la correction</button>
+        <div class="correction-block orange" id="corr-mg-1">
+          <strong>✅ Réponse B.</strong><br>
+          Le magnésium cède 2 électrons pour former Mg²⁺, tandis que chaque ion H⁺ n'en capte qu'un seul (2 H⁺ + 2 e⁻ → H₂). Il faut donc 2 ions H⁺ pour un atome de magnésium :
+          <span class="calc-step">Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g)</span>
+          Vérification : 1 Mg de chaque côté ; 2 H de chaque côté (2 H⁺ à gauche, 1 H₂ à droite) ; charges +2 à gauche (2 H⁺) et +2 à droite (Mg²⁺).<br>
+          <em>A ne conserve ni les charges ni les atomes d'hydrogène ; C et D ne conservent pas les charges électriques.</em>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">2a. Déterminer le réactif limitant à partir des quantités initiales des réactifs.</p>
+        <div id="qcm-mg-2a">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">A) Le magnésium Mg(s)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">B) L'ion hydrogène H⁺(aq)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">C) L'ion chlorure Cl⁻(aq)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">D) Aucun : le mélange est stœchiométrique</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-mg-2a','corr-mg-2a')">▶ Voir la correction</button>
+        <div class="correction-block orange" id="corr-mg-2a">
+          <strong>✅ Réponse A.</strong><br>
+          D'après l'équation Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g), on compare les quantités initiales rapportées aux nombres stœchiométriques :
+          <span class="calc-step">n(Mg) / 1 = 20 / 1 = 20 mmol<br>n(H⁺) / 2 = 50 / 2 = 25 mmol</span>
+          Le plus petit quotient correspond au magnésium (20 mmol &lt; 25 mmol) : c'est donc le <strong>réactif limitant</strong>. L'ion hydrogène est en excès.
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">2b. Ce résultat est-il cohérent avec les observations faites ?</p>
+        <div id="qcm-mg-2b">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-mg-2b','corr-mg-2b',this)">A) Oui</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2b','corr-mg-2b',this)">B) Non</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-mg-2b','corr-mg-2b')">▶ Voir la correction</button>
+        <div class="correction-block orange" id="corr-mg-2b">
+          <strong>✅ Réponse A — Oui, c'est cohérent.</strong><br>
+          Le magnésium étant le réactif limitant, il est <strong>entièrement consommé</strong> : cela explique qu'<strong>il ne reste pas de solide</strong> au fond du tube en fin de réaction.<br>
+          L'ion hydrogène est en excès : sur 50 mmol initiales, seules 2 × 20 = 40 mmol sont consommées, il en reste 10 mmol en solution (non visible, car aqueux).
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExoMg(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
+  <div class="subsub-tab-content" id="inter-aspirine">
+
+    <div class="card" id="exo-aspirine" style="border-left:4px solid var(--orange);">
+      <h3>Exercice — L'aspirine : un remède ancien <span class="diff-etoiles">⭐⭐</span></h3>
+      <p style="font-size:0.9rem;line-height:1.65;margin-bottom:16px;">
+        L'aspirine est une espèce chimique synthétique. Son principe actif est synthétisé à partir de l'acide salicylique. Cet acide a été extrait des saules pendant des siècles avant que sa synthèse ne soit mise au point. L'aspirine est le médicament dont la consommation mondiale est la plus importante : <strong>m<sub>h</sub> = 4 560 kg</strong> par heure.<br>
+        Le traitement d'un échantillon de masse <strong>m<sub>e</sub> = 50 g</strong> d'écorce de saule conduit à l'obtention d'un échantillon de masse <strong>m<sub>a</sub> = 5 g</strong> d'aspirine. D'un saule, on extrait en moyenne une masse <strong>m<sub>m</sub> = 23 kg</strong> d'écorce.
+      </p>
+
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Exprimer puis calculer le nombre de saules qu'il faudrait abattre par heure pour satisfaire la demande mondiale.</p>
+        <div id="qcm-asp-a">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">A) Environ 200 saules par heure</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">B) Environ 1 000 saules par heure</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">C) Environ 1 983 saules par heure</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">D) Environ 5 000 saules par heure</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-asp-a','corr-asp-a')">▶ Voir la correction</button>
+        <div class="correction-block orange" id="corr-asp-a">
+          <strong>✅ Réponse C — environ 1 983 saules par heure.</strong><br>
+          <u>Formule :</u> l'échantillon d'écorce (m<sub>e</sub> = 50 g) donne l'échantillon d'aspirine (m<sub>a</sub> = 5 g). Pour produire la masse d'aspirine consommée en une heure (m<sub>h</sub>), il faut donc une masse d'écorce m<sub>écorce</sub> telle que :
+          <span class="calc-step">m<sub>écorce</sub> = m<sub>h</sub> × (m<sub>e</sub> / m<sub>a</sub>)</span>
+          Le nombre de saules N à abattre correspond ensuite à cette masse d'écorce divisée par la masse moyenne d'écorce d'un saule (m<sub>m</sub>) :
+          <span class="calc-step">N = m<sub>écorce</sub> / m<sub>m</sub> = (m<sub>h</sub> × m<sub>e</sub>) / (m<sub>a</sub> × m<sub>m</sub>)</span>
+          <u>Calcul :</u>
+          <span class="calc-step">N = (4 560 × 50) / (5 × 23) = 228 000 / 115</span>
+          <u>Résultat :</u>
+          <span class="calc-step">N ≈ 1 983 saules par heure</span>
+          Il faudrait donc abattre près de <strong>2 000 saules chaque heure</strong> pour satisfaire la seule demande mondiale en aspirine par extraction naturelle.
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Conclure sur l'intérêt de synthétiser industriellement l'acide salicylique.</p>
+        <div id="qcm-asp-b">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">A) La synthèse industrielle est indispensable pour répondre à la demande sans épuiser les saules.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">B) L'extraction naturelle suffit largement à la demande mondiale.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">C) Il vaudrait mieux planter davantage de saules plutôt que de synthétiser l'acide salicylique.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">D) La synthèse industrielle n'a aucun intérêt économique ou écologique.</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-asp-b','corr-asp-b')">▶ Voir la correction</button>
+        <div class="correction-block orange" id="corr-asp-b">
+          <strong>✅ Réponse A.</strong><br>
+          Abattre environ 2 000 saules par heure (soit près de 17,5 millions par an) pour satisfaire la seule demande en aspirine serait à la fois <strong>écologiquement destructeur</strong> et <strong>irréalisable</strong> à grande échelle.<br>
+          La <strong>synthèse chimique industrielle</strong> de l'acide salicylique permet de répondre à une demande mondiale considérable sans dépendre d'une ressource naturelle limitée : elle est plus <strong>durable</strong>, plus <strong>rapide</strong>, moins <strong>coûteuse</strong> et garantit une <strong>qualité constante</strong> du produit.
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExoAsp(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
   </div>
   <div class="sub-tab-content" id="exo-difficiles">
-    <p style="color:var(--texte-léger);font-style:italic;padding:20px 0;text-align:center">Contenu à venir.</p>
+
+  <div class="subsub-tabs-nav">
+    <button class="subsub-tab-btn active" onclick="showSubSub(this,'difficile-1')">Exercice 1 <span class="subsub-tab-stars">★★☆</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'difficile-2')">Exercice 2 <span class="subsub-tab-stars">★★☆</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'difficile-3')">Exercice 3 <span class="subsub-tab-stars">★★★</span></button>
+    <button class="subsub-tab-btn" onclick="showSubSub(this,'difficile-4')">Exercice 4 <span class="subsub-tab-stars">★★☆</span></button>
+  </div>
+
+  <div class="subsub-tab-content active" id="difficile-1">
+
+    <div class="card" id="exo-44-exothermique" style="border-left:4px solid var(--rouge);">
+      <h3>Exercice 1 — Transformation exothermique <span class="diff-etoiles">⭐⭐</span></h3>
+      <p style="font-size:0.9rem;line-height:1.65;margin-bottom:16px;">
+        Dans un calorimètre, un échantillon d'eau de volume <strong>V = 200 mL</strong> est introduit et on relève la température θ<sub>i</sub> = 20,2 °C. Un échantillon d'hydroxyde de sodium de masse <strong>m = 2,0 g</strong> est placé dans l'eau, le calorimètre est fermé et agité. La température du mélange est alors mesurée : θ<sub>f</sub> = 31 °C.<br>
+        L'expérience est refaite plusieurs fois avec le même volume d'eau, mais en modifiant la masse d'hydroxyde de sodium. Les résultats obtenus sont regroupés dans le tableau suivant :
+      </p>
+      <table class="ions-table" style="margin-bottom:18px;">
+        <thead><tr><th>Expérience n°</th><th>Masse m d'hydroxyde de sodium (g)</th><th>Température finale du mélange θ<sub>f</sub> (°C)</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>2,0</td><td>31,0</td></tr>
+          <tr><td>2</td><td>3,0</td><td>36,1</td></tr>
+          <tr><td>3</td><td>4,0</td><td>42,0</td></tr>
+          <tr><td>4</td><td>5,0</td><td>46,9</td></tr>
+          <tr><td>5</td><td>6,0</td><td>52,3</td></tr>
+        </tbody>
+      </table>
+
+      <!-- a. QCM -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Préciser si la dissolution dans l'eau de l'hydroxyde de sodium est une transformation endothermique ou exothermique.</p>
+        <div id="qcm-44a">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44a','corr-44a',this)">A) Endothermique</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-44a','corr-44a',this)">B) Exothermique</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-44a','corr-44a')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-44a">
+          <strong>✅ Réponse B — Exothermique.</strong><br>
+          La température du mélange <strong>augmente</strong> (θ<sub>f</sub> &gt; θ<sub>i</sub>) : le système chimique <strong>libère de la chaleur</strong> vers l'eau du calorimètre. Une transformation qui libère de l'énergie thermique est, par définition, <strong>exothermique</strong>.
+        </div>
+      </div>
+
+      <!-- b. Rédaction + indice -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Décrire qualitativement l'évolution de la température du mélange en fonction de la masse d'hydroxyde de sodium.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-44b')">💡 Indice</button>
+        <div class="indice-box" id="ind-44b">Regarde le tableau : quand la masse m double, que fait à peu près l'écart de température par rapport à θ<sub>i</sub> ? Compare les valeurs de θ<sub>f</sub> expérience par expérience.</div>
+        <textarea class="rep-zone" id="r-44b" placeholder="Rédigez votre réponse…"></textarea>
+        <button class="btn-correction" onclick="corrOnlyEx(null,'corr-44b')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-44b">
+          <strong>✅ Réponse attendue.</strong><br>
+          Plus la masse m d'hydroxyde de sodium introduite est grande, plus la température finale θ<sub>f</sub> du mélange est élevée : la température du mélange <strong>augmente avec la masse</strong> d'hydroxyde de sodium dissoute.<br>
+          Cette augmentation semble à peu près <strong>proportionnelle</strong> à la masse dissoute (quand m augmente régulièrement, l'écart θ<sub>f</sub> − θ<sub>i</sub> augmente lui aussi de façon à peu près régulière).<br>
+          <em>Si votre réponse ne mentionnait pas cette proportionnalité approximative, ce n'est pas grave à ce stade : la question c la mettra en évidence par le calcul.</em>
+        </div>
+      </div>
+
+      <!-- c. Tableau à listes déroulantes -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">c. Pour chaque expérience, calculer la variation de température Δθ = θ<sub>f</sub> − θ<sub>i</sub>.</p>
+        <table class="ions-table">
+          <thead><tr><th>Expérience n°</th><th>m (g)</th><th>θ<sub>f</sub> (°C)</th><th>Δθ = θ<sub>f</sub> − θ<sub>i</sub> (°C)</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>2,0</td><td>31,0</td><td>
+              <select class="select-exo mini" id="sel-44-dt-1"><option value="">— Δθ —</option><option value="10.8">10,8 °C</option><option value="10.2">10,2 °C</option><option value="-10.8">−10,8 °C</option><option value="11.8">11,8 °C</option></select>
+            </td></tr>
+            <tr><td>2</td><td>3,0</td><td>36,1</td><td>
+              <select class="select-exo mini" id="sel-44-dt-2"><option value="">— Δθ —</option><option value="15.9">15,9 °C</option><option value="16.9">16,9 °C</option><option value="-15.9">−15,9 °C</option><option value="14.9">14,9 °C</option></select>
+            </td></tr>
+            <tr><td>3</td><td>4,0</td><td>42,0</td><td>
+              <select class="select-exo mini" id="sel-44-dt-3"><option value="">— Δθ —</option><option value="21.8">21,8 °C</option><option value="20.8">20,8 °C</option><option value="-21.8">−21,8 °C</option><option value="22.8">22,8 °C</option></select>
+            </td></tr>
+            <tr><td>4</td><td>5,0</td><td>46,9</td><td>
+              <select class="select-exo mini" id="sel-44-dt-4"><option value="">— Δθ —</option><option value="26.7">26,7 °C</option><option value="25.7">25,7 °C</option><option value="-26.7">−26,7 °C</option><option value="27.7">27,7 °C</option></select>
+            </td></tr>
+            <tr><td>5</td><td>6,0</td><td>52,3</td><td>
+              <select class="select-exo mini" id="sel-44-dt-5"><option value="">— Δθ —</option><option value="32.1">32,1 °C</option><option value="31.1">31,1 °C</option><option value="-32.1">−32,1 °C</option><option value="33.1">33,1 °C</option></select>
+            </td></tr>
+          </tbody>
+        </table>
+        <button class="btn-correction" onclick="checkTableExo44()" style="margin-top:10px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-44c">
+          <strong>✅ Δθ = θ<sub>f</sub> − θ<sub>i</sub>, avec θ<sub>i</sub> = 20,2 °C :</strong>
+          <span class="calc-step">Exp. 1 : 31,0 − 20,2 = 10,8 °C<br>Exp. 2 : 36,1 − 20,2 = 15,9 °C<br>Exp. 3 : 42,0 − 20,2 = 21,8 °C<br>Exp. 4 : 46,9 − 20,2 = 26,7 °C<br>Exp. 5 : 52,3 − 20,2 = 32,1 °C</span>
+        </div>
+      </div>
+
+      <!-- d/e. Programme Python -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:4px;">d. Faire la représentation du nuage de points en plaçant Δθ en ordonnée et m en abscisse.</p>
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">e. Tracer la droite passant au plus près des points.</p>
+        <p style="font-size:0.85rem;color:var(--texte-léger);margin-bottom:2px;">1️⃣ Complète d'abord <strong>directement dans le programme</strong> les deux listes de valeurs <code style="background:#eef1f5;padding:1px 5px;border-radius:4px;">m = [...]</code> et <code style="background:#eef1f5;padding:1px 5px;border-radius:4px;">theta_f = [...]</code> avec les données du tableau précédent (question c).</p>
+        <p style="font-size:0.85rem;color:var(--texte-léger);margin-bottom:10px;">2️⃣ Complète ensuite les instructions manquantes en choisissant la bonne réponse dans chaque liste déroulante ci-dessous — le programme se met à jour automatiquement.</p>
+
+        <div class="py-blanks-toolbar">
+          <p>🧩 Instructions à choisir :</p>
+          <div class="py-blank-row">
+            <label>Calcul de <code>dt</code> :</label>
+            <select class="select-exo mini" id="sel-44-py-b1" onchange="applyPyBlank('B1', this)">
+              <option value="">— choisir —</option>
+              <option value="tf - theta_i">dt = tf − theta_i</option>
+              <option value="theta_i - tf">dt = theta_i − tf</option>
+              <option value="tf + theta_i">dt = tf + theta_i</option>
+              <option value="tf / theta_i">dt = tf / theta_i</option>
+            </select>
+          </div>
+          <div class="py-blank-row">
+            <label>Nuage de points :</label>
+            <select class="select-exo mini" id="sel-44-py-b2" onchange="applyPyBlank('B2', this)">
+              <option value="">— choisir —</option>
+              <option value='plt.scatter(m, delta_theta, color="blue", label="points expérimentaux")'>plt.scatter(m, delta_theta, …)</option>
+              <option value='plt.scatter(delta_theta, m, color="blue", label="points expérimentaux")'>plt.scatter(delta_theta, m, …)</option>
+              <option value='plt.plot(m, delta_theta, color="blue")'>plt.plot(m, delta_theta)</option>
+              <option value='plt.scatter(theta_f, m, color="blue", label="points expérimentaux")'>plt.scatter(theta_f, m, …)</option>
+            </select>
+          </div>
+          <div class="py-blank-row">
+            <label>Régression linéaire :</label>
+            <select class="select-exo mini" id="sel-44-py-b3" onchange="applyPyBlank('B3', this)">
+              <option value="">— choisir —</option>
+              <option value="a, b = np.polyfit(m, delta_theta, 1)">np.polyfit(m, delta_theta, 1)</option>
+              <option value="a, b = np.polyfit(delta_theta, m, 1)">np.polyfit(delta_theta, m, 1)</option>
+              <option value="a, b = np.polyfit(m, theta_f, 1)">np.polyfit(m, theta_f, 1)</option>
+              <option value="a, b = np.polyfit(m, delta_theta, 2)">np.polyfit(m, delta_theta, 2)</option>
+            </select>
+          </div>
+          <div class="py-blank-row">
+            <label>Tracé de la droite :</label>
+            <select class="select-exo mini" id="sel-44-py-b4" onchange="applyPyBlank('B4', this)">
+              <option value="">— choisir —</option>
+              <option value='plt.plot(m_droite, theta_droite, color="red", label="droite de régression")'>plt.plot(m_droite, theta_droite, …)</option>
+              <option value='plt.plot(theta_droite, m_droite, color="red", label="droite de régression")'>plt.plot(theta_droite, m_droite, …)</option>
+              <option value='plt.scatter(m_droite, theta_droite, color="red")'>plt.scatter(m_droite, theta_droite)</option>
+              <option value='plt.plot(m, theta_droite, color="red", label="droite de régression")'>plt.plot(m, theta_droite, …)</option>
+            </select>
+          </div>
+        </div>
+
+        <textarea class="python-editor" id="py-code-44" spellcheck="false"></textarea>
+        <br>
+        <button class="btn-run" onclick="runPythonCode('py-code-44','py-output-44',this)">▶ Exécuter</button>
+        <div class="python-output" id="py-output-44"></div>
+        <button class="btn-correction" onclick="corrOnlyEx(null,'corr-44de')" style="margin-top:10px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-44de">
+          <strong>✅ Programme complet</strong> — tu peux l'exécuter directement, même si tu n'as pas terminé le tien ci-dessus :
+          <textarea class="python-editor" id="py-code-44-corr" spellcheck="false" style="margin-top:8px;"></textarea>
+          <br>
+          <button class="btn-run" onclick="runPythonCode('py-code-44-corr','py-output-44-corr',this)">▶ Exécuter le programme corrigé</button>
+          <div class="python-output" id="py-output-44-corr"></div>
+        </div>
+      </div>
+
+      <!-- f. QCM -->
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">f. En déduire la relation entre la masse d'hydroxyde de sodium et la variation de température.</p>
+        <div id="qcm-44f">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-44f','corr-44f',this)">A) Δθ est proportionnelle à la masse m : Δθ = a × m (droite passant par l'origine)</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">B) Δθ est inversement proportionnelle à m</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">C) Δθ ne dépend pas de m</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">D) La relation est exponentielle</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-44f','corr-44f')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-44f">
+          <strong>✅ Réponse A.</strong><br>
+          La régression linéaire donne une droite de coefficient directeur <strong>a ≈ 5,3 °C·g⁻¹</strong> et une ordonnée à l'origine <strong>b ≈ 0,1 °C</strong>, c'est-à-dire quasiment nulle.<br>
+          La droite passe donc pratiquement par l'origine : <strong>Δθ est proportionnelle à la masse m</strong> d'hydroxyde de sodium dissoute, avec <strong>Δθ = a × m</strong>.
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExo44(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
+  <div class="subsub-tab-content" id="difficile-2">
+
+    <div class="card" id="exo-45-ammoniac" style="border-left:4px solid var(--rouge);">
+      <h3>Exercice 2 — Synthèse de l'ammoniac <span class="diff-etoiles">⭐⭐</span></h3>
+      <p style="font-size:0.9rem;line-height:1.65;margin-bottom:16px;">
+        L'ammoniac, de formule <strong>NH₃</strong>, est un gaz irritant pour les voies respiratoires. Préparé industriellement, c'est une matière première nécessaire à la synthèse de nombreux matériaux polymères innovants, utilisés par exemple dans la fabrication de skis.<br>
+        Lors de la synthèse industrielle de l'ammoniac, l'un des réactifs est l'un des constituants de l'air. L'autre réactif est un gaz qui produit une petite détonation en présence d'air et d'une flamme.
+      </p>
+
+      <!-- a. Composition de l'air -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Rappeler la composition de l'air.</p>
+        <div id="qcm-45a">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">A) L'air est constitué à 100 % de dioxygène O₂.</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-45a','corr-45a',this)">B) L'air est constitué d'environ 4/5 de diazote N₂ et 1/5 de dioxygène O₂.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">C) L'air est constitué d'environ 1/5 de diazote N₂ et 4/5 de dioxygène O₂.</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">D) L'air est constitué uniquement de dioxyde de carbone CO₂.</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-45a','corr-45a')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-45a">
+          <strong>✅ Réponse B.</strong><br>
+          L'air est un mélange de gaz constitué d'environ <strong>4/5 (≈ 78 %) de diazote N₂</strong> et <strong>1/5 (≈ 21 %) de dioxygène O₂</strong>. Les autres gaz (argon, dioxyde de carbone…) ne représentent qu'une très faible proportion.
+        </div>
+      </div>
+
+      <!-- b. Réactifs -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Indiquer les réactifs de la synthèse industrielle de l'ammoniac. Préciser leur état physique.</p>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin-bottom:4px;">Réactif provenant de l'air :</label>
+        <select id="sel-45-b1" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="N2">Diazote N₂(g)</option>
+          <option value="O2">Dioxygène O₂(g)</option>
+          <option value="CO2">Dioxyde de carbone CO₂(g)</option>
+          <option value="Ar">Argon Ar(g)</option>
+        </select>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin-bottom:4px;">Autre réactif (détonation à la flamme) :</label>
+        <select id="sel-45-b2" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="H2">Dihydrogène H₂(g)</option>
+          <option value="Cl2">Dichlore Cl₂(g)</option>
+          <option value="CH4">Méthane CH₄(g)</option>
+          <option value="NH3">Ammoniac NH₃(g)</option>
+        </select>
+        <button class="btn-correction" onclick="checkExo45B()">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-45b">
+          <strong>✅ Réactifs : N₂(g) et H₂(g).</strong><br>
+          Le <strong>diazote N₂</strong> est l'un des constituants de l'air (environ 4/5).<br>
+          Le <strong>dihydrogène H₂</strong> se reconnaît au test caractéristique classique : une petite <strong>détonation</strong> (« aboiement ») lorsqu'on approche une flamme du gaz.<br>
+          Les deux réactifs sont <strong>gazeux</strong>.
+        </div>
+      </div>
+
+      <!-- c. Équation -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">c. Écrire l'équation de réaction modélisant la synthèse de l'ammoniac.</p>
+        <select id="sel-45c" class="select-exo">
+          <option value="">— Choisir l'équation ajustée —</option>
+          <option value="A">N₂(g) + H₂(g) → NH₃(g)</option>
+          <option value="B">N₂(g) + 3 H₂(g) → 2 NH₃(g)</option>
+          <option value="C">2 N₂(g) + 3 H₂(g) → 2 NH₃(g)</option>
+          <option value="D">N₂(g) + 3 H₂(g) → NH₃(g)</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-45c','corr-45c','B')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-45c">
+          <strong>✅ Réponse B.</strong><br>
+          On ajuste d'abord l'azote : 1 molécule N₂ apporte 2 atomes N, il faut donc <strong>2 NH₃</strong> pour les retrouver. On ajuste ensuite l'hydrogène : 2 NH₃ contiennent 6 atomes H, il faut donc <strong>3 H₂</strong>.
+          <span class="calc-step">N₂(g) + 3 H₂(g) → 2 NH₃(g)</span>
+          Vérification : 2 N et 6 H de chaque côté de la flèche.
+        </div>
+      </div>
+
+      <!-- d. Calcul de la quantité d'air -->
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">d. On souhaite préparer une quantité n = 2,0 mol d'ammoniac. Exprimer puis calculer la quantité d'air nécessaire à la synthèse.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-45d')">💡 Indice</button>
+        <div class="indice-box" id="ind-45d">Utilise d'abord les coefficients de l'équation pour trouver la quantité de N₂ nécessaire à partir de n(NH₃). Puis utilise la composition de l'air (4/5 de N₂) pour remonter à la quantité totale d'air.</div>
+        <textarea class="rep-zone" id="r-45d" placeholder="Rédigez votre raisonnement…"></textarea>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin:10px 0 4px;">Quantité d'air n(air) :</label>
+        <select id="sel-45d" class="select-exo">
+          <option value="">— choisir la valeur —</option>
+          <option value="1.25">1,25 mol</option>
+          <option value="2.5">2,5 mol</option>
+          <option value="0.8">0,80 mol</option>
+          <option value="1.6">1,60 mol</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-45d','corr-45d','1.25')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-45d">
+          <strong>✅ Raisonnement attendu.</strong><br>
+          D'après l'équation N₂(g) + 3 H₂(g) → 2 NH₃(g), les quantités de matière sont proportionnelles aux coefficients stœchiométriques :
+          <span class="calc-step">n(N₂) / 1 = n(NH₃) / 2  ⟹  n(N₂) = n(NH₃) / 2 = 2,0 / 2 = 1,0 mol</span>
+          L'air contenant environ 4/5 de diazote (en quantité de matière) :
+          <span class="calc-step">n(air) = n(N₂) × 5/4 = 1,0 × 5/4 = <strong>1,25 mol</strong> ≈ 1,3 mol</span>
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExo45(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
+  <div class="subsub-tab-content" id="difficile-3">
+
+    <div class="card" id="exo-47-duree" style="border-left:4px solid var(--rouge);">
+      <h3>Exercice 3 — Durée d'une transformation <span class="diff-etoiles">⭐⭐⭐</span></h3>
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px;">
+        <p style="font-size:0.9rem;line-height:1.65;flex:1;min-width:260px;">
+          Le <strong>benzaldéhyde</strong> est une espèce ayant l'odeur d'amande amère. Elle est présente naturellement dans les noyaux d'abricots. La synthèse du benzaldéhyde est possible par action de l'<strong>eau de Javel</strong> sur l'<strong>alcool benzylique</strong>. La transformation est effectuée au laboratoire et suivie par <strong>chromatographie sur couche mince</strong>.<br><br>
+          Pour cela, un premier dépôt est réalisé avant introduction de l'eau de Javel. Ensuite, une partie du milieu réactionnel est prélevée toutes les 10 minutes, puis un dépôt est réalisé avec ce prélèvement sur la même plaque. Après élution et révélation sous UV, le chromatogramme ci-contre est obtenu.<br><br>
+          L'alcool benzylique est <strong>faiblement révélé</strong> car il absorbe peu les UV. L'eau de Javel <strong>n'est pas révélée</strong> car elle n'absorbe pas les UV. Le benzaldéhyde est <strong>fortement révélé</strong> car il absorbe beaucoup les UV.<br><br>
+          La transformation étudiée n'est pas instantanée.
+        </p>
+        <img src="ex47.png" alt="Chromatogramme sur couche mince du milieu réactionnel aux instants t = 0, 10, 20 et 30 min" style="max-width:220px;width:100%;flex-shrink:0;border-radius:10px;border:1.5px solid var(--gris-bord);">
+      </div>
+
+      <!-- a. Réactifs -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Nommer les réactifs de la transformation étudiée.</p>
+        <div id="qcm-47a">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">A) Benzaldéhyde et alcool benzylique</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47a','corr-47a',this)">B) Alcool benzylique et eau de Javel</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">C) Benzaldéhyde et eau de Javel</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">D) Eau de Javel seule</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-47a','corr-47a')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47a">
+          <strong>✅ Réponse B.</strong><br>
+          L'énoncé précise que « la synthèse du benzaldéhyde est possible par action de l'<strong>eau de Javel</strong> sur l'<strong>alcool benzylique</strong> » : ce sont les deux réactifs. Le benzaldéhyde, lui, est le <strong>produit</strong> de la transformation.
+        </div>
+      </div>
+
+      <!-- b. Taches eau de Javel -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Les taches associées à l'eau de Javel sont-elles visibles sur le chromatogramme ?</p>
+        <div id="qcm-47b">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47b','corr-47b',this)">A) Oui, l'eau de Javel est fortement révélée sous UV.</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47b','corr-47b',this)">B) Non, l'eau de Javel n'absorbe pas les UV : elle n'est pas révélée.</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-47b','corr-47b')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47b">
+          <strong>✅ Réponse B — Non.</strong><br>
+          L'énoncé indique explicitement que <strong>l'eau de Javel n'est pas révélée</strong> car elle n'absorbe pas les UV : aucune tache ne lui est associée sur le chromatogramme, même si elle est bien présente dans le milieu réactionnel.
+        </div>
+      </div>
+
+      <!-- c. Une seule tache à t=0 -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">c. À la date t = 0, il n'y a qu'une seule tache au-dessus du dépôt. Justifier.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-47c')">💡 Indice</button>
+        <div class="indice-box" id="ind-47c">À t = 0, le dépôt est réalisé <em>avant</em> l'introduction de l'eau de Javel. Demande-toi quelles espèces sont réellement présentes — et révélables sous UV — à cet instant précis.</div>
+        <textarea class="rep-zone" id="r-47c" placeholder="Rédigez votre réponse…"></textarea>
+        <button class="btn-correction" onclick="corrOnlyEx(null,'corr-47c')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47c">
+          <strong>✅ Réponse attendue.</strong><br>
+          À t = 0, le dépôt est réalisé <strong>avant</strong> l'introduction de l'eau de Javel : le milieu ne contient donc que l'<strong>alcool benzylique</strong> (le réactif initialement présent). Le benzaldéhyde n'a pas encore eu le temps de se former, et même si l'eau de Javel était déjà présente, elle ne serait pas révélée sous UV.<br>
+          La seule tache visible au-dessus du dépôt à t = 0 est donc celle de l'<strong>alcool benzylique</strong>.
+        </div>
+      </div>
+
+      <!-- d. Identifier les taches -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">d. Sur le chromatogramme, identifier la tache associée à l'alcool benzylique et celle associée au benzaldéhyde.</p>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin-bottom:4px;">Tache associée à l'alcool benzylique :</label>
+        <select id="sel-47-d1" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="bas">La tache du bas — faible, verte, proche du dépôt</option>
+          <option value="haut">La tache du haut — foncée, éloignée du dépôt</option>
+        </select>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin-bottom:4px;">Tache associée au benzaldéhyde :</label>
+        <select id="sel-47-d2" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="bas">La tache du bas — faible, verte, proche du dépôt</option>
+          <option value="haut">La tache du haut — foncée, éloignée du dépôt</option>
+        </select>
+        <button class="btn-correction" onclick="checkExo47D()">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47d">
+          <strong>✅ Alcool benzylique → tache du bas ; Benzaldéhyde → tache du haut.</strong><br>
+          L'énoncé précise que l'alcool benzylique est <strong>faiblement révélé</strong> (tache verte, discrète, proche du dépôt) tandis que le benzaldéhyde est <strong>fortement révélé</strong> (tache foncée). Sur le chromatogramme, la tache du bas grandit puis disparaît (réactif consommé), tandis que la tache du haut apparaît et grossit avec le temps (produit formé) : elle correspond donc au <strong>benzaldéhyde</strong>.
+        </div>
+      </div>
+
+      <!-- e. Tache visible à la fin ? -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">e. L'alcool benzylique est le réactif limitant. La tache qui lui est associée est-elle visible à la fin de la transformation ?</p>
+        <div id="qcm-47e">
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47e','corr-47e',this)">A) Oui, une petite tache reste visible même à la fin.</button>
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47e','corr-47e',this)">B) Non, elle a disparu : le réactif limitant est entièrement consommé.</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-47e','corr-47e')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47e">
+          <strong>✅ Réponse B — Non.</strong><br>
+          Un réactif <strong>limitant</strong> est, par définition, entièrement consommé à la fin de la transformation. Sa tache (celle du bas, associée à l'alcool benzylique) doit donc <strong>disparaître complètement</strong> du chromatogramme une fois la transformation terminée — ce que l'on observe effectivement au dernier prélèvement.
+        </div>
+      </div>
+
+      <!-- f. Estimation de la durée -->
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">f. Donner une estimation de la durée de la transformation.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-47f')">💡 Indice</button>
+        <div class="indice-box" id="ind-47f">Repère, sur le chromatogramme, le dernier instant où la tache de l'alcool benzylique est encore visible, et le premier instant où elle a totalement disparu. La transformation se termine forcément entre ces deux instants.</div>
+        <textarea class="rep-zone" id="r-47f" placeholder="Rédigez votre raisonnement…"></textarea>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin:10px 0 4px;">Estimation de la durée :</label>
+        <select id="sel-47f" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="A">Moins de 10 min</option>
+          <option value="B">Entre 10 et 20 min</option>
+          <option value="C">Entre 20 et 30 min</option>
+          <option value="D">Plus de 30 min</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-47f','corr-47f','C')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-47f">
+          <strong>✅ Réponse C — Entre 20 et 30 min.</strong><br>
+          Sur le chromatogramme, la tache de l'alcool benzylique (réactif limitant) est encore visible, bien que faible, au prélèvement <strong>t = 20 min</strong>, mais elle a totalement disparu au prélèvement <strong>t = 30 min</strong>.<br>
+          La transformation, qui se termine lorsque le réactif limitant est entièrement consommé, s'est donc achevée <strong>entre 20 et 30 minutes</strong> après le début de l'introduction de l'eau de Javel.
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExo47(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
+  <div class="subsub-tab-content" id="difficile-4">
+
+    <div class="card" id="exo-48-savon" style="border-left:4px solid var(--rouge);">
+      <h3>Exercice 4 — Synthèse d'un savon <span class="diff-etoiles">⭐⭐</span></h3>
+      <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px;">
+        <p style="font-size:0.9rem;line-height:1.65;flex:1;min-width:260px;">
+          L'<strong>oléine</strong>, de formule C₅₇H₁₀₄O₆, est une espèce chimique naturellement présente dans les matières grasses. Elle est utilisée dans la synthèse des savons.<br><br>
+          De l'oléine et de la <strong>soude</strong> (solution contenant des ions hydroxyde HO⁻ et sodium Na⁺) sont introduites dans un ballon. Ce mélange est <strong>chauffé à reflux pendant 30 min</strong> : il devient progressivement visqueux, en raison de la formation de savon de formule C₁₇H₃₃CO₂Na.<br><br>
+          L'état initial est constitué de <strong>17 mmol d'oléine</strong>, de <strong>0,20 mol d'ion hydroxyde</strong> et de <strong>0,20 mol d'ion sodium</strong>. Outre le savon, la transformation produit du <strong>glycérol</strong> de formule C₃H₈O₃.
+        </p>
+        <img src="savon.png" alt="Savon de Marseille extra pur 72% d'huile" style="max-width:170px;width:100%;flex-shrink:0;border-radius:10px;border:1.5px solid var(--gris-bord);">
+      </div>
+
+      <!-- a. Montage à reflux -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Parmi les trois montages ci-dessous, identifier celui qui correspond au dispositif de chauffage à reflux utilisé pour cette synthèse.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:flex-start;margin-bottom:12px;">
+          <div style="text-align:center;flex:1;min-width:156px;max-width:240px;">
+            <div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;border:1.5px solid var(--gris-bord);overflow:hidden;padding:8px;">
+              <img src="montagereflux.png" alt="Montage 1" style="max-width:100%;max-height:100%;object-fit:contain;">
+            </div>
+            <p style="font-size:0.72rem;font-weight:700;margin-top:4px;color:var(--texte-léger);">Montage 1</p>
+          </div>
+          <div style="text-align:center;flex:1;min-width:156px;max-width:240px;">
+            <div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;border:1.5px solid var(--gris-bord);overflow:hidden;padding:8px;">
+              <img src="distillation.png" alt="Montage 2" style="max-width:100%;max-height:100%;object-fit:contain;">
+            </div>
+            <p style="font-size:0.72rem;font-weight:700;margin-top:4px;color:var(--texte-léger);">Montage 2</p>
+          </div>
+          <div style="text-align:center;flex:1;min-width:156px;max-width:240px;">
+            <div style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:8px;border:1.5px solid var(--gris-bord);overflow:hidden;padding:8px;">
+              <img src="deanstark.png" alt="Montage 3" style="max-width:100%;max-height:100%;object-fit:contain;">
+            </div>
+            <p style="font-size:0.72rem;font-weight:700;margin-top:4px;color:var(--texte-léger);">Montage 3</p>
+          </div>
+        </div>
+        <div id="qcm-48a">
+          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-48a','corr-48a',this)">A) Montage 1</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-48a','corr-48a',this)">B) Montage 2</button>
+          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-48a','corr-48a',this)">C) Montage 3</button>
+        </div>
+        <button class="btn-correction" onclick="corrOnlyEx('qcm-48a','corr-48a')">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-48a">
+          <strong>✅ Réponse A — Montage 1.</strong><br>
+          Le <strong>montage 1</strong> est le dispositif de chauffage à reflux : un simple réfrigérant est fixé à la verticale au-dessus du ballon (à l'aide d'une pince trois doigts), ce qui permet de condenser les vapeurs et de les faire retomber dans le ballon, sans rien récupérer à l'extérieur.<br>
+          Le <strong>montage 2</strong> est un montage de <strong>distillation</strong> : il comporte un thermomètre et une colonne de Vigreux, et le réfrigérant est incliné pour recueillir un distillat dans une éprouvette.<br>
+          Le <strong>montage 3</strong> comporte un <strong>Dean-Stark</strong> intercalé entre le ballon et le réfrigérant : il permet de séparer et de collecter l'eau formée au cours de la réaction, ce qui n'est pas utile pour cette synthèse.<br>
+          <span style="font-size:0.78rem;color:var(--texte-léger);">🔗 Schémas issus de <a href="https://www.lelivrescolaire.fr/page/18368817" target="_blank" rel="noopener">lelivrescolaire.fr</a></span>
+        </div>
+      </div>
+
+      <!-- b. Équation -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Écrire l'équation de la réaction modélisant la synthèse du savon.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-48b')">💡 Indice</button>
+        <div class="indice-box" id="ind-48b">L'oléine réagit avec les ions hydroxyde pour former le savon et du glycérol. Ajuste le nombre stœchiométrique devant l'ion hydroxyde (et devant le savon) en comptant les atomes de carbone de chaque côté.</div>
+        <textarea class="rep-zone" id="r-48b" placeholder="Écrivez l'équation de la réaction…"></textarea>
+        <button class="btn-correction" onclick="corrOnlyEx(null,'corr-48b')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-48b">
+          <strong>✅ Équation attendue :</strong><br>
+          C₅₇H₁₀₄O₆ + 3 HO⁻ → C₃H₈O₃ + 3 C₁₇H₃₃CO₂⁻<br>
+          (les ions Na⁺ sont spectateurs : on peut aussi regrouper l'écriture avec 3 NaOH comme réactif et 3 C₁₇H₃₃CO₂Na, c'est-à-dire le savon, comme produit)<br>
+          Vérification des atomes : à gauche, 57 C, 104 + 3 = 107 H et 6 + 3 = 9 O ; à droite, 3 + 3×18 = 57 C, 8 + 3×33 = 107 H et 3 + 3×2 = 9 O. L'équation est bien équilibrée.
+        </div>
+      </div>
+
+      <!-- c. Réactif limitant -->
+      <div style="margin-bottom:18px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">c. Déterminer le réactif limitant.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-48c')">💡 Indice</button>
+        <div class="indice-box" id="ind-48c">Calcule la quantité d'ion hydroxyde qu'il faudrait pour consommer entièrement les 17 mmol d'oléine, d'après les nombres stœchiométriques de l'équation, puis compare-la à la quantité réellement disponible.</div>
+        <textarea class="rep-zone" id="r-48c" placeholder="Rédigez votre raisonnement…"></textarea>
+        <label style="font-size:0.85rem;font-weight:600;color:var(--texte-léger);display:block;margin:10px 0 4px;">Réactif limitant :</label>
+        <select id="sel-48c" class="select-exo">
+          <option value="">— choisir —</option>
+          <option value="A">L'oléine</option>
+          <option value="B">L'ion hydroxyde</option>
+        </select>
+        <br>
+        <button class="btn-correction" onclick="checkSelectAliC('sel-48c','corr-48c','A')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-48c">
+          <strong>✅ Réponse A — L'oléine est le réactif limitant.</strong><br>
+          D'après l'équation, il faut <strong>3 mol d'ion hydroxyde</strong> pour consommer entièrement <strong>1 mol d'oléine</strong>.<br>
+          Pour consommer n(oléine) = 17 mmol = 0,017 mol, il faudrait :<br>
+          <span class="calc-step">n(HO⁻) nécessaire = 3 × n(oléine) = 3 × 0,017 = 0,051 mol</span><br>
+          Or la quantité d'ion hydroxyde réellement introduite est n(HO⁻) = 0,20 mol, largement supérieure aux 0,051 mol nécessaires : l'ion hydroxyde est en excès.<br>
+          C'est donc l'<strong>oléine</strong> qui est le réactif limitant.
+        </div>
+      </div>
+
+      <!-- d. Quantité restante -->
+      <div style="margin-bottom:8px;">
+        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">d. En déduire la quantité de matière du (des) réactif(s) restant(s) dans le ballon à la fin de la transformation.</p>
+        <button class="btn-indice" onclick="toggleIndice('ind-48d')">💡 Indice</button>
+        <div class="indice-box" id="ind-48d">Le réactif limitant est entièrement consommé à la fin de la transformation. Calcule la quantité d'ion hydroxyde effectivement consommée grâce à la stœchiométrie, puis soustrais-la à la quantité initiale.</div>
+        <textarea class="rep-zone" id="r-48d" placeholder="Rédigez votre calcul…"></textarea>
+        <button class="btn-correction" onclick="corrOnlyEx(null,'corr-48d')" style="margin-top:8px;">▶ Voir la correction</button>
+        <div class="correction-block rouge" id="corr-48d">
+          <strong>✅ Résultat attendu.</strong><br>
+          L'oléine, réactif limitant, est <strong>entièrement consommée</strong> à la fin de la transformation : n(oléine)<sub>restant</sub> = 0 mol.<br>
+          La quantité d'ion hydroxyde consommée correspond à celle nécessaire pour faire réagir toute l'oléine :<br>
+          <span class="calc-step">n(HO⁻) consommée = 3 × n(oléine) = 3 × 0,017 = 0,051 mol</span><br>
+          La quantité d'ion hydroxyde restant dans le ballon à la fin de la transformation est donc :<br>
+          <span class="calc-step">n(HO⁻) restant = n(HO⁻) initial − n(HO⁻) consommée = 0,20 − 0,051 = <strong>0,149 mol ≈ 0,15 mol</strong></span><br>
+          Les ions sodium Na⁺, spectateurs de la réaction, restent quant à eux présents en totalité dans le ballon : n(Na⁺) = 0,20 mol.
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetExo48(this)">↺ Recommencer</button>
+    </div>
+
+  </div>
+
   </div>
   <div class="sub-tab-content" id="exo-escape">
 
@@ -1608,6 +2408,13 @@ function showSub(btn, id) {
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
+function showSubSub(btn, id) {
+  const panel = btn.closest('.sub-tab-content');
+  panel.querySelectorAll('.subsub-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.subsub-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
 function glossFilter() {
   const q = document.getElementById('glossSearch').value.trim().toLowerCase();
   document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
@@ -1747,6 +2554,75 @@ function toggleIndice(id) {
   if (box) box.classList.toggle('visible');
 }
 
+// ── EXÉCUTION PYTHON (Pyodide) ──
+let pyodideReadyPromise = null;
+function ensurePyodideReady() {
+  if (!pyodideReadyPromise) {
+    pyodideReadyPromise = (async () => {
+      window.pyodideInstance = await loadPyodide();
+      await window.pyodideInstance.loadPackage(['numpy', 'matplotlib']);
+    })();
+  }
+  return pyodideReadyPromise;
+}
+function escapeHtmlPy(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+async function runPythonCode(codeId, outputId, btn) {
+  const outEl = document.getElementById(outputId);
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  outEl.innerHTML = '<em>⏳ Chargement de l\'environnement Python (première exécution un peu plus longue)…</em>';
+  try {
+    await ensurePyodideReady();
+    const pyodide = window.pyodideInstance;
+    const code = document.getElementById(codeId).value;
+    pyodide.runPython(`
+import sys, io
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
+import matplotlib
+matplotlib.use("AGG")
+import matplotlib.pyplot as plt
+plt.close('all')
+`);
+    let errorMsg = null;
+    try {
+      await pyodide.runPythonAsync(code);
+    } catch (e) {
+      errorMsg = e.message.split('\n').slice(-4).join('\n');
+    }
+    const stdout = pyodide.runPython("sys.stdout.getvalue()");
+    const stderr = pyodide.runPython("sys.stderr.getvalue()");
+    let html = '';
+    if (stdout) html += '<pre class="py-stdout">' + escapeHtmlPy(stdout) + '</pre>';
+    if (errorMsg) {
+      html += '<pre class="py-error">❌ Erreur :\n' + escapeHtmlPy(errorMsg) + '</pre>';
+    } else if (stderr) {
+      html += '<pre class="py-error">' + escapeHtmlPy(stderr) + '</pre>';
+    }
+    const hasFig = pyodide.runPython("len(plt.get_fignums()) > 0");
+    if (hasFig) {
+      const imgB64 = pyodide.runPython(`
+import io, base64
+buf = io.BytesIO()
+plt.savefig(buf, format='png', dpi=110, bbox_inches='tight')
+buf.seek(0)
+base64.b64encode(buf.read()).decode('utf-8')
+`);
+      html += '<img class="py-figure" src="data:image/png;base64,' + imgB64 + '">';
+    }
+    outEl.innerHTML = html || '<em>(aucune sortie — pense à utiliser print() ou à tracer un graphique)</em>';
+  } catch (e) {
+    outEl.innerHTML = '<pre class="py-error">❌ Erreur d\'exécution : ' + escapeHtmlPy(e.message) + '</pre>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+  }
+}
+
 // ── ACTIVITÉ 2 : Tableau à compléter (bonbon limitant) ──
 const tableau2Solutions = {
   't2-a-nfi': 10, 't2-c-nfi': 10,
@@ -1787,6 +2663,439 @@ function corrAct2(n) {
 }
 
 // ── ACTIVITÉ 2 : champs de réponse libres à vérifier ──
+// ── Réinitialisation générique d'un exercice Vérifier (bouton "↺ Recommencer") ──
+// ── EXERCICE FACILE : Aluminium + acide chlorhydrique ──
+function checkChoixEx(zoneId, corrId, btn) {
+  const zone = document.getElementById(zoneId);
+  if (!zone || zone.dataset.done === 'true') return;
+  zone.dataset.done = 'true';
+  zone.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.correct === 'true') b.classList.add('correct');
+    else if (b === btn) b.classList.add('wrong');
+  });
+  document.getElementById(corrId).classList.add('visible');
+}
+function corrOnlyEx(zoneId, corrId) {
+  const zone = document.getElementById(zoneId);
+  if (zone) {
+    zone.dataset.done = 'true';
+    zone.querySelectorAll('.choix-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.correct === 'true') b.classList.add('correct');
+    });
+  }
+  const corr = document.getElementById(corrId);
+  if (corr) corr.classList.add('visible');
+}
+function resetExoAl(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct', 'wrong');
+  });
+  card.querySelectorAll('[id^="qcm-al-"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function checkSelectAliC(selId, corrId, correctVal) {
+  correctVal = correctVal || 'B';
+  const sel = document.getElementById(selId);
+  if (!sel || sel.dataset.done === 'true') return;
+  sel.dataset.done = 'true';
+  sel.disabled = true;
+  sel.classList.add(sel.value === correctVal ? 'correct' : 'wrong');
+  document.getElementById(corrId).classList.add('visible');
+}
+
+const exo44DeltaThetaSolutions = { 'sel-44-dt-1': '10.8', 'sel-44-dt-2': '15.9', 'sel-44-dt-3': '21.8', 'sel-44-dt-4': '26.7', 'sel-44-dt-5': '32.1' };
+function checkTableExo44() {
+  Object.keys(exo44DeltaThetaSolutions).forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.disabled = true;
+    sel.classList.remove('correct', 'wrong');
+    sel.classList.add(sel.value === exo44DeltaThetaSolutions[id] ? 'correct' : 'wrong');
+  });
+  document.getElementById('corr-44c').classList.add('visible');
+}
+const exo44PySkeleton = `import matplotlib.pyplot as plt
+import numpy as np
+
+# Données expérimentales — à compléter avec les valeurs du tableau de l'énoncé
+m = [...]                    # <-- À COMPLÉTER : masses d'hydroxyde de sodium (g)
+theta_f = [...]              # <-- À COMPLÉTER : températures finales (°C)
+theta_i = 20.2                              # température initiale (°C)
+
+# 1. Calculer la variation de température pour chaque expérience
+delta_theta = []
+for tf in theta_f:
+    dt = ...   # [[B1]]
+    delta_theta.append(dt)
+
+print("Δθ (°C) :", delta_theta)
+
+# 2. Tracer le nuage de points Δθ = f(m)
+plt.figure()
+...   # [[B2]]
+
+# 3. Calculer les coefficients a et b de la droite Δθ = a*m + b (régression linéaire)
+...   # [[B3]]
+
+print(f"a = {a:.2f} °C/g   b = {b:.2f} °C")
+
+# 4. Tracer la droite obtenue sur le même graphique
+m_droite = [min(m), max(m)]
+theta_droite = [a * x + b for x in m_droite]
+...   # [[B4]]
+
+plt.xlabel("Masse m (g)")
+plt.ylabel("Δθ (°C)")
+plt.title("Δθ en fonction de la masse d'hydroxyde de sodium")
+plt.legend()
+plt.show()`;
+const exo44PyCorrection = `import matplotlib.pyplot as plt
+import numpy as np
+
+# Données expérimentales
+m = [2.0, 3.0, 4.0, 5.0, 6.0]              # masse d'hydroxyde de sodium (g)
+theta_f = [31.0, 36.1, 42.0, 46.9, 52.3]   # température finale (°C)
+theta_i = 20.2                              # température initiale (°C)
+
+# 1. Calculer la variation de température pour chaque expérience
+delta_theta = []
+for tf in theta_f:
+    dt = tf - theta_i
+    delta_theta.append(dt)
+
+print("Δθ (°C) :", delta_theta)
+
+# 2. Tracer le nuage de points Δθ = f(m)
+plt.figure()
+plt.scatter(m, delta_theta, color="blue", label="points expérimentaux")
+
+# 3. Calculer les coefficients a et b de la droite Δθ = a*m + b (régression linéaire)
+a, b = np.polyfit(m, delta_theta, 1)
+
+print(f"a = {a:.2f} °C/g   b = {b:.2f} °C")
+
+# 4. Tracer la droite obtenue sur le même graphique
+m_droite = [min(m), max(m)]
+theta_droite = [a * x + b for x in m_droite]
+plt.plot(m_droite, theta_droite, color="red", label="droite de régression")
+
+plt.xlabel("Masse m (g)")
+plt.ylabel("Δθ (°C)")
+plt.title("Δθ en fonction de la masse d'hydroxyde de sodium")
+plt.legend()
+plt.show()`;
+// ── Blancs à choix multiples du programme Python (exercice 1 difficile) ──
+const exo44Blanks = {
+  B1: [
+    { code: 'tf - theta_i', correct: true },
+    { code: 'theta_i - tf', correct: false },
+    { code: 'tf + theta_i', correct: false },
+    { code: 'tf / theta_i', correct: false }
+  ],
+  B2: [
+    { code: 'plt.scatter(m, delta_theta, color="blue", label="points expérimentaux")', correct: true },
+    { code: 'plt.scatter(delta_theta, m, color="blue", label="points expérimentaux")', correct: false },
+    { code: 'plt.plot(m, delta_theta, color="blue")', correct: false },
+    { code: 'plt.scatter(theta_f, m, color="blue", label="points expérimentaux")', correct: false }
+  ],
+  B3: [
+    { code: 'a, b = np.polyfit(m, delta_theta, 1)', correct: true },
+    { code: 'a, b = np.polyfit(delta_theta, m, 1)', correct: false },
+    { code: 'a, b = np.polyfit(m, theta_f, 1)', correct: false },
+    { code: 'a, b = np.polyfit(m, delta_theta, 2)', correct: false }
+  ],
+  B4: [
+    { code: 'plt.plot(m_droite, theta_droite, color="red", label="droite de régression")', correct: true },
+    { code: 'plt.plot(theta_droite, m_droite, color="red", label="droite de régression")', correct: false },
+    { code: 'plt.scatter(m_droite, theta_droite, color="red")', correct: false },
+    { code: 'plt.plot(m, theta_droite, color="red", label="droite de régression")', correct: false }
+  ]
+};
+
+// Insère le fragment choisi dans le programme, à l'endroit du marqueur [[Bx]]
+function applyPyBlank(blankKey, selectEl) {
+  const textarea = document.getElementById('py-code-44');
+  if (!textarea) return;
+  const chosen = selectEl.value;
+  if (!chosen) return;
+  const marker = '[[' + blankKey + ']]';
+  const escMarker = marker.replace(/[[\]]/g, '\\$&');
+  const lineRegex = new RegExp('^([ \\t]*)(?:dt = )?.*# ' + escMarker + '\\s*$', 'm');
+  const code = textarea.value;
+  const m = code.match(lineRegex);
+  if (m) {
+    const indent = m[1] || '';
+    const newLine = (blankKey === 'B1')
+      ? indent + 'dt = ' + chosen + '   # ' + marker
+      : indent + chosen + '   # ' + marker;
+    textarea.value = code.replace(lineRegex, newLine);
+    if (window.pyHighlightUpdaters && pyHighlightUpdaters['py-code-44']) pyHighlightUpdaters['py-code-44']();
+  }
+  const opt = exo44Blanks[blankKey].find(o => o.code === chosen);
+  selectEl.classList.remove('correct', 'wrong');
+  selectEl.classList.add(opt && opt.correct ? 'correct' : 'wrong');
+}
+
+function resetExo44(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('[id^="qcm-44"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
+  card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
+  Object.keys(exo44DeltaThetaSolutions).forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); }
+  });
+  ['sel-44-py-b1', 'sel-44-py-b2', 'sel-44-py-b3', 'sel-44-py-b4'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; sel.classList.remove('correct', 'wrong'); }
+  });
+  const pyEditor = card.querySelector('#py-code-44');
+  if (pyEditor) {
+    pyEditor.value = exo44PySkeleton;
+    if (window.pyHighlightUpdaters && pyHighlightUpdaters['py-code-44']) pyHighlightUpdaters['py-code-44']();
+  }
+  const pyOut = card.querySelector('#py-output-44');
+  if (pyOut) pyOut.innerHTML = '';
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+// ── Coloration syntaxique Python claire (façon Jupyter/Pygments) ──
+const PY_KEYWORDS = ['import','from','as','for','in','if','elif','else','def','return','while','break','continue','True','False','None','and','or','not','class','try','except','finally','with','lambda','pass','global','nonlocal','yield','is','del','raise','assert'];
+const PY_BUILTINS = ['print','len','range','str','int','float','list','dict','set','tuple','abs','min','max','sum','sorted','enumerate','zip','open','type','isinstance'];
+
+function highlightPython(code) {
+  const escape = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const tokenRegex = /(#.*$)|("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(\b\d+\.?\d*\b)|(\b[A-Za-z_][A-Za-z0-9_]*\b)/gm;
+  let result = '', lastIndex = 0, match;
+  while ((match = tokenRegex.exec(code)) !== null) {
+    result += escape(code.slice(lastIndex, match.index));
+    const [, comment, string, number, ident] = match;
+    if (comment) result += '<span class="py-tok-comment">' + escape(comment) + '</span>';
+    else if (string) result += '<span class="py-tok-string">' + escape(string) + '</span>';
+    else if (number) result += '<span class="py-tok-number">' + escape(number) + '</span>';
+    else if (ident) {
+      if (PY_KEYWORDS.includes(ident)) result += '<span class="py-tok-keyword">' + escape(ident) + '</span>';
+      else if (PY_BUILTINS.includes(ident)) result += '<span class="py-tok-builtin">' + escape(ident) + '</span>';
+      else result += escape(ident);
+    }
+    lastIndex = tokenRegex.lastIndex;
+  }
+  result += escape(code.slice(lastIndex));
+  return result;
+}
+
+// Superpose un <pre> coloré derrière chaque <textarea class="python-editor">
+window.pyHighlightUpdaters = {};
+function setupPyHighlight(textarea) {
+  const wrap = document.createElement('div');
+  wrap.className = 'py-editor-wrap';
+  textarea.parentNode.insertBefore(wrap, textarea);
+  const pre = document.createElement('pre');
+  pre.className = 'py-highlight';
+  const code = document.createElement('code');
+  pre.appendChild(code);
+  wrap.appendChild(pre);
+  wrap.appendChild(textarea);
+  function update() {
+    code.innerHTML = highlightPython(textarea.value) + '\n';
+    pre.scrollTop = textarea.scrollTop;
+    pre.scrollLeft = textarea.scrollLeft;
+  }
+  textarea.addEventListener('input', update);
+  textarea.addEventListener('scroll', function () {
+    pre.scrollTop = textarea.scrollTop;
+    pre.scrollLeft = textarea.scrollLeft;
+  });
+  update();
+  return update;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.python-editor').forEach(ta => {
+    pyHighlightUpdaters[ta.id] = setupPyHighlight(ta);
+  });
+  const skel = document.getElementById('py-code-44');
+  if (skel) { skel.value = exo44PySkeleton; if (pyHighlightUpdaters['py-code-44']) pyHighlightUpdaters['py-code-44'](); }
+  const corr = document.getElementById('py-code-44-corr');
+  if (corr) { corr.value = exo44PyCorrection; if (pyHighlightUpdaters['py-code-44-corr']) pyHighlightUpdaters['py-code-44-corr'](); }
+});
+
+function resetExoAsp(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct', 'wrong');
+  });
+  card.querySelectorAll('[id^="qcm-asp-"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function resetExoMg(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct', 'wrong');
+  });
+  card.querySelectorAll('[id^="qcm-mg-"]').forEach(z => { z.dataset.done = 'false'; });
+  const sel = card.querySelector('#sel-mg-1');
+  if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function checkExo45B() {
+  const s1 = document.getElementById('sel-45-b1');
+  const s2 = document.getElementById('sel-45-b2');
+  if (s1) { s1.disabled = true; s1.classList.remove('correct', 'wrong'); s1.classList.add(s1.value === 'N2' ? 'correct' : 'wrong'); }
+  if (s2) { s2.disabled = true; s2.classList.remove('correct', 'wrong'); s2.classList.add(s2.value === 'H2' ? 'correct' : 'wrong'); }
+  document.getElementById('corr-45b').classList.add('visible');
+}
+
+function resetExo45(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('[id^="qcm-45"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
+  card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
+  ['sel-45-b1', 'sel-45-b2', 'sel-45c', 'sel-45d'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  });
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function checkExo47D() {
+  const s1 = document.getElementById('sel-47-d1');
+  const s2 = document.getElementById('sel-47-d2');
+  if (s1) { s1.disabled = true; s1.classList.remove('correct', 'wrong'); s1.classList.add(s1.value === 'bas' ? 'correct' : 'wrong'); }
+  if (s2) { s2.disabled = true; s2.classList.remove('correct', 'wrong'); s2.classList.add(s2.value === 'haut' ? 'correct' : 'wrong'); }
+  document.getElementById('corr-47d').classList.add('visible');
+}
+
+function resetExo47(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('[id^="qcm-47"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
+  card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
+  ['sel-47-d1', 'sel-47-d2', 'sel-47f'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  });
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function resetExo48(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('[id^="qcm-48"]').forEach(z => { z.dataset.done = 'false'; });
+  card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
+  card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
+  ['sel-48c'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  });
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function resetExoAlFacile(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct', 'wrong');
+  });
+  card.querySelectorAll('[id^="qcm-alf-"]').forEach(z => { z.dataset.done = 'false'; });
+  const sel = card.querySelector('#sel-alf-c');
+  if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function resetExoAlInter(btn) {
+  const card = btn.closest('.card');
+  card.querySelectorAll('.choix-btn').forEach(b => {
+    b.disabled = false;
+    b.classList.remove('correct', 'wrong');
+  });
+  card.querySelectorAll('[id^="qcm-ali-"]').forEach(z => { z.dataset.done = 'false'; });
+  const sel = card.querySelector('#sel-ali-c');
+  if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
+  card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
+}
+
+function resetVerifExo(btn){
+  var container = btn.parentElement;
+  for (var i = 0; i < 6 && container; i++){
+    if (container.querySelector('.field-feedback, .feedback, .fb')) break;
+    container = container.parentElement;
+  }
+  if (!container) return;
+  container.querySelectorAll('select').forEach(function(s){ s.value = ''; s.classList.remove('correct','wrong'); });
+  container.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(function(i){ i.value = ''; i.classList.remove('correct','wrong'); });
+  container.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(function(i){ i.checked = false; });
+  container.querySelectorAll('.correct, .wrong').forEach(function(e){ e.classList.remove('correct','wrong'); });
+  container.querySelectorAll('.field-feedback, .feedback').forEach(function(f){ f.textContent = ''; f.className = f.className.includes('field-feedback') ? 'field-feedback' : 'feedback'; });
+  container.querySelectorAll('.fb').forEach(function(f){ f.textContent = ''; f.className = 'fb'; });
+}
+
+// ── Activité 3 : QCM réactif limitant ──
+function repA3Q1(btn, rep) {
+  document.querySelectorAll('#a3-choices-1 .choix-btn').forEach(b=>{b.className='choix-btn';});
+  const fb = document.getElementById('fb-a3-q1');
+  if (rep === 'A') {
+    btn.className = 'choix-btn correct';
+    fb.className = 'feedback visible ok';
+    fb.innerHTML = '✅ Exact ! Le réactif limitant est celui dont la quantité tombe à zéro dans l\'état final ; l\'autre réactif, introduit en excès, reste présent en fin de réaction.';
+  } else {
+    btn.className = 'choix-btn wrong';
+    fb.className = 'feedback visible erreur';
+    fb.innerHTML = '❌ Non. Observe bien l\'état final de l\'animation : c\'est la quantité de chaque réactif qui détermine lequel disparaît, pas sa quantité initiale ni un ordre fixe.';
+  }
+}
+function repA3Q2(btn, rep) {
+  document.querySelectorAll('#a3-choices-2 .choix-btn').forEach(b=>{b.className='choix-btn';});
+  const fb = document.getElementById('fb-a3-q2');
+  if (rep === 'A') {
+    btn.className = 'choix-btn correct';
+    fb.className = 'feedback visible ok';
+    fb.innerHTML = '✅ Exact ! On l\'appelle le <strong>réactif limitant</strong> : c\'est lui qui impose la fin de la transformation.';
+  } else {
+    btn.className = 'choix-btn wrong';
+    fb.className = 'feedback visible erreur';
+    fb.innerHTML = '❌ Non, revois le vocabulaire vu en cours pour désigner le réactif totalement consommé.';
+  }
+}
+function repA3Q3(btn, rep) {
+  document.querySelectorAll('#a3-choices-3 .choix-btn').forEach(b=>{b.className='choix-btn';});
+  const fb = document.getElementById('fb-a3-q3');
+  if (rep === 'A') {
+    btn.className = 'choix-btn correct';
+    fb.className = 'feedback visible ok';
+    fb.innerHTML = '✅ Exact ! Lorsque les deux réactifs sont entièrement consommés en même temps, le mélange initial est dit <strong>stœchiométrique</strong>.';
+  } else {
+    btn.className = 'choix-btn wrong';
+    fb.className = 'feedback visible erreur';
+    fb.innerHTML = '❌ Non. Essaie d\'ajuster les proportions initiales dans l\'animation jusqu\'à ce que les deux réactifs disparaissent ensemble : ce cas particulier porte un nom précis.';
+  }
+}
+function repA3Q4(btn, rep) {
+  document.querySelectorAll('#a3-choices-4 .choix-btn').forEach(b=>{b.className='choix-btn';});
+  const fb = document.getElementById('fb-a3-q4');
+  if (rep === 'B') {
+    btn.className = 'choix-btn correct';
+    fb.className = 'feedback visible ok';
+    fb.innerHTML = '✅ Exact ! Le réactif limitant est celui pour lequel le quotient (quantité initiale / coefficient stœchiométrique) est le plus petit.';
+  } else {
+    btn.className = 'choix-btn wrong';
+    fb.className = 'feedback visible erreur';
+    fb.innerHTML = '❌ Non. La quantité initiale seule ne suffit pas : il faut la comparer au coefficient stœchiométrique de chaque réactif dans l\'équation.';
+  }
+}
+
 function normTxtA2(s){ return (s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 function normNumA2(s){
   s = (s||'').toLowerCase().replace(/\s/g,'').replace(',', '.');
@@ -1879,6 +3188,51 @@ function verifA2_3c(){
   setBlank('a2-3c-q', okQ);
   setBlank('a2-3c-comp', okComp);
   setFb('fb-a2-3c', okQ && okComp, 'ind-a2-3c');
+}
+
+function resetA2_1a(){
+  const input = document.getElementById('a2-1a-eq');
+  if (input){ input.value=''; input.classList.remove('correct','wrong'); }
+  const fb = document.getElementById('fb-a2-1a-eq');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
+}
+function resetA2_2a(){
+  ['a2-2a-limA','a2-2a-compA','a2-2a-limB','a2-2a-compB'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el){ el.value=''; el.classList.remove('correct','wrong'); }
+  });
+  const fb = document.getElementById('fb-a2-2a');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
+}
+function resetA2_2b(){
+  const input = document.getElementById('a2-2b-paquet');
+  if (input){ input.value=''; input.classList.remove('correct','wrong'); }
+  const fb = document.getElementById('fb-a2-2b-paquet');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
+}
+function resetA2_3a(){
+  ['a2-3a-f','a2-3a-c'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el){ el.value=''; el.classList.remove('correct','wrong'); }
+  });
+  const fb = document.getElementById('fb-a2-3a');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
+}
+function resetA2_3b(){
+  ['a2-3b-nfi','a2-3b-nff','a2-3b-nci','a2-3b-ncf'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el){ el.value=''; el.classList.remove('correct','wrong'); }
+  });
+  const fb = document.getElementById('fb-a2-3b');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
+}
+function resetA2_3c(){
+  ['a2-3c-q','a2-3c-comp'].forEach(function(id){
+    const el = document.getElementById(id);
+    if (el){ el.value=''; el.classList.remove('correct','wrong'); }
+  });
+  const fb = document.getElementById('fb-a2-3c');
+  if (fb){ fb.textContent=''; fb.className='field-feedback'; }
 }
 
 function verifA2_4(){

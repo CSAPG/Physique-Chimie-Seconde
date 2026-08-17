@@ -102,6 +102,9 @@ button.cap-toggle:hover{background:#1e4466}
 .intro-box{background:#FFFBF7;border-left:4px solid var(--orange);border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:20px;font-size:.9rem;line-height:1.6;color:var(--texte);font-style:italic}
 .card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
 .card-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;color:var(--bleu);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card[style*="--vert"] .card-title{color:var(--vert)}
+.card[style*="--orange"] .card-title{color:var(--orange)}
+.card[style*="--rouge"] .card-title{color:var(--rouge)}
 .card ul{padding-left:1.2rem;margin:8px 0}
 .card li{margin-bottom:5px;line-height:1.55;font-size:.88rem}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -3208,10 +3211,10 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="panel" id="tab-exercices">
 <div class="intro-box">Retrouve ici les exercices du manuel à faire en autonomie, classés par niveau de difficulté, ainsi qu'un escape game pour réviser toute la séquence en t'amusant. La correction est disponible en classe ou sur demande.</div>
 <div class="sub-tabs-nav">
-<button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-facile')">🟢 Facile</button>
-<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-inter')">🟡 Intermédiaire</button>
-<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-diff')">🔴 Difficile</button>
-<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">🎮 Escape Game</button>
+<button class="sub-tab-btn active" onclick="showSub(this,'sub-exo-facile')">Facile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-inter')">Intermédiaire</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-diff')">Difficile</button>
+<button class="sub-tab-btn" onclick="showSub(this,'sub-exo-escape')">Escape Game</button>
 </div>
 <!-- ===== FACILE ===== -->
 <div class="sub-tab-content active" id="sub-exo-facile">

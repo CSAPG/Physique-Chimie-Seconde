@@ -166,6 +166,30 @@
   .cap-panel ul{margin:0 0 4px; padding-left:20px;}
   .cap-panel li{margin-bottom:4px;}
 
+  /* ---------- Accordéon (ex. protocole détaillé) ---------- */
+  .accordion{margin:12px 0;}
+  .accordion-header{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--bleu-clair);
+    border:1.5px solid var(--gris-bord);
+    border-radius:10px;
+    padding:11px 16px;
+    font-family:"Nunito",sans-serif;
+    font-weight:700;
+    font-size:0.9rem;
+    color:var(--bleu);
+    cursor:pointer;
+    text-align:left;
+  }
+  .accordion-header:hover{background:#dde9f5;}
+  .accordion-header .chevron{transition:transform 0.2s ease; font-size:0.8rem;}
+  .accordion-header.open .chevron{transform:rotate(90deg);}
+  .accordion-panel{display:none; padding:14px 6px 4px;}
+  .accordion-panel.open{display:block;}
+
   /* ---------- Onglets ---------- */
   nav.tabs{
     display:flex;
@@ -312,7 +336,7 @@
   .q-indice-row .btn-indice { flex-shrink: 0; margin-left: 0; margin-top: 1px; }
 
   /* ── QCM à boutons (options cliquables) ── */
-  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
   .qcm-opts::before {
     content: "👉 Choisis ta réponse :";
     display: block;
@@ -362,22 +386,22 @@
   .exo-btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
 
   /* ── QCM liste déroulante (question + réponses immédiates) ── */
-  .dropdown-qcm { margin-bottom: 18px; }
+  .dropdown-qcm { margin-bottom: 4px; }
   .dropdown-qcm .dq-question {
     font-size: 0.90rem;
     font-weight: 700;
     color: var(--texte);
-    margin-bottom: 8px;
+    margin-bottom: 3px;
     padding-left: 8px;
     border-left: 3px solid var(--vert);
-    line-height: 1.5;
+    line-height: 1.3;
   }
   .dq-feedback {
     font-size: 0.82rem;
     font-weight: 700;
-    min-height: 18px;
+    min-height: 0;
     color: var(--vert);
-    margin-top: 5px;
+    margin-top: 2px;
   }
   .dq-feedback.wrong { color: var(--rouge); }
   .bilan-grid {
@@ -554,8 +578,9 @@
 
   .btn-correction { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 9px 20px; background: var(--vert); color: white; border: none; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
   .btn-correction:hover { background: #2A6B52; transform: translateY(-1px); }
-  .btn-reset { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 9px 20px; background: var(--gris-fond); color: var(--texte-léger); border: 1.5px solid var(--gris-bord); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-  .btn-reset:hover { background: var(--gris-bord); }
+  .btn-reset { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; margin-left: 8px; padding: 8px 16px; background: var(--texte-léger); color: #fff; border: none; border-radius: 7px; font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .btn-reset:hover { background: #46545f; transform: translateY(-1px); }
+  .btn-reset:active { transform: translateY(0); }
 
   .feedback{
     margin-top:10px;
@@ -906,27 +931,28 @@
   <div class="two-col">
     <div>
       <p class="sub-label">Doc 1 p198</p>
-      <div class="fill-row">
-        On parle d'action
-        <select class="blank" id="blank1">
-          <option value="">— choisir —</option>
-          <option value="contact">de contact</option>
-          <option value="distance">à distance</option>
-        </select>
-        lorsqu'il y a <strong>contact</strong> entre le système étudié et l'extérieur.
+      <p style="font-size:0.92rem; color:var(--texte-léger); margin-top:-4px;">Pour chaque situation du document, indique le type d'action mise en jeu.</p>
+      <div id="doc1-p198-qcm">
+      <div class="dropdown-qcm">
+        <div class="dq-question">a. Le volleyeur touche le ballon et le pousse avec sa main : quel type d'action exerce-t-il sur le ballon ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-doc1a','✓ Exact : il y a un contact direct entre la main du volleyeur et le ballon.','')">Action de contact</div>
+          <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-doc1a','','✗ Non : la main touche directement le ballon, c\'est donc une action de contact.')">Action à distance</div>
+        </div>
+        <div class="dq-feedback" id="fb-doc1a"></div>
       </div>
-      <div class="fill-row">
-        On parle d'action
-        <select class="blank" id="blank2">
-          <option value="">— choisir —</option>
-          <option value="contact">de contact</option>
-          <option value="distance">à distance</option>
-        </select>
-        lorsqu'il n'y a <strong>pas de contact</strong> entre le système étudié et l'extérieur.
+      <div class="dropdown-qcm">
+        <div class="dq-question">b. L'aimant attire la bille d'acier sans la toucher : quel type d'action exerce-t-il sur la bille ?</div>
+        <div class="qcm-opts">
+          <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-doc1b','','✗ Non : il n\'y a pas de contact entre l\'aimant et la bille, ce n\'est donc pas une action de contact.')">Action de contact</div>
+          <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-doc1b','✓ Exact : il n\'y a aucun contact matériel entre l\'aimant et la bille, l\'action se fait à distance.','')">Action à distance</div>
+        </div>
+        <div class="dq-feedback" id="fb-doc1b"></div>
       </div>
-      <button class="action-btn solid" id="checkBlanks">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-      <div class="feedback" id="feedbackBlanks"></div>
+      <div style="text-align:center;margin-top:4px;">
+        <button class="btn-reveal" onclick="recommencer('doc1-p198-qcm')" style="background:var(--texte-léger);">↺ Recommencer</button>
+      </div>
+      </div>
     </div>
     <div>
       <div class="canvas-frame" style="padding:14px;">
@@ -1152,8 +1178,8 @@
   </div>
 
       <p>Anime les trois situations ci-dessous (camion qui démarre, bus qui freine, balle qui tombe) pour observer le principe d'inertie en action, puis réponds aux questions.</p>
-      <div class="canvas-frame" style="padding:6px;">
-        <iframe src="https://physique.ostralo.net/principe_inertie/" width="100%" height="900" style="border:none; display:block;" loading="lazy" title="Animation du principe d'inertie — Ostralo"></iframe>
+      <div class="canvas-frame" style="padding:6px; max-width:80%; margin:0 auto;">
+        <iframe src="https://physique.ostralo.net/principe_inertie/" width="100%" height="720" style="border:none; display:block;" loading="lazy" title="Animation du principe d'inertie — Ostralo"></iframe>
       </div>
       <p style="font-size:0.8rem; color:var(--texte-léger); text-align:center; margin-top:6px;">
         Animation réalisée par A. Willm — <a href="https://physique.ostralo.net/principe_inertie/" target="_blank" rel="noopener">ostralo.net</a> (CC BY-NC-SA).
@@ -1451,8 +1477,6 @@
     </div>
     <div class="indice-box" id="hint-sat-1" style="display:none;">Pense à comment on appelle cette force en physique-chimie : elle porte le nom du physicien anglais auteur du DOC. 2.</div>
     <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sat-1','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sat-1" style="display:none; margin-top:8px;">Il s'agit de la <strong>force d'interaction gravitationnelle</strong> (ou force de gravitation universelle) exercée par la Terre sur la Lune.</div>
   </div>
 
   <div class="exo">
@@ -1462,8 +1486,6 @@
     </div>
     <div class="indice-box" id="hint-sat-2" style="display:none;">Y a-t-il un contact matériel entre la Terre et la Lune ? Et entre la fronde et la pierre ?</div>
     <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sat-2','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sat-2" style="display:none; margin-top:8px;">L'action de la Terre sur un satellite est une <strong>action à distance</strong> (interaction gravitationnelle, sans contact), alors que l'action de la fronde sur la pierre est une <strong>action de contact</strong> (la fronde touche la pierre).</div>
   </div>
 
   <div class="exo">
@@ -1473,8 +1495,6 @@
     </div>
     <div class="indice-box" id="hint-sat-3" style="display:none;">Relis le DOC. 2 phrase par phrase et retrouve, dans l'expression vectorielle, ce qui correspond à chaque affirmation de Newton (direction, variation avec la distance, dépendance à la masse).</div>
     <textarea rows="4" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sat-3','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sat-3" style="display:none; margin-top:8px;">Newton affirme que la force est dirigée <strong>vers la Terre</strong> (attractive), varie <strong>en raison inverse du carré de la distance</strong>, et est <strong>proportionnelle à la quantité de matière</strong> (masse) de chaque corps. Ces trois caractéristiques se retrouvent bien dans l'expression <span class="vec">F</span><sub>A/B</sub> = −G×(m<sub>A</sub>×m<sub>B</sub>/d²)×<span class="vec">u</span><sub>AB</sub> : le signe « − » et le vecteur u<sub>AB</sub> orienté de A vers B donnent une force dirigée vers l'astre attracteur, le terme en 1/d² traduit la décroissance avec le carré de la distance, et le produit m<sub>A</sub>×m<sub>B</sub> traduit la proportionnalité aux masses.</div>
   </div>
 
   <div class="exo">
@@ -1483,21 +1503,7 @@
       <button class="btn-indice" onclick="toggleBox(this,'hint-sat-4','💡 Indice','🙈 Masquer l\'indice')">💡 Indice</button>
     </div>
     <div class="indice-box" id="hint-sat-4" style="display:none;">Calcule d'abord la distance d entre le centre de la Terre et le satellite : d = R<sub>T</sub> + h. Utilise ensuite F = G × (M<sub>T</sub> × m) / d² en convertissant toutes les longueurs en mètres.</div>
-    <select class="dropdown qcm-select" id="qcmSat4" data-correct="b" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a">33,2 N</option>
-      <option value="b">331,8 N</option>
-      <option value="c">3 318 N</option>
-      <option value="d">0,332 N</option>
-    </select>
-    <button class="action-btn solid" id="checkSat4" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSat4"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sat-4','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sat-4" style="display:none; margin-top:8px;">
-      d = R<sub>T</sub> + h = 6 380 + 23 222 = 29 602 km = 2,9602 × 10⁷ m.<br>
-      F = G × (M<sub>T</sub> × m) / d² = 6,67×10⁻¹¹ × (5,972×10²⁴ × 730) / (2,9602×10⁷)² ≈ <strong>331,8 N</strong>.
-    </div>
+    <textarea rows="2" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
   </div>
 
   <div class="exo">
@@ -1507,8 +1513,6 @@
     </div>
     <div class="indice-box" id="hint-sat-5" style="display:none;">Repense au rôle de la force gravitationnelle dans un mouvement circulaire : elle ne s'oppose pas au mouvement mais en change continuellement la direction (comme la pierre au bout de la fronde, DOC. 1).</div>
     <textarea rows="4" placeholder="Écris ta réponse ici..." style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;resize:vertical;margin-top:8px;"></textarea>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sat-5','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sat-5" style="display:none; margin-top:8px;">La seule force qui s'exerce sur le satellite est la force d'interaction gravitationnelle exercée par la Terre, dirigée vers le centre de la Terre. Cette force ne fait pas « tomber » le satellite : elle joue le rôle de force qui courbe en permanence sa trajectoire vers la Terre, l'empêchant de s'échapper en ligne droite (comme le prévoirait le principe d'inertie en son absence), tout en le maintenant à distance constante. C'est exactement l'analogie de Newton (DOC. 2) : comme la pierre lancée à la fronde (DOC. 1), plus la vitesse est grande, plus la « chute » est retardée, jusqu'à ne jamais retomber — le satellite reste en orbite.</div>
   </div>
 
   
@@ -1570,34 +1574,28 @@
       <button class="btn-indice" onclick="toggleBox(this,'hint-sup-2a','💡 Indice','🙈 Masquer l\'indice')">💡 Indice</button>
     </div>
     <div class="indice-box" id="hint-sup-2a" style="display:none;">Remplace, dans l'expression de la force d'interaction gravitationnelle, A par O (centre de Mars), B par S (Superman), m<sub>A</sub> par M, m<sub>B</sub> par m et d par R.</div>
-    <select class="dropdown qcm-select" id="qcmSup2a" data-correct="b" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a"><span class="vec">P</span> = G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></option>
-      <option value="b"><span class="vec">P</span> = − G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></option>
-      <option value="c"><span class="vec">P</span> = − G × (m/R²) × <span class="vec">u</span><sub>OS</sub></option>
-      <option value="d"><span class="vec">P</span> = − G × (M×m/R) × <span class="vec">u</span><sub>OS</sub></option>
-    </select>
-    <button class="action-btn solid" id="checkSup2a" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSup2a"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sup-2a','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sup-2a" style="display:none; margin-top:8px;"><span class="vec">P</span> = − G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub>. Le poids est dirigé vers le centre de Mars (signe « − »), donc dans le sens opposé à <span class="vec">u</span><sub>OS</sub> qui pointe vers l'extérieur (de O vers S).</div>
+    <div class="dropdown-qcm" style="margin-top:8px;">
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2a','','✗ Non : il manque le signe « − » — le poids est dirigé vers Mars, donc dans le sens opposé à u_OS.')"><span class="vec">P</span> = G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-sup2a','✓ Exact : le poids est dirigé vers le centre de Mars (signe « − »), donc dans le sens opposé à u_OS qui pointe vers l\'extérieur (de O vers S).','')"><span class="vec">P</span> = − G × (M×m/R²) × <span class="vec">u</span><sub>OS</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2a','','✗ Non : il manque la masse M de Mars dans l\'expression.')"><span class="vec">P</span> = − G × (m/R²) × <span class="vec">u</span><sub>OS</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2a','','✗ Non : la distance R doit être au carré (la force varie en 1/d²).')"><span class="vec">P</span> = − G × (M×m/R) × <span class="vec">u</span><sub>OS</sub></div>
+      </div>
+      <div class="dq-feedback" id="fb-sup2a"></div>
+    </div>
   </div>
 
   <div class="exo">
     <p class="q-text">2.b. Exprimer la norme P du poids de Superman sur Mars en fonction de sa masse et de l'intensité de la pesanteur sur cette planète.</p>
-    <select class="dropdown qcm-select" id="qcmSup2b" data-correct="b" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a">P = m / g<sub>Mars</sub></option>
-      <option value="b">P = m × g<sub>Mars</sub></option>
-      <option value="c">P = m + g<sub>Mars</sub></option>
-      <option value="d">P = g<sub>Mars</sub> / m</option>
-    </select>
-    <button class="action-btn solid" id="checkSup2b" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSup2b"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sup-2b','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sup-2b" style="display:none; margin-top:8px;">P = m × g<sub>Mars</sub>, comme pour le poids sur Terre (P = m × g).</div>
+    <div class="dropdown-qcm" style="margin-top:8px;">
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2b','','✗ Non : le poids est proportionnel à la masse, pas l\'inverse.')">P = m / g<sub>Mars</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-sup2b','✓ Exact : P = m × g_Mars, comme pour le poids sur Terre (P = m × g).','')">P = m × g<sub>Mars</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2b','','✗ Non : m et g_Mars n\'ont pas la même unité, on ne peut pas les additionner.')">P = m + g<sub>Mars</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2b','','✗ Non : ce serait l\'inverse de la relation cherchée.')">P = g<sub>Mars</sub> / m</div>
+      </div>
+      <div class="dq-feedback" id="fb-sup2b"></div>
+    </div>
   </div>
 
   <div class="exo">
@@ -1606,18 +1604,15 @@
       <button class="btn-indice" onclick="toggleBox(this,'hint-sup-2c','💡 Indice','🙈 Masquer l\'indice')">💡 Indice</button>
     </div>
     <div class="indice-box" id="hint-sup-2c" style="display:none;">Les deux expressions de la norme du poids (m×g<sub>Mars</sub> et G×M×m/R²) sont égales : simplifie par m pour isoler g<sub>Mars</sub>.</div>
-    <select class="dropdown qcm-select" id="qcmSup2c" data-correct="a" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a">g<sub>Mars</sub> = G×M/R² ≈ 3,73 N·kg⁻¹</option>
-      <option value="b">g<sub>Mars</sub> = G×M/R² ≈ 9,8 N·kg⁻¹</option>
-      <option value="c">g<sub>Mars</sub> = G×M/R² ≈ 37,3 N·kg⁻¹</option>
-      <option value="d">g<sub>Mars</sub> = G×M/R² ≈ 0,373 N·kg⁻¹</option>
-    </select>
-    <button class="action-btn solid" id="checkSup2c" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSup2c"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sup-2c','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sup-2c" style="display:none; margin-top:8px;">m×g<sub>Mars</sub> = G×M×m/R² donc g<sub>Mars</sub> = G×M/R² = 6,67×10⁻¹¹ × 6,42×10²³ / (3,39×10⁶)² ≈ <strong>3,73 N·kg⁻¹</strong> (contre 9,8 N·kg⁻¹ sur Terre).</div>
+    <div class="dropdown-qcm" style="margin-top:8px;">
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-sup2c','✓ Exact : m×g_Mars = G×M×m/R² donc g_Mars = G×M/R² = 6,67×10⁻¹¹ × 6,42×10²³ / (3,39×10⁶)² ≈ 3,73 N·kg⁻¹ (contre 9,8 N·kg⁻¹ sur Terre).','')">g<sub>Mars</sub> = G×M/R² ≈ 3,73 N·kg⁻¹</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2c','','✗ Non : c\'est la valeur de g sur Terre, pas sur Mars.')">g<sub>Mars</sub> = G×M/R² ≈ 9,8 N·kg⁻¹</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2c','','✗ Non : erreur d\'un facteur 10 dans le calcul.')">g<sub>Mars</sub> = G×M/R² ≈ 37,3 N·kg⁻¹</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup2c','','✗ Non : erreur d\'un facteur 10 dans le calcul (dans l\'autre sens).')">g<sub>Mars</sub> = G×M/R² ≈ 0,373 N·kg⁻¹</div>
+      </div>
+      <div class="dq-feedback" id="fb-sup2c"></div>
+    </div>
   </div>
 
   <div class="exo">
@@ -1626,18 +1621,15 @@
       <button class="btn-indice" onclick="toggleBox(this,'hint-sup-3a','💡 Indice','🙈 Masquer l\'indice')">💡 Indice</button>
     </div>
     <div class="indice-box" id="hint-sup-3a" style="display:none;">Compare g<sub>Mars</sub> (question 2.c) à g<sub>Terre</sub> = 9,8 N·kg⁻¹, et repense à l'exemple des astronautes sur la Lune (DOCUMENT).</div>
-    <select class="dropdown qcm-select" id="qcmSup3a" data-correct="c" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a">Moins performant, car Mars est plus petite que la Terre.</option>
-      <option value="b">Tout aussi performant, car les deux planètes sont proches.</option>
-      <option value="c">Encore plus performant, car la pesanteur sur Mars est plus faible que sur Terre.</option>
-      <option value="d">Ses sauts auraient été impossibles sur Mars.</option>
-    </select>
-    <button class="action-btn solid" id="checkSup3a" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSup3a"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sup-3a','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sup-3a" style="display:none; margin-top:8px;">Comme g<sub>Mars</sub> (3,73 N·kg⁻¹) est plus faible que g<sub>Terre</sub> (9,8 N·kg⁻¹), le même effort musculaire produirait des sauts encore plus impressionnants sur Mars que sur Terre — sur le même principe que les astronautes qui sautent plus haut sur la Lune (DOCUMENT).</div>
+    <div class="dropdown-qcm" style="margin-top:8px;">
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3a','','✗ Non : la taille de la planète n\'est pas le bon critère, c\'est l\'intensité de la pesanteur qui compte.')">Moins performant, car Mars est plus petite que la Terre.</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3a','','✗ Non : g_Mars et g_Terre sont différents (3,73 contre 9,8 N/kg), les performances ne peuvent pas être identiques.')">Tout aussi performant, car les deux planètes sont proches.</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-sup3a','✓ Exact : comme g_Mars (3,73 N·kg⁻¹) est plus faible que g_Terre (9,8 N·kg⁻¹), le même effort musculaire produirait des sauts encore plus impressionnants sur Mars — même principe que les astronautes qui sautent plus haut sur la Lune.','')">Encore plus performant, car la pesanteur sur Mars est plus faible que sur Terre.</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3a','','✗ Non : rien n\'empêche de sauter sur Mars, la pesanteur y est même plus faible.')">Ses sauts auraient été impossibles sur Mars.</div>
+      </div>
+      <div class="dq-feedback" id="fb-sup3a"></div>
+    </div>
   </div>
 
   <div class="exo">
@@ -1646,18 +1638,19 @@
       <button class="btn-indice" onclick="toggleBox(this,'hint-sup-3b','💡 Indice','🙈 Masquer l\'indice')">💡 Indice</button>
     </div>
     <div class="indice-box" id="hint-sup-3b" style="display:none;">Le DOCUMENT explique les exploits de Superman sur Terre par la faiblesse de la pesanteur terrestre <em>par rapport à Krypton</em> — même raisonnement que pour les astronautes sur la Lune, mais en sens inverse.</div>
-    <select class="dropdown qcm-select" id="qcmSup3b" data-correct="c" style="margin-top:8px;">
-      <option value="">— choisir une réponse —</option>
-      <option value="a">g<sub>Krypton</sub> &lt; g<sub>Terre</sub></option>
-      <option value="b">g<sub>Krypton</sub> = g<sub>Terre</sub></option>
-      <option value="c">g<sub>Krypton</sub> &gt; g<sub>Terre</sub></option>
-      <option value="d">On ne peut rien affirmer.</option>
-    </select>
-    <button class="action-btn solid" id="checkSup3b" style="margin-top:8px;">✓ Vérifier</button>
-    <button class="btn-reset" onclick="resetVerifExo(this)">↺ Recommencer</button>
-    <div class="feedback" id="feedbackSup3b"></div>
-    <button class="btn-correction" onclick="toggleBox(this,'corr-sup-3b','▶ Voir la correction','🙈 Masquer la correction')" style="margin-top:8px;">▶ Voir la correction</button>
-    <div class="box box-rappel" id="corr-sup-3b" style="display:none; margin-top:8px;">Si les capacités « normales » de Superman (habitué à Krypton) correspondent à celles d'un simple athlète terrestre une fois sur Terre, c'est que la pesanteur terrestre est plus faible pour lui que celle à laquelle il est habitué : donc <strong>g<sub>Krypton</sub> &gt; g<sub>Terre</sub></strong> — exactement comme un astronaute (habitué à g<sub>Terre</sub>) bondit plus haut sur la Lune où g<sub>Lune</sub> &lt; g<sub>Terre</sub>.</div>
+    <div class="dropdown-qcm" style="margin-top:8px;">
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3b','','✗ Non : si Superman semble surpuissant sur Terre, c\'est que la pesanteur y est plus faible que celle à laquelle il est habitué.')">g<sub>Krypton</sub> &lt; g<sub>Terre</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3b','','✗ Non : si g était identique, Superman n\'aurait aucun superpouvoir sur Terre.')">g<sub>Krypton</sub> = g<sub>Terre</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-sup3b','✓ Exact : si les capacités « normales » de Superman (habitué à Krypton) correspondent à celles d\'un simple athlète une fois sur Terre, c\'est que la pesanteur terrestre est plus faible pour lui que celle à laquelle il est habitué : donc g_Krypton > g_Terre — exactement comme un astronaute bondit plus haut sur la Lune où g_Lune < g_Terre.','')">g<sub>Krypton</sub> &gt; g<sub>Terre</sub></div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-sup3b','','✗ Non : le raisonnement par analogie avec les astronautes permet justement de conclure.')">On ne peut rien affirmer.</div>
+      </div>
+      <div class="dq-feedback" id="fb-sup3b"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+    <button class="btn-reveal" onclick="recommencer('activite-sub-4')" style="background:var(--texte-léger);">↺ Recommencer</button>
   </div>
 
   
@@ -1714,7 +1707,7 @@
   <div class="box" style="text-align:center;">
     <p style="margin:0 0 8px; font-weight:600;">🎬 Visionner la vidéo support</p>
     <video controls style="max-width:500px; width:100%; border-radius:8px;">
-      <source src="vidéo_support_-_p193.mp4" type="video/mp4">
+      <source src="video_support_p193.mp4" type="video/mp4">
       Ton navigateur ne prend pas en charge la lecture vidéo.
     </video>
   </div>
@@ -1946,9 +1939,9 @@
 
   <div class="box" style="text-align:center;">
     <button class="action-btn" id="btnToggleVideoChute">👀 Visionner la vidéo du pointage</button>
-    <div id="video-chute-wrap" style="display:none; margin-top:10px;">
-      <video controls style="max-width:500px; width:100%; border-radius:8px;">
-        <source src="vidéo_du_pointage.mp4" type="video/mp4">
+    <div id="video-chute-wrap" style="display:none; margin-top:6px;">
+      <video controls style="max-width:800px; width:100%; border-radius:8px;">
+        <source src="video_pointage.mp4" type="video/mp4">
         Ton navigateur ne prend pas en charge la lecture vidéo.
       </video>
     </div>
@@ -2082,10 +2075,10 @@
 <!-- ============ ONGLET EXERCICES ============ -->
 <div class="tab-content" id="t-exercices">
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">Facile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">Intermédiaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">Difficile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">Escape game</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟡 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔓 Escape game</button>
   </div>
 
   <div class="sub-tab-content active" id="exo-sub-facile">
@@ -2817,18 +2810,25 @@
     <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
+      <div class="gloss-item" data-term="action a distance"><dt>Action à distance</dt><dd>Action mécanique s'exerçant entre deux systèmes sans contact matériel entre eux (ex. interaction gravitationnelle, force magnétique).</dd></div>
+      <div class="gloss-item" data-term="action de contact"><dt>Action de contact</dt><dd>Action mécanique nécessitant un contact matériel direct entre le système étudié et l'extérieur (ex. poussée d'une main, frottement).</dd></div>
       <div class="gloss-item" data-term="action mecanique"><dt>Action mécanique</dt><dd>Effet d'un système sur un autre, pouvant s'exercer à distance ou par contact.</dd></div>
       <div class="gloss-item" data-term="centre de gravite centre inertie"><dt>Centre de gravité (centre d'inertie)</dt><dd>Point d'application du poids d'un système, correspondant à son centre de masse.</dd></div>
       <div class="gloss-item" data-term="champ pesanteur g"><dt>Champ de pesanteur (g)</dt><dd>Grandeur vectorielle caractérisant l'attraction terrestre en un point (g ≈ 9,8 N·kg⁻¹ au niveau du sol), diminuant avec l'altitude.</dd></div>
       <div class="gloss-item" data-term="chute libre"><dt>Chute libre</dt><dd>Mouvement d'un objet soumis uniquement à son poids (aucune autre force, notamment pas de frottement).</dd></div>
+      <div class="gloss-item" data-term="constante de gravitation universelle g"><dt>Constante de gravitation universelle (G)</dt><dd>Constante physique valant G = 6,67 × 10⁻¹¹ N·m²·kg⁻², intervenant dans l'expression de la force d'interaction gravitationnelle entre deux corps massifs.</dd></div>
       <div class="gloss-item" data-term="contraposee reciproque inertie"><dt>Contraposée du principe d'inertie</dt><dd>Si les forces appliquées à un système ne se compensent pas, alors son vecteur vitesse varie (en direction, sens ou valeur).</dd></div>
       <div class="gloss-item" data-term="diagramme objet interactions"><dt>Diagramme objet-interactions</dt><dd>Schéma représentant le système étudié et l'ensemble des actions mécaniques (à distance ou de contact) qu'il subit de la part d'autres objets.</dd></div>
       <div class="gloss-item" data-term="dynamometre"><dt>Dynamomètre</dt><dd>Instrument de mesure permettant de déterminer la valeur d'une force, généralement grâce à l'allongement d'un ressort.</dd></div>
       <div class="gloss-item" data-term="force"><dt>Force</dt><dd>Modélisation de l'action d'un système extérieur sur un système étudié, représentée par un vecteur (norme, direction, sens).</dd></div>
       <div class="gloss-item" data-term="interaction gravitationnelle"><dt>Force d'interaction gravitationnelle</dt><dd>F(A/B) = G × (m_A × m_B) / d² avec G = 6,67×10⁻¹¹ N·m²·kg⁻² : force d'attraction entre deux corps massifs.</dd></div>
       <div class="gloss-item" data-term="frottement fluide"><dt>Frottement (fluide)</dt><dd>Force de contact exercée par un fluide (air, eau…) sur un système en mouvement, qui s'oppose à ce mouvement et augmente avec la vitesse.</dd></div>
+      <div class="gloss-item" data-term="intensite de la pesanteur"><dt>Intensité de la pesanteur</dt><dd>Norme g du champ de pesanteur en un point donné, exprimée en N·kg⁻¹ ; elle dépend de la masse et du rayon de l'astre considéré, et diminue avec l'altitude (g ≈ 9,8 N·kg⁻¹ sur Terre, g ≈ 3,73 N·kg⁻¹ sur Mars).</dd></div>
+      <div class="gloss-item" data-term="masse volumique"><dt>Masse volumique</dt><dd>Grandeur ρ = m / V, exprimée en kg·m⁻³, caractérisant la masse contenue dans un volume donné d'un corps ; elle intervient notamment dans le calcul de la poussée d'Archimède.</dd></div>
       <div class="gloss-item" data-term="mouvement rectiligne uniforme mru"><dt>Mouvement rectiligne uniforme (MRU)</dt><dd>Mouvement dont la trajectoire est une droite et dont la valeur de la vitesse reste constante au cours du temps.</dd></div>
       <div class="gloss-item" data-term="poids"><dt>Poids</dt><dd>P = m × g : force verticale, dirigée vers le bas, approchant l'interaction gravitationnelle exercée sur un objet à la surface d'une planète.</dd></div>
+      <div class="gloss-item" data-term="point application"><dt>Point d'application</dt><dd>Point où l'on considère qu'une force s'exerce sur le système étudié, à l'origine du vecteur représentant cette force.</dd></div>
+      <div class="gloss-item" data-term="poussee archimede"><dt>Poussée d'Archimède</dt><dd>Force verticale, dirigée vers le haut, exercée par un fluide (liquide ou gaz) sur un corps immergé, de valeur égale au poids du volume de fluide déplacé.</dd></div>
       <div class="gloss-item" data-term="actions reciproques troisieme loi newton"><dt>Principe des actions réciproques</dt><dd>Si un système A exerce une force sur un système B, alors B exerce sur A une force de même norme, même direction, de sens opposé (3ᵉ loi de Newton).</dd></div>
       <div class="gloss-item" data-term="principe inertie"><dt>Principe d'inertie</dt><dd>Tout corps persévère dans son état de repos ou de mouvement rectiligne uniforme si les forces qui s'exercent sur lui se compensent.</dd></div>
       <div class="gloss-item" data-term="reciproque principe inertie"><dt>Réciproque du principe d'inertie</dt><dd>Si le vecteur vitesse d'un système ne varie pas (repos ou mouvement rectiligne uniforme), alors les forces qui s'exercent sur lui se compensent.</dd></div>
@@ -2837,6 +2837,7 @@
       <div class="gloss-item" data-term="systeme etudie"><dt>Système étudié</dt><dd>Objet ou ensemble d'objets choisi pour l'étude d'un mouvement ou des actions mécaniques qu'il subit.</dd></div>
       <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un système au cours de son mouvement, dans un référentiel donné.</dd></div>
       <div class="gloss-item" data-term="unite astronomique ua"><dt>Unité astronomique (ua)</dt><dd>Unité de distance utilisée en astronomie, correspondant à la distance moyenne entre la Terre et le Soleil (1 ua ≈ 1,5 × 10⁸ km).</dd></div>
+      <div class="gloss-item" data-term="vecteur vitesse"><dt>Vecteur vitesse</dt><dd>Grandeur vectorielle caractérisant le mouvement d'un système à un instant donné, définie par une direction, un sens et une valeur (norme), généralement tangente à la trajectoire.</dd></div>
       <div class="gloss-item" data-term="vitesse limite"><dt>Vitesse limite</dt><dd>Valeur constante que peut atteindre la vitesse d'un système en chute dans un fluide, lorsque la force de frottement compense exactement le poids.</dd></div>
     </dl>
   </div>
@@ -3133,6 +3134,17 @@ function showTab(el, id){
 }
 
 // ===================== Capacités exigibles =====================
+function toggleAccordion(id){
+  var acc = document.getElementById(id);
+  if (!acc) return;
+  var header = acc.querySelector(".accordion-header");
+  var panel = acc.querySelector(".accordion-panel");
+  var isOpen = panel.classList.toggle("open");
+  header.classList.toggle("open", isOpen);
+  var chevron = header.querySelector(".chevron");
+  if (chevron) chevron.textContent = isOpen ? "▼" : "▶";
+}
+
 document.getElementById("capToggle").addEventListener("click", function(){
   var panel = document.getElementById("capPanel");
   panel.classList.toggle("open");
@@ -3217,18 +3229,7 @@ function bindAccordions(){
 }
 
 // ===================== Contact / distance =====================
-document.getElementById("checkBlanks").addEventListener("click", function(){
-  var b1 = document.getElementById("blank1");
-  var b2 = document.getElementById("blank2");
-  var ok1 = b1.value === "contact";
-  var ok2 = b2.value === "distance";
-  b1.classList.remove("correct","wrong"); b2.classList.remove("correct","wrong");
-  b1.classList.add(ok1 ? "correct" : "wrong");
-  b2.classList.add(ok2 ? "correct" : "wrong");
-  var fb = document.getElementById("feedbackBlanks");
-  if (ok1 && ok2) { fb.textContent = "✅ Exact : contact = avec contact, distance = sans contact."; fb.className = "feedback ok"; }
-  else { fb.textContent = "❌ Revois la définition puis réessaie."; fb.className = "feedback ko"; }
-});
+// (QCM Doc 1 p198 désormais géré par qcmOptCheck() / recommencer(), voir HTML ci-dessus)
 
 var exemplesActions = [
   {txt:"Un aimant attire une bille en acier", rep:"distance"},
@@ -3618,6 +3619,11 @@ if (btnDecouvrir){
     var fb = document.getElementById("feedbackChuteTable");
     fb.textContent = score + " / " + total + " bonnes réponses.";
     fb.className = "feedback " + (score === total ? "ok" : "ko");
+    if (score === total){
+      document.getElementById("resultChuteConclusion").textContent =
+        "v₅ (" + r.vs[5].toFixed(2) + " m·s⁻¹) > v₄ (" + r.vs[4].toFixed(2) + " m·s⁻¹) : le vecteur vitesse s'allonge → mouvement accéléré.";
+      drawChute(r.ds, r.vs);
+    }
   });
 
   document.getElementById("btnCorrectionChute").addEventListener("click", function(){
@@ -3752,26 +3758,10 @@ function checkQcmSelects(ids, feedbackId){
 // (Activité 6 "Chute d'un parachutiste" convertie en indices — mécanisme Vérifier/Correction retiré)
 
 // ===================== Activité : Des satellites en orbite =====================
-document.getElementById("checkSat4").addEventListener("click", function(){
-  checkQcmSelects(["qcmSat4"], "feedbackSat4");
-});
+// (Q4 convertie en champ de réponse libre, sans bouton — voir HTML ci-dessus)
 
 // ===================== Activité : Performances de Superman =====================
-document.getElementById("checkSup2a").addEventListener("click", function(){
-  checkQcmSelects(["qcmSup2a"], "feedbackSup2a");
-});
-document.getElementById("checkSup2b").addEventListener("click", function(){
-  checkQcmSelects(["qcmSup2b"], "feedbackSup2b");
-});
-document.getElementById("checkSup2c").addEventListener("click", function(){
-  checkQcmSelects(["qcmSup2c"], "feedbackSup2c");
-});
-document.getElementById("checkSup3a").addEventListener("click", function(){
-  checkQcmSelects(["qcmSup3a"], "feedbackSup3a");
-});
-document.getElementById("checkSup3b").addEventListener("click", function(){
-  checkQcmSelects(["qcmSup3b"], "feedbackSup3b");
-});
+// (QCM Q2a/2b/2c/3a/3b désormais gérés par qcmOptCheck() / recommencer(), voir HTML ci-dessus)
 
 // ===================== Exercice difficile : Peser sur Jupiter =====================
 (function(){

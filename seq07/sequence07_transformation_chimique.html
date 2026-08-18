@@ -101,6 +101,31 @@
   .activite-card::before { content: 'ACTIVITÉ'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--bleu-moyen); opacity: 0.8; }
   .activite-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--bleu); margin-top: 0; margin-bottom: 8px; }
 
+  /* ── QCM à correction immédiate (dropdown-qcm) ── */
+  .dropdown-qcm { margin-bottom: 18px; }
+  .dropdown-qcm .dq-question { font-size: 0.90rem; font-weight: 700; color: var(--texte); margin-bottom: 8px; padding-left: 8px; border-left: 3px solid var(--vert); line-height: 1.5; }
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts::before,
+  div[id^="qcm-"]::before, 
+#corrosion-choices::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    margin-bottom: 4px;
+  }
+.qcm-opt { background: #fff; border: 1.5px solid var(--gris-bord); border-radius: 7px; padding: 7px 13px; font-size: 0.82rem; font-weight: 600; font-family: 'Nunito', sans-serif; color: var(--texte); cursor: pointer; transition: all 0.15s; }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+  .dq-feedback { font-size: 0.82rem; font-weight: 700; min-height: 18px; color: var(--vert); margin-top: 5px; }
+  .dq-feedback.wrong { color: var(--rouge); }
+  .btn-reveal { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; padding: 8px 16px; background: var(--texte-léger); color: #fff; border: none; border-radius: 7px; font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .btn-reveal:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
+
   .exo-card { background: var(--vert-exo); border: 1.5px solid var(--vert-exo-bord); border-left: 4px solid var(--vert); border-radius: 0 12px 12px 0; padding: 16px 22px; margin-bottom: 16px; position: relative; }
   .exo-card::before { content: 'APPLICATION'; position: absolute; top: 12px; right: 14px; font-family: 'Outfit', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; color: var(--vert); opacity: 0.7; }
   .exo-card h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); margin-bottom: 10px; }
@@ -427,6 +452,11 @@
     100% { opacity: 0; transform: translateY(8px); }
   }
   @media (max-width: 480px) { .reflux-icon { width: 52px; height: 70px; } }
+
+  /* Transforme l'ancienne disposition en disposition standard Fichier 1 */
+div[id^="qcm-"] { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.choix-btn:not(.multi) { width: auto; background: #fff; border: 1.5px solid var(--gris-bord); padding: 7px 13px; text-align: center; margin-bottom: 0; }
+
 </style>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
 </head>
@@ -569,7 +599,7 @@
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
       <button class="btn-verif" onclick="verifierEq()">✓ Vérifier</button>
       <button class="btn-correction" onclick="corrigerEq()">▶ Voir la correction</button>
-      <button class="btn-reset" onclick="resetEq()">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetEq()">↺ Recommencer</button>
     </div>
     <div class="feedback" id="fb-eq"></div>
   </div>
@@ -632,7 +662,7 @@
   </div>
 
   <!-- ── APPLICATION CORROSION ── -->
-  <div class="exo-card">
+  <div class="exo-card" id="exo-card-corrosion">
     <h3>🔩 Application — Corrosion du zinc par l'acide chlorhydrique</h3>
     <p style="font-size:0.88rem;line-height:1.68;margin-bottom:6px;">
       On fait réagir du zinc solide Zn avec une solution d'acide chlorhydrique. L'équation de réaction est :<br><br>
@@ -642,13 +672,18 @@
       On introduit <strong>n(Zn) = 0,5 mol</strong> et <strong>n(HCl) = 0,8 mol</strong> dans un récipient.<br>
       À la fin de la réaction, on observe qu'il reste encore du <strong>zinc solide</strong> visible dans le récipient.
     </div>
-    <p style="font-size:0.88rem;font-weight:700;margin:10px 0 8px;">Quel est le réactif limitant ? Justifie.</p>
-    <div id="corrosion-choices">
-      <button class="choix-btn" onclick="repCorrosion(this,'A')">A) Le zinc Zn est le réactif limitant</button>
-      <button class="choix-btn" onclick="repCorrosion(this,'B')">B) L'acide chlorhydrique HCl est le réactif limitant</button>
-      <button class="choix-btn" onclick="repCorrosion(this,'C')">C) Les deux réactifs sont limitants (mélange stœchiométrique)</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">Quel est le réactif limitant ? Justifie.</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-corrosion')">Le zinc Zn est le réactif limitant</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-corrosion')">L'acide chlorhydrique HCl est le réactif limitant</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-corrosion')">Les deux réactifs sont limitants (mélange stœchiométrique)</div>
+      </div>
+      <div class="dq-feedback" id="fb-corrosion"></div>
     </div>
-    <div class="feedback" id="fb-corrosion"></div>
+    <div style="text-align:center;margin-top:14px;">
+      <button class="btn-reveal" onclick="recommencerActivite('exo-card-corrosion')">↺ Recommencer</button>
+    </div>
   </div>
 
   
@@ -843,8 +878,7 @@
     <span style="margin-left:auto;font-size:0.85rem;color:var(--bleu);">Ouvrir →</span>
   </a>
 
-  <div style="border-radius:14px;overflow:hidden;border:2px solid var(--bleu-activite-bord);margin-bottom:20px;box-shadow:0 2px 12px rgba(45,95,138,0.10);">
-    <div style="background:var(--bleu);padding:10px 18px;display:flex;align-items:center;gap:10px;">
+<div style="max-width: 700px; margin: 0 auto 20px; border-radius:14px; overflow:hidden; border:2px solid var(--bleu-activite-bord); box-shadow:0 2px 12px rgba(45,95,138,0.10);">    <div style="background:var(--bleu);padding:10px 18px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:1.1rem;">🔬</span>
       <span style="font-family:'Outfit',sans-serif;font-weight:700;color:white;font-size:0.92rem;">Activité interactive — Légende le montage à reflux</span>
     </div>
@@ -887,16 +921,17 @@
       <div class="question-label">Question 1 / 5 — Identifier les réactifs et le produit</div>
       <p style="font-size:0.87rem;margin-bottom:12px;">Parmi les propositions suivantes, laquelle décrit correctement les réactifs et le produit de cette synthèse ?</p>
       <div id="qcm-0">
-        <button class="choix-btn" onclick="repQcm(0,this,'A')">A) Réactifs : menthone + KMnO₄ · Produit : menthol</button>
-        <button class="choix-btn" onclick="repQcm(0,this,'B')">B) Réactifs : menthol + KMnO₄ · Produit : menthone</button>
-        <button class="choix-btn" onclick="repQcm(0,this,'C')">C) Réactifs : menthol + cyclohexane · Produit : menthone</button>
+        <button class="choix-btn" onclick="repQcm(0,this,'A')">Réactifs : menthone + KMnO₄ · Produit : menthol</button>
+        <button class="choix-btn" onclick="repQcm(0,this,'B')">Réactifs : menthol + KMnO₄ · Produit : menthone</button>
+        <button class="choix-btn" onclick="repQcm(0,this,'C')">Réactifs : menthol + cyclohexane · Produit : menthone</button>
       </div>
+      <div class="dq-feedback" id="fb-menthone-0"></div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
         <button class="btn-correction" onclick="corrQcm(0)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(0)" style="display:none;" id="next-0">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-0">
-        <strong>✅ Réponse B.</strong><br>
+        <strong>✅ Réactifs : menthol + KMnO₄ · Produit : menthone.</strong><br>
         Les <strong>réactifs</strong> sont le <strong>menthol</strong> (C₁₀H₂₀O) et le <strong>permanganate de potassium</strong> KMnO₄ (en excès).<br>
         Le <strong>produit</strong> principal est la <strong>menthone</strong> (C₁₀H₁₈O).<br>
         Le cyclohexane n'est pas un réactif : c'est le <em>solvant d'extraction</em> utilisé à l'étape 3.<br>
@@ -909,19 +944,20 @@
       <div class="question-label">Question 2 / 5 — Calcul de la quantité de matière</div>
       <p style="font-size:0.87rem;margin-bottom:12px;">Quelle est la quantité de matière de menthol introduite ? (M = 156 g·mol⁻¹, m = 6,24 g)</p>
       <div id="qcm-1">
-        <button class="choix-btn" onclick="repQcm(1,this,'A')">A) n = 0,024 mol</button>
-        <button class="choix-btn" onclick="repQcm(1,this,'B')">B) n = 0,040 mol</button>
-        <button class="choix-btn" onclick="repQcm(1,this,'C')">C) n = 0,975 mol</button>
+        <button class="choix-btn" onclick="repQcm(1,this,'A')">n = 0,024 mol</button>
+        <button class="choix-btn" onclick="repQcm(1,this,'B')">n = 0,040 mol</button>
+        <button class="choix-btn" onclick="repQcm(1,this,'C')">n = 0,975 mol</button>
       </div>
+      <div class="dq-feedback" id="fb-menthone-1"></div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
         <button class="btn-correction" onclick="corrQcm(1)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(1)" style="display:none;" id="next-1">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-1">
-        <strong>✅ Réponse B.</strong>
+        <strong>✅ n = 0,040 mol.</strong>
         <div class="calc-step">n = m / M = 6,24 / 156 = <strong>0,040 mol</strong></div>
         Le KMnO₄ étant introduit en excès, le <strong>menthol est le réactif limitant</strong>.<br>
-        <em>Proposition A : erreur de formule (m/M inversé ou mauvaise valeur). Proposition C : résultat de m × M.</em>
+        <em>0,024 mol vient d'une erreur de formule (m/M inversé ou mauvaise valeur). 0,975 mol correspond au résultat de m × M, pas de m / M.</em>
       </div>
     </div>
 
@@ -930,18 +966,19 @@
       <div class="question-label">Question 3 / 5 — Rôle du montage à reflux</div>
       <p style="font-size:0.87rem;margin-bottom:12px;">Pourquoi utilise-t-on un montage à reflux pour cette synthèse ? Choisis la meilleure réponse.</p>
       <div id="qcm-2">
-        <button class="choix-btn" onclick="repQcm(2,this,'A')">A) Pour refroidir le milieu réactionnel et éviter toute évaporation des réactifs</button>
-        <button class="choix-btn" onclick="repQcm(2,this,'B')">B) Pour chauffer le milieu réactionnel et accélérer la réaction, sans perte de matière grâce à la condensation des vapeurs</button>
-        <button class="choix-btn" onclick="repQcm(2,this,'C')">C) Pour séparer la menthone du mélange réactionnel par distillation</button>
+        <button class="choix-btn" onclick="repQcm(2,this,'A')">Pour refroidir le milieu réactionnel et éviter toute évaporation des réactifs</button>
+        <button class="choix-btn" onclick="repQcm(2,this,'B')">Pour chauffer le milieu réactionnel et accélérer la réaction, sans perte de matière grâce à la condensation des vapeurs</button>
+        <button class="choix-btn" onclick="repQcm(2,this,'C')">Pour séparer la menthone du mélange réactionnel par distillation</button>
       </div>
+      <div class="dq-feedback" id="fb-menthone-2"></div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
         <button class="btn-correction" onclick="corrQcm(2)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(2)" style="display:none;" id="next-2">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-2">
-        <strong>✅ Réponse B.</strong><br>
+        <strong>✅ Il chauffe le milieu réactionnel sans perte de matière.</strong><br>
         Le montage à reflux permet de <strong>chauffer le milieu réactionnel</strong> (accélération de la réaction) <strong>sans perte de matière</strong> : les vapeurs qui se dégagent du ballon sont <strong>condensées par le réfrigérant à eau</strong> et retombent dans le ballon.<br>
-        <em>A : le reflux chauffe, il ne refroidit pas. C : la séparation est faite à l'étape 3 (extraction), pas pendant la réaction.</em>
+        <em>Le reflux chauffe, il ne refroidit pas. La séparation par extraction est faite à l'étape 3, pas pendant la réaction.</em>
       </div>
     </div>
 
@@ -950,16 +987,17 @@
       <div class="question-label">Question 4 / 5 — Isolement par extraction liquide-liquide</div>
       <p style="font-size:0.87rem;margin-bottom:12px;">On verse du cyclohexane (ρ = 0,78 g·mL⁻¹) dans l'ampoule à décanter contenant le mélange réactionnel aqueux. Sachant que seule la menthone est soluble dans le cyclohexane, dans quelle phase se trouve-t-elle ?</p>
       <div id="qcm-3">
-        <button class="choix-btn" onclick="repQcm(3,this,'A')">A) Dans la phase inférieure, car le cyclohexane est plus dense que l'eau</button>
-        <button class="choix-btn" onclick="repQcm(3,this,'B')">B) Dans la phase supérieure, car le cyclohexane est moins dense que l'eau</button>
-        <button class="choix-btn" onclick="repQcm(3,this,'C')">C) La menthone se répartit dans les deux phases car elle est soluble partout</button>
+        <button class="choix-btn" onclick="repQcm(3,this,'A')">Dans la phase inférieure, car le cyclohexane est plus dense que l'eau</button>
+        <button class="choix-btn" onclick="repQcm(3,this,'B')">Dans la phase supérieure, car le cyclohexane est moins dense que l'eau</button>
+        <button class="choix-btn" onclick="repQcm(3,this,'C')">La menthone se répartit dans les deux phases car elle est soluble partout</button>
       </div>
+      <div class="dq-feedback" id="fb-menthone-3"></div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
         <button class="btn-correction" onclick="corrQcm(3)">▶ Voir la correction</button>
         <button class="btn-next" onclick="nextQuestion(3)" style="display:none;" id="next-3">Question suivante →</button>
       </div>
       <div class="correction-block" id="corr-3">
-        <strong>✅ Réponse B.</strong><br>
+        <strong>✅ Dans la phase supérieure, car le cyclohexane est moins dense que l'eau.</strong><br>
         ρ(cyclohexane) = 0,78 g·mL⁻¹ &lt; ρ(eau) = 1,0 g·mL⁻¹ → le cyclohexane est <strong>moins dense que l'eau</strong> : il forme la <strong>phase supérieure</strong>.<br>
         La menthone, soluble uniquement dans le cyclohexane, se retrouve donc dans la <strong>phase supérieure (phase organique)</strong>.<br>
         <em>On récupère cette phase supérieure pour isoler la menthone.</em>
@@ -971,24 +1009,25 @@
       <div class="question-label">Question 5 / 5 — Identification du produit (plusieurs réponses possibles)</div>
       <p style="font-size:0.87rem;margin-bottom:12px;">Parmi les techniques suivantes, lesquelles peuvent permettre de vérifier que la menthone synthétisée est identique à la menthone naturelle ? <strong>Coche toutes les bonnes réponses.</strong></p>
       <div id="qcm-4">
-        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">A) Chromatographie sur couche mince (CCM) — comparaison des Rf</button>
-        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">B) Mesure de la température d'ébullition — comparaison à la valeur tabulée</button>
-        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">C) Mesure de la masse de menthone obtenue</button>
-        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">D) Mesure de l'indice de réfraction — comparaison à la valeur tabulée</button>
-        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">E) Mesure du volume du ballon réacteur</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">Chromatographie sur couche mince (CCM) — comparaison des Rf</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">Mesure de la température d'ébullition — comparaison à la valeur tabulée</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">Mesure de la masse de menthone obtenue</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="true">Mesure de l'indice de réfraction — comparaison à la valeur tabulée</button>
+        <button class="choix-btn multi" onclick="toggleMulti(this)" data-correct="false">Mesure du volume du ballon réacteur</button>
       </div>
+      <div class="dq-feedback" id="fb-menthone-4"></div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
         <button class="btn-verif" onclick="verifierMulti(4)">✓ Vérifier</button>
         <button class="btn-correction" onclick="corrQcm(4)">▶ Voir la correction</button>
         <button class="btn-next" onclick="showScore()" style="display:none;" id="next-4">📊 Voir le bilan →</button>
       </div>
       <div class="correction-block" id="corr-4">
-        <strong>✅ Réponses A, B et D.</strong><br>
+        <strong>✅ Chromatographie sur couche mince, température d'ébullition et indice de réfraction.</strong><br>
         Pour prouver qu'une espèce synthétisée est identique à l'espèce naturelle, on compare leurs <strong>caractéristiques physiques</strong> avec les valeurs tabulées :
-        <div class="calc-step">A ✓ — CCM : même Rf que la menthone naturelle (témoin) → même espèce.</div>
-        <div class="calc-step">B ✓ — Température d'ébullition (ou de fusion au banc Kofler) : identique à la valeur de référence.</div>
-        <div class="calc-step">D ✓ — Indice de réfraction (réfractomètre) : caractéristique d'un liquide pur, comparé au tabulé.</div>
-        <em>C : la masse obtenue renseigne sur le rendement, pas sur l'identité du produit. E : le volume du ballon n'est pas une caractéristique physique de l'espèce.</em>
+        <div class="calc-step">✓ CCM : même Rf que la menthone naturelle (témoin) → même espèce.</div>
+        <div class="calc-step">✓ Température d'ébullition (ou de fusion au banc Kofler) : identique à la valeur de référence.</div>
+        <div class="calc-step">✓ Indice de réfraction (réfractomètre) : caractéristique d'un liquide pur, comparé au tabulé.</div>
+        <em>La masse obtenue renseigne sur le rendement, pas sur l'identité du produit. Le volume du ballon n'est pas une caractéristique physique de l'espèce.</em>
       </div>
     </div>
 
@@ -998,8 +1037,11 @@
       <h3>Application terminée !</h3>
       <p style="font-size:0.90rem;color:var(--texte-léger);margin:8px 0 8px;">Tu as parcouru les 5 questions sur la synthèse de la menthone.</p>
       <p id="score-txt" style="font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;color:var(--bleu);margin-bottom:20px;"></p>
-      <button class="btn-reset" onclick="resetMenthone()" style="margin:0 auto;">↺ Recommencer l'application</button>
+      <button class="btn-reveal" onclick="resetMenthone()" style="margin:0 auto;">↺ Recommencer l'application</button>
     </div>
+      <div style="text-align: right; margin-top: 16px;">
+       <button class="btn-reveal" onclick="resetMenthone()">↺ Recommencer</button>
+       </div>
 
   </div><!-- /exo-card -->
 
@@ -1319,67 +1361,77 @@
   <div class="sub-tab-content" id="act-3">
   <div class="card">
   <div class="section-title">Activité 3 — Identifier le réactif limitant</div>
-  <div class="activite-card">
+  <div class="activite-card" id="activite-reactiflimitant">
     <h3>Animation interactive : le réactif limitant</h3>
     <p style="font-size:0.9rem;line-height:1.6;">
       <strong>Objectif :</strong> manipuler une animation interactive simulant une transformation chimique entre deux réactifs dans des proportions variables, pour visualiser directement quel réactif est entièrement consommé selon les quantités initiales.
     </p>
-    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;">
+    <p style="font-size:0.85rem;color:var(--texte-léger);margin-top:6px;margin-bottom:12px;">
       Ressource : <em>Physique-Chimie Seconde</em>, éditions Hatier — Hatier Clic.
     </p>
-  </div>
-  <div class="activite-card">
-    <h3>Animation</h3>
+
     <div style="position:relative;width:100%;max-width:900px;margin:0 auto;border:1.5px solid var(--gris-bord);border-radius:12px;overflow:hidden;background:var(--gris-fond);">
       <iframe src="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_reactiflimitant/index.html" title="Animation interactive — le réactif limitant" style="width:100%;height:520px;border:0;display:block;" loading="lazy" allowfullscreen></iframe>
     </div>
-    <p style="text-align:center;margin-top:10px;">
+    <p style="text-align:center;margin:10px 0 16px;">
       <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/AI_reactiflimitant/index.html" target="_blank" rel="noopener" style="font-size:0.85rem;font-weight:600;color:var(--bleu);text-decoration:none;">
         ↗ Ouvrir l'animation dans un nouvel onglet
       </a>
     </p>
-  </div>
-  <div class="activite-card">
-    <h3>Consigne et questions</h3>
-    <p style="font-size:0.9rem;line-height:1.6;">
-      Lance l'animation, fais varier les quantités initiales des deux réactifs proposés, puis observe l'état final du système pour répondre au QCM ci-dessous.
-    </p>
 
-    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:14px;">1. Pour un mélange donné, quel réactif a totalement disparu dans l'état final, et lequel reste en excès ?</p>
-    <div id="a3-choices-1">
-      <button class="choix-btn" onclick="repA3Q1(this,'A')">A) Le réactif dont la quantité affichée tombe à zéro a disparu ; l'autre reste en excès.</button>
-      <button class="choix-btn" onclick="repA3Q1(this,'B')">B) Les deux réactifs disparaissent toujours en même temps.</button>
-      <button class="choix-btn" onclick="repA3Q1(this,'C')">C) C'est toujours le réactif introduit en plus grande quantité qui disparaît.</button>
+    <div style="background:#fff;border:1.5px solid var(--bleu-activite-bord);border-radius:10px;padding:14px 18px;margin-bottom:14px;">
+      <p style="font-family:'Outfit',sans-serif;font-weight:700;font-size:0.85rem;color:var(--bleu);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">📋 Guide d'utilisation</p>
+      <p style="font-size:0.86rem;line-height:1.7;margin:0;">Lance l'animation, fais varier les quantités initiales des deux réactifs proposés, puis observe l'état final du système pour répondre aux questions ci-dessous.</p>
     </div>
-    <div class="feedback" id="fb-a3-q1"></div>
 
-    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">2. Comment qualifie-t-on le réactif totalement consommé ?</p>
-    <div id="a3-choices-2">
-      <button class="choix-btn" onclick="repA3Q2(this,'A')">A) Le réactif limitant.</button>
-      <button class="choix-btn" onclick="repA3Q2(this,'B')">B) Le réactif en excès.</button>
-      <button class="choix-btn" onclick="repA3Q2(this,'C')">C) Le réactif catalyseur.</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. Pour un mélange donné, quel réactif a totalement disparu dans l'état final, et lequel reste en excès ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-a3-q1')">Le réactif dont la quantité affichée tombe à zéro a disparu ; l'autre reste en excès</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-a3-q1')">Les deux réactifs disparaissent toujours en même temps</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-a3-q1')">C'est toujours le réactif introduit en plus grande quantité qui disparaît</div>
+      </div>
+      <div class="dq-feedback" id="fb-a3-q1"></div>
     </div>
-    <div class="feedback" id="fb-a3-q2"></div>
 
-    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">3. Peut-on trouver un mélange où aucun réactif n'est en excès ? Comment l'appelle-t-on ?</p>
-    <div id="a3-choices-3">
-      <button class="choix-btn" onclick="repA3Q3(this,'A')">A) Oui, en ajustant les proportions initiales : on parle de mélange stœchiométrique.</button>
-      <button class="choix-btn" onclick="repA3Q3(this,'B')">B) Non, il y a toujours un réactif en excès quelle que soit la quantité introduite.</button>
-      <button class="choix-btn" onclick="repA3Q3(this,'C')">C) Oui, on parle alors de réactif limitant.</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">2. Comment qualifie-t-on le réactif totalement consommé ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-a3-q2')">Le réactif limitant</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-a3-q2')">Le réactif en excès</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-a3-q2')">Le réactif catalyseur</div>
+      </div>
+      <div class="dq-feedback" id="fb-a3-q2"></div>
     </div>
-    <div class="feedback" id="fb-a3-q3"></div>
 
-    <p style="font-size:0.9rem;line-height:1.6;font-weight:600;margin-top:18px;">4. Quelle méthode générale permet de prévoir le réactif limitant à partir des quantités initiales et des coefficients stœchiométriques (sans utiliser l'animation) ?</p>
-    <div id="a3-choices-4">
-      <button class="choix-btn" onclick="repA3Q4(this,'A')">A) C'est toujours le réactif dont la quantité initiale (en mol) est la plus petite.</button>
-      <button class="choix-btn" onclick="repA3Q4(this,'B')">B) On compare le quotient (quantité initiale / coefficient stœchiométrique) de chaque réactif : le plus petit quotient désigne le réactif limitant.</button>
-      <button class="choix-btn" onclick="repA3Q4(this,'C')">C) On ne peut pas le prévoir sans faire l'expérience.</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">3. Peut-on trouver un mélange où aucun réactif n'est en excès ? Comment l'appelle-t-on ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-a3-q3')">Oui, en ajustant les proportions initiales : on parle de mélange stœchiométrique</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-a3-q3')">Non, il y a toujours un réactif en excès quelle que soit la quantité introduite</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-a3-q3')">Oui, on parle alors de réactif limitant</div>
+      </div>
+      <div class="dq-feedback" id="fb-a3-q3"></div>
     </div>
-    <div class="feedback" id="fb-a3-q4"></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">4. Quelle méthode générale permet de prévoir le réactif limitant à partir des quantités initiales et des coefficients stœchiométriques (sans utiliser l'animation) ?</div>
+      <div class="qcm-opts">
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-a3-q4')">C'est toujours le réactif dont la quantité initiale (en mol) est la plus petite</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-a3-q4')">On compare le quotient (quantité initiale / coefficient stœchiométrique) de chaque réactif : le plus petit quotient désigne le réactif limitant</div>
+        <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-a3-q4')">On ne peut pas le prévoir sans faire l'expérience</div>
+      </div>
+      <div class="dq-feedback" id="fb-a3-q4"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn-reveal" onclick="recommencerActivite('activite-reactiflimitant')">↺ Recommencer</button>
+    </div>
   </div>
   </div>
   </div>
   <!-- /act-3 -->
+
 
 </div>
 
@@ -1413,34 +1465,32 @@
       </p>
 
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Indiquer comment mettre en évidence la présence de dihydrogène.</p>
-        <div id="qcm-alf-a">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">A) Approcher une allumette enflammée de l'embouchure du tube : une détonation caractéristique confirme la présence de dihydrogène.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">B) Sentir l'odeur du gaz produit.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">C) Approcher un bâtonnet incandescent : s'il se rallume, c'est du dihydrogène.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-a','corr-alf-a',this)">D) Mesurer la température du gaz avec un thermomètre.</button>
-        </div>
+     <div class="dropdown-qcm">
+       <div class="dq-question">a. Indiquer comment mettre en évidence la présence de dihydrogène.</div>
+       <div class="qcm-opts">
+       <div class="qcm-opt" onclick="qcmOptCheck(this, true, 'A', 'dqf-alf-a')">Approcher une allumette...</div>
+       <div class="qcm-opt" onclick="qcmOptCheck(this, false, 'B', 'dqf-alf-a')">Sentir l'odeur...</div>
+     </div>
+     <div class="dq-feedback" id="dqf-alf-a"></div>
+     </div>
         <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-a','corr-alf-a')">▶ Voir la correction</button>
         <div class="correction-block" id="corr-alf-a">
-          <strong>✅ Réponse A.</strong><br>
+          <strong>✅ Approcher une allumette enflammée de l'embouchure du tube.</strong><br>
           Le test caractéristique du dihydrogène consiste à approcher une <strong>allumette enflammée</strong> de l'embouchure du tube : la combustion du gaz produit une <strong>détonation</strong> (petit « aboiement »).<br>
-          <em>Le bâtonnet incandescent (C) est le test du dioxygène, pas du dihydrogène.</em>
+          <em>Sentir l'odeur ne permet pas d'identifier le dihydrogène, qui est inodore. Le bâtonnet incandescent est le test du dioxygène, pas du dihydrogène.</em>
         </div>
       </div>
 
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Dans cette transformation, il y a trois fois plus d'ion hydrogène consommé que d'aluminium. En déduire la formule de l'ion aluminium.</p>
-        <div id="qcm-alf-b">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">A) Al⁺</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">B) Al³⁺</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">C) Al³⁻</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-b','corr-alf-b',this)">D) Al²⁺</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-b','corr-alf-b')">▶ Voir la correction</button>
-        <div class="correction-block" id="corr-alf-b">
-          <strong>✅ Réponse B.</strong><br>
-          Pour former un ion, l'aluminium cède des électrons. Comme il faut <strong>3 fois plus d'ions H⁺</strong> consommés que d'atomes d'aluminium (et que chaque H⁺ capte 1 électron pour donner ½ H₂), chaque atome d'aluminium doit céder <strong>3 électrons</strong>.<br>
-          L'ion aluminium formé est donc <strong>Al³⁺</strong>.
+        <div class="dropdown-qcm">
+          <div class="dq-question">b. Dans cette transformation, il y a trois fois plus d'ion hydrogène consommé que d'aluminium. En déduire la formule de l'ion aluminium.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-alf-b')">Al⁺</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-alf-b')">Al³⁺</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-alf-b')">Al³⁻</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-alf-b')">Al²⁺</div>
+          </div>
+          <div class="dq-feedback" id="fb-alf-b"></div>
         </div>
       </div>
 
@@ -1456,30 +1506,28 @@
         <br>
         <button class="btn-correction" onclick="checkSelectAliC('sel-alf-c','corr-alf-c')">▶ Voir la correction</button>
         <div class="correction-block" id="corr-alf-c">
-          <strong>✅ Réponse B.</strong><br>
+          <strong>✅ 2 Al(s) + 6 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g).</strong><br>
           On ajuste d'abord les charges, puis les atomes, sur la base du transfert de <strong>3 électrons</strong> par aluminium :
           <span class="calc-step">2 Al(s) + 6 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g)</span>
           Vérification : 2 Al à gauche et à droite ; 6 H à gauche (3 × H₂) et à droite ; charges +6 à gauche (6 H⁺) et +6 à droite (2 × 3+).<br>
-          <em>Les propositions A et C ne conservent pas les charges électriques, et D ne conserve pas le nombre d'atomes d'hydrogène.</em>
+          <em>Al(s) + H⁺(aq) → Al³⁺(aq) + H₂(g) et Al(s) + 3 H⁺(aq) → Al³⁺(aq) + 3 H₂(g) ne conservent pas les charges électriques, et 2 Al(s) + 3 H⁺(aq) → 2 Al³⁺(aq) + 3 H₂(g) ne conserve pas le nombre d'atomes d'hydrogène.</em>
         </div>
       </div>
 
       <div style="margin-bottom:8px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">d. Identifier l'espèce spectatrice.</p>
-        <div id="qcm-alf-d">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">A) H⁺(aq)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">B) Al(s)</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">C) Cl⁻(aq)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-alf-d','corr-alf-d',this)">D) H₂(g)</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-alf-d','corr-alf-d')">▶ Voir la correction</button>
-        <div class="correction-block" id="corr-alf-d">
-          <strong>✅ Réponse C.</strong><br>
-          L'ion chlorure <strong>Cl⁻(aq)</strong> est apporté par l'acide chlorhydrique mais n'apparaît dans aucun des produits (H₂ et Al³⁺) : il ne participe pas à la réaction, c'est l'<strong>espèce spectatrice</strong>.
+        <div class="dropdown-qcm">
+          <div class="dq-question">d. Identifier l'espèce spectatrice.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-alf-d')">H⁺(aq)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-alf-d')">Al(s)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'C','fb-alf-d')">Cl⁻(aq)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-alf-d')">H₂(g)</div>
+          </div>
+          <div class="dq-feedback" id="fb-alf-d"></div>
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExoAlFacile(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExoAlFacile(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -1540,46 +1588,39 @@
         <br>
         <button class="btn-correction" onclick="checkSelectAliC('sel-mg-1','corr-mg-1')">▶ Voir la correction</button>
         <div class="correction-block orange" id="corr-mg-1">
-          <strong>✅ Réponse B.</strong><br>
+          <strong>✅ Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g).</strong><br>
           Le magnésium cède 2 électrons pour former Mg²⁺, tandis que chaque ion H⁺ n'en capte qu'un seul (2 H⁺ + 2 e⁻ → H₂). Il faut donc 2 ions H⁺ pour un atome de magnésium :
           <span class="calc-step">Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g)</span>
           Vérification : 1 Mg de chaque côté ; 2 H de chaque côté (2 H⁺ à gauche, 1 H₂ à droite) ; charges +2 à gauche (2 H⁺) et +2 à droite (Mg²⁺).<br>
-          <em>A ne conserve ni les charges ni les atomes d'hydrogène ; C et D ne conservent pas les charges électriques.</em>
+          <em>Mg(s) + H⁺(aq) → Mg²⁺(aq) + H₂(g) ne conserve ni les charges ni les atomes d'hydrogène ; Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + 2 H₂(g) et 2 Mg(s) + 2 H⁺(aq) → 2 Mg²⁺(aq) + H₂(g) ne conservent pas les charges électriques.</em>
         </div>
       </div>
 
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">2a. Déterminer le réactif limitant à partir des quantités initiales des réactifs.</p>
-        <div id="qcm-mg-2a">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">A) Le magnésium Mg(s)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">B) L'ion hydrogène H⁺(aq)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">C) L'ion chlorure Cl⁻(aq)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2a','corr-mg-2a',this)">D) Aucun : le mélange est stœchiométrique</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-mg-2a','corr-mg-2a')">▶ Voir la correction</button>
-        <div class="correction-block orange" id="corr-mg-2a">
-          <strong>✅ Réponse A.</strong><br>
-          D'après l'équation Mg(s) + 2 H⁺(aq) → Mg²⁺(aq) + H₂(g), on compare les quantités initiales rapportées aux nombres stœchiométriques :
-          <span class="calc-step">n(Mg) / 1 = 20 / 1 = 20 mmol<br>n(H⁺) / 2 = 50 / 2 = 25 mmol</span>
-          Le plus petit quotient correspond au magnésium (20 mmol &lt; 25 mmol) : c'est donc le <strong>réactif limitant</strong>. L'ion hydrogène est en excès.
+        <div class="dropdown-qcm">
+          <div class="dq-question">2a. Déterminer le réactif limitant à partir des quantités initiales des réactifs.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-mg-2a')">Le magnésium Mg(s)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-mg-2a')">L'ion hydrogène H⁺(aq)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-mg-2a')">L'ion chlorure Cl⁻(aq)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-mg-2a')">Aucun : le mélange est stœchiométrique</div>
+          </div>
+          <div class="dq-feedback" id="fb-mg-2a"></div>
         </div>
       </div>
 
       <div style="margin-bottom:8px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">2b. Ce résultat est-il cohérent avec les observations faites ?</p>
-        <div id="qcm-mg-2b">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-mg-2b','corr-mg-2b',this)">A) Oui</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-mg-2b','corr-mg-2b',this)">B) Non</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-mg-2b','corr-mg-2b')">▶ Voir la correction</button>
-        <div class="correction-block orange" id="corr-mg-2b">
-          <strong>✅ Réponse A — Oui, c'est cohérent.</strong><br>
-          Le magnésium étant le réactif limitant, il est <strong>entièrement consommé</strong> : cela explique qu'<strong>il ne reste pas de solide</strong> au fond du tube en fin de réaction.<br>
-          L'ion hydrogène est en excès : sur 50 mmol initiales, seules 2 × 20 = 40 mmol sont consommées, il en reste 10 mmol en solution (non visible, car aqueux).
+        <div class="dropdown-qcm">
+          <div class="dq-question">2b. Ce résultat est-il cohérent avec les observations faites ?</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-mg-2b')">Oui</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-mg-2b')">Non</div>
+          </div>
+          <div class="dq-feedback" id="fb-mg-2b"></div>
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExoMg(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExoMg(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -1594,45 +1635,32 @@
       </p>
 
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Exprimer puis calculer le nombre de saules qu'il faudrait abattre par heure pour satisfaire la demande mondiale.</p>
-        <div id="qcm-asp-a">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">A) Environ 200 saules par heure</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">B) Environ 1 000 saules par heure</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">C) Environ 1 983 saules par heure</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-a','corr-asp-a',this)">D) Environ 5 000 saules par heure</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-asp-a','corr-asp-a')">▶ Voir la correction</button>
-        <div class="correction-block orange" id="corr-asp-a">
-          <strong>✅ Réponse C — environ 1 983 saules par heure.</strong><br>
-          <u>Formule :</u> l'échantillon d'écorce (m<sub>e</sub> = 50 g) donne l'échantillon d'aspirine (m<sub>a</sub> = 5 g). Pour produire la masse d'aspirine consommée en une heure (m<sub>h</sub>), il faut donc une masse d'écorce m<sub>écorce</sub> telle que :
-          <span class="calc-step">m<sub>écorce</sub> = m<sub>h</sub> × (m<sub>e</sub> / m<sub>a</sub>)</span>
-          Le nombre de saules N à abattre correspond ensuite à cette masse d'écorce divisée par la masse moyenne d'écorce d'un saule (m<sub>m</sub>) :
-          <span class="calc-step">N = m<sub>écorce</sub> / m<sub>m</sub> = (m<sub>h</sub> × m<sub>e</sub>) / (m<sub>a</sub> × m<sub>m</sub>)</span>
-          <u>Calcul :</u>
-          <span class="calc-step">N = (4 560 × 50) / (5 × 23) = 228 000 / 115</span>
-          <u>Résultat :</u>
-          <span class="calc-step">N ≈ 1 983 saules par heure</span>
-          Il faudrait donc abattre près de <strong>2 000 saules chaque heure</strong> pour satisfaire la seule demande mondiale en aspirine par extraction naturelle.
+        <div class="dropdown-qcm">
+          <div class="dq-question">a. Exprimer puis calculer le nombre de saules qu'il faudrait abattre par heure pour satisfaire la demande mondiale.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-asp-a')">Environ 200 saules par heure</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-asp-a')">Environ 1 000 saules par heure</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'C','fb-asp-a')">Environ 1 983 saules par heure</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-asp-a')">Environ 5 000 saules par heure</div>
+          </div>
+          <div class="dq-feedback" id="fb-asp-a"></div>
         </div>
       </div>
 
       <div style="margin-bottom:8px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Conclure sur l'intérêt de synthétiser industriellement l'acide salicylique.</p>
-        <div id="qcm-asp-b">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">A) La synthèse industrielle est indispensable pour répondre à la demande sans épuiser les saules.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">B) L'extraction naturelle suffit largement à la demande mondiale.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">C) Il vaudrait mieux planter davantage de saules plutôt que de synthétiser l'acide salicylique.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-asp-b','corr-asp-b',this)">D) La synthèse industrielle n'a aucun intérêt économique ou écologique.</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-asp-b','corr-asp-b')">▶ Voir la correction</button>
-        <div class="correction-block orange" id="corr-asp-b">
-          <strong>✅ Réponse A.</strong><br>
-          Abattre environ 2 000 saules par heure (soit près de 17,5 millions par an) pour satisfaire la seule demande en aspirine serait à la fois <strong>écologiquement destructeur</strong> et <strong>irréalisable</strong> à grande échelle.<br>
-          La <strong>synthèse chimique industrielle</strong> de l'acide salicylique permet de répondre à une demande mondiale considérable sans dépendre d'une ressource naturelle limitée : elle est plus <strong>durable</strong>, plus <strong>rapide</strong>, moins <strong>coûteuse</strong> et garantit une <strong>qualité constante</strong> du produit.
+        <div class="dropdown-qcm">
+          <div class="dq-question">b. Conclure sur l'intérêt de synthétiser industriellement l'acide salicylique.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-asp-b')">La synthèse industrielle est indispensable pour répondre à la demande sans épuiser les saules.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-asp-b')">L'extraction naturelle suffit largement à la demande mondiale.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-asp-b')">Il vaudrait mieux planter davantage de saules plutôt que de synthétiser l'acide salicylique.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-asp-b')">La synthèse industrielle n'a aucun intérêt économique ou écologique.</div>
+          </div>
+          <div class="dq-feedback" id="fb-asp-b"></div>
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExoAsp(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExoAsp(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -1668,15 +1696,13 @@
 
       <!-- a. QCM -->
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Préciser si la dissolution dans l'eau de l'hydroxyde de sodium est une transformation endothermique ou exothermique.</p>
-        <div id="qcm-44a">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44a','corr-44a',this)">A) Endothermique</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-44a','corr-44a',this)">B) Exothermique</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-44a','corr-44a')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-44a">
-          <strong>✅ Réponse B — Exothermique.</strong><br>
-          La température du mélange <strong>augmente</strong> (θ<sub>f</sub> &gt; θ<sub>i</sub>) : le système chimique <strong>libère de la chaleur</strong> vers l'eau du calorimètre. Une transformation qui libère de l'énergie thermique est, par définition, <strong>exothermique</strong>.
+        <div class="dropdown-qcm">
+          <div class="dq-question">a. Préciser si la dissolution dans l'eau de l'hydroxyde de sodium est une transformation endothermique ou exothermique.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-44a')">Endothermique</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-44a')">Exothermique</div>
+          </div>
+          <div class="dq-feedback" id="fb-44a"></div>
         </div>
       </div>
 
@@ -1792,22 +1818,19 @@
 
       <!-- f. QCM -->
       <div style="margin-bottom:8px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">f. En déduire la relation entre la masse d'hydroxyde de sodium et la variation de température.</p>
-        <div id="qcm-44f">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-44f','corr-44f',this)">A) Δθ est proportionnelle à la masse m : Δθ = a × m (droite passant par l'origine)</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">B) Δθ est inversement proportionnelle à m</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">C) Δθ ne dépend pas de m</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-44f','corr-44f',this)">D) La relation est exponentielle</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-44f','corr-44f')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-44f">
-          <strong>✅ Réponse A.</strong><br>
-          La régression linéaire donne une droite de coefficient directeur <strong>a ≈ 5,3 °C·g⁻¹</strong> et une ordonnée à l'origine <strong>b ≈ 0,1 °C</strong>, c'est-à-dire quasiment nulle.<br>
-          La droite passe donc pratiquement par l'origine : <strong>Δθ est proportionnelle à la masse m</strong> d'hydroxyde de sodium dissoute, avec <strong>Δθ = a × m</strong>.
+        <div class="dropdown-qcm">
+          <div class="dq-question">f. En déduire la relation entre la masse d'hydroxyde de sodium et la variation de température.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-44f')">Δθ est proportionnelle à la masse m : Δθ = a × m (droite passant par l'origine)</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-44f')">Δθ est inversement proportionnelle à m</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-44f')">Δθ ne dépend pas de m</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-44f')">La relation est exponentielle</div>
+          </div>
+          <div class="dq-feedback" id="fb-44f"></div>
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExo44(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExo44(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -1823,17 +1846,15 @@
 
       <!-- a. Composition de l'air -->
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Rappeler la composition de l'air.</p>
-        <div id="qcm-45a">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">A) L'air est constitué à 100 % de dioxygène O₂.</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-45a','corr-45a',this)">B) L'air est constitué d'environ 4/5 de diazote N₂ et 1/5 de dioxygène O₂.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">C) L'air est constitué d'environ 1/5 de diazote N₂ et 4/5 de dioxygène O₂.</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-45a','corr-45a',this)">D) L'air est constitué uniquement de dioxyde de carbone CO₂.</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-45a','corr-45a')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-45a">
-          <strong>✅ Réponse B.</strong><br>
-          L'air est un mélange de gaz constitué d'environ <strong>4/5 (≈ 78 %) de diazote N₂</strong> et <strong>1/5 (≈ 21 %) de dioxygène O₂</strong>. Les autres gaz (argon, dioxyde de carbone…) ne représentent qu'une très faible proportion.
+        <div class="dropdown-qcm">
+          <div class="dq-question">a. Rappeler la composition de l'air.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-45a')">L'air est constitué à 100 % de dioxygène O₂.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-45a')">L'air est constitué d'environ 4/5 de diazote N₂ et 1/5 de dioxygène O₂.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-45a')">L'air est constitué d'environ 1/5 de diazote N₂ et 4/5 de dioxygène O₂.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-45a')">L'air est constitué uniquement de dioxyde de carbone CO₂.</div>
+          </div>
+          <div class="dq-feedback" id="fb-45a"></div>
         </div>
       </div>
 
@@ -1878,7 +1899,7 @@
         <br>
         <button class="btn-correction" onclick="checkSelectAliC('sel-45c','corr-45c','B')">▶ Voir la correction</button>
         <div class="correction-block rouge" id="corr-45c">
-          <strong>✅ Réponse B.</strong><br>
+          <strong>✅ N₂(g) + 3 H₂(g) → 2 NH₃(g).</strong><br>
           On ajuste d'abord l'azote : 1 molécule N₂ apporte 2 atomes N, il faut donc <strong>2 NH₃</strong> pour les retrouver. On ajuste ensuite l'hydrogène : 2 NH₃ contiennent 6 atomes H, il faut donc <strong>3 H₂</strong>.
           <span class="calc-step">N₂(g) + 3 H₂(g) → 2 NH₃(g)</span>
           Vérification : 2 N et 6 H de chaque côté de la flèche.
@@ -1910,7 +1931,7 @@
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExo45(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExo45(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -1931,31 +1952,27 @@
 
       <!-- a. Réactifs -->
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">a. Nommer les réactifs de la transformation étudiée.</p>
-        <div id="qcm-47a">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">A) Benzaldéhyde et alcool benzylique</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47a','corr-47a',this)">B) Alcool benzylique et eau de Javel</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">C) Benzaldéhyde et eau de Javel</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47a','corr-47a',this)">D) Eau de Javel seule</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-47a','corr-47a')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-47a">
-          <strong>✅ Réponse B.</strong><br>
-          L'énoncé précise que « la synthèse du benzaldéhyde est possible par action de l'<strong>eau de Javel</strong> sur l'<strong>alcool benzylique</strong> » : ce sont les deux réactifs. Le benzaldéhyde, lui, est le <strong>produit</strong> de la transformation.
+        <div class="dropdown-qcm">
+          <div class="dq-question">a. Nommer les réactifs de la transformation étudiée.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-47a')">Benzaldéhyde et alcool benzylique</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-47a')">Alcool benzylique et eau de Javel</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-47a')">Benzaldéhyde et eau de Javel</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'D','fb-47a')">Eau de Javel seule</div>
+          </div>
+          <div class="dq-feedback" id="fb-47a"></div>
         </div>
       </div>
 
       <!-- b. Taches eau de Javel -->
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">b. Les taches associées à l'eau de Javel sont-elles visibles sur le chromatogramme ?</p>
-        <div id="qcm-47b">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47b','corr-47b',this)">A) Oui, l'eau de Javel est fortement révélée sous UV.</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47b','corr-47b',this)">B) Non, l'eau de Javel n'absorbe pas les UV : elle n'est pas révélée.</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-47b','corr-47b')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-47b">
-          <strong>✅ Réponse B — Non.</strong><br>
-          L'énoncé indique explicitement que <strong>l'eau de Javel n'est pas révélée</strong> car elle n'absorbe pas les UV : aucune tache ne lui est associée sur le chromatogramme, même si elle est bien présente dans le milieu réactionnel.
+        <div class="dropdown-qcm">
+          <div class="dq-question">b. Les taches associées à l'eau de Javel sont-elles visibles sur le chromatogramme ?</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-47b')">Oui, l'eau de Javel est fortement révélée sous UV.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-47b')">Non, l'eau de Javel n'absorbe pas les UV : elle n'est pas révélée.</div>
+          </div>
+          <div class="dq-feedback" id="fb-47b"></div>
         </div>
       </div>
 
@@ -1997,15 +2014,13 @@
 
       <!-- e. Tache visible à la fin ? -->
       <div style="margin-bottom:18px;">
-        <p style="font-size:0.9rem;font-weight:700;margin-bottom:8px;">e. L'alcool benzylique est le réactif limitant. La tache qui lui est associée est-elle visible à la fin de la transformation ?</p>
-        <div id="qcm-47e">
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-47e','corr-47e',this)">A) Oui, une petite tache reste visible même à la fin.</button>
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-47e','corr-47e',this)">B) Non, elle a disparu : le réactif limitant est entièrement consommé.</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-47e','corr-47e')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-47e">
-          <strong>✅ Réponse B — Non.</strong><br>
-          Un réactif <strong>limitant</strong> est, par définition, entièrement consommé à la fin de la transformation. Sa tache (celle du bas, associée à l'alcool benzylique) doit donc <strong>disparaître complètement</strong> du chromatogramme une fois la transformation terminée — ce que l'on observe effectivement au dernier prélèvement.
+        <div class="dropdown-qcm">
+          <div class="dq-question">e. L'alcool benzylique est le réactif limitant. La tache qui lui est associée est-elle visible à la fin de la transformation ?</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'A','fb-47e')">Oui, une petite tache reste visible même à la fin.</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'B','fb-47e')">Non, elle a disparu : le réactif limitant est entièrement consommé.</div>
+          </div>
+          <div class="dq-feedback" id="fb-47e"></div>
         </div>
       </div>
 
@@ -2026,13 +2041,13 @@
         <br>
         <button class="btn-correction" onclick="checkSelectAliC('sel-47f','corr-47f','C')" style="margin-top:8px;">▶ Voir la correction</button>
         <div class="correction-block rouge" id="corr-47f">
-          <strong>✅ Réponse C — Entre 20 et 30 min.</strong><br>
+          <strong>✅ Entre 20 et 30 min.</strong><br>
           Sur le chromatogramme, la tache de l'alcool benzylique (réactif limitant) est encore visible, bien que faible, au prélèvement <strong>t = 20 min</strong>, mais elle a totalement disparu au prélèvement <strong>t = 30 min</strong>.<br>
           La transformation, qui se termine lorsque le réactif limitant est entièrement consommé, s'est donc achevée <strong>entre 20 et 30 minutes</strong> après le début de l'introduction de l'eau de Javel.
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExo47(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExo47(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -2073,18 +2088,15 @@
             <p style="font-size:0.72rem;font-weight:700;margin-top:4px;color:var(--texte-léger);">Montage 3</p>
           </div>
         </div>
-        <div id="qcm-48a">
-          <button class="choix-btn" data-correct="true" onclick="checkChoixEx('qcm-48a','corr-48a',this)">A) Montage 1</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-48a','corr-48a',this)">B) Montage 2</button>
-          <button class="choix-btn" data-correct="false" onclick="checkChoixEx('qcm-48a','corr-48a',this)">C) Montage 3</button>
-        </div>
-        <button class="btn-correction" onclick="corrOnlyEx('qcm-48a','corr-48a')">▶ Voir la correction</button>
-        <div class="correction-block rouge" id="corr-48a">
-          <strong>✅ Réponse A — Montage 1.</strong><br>
-          Le <strong>montage 1</strong> est le dispositif de chauffage à reflux : un simple réfrigérant est fixé à la verticale au-dessus du ballon (à l'aide d'une pince trois doigts), ce qui permet de condenser les vapeurs et de les faire retomber dans le ballon, sans rien récupérer à l'extérieur.<br>
-          Le <strong>montage 2</strong> est un montage de <strong>distillation</strong> : il comporte un thermomètre et une colonne de Vigreux, et le réfrigérant est incliné pour recueillir un distillat dans une éprouvette.<br>
-          Le <strong>montage 3</strong> comporte un <strong>Dean-Stark</strong> intercalé entre le ballon et le réfrigérant : il permet de séparer et de collecter l'eau formée au cours de la réaction, ce qui n'est pas utile pour cette synthèse.<br>
-          <span style="font-size:0.78rem;color:var(--texte-léger);">🔗 Schémas issus de <a href="https://www.lelivrescolaire.fr/page/18368817" target="_blank" rel="noopener">lelivrescolaire.fr</a></span>
+        <p style="font-size:0.78rem;color:var(--texte-léger);margin-bottom:10px;">🔗 Schémas issus de <a href="https://www.lelivrescolaire.fr/page/18368817" target="_blank" rel="noopener">lelivrescolaire.fr</a></p>
+        <div class="dropdown-qcm">
+          <div class="dq-question">Identifier le montage correspondant au dispositif de chauffage à reflux.</div>
+          <div class="qcm-opts">
+            <div class="qcm-opt" onclick="qcmOptCheck(this,true,'A','fb-48a')">Montage 1</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'B','fb-48a')">Montage 2</div>
+            <div class="qcm-opt" onclick="qcmOptCheck(this,false,'C','fb-48a')">Montage 3</div>
+          </div>
+          <div class="dq-feedback" id="fb-48a"></div>
         </div>
       </div>
 
@@ -2118,7 +2130,7 @@
         <br>
         <button class="btn-correction" onclick="checkSelectAliC('sel-48c','corr-48c','A')" style="margin-top:8px;">▶ Voir la correction</button>
         <div class="correction-block rouge" id="corr-48c">
-          <strong>✅ Réponse A — L'oléine est le réactif limitant.</strong><br>
+          <strong>✅ L'oléine est le réactif limitant.</strong><br>
           D'après l'équation, il faut <strong>3 mol d'ion hydroxyde</strong> pour consommer entièrement <strong>1 mol d'oléine</strong>.<br>
           Pour consommer n(oléine) = 17 mmol = 0,017 mol, il faudrait :<br>
           <span class="calc-step">n(HO⁻) nécessaire = 3 × n(oléine) = 3 × 0,017 = 0,051 mol</span><br>
@@ -2145,7 +2157,7 @@
         </div>
       </div>
 
-      <button class="btn-reset" onclick="resetExo48(this)">↺ Recommencer</button>
+      <button class="btn-reveal" onclick="resetExo48(this)">↺ Recommencer</button>
     </div>
 
   </div>
@@ -2237,12 +2249,30 @@
   <div class="sub-tab-content" id="bilan-sub-1">
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
-      <div class="gloss-item" data-term="transformation chimique"><dt>Transformation chimique</dt><dd>Passage d'un système chimique d'un état initial à un état final avec formation de nouvelles espèces chimiques. Réactifs consommés, produits formés, espèces spectatrices inchangées.</dd></div>
+      <div class="gloss-item" data-term="catalyseur"><dt>Catalyseur</dt><dd>Espèce chimique qui accélère une transformation chimique sans être consommée : elle est régénérée en fin de réaction et n'apparaît pas dans l'équation de réaction.</dd></div>
+      <div class="gloss-item" data-term="chromatographie couche mince ccm rf"><dt>Chromatographie sur couche mince (CCM)</dt><dd>Technique séparant et identifiant les espèces d'un mélange par migration sur une plaque, comparée à des témoins. Le rapport frontal Rf (distance parcourue par la tache / distance parcourue par l'éluant) caractérise chaque espèce.</dd></div>
+      <div class="gloss-item" data-term="coefficient stoechiometrique"><dt>Coefficient stœchiométrique</dt><dd>Nombre placé devant chaque espèce dans une équation de réaction (a, b, c, d…), qui traduit les proportions dans lesquelles réactifs et produits interviennent.</dd></div>
+      <div class="gloss-item" data-term="densite masse volumique"><dt>Densité</dt><dd>Rapport entre la masse volumique d'un liquide et celle de l'eau. Une densité inférieure à 1 signifie que le liquide est moins dense que l'eau et forme la phase supérieure lors d'une décantation.</dd></div>
       <div class="gloss-item" data-term="equation reaction"><dt>Équation de réaction</dt><dd>aA + bB → cC + dD : traduit la conservation des éléments et de la charge électrique entre réactifs et produits, grâce aux coefficients stœchiométriques a, b, c, d.</dd></div>
-      <div class="gloss-item" data-term="reactif limitant"><dt>Réactif limitant</dt><dd>Réactif entièrement consommé en fin de transformation chimique totale. Si n_A/n_B < a/b, A est limitant et B en excès.</dd></div>
+      <div class="gloss-item" data-term="espece artificielle"><dt>Espèce artificielle</dt><dd>Espèce chimique fabriquée par l'Homme et qui n'existe pas dans la nature — contrairement à une espèce synthétique, qui peut avoir un équivalent naturel.</dd></div>
+      <div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>Ensemble d'entités chimiques identiques (atomes, molécules, ions) caractérisé par une formule chimique et des propriétés physiques et chimiques propres.</dd></div>
       <div class="gloss-item" data-term="espece naturelle"><dt>Espèce naturelle</dt><dd>Espèce chimique issue de la nature (plantes, minéraux, animaux…).</dd></div>
-      <div class="gloss-item" data-term="espece synthetique artificielle"><dt>Espèce synthétique / artificielle</dt><dd>Synthétique : fabriquée par l'Homme, qu'elle existe ou non dans la nature. Artificielle : n'existe pas dans la nature.</dd></div>
+      <div class="gloss-item" data-term="espece spectatrice"><dt>Espèce spectatrice</dt><dd>Espèce chimique présente dans le système mais qui ne participe pas à la transformation : sa quantité de matière reste inchangée entre l'état initial et l'état final.</dd></div>
+      <div class="gloss-item" data-term="espece synthetique"><dt>Espèce synthétique</dt><dd>Espèce chimique fabriquée par l'Homme en laboratoire ou en usine, identique ou non à une espèce existant dans la nature.</dd></div>
+      <div class="gloss-item" data-term="extraction liquide liquide decantation ampoule"><dt>Extraction liquide-liquide</dt><dd>Technique séparant une espèce chimique du mélange réactionnel à l'aide d'un solvant extracteur non miscible à l'eau, dans une ampoule à décanter. Après agitation, la décantation sépare deux phases liquides selon leur densité.</dd></div>
+      <div class="gloss-item" data-term="indice de refraction"><dt>Indice de réfraction</dt><dd>Grandeur physique caractéristique d'un liquide pur, mesurée au réfractomètre et comparée à une valeur tabulée pour vérifier l'identité d'une espèce.</dd></div>
+      <div class="gloss-item" data-term="melange stoechiometrique"><dt>Mélange stœchiométrique</dt><dd>Mélange de réactifs introduits dans les proportions exactes des coefficients stœchiométriques : tous les réactifs sont entièrement consommés en même temps, aucun n'est en excès.</dd></div>
+      <div class="gloss-item" data-term="montage distillation"><dt>Montage à distillation</dt><dd>Technique séparant les constituants d'un mélange liquide en exploitant leurs températures d'ébullition différentes : le liquide est vaporisé par chauffage puis condensé par un réfrigérant, mais contrairement au reflux, le condensat est recueilli et non renvoyé dans le ballon.</dd></div>
       <div class="gloss-item" data-term="montage reflux"><dt>Montage à reflux</dt><dd>Permet de chauffer le milieu réactionnel pour accélérer la transformation sans perte de matière : les vapeurs sont condensées par le réfrigérant et retombent dans le ballon.</dd></div>
+      <div class="gloss-item" data-term="montage dean stark"><dt>Montage Dean-Stark</dt><dd>Montage à reflux muni d'un dispositif accessoire qui piège et élimine en continu l'eau formée au cours de la réaction (par exemple une estérification), ce qui déplace l'équilibre chimique vers la formation du produit.</dd></div>
+      <div class="gloss-item" data-term="quantite de matiere mole"><dt>Quantité de matière (mol)</dt><dd>Grandeur, notée n et exprimée en moles, qui dénombre les entités d'une espèce chimique. Se calcule à partir de la masse par n = m / M.</dd></div>
+      <div class="gloss-item" data-term="reactif limitant"><dt>Réactif limitant</dt><dd>Réactif entièrement consommé en fin de transformation chimique totale. Si n_A/n_B < a/b, A est limitant et B en excès.</dd></div>
+      <div class="gloss-item" data-term="rendement synthese"><dt>Rendement d'une synthèse</dt><dd>Rapport entre la quantité (ou la masse) de produit réellement obtenue et la quantité (ou la masse) maximale théoriquement attendue, souvent exprimé en pourcentage.</dd></div>
+      <div class="gloss-item" data-term="systeme chimique"><dt>Système chimique</dt><dd>Ensemble des espèces chimiques (réactifs, produits, espèces spectatrices) présentes dans le milieu réactionnel étudié, à un instant donné.</dd></div>
+      <div class="gloss-item" data-term="test caracteristique"><dt>Test caractéristique</dt><dd>Expérience simple permettant d'identifier une espèce chimique par une observation spécifique (couleur, gaz, précipité…), par exemple la détonation à l'approche d'une flamme pour le dihydrogène.</dd></div>
+      <div class="gloss-item" data-term="transformation chimique"><dt>Transformation chimique</dt><dd>Passage d'un système chimique d'un état initial à un état final avec formation de nouvelles espèces chimiques. Réactifs consommés, produits formés, espèces spectatrices inchangées.</dd></div>
+      <div class="gloss-item" data-term="transformation endothermique"><dt>Transformation endothermique</dt><dd>Transformation chimique qui absorbe de l'énergie sous forme thermique : la température du milieu réactionnel diminue.</dd></div>
+      <div class="gloss-item" data-term="transformation exothermique"><dt>Transformation exothermique</dt><dd>Transformation chimique qui libère de l'énergie sous forme thermique : la température du milieu réactionnel augmente.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -2400,6 +2430,119 @@
 </div><!-- /main -->
 
 <script>
+
+const DQ_FEEDBACK = {
+  'dqf-alf-a': {
+    correct: "✅ Exact. Le test caractéristique du dihydrogène consiste à approcher une allumette enflammée de l'embouchure du tube : la combustion du gaz produit une détonation.",
+    wrong: {
+      'B': "❌ Incorrect — le dihydrogène est inodore, sentir l'odeur ne permet pas de l'identifier. Il faut approcher une allumette enflammée.",
+      // Ajouter les autres choix faux si nécessaire
+    }
+  },
+  'fb-corrosion': {
+    correct: "✓ Exact ! Il reste du zinc solide en fin de réaction : le zinc n'a donc pas été entièrement consommé, il est en excès. C'est HCl qui a été entièrement consommé : c'est le réactif limitant. Vérification : n(Zn)/n(HCl) = 0,5/0,8 = 0,625 > a/b = 0,5 → HCl est limitant.",
+    wrong: {
+      'A': "✗ Non — il reste du zinc solide dans l'état final : le zinc n'est pas entièrement consommé, il est donc en excès. C'est HCl qui a été entièrement consommé en premier.",
+      'C': "✗ Non — le mélange n'est pas stœchiométrique : n(Zn)/n(HCl) = 0,5/0,8 = 0,625 ≠ a/b = 1/2 = 0,5."
+    }
+  },
+  'fb-44a': {
+    correct: "✓ Exact ! La température du mélange augmente (θf > θi) : le système libère de la chaleur vers l'eau du calorimètre. Une transformation qui libère de l'énergie thermique est exothermique.",
+    wrong: {
+      'A': "✗ Non — la température augmente (θf > θi), ce qui signifie que le système libère de la chaleur : la transformation est exothermique, pas endothermique."
+    }
+  },
+  'fb-44f': {
+    correct: "✓ Exact ! La régression linéaire donne a ≈ 5,3 °C·g⁻¹ et une ordonnée à l'origine b ≈ 0,1 °C, quasiment nulle : la droite passe par l'origine, donc Δθ est proportionnelle à la masse m, soit Δθ = a × m.",
+    wrong: {
+      'B': "✗ Non — l'écart de température augmente avec la masse : ce n'est pas une relation inversement proportionnelle.",
+      'C': "✗ Non — Δθ dépend bien de m : plus on dissout d'hydroxyde de sodium, plus Δθ est grand.",
+      'D': "✗ Non — les points s'alignent sur une droite passant par l'origine : la relation est proportionnelle (linéaire), pas exponentielle."
+    }
+  },
+  'fb-45a': {
+    correct: "✓ Exact ! L'air est un mélange de gaz constitué d'environ 4/5 (≈ 78 %) de diazote N₂ et 1/5 (≈ 21 %) de dioxygène O₂.",
+    wrong: {
+      'A': "✗ Non — l'air n'est pas constitué à 100 % de dioxygène : il contient environ 4/5 de diazote N₂ et 1/5 de dioxygène O₂.",
+      'C': "✗ Non — les proportions sont inversées : c'est environ 4/5 de diazote N₂ et 1/5 de dioxygène O₂.",
+      'D': "✗ Non — le dioxyde de carbone n'est présent qu'en très faible proportion dans l'air, majoritairement composé de diazote N₂ et de dioxygène O₂."
+    }
+  },
+  'fb-47a': {
+    correct: "✓ Exact ! Les réactifs sont l'alcool benzylique et l'eau de Javel ; le benzaldéhyde est le produit de la transformation.",
+    wrong: {
+      'A': "✗ Non — le benzaldéhyde est le produit, pas un réactif. Les réactifs sont l'alcool benzylique et l'eau de Javel.",
+      'C': "✗ Non — le benzaldéhyde est le produit, pas un réactif. Les réactifs sont l'alcool benzylique et l'eau de Javel.",
+      'D': "✗ Non — il faut deux réactifs : l'alcool benzylique et l'eau de Javel."
+    }
+  },
+  'fb-47b': {
+    correct: "✓ Exact ! L'eau de Javel n'absorbe pas les UV : elle n'est donc pas révélée sur le chromatogramme, même si elle est présente dans le milieu réactionnel.",
+    wrong: {
+      'A': "✗ Non — l'énoncé précise que l'eau de Javel n'absorbe pas les UV : elle n'est donc pas révélée, aucune tache ne lui est associée."
+    }
+  },
+  'fb-47e': {
+    correct: "✓ Exact ! Un réactif limitant est par définition entièrement consommé à la fin de la transformation : sa tache disparaît donc complètement du chromatogramme.",
+    wrong: {
+      'A': "✗ Non — un réactif limitant est entièrement consommé à la fin de la transformation : sa tache doit disparaître complètement, ce que l'on observe sur le dernier prélèvement."
+    }
+  },
+  'fb-48a': {
+    correct: "✓ Exact ! Le montage 1 est le montage à reflux : un réfrigérant vertical condense les vapeurs qui retombent dans le ballon, sans rien récupérer à l'extérieur.",
+    wrong: {
+      'B': "✗ Non — le montage 2 est un montage de distillation (thermomètre, colonne de Vigreux, réfrigérant incliné pour recueillir un distillat), pas un montage à reflux.",
+      'C': "✗ Non — le montage 3 comporte un Dean-Stark qui sert à séparer l'eau formée, ce qui n'est pas utile ici. Le montage à reflux est le montage 1."
+    }
+  },
+  'fb-alf-b': {
+    correct: "✓ Exact ! Il faut 3 fois plus d'ions H⁺ consommés que d'atomes d'aluminium : chaque atome d'aluminium cède donc 3 électrons, formant l'ion Al³⁺.",
+    wrong: {
+      'A': "✗ Non — Al⁺ correspondrait à la perte d'un seul électron, ce qui ne respecte pas le rapport 3:1 entre H⁺ consommé et Al.",
+      'C': "✗ Non — Al³⁻ correspondrait à un gain d'électrons ; or l'aluminium, comme tout métal, en cède pour former un cation.",
+      'D': "✗ Non — Al²⁺ correspondrait à la perte de 2 électrons, ce qui ne respecte pas le rapport 3:1 entre H⁺ consommé et Al."
+    }
+  },
+  'fb-alf-d': {
+    correct: "✓ Exact ! L'ion chlorure Cl⁻(aq) est apporté par l'acide chlorhydrique mais n'apparaît dans aucun produit : c'est l'espèce spectatrice.",
+    wrong: {
+      'A': "✗ Non — H⁺(aq) est un réactif : il est consommé pour former le dihydrogène.",
+      'B': "✗ Non — Al(s) est un réactif : il est consommé pour former l'ion aluminium.",
+      'D': "✗ Non — H₂(g) est un produit de la réaction, pas l'espèce spectatrice."
+    }
+  },
+  'fb-asp-a': {
+    correct: "✓ Exact ! N = (m_h × m_e) / (m_a × m_m) = (4 560 × 50) / (5 × 23) ≈ 1 983 saules par heure.",
+    wrong: {
+      'A': "✗ Non — le calcul N = (m_h × m_e) / (m_a × m_m) = (4 560 × 50) / (5 × 23) donne environ 1 983 saules par heure, pas 200.",
+      'B': "✗ Non — le calcul donne environ 1 983 saules par heure, pas 1 000.",
+      'D': "✗ Non — le calcul donne environ 1 983 saules par heure, pas 5 000."
+    }
+  },
+  'fb-asp-b': {
+    correct: "✓ Exact ! La synthèse chimique industrielle permet de répondre à la demande mondiale sans dépendre d'une ressource naturelle limitée : elle est plus durable, plus rapide et moins coûteuse.",
+    wrong: {
+      'B': "✗ Non — l'extraction naturelle nécessiterait d'abattre près de 2 000 saules par heure, ce qui est écologiquement destructeur et irréalisable : elle ne suffit pas à la demande.",
+      'C': "✗ Non — planter suffisamment de saules pour répondre à la demande mondiale n'est pas réaliste ; la synthèse industrielle est la solution durable.",
+      'D': "✗ Non — la synthèse industrielle a au contraire un intérêt majeur : elle évite d'épuiser une ressource naturelle limitée."
+    }
+  },
+  'fb-mg-2a': {
+    correct: "✓ Exact ! n(Mg)/1 = 20 mmol et n(H⁺)/2 = 25 mmol : le plus petit quotient correspond au magnésium, qui est donc le réactif limitant.",
+    wrong: {
+      'B': "✗ Non — n(H⁺)/2 = 25 mmol est supérieur à n(Mg)/1 = 20 mmol : c'est le magnésium qui est limitant, pas l'ion hydrogène.",
+      'C': "✗ Non — l'ion chlorure est une espèce spectatrice, il n'intervient pas dans le calcul du réactif limitant.",
+      'D': "✗ Non — les quotients n(Mg)/1 = 20 mmol et n(H⁺)/2 = 25 mmol sont différents : le mélange n'est pas stœchiométrique."
+    }
+  },
+  'fb-mg-2b': {
+    correct: "✓ Exact ! Le magnésium, réactif limitant, est entièrement consommé : il ne reste donc pas de solide au fond du tube, ce qui est cohérent avec les observations.",
+    wrong: {
+      'B': "✗ Non — le magnésium étant le réactif limitant, il est entièrement consommé : l'absence de solide résiduel est bien cohérente avec ce résultat."
+    }
+  }
+};
+
 // ── Sous-onglets (Bilan & Ressources) ──
 function showSub(btn, id) {
   const panel = btn.closest('.tab-content');
@@ -2528,21 +2671,24 @@ function updateSlider() {
 
 // ── CORROSION ──
 function repCorrosion(btn, rep) {
-  document.querySelectorAll('#corrosion-choices .choix-btn').forEach(b=>{b.className='choix-btn';});
-  const fb=document.getElementById('fb-corrosion');
-  if(rep==='B'){
-    btn.className='choix-btn correct';
-    fb.className='feedback visible ok';
-    fb.innerHTML='✅ Correct ! L\'acide chlorhydrique HCl est le réactif limitant.<br>'
-      +'<strong>Justification :</strong> À la fin de la réaction, il reste encore du zinc solide → le zinc n\'a pas été entièrement consommé, il est donc en excès. C\'est HCl qui a été entièrement consommé en premier : c\'est le réactif limitant.<br>'
-      +'<em>Vérification par le ratio :</em> Pour a=1, b=2 : n(Zn)/n(HCl) = 0,5/0,8 = 0,625 &gt; a/b = 0,5 → HCl est limitant ✓';
+  const fb = document.getElementById('fb-corrosion');
+  
+  // Retire les couleurs sans bloquer
+  document.querySelectorAll('#corrosion-choices .choix-btn').forEach(b => {
+    b.classList.remove('correct', 'wrong');
+  });
+  
+  if (rep === 'B') {
+    btn.classList.add('correct');
+    fb.className = 'feedback visible ok';
+    fb.innerHTML = '✅ Correct ! L\'acide chlorhydrique HCl est le réactif limitant.<br><strong>Justification :</strong> À la fin de la réaction, il reste encore du zinc solide → le zinc n\'a pas été entièrement consommé, il est donc en excès. C\'est HCl qui a été entièrement consommé en premier : c\'est le réactif limitant.<br><em>Vérification par le ratio :</em> Pour a=1, b=2 : n(Zn)/n(HCl) = 0,5/0,8 = 0,625 &gt; a/b = 0,5 → HCl est limitant ✓';
   } else {
-    btn.className='choix-btn wrong';
-    fb.className='feedback visible erreur';
-    if(rep==='A'){
-      fb.innerHTML='❌ Non. Il reste du zinc solide dans l\'état final → le zinc n\'est <em>pas</em> entièrement consommé. Il est donc en excès. C\'est HCl qui a été entièrement consommé en premier.';
+    btn.classList.add('wrong');
+    fb.className = 'feedback visible erreur';
+    if (rep === 'A') {
+      fb.innerHTML = '❌ Non. Il reste du zinc solide dans l\'état final → le zinc n\'est <em>pas</em> entièrement consommé. Il est donc en excès. C\'est HCl qui a été entièrement consommé en premier.';
     } else {
-      fb.innerHTML='❌ Non. Le mélange n\'est pas stœchiométrique : on peut le vérifier en comparant n(Zn)/n(HCl) = 0,5/0,8 = 0,625 avec a/b = 1/2 = 0,5 → 0,625 ≠ 0,5, le mélange n\'est pas stœchiométrique.';
+      fb.innerHTML = '❌ Non. Le mélange n\'est pas stœchiométrique : on peut le vérifier en comparant n(Zn)/n(HCl) = 0,5/0,8 = 0,625 avec a/b = 1/2 = 0,5 → 0,625 ≠ 0,5, le mélange n\'est pas stœchiométrique.';
     }
   }
 }
@@ -2623,59 +2769,24 @@ base64.b64encode(buf.read()).decode('utf-8')
   }
 }
 
-// ── ACTIVITÉ 2 : Tableau à compléter (bonbon limitant) ──
-const tableau2Solutions = {
-  't2-a-nfi': 10, 't2-c-nfi': 10,
-  't2-b-nff': 0, 't2-c-nff': 0,
-  't2-a-nci': 20, 't2-b-nci': 30,
-  't2-a-ncf': 0, 't2-c-ncf': 0,
-  't2-b-ratio': 0.33, 't2-c-ratio': 0.4,
-  't2-a-ab': 0.4, 't2-c-ab': 0.4
-};
-
-function verifierTableau2() {
-  for (const id in tableau2Solutions) {
-    const input = document.getElementById(id);
-    if (!input) continue;
-    const val = parseFloat(input.value.replace(',', '.'));
-    const sol = tableau2Solutions[id];
-    const tol = (id.includes('ratio') || id.includes('ab')) ? 0.02 : 0.001;
-    if (!isNaN(val) && Math.abs(val - sol) <= tol) {
-      input.className = 'table-input correct';
-    } else {
-      input.className = 'table-input wrong';
-    }
-  }
-}
-
-function resetTableau2() {
-  for (const id in tableau2Solutions) {
-    const input = document.getElementById(id);
-    if (!input) continue;
-    input.value = '';
-    input.className = 'table-input';
-  }
-}
-
-function corrAct2(n) {
-  const block = document.getElementById('corr-act2-' + n);
-  if (block) block.classList.toggle('visible');
-}
-
 // ── ACTIVITÉ 2 : champs de réponse libres à vérifier ──
 // ── Réinitialisation générique d'un exercice Vérifier (bouton "↺ Recommencer") ──
 // ── EXERCICE FACILE : Aluminium + acide chlorhydrique ──
 function checkChoixEx(zoneId, corrId, btn) {
   const zone = document.getElementById(zoneId);
-  if (!zone || zone.dataset.done === 'true') return;
-  zone.dataset.done = 'true';
+  if (!zone) return;
+
   zone.querySelectorAll('.choix-btn').forEach(b => {
-    b.disabled = true;
-    if (b.dataset.correct === 'true') b.classList.add('correct');
-    else if (b === btn) b.classList.add('wrong');
+    b.classList.remove('correct', 'wrong');
   });
-  document.getElementById(corrId).classList.add('visible');
+
+  if (btn.dataset.correct === 'true') {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+  }
 }
+
 function corrOnlyEx(zoneId, corrId) {
   const zone = document.getElementById(zoneId);
   if (zone) {
@@ -2688,6 +2799,7 @@ function corrOnlyEx(zoneId, corrId) {
   const corr = document.getElementById(corrId);
   if (corr) corr.classList.add('visible');
 }
+
 function resetExoAl(btn) {
   const card = btn.closest('.card');
   card.querySelectorAll('.choix-btn').forEach(b => {
@@ -2844,6 +2956,8 @@ function applyPyBlank(blankKey, selectEl) {
 function resetExo44(btn) {
   const card = btn.closest('.card');
   card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-44"]').forEach(z => { z.dataset.done = 'false'; });
   card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
   card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
@@ -2932,6 +3046,8 @@ function resetExoAsp(btn) {
     b.disabled = false;
     b.classList.remove('correct', 'wrong');
   });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-asp-"]').forEach(z => { z.dataset.done = 'false'; });
   card.querySelectorAll('.correction-block').forEach(c => c.classList.remove('visible'));
 }
@@ -2942,6 +3058,8 @@ function resetExoMg(btn) {
     b.disabled = false;
     b.classList.remove('correct', 'wrong');
   });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-mg-"]').forEach(z => { z.dataset.done = 'false'; });
   const sel = card.querySelector('#sel-mg-1');
   if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
@@ -2959,6 +3077,8 @@ function checkExo45B() {
 function resetExo45(btn) {
   const card = btn.closest('.card');
   card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-45"]').forEach(z => { z.dataset.done = 'false'; });
   card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
   card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
@@ -2980,6 +3100,8 @@ function checkExo47D() {
 function resetExo47(btn) {
   const card = btn.closest('.card');
   card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-47"]').forEach(z => { z.dataset.done = 'false'; });
   card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
   card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
@@ -2993,6 +3115,8 @@ function resetExo47(btn) {
 function resetExo48(btn) {
   const card = btn.closest('.card');
   card.querySelectorAll('.choix-btn').forEach(b => { b.disabled = false; b.classList.remove('correct', 'wrong'); });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-48"]').forEach(z => { z.dataset.done = 'false'; });
   card.querySelectorAll('.rep-zone').forEach(t => { t.value = ''; });
   card.querySelectorAll('.indice-box').forEach(b => b.classList.remove('visible'));
@@ -3009,6 +3133,8 @@ function resetExoAlFacile(btn) {
     b.disabled = false;
     b.classList.remove('correct', 'wrong');
   });
+  card.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
   card.querySelectorAll('[id^="qcm-alf-"]').forEach(z => { z.dataset.done = 'false'; });
   const sel = card.querySelector('#sel-alf-c');
   if (sel) { sel.value = ''; sel.disabled = false; sel.classList.remove('correct', 'wrong'); sel.dataset.done = 'false'; }
@@ -3042,59 +3168,69 @@ function resetVerifExo(btn){
   container.querySelectorAll('.fb').forEach(function(f){ f.textContent = ''; f.className = 'fb'; });
 }
 
-// ── Activité 3 : QCM réactif limitant ──
-function repA3Q1(btn, rep) {
-  document.querySelectorAll('#a3-choices-1 .choix-btn').forEach(b=>{b.className='choix-btn';});
-  const fb = document.getElementById('fb-a3-q1');
-  if (rep === 'A') {
-    btn.className = 'choix-btn correct';
-    fb.className = 'feedback visible ok';
-    fb.innerHTML = '✅ Exact ! Le réactif limitant est celui dont la quantité tombe à zéro dans l\'état final ; l\'autre réactif, introduit en excès, reste présent en fin de réaction.';
-  } else {
-    btn.className = 'choix-btn wrong';
-    fb.className = 'feedback visible erreur';
-    fb.innerHTML = '❌ Non. Observe bien l\'état final de l\'animation : c\'est la quantité de chaque réactif qui détermine lequel disparaît, pas sa quantité initiale ni un ordre fixe.';
+// ── Activité 3 : QCM réactif limitant — correction immédiate (même mécanique que séq. Seconde, activité 2) ──
+const A3_FEEDBACK = {
+  'fb-a3-q1': {
+    correct: "✓ Exact ! Le réactif limitant est celui dont la quantité tombe à zéro dans l'état final ; l'autre réactif, introduit en excès, reste présent en fin de réaction.",
+    wrong: {
+      B: "✗ Non — les deux réactifs ne disparaissent pas forcément ensemble : sauf cas particulier (mélange stœchiométrique), l'un des deux s'épuise avant l'autre.",
+      C: "✗ Non — ce n'est pas la quantité initiale seule qui détermine quel réactif disparaît : cela dépend aussi des coefficients stœchiométriques de l'équation. Observe bien l'état final dans l'animation."
+    }
+  },
+  'fb-a3-q2': {
+    correct: "✓ Exact ! On l'appelle le réactif limitant : c'est lui qui impose la fin de la transformation.",
+    wrong: {
+      B: "✗ Non — le réactif « en excès » est justement celui qui reste en fin de réaction, pas celui qui est totalement consommé.",
+      C: "✗ Non — un catalyseur accélère une réaction sans être consommé : ce n'est pas le terme qui désigne le réactif totalement consommé."
+    }
+  },
+  'fb-a3-q3': {
+    correct: "✓ Exact ! Lorsque les deux réactifs sont entièrement consommés en même temps, le mélange initial est dit stœchiométrique.",
+    wrong: {
+      B: "✗ Non — en ajustant précisément les proportions initiales (selon les coefficients stœchiométriques), on peut faire disparaître les deux réactifs simultanément.",
+      C: "✗ Non — « réactif limitant » désigne le réactif totalement consommé dans un mélange donné, pas le cas particulier où aucun réactif n'est en excès (qui est le mélange stœchiométrique)."
+    }
+  },
+  'fb-a3-q4': {
+    correct: "✓ Exact ! Le réactif limitant est celui pour lequel le quotient (quantité initiale / coefficient stœchiométrique) est le plus petit.",
+    wrong: {
+      A: "✗ Non — la quantité initiale seule ne suffit pas : il faut la diviser par le coefficient stœchiométrique de chaque réactif dans l'équation avant de comparer.",
+      C: "✗ Non — il existe une méthode de calcul systématique (comparaison des quotients quantité initiale / coefficient stœchiométrique) qui permet de prévoir le réactif limitant sans expérimenter."
+    }
+  }
+};
+
+// ── Mélange aléatoire de l'ordre des réponses des QCM ──
+function shuffleQcmOptions() {
+  document.querySelectorAll('.qcm-opts').forEach(container => {
+    const options = Array.from(container.children); // les .qcm-opt
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    options.forEach(opt => container.appendChild(opt));
+  });
+}
+document.addEventListener('DOMContentLoaded', shuffleQcmOptions);
+function qcmOptCheck(el, isCorrect, val, feedbackId) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  const data = DQ_FEEDBACK[feedbackId] || A3_FEEDBACK[feedbackId];;
+  if (fb && data) {
+    fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
   }
 }
-function repA3Q2(btn, rep) {
-  document.querySelectorAll('#a3-choices-2 .choix-btn').forEach(b=>{b.className='choix-btn';});
-  const fb = document.getElementById('fb-a3-q2');
-  if (rep === 'A') {
-    btn.className = 'choix-btn correct';
-    fb.className = 'feedback visible ok';
-    fb.innerHTML = '✅ Exact ! On l\'appelle le <strong>réactif limitant</strong> : c\'est lui qui impose la fin de la transformation.';
-  } else {
-    btn.className = 'choix-btn wrong';
-    fb.className = 'feedback visible erreur';
-    fb.innerHTML = '❌ Non, revois le vocabulaire vu en cours pour désigner le réactif totalement consommé.';
-  }
+
+function recommencerActivite(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(btn => btn.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent = ''; fb.className = 'dq-feedback'; });
 }
-function repA3Q3(btn, rep) {
-  document.querySelectorAll('#a3-choices-3 .choix-btn').forEach(b=>{b.className='choix-btn';});
-  const fb = document.getElementById('fb-a3-q3');
-  if (rep === 'A') {
-    btn.className = 'choix-btn correct';
-    fb.className = 'feedback visible ok';
-    fb.innerHTML = '✅ Exact ! Lorsque les deux réactifs sont entièrement consommés en même temps, le mélange initial est dit <strong>stœchiométrique</strong>.';
-  } else {
-    btn.className = 'choix-btn wrong';
-    fb.className = 'feedback visible erreur';
-    fb.innerHTML = '❌ Non. Essaie d\'ajuster les proportions initiales dans l\'animation jusqu\'à ce que les deux réactifs disparaissent ensemble : ce cas particulier porte un nom précis.';
-  }
-}
-function repA3Q4(btn, rep) {
-  document.querySelectorAll('#a3-choices-4 .choix-btn').forEach(b=>{b.className='choix-btn';});
-  const fb = document.getElementById('fb-a3-q4');
-  if (rep === 'B') {
-    btn.className = 'choix-btn correct';
-    fb.className = 'feedback visible ok';
-    fb.innerHTML = '✅ Exact ! Le réactif limitant est celui pour lequel le quotient (quantité initiale / coefficient stœchiométrique) est le plus petit.';
-  } else {
-    btn.className = 'choix-btn wrong';
-    fb.className = 'feedback visible erreur';
-    fb.innerHTML = '❌ Non. La quantité initiale seule ne suffit pas : il faut la comparer au coefficient stœchiométrique de chaque réactif dans l\'équation.';
-  }
-}
+
 
 function normTxtA2(s){ return (s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 function normNumA2(s){
@@ -3269,34 +3405,66 @@ let score = 0;
 let scoreMax = 5; // 4 mono + 1 multi
 let questionsDone = [false,false,false,false,false];
 
-function repQcm(qNum, btn, rep) {
-  // Ne rien faire si déjà répondu
-  if(questionsDone[qNum]) return;
-  const zone = document.getElementById('qcm-'+qNum);
-  zone.querySelectorAll('.choix-btn').forEach(b => b.disabled = true);
-  const correct = (rep === BONNES[qNum]);
-  btn.className = 'choix-btn ' + (correct ? 'correct' : 'wrong');
-  // Colorer aussi la bonne réponse si mauvais choix
-  if(!correct){
-    zone.querySelectorAll('.choix-btn').forEach(b => {
-      if(b.textContent.trim().startsWith(BONNES[qNum]+')')) b.className='choix-btn correct';
-    });
+// Commentaire affiché immédiatement après le clic sur une réponse (bonne ou mauvaise)
+const MENTHONE_FEEDBACK = {
+  0: {
+    A: '✗ La menthone est le produit obtenu, pas un réactif : tu as inversé réactif et produit.',
+    B: '✓ Exact : le menthol et le permanganate KMnO₄ sont les réactifs ; la menthone est le produit obtenu.',
+    C: "✗ Le cyclohexane n'est pas un réactif : c'est le solvant utilisé pour l'extraction, à l'étape 3."
+  },
+  1: {
+    A: '✗ Erreur de calcul : n = m/M = 6,24/156 donne 0,040 mol, pas 0,024 mol.',
+    B: '✓ Exact : n = m/M = 6,24 / 156 = 0,040 mol.',
+    C: '✗ 0,975 correspond à m × M, alors qu\'il fallait calculer m / M.'
+  },
+  2: {
+    A: '✗ Le reflux sert à chauffer le milieu, pas à le refroidir.',
+    B: '✓ Exact : le reflux permet de chauffer (donc d\'accélérer la réaction) tout en condensant les vapeurs, sans perte de matière.',
+    C: "✗ La séparation par extraction a lieu après la réaction (étape 3), pas pendant le reflux."
+  },
+  3: {
+    A: "✗ C'est l'inverse : le cyclohexane est moins dense que l'eau, pas plus dense.",
+    B: '✓ Exact : ρ(cyclohexane) = 0,78 g·mL⁻¹ < ρ(eau) = 1,0 g·mL⁻¹, donc le cyclohexane forme la phase supérieure, où se trouve la menthone.',
+    C: "✗ La menthone n'est soluble que dans le cyclohexane : elle ne se répartit pas dans les deux phases."
   }
-  questionsDone[qNum] = true;
-  if(correct) score++;
+};
+
+function repQcm(qNum, btn, rep) {
+  const zone = document.getElementById('qcm-'+qNum);
+  
+  // Retire les couleurs sans bloquer
+  zone.querySelectorAll('.choix-btn').forEach(b => {
+    b.classList.remove('correct', 'wrong');
+  });
+  
+  const correct = (rep === BONNES[qNum]);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+
+  // Affiche un commentaire immédiat pour la réponse choisie
+  const fb = document.getElementById('fb-menthone-'+qNum);
+  const data = MENTHONE_FEEDBACK[qNum];
+  if (fb && data && data[rep]) {
+    fb.textContent = data[rep];
+    fb.className = 'dq-feedback' + (correct ? '' : ' wrong');
+  }
+  
+  // Incrémente le score uniquement au premier clic
+  if (!questionsDone[qNum]) {
+    if (correct) score++;
+    questionsDone[qNum] = true;
+  }
+  
+  // Affiche le bouton "suivant" pour débloquer la suite
+  const nx = document.getElementById('next-'+qNum);
+  if (nx) nx.style.display = 'inline-flex';
   document.getElementById('dot-'+qNum).className = 'step-dot done';
-  // Afficher correction + bouton suivant
-  corrQcm(qNum);
 }
 
 function corrQcm(qNum) {
   document.getElementById('corr-'+qNum).classList.add('visible');
   const nx = document.getElementById('next-'+qNum);
-  if(nx) nx.style.display = 'inline-flex';
+  if (nx) nx.style.display = 'inline-flex';
   document.getElementById('dot-'+qNum).className = 'step-dot done';
-  // Désactiver les boutons si pas encore répondu
-  const zone = document.getElementById('qcm-'+qNum);
-  if(zone) zone.querySelectorAll('.choix-btn').forEach(b => b.disabled = true);
   questionsDone[qNum] = true;
 }
 
@@ -3332,6 +3500,18 @@ function verifierMulti(qNum) {
   });
   questionsDone[qNum] = true;
   if(correctCount === totalCorrect) score++;
+
+  const fb = document.getElementById('fb-menthone-'+qNum);
+  if (fb) {
+    if (correctCount === totalCorrect) {
+      fb.textContent = '✓ Bravo, tu as coché les 3 bonnes réponses : CCM, température d\'ébullition et indice de réfraction.';
+      fb.className = 'dq-feedback';
+    } else {
+      fb.textContent = '✗ Ce ne sont pas exactement les bonnes réponses — regarde le détail ci-dessous : seules la CCM, la température d\'ébullition et l\'indice de réfraction permettent de comparer à des valeurs tabulées.';
+      fb.className = 'dq-feedback wrong';
+    }
+  }
+
   corrQcm(qNum);
 }
 
@@ -3363,6 +3543,9 @@ function resetMenthone() {
       b.className='choix-btn'+(b.classList.contains('multi')?' multi':'');
       b.style.borderColor=''; b.style.color=''; b.style.background='';
     });
+    // Efface le commentaire immédiat
+    const fb=document.getElementById('fb-menthone-'+i);
+    if(fb){ fb.textContent=''; fb.className='dq-feedback'; }
   }
   document.getElementById('score-final').style.display='none';
 }

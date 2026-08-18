@@ -214,13 +214,13 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 .qcm-radio-option.correct{background:#EAF3DE;border-color:#1D9E75;color:#27500A;font-weight:600}
 .qcm-radio-option.wrong{background:#FCEBEB;border-color:#E24B4A;color:#791F1F;font-weight:600}
 .qcm-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.btn-correction,.btn-recommencer,.btn-verif{font-family:"Nunito",sans-serif;font-size:0.8rem;font-weight:700;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.15s;border:none}
+.btn-correction,.btn-recommencer,.btn-verif{display:inline-block;min-width:150px;text-align:center;font-family:"Nunito",sans-serif;font-size:0.8rem;font-weight:700;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.15s;border:none}
 .btn-correction{background:var(--vert);color:#fff}
 .btn-correction:hover{background:#2b6e56}
 .btn-verif{background:var(--bleu);color:#fff}
 .btn-verif:hover{background:#1e4466}
-.btn-recommencer{background:var(--texte-léger);color:#fff;border:none;border-radius:7px}
-.btn-recommencer:hover{background:#2A6B52;transform:translateY(-1px)}
+.btn-recommencer{background:var(--texte-léger);color:#fff;border:none}
+.btn-recommencer:hover{background:#47576A;transform:translateY(-1px)}
 .btn-recommencer:active{transform:translateY(0)}
 .score-bar{display:flex;gap:6px;align-items:center;margin:10px 0}
 .score-dot{width:14px;height:14px;border-radius:50%;background:var(--color-border-tertiary);transition:.3s}
@@ -254,8 +254,8 @@ body{font-family:var(--font-sans);color:var(--texte);padding:14px}
 input.blank{border:1px solid var(--color-border-secondary);background:var(--blanc);padding:6px 8px;border-radius:6px;font-size:.95rem;font-family:inherit;color:var(--texte);font-weight:600;width:100%}
 input.blank.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
 input.blank.wrong{background:var(--rouge-clair);border-color:var(--rouge);color:var(--rouge)}
-button.action-btn.solid{background:var(--bleu);color:#fff;border:2px solid var(--bleu);font-weight:700;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.88rem;margin:4px 4px 4px 0}
-button.action-btn.solid:hover{background:#1e4466;border-color:#1e4466}
+button.action-btn.solid{display:inline-block;min-width:150px;text-align:center;font-family:"Nunito",sans-serif;font-size:0.8rem;font-weight:700;padding:7px 16px;border-radius:999px;cursor:pointer;transition:.15s;border:none;background:var(--bleu);color:#fff;margin:4px 4px 4px 0}
+button.action-btn.solid:hover{background:#1e4466}
 .feedback{margin-top:10px;font-size:.9rem;font-weight:600;min-height:1.3em}
 .feedback.ok{color:var(--vert)}
 .feedback.ko{color:var(--rouge)}
@@ -267,8 +267,8 @@ button.action-btn.solid:hover{background:#1e4466;border-color:#1e4466}
 .aide-toggle:hover{background:var(--indice);color:#fff}
 .aide-box{display:none;margin-top:8px;padding:10px 14px;border-left:3px solid var(--indice);border-radius:0 8px 8px 0;background:var(--indice-clair);font-size:.84rem;line-height:1.55;color:var(--texte)}
 .aide-box.open{display:block;animation:fadein .2s ease}
-.correction-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:7px 16px;border:1.5px dashed var(--vert);border-radius:999px;background:#EAF3DE;color:#27500A;font-family:var(--font-sans);font-size:.82rem;font-weight:700;cursor:pointer;transition:.15s}
-.correction-toggle:hover{background:var(--vert);color:#fff}
+.correction-toggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:150px;margin-top:14px;padding:7px 16px;border:none;border-radius:999px;background:#2b6e56;color:#fff;font-family:"Nunito",sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:.15s}
+.correction-toggle:hover{background:var(--vert)}
 .correction-box{display:none;margin-top:10px;padding:12px 16px;border-left:3px solid var(--vert);border-radius:0 8px 8px 0;background:#EAF3DE;font-size:.9rem;line-height:1.65;color:#27500A}
 .correction-box.open{display:block;animation:fadein .2s ease}
 
@@ -408,9 +408,8 @@ button.cap-toggle:hover{background:#1e4466}
         <div class="step-num">1</div>
         <div style="flex:1">
           <div style="font-size:1rem;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> de la masse totale de la molécule ?</div>
-          <select id="c1select" class="exo-select"></select>
-          <div style="margin-top:6px"><button class="check-inline" onclick="checkC1()">Vérifier</button></div>
-          <div id="fbC1" class="fb"></div>
+          <div class="qcm-opts" id="c1opts"></div>
+          <div id="fbC1" class="dq-feedback"></div>
         </div>
       </div>
 
@@ -418,9 +417,8 @@ button.cap-toggle:hover{background:#1e4466}
         <div class="step-num">2</div>
         <div style="flex:1">
           <div style="font-size:1rem;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir cette masse ?</div>
-          <select id="c2select" class="exo-select"></select>
-          <div style="margin-top:6px"><button class="check-inline" onclick="checkC2()">Vérifier</button></div>
-          <div id="fbC2" class="fb"></div>
+          <div class="qcm-opts" id="c2opts"></div>
+          <div id="fbC2" class="dq-feedback"></div>
         </div>
       </div>
 
@@ -428,12 +426,15 @@ button.cap-toggle:hover{background:#1e4466}
         <div class="step-num">3</div>
         <div style="flex:1">
           <div style="font-size:1rem;margin-bottom:8px">Quelle est la <strong>masse</strong> de cette molécule (<span id="molFinalLabel"></span>) ?</div>
-          <div class="mol-grid" id="c3grid" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr))"></div>
-          <div id="fbC3" class="fb"></div>
+          <div class="qcm-opts" id="c3grid"></div>
+          <div id="fbC3" class="dq-feedback"></div>
         </div>
       </div>
 
-      <div style="margin-top:16px"><button onclick="nextMol()" style="font-size:1rem">Molécule suivante →</button></div>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-recommencer" onclick="loadMol(molIdx)">↺ Recommencer</button>
+        <button onclick="nextMol()" style="font-size:1rem">Molécule suivante →</button>
+      </div>
     </div>
   </div>
 
@@ -501,9 +502,8 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-num">1</div>
       <div style="flex:1">
         <div style="font-size:1rem;margin-bottom:6px">Quelle est la <strong>formule littérale</strong> permettant de calculer N ?</div>
-        <select id="a2select1" class="exo-select"></select>
-        <div style="margin-top:6px"><button class="check-inline" onclick="checkA2Q1()">Vérifier</button></div>
-        <div id="fbA2Q1" class="fb"></div>
+        <div class="qcm-opts" id="a2opts1"></div>
+        <div id="fbA2Q1" class="dq-feedback"></div>
       </div>
     </div>
 
@@ -511,9 +511,8 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-num">2</div>
       <div style="flex:1">
         <div style="font-size:1rem;margin-bottom:6px">Quel <strong>calcul</strong> permet d'obtenir N ?</div>
-        <select id="a2select2" class="exo-select"></select>
-        <div style="margin-top:6px"><button class="check-inline" onclick="checkA2Q2()">Vérifier</button></div>
-        <div id="fbA2Q2" class="fb"></div>
+        <div class="qcm-opts" id="a2opts2"></div>
+        <div id="fbA2Q2" class="dq-feedback"></div>
       </div>
     </div>
 
@@ -521,10 +520,12 @@ button.cap-toggle:hover{background:#1e4466}
       <div class="step-num">3</div>
       <div style="flex:1">
         <div style="font-size:1rem;margin-bottom:8px">Quel est le <strong>résultat</strong> ?</div>
-        <div class="mol-grid" id="a2grid3" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))"></div>
-        <div id="fbA2Q3" class="fb"></div>
+        <div class="qcm-opts" id="a2grid3"></div>
+        <div id="fbA2Q3" class="dq-feedback"></div>
       </div>
     </div>
+
+    <div style="margin-top:14px"><button class="btn-recommencer" onclick="initApp2()">↺ Recommencer</button></div>
   </div>
   
 </div></div>
@@ -1630,10 +1631,10 @@ button.cap-toggle:hover{background:#1e4466}
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="masse entite"><dt>Masse d'une entité</dt><dd>Somme des masses de tous les atomes qui la composent ; si un atome apparaît plusieurs fois, on multiplie sa masse par ce nombre.</dd></div>
-      <div class="gloss-item" data-term="nombre entites"><dt>Nombre d'entités N</dt><dd>N = m(échantillon) / m(entité) : nombre d'entités (sans unité) dans un échantillon, à partir de sa masse et de la masse d'une entité.</dd></div>
-      <div class="gloss-item" data-term="quantite matiere mole"><dt>Quantité de matière n</dt><dd>n = N / N_A : regroupe les entités par « lots » de N_A entités (moles), plus pratique que de manipuler des nombres comme 10²⁶.</dd></div>
-      <div class="gloss-item" data-term="constante avogadro"><dt>Constante d'Avogadro N_A</dt><dd>N_A = 6,02×10²³ mol⁻¹ : nombre d'entités contenues dans une mole.</dd></div>
-      <div class="gloss-item" data-term="mole"><dt>Mole</dt><dd>Unité de quantité de matière correspondant à un lot de N_A = 6,02×10²³ entités identiques.</dd></div>
+      <div class="gloss-item" data-term="nombre entites"><dt>Nombre d'entités N</dt><dd>N = m<sub>échantillon</sub> / m<sub>entité</sub> : nombre d'entités (sans unité) dans un échantillon, à partir de sa masse et de la masse d'une entité.</dd></div>
+      <div class="gloss-item" data-term="quantite matiere mole na"><dt>Quantité de matière n</dt><dd>n = N / N<sub>A</sub> : regroupe les entités par « lots » de N<sub>A</sub> entités (moles), plus pratique que de manipuler des nombres comme 10²⁶.</dd></div>
+      <div class="gloss-item" data-term="constante avogadro na"><dt>Constante d'Avogadro N<sub>A</sub></dt><dd>N<sub>A</sub> = 6,02×10²³ mol⁻¹ : nombre d'entités contenues dans une mole.</dd></div>
+      <div class="gloss-item" data-term="mole"><dt>Mole</dt><dd>Unité de quantité de matière correspondant à un lot de N<sub>A</sub> = 6,02×10²³ entités identiques.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -1868,6 +1869,26 @@ function recommencerActivite(cardId) {
 
 let currentMol=null,molIdx=0,stepResults=[];
 
+/* ── Rendu générique d'une question QCM à correction immédiate (clic = réponse, on peut changer d'avis) ── */
+function renderQcmStep(containerId, feedbackId, options, correctMsg, wrongMsg){
+  const el=document.getElementById(containerId);
+  el.innerHTML='';
+  options.forEach(o=>{
+    const d=document.createElement('div');
+    d.className='qcm-opt';
+    d.innerHTML=o.text;
+    d.onclick=()=>{
+      el.querySelectorAll('.qcm-opt').forEach(x=>x.classList.remove('correct','incorrect'));
+      d.classList.add(o.ok?'correct':'incorrect');
+      setFbQcm(feedbackId, o.ok, o.ok?correctMsg:wrongMsg);
+    };
+    el.appendChild(d);
+  });
+  const fb=document.getElementById(feedbackId);
+  fb.innerHTML='';fb.className='dq-feedback';
+}
+function setFbQcm(id,ok,msg){const el=document.getElementById(id);el.innerHTML=msg;el.className='dq-feedback'+(ok?'':' wrong');}
+
 function buildMolGrid(){
   const g=document.getElementById('molGrid');
   MOLS.forEach((m,i)=>{
@@ -1893,52 +1914,17 @@ function loadMol(idx){
     tbody.appendChild(tr);
   });
 
-  const sel1=document.getElementById('c1select');
-  sel1.innerHTML='<option value="" disabled selected>— choisir une formule —</option>';
-  genQ1Options(mol.comp).forEach(o=>{const opt=document.createElement('option');opt.value=o.ok?'ok':'ko';opt.textContent=o.text;sel1.appendChild(opt);});
+  renderQcmStep('c1opts','fbC1', genQ1Options(mol.comp),
+    '✓ Exact ! On multiplie chaque masse atomique par le nombre d\'atomes correspondant, puis on additionne toutes les contributions.',
+    '✗ Pense à multiplier chaque masse atomique par son nombre d\'atomes dans la molécule, puis à additionner (pas multiplier) les contributions.');
 
-  const sel2=document.getElementById('c2select');
-  sel2.innerHTML='<option value="" disabled selected>— choisir un calcul —</option>';
-  genQ2Options(mol.comp).forEach(o=>{const opt=document.createElement('option');opt.value=o.ok?'ok':'ko';opt.textContent=o.text;sel2.appendChild(opt);});
+  renderQcmStep('c2opts','fbC2', genQ2Options(mol.comp),
+    '✓ Exact ! Chaque masse atomique est multipliée par le bon coefficient, et les termes sont additionnés.',
+    '✗ Vérifie que chaque masse atomique correspond bien au bon atome, avec le bon coefficient, et que les termes sont additionnés (pas multipliés).');
 
-  const grid=document.getElementById('c3grid');grid.innerHTML='';
-  genQ3Options(mol.comp).forEach(o=>{
-    const b=document.createElement('button');
-    b.className='qcm-btn';
-    b.textContent=fmtSci(o.val)+' kg';
-    b.dataset.ok=o.ok?'true':'false';
-    b.onclick=()=>checkC3(b);
-    grid.appendChild(b);
-  });
-
-  document.getElementById('fbC1').className='fb';
-  document.getElementById('fbC2').className='fb';
-  document.getElementById('fbC3').className='fb';
-}
-
-function checkC1(){
-  const v=document.getElementById('c1select').value;
-  if(v==='ok')setFb('fbC1','ok','✓ Exact ! On multiplie chaque masse atomique par le nombre d\'atomes correspondant, puis on additionne toutes les contributions.');
-  else if(v==='')setFb('fbC1','ko','Choisis une réponse dans la liste.');
-  else setFb('fbC1','ko','✗ Pense à multiplier chaque masse atomique par son nombre d\'atomes dans la molécule, puis à additionner (pas multiplier) les contributions.');
-}
-function checkC2(){
-  const v=document.getElementById('c2select').value;
-  if(v==='ok')setFb('fbC2','ok','✓ Exact ! Chaque masse atomique est multipliée par le bon coefficient, et les termes sont additionnés.');
-  else if(v==='')setFb('fbC2','ko','Choisis une réponse dans la liste.');
-  else setFb('fbC2','ko','✗ Vérifie que chaque masse atomique correspond bien au bon atome, avec le bon coefficient, et que les termes sont additionnés (pas multipliés).');
-}
-function checkC3(btn){
-  document.querySelectorAll('#c3grid .qcm-btn').forEach(b=>b.disabled=true);
-  const isOk=btn.dataset.ok==='true';
-  if(isOk){
-    btn.classList.add('correct');
-    setFb('fbC3','ok','✓ Bravo, c\'est la bonne masse !');
-  }else{
-    btn.classList.add('wrong');
-    document.querySelectorAll('#c3grid .qcm-btn').forEach(b=>{if(b.dataset.ok==='true')b.classList.add('correct');});
-    setFb('fbC3','ko','✗ Ce n\'est pas la bonne masse (réponse correcte en vert). Reprends le calcul étape par étape : coefficient × masse atomique, pour chaque atome, puis additionne.');
-  }
+  renderQcmStep('c3grid','fbC3', genQ3Options(mol.comp).map(o=>({text:fmtSci(o.val)+' kg',ok:o.ok})),
+    '✓ Bravo, c\'est la bonne masse !',
+    '✗ Ce n\'est pas la bonne masse. Reprends le calcul étape par étape : coefficient × masse atomique, pour chaque atome, puis additionne.');
 }
 function nextMol(){loadMol((molIdx+1)%MOLS.length);}
 
@@ -2034,64 +2020,27 @@ function animTime(){
 }
 
 function initApp2(){
-  const q1opts=shuffleArr([
-    {text:'N = m<sub>échantillon</sub> / m<sub>entité</sub>',ok:true},
-    {text:'N = m<sub>entité</sub> / m<sub>échantillon</sub>',ok:false},
-    {text:'N = m<sub>échantillon</sub> × m<sub>entité</sub>',ok:false},
-    {text:'N = m<sub>échantillon</sub> − m<sub>entité</sub>',ok:false}
-  ]);
-  const sel1=document.getElementById('a2select1');
-  sel1.innerHTML='<option value="" disabled selected>— choisir une formule —</option>';
-  q1opts.forEach(o=>{const opt=document.createElement('option');opt.value=o.ok?'ok':'ko';opt.innerHTML=o.text;sel1.appendChild(opt);});
+  renderQcmStep('a2opts1','fbA2Q1', shuffleArr([
+      {text:'N = m<sub>échantillon</sub> / m<sub>entité</sub>',ok:true},
+      {text:'N = m<sub>entité</sub> / m<sub>échantillon</sub>',ok:false},
+      {text:'N = m<sub>échantillon</sub> × m<sub>entité</sub>',ok:false},
+      {text:'N = m<sub>échantillon</sub> − m<sub>entité</sub>',ok:false}
+    ]),
+    '✓ Exact ! N = m<sub>échantillon</sub> / m<sub>entité</sub>.',
+    '✗ On divise la masse de l\'échantillon par la masse d\'une entité (N = m<sub>échantillon</sub> / m<sub>entité</sub>).');
 
-  const q2opts=shuffleArr([
-    {text:'N = 5,66×10⁻²⁶ / 2,83×10⁻²⁶',ok:true},
-    {text:'N = 2,83×10⁻²⁶ / 5,66×10⁻²⁶',ok:false},
-    {text:'N = 5,66×10⁻²⁶ × 2,83×10⁻²⁶',ok:false},
-    {text:'N = 5,66×10⁻²⁶ − 2,83×10⁻²⁶',ok:false}
-  ]);
-  const sel2=document.getElementById('a2select2');
-  sel2.innerHTML='<option value="" disabled selected>— choisir un calcul —</option>';
-  q2opts.forEach(o=>{const opt=document.createElement('option');opt.value=o.ok?'ok':'ko';opt.innerHTML=o.text;sel2.appendChild(opt);});
+  renderQcmStep('a2opts2','fbA2Q2', shuffleArr([
+      {text:'N = 5,66×10⁻²⁶ / 2,83×10⁻²⁶',ok:true},
+      {text:'N = 2,83×10⁻²⁶ / 5,66×10⁻²⁶',ok:false},
+      {text:'N = 5,66×10⁻²⁶ × 2,83×10⁻²⁶',ok:false},
+      {text:'N = 5,66×10⁻²⁶ − 2,83×10⁻²⁶',ok:false}
+    ]),
+    '✓ Exact ! N = 5,66×10⁻²⁶ / 2,83×10⁻²⁶.',
+    '✗ Vérifie l\'ordre des termes : c\'est la masse de l\'échantillon qui est divisée par la masse d\'une entité.');
 
-  const q3opts=shuffleArr([2,20,0.5,4].map((v,i)=>({val:v,ok:i===0})));
-  const grid=document.getElementById('a2grid3');grid.innerHTML='';
-  q3opts.forEach(o=>{
-    const b=document.createElement('button');
-    b.className='qcm-btn';
-    b.textContent='N = '+o.val;
-    b.dataset.ok=o.ok?'true':'false';
-    b.onclick=()=>checkA2Q3(b);
-    grid.appendChild(b);
-  });
-
-  document.getElementById('fbA2Q1').className='fb';
-  document.getElementById('fbA2Q2').className='fb';
-  document.getElementById('fbA2Q3').className='fb';
-}
-function checkA2Q1(){
-  const v=document.getElementById('a2select1').value;
-  if(v==='ok')setFb('fbA2Q1','ok','✓ Exact ! N = m<sub>échantillon</sub> / m<sub>entité</sub>.');
-  else if(v==='')setFb('fbA2Q1','ko','Choisis une réponse dans la liste.');
-  else setFb('fbA2Q1','ko','✗ On divise la masse de l\'échantillon par la masse d\'une entité (N = m<sub>échantillon</sub> / m<sub>entité</sub>).');
-}
-function checkA2Q2(){
-  const v=document.getElementById('a2select2').value;
-  if(v==='ok')setFb('fbA2Q2','ok','✓ Exact ! N = 5,66×10⁻²⁶ / 2,83×10⁻²⁶.');
-  else if(v==='')setFb('fbA2Q2','ko','Choisis une réponse dans la liste.');
-  else setFb('fbA2Q2','ko','✗ Vérifie l\'ordre des termes : c\'est la masse de l\'échantillon qui est divisée par la masse d\'une entité.');
-}
-function checkA2Q3(btn){
-  document.querySelectorAll('#a2grid3 .qcm-btn').forEach(b=>b.disabled=true);
-  const isOk=btn.dataset.ok==='true';
-  if(isOk){
-    btn.classList.add('correct');
-    setFb('fbA2Q3','ok','✓ Bravo, c\'est le bon résultat ! N = 2 molécules.');
-  }else{
-    btn.classList.add('wrong');
-    document.querySelectorAll('#a2grid3 .qcm-btn').forEach(b=>{if(b.dataset.ok==='true')b.classList.add('correct');});
-    setFb('fbA2Q3','ko','✗ Ce n\'est pas le bon résultat (réponse correcte en vert). N = 5,66×10⁻²⁶ ÷ 2,83×10⁻²⁶ = 2 molécules.');
-  }
+  renderQcmStep('a2grid3','fbA2Q3', shuffleArr([2,20,0.5,4].map((v,i)=>({text:'N = '+v,ok:i===0}))),
+    '✓ Bravo, c\'est le bon résultat ! N = 2 molécules.',
+    '✗ Ce n\'est pas le bon résultat. N = 5,66×10⁻²⁶ ÷ 2,83×10⁻²⁶ = 2 molécules.');
 }
 function checkE3(step){
   if(step===1){const v=parseVal(document.getElementById('e3s1').value);approxEq(v,5e-4)?setFb('fb3','ok','✓ 0,50 g = <strong>5,0×10⁻⁴ kg</strong>'):setFb('fb3','ko','1 g = 10⁻³ kg → 0,50 g = 5,0×10⁻⁴ kg');}

@@ -206,6 +206,8 @@
   .btn-run { padding: 10px 20px; background: var(--bleu); color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; }
   .btn-run:hover { background: #1E4A72; }
   .btn-run:disabled { background: #94a3b8; cursor: wait; }
+  .fill-handle { position: absolute; right: 1px; bottom: 1px; width: 8px; height: 8px; background: var(--bleu); border: 1px solid #fff; cursor: crosshair; z-index: 5; }
+  .fill-handle:hover { width: 10px; height: 10px; }
   .py-corr { display: none; margin-top: 10px; padding: 12px 14px; background: var(--vert-clair); border: 1px solid var(--vert); border-radius: 8px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.78rem; white-space: pre-wrap; color: #245c46; }
   .py-static-code { background: var(--gris-fond); border: 1px solid var(--gris-bord); border-radius: 8px; padding: 12px 14px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.8rem; line-height: 1.6; white-space: pre; overflow-x: auto; }
   .accordion { border: 1.5px solid var(--gris-bord); border-radius: 8px; margin-top: 10px; overflow: hidden; }
@@ -312,6 +314,15 @@
     line-height: 1.5;
   }
   .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opts::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    margin-bottom: 4px;
+}
   .qcm-opt {
     background: #fff;
     border: 1.5px solid var(--gris-bord);
@@ -632,17 +643,18 @@ button.cap-toggle:hover { background: #1e4466; }
     <p class="legend">Dans le référentiel héliocentrique, Mars décrit une trajectoire simple autour du Soleil. Dans le référentiel géocentrique (la Terre comme centre), la trajectoire de Mars devient complexe : c'est le même mouvement, décrit différemment selon le référentiel choisi.</p>
   </div>
 
-  <div class="exo">
-    <p class="q-text">🔎 Que peux-tu en conclure ?</p>
-    <label><input type="radio" name="concl1" value="a"> Mars a deux mouvements différents en réalité, l'un autour de la Terre, l'autre autour du Soleil.</label>
-    <label><input type="radio" name="concl1" value="b"> Le mouvement est relatif : la trajectoire d'un même objet dépend du référentiel choisi pour l'observer.</label>
-    <label><input type="radio" name="concl1" value="c"> Le référentiel géocentrique est faux, seul l'héliocentrique est correct.</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['concl1box'], {'concl1':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['concl1box'], {'concl1':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['concl1box'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm" id="qcm-concl1">
+  <div class="dq-question">🔎 Que peux-tu en conclure ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-concl1')">Mars a deux mouvements différents en réalité, l'un autour de la Terre, l'autre autour du Soleil.</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-concl1')">Le mouvement est relatif : la trajectoire d'un même objet dépend du référentiel choisi pour l'observer.</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-concl1')">Le référentiel géocentrique est faux, seul l'héliocentrique est correct.</div>
+  </div>
+  <div class="dq-feedback" id="fb-concl1"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('qcm-concl1')">↺ Recommencer</button>
   </div>
 
   </div>
@@ -733,7 +745,7 @@ button.cap-toggle:hover { background: #1e4466; }
     </div>
     <div class="controls">
       <button class="btn" onclick="lancerVmoy()">▶️ Lancer l'animation (Δt = 2,0 s)</button>
-      <button class="btn secondary" onclick="resetVmoy()">↺ Recommencer</button>
+      <button class="btn reset" onclick="resetVmoy()">↺ Recommencer</button>
     </div>
     <p class="legend" id="legendVmoy">Choisis un trajet puis clique sur « Lancer l'animation ».</p>
   </div>
@@ -1211,29 +1223,58 @@ button.cap-toggle:hover { background: #1e4466; }
   </div>
 
   <h3 style="margin-top:26px;">📎 ANNEXE — Tableau de valeurs</h3>
-  <p>Tableau de valeurs obtenues après le pointage à l'aide de la vidéo sur Latispro (à compléter) :</p>
+  <p>Voici les positions y<sub>M</sub> obtenues après pointage vidéo de la fusée sur Latispro. À toi de compléter le reste du tableau.</p>
+
+  <div class="card" style="border-left:4px solid var(--bleu);">
+    <h3>🧭 Questions guidées</h3>
+    <ol style="margin:0;padding-left:20px;">
+      <li>Choisis une échelle des positions adaptée à ton papier millimétré (par exemple 1 cm pour 5 m) et indique-la clairement sur ta feuille. Complète ensuite la colonne « y<sub>M</sub> à l'échelle » pour les 16 points.</li>
+      <li>Rappelle la formule de la vitesse moyenne entre deux points A et B : v<sub>y</sub> = (y<sub>B</sub> − y<sub>A</sub>) / (t<sub>B</sub> − t<sub>A</sub>).</li>
+      <li>Calcule v<sub>1→2</sub>, v<sub>5→6</sub> et v<sub>9→10</sub> à l'aide des positions du tableau, et complète la colonne « v<sub>y</sub> ».</li>
+      <li>Choisis une échelle des vitesses adaptée au tracé des vecteurs (par exemple 1 cm pour 4 m/s), indique-la, puis complète la colonne « v<sub>y</sub> à l'échelle » pour ces 3 valeurs.</li>
+      <li>Sur le papier millimétré, place les points M₁ à M₁₆ puis trace le vecteur <span class="vec">V<sub>1→2</sub></span>, en plaçant son origine au point M₁.</li>
+    </ol>
+    <p style="font-size:0.85rem;color:var(--texte-leger);margin-top:10px;margin-bottom:0;">
+      💻 <strong>Comme dans un tableur :</strong> les lettres en haut du tableau (A à F) et les numéros à gauche (1 à 16) repèrent chaque case, exactement comme sur Excel ou Latispro. Tu peux taper une formule dans une case (ex. <code>=C1/5</code> pour diviser la position de la ligne 1 par 5, où <code>C</code> désigne la colonne y<sub>M</sub> et <code>B</code> la colonne t). Valide (Entrée ou clic ailleurs) : un petit carré bleu apparaît en bas à droite de la case — <strong>fais-le glisser vers le bas</strong> pour recopier la formule sur les lignes suivantes (elle s'adapte automatiquement à chaque ligne). Les boutons ci-dessous font la même chose en un clic si tu préfères.
+    </p>
+  </div>
+
   <div style="overflow-x:auto;">
-  <table>
-    <tr><th>Points</th><th>t (en s)</th><th>y<sub>M</sub> (en m)</th><th>y<sub>M</sub> à l'échelle …</th><th>v<sub>y</sub> (en m/s)</th><th>v<sub>y</sub> à l'échelle …</th></tr>
-  <tr><td>M1</td><td>0</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;" placeholder="v(1→2)"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M2</td><td>0,4</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M3</td><td>0,8</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M4</td><td>1,2</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M5</td><td>1,6</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;" placeholder="v(5→6)"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M6</td><td>2</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M7</td><td>2,4</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M8</td><td>2,8</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M9</td><td>3,2</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;" placeholder="v(9→10)"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M10</td><td>3,6</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M11</td><td>4</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M12</td><td>4,4</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M13</td><td>4,8</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M14</td><td>5,2</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M15</td><td>5,6</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
-  <tr><td>M16</td><td>6</td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td><td><input type="text" style="width:100%;border:none;text-align:center;background:transparent;"></td></tr>
+  <table id="fusee-table">
+    <tr><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;"></th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">A</th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">B</th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">C</th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">D</th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">E</th><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">F</th></tr>
+    <tr><th style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;"></th><th>Points</th><th>t (en s)</th><th>y<sub>M</sub> (en m)</th><th>y<sub>M</sub> à l'échelle …</th><th>v<sub>y</sub> (en m/s)</th><th>v<sub>y</sub> à l'échelle …</th></tr>
+  <tr data-row="1"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">1</td><td>M1</td><td>0</td><td>-0,565</td><td style="position:relative;"><input type="text" id="fusee-ye-1" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"><span class="fill-handle" data-fill-col="D" onmousedown="startFillDrag(event,this)" ontouchstart="startFillDrag(event,this)" title="Glisse pour recopier la formule vers le bas"></span></td><td><input type="text" id="fusee-vy-12" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)" placeholder="v(1→2)"></td><td style="position:relative;"><input type="text" id="fusee-ve-12" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"><span class="fill-handle" data-fill-col="F" onmousedown="startFillDrag(event,this)" ontouchstart="startFillDrag(event,this)" title="Glisse pour recopier la formule vers le bas"></span></td></tr>
+  <tr data-row="2"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">2</td><td>M2</td><td>0,4</td><td>-13,624</td><td><input type="text" id="fusee-ye-2" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="3"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">3</td><td>M3</td><td>0,8</td><td>-24,98</td><td><input type="text" id="fusee-ye-3" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="4"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">4</td><td>M4</td><td>1,2</td><td>-36,336</td><td><input type="text" id="fusee-ye-4" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="5"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">5</td><td>M5</td><td>1,6</td><td>-46,557</td><td><input type="text" id="fusee-ye-5" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td><input type="text" id="fusee-vy-56" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)" placeholder="v(5→6)"></td><td><input type="text" id="fusee-ve-56" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td></tr>
+  <tr data-row="6"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">6</td><td>M6</td><td>2</td><td>-55,642</td><td><input type="text" id="fusee-ye-6" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="7"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">7</td><td>M7</td><td>2,4</td><td>-64,159</td><td><input type="text" id="fusee-ye-7" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="8"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">8</td><td>M8</td><td>2,8</td><td>-69,837</td><td><input type="text" id="fusee-ye-8" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="9"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">9</td><td>M9</td><td>3,2</td><td>-77,786</td><td><input type="text" id="fusee-ye-9" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td><input type="text" id="fusee-vy-910" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)" placeholder="v(9→10)"></td><td><input type="text" id="fusee-ve-910" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td></tr>
+  <tr data-row="10"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">10</td><td>M10</td><td>3,6</td><td>-83,464</td><td><input type="text" id="fusee-ye-10" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="11"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">11</td><td>M11</td><td>4</td><td>-88,006</td><td><input type="text" id="fusee-ye-11" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="12"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">12</td><td>M12</td><td>4,4</td><td>-91,981</td><td><input type="text" id="fusee-ye-12" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="13"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">13</td><td>M13</td><td>4,8</td><td>-94,82</td><td><input type="text" id="fusee-ye-13" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="14"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">14</td><td>M14</td><td>5,2</td><td>-97,091</td><td><input type="text" id="fusee-ye-14" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="15"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">15</td><td>M15</td><td>5,6</td><td>-98,795</td><td><input type="text" id="fusee-ye-15" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
+  <tr data-row="16"><td style="background:var(--gris-fond);color:var(--bleu);font-weight:700;text-align:center;width:30px;min-width:30px;">16</td><td>M16</td><td>6</td><td>-99,363</td><td><input type="text" id="fusee-ye-16" style="width:100%;border:none;text-align:center;background:transparent;" onfocus="cellFocus(this)" onblur="cellBlur(this)"></td><td style="color:var(--texte-leger);text-align:center;">—</td><td style="color:var(--texte-leger);text-align:center;">—</td></tr>
   </table>
   </div>
   <p style="font-size:0.85rem;color:var(--texte-leger);">💡 Pense à te munir de papier millimétré pour représenter les positions M et les vecteurs vitesse moyenne demandés.</p>
+
+  <div style="text-align:center;margin:16px 0;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <button class="btn-run" style="background:var(--bleu-moyen);" onclick="recopierColonne('D')">🔽 Recopier D1 vers le bas (y à l'échelle)</button>
+    <button class="btn-run" style="background:var(--bleu-moyen);" onclick="recopierColonne('F')">🔽 Recopier F1 vers le bas (v<sub>y</sub> à l'échelle)</button>
+    <button class="btn-run" onclick="verifierFusee()">✅ Vérifier mes réponses</button>
+    <button class="btn reset" onclick="resetFusee()">↺ Recommencer</button>
+  </div>
+  <p id="fusee-calc-msg" style="font-size:0.85rem;display:none;text-align:center;"></p>
+
+  <div class="canvas-wrap" id="fusee-canvas-wrap" style="display:none;">
+    <canvas id="fusee-canvas" width="640" height="360" style="max-width:100%;border:1px solid var(--gris-bord);border-radius:8px;background:#fff;"></canvas>
+    <p style="font-size:0.85rem;color:var(--texte-leger);text-align:center;">Position y<sub>M</sub> en fonction du temps, avec les vecteurs vitesse moyenne calculés en M₁, M₅ et M₉ (flèches en violet, sens et longueur proportionnels à v<sub>y</sub>).</p>
+  </div>
   </div>
   </div>
 
@@ -1242,10 +1283,10 @@ button.cap-toggle:hover { background: #1e4466; }
 <!-- ============ ONGLET EXERCICES ============ -->
 <div class="tab-content" id="t-exercices">
   <div class="sub-tabs-nav">
-    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">Facile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">Intermédiaire</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">Difficile</button>
-    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">Escape game</button>
+    <button class="sub-tab-btn active" onclick="showSub(this,'exo-sub-facile')">🟢 Facile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-inter')">🟡 Intermédiaire</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-difficile')">🔴 Difficile</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-sub-escape')">🔓 Escape game</button>
   </div>
 
   <div class="sub-tab-content active" id="exo-sub-facile">
@@ -1264,34 +1305,38 @@ button.cap-toggle:hover { background: #1e4466; }
     <img src="image-train.png" alt="Le chef de gare (A) immobile sur le quai, le passager (B) assis dans le train, et la pendule (C) fixée sur le quai" style="max-width:50%; border-radius:6px;">
   </div>
 
-  <div class="exo" style="margin-top:16px;">
-    <p class="q-text">1) Dans le référentiel lié à A (le chef de gare) :</p>
-    <label><input type="radio" name="train1" value="a"> A est immobile, B est en mouvement, C est immobile</label>
-    <label><input type="radio" name="train1" value="b"> A est immobile, B est immobile, C est en mouvement</label>
-    <label><input type="radio" name="train1" value="c"> A est en mouvement, B est immobile, C est en mouvement</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1) Dans le référentiel lié à A (le chef de gare) :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-train1')">A est immobile, B est en mouvement, C est immobile</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-train1')">A est immobile, B est immobile, C est en mouvement</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-train1')">A est en mouvement, B est immobile, C est en mouvement</div>
+  </div>
+  <div class="dq-feedback" id="fb-train1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">2) Dans le référentiel lié à B (le passager) :</p>
-    <label><input type="radio" name="train2" value="a"> A est immobile, B est immobile, C est immobile</label>
-    <label><input type="radio" name="train2" value="b"> A est en mouvement, B est immobile, C est en mouvement</label>
-    <label><input type="radio" name="train2" value="c"> A est immobile, B est en mouvement, C est immobile</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2) Dans le référentiel lié à B (le passager) :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-train2')">A est immobile, B est immobile, C est immobile</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-train2')">A est en mouvement, B est immobile, C est en mouvement</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-train2')">A est immobile, B est en mouvement, C est immobile</div>
+  </div>
+  <div class="dq-feedback" id="fb-train2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">3) Dans le référentiel lié à C (la pendule) :</p>
-    <label><input type="radio" name="train3" value="a"> A est en mouvement, B est immobile, C est immobile</label>
-    <label><input type="radio" name="train3" value="b"> A est immobile, B est en mouvement, C est immobile</label>
-    <label><input type="radio" name="train3" value="c"> A est immobile, B est immobile, C est en mouvement</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3) Dans le référentiel lié à C (la pendule) :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-train3')">A est en mouvement, B est immobile, C est immobile</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-train3')">A est immobile, B est en mouvement, C est immobile</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-train3')">A est immobile, B est immobile, C est en mouvement</div>
+  </div>
+  <div class="dq-feedback" id="fb-train3"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['train1box','train2box','train3box'], {'train1':'a','train2':'b','train3':'b'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['train1box','train2box','train3box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-facile-train')">↺ Recommencer</button>
   </div>
   </div>
   </div>
@@ -1304,34 +1349,38 @@ button.cap-toggle:hover { background: #1e4466; }
     <canvas id="canvasBille" width="700" height="160"></canvas>
   </div>
 
-  <div class="exo">
-    <p class="q-text">1) Sur le schéma, la distance A₁A₂ mesure 1,0 cm. La distance réelle A₁A₂ vaut alors :</p>
-    <label><input type="radio" name="bille1" value="a"> 5,0 cm</label>
-    <label><input type="radio" name="bille1" value="b"> 1,0 cm</label>
-    <label><input type="radio" name="bille1" value="c"> 0,5 cm</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1) Sur le schéma, la distance A₁A₂ mesure 1,0 cm. La distance réelle A₁A₂ vaut alors :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-bille1')">5,0 cm</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-bille1')">1,0 cm</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-bille1')">0,5 cm</div>
+  </div>
+  <div class="dq-feedback" id="fb-bille1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">2) La valeur de la vitesse v₁ au point A₁ se calcule par :</p>
-    <label><input type="radio" name="bille2" value="a"> v₁ = A₁A₂ / Δt</label>
-    <label><input type="radio" name="bille2" value="b"> v₁ = Δt / A₁A₂</label>
-    <label><input type="radio" name="bille2" value="c"> v₁ = A₁A₂ × Δt</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2) La valeur de la vitesse v₁ au point A₁ se calcule par :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-bille2')">v₁ = A₁A₂ / Δt</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-bille2')">v₁ = Δt / A₁A₂</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-bille2')">v₁ = A₁A₂ × Δt</div>
+  </div>
+  <div class="dq-feedback" id="fb-bille2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">3) Avec A₁A₂ = 5,0 cm et Δt = 0,020 s, la valeur de v₁ vaut :</p>
-    <label><input type="radio" name="bille3" value="a"> 0,4 m·s⁻¹</label>
-    <label><input type="radio" name="bille3" value="b"> 2,5 m·s⁻¹</label>
-    <label><input type="radio" name="bille3" value="c"> 25 m·s⁻¹</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3) Avec A₁A₂ = 5,0 cm et Δt = 0,020 s, la valeur de v₁ vaut :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-bille3')">0,4 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-bille3')">2,5 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-bille3')">25 m·s⁻¹</div>
+  </div>
+  <div class="dq-feedback" id="fb-bille3"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['bille1box','bille2box','bille3box'], {'bille1':'a','bille2':'a','bille3':'b'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['bille1box','bille2box','bille3box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-facile-bille')">↺ Recommencer</button>
   </div>
   </div>
   </div>
@@ -1355,26 +1404,28 @@ plt.ylabel('y(en m)')
 plt.plot(x,y,'ro',ms=2)
 plt.show()</div>
 
-  <div class="exo" style="margin-top:16px;">
-    <p class="q-text">a) Déterminer le nombre de positions successives du point représentées et l'intervalle de temps Δt les séparant.</p>
-    <label><input type="radio" name="facpy1" value="a"> 15 positions, séparées de Δt = 0,20 s</label>
-    <label><input type="radio" name="facpy1" value="b"> 14 positions, séparées de Δt = 0,20 s</label>
-    <label><input type="radio" name="facpy1" value="c"> 15 positions, séparées de Δt = 2,8 s</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">a) Déterminer le nombre de positions successives du point représentées et l'intervalle de temps Δt les séparant.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-facpy1')">15 positions, séparées de Δt = 0,20 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-facpy1')">14 positions, séparées de Δt = 0,20 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-facpy1')">15 positions, séparées de Δt = 2,8 s</div>
+  </div>
+  <div class="dq-feedback" id="fb-facpy1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">b) Caractériser la trajectoire du point.</p>
-    <label><input type="radio" name="facpy2" value="a"> Trajectoire rectiligne (portée par l'axe des x)</label>
-    <label><input type="radio" name="facpy2" value="b"> Trajectoire circulaire</label>
-    <label><input type="radio" name="facpy2" value="c"> Trajectoire curviligne quelconque</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">b) Caractériser la trajectoire du point.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-facpy2')">Trajectoire rectiligne (portée par l'axe des x)</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-facpy2')">Trajectoire circulaire</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-facpy2')">Trajectoire curviligne quelconque</div>
+  </div>
+  <div class="dq-feedback" id="fb-facpy2"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['facpy1box','facpy2box'], {'facpy1':'a','facpy2':'a'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['facpy1box','facpy2box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-facile-python')">↺ Recommencer</button>
   </div>
 
   <div class="box box-rappel" style="margin-top:20px;">
@@ -1418,42 +1469,48 @@ print("y =", [round(v,2) for v in y])</textarea>
   <h3>Exercice 1 — Caractériser le mouvement à partir du vecteur vitesse</h3>
   <p>Pour chaque situation, indique le type de mouvement en fonction de la direction et de la valeur du vecteur vitesse.</p>
 
-  <div class="exo">
-    <p class="q-text">1) La direction de v ne change pas, et sa valeur ne change pas non plus :</p>
-    <label><input type="radio" name="recap1" value="a"> Mouvement rectiligne et uniforme</label>
-    <label><input type="radio" name="recap1" value="b"> Mouvement rectiligne et non uniforme</label>
-    <label><input type="radio" name="recap1" value="c"> Mouvement non rectiligne et uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1) La direction de v ne change pas, et sa valeur ne change pas non plus :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-recap1')">Mouvement rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-recap1')">Mouvement rectiligne et non uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-recap1')">Mouvement non rectiligne et uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-recap1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">2) La direction de v ne change pas, mais sa valeur change :</p>
-    <label><input type="radio" name="recap2" value="a"> Mouvement rectiligne et uniforme</label>
-    <label><input type="radio" name="recap2" value="b"> Mouvement rectiligne et non uniforme</label>
-    <label><input type="radio" name="recap2" value="c"> Mouvement non rectiligne et non uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2) La direction de v ne change pas, mais sa valeur change :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-recap2')">Mouvement rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-recap2')">Mouvement rectiligne et non uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-recap2')">Mouvement non rectiligne et non uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-recap2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">3) La direction de v change, mais sa valeur reste constante :</p>
-    <label><input type="radio" name="recap3" value="a"> Mouvement non rectiligne et uniforme</label>
-    <label><input type="radio" name="recap3" value="b"> Mouvement rectiligne et uniforme</label>
-    <label><input type="radio" name="recap3" value="c"> Mouvement non rectiligne et non uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3) La direction de v change, mais sa valeur reste constante :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-recap3')">Mouvement non rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-recap3')">Mouvement rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-recap3')">Mouvement non rectiligne et non uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-recap3"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">4) La direction de v change et sa valeur change aussi :</p>
-    <label><input type="radio" name="recap4" value="a"> Mouvement rectiligne et non uniforme</label>
-    <label><input type="radio" name="recap4" value="b"> Mouvement non rectiligne et uniforme</label>
-    <label><input type="radio" name="recap4" value="c"> Mouvement non rectiligne et non uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">4) La direction de v change et sa valeur change aussi :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-recap4')">Mouvement rectiligne et non uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-recap4')">Mouvement non rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'c','fb-recap4')">Mouvement non rectiligne et non uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-recap4"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['recap1box','recap2box','recap3box','recap4box'], {'recap1':'a','recap2':'b','recap3':'a','recap4':'c'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['recap1box','recap2box','recap3box','recap4box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-inter-vecteur')">↺ Recommencer</button>
   </div>
   </div>
   </div>
@@ -1466,34 +1523,38 @@ print("y =", [round(v,2) for v in y])</textarea>
     <img src="skieur.png" alt="Chronophotographie d'un skieur sur une pente, avec les positions S1, S2, S3 et les vecteurs vitesse v1, v2, v3 de longueurs croissantes" style="max-width:100%; border-radius:6px;">
   </div>
 
-  <div class="exo">
-    <p class="q-text">1) Décrire la trajectoire du skieur :</p>
-    <label><input type="radio" name="ski1" value="a"> circulaire</label>
-    <label><input type="radio" name="ski1" value="b"> rectiligne</label>
-    <label><input type="radio" name="ski1" value="c"> curviligne</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">1) Décrire la trajectoire du skieur :</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ski1')">circulaire</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ski1')">rectiligne</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ski1')">curviligne</div>
+  </div>
+  <div class="dq-feedback" id="fb-ski1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">2) Dans quel référentiel le skieur a-t-il été filmé ?</p>
-    <label><input type="radio" name="ski2" value="a"> Référentiel héliocentrique</label>
-    <label><input type="radio" name="ski2" value="b"> Référentiel terrestre</label>
-    <label><input type="radio" name="ski2" value="c"> Référentiel géocentrique</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">2) Dans quel référentiel le skieur a-t-il été filmé ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ski2')">Référentiel héliocentrique</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ski2')">Référentiel terrestre</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ski2')">Référentiel géocentrique</div>
+  </div>
+  <div class="dq-feedback" id="fb-ski2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">3) Sur l'image, les vecteurs <span class="vec">v</span>₁, <span class="vec">v</span>₂ et <span class="vec">v</span>₃ ont tous la même direction, mais leur longueur augmente. Comment décrire la variation du vecteur vitesse du skieur ?</p>
-    <label><input type="radio" name="ski3" value="a"> Le mouvement est rectiligne et uniforme.</label>
-    <label><input type="radio" name="ski3" value="b"> La valeur de la vitesse augmente : le mouvement est rectiligne accéléré.</label>
-    <label><input type="radio" name="ski3" value="c"> La valeur de la vitesse diminue : le mouvement est rectiligne décéléré.</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">3) Sur l'image, les vecteurs <span class="vec">v</span>₁, <span class="vec">v</span>₂ et <span class="vec">v</span>₃ ont tous la même direction, mais leur longueur augmente. Comment décrire la variation du vecteur vitesse du skieur ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-ski3')">Le mouvement est rectiligne et uniforme.</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-ski3')">La valeur de la vitesse augmente : le mouvement est rectiligne accéléré.</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-ski3')">La valeur de la vitesse diminue : le mouvement est rectiligne décéléré.</div>
+  </div>
+  <div class="dq-feedback" id="fb-ski3"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['ski1box','ski2box','ski3box'], {'ski1':'b','ski2':'b','ski3':'b'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['ski1box','ski2box','ski3box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-inter-skieur')">↺ Recommencer</button>
   </div>
   </div>
   </div>
@@ -1524,42 +1585,48 @@ for i in range(0,5) :
 
 plt.show()</div>
 
-  <div class="exo" style="margin-top:16px;">
-    <p class="q-text">a) Déterminer le nombre de positions successives du point représentées et l'intervalle de temps Δt les séparant.</p>
-    <label><input type="radio" name="trajpy1" value="a"> 6 positions, séparées de Δt = 1,0 s</label>
-    <label><input type="radio" name="trajpy1" value="b"> 5 positions, séparées de Δt = 1,0 s</label>
-    <label><input type="radio" name="trajpy1" value="c"> 6 positions, séparées de Δt = 0,5 s</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">a) Déterminer le nombre de positions successives du point représentées et l'intervalle de temps Δt les séparant.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-trajpy1')">6 positions, séparées de Δt = 1,0 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-trajpy1')">5 positions, séparées de Δt = 1,0 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-trajpy1')">6 positions, séparées de Δt = 0,5 s</div>
+  </div>
+  <div class="dq-feedback" id="fb-trajpy1"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">b) Déterminer le nombre de vecteurs vitesse du point représentés et l'intervalle de temps Δt les séparant.</p>
-    <label><input type="radio" name="trajpy2" value="a"> 5 vecteurs vitesse, séparés de Δt = 1,0 s</label>
-    <label><input type="radio" name="trajpy2" value="b"> 6 vecteurs vitesse, séparés de Δt = 1,0 s</label>
-    <label><input type="radio" name="trajpy2" value="c"> 5 vecteurs vitesse, séparés de Δt = 0,8 s</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">b) Déterminer le nombre de vecteurs vitesse du point représentés et l'intervalle de temps Δt les séparant.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-trajpy2')">5 vecteurs vitesse, séparés de Δt = 1,0 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-trajpy2')">6 vecteurs vitesse, séparés de Δt = 1,0 s</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-trajpy2')">5 vecteurs vitesse, séparés de Δt = 0,8 s</div>
+  </div>
+  <div class="dq-feedback" id="fb-trajpy2"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">c) Déterminer les normes, en m·s⁻¹, des trois premiers vecteurs vitesse du point représentés.</p>
-    <label><input type="radio" name="trajpy3" value="a"> v₁ = v₂ = v₃ = 2,0 m·s⁻¹</label>
-    <label><input type="radio" name="trajpy3" value="b"> v₁ = v₂ = v₃ = 1,6 m·s⁻¹</label>
-    <label><input type="radio" name="trajpy3" value="c"> v₁ = 2,0 m·s⁻¹ ; v₂ = 4,0 m·s⁻¹ ; v₃ = 6,0 m·s⁻¹</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">c) Déterminer les normes, en m·s⁻¹, des trois premiers vecteurs vitesse du point représentés.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-trajpy3')">v₁ = v₂ = v₃ = 2,0 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-trajpy3')">v₁ = v₂ = v₃ = 1,6 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-trajpy3')">v₁ = 2,0 m·s⁻¹ ; v₂ = 4,0 m·s⁻¹ ; v₃ = 6,0 m·s⁻¹</div>
+  </div>
+  <div class="dq-feedback" id="fb-trajpy3"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text">d) Décrire la variation du vecteur vitesse pour le mouvement de ce point et en déduire la nature du mouvement.</p>
-    <label><input type="radio" name="trajpy4" value="a"> Direction constante et valeur constante : mouvement rectiligne uniforme</label>
-    <label><input type="radio" name="trajpy4" value="b"> Direction constante et valeur croissante : mouvement rectiligne accéléré</label>
-    <label><input type="radio" name="trajpy4" value="c"> Direction variable et valeur constante : mouvement curviligne uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm">
+  <div class="dq-question">d) Décrire la variation du vecteur vitesse pour le mouvement de ce point et en déduire la nature du mouvement.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-trajpy4')">Direction constante et valeur constante : mouvement rectiligne uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-trajpy4')">Direction constante et valeur croissante : mouvement rectiligne accéléré</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-trajpy4')">Direction variable et valeur constante : mouvement curviligne uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-trajpy4"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'], {'trajpy1':'a','trajpy2':'a','trajpy3':'a','trajpy4':'a'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['trajpy1box','trajpy2box','trajpy3box','trajpy4box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-inter-python')">↺ Recommencer</button>
   </div>
 
   <div class="box box-rappel" style="margin-top:20px;">
@@ -1631,18 +1698,18 @@ print("y =", y)</textarea>
     </div>
   </div>
 
-  <div class="exo" style="margin-top:20px;">
-    <p class="q-text"><strong>b.</strong> À partir du nuage de points obtenu, caractériser le mouvement du point.</p>
-    <label><input type="radio" name="calc1" value="a"> Points alignés, régulièrement espacés : mouvement rectiligne et uniforme</label>
-    <label><input type="radio" name="calc1" value="b"> Points alignés, de plus en plus espacés : mouvement rectiligne accéléré</label>
-    <label><input type="radio" name="calc1" value="c"> Points non alignés, régulièrement espacés : mouvement curviligne et uniforme</label>
-    <div class="feedback"></div>
+  <div class="dropdown-qcm" id="qcm-calc1" style="margin-top:20px;">
+  <div class="dq-question"><strong>b.</strong> À partir du nuage de points obtenu, caractériser le mouvement du point.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-calc1')">Points alignés, régulièrement espacés : mouvement rectiligne et uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-calc1')">Points alignés, de plus en plus espacés : mouvement rectiligne accéléré</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-calc1')">Points non alignés, régulièrement espacés : mouvement curviligne et uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-calc1"></div>
   </div>
 
-  <div class="exo-buttons">
-    <button class="btn" onclick="checkGroup(['calc1box'], {'calc1':'a'})">✓ Vérifier</button>
-    <button class="btn secondary" onclick="showCorrection(['calc1box'], {'calc1':'a'})">▶ Voir la correction</button>
-    <button class="btn reset" onclick="resetGroup(['calc1box'])">↺ Recommencer</button>
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('qcm-calc1')">↺ Recommencer</button>
   </div>
   </div>
   </div>
@@ -1810,18 +1877,18 @@ print("y =", [round(v,2) for v in y])</textarea>
   </div>
   <p id="proj-canvas-msg" style="font-size:0.82rem;color:var(--texte-leger);margin-top:6px;">📈 Le graphique se trace ici après un clic sur « ▶ Exécuter » (à partir des listes t, x, y calculées par ton code).</p>
 
-  <div class="exo" style="margin-top:22px;">
-    <p class="q-text"><strong>b.</strong> Exécute le programme et détermine la coordonnée v_x du vecteur vitesse du point à la 11ᵉ position par une méthode voisine.</p>
-    <label><input type="radio" name="projvb" value="a"> v_x = 18,0 m·s⁻¹</label>
-    <label><input type="radio" name="projvb" value="b"> v_x = 10,0 m·s⁻¹</label>
-    <label><input type="radio" name="projvb" value="c"> v_x = 14,9 m·s⁻¹</label>
-    <label><input type="radio" name="projvb" value="d"> v_x dépend de la position choisie</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['projvbbox'], {'projvb':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['projvbbox'], {'projvb':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['projvbbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm" id="qcm-projvb" style="margin-top:22px;">
+  <div class="dq-question"><strong>b.</strong> Exécute le programme et détermine la coordonnée v_x du vecteur vitesse du point à la 11ᵉ position par une méthode voisine.</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-projvb')">v_x = 18,0 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-projvb')">v_x = 10,0 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-projvb')">v_x = 14,9 m·s⁻¹</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-projvb')">v_x dépend de la position choisie</div>
+  </div>
+  <div class="dq-feedback" id="fb-projvb"></div>
+  <div style="text-align:center;margin-top:12px;">
+  <button class="btn-reveal" onclick="recommencer('qcm-projvb')">↺ Recommencer</button>
+  </div>
   </div>
 
   <div style="margin-top:22px;">
@@ -1875,74 +1942,63 @@ for i in range(0, 20, 2) :
     <img src="ex-mobile2.png" alt="Enregistrement des positions successives des points A (vert, de A0 à A12) et B (rouge) du mobile autoporteur" style="max-width:70%; border-radius:6px;">
   </div>
 
-  <div class="exo" style="margin-top:16px;">
-    <p class="q-text"><strong>a.</strong> Quel est le système étudié et quel est le référentiel d'étude ?</p>
-    <label><input type="radio" name="verglasA" value="a"> Système : la table ; référentiel : le mobile autoporteur</label>
-    <label><input type="radio" name="verglasA" value="b"> Système : le mobile autoporteur ; référentiel : le référentiel terrestre (la table horizontale, supposée fixe)</label>
-    <label><input type="radio" name="verglasA" value="c"> Système : le point B ; référentiel : le point A</label>
-    <label><input type="radio" name="verglasA" value="d"> Système : le conducteur ; référentiel héliocentrique</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasAbox'], {'verglasA':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasAbox'], {'verglasA':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasAbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm" style="margin-top:16px;">
+  <div class="dq-question"><strong>a.</strong> Quel est le système étudié et quel est le référentiel d'étude ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-verglasA')">Système : la table ; référentiel : le mobile autoporteur</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-verglasA')">Système : le mobile autoporteur ; référentiel : le référentiel terrestre (la table horizontale, supposée fixe)</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-verglasA')">Système : le point B ; référentiel : le point A</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-verglasA')">Système : le conducteur ; référentiel héliocentrique</div>
+  </div>
+  <div class="dq-feedback" id="fb-verglasA"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text"><strong>b.</strong> Comment caractériser les trajectoires et les mouvements des points A et B dans ce référentiel ?</p>
-    <label><input type="radio" name="verglasB" value="a"> A a une trajectoire quasi rectiligne et un mouvement proche de l'uniforme ; B a une trajectoire curviligne (en boucles) et un mouvement ni rectiligne ni uniforme</label>
-    <label><input type="radio" name="verglasB" value="b"> A et B ont tous les deux une trajectoire circulaire et un mouvement uniforme</label>
-    <label><input type="radio" name="verglasB" value="c"> A a une trajectoire circulaire ; B a une trajectoire rectiligne uniforme</label>
-    <label><input type="radio" name="verglasB" value="d"> A et B ont tous les deux une trajectoire rectiligne uniforme</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasBbox'], {'verglasB':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasBbox'], {'verglasB':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasBbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question"><strong>b.</strong> Comment caractériser les trajectoires et les mouvements des points A et B dans ce référentiel ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-verglasB')">A a une trajectoire quasi rectiligne et un mouvement proche de l'uniforme ; B a une trajectoire curviligne (en boucles) et un mouvement ni rectiligne ni uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-verglasB')">A et B ont tous les deux une trajectoire circulaire et un mouvement uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-verglasB')">A a une trajectoire circulaire ; B a une trajectoire rectiligne uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-verglasB')">A et B ont tous les deux une trajectoire rectiligne uniforme</div>
+  </div>
+  <div class="dq-feedback" id="fb-verglasB"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text"><strong>c.</strong> Quelle méthode permet de construire la trajectoire du point B par rapport au point A ?</p>
-    <label><input type="radio" name="verglasC" value="a"> À partir d'une origine fixe unique O', reporter à chaque instant i le vecteur AᵢBᵢ (même longueur, même direction, même sens que sur l'enregistrement)</label>
-    <label><input type="radio" name="verglasC" value="b"> Additionner point par point les positions de A et de B</label>
-    <label><input type="radio" name="verglasC" value="c"> Utiliser directement les positions de B mesurées dans le référentiel terrestre, sans les modifier</label>
-    <label><input type="radio" name="verglasC" value="d"> Superposer les deux trajectoires enregistrées telles quelles</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasCbox'], {'verglasC':'a'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasCbox'], {'verglasC':'a'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasCbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question"><strong>c.</strong> Quelle méthode permet de construire la trajectoire du point B par rapport au point A ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-verglasC')">À partir d'une origine fixe unique O', reporter à chaque instant i le vecteur AᵢBᵢ (même longueur, même direction, même sens que sur l'enregistrement)</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-verglasC')">Additionner point par point les positions de A et de B</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-verglasC')">Utiliser directement les positions de B mesurées dans le référentiel terrestre, sans les modifier</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-verglasC')">Superposer les deux trajectoires enregistrées telles quelles</div>
+  </div>
+  <div class="dq-feedback" id="fb-verglasC"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text"><strong>d.</strong> Quelles sont la trajectoire et la nature du mouvement du point B par rapport au point A ?</p>
-    <label><input type="radio" name="verglasD" value="a"> Trajectoire rectiligne, mouvement uniforme</label>
-    <label><input type="radio" name="verglasD" value="b"> Trajectoire circulaire, mouvement circulaire uniforme (valeur de la vitesse constante, direction qui change continuellement)</label>
-    <label><input type="radio" name="verglasD" value="c"> Trajectoire parabolique, mouvement accéléré</label>
-    <label><input type="radio" name="verglasD" value="d"> Trajectoire quelconque, mouvement quelconque, sans régularité</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasDbox'], {'verglasD':'b'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasDbox'], {'verglasD':'b'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasDbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question"><strong>d.</strong> Quelles sont la trajectoire et la nature du mouvement du point B par rapport au point A ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-verglasD')">Trajectoire rectiligne, mouvement uniforme</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-verglasD')">Trajectoire circulaire, mouvement circulaire uniforme (valeur de la vitesse constante, direction qui change continuellement)</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-verglasD')">Trajectoire parabolique, mouvement accéléré</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-verglasD')">Trajectoire quelconque, mouvement quelconque, sans régularité</div>
+  </div>
+  <div class="dq-feedback" id="fb-verglasD"></div>
   </div>
 
-  <div class="exo">
-    <p class="q-text"><strong>e.</strong> Qu'en déduis-tu sur ce que ressent le conducteur lors d'une perte de contrôle de son véhicule sur du verglas ?</p>
-    <label><input type="radio" name="verglasE" value="a"> Le véhicule est instantanément propulsé vers l'arrière</label>
-    <label><input type="radio" name="verglasE" value="b"> Rien ne change : le véhicule continue tout droit normalement</label>
-    <label><input type="radio" name="verglasE" value="c"> Le véhicule continue d'avancer par inertie tout en se mettant à tourner sur lui-même de façon incontrôlée (« tête-à-queue »)</label>
-    <label><input type="radio" name="verglasE" value="d"> Le véhicule s'arrête immédiatement</label>
-    <div class="feedback"></div>
-    <div class="exo-buttons">
-      <button class="btn" onclick="checkGroup(['verglasEbox'], {'verglasE':'c'})">✓ Vérifier</button>
-      <button class="btn secondary" onclick="showCorrection(['verglasEbox'], {'verglasE':'c'})">▶ Voir la correction</button>
-      <button class="btn reset" onclick="resetGroup(['verglasEbox'])">↺ Recommencer</button>
-    </div>
+  <div class="dropdown-qcm">
+  <div class="dq-question"><strong>e.</strong> Qu'en déduis-tu sur ce que ressent le conducteur lors d'une perte de contrôle de son véhicule sur du verglas ?</div>
+  <div class="qcm-opts">
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-verglasE')">Le véhicule est instantanément propulsé vers l'arrière</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-verglasE')">Rien ne change : le véhicule continue tout droit normalement</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,true,'c','fb-verglasE')">Le véhicule continue d'avancer par inertie tout en se mettant à tourner sur lui-même de façon incontrôlée (« tête-à-queue »)</div>
+  <div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-verglasE')">Le véhicule s'arrête immédiatement</div>
+  </div>
+  <div class="dq-feedback" id="fb-verglasE"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;">
+  <button class="btn-reveal" onclick="recommencer('exo-diff-verglas')">↺ Recommencer</button>
   </div>
 
   <div class="accordion" id="acc-verglas-aide">
@@ -2154,13 +2210,17 @@ for i in range(0, 20, 2) :
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
       <div class="gloss-item" data-term="chronophotographie"><dt>Chronophotographie</dt><dd>Technique consistant à superposer les positions successives d'un système à intervalles de temps égaux, permettant d'en étudier le mouvement.</dd></div>
+      <div class="gloss-item" data-term="colineaire"><dt>Colinéaire</dt><dd>Se dit de deux vecteurs qui ont la même direction (portés par la même droite ou par des droites parallèles), qu'ils soient de même sens ou de sens contraire.</dd></div>
       <div class="gloss-item" data-term="modelisation"><dt>Modélisation</dt><dd>Représentation simplifiée de la réalité permettant de faciliter l'étude d'un phénomène physique complexe.</dd></div>
       <div class="gloss-item" data-term="mouvement accelere"><dt>Mouvement accéléré</dt><dd>Mouvement au cours duquel la valeur de la vitesse du système augmente au fur et à mesure du temps.</dd></div>
       <div class="gloss-item" data-term="mouvement accelere decelere"><dt>Mouvement accéléré / décéléré</dt><dd>Mouvement rectiligne non uniforme : accéléré si la valeur de v augmente, décéléré si elle diminue.</dd></div>
       <div class="gloss-item" data-term="mouvement circulaire"><dt>Mouvement circulaire</dt><dd>Mouvement dont la trajectoire décrite par le système correspond à un cercle ou à un arc de cercle.</dd></div>
       <div class="gloss-item" data-term="mouvement curviligne"><dt>Mouvement curviligne</dt><dd>Mouvement au cours duquel la trajectoire décrite par le système est une courbe quelconque, ni rectiligne ni parfaitement circulaire.</dd></div>
       <div class="gloss-item" data-term="mouvement ralenti"><dt>Mouvement ralenti</dt><dd>Mouvement au cours duquel la valeur de la vitesse du système diminue au fur et à mesure du temps (aussi appelé décéléré).</dd></div>
+      <div class="gloss-item" data-term="mouvement rectiligne"><dt>Mouvement rectiligne</dt><dd>Mouvement dont la trajectoire est une droite (la direction du vecteur vitesse reste constante), que la vitesse soit constante ou non.</dd></div>
       <div class="gloss-item" data-term="mouvement rectiligne uniforme"><dt>Mouvement rectiligne uniforme</dt><dd>Trajectoire rectiligne (direction de v constante) et valeur de v constante.</dd></div>
+      <div class="gloss-item" data-term="mouvement uniforme"><dt>Mouvement uniforme</dt><dd>Mouvement au cours duquel la valeur de la vitesse du système reste constante au cours du temps, quelle que soit la forme de la trajectoire (rectiligne, circulaire ou curviligne).</dd></div>
+      <div class="gloss-item" data-term="norme vecteur"><dt>Norme d'un vecteur</dt><dd>Longueur du vecteur ; exprime l'intensité de la grandeur représentée (une distance en m pour un vecteur déplacement, une vitesse en m·s⁻¹ pour un vecteur vitesse).</dd></div>
       <div class="gloss-item" data-term="point materiel"><dt>Point matériel</dt><dd>Modèle physique simplificateur où l'on considère que toute la masse d'un système est concentrée en un point géométrique unique.</dd></div>
       <div class="gloss-item" data-term="referentiel systeme"><dt>Référentiel</dt><dd>Solide de référence par rapport auquel on étudie le mouvement, comportant un repère d'espace et un repère de temps.</dd></div>
       <div class="gloss-item" data-term="referentiel geocentrique"><dt>Référentiel géocentrique</dt><dd>Référentiel dont l'origine est le centre de la Terre, avec des étoiles considérées comme fixes (ex : mouvement de la Lune, des satellites).</dd></div>
@@ -2173,9 +2233,12 @@ for i in range(0, 20, 2) :
       <div class="gloss-item" data-term="systeme"><dt>Système</dt><dd>Corps ou objet dont on étudie le mouvement, souvent modélisé par un point.</dd></div>
       <div class="gloss-item" data-term="trajectoire"><dt>Trajectoire</dt><dd>Ensemble des positions successives occupées par un point au cours du mouvement, dans un référentiel donné.</dd></div>
       <div class="gloss-item" data-term="translation"><dt>Translation</dt><dd>Mouvement d'un solide au cours duquel tous les points ont, à chaque instant, des trajectoires superposables (identiques) : un segment reliant deux points quelconques du solide garde une direction constante au cours du mouvement.</dd></div>
+      <div class="gloss-item" data-term="vecteur"><dt>Vecteur</dt><dd>Objet mathématique représenté par une flèche, caractérisé par une direction, un sens, une norme (longueur) et une origine (point d'application).</dd></div>
       <div class="gloss-item" data-term="vecteur deplacement"><dt>Vecteur déplacement MM'</dt><dd>Segment orienté joignant les positions successives M et M' d'un point ; direction du segment, sens de M vers M', norme égale à la distance MM'.</dd></div>
+      <div class="gloss-item" data-term="vecteur oppose"><dt>Vecteur opposé</dt><dd>Vecteur de même direction et même norme qu'un vecteur donné, mais de sens contraire (par exemple BA est le vecteur opposé de AB).</dd></div>
       <div class="gloss-item" data-term="vecteur vitesse point M"><dt>Vecteur vitesse en un point M</dt><dd>v = MM' / Δt (Δt très court) : direction tangente à la trajectoire, sens du mouvement, valeur la vitesse en m·s⁻¹.</dd></div>
       <div class="gloss-item" data-term="vecteur vitesse moyenne"><dt>Vecteur vitesse moyenne</dt><dd>v_moy = MM' / Δt : rapport du vecteur déplacement par la durée du parcours ; colinéaire au vecteur déplacement.</dd></div>
+      <div class="gloss-item" data-term="vecteurs egaux"><dt>Vecteurs égaux</dt><dd>Deux vecteurs sont égaux s'ils ont la même direction, le même sens et la même norme, quel que soit leur point d'application.</dd></div>
       <div class="gloss-item" data-term="vitesse instantanee"><dt>Vitesse instantanée</dt><dd>Vitesse à un instant donné, approchée par la vitesse moyenne sur un intervalle de temps très court.</dd></div>
   </dl>
   </div>
@@ -3642,8 +3705,217 @@ const MVT_FEEDBACK = {
       b: "✗ Non — inverser origine et extrémité donnerait le vecteur de M₂ vers M₁, qui est le vecteur opposé du déplacement recherché.",
       c: "✗ Non — un vecteur n'a pas de point de départ « quelconque » entre les deux points : son origine doit être exactement en M₁ et son extrémité exactement en M₂."
     }
+  },
+
+  /* ══════ Exercices QCM (mêmes questions, mécanique dropdown-qcm) ══════ */
+  'fb-concl1': {
+    correct: "✓ Exact ! La trajectoire de Mars change complètement selon qu'on l'observe depuis la Terre ou depuis le Soleil : le mouvement est bien relatif au référentiel choisi.",
+    wrong: {
+      a: "✗ Non — Mars n'a qu'un seul mouvement réel ; ce sont les deux descriptions de ce même mouvement qui diffèrent selon le référentiel d'observation choisi.",
+      c: "✗ Non — les deux référentiels sont valables : aucun n'est « faux ». Ils donnent simplement deux descriptions différentes d'un même mouvement."
+    }
+  },
+  'fb-train1': {
+    correct: "✓ Exact ! Par rapport au chef de gare A (immobile dans son propre référentiel), le passager B s'éloigne avec le train donc B est en mouvement ; la pendule C, fixée sur le quai comme A, reste immobile.",
+    wrong: {
+      b: "✗ Non — c'est le passager B qui s'éloigne du chef de gare avec le train : B est en mouvement, tandis que la pendule C, fixe sur le quai, est immobile par rapport à A.",
+      c: "✗ Non — le chef de gare A est immobile dans son propre référentiel (par définition) ; c'est B qui est en mouvement par rapport à lui, pas A."
+    }
+  },
+  'fb-train2': {
+    correct: "✓ Exact ! Dans le référentiel du passager B (immobile pour lui-même), le quai et tout ce qui y est fixé — le chef de gare A et la pendule C — semblent reculer : A et C sont donc en mouvement.",
+    wrong: {
+      a: "✗ Non — vu depuis le train qui démarre, le quai (et donc A et C, fixés dessus) semble s'éloigner vers l'arrière : A et C sont en mouvement dans le référentiel du passager.",
+      c: "✗ Non — A et C sont tous deux fixés au quai, donc ils sont dans le même état de mouvement (tous deux en mouvement) par rapport au passager B."
+    }
+  },
+  'fb-train3': {
+    correct: "✓ Exact ! La pendule C est fixée au quai, comme le chef de gare A : dans le référentiel de C, A reste immobile, tandis que le passager B, emporté par le train, est en mouvement.",
+    wrong: {
+      a: "✗ Non — le chef de gare A est fixé au quai, tout comme la pendule C : A est donc immobile par rapport à C, ce n'est pas B qui est immobile.",
+      c: "✗ Non — la pendule C ne peut pas être « en mouvement » par rapport à elle-même : dans son propre référentiel, C est nécessairement immobile."
+    }
+  },
+  'fb-bille1': {
+    correct: "✓ Exact ! L'échelle du schéma est 1,0 cm ↔ 5,0 cm : une longueur mesurée de 1,0 cm sur le schéma correspond donc bien à 5,0 cm en réalité.",
+    wrong: {
+      b: "✗ Non — cela reviendrait à une échelle 1:1, alors que l'énoncé donne 1,0 cm ↔ 5,0 cm : il faut multiplier la longueur mesurée par ce facteur d'échelle.",
+      c: "✗ Non — 0,5 cm correspondrait à diviser par l'échelle au lieu de multiplier ; ici on veut la distance réelle, plus grande que la distance mesurée sur le schéma."
+    }
+  },
+  'fb-bille2': {
+    correct: "✓ Exact ! La vitesse moyenne entre deux positions est la distance parcourue divisée par la durée écoulée : v₁ = A₁A₂ / Δt.",
+    wrong: {
+      b: "✗ Non — cette expression inverse numérateur et dénominateur : la vitesse est une distance divisée par un temps, pas l'inverse.",
+      c: "✗ Non — multiplier une distance par une durée ne donne pas une vitesse (les unités ne correspondraient pas à des m·s⁻¹)."
+    }
+  },
+  'fb-bille3': {
+    correct: "✓ Exact ! v₁ = A₁A₂ / Δt = 0,050 m / 0,020 s = 2,5 m·s⁻¹.",
+    wrong: {
+      a: "✗ Non — vérifie le calcul : 0,050 m divisé par 0,020 s ne donne pas 0,4 m·s⁻¹ (attention à ne pas inverser la division).",
+      c: "✗ Non — vérifie les unités : A₁A₂ doit être convertie en mètres (5,0 cm = 0,050 m) avant de diviser par Δt."
+    }
+  },
+  'fb-facpy1': {
+    correct: "✓ Exact ! `np.linspace(0.0, 2.8, 15)` crée 15 valeurs régulièrement réparties entre 0 et 2,8 s, soit un pas Δt = 2,8/14 ≈ 0,20 s.",
+    wrong: {
+      b: "✗ Non — `linspace(0.0, 2.8, 15)` génère bien 15 valeurs (le troisième argument), pas 14.",
+      c: "✗ Non — 2,8 s est la durée totale de l'intervalle, pas l'écart Δt entre deux positions successives : il faut diviser cette durée par le nombre d'intervalles (14)."
+    }
+  },
+  'fb-facpy2': {
+    correct: "✓ Exact ! Les ordonnées y sont toutes nulles (y = 0*t) tandis que x = 2*t varie : tous les points sont donc alignés sur l'axe des abscisses, la trajectoire est une droite.",
+    wrong: {
+      b: "✗ Non — une trajectoire circulaire nécessiterait que x et y varient de façon liée (par exemple avec des sinus et cosinus), ce qui n'est pas le cas ici.",
+      c: "✗ Non — ici y reste nul en permanence : ce n'est pas une trajectoire quelconque mais un cas particulier très simple, une droite."
+    }
+  },
+  'fb-recap1': {
+    correct: "✓ Exact ! Un vecteur vitesse de direction et de valeur constantes correspond à un mouvement en ligne droite (rectiligne) à vitesse constante (uniforme).",
+    wrong: {
+      b: "✗ Non — si la valeur de v ne change pas non plus, le mouvement ne peut pas être « non uniforme » : uniforme signifie justement que la valeur de la vitesse est constante.",
+      c: "✗ Non — une direction de v qui ne change pas correspond à une trajectoire en ligne droite (rectiligne), pas à un mouvement « non rectiligne »."
+    }
+  },
+  'fb-recap2': {
+    correct: "✓ Exact ! Direction constante = trajectoire rectiligne ; valeur qui change = mouvement non uniforme (accéléré ou décéléré).",
+    wrong: {
+      a: "✗ Non — si la valeur de v change, le mouvement n'est pas uniforme par définition : uniforme signifie vitesse de valeur constante.",
+      c: "✗ Non — la direction de v ne change pas ici, donc la trajectoire reste une droite (rectiligne), pas « non rectiligne »."
+    }
+  },
+  'fb-recap3': {
+    correct: "✓ Exact ! Une direction de v qui change correspond à une trajectoire courbe (non rectiligne) ; une valeur constante correspond à un mouvement uniforme.",
+    wrong: {
+      b: "✗ Non — si la direction de v change, la trajectoire n'est pas une droite : le mouvement est non rectiligne, pas rectiligne.",
+      c: "✗ Non — la valeur de v reste constante ici, donc le mouvement est uniforme, pas « non uniforme »."
+    }
+  },
+  'fb-recap4': {
+    correct: "✓ Exact ! Direction et valeur qui changent toutes les deux : la trajectoire est courbe (non rectiligne) et la vitesse varie (non uniforme).",
+    wrong: {
+      a: "✗ Non — si la direction de v change aussi, la trajectoire n'est pas une droite : le mouvement est non rectiligne, pas rectiligne.",
+      b: "✗ Non — la valeur de v change également ici, donc le mouvement n'est pas uniforme : il faut cumuler les deux écarts (direction ET valeur)."
+    }
+  },
+  'fb-ski1': {
+    correct: "✓ Exact ! Les points S₁, S₂, S₃ successifs restent globalement alignés le long de la pente sur la chronophotographie : la trajectoire du skieur est rectiligne.",
+    wrong: {
+      a: "✗ Non — rien n'indique que le skieur décrit un cercle complet : ce n'est pas une trajectoire circulaire.",
+      c: "✗ Regarde bien la chronophotographie : si les points S₁, S₂, S₃ sont globalement alignés le long de la pente, la trajectoire est rectiligne, pas curviligne."
+    }
+  },
+  'fb-ski2': {
+    correct: "✓ Exact ! Le skieur a été filmé par une caméra fixe au sol : c'est le référentiel terrestre, celui qui est utilisé pour la quasi-totalité des mouvements du quotidien.",
+    wrong: {
+      a: "✗ Non — le référentiel héliocentrique est centré sur le Soleil et sert à l'étude du mouvement des planètes, pas à filmer un skieur sur une pente.",
+      c: "✗ Non — le référentiel géocentrique est centré sur la Terre mais n'est pas lié au sol (il ne tourne pas avec la Terre) : ce n'est pas celui utilisé pour une caméra posée sur la piste."
+    }
+  },
+  'fb-ski3': {
+    correct: "✓ Exact ! Une direction constante mais une longueur de vecteur vitesse qui augmente signifie que la valeur de la vitesse augmente : le mouvement est rectiligne accéléré.",
+    wrong: {
+      a: "✗ Non — un mouvement uniforme correspondrait à des vecteurs vitesse de même longueur ; ici leur longueur augmente, donc le mouvement n'est pas uniforme.",
+      c: "✗ Non — la longueur des vecteurs augmente (pas ne diminue), donc la valeur de la vitesse augmente : le mouvement est accéléré, pas décéléré."
+    }
+  },
+  'fb-trajpy1': {
+    correct: "✓ Exact ! Les listes t, x, y contiennent chacune 6 valeurs (de t=0 à t=5), régulièrement espacées de Δt = 1,0 s.",
+    wrong: {
+      b: "✗ Non — recompte les éléments des listes `t = [0,1,2,3,4,5]` : il y a bien 6 valeurs, pas 5.",
+      c: "✗ Non — l'écart entre deux dates consécutives de la liste t est de 1,0 s (par exemple entre t=0 et t=1), pas 0,5 s."
+    }
+  },
+  'fb-trajpy2': {
+    correct: "✓ Exact ! La boucle `for i in range(0,5)` trace 5 vecteurs (entre les 6 positions consécutives), avec le même pas de temps Δt = 1,0 s que les positions.",
+    wrong: {
+      b: "✗ Non — `range(0,5)` parcourt les valeurs 0 à 4, soit 5 itérations, donc 5 vecteurs et non 6 (il y a un vecteur de moins que de positions).",
+      c: "✗ Non — le pas de temps entre les dates de la liste t reste 1,0 s partout, il n'y a pas de Δt = 0,8 s dans ce code."
+    }
+  },
+  'fb-trajpy3': {
+    correct: "✓ Exact ! Chaque vecteur vitesse a pour coordonnées (Δx/Δt, Δy/Δt) = (2/1, 0/1) = (2,0 ; 0) m·s⁻¹ : la norme vaut 2,0 m·s⁻¹ pour chacun des trois premiers vecteurs, car x augmente régulièrement de 2 m toutes les 1 s.",
+    wrong: {
+      b: "✗ Non — vérifie le calcul : (x[i+1]-x[i])/(t[i+1]-t[i]) = 2/1 = 2,0 m·s⁻¹, pas 1,6 m·s⁻¹.",
+      c: "✗ Non — les valeurs de x augmentent régulièrement de 2 m à chaque seconde (mouvement uniforme), donc les trois vitesses sont égales, pas croissantes."
+    }
+  },
+  'fb-trajpy4': {
+    correct: "✓ Exact ! Les vecteurs vitesse ont tous la même direction (horizontale) et la même valeur (2,0 m·s⁻¹) : le mouvement est rectiligne et uniforme.",
+    wrong: {
+      b: "✗ Non — la valeur de la vitesse ne croît pas ici : elle reste constante à 2,0 m·s⁻¹ (car x augmente régulièrement), le mouvement n'est donc pas accéléré.",
+      c: "✗ Non — la direction des vecteurs vitesse ne varie pas (toujours horizontale, car y reste nul) : le mouvement est rectiligne, pas curviligne."
+    }
+  },
+  'fb-calc1': {
+    correct: "✓ Exact ! Des points alignés traduisent une trajectoire rectiligne, et un espacement régulier traduit une vitesse constante entre chaque point : le mouvement est rectiligne et uniforme.",
+    wrong: {
+      b: "✗ Non — un espacement de plus en plus grand traduirait une vitesse qui augmente (mouvement accéléré) ; ici l'espacement reste constant si les points sont régulièrement espacés.",
+      c: "✗ Non — des points alignés correspondent à une trajectoire rectiligne, pas curviligne : la trajectoire n'est courbe que si les points ne sont pas sur une même droite."
+    }
+  },
+  'fb-projvb': {
+    correct: "✓ Exact ! La composante horizontale v_x = Δx/Δt reste constante tout au long du mouvement (seule la pesanteur agit verticalement) : v_x = 10,0 m·s⁻¹, comme au début du mouvement.",
+    wrong: {
+      a: "✗ Non — 18,0 m·s⁻¹ ne correspond pas à v_x : relis les coordonnées x du programme et recalcule Δx/Δt entre deux positions proches de la 11ᵉ.",
+      c: "✗ Non — 14,9 m·s⁻¹ correspond à la composante verticale initiale v_y (donnée dans le code), pas à v_x.",
+      d: "✗ Non — c'est justement la propriété remarquable de ce mouvement : contrairement à v_y, la composante v_x du vecteur vitesse reste constante, quelle que soit la position choisie."
+    }
+  },
+  'fb-verglasA': {
+    correct: "✓ Exact ! Le système étudié est le mobile autoporteur (l'objet dont on étudie le mouvement), observé dans le référentiel terrestre, ici matérialisé par la table horizontale supposée fixe.",
+    wrong: {
+      a: "✗ Non — c'est l'inverse : le système étudié est le mobile en mouvement, et c'est la table (fixe) qui constitue le référentiel terrestre d'observation.",
+      c: "✗ Non — le système et le référentiel doivent être des objets matériels clairement identifiés (ici le mobile et la table), pas un point rapporté à un autre point.",
+      d: "✗ Non — l'énoncé ne mentionne aucun conducteur ici (il s'agit d'un mobile autoporteur sur une table), et le référentiel héliocentrique n'est pas adapté à cette échelle de laboratoire."
+    }
+  },
+  'fb-verglasB': {
+    correct: "✓ Exact ! Le point A (centre du mobile) suit une trajectoire quasi rectiligne à vitesse quasi constante, tandis que le point B (sur le pourtour) décrit des boucles caractéristiques d'un mouvement de rotation combiné à la translation d'ensemble.",
+    wrong: {
+      b: "✗ Non — seul le point B décrit des boucles complexes ; le point A (centre) suit une trajectoire beaucoup plus régulière, quasi rectiligne.",
+      c: "✗ Non — c'est l'inverse des observations : c'est le point A qui a la trajectoire la plus simple (quasi rectiligne), pas B.",
+      d: "✗ Non — seul le point A a une trajectoire proche d'une droite ; le point B, plus excentré, dessine des boucles du fait de la rotation du mobile."
+    }
+  },
+  'fb-verglasC': {
+    correct: "✓ Exact ! Pour étudier le mouvement relatif de B par rapport à A, on reporte à chaque instant, depuis une origine fixe unique, le vecteur AᵢBᵢ tel qu'il apparaît sur l'enregistrement (même longueur, même direction, même sens) : les extrémités successives dessinent la trajectoire de B dans le référentiel lié à A.",
+    wrong: {
+      b: "✗ Non — additionner les positions de A et de B n'a pas de sens physique ici : c'est le vecteur qui va de A vers B qu'il faut reporter, pas une somme de coordonnées.",
+      c: "✗ Non — les positions de B dans le référentiel terrestre décrivent le mouvement de B par rapport à la table, pas par rapport à A : il faut bien construire le vecteur AB à chaque instant.",
+      d: "✗ Non — superposer telles quelles les deux trajectoires enregistrées (dans le référentiel terrestre) ne donne pas le mouvement de B par rapport à A, qui est un mouvement relatif différent."
+    }
+  },
+  'fb-verglasD': {
+    correct: "✓ Exact ! Par rapport à A, le point B tourne à distance constante : sa trajectoire est un cercle, et la valeur de sa vitesse reste constante alors que la direction du vecteur vitesse change continuellement — c'est un mouvement circulaire uniforme.",
+    wrong: {
+      a: "✗ Non — la trajectoire de B par rapport à A n'est pas une droite : B reste à distance constante de A tout en tournant autour de lui, ce qui dessine un cercle.",
+      c: "✗ Non — une trajectoire parabolique correspondrait à une chute avec vitesse initiale ; ici B reste à distance constante de A, ce qui donne un cercle, pas une parabole.",
+      d: "✗ Non — le mouvement de B par rapport à A est au contraire très régulier : distance constante à A et vitesse de valeur constante, ce qui correspond précisément à un mouvement circulaire uniforme."
+    }
+  },
+  'fb-verglasE': {
+    correct: "✓ Exact ! Lors d'une perte d'adhérence, les forces de frottement qui permettaient normalement de contrôler la trajectoire disparaissent : le véhicule continue d'avancer par inertie (son centre de gravité garde à peu près sa trajectoire) tout en se mettant à tourner sur lui-même de façon incontrôlée.",
+    wrong: {
+      a: "✗ Non — rien ne propulse le véhicule vers l'arrière : par inertie, il continue au contraire d'avancer dans la direction qu'il avait au moment de la perte d'adhérence.",
+      b: "✗ Non — la perte de contrôle change justement le comportement du véhicule : il ne continue pas simplement tout droit normalement, il se met à tourner sur lui-même de façon incontrôlée.",
+      d: "✗ Non — par inertie, un véhicule qui perd l'adhérence ne s'arrête pas immédiatement : il continue son mouvement, mais de façon incontrôlée."
+    }
   }
 };
+// ── Mélange aléatoire de l'ordre des réponses des QCM ──
+function shuffleQcmOptions() {
+  document.querySelectorAll('.qcm-opts').forEach(container => {
+    const options = Array.from(container.children); // les .qcm-opt
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    options.forEach(opt => container.appendChild(opt));
+  });
+}
+document.addEventListener('DOMContentLoaded', shuffleQcmOptions);
 
 function qcmOptCheck(el, isCorrect, val, feedbackId) {
   const group = el.parentElement;
@@ -3819,6 +4091,358 @@ function drawProjCanvas(t, x, y){
     ctx.lineTo(x1 - headlen*Math.cos(angle+Math.PI/6), y1 - headlen*Math.sin(angle+Math.PI/6));
     ctx.closePath(); ctx.fill();
   }
+}
+</script>
+
+<script>
+/* ══════ ANNEXE Fusée — mini-tableur (formules) + vérification des réponses ══════ */
+var FUSEE_T = [0,0.4,0.8,1.2,1.6,2,2.4,2.8,3.2,3.6,4,4.4,4.8,5.2,5.6,6];
+var FUSEE_Y = [-0.565,-13.624,-24.98,-36.336,-46.557,-55.642,-64.159,-69.837,-77.786,-83.464,-88.006,-91.981,-94.82,-97.091,-98.795,-99.363];
+var ROW_TO_E_ID = {1:'fusee-vy-12', 5:'fusee-vy-56', 9:'fusee-vy-910'};
+var ROW_TO_F_ID = {1:'fusee-ve-12', 5:'fusee-ve-56', 9:'fusee-ve-910'};
+
+function parseFr(str){
+  var v = parseFloat(String(str||'').trim().replace(',', '.'));
+  return v;
+}
+
+function formatNum(v){
+  var rounded = Math.round(v*1000)/1000;
+  return String(rounded).replace('.', ',');
+}
+
+/* Valeur numérique d'une case du "tableur" : B=t, C=y_M, D=y_M à l'échelle, E=v_y, F=v_y à l'échelle */
+function getCellValue(col, row){
+  if(col === 'B') return FUSEE_T[row-1];
+  if(col === 'C') return FUSEE_Y[row-1];
+  if(col === 'D'){
+    var el = document.getElementById('fusee-ye-'+row);
+    return el ? readCellNumeric(el) : NaN;
+  }
+  if(col === 'E'){
+    var idE = ROW_TO_E_ID[row];
+    var elE = idE ? document.getElementById(idE) : null;
+    return elE ? readCellNumeric(elE) : NaN;
+  }
+  if(col === 'F'){
+    var idF = ROW_TO_F_ID[row];
+    var elF = idF ? document.getElementById(idF) : null;
+    return elF ? readCellNumeric(elF) : NaN;
+  }
+  return NaN;
+}
+
+/* Lit la valeur numérique d'un input, formule (=...) ou nombre direct */
+function readCellNumeric(el){
+  var raw = (el.dataset.formula || el.value || '').trim();
+  if(raw === '') return NaN;
+  if(raw[0] === '=') return evalFormula(raw.slice(1));
+  return parseFr(raw);
+}
+
+/* Évalue une formule du type "C1/5" ou "(C2-C1)/(B2-B1)" en remplaçant les références de cellule */
+function evalFormula(expr){
+  var refRegex = /([A-F])(\d{1,2})/g;
+  var substituted = expr.replace(refRegex, function(m, col, row){
+    var v = getCellValue(col, parseInt(row, 10));
+    return isNaN(v) ? 'NaN' : '(' + v + ')';
+  });
+  if(!/^[0-9NaN+\-*/().\s]*$/.test(substituted)) return NaN;
+  try {
+    var result = Function('"use strict"; return (' + substituted + ')')();
+    return typeof result === 'number' ? result : NaN;
+  } catch(e){
+    return NaN;
+  }
+}
+
+/* Bascule affichage formule (au focus) / valeur calculée (au blur), comme un tableur */
+function cellFocus(el){
+  if(el.dataset.formula){ el.value = el.dataset.formula; }
+}
+function cellBlur(el){
+  var raw = el.value.trim();
+  if(raw[0] === '='){
+    el.dataset.formula = raw;
+    var val = evalFormula(raw.slice(1));
+    el.value = isNaN(val) ? 'ERREUR' : formatNum(val);
+  } else if(raw === ''){
+    delete el.dataset.formula;
+  } else {
+    delete el.dataset.formula;
+  }
+}
+
+/* Recopie la formule de la 1ère case d'une colonne vers les autres lignes, en adaptant les références (comme "étirer" une cellule) */
+function fillDown(sourceId, sourceRow, targetRows, idGenerator){
+  var sourceEl = document.getElementById(sourceId);
+  var formula = sourceEl.dataset.formula || sourceEl.value;
+  if(!formula || formula.trim()[0] !== '='){
+    alert("Écris d'abord une formule commençant par « = » dans la première case (ex : =C1/5), valide-la (Entrée ou clic ailleurs), puis clique sur « Recopier ».");
+    return;
+  }
+  targetRows.forEach(function(r){
+    var offset = r - sourceRow;
+    var newFormula = formula.replace(/([A-F])(\d{1,2})/g, function(m, col, row){
+      return col + (parseInt(row, 10) + offset);
+    });
+    var id = idGenerator(r);
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.dataset.formula = newFormula;
+    var val = evalFormula(newFormula.slice(1));
+    el.value = isNaN(val) ? 'ERREUR' : formatNum(val);
+    el.style.borderBottom = '';
+    el.style.background = 'transparent';
+  });
+}
+
+function recopierColonne(col){
+  if(col === 'D'){
+    fillDown('fusee-ye-1', 1, [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], function(r){ return 'fusee-ye-'+r; });
+  } else if(col === 'F'){
+    fillDown('fusee-ve-12', 1, [5,9], function(r){ return ROW_TO_F_ID[r]; });
+  }
+}
+
+/* Glisser-déposer de la poignée de recopie, comme dans Excel/Latispro */
+var FILL_CONFIG = {
+  D: { sourceId: 'fusee-ye-1', sourceRow: 1, targetRows: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], idGenerator: function(r){ return 'fusee-ye-'+r; } },
+  F: { sourceId: 'fusee-ve-12', sourceRow: 1, targetRows: [5,9], idGenerator: function(r){ return ROW_TO_F_ID[r]; } }
+};
+var fillDragState = null;
+
+function eventPoint(e){
+  if(e.touches && e.touches.length){ return {x: e.touches[0].clientX, y: e.touches[0].clientY}; }
+  return {x: e.clientX, y: e.clientY};
+}
+
+function startFillDrag(e, handle){
+  e.preventDefault();
+  var col = handle.dataset.fillCol;
+  var cfg = FILL_CONFIG[col];
+  if(!cfg) return;
+  var sourceEl = document.getElementById(cfg.sourceId);
+  var formula = sourceEl.dataset.formula || sourceEl.value;
+  if(!formula || formula.trim()[0] !== '='){
+    alert("Écris d'abord une formule commençant par « = » dans la case de départ (ex : =C1/5), valide-la (Entrée ou clic ailleurs), puis fais glisser le petit carré bleu vers le bas.");
+    return;
+  }
+  fillDragState = { col: col, cfg: cfg, lastRow: cfg.sourceRow, highlighted: [] };
+  document.addEventListener('mousemove', onFillDrag);
+  document.addEventListener('mouseup', endFillDrag);
+  document.addEventListener('touchmove', onFillDrag, {passive:false});
+  document.addEventListener('touchend', endFillDrag);
+}
+
+function onFillDrag(e){
+  if(!fillDragState) return;
+  e.preventDefault();
+  var pt = eventPoint(e);
+  var el = document.elementFromPoint(pt.x, pt.y);
+  var tr = el ? el.closest('tr[data-row]') : null;
+  if(!tr) return;
+  var row = parseInt(tr.dataset.row, 10);
+  if(isNaN(row)) return;
+  highlightFillRange(fillDragState, row);
+}
+
+function highlightFillRange(state, uptoRow){
+  state.highlighted.forEach(function(el){ el.style.outline = ''; });
+  state.highlighted = [];
+  state.cfg.targetRows.forEach(function(r){
+    if(r > state.cfg.sourceRow && r <= uptoRow){
+      var el = document.getElementById(state.cfg.idGenerator(r));
+      if(el){ el.style.outline = '2px dashed var(--bleu)'; state.highlighted.push(el); }
+    }
+  });
+  state.lastRow = uptoRow;
+}
+
+function endFillDrag(e){
+  if(!fillDragState) return;
+  document.removeEventListener('mousemove', onFillDrag);
+  document.removeEventListener('mouseup', endFillDrag);
+  document.removeEventListener('touchmove', onFillDrag);
+  document.removeEventListener('touchend', endFillDrag);
+  var state = fillDragState;
+  fillDragState = null;
+  state.highlighted.forEach(function(el){ el.style.outline = ''; });
+  var targets = state.cfg.targetRows.filter(function(r){ return r > state.cfg.sourceRow && r <= state.lastRow; });
+  if(targets.length === 0) return;
+  fillDown(state.cfg.sourceId, state.cfg.sourceRow, targets, state.cfg.idGenerator);
+}
+
+function markInput(el, ok){
+  if(!el) return;
+  el.style.borderBottom = '2px solid ' + (ok ? 'var(--vert)' : 'var(--rouge)');
+  el.style.background = ok ? 'var(--vert-clair)' : 'var(--rouge-clair)';
+}
+
+function resetFusee(){
+  /* Vide toutes les cellules du tableau (y à l'échelle, v_y, v_y à l'échelle) */
+  document.querySelectorAll('#fusee-table input[type="text"]').forEach(function(el){
+    el.value = '';
+    delete el.dataset.formula;
+    el.style.border = '';
+    el.style.borderBottom = '';
+    el.style.background = 'transparent';
+  });
+
+  /* Vide les zones de réponse rédigée */
+  document.querySelectorAll('#activite-sub-5 textarea').forEach(function(t){ t.value = ''; });
+
+  /* Referme les indices éventuellement ouverts */
+  document.querySelectorAll('#activite-sub-5 .indice-box').forEach(function(b){ b.classList.remove('visible'); });
+
+  /* Masque le message de vérification et le graphique */
+  var msg = document.getElementById('fusee-calc-msg');
+  if(msg){ msg.style.display = 'none'; msg.textContent = ''; }
+  var wrap = document.getElementById('fusee-canvas-wrap');
+  if(wrap){ wrap.style.display = 'none'; }
+  var canvas = document.getElementById('fusee-canvas');
+  if(canvas){ var ctx = canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height); }
+
+  document.getElementById('activite-sub-5').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function verifierFusee(){
+  var msg = document.getElementById('fusee-calc-msg');
+  var problems = [];
+
+  /* 1) Vérification des 3 vitesses v_y (tolérance 0,3 m/s pour les arrondis) */
+  var pairs = [[1,2,'fusee-vy-12','v(1→2)'], [5,6,'fusee-vy-56','v(5→6)'], [9,10,'fusee-vy-910','v(9→10)']];
+  var vyStudent = {};
+  var vyAllFilled = true;
+  pairs.forEach(function(p){
+    var i1=p[0], i2=p[1], id=p[2], label=p[3];
+    var el = document.getElementById(id);
+    var val = readCellNumeric(el);
+    if(isNaN(val)){ vyAllFilled = false; markInput(el, false); problems.push(label+" n'est pas rempli."); return; }
+    var correct = (FUSEE_Y[i2-1]-FUSEE_Y[i1-1])/(FUSEE_T[i2-1]-FUSEE_T[i1-1]);
+    var ok = Math.abs(val-correct) <= 0.3;
+    markInput(el, ok);
+    vyStudent[id] = val;
+    if(!ok) problems.push(label+" attendu ≈ "+correct.toFixed(2)+" m/s.");
+  });
+
+  /* 2) Vérification de la cohérence de l'échelle des positions (rapport constant) */
+  var ratiosY = [];
+  var yeAllFilled = true;
+  for(var i=1;i<=16;i++){
+    var el = document.getElementById('fusee-ye-'+i);
+    var val = readCellNumeric(el);
+    if(isNaN(val)){ yeAllFilled = false; continue; }
+    ratiosY.push({el:el, r: val/FUSEE_Y[i-1]});
+  }
+  if(yeAllFilled && ratiosY.length>0){
+    var meanR = ratiosY.reduce(function(s,o){return s+o.r;},0)/ratiosY.length;
+    var yeCoherent = true;
+    ratiosY.forEach(function(o){
+      var ok = Math.abs(o.r-meanR) <= 0.03*Math.abs(meanR);
+      markInput(o.el, ok);
+      if(!ok) yeCoherent = false;
+    });
+    if(!yeCoherent) problems.push("l'échelle des positions (colonne y_M à l'échelle) n'est pas appliquée de façon constante sur toutes les lignes.");
+  } else if(!yeAllFilled){
+    problems.push("la colonne « y_M à l'échelle » n'est pas complète.");
+  }
+
+  /* 3) Vérification de la cohérence de l'échelle des vitesses */
+  var vePairs = [['fusee-vy-12','fusee-ve-12'], ['fusee-vy-56','fusee-ve-56'], ['fusee-vy-910','fusee-ve-910']];
+  var ratiosV = [];
+  var veAllFilled = true;
+  vePairs.forEach(function(p){
+    var vEl = document.getElementById(p[1]);
+    var vyVal = vyStudent[p[0]];
+    var veVal = readCellNumeric(vEl);
+    if(isNaN(veVal) || vyVal===undefined || isNaN(vyVal)){ veAllFilled = false; return; }
+    ratiosV.push({el:vEl, r: veVal/vyVal});
+  });
+  if(veAllFilled && ratiosV.length===3){
+    var meanRV = ratiosV.reduce(function(s,o){return s+o.r;},0)/ratiosV.length;
+    var veCoherent = true;
+    ratiosV.forEach(function(o){
+      var ok = Math.abs(o.r-meanRV) <= 0.03*Math.abs(meanRV);
+      markInput(o.el, ok);
+      if(!ok) veCoherent = false;
+    });
+    if(!veCoherent) problems.push("l'échelle des vitesses (colonne v_y à l'échelle) n'est pas appliquée de façon constante sur les 3 vecteurs.");
+  } else {
+    problems.push("la colonne « v_y à l'échelle » n'est pas complète pour les 3 vecteurs demandés.");
+  }
+
+  /* Message de synthèse */
+  if(problems.length === 0){
+    msg.style.color = 'var(--vert)';
+    msg.textContent = "✅ Bravo, toutes tes valeurs et échelles sont cohérentes !";
+  } else {
+    msg.style.color = 'var(--rouge)';
+    msg.textContent = "⚠️ " + problems.join(' ');
+  }
+  msg.style.display = 'block';
+
+  /* Graphique : tracé si les 3 v_y sont remplis, avec un message si les valeurs sont fausses */
+  if(vyAllFilled){
+    drawFuseeGraph(FUSEE_T, FUSEE_Y, [[1,2,vyStudent['fusee-vy-12']],[5,6,vyStudent['fusee-vy-56']],[9,10,vyStudent['fusee-vy-910']]]);
+    var wrap = document.getElementById('fusee-canvas-wrap');
+    wrap.style.display = 'block';
+    wrap.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function drawFuseeGraph(t, y, vectors){
+  var canvas = document.getElementById('fusee-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height, pad = 50;
+  ctx.clearRect(0, 0, W, H);
+
+  var minT = Math.min.apply(null, t), maxT = Math.max.apply(null, t);
+  var minY = Math.min.apply(null, y), maxY = Math.max.apply(null, y);
+  var spanT = (maxT - minT) || 1, spanY = (maxY - minY) || 1;
+  function toPx(ti){ return pad + (ti - minT) / spanT * (W - 2*pad); }
+  function toPy(yi){ return H - pad - (yi - minY) / spanY * (H - 2*pad); }
+
+  ctx.strokeStyle = '#DDE3EC'; ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, H-pad); ctx.lineTo(W-pad, H-pad);
+  ctx.moveTo(pad, pad); ctx.lineTo(pad, H-pad);
+  ctx.stroke();
+  ctx.fillStyle = '#5A6B7A'; ctx.font = '11px Nunito, sans-serif';
+  ctx.fillText('t (s)', W-pad-20, H-pad+18);
+  ctx.save(); ctx.translate(pad-34, pad+10); ctx.rotate(-Math.PI/2); ctx.fillText('y_M (m)', 0, 0); ctx.restore();
+
+  ctx.strokeStyle = '#2D5F8A'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for(var i=0; i<t.length; i++){
+    var px = toPx(t[i]), py = toPy(y[i]);
+    if(i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#2D5F8A';
+  for(var i=0; i<t.length; i++){
+    ctx.beginPath();
+    ctx.arc(toPx(t[i]), toPy(y[i]), 3, 0, 2*Math.PI);
+    ctx.fill();
+  }
+
+  ctx.strokeStyle = '#7B4FA6'; ctx.fillStyle = '#7B4FA6'; ctx.lineWidth = 2;
+  var vyMax = Math.max.apply(null, vectors.map(function(v){ return Math.abs(v[2]); })) || 1;
+  vectors.forEach(function(v){
+    var i1 = v[0], value = v[2];
+    var x0 = toPx(t[i1-1]), y0 = toPy(y[i1-1]);
+    var len = 40 * (Math.abs(value) / vyMax);
+    var dir = value >= 0 ? -1 : 1; /* pixel y grows downward, real y grows upward */
+    var x1 = x0, y1 = y0 + dir*len;
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    var angle = Math.atan2(y1-y0, x1-x0), headlen = 7;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 - headlen*Math.cos(angle-Math.PI/6), y1 - headlen*Math.sin(angle-Math.PI/6));
+    ctx.lineTo(x1 - headlen*Math.cos(angle+Math.PI/6), y1 - headlen*Math.sin(angle+Math.PI/6));
+    ctx.closePath(); ctx.fill();
+  });
 }
 </script>
 

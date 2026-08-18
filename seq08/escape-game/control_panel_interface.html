@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centrale Thermique - Contrôle Système Eau</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --bg-color: #1a1a24;
+            --panel-bg: #2a2a35;
+            --text-main: #d1d5db;
+            --accent-red: #ef4444;
+            --accent-green: #22c55e;
+            --accent-blue: #3b82f6;
+            --accent-yellow: #eab308;
+            --alert-bg: rgba(239, 68, 68, 0.2);
+            --border-color: #4b5563;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Share Tech Mono', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling for app-like feel */
+        }
+
+        .dashboard {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255,255,255,0.05);
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            position: relative;
+        }
+        
+        /* CRT Screen Effect overlay */
+        .dashboard::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+            border-radius: 12px;
+        }
+
+        /* Header area */
+        header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+
+        .status-badge {
+            background-color: var(--alert-bg);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            animation: pulse-border 1.5s infinite;
+            text-transform: uppercase;
+        }
+
+        /* Main visualization panel */
+        .main-panel {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .system-diagram {
+            width: 100%;
+            height: 350px;
+            border: 1px dashed #555;
+            position: relative;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* Schematic Elements */
+        .node {
+            position: absolute;
+            background-color: #333;
+            border: 2px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: #aaa;
+            z-index: 10;
+        }
+        
+        .node.pump { width: 60px; height: 60px; border-radius: 50%; line-height: 40px;}
+        .node.tank { width: 80px; height: 100px; }
+        .node.boiler { width: 100px; height: 80px; border-color: var(--accent-yellow);}
+
+        #source { bottom: 20px; left: 20px; }
+        #pump1 { bottom: 40px; left: 150px; }
+        #treatment { top: 50px; left: 130px; }
+        #pump2 { top: 70px; left: 260px; }
+        #boiler { top: 50px; right: 20px; }
+
+        .pipe {
+            position: absolute;
+            background-color: #444;
+            z-index: 5;
+            transition: background-color 0.3s;
+        }
+        
+        .pipe.horizontal { height: 6px; }
+        .pipe.vertical { width: 6px; }
+
+        /* Initial pipe states - mostly broken */
+        #pipe-s-p1 { left: 100px; bottom: 67px; width: 50px; }
+        #pipe-p1-t-v { left: 177px; bottom: 100px; height: 120px; }
+        #pipe-t-p2 { left: 210px; top: 97px; width: 50px; }
+        #pipe-p2-b { left: 320px; top: 97px; right: 120px;}
+
+        .pipe.active-flow {
+            background-color: var(--accent-blue);
+            box-shadow: 0 0 10px var(--accent-blue);
+        }
+        
+        .pipe.error-flow {
+            background-color: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-red);
+            animation: pulse-pipe 1s infinite;
+        }
+
+        /* Interactive Controls Panel */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .control-group h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        /* Switches and Buttons */
+        .switch-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555;
+            transition: .4s;
+            border-radius: 24px;
+            border: 1px solid #777;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 3px;
+            background-color: #aaa;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(255,255,255,0.8);
+        }
+        
+        input:disabled + .slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Keypad / Code input */
+        .keypad-display {
+            background-color: #111;
+            color: var(--accent-green);
+            padding: 10px;
+            text-align: right;
+            font-size: 1.2rem;
+            border: 1px solid #333;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .keypad-display.error {
+            color: var(--accent-red);
+            animation: shake 0.5s;
+        }
+        
+        .keypad-display.success {
+            color: var(--accent-green);
+            box-shadow: 0 0 10px inset var(--accent-green);
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .key-btn {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #ddd;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .key-btn:hover { background-color: #444; }
+        .key-btn:active { background-color: #222; transform: translateY(1px); }
+        .key-btn.action { background-color: #2c3e50; }
+
+        /* Terminal output */
+        .terminal {
+            grid-column: 1 / -1;
+            background-color: #0c0c0c;
+            border: 1px solid #333;
+            height: 120px;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+
+        .log-entry { margin-bottom: 5px; }
+        .log-time { color: #666; margin-right: 10px; }
+        .log-error { color: var(--accent-red); }
+        .log-warn { color: var(--accent-yellow); }
+        .log-info { color: #888; }
+        .log-success { color: var(--accent-green); }
+
+        /* Alerts and Overlays */
+        .blink-text {
+            animation: blinker 1s linear infinite;
+        }
+
+        /* Error overlay for the diagram */
+        #diagram-error-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(20,20,20,0.9);
+            border: 2px solid var(--accent-red);
+            padding: 20px;
+            text-align: center;
+            z-index: 20;
+            display: block; /* Visible initially */
+        }
+
+        #diagram-error-overlay h2 {
+            color: var(--accent-red);
+            margin-top: 0;
+        }
+
+        /* Animations */
+        @keyframes blinker {
+            50% { opacity: 0; }
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        
+        @keyframes pulse-pipe {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        /* Success state styles */
+        .system-restored {
+            --alert-bg: rgba(34, 197, 94, 0.2);
+            --accent-red: #22c55e;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard" id="main-dashboard">
+        <header>
+            <div>
+                <h1>Unité d'Approvisionnement Eau</h1>
+                <div style="color: #888; font-size: 0.9rem; margin-top: 5px;">Secteur: Chaudière Principale | Bloc 4</div>
+            </div>
+            <div class="status-badge" id="system-status">CRITIQUE - DÉFAUT D'EAU</div>
+        </header>
+
+        <div class="main-panel">
+            <div class="system-diagram">
+                <!-- Overlay blocking view initially -->
+                <div id="diagram-error-overlay">
+                    <h2 class="blink-text">⚠️ ALARME SYSTÈME ⚠️</h2>
+                    <p>Débit d'eau nul détecté vers la chaudière.</p>
+                    <p style="font-size: 0.8rem; color: #aaa;">Veuillez réinitialiser les vannes de sécurité (Code requis) avant d'activer les pompes.</p>
+                </div>
+
+                <!-- Schematic Diagram (Hidden initially by overlay, or shown in error state) -->
+                <div class="node tank" id="source">
+                    <div style="margin-top:20px">Réserve<br>Rivière</div>
+                </div>
+                
+                <div class="pipe horizontal" id="pipe-s-p1"></div>
+                
+                <div class="node pump" id="pump1">P1</div>
+                
+                <div class="pipe vertical error-flow" id="pipe-p1-t-v"></div>
+                
+                <div class="node tank" id="treatment">
+                    <div style="margin-top:10px">Traitement<br>Chimique</div>
+                </div>
+                
+                <div class="pipe horizontal error-flow" id="pipe-t-p2"></div>
+                
+                <div class="node pump" id="pump2">P2</div>
+                
+                <div class="pipe horizontal error-flow" id="pipe-p2-b"></div>
+                
+                <div class="node boiler" id="boiler">
+                    <div style="margin-top:20px; color:var(--accent-yellow);">VERS<br>CHAUDIÈRE</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-panel">
+            <div class="control-group">
+                <h3>VERROUILLAGE SÉCURITÉ</h3>
+                <p style="font-size: 0.8rem; color: #aaa; margin-top:0;">Désactivation manuelle requise.</p>
+                
+                <div class="keypad-display" id="passcode-display"></div>
+                
+                <div class="keypad-grid">
+                    <button class="key-btn" onclick="addNumber(1)">1</button>
+                    <button class="key-btn" onclick="addNumber(2)">2</button>
+                    <button class="key-btn" onclick="addNumber(3)">3</button>
+                    <button class="key-btn" onclick="addNumber(4)">4</button>
+                    <button class="key-btn" onclick="addNumber(5)">5</button>
+                    <button class="key-btn" onclick="addNumber(6)">6</button>
+                    <button class="key-btn" onclick="addNumber(7)">7</button>
+                    <button class="key-btn" onclick="addNumber(8)">8</button>
+                    <button class="key-btn" onclick="addNumber(9)">9</button>
+                    <button class="key-btn action" onclick="clearCode()">C</button>
+                    <button class="key-btn" onclick="addNumber(0)">0</button>
+                    <button class="key-btn action" onclick="submitCode()">OK</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>CONTRÔLE POMPES</h3>
+                <div class="switch-container">
+                    <span>Pompe Primaire (P1)</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switch-p1" disabled onchange="checkSystemState()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="switch-container">
+                    <span>Pompe Secondaire (P2)</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="switch-p2" disabled onchange="checkSystemState()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="terminal" id="terminal-log">
+            <!-- Logs will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // --- Game State Variables ---
+        // SECRET CODE for the escape game (e.g., related to water boiling point or a year)
+        const SECRET_CODE = "100"; // You can tell your students to find the boiling point of water in Celsius
+        let currentCode = "";
+        let securityUnlocked = false;
+        
+        // UI Elements
+        const display = document.getElementById('passcode-display');
+        const terminal = document.getElementById('terminal-log');
+        const switchP1 = document.getElementById('switch-p1');
+        const switchP2 = document.getElementById('switch-p2');
+        const overlay = document.getElementById('diagram-error-overlay');
+        const statusBadge = document.getElementById('system-status');
+        
+        // System initialization
+        window.onload = () => {
+            logMessage("SYSTÈME DÉMARRÉ - MODE DÉGRADÉ", "warn");
+            logMessage("Erreur 404: Aucune pression d'eau détectée.", "error");
+            logMessage("Verrouillage de sécurité actif. Attente du code d'intervention.", "info");
+        };
+
+        // --- Terminal Logging ---
+        function logMessage(msg, type = "info") {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                            now.getMinutes().toString().padStart(2, '0') + ":" + 
+                            now.getSeconds().toString().padStart(2, '0');
+            
+            const p = document.createElement('div');
+            p.className = `log-entry log-${type}`;
+            p.innerHTML = `<span class="log-time">[${timeStr}]</span> ${msg}`;
+            
+            terminal.appendChild(p);
+            terminal.scrollTop = terminal.scrollHeight; // Auto-scroll
+        }
+
+        // --- Keypad Logic ---
+        function addNumber(num) {
+            if (securityUnlocked) return; // Ignore if already unlocked
+            
+            if (currentCode.length < 4) {
+                currentCode += num;
+                display.textContent = "*".repeat(currentCode.length);
+                display.classList.remove('error');
+            }
+        }
+
+        function clearCode() {
+            if (securityUnlocked) return;
+            currentCode = "";
+            display.textContent = "";
+            display.classList.remove('error');
+        }
+
+        function submitCode() {
+            if (securityUnlocked) return;
+
+            if (currentCode === SECRET_CODE) {
+                // Success
+                display.textContent = "ACCÈS AUTORISÉ";
+                display.classList.add('success');
+                securityUnlocked = true;
+                
+                logMessage("Code de sécurité accepté.", "success");
+                logMessage("Vannes de sécurité déverrouillées.", "info");
+                logMessage("Autorisation de démarrage des pompes accordée.", "warn");
+                
+                // Remove overlay and enable switches
+                overlay.style.display = "none";
+                switchP1.disabled = false;
+                switchP2.disabled = false;
+                
+                // Update diagram pipes to show they are empty but ready (remove error red)
+                document.querySelectorAll('.pipe').forEach(pipe => {
+                    pipe.classList.remove('error-flow');
+                });
+                
+            } else {
+                // Failure
+                display.textContent = "ERR";
+                display.classList.add('error');
+                logMessage("Échec d'authentification. Code invalide.", "error");
+                currentCode = "";
+                setTimeout(() => {
+                    if(!securityUnlocked) display.textContent = "";
+                }, 1000);
+            }
+        }
+
+        // --- Diagram Logic ---
+        function checkSystemState() {
+            const p1On = switchP1.checked;
+            const p2On = switchP2.checked;
+            
+            const pipe1 = document.getElementById('pipe-s-p1');
+            const pipe2 = document.getElementById('pipe-p1-t-v');
+            const pipe3 = document.getElementById('pipe-t-p2');
+            const pipe4 = document.getElementById('pipe-p2-b');
+            
+            const nodeP1 = document.getElementById('pump1');
+            const nodeP2 = document.getElementById('pump2');
+
+            // Reset visual states
+            pipe1.classList.remove('active-flow', 'error-flow');
+            pipe2.classList.remove('active-flow', 'error-flow');
+            pipe3.classList.remove('active-flow', 'error-flow');
+            pipe4.classList.remove('active-flow', 'error-flow');
+            nodeP1.style.borderColor = "var(--border-color)";
+            nodeP2.style.borderColor = "var(--border-color)";
+
+            if (p1On && !p2On) {
+                logMessage("Pompe 1 activée. Remplissage du bac de traitement...", "info");
+                pipe1.classList.add('active-flow');
+                pipe2.classList.add('active-flow');
+                nodeP1.style.borderColor = "var(--accent-blue)";
+                
+                // Danger state if P1 is on too long without P2 (Optional mini-puzzle mechanic)
+                setTimeout(() => {
+                    if (switchP1.checked && !switchP2.checked) {
+                        logMessage("ALERTE: Débordement imminent au bassin de traitement. Activez P2 !", "warn");
+                    }
+                }, 4000);
+            } 
+            else if (!p1On && p2On) {
+                logMessage("ERREUR: Pompe 2 activée à vide (Cavitation). Arrêt automatique recommandé.", "error");
+                nodeP2.style.borderColor = "var(--accent-red)";
+                pipe4.classList.add('error-flow');
+                
+                // Force turn off after 2 seconds to simulate safety switch
+                setTimeout(() => {
+                    if (!switchP1.checked && switchP2.checked) {
+                        switchP2.checked = false;
+                        checkSystemState();
+                        logMessage("Sécurité: Pompe 2 désactivée pour protéger le matériel.", "info");
+                    }
+                }, 2000);
+            }
+            else if (p1On && p2On) {
+                // Success State!
+                pipe1.classList.add('active-flow');
+                pipe2.classList.add('active-flow');
+                pipe3.classList.add('active-flow');
+                pipe4.classList.add('active-flow');
+                nodeP1.style.borderColor = "var(--accent-blue)";
+                nodeP2.style.borderColor = "var(--accent-blue)";
+                document.getElementById('boiler').style.borderColor = "var(--accent-green)";
+                document.getElementById('boiler').style.boxShadow = "0 0 15px var(--accent-green)";
+
+                logMessage("Débit nominal atteint.", "success");
+                logMessage("Alimentation en eau de la chaudière RESTAURÉE.", "success");
+                
+                // Update header status
+                statusBadge.textContent = "NORMAL - SYSTÈME OPÉRATIONNEL";
+                statusBadge.style.animation = "none";
+                document.getElementById('main-dashboard').classList.add('system-restored');
+                
+                // Lock switches to prevent breaking it again (game finished)
+                switchP1.disabled = true;
+                switchP2.disabled = true;
+                
+                // Show a final message to the students
+                setTimeout(() => {
+                    alert("Félicitations ! L'alimentation en eau est rétablie.\nLa chaudière peut redémarrer. La production d'électricité va reprendre.\n\nCode validé pour la suite du jeu !");
+                }, 1000);
+            } else {
+                logMessage("Pompes à l'arrêt. Aucun débit.", "info");
+            }
+        }
+    </script>
+</body>
+</html>

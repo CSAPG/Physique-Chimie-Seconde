@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal de Secours - Saisie du Code</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #0ff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 255, 0.05) 2px,
+                rgba(0, 255, 255, 0.05) 4px
+            );
+        }
+
+        .terminal-container {
+            background: #111;
+            border: 3px solid #f00;
+            border-radius: 10px;
+            padding: 30px;
+            width: 400px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+            text-align: center;
+            position: relative;
+        }
+
+        .header-alert {
+            color: #f00;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite alternate;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulse {
+            from { text-shadow: 0 0 10px #f00, 0 0 20px #f00; }
+            to { text-shadow: 0 0 5px #f00; opacity: 0.8; }
+        }
+
+        .screen {
+            background: #000;
+            border: 2px solid #0ff;
+            height: 60px;
+            font-size: 2.5em;
+            letter-spacing: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px #0ff;
+            color: #0ff;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .btn {
+            background: #222;
+            border: 2px solid #0ff;
+            color: #0ff;
+            font-size: 1.5em;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: #0ff;
+            color: #000;
+            box-shadow: 0 0 15px #0ff;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn-enter {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: #0f0;
+            color: #0f0;
+        }
+
+        .btn-enter:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .btn-clear {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #f00;
+            color: #f00;
+        }
+
+        .btn-clear:hover {
+            background: #f00;
+            color: #000;
+            box-shadow: 0 0 15px #f00;
+        }
+
+        .success-mode .terminal-container {
+            border-color: #0f0;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+        
+        .success-mode .header-alert {
+            color: #0f0;
+            animation: none;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .success-mode .screen {
+            border-color: #0f0;
+            color: #0f0;
+            box-shadow: inset 0 0 10px #0f0;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-container" id="terminal">
+        <div class="header-alert" id="status-text">⚠ Entrez le code de contournement ⚠</div>
+        
+        <div class="screen" id="display">_</div>
+
+        <div class="keypad" id="keypad">
+            <button class="btn" onclick="pressKey('1')">1</button>
+            <button class="btn" onclick="pressKey('2')">2</button>
+            <button class="btn" onclick="pressKey('3')">3</button>
+            <button class="btn" onclick="pressKey('4')">4</button>
+            <button class="btn" onclick="pressKey('5')">5</button>
+            <button class="btn" onclick="pressKey('6')">6</button>
+            <button class="btn" onclick="pressKey('7')">7</button>
+            <button class="btn" onclick="pressKey('8')">8</button>
+            <button class="btn" onclick="pressKey('9')">9</button>
+            <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+            <button class="btn" onclick="pressKey('0')">0</button>
+            <button class="btn btn-enter" onclick="checkCode()">V</button>
+        </div>
+    </div>
+
+    <script>
+        // LE CODE SECRET À TROUVER (Masse d'eau en grammes)
+        const SECRET_CODE = "4600"; 
+        
+        let currentInput = "";
+        const displayEl = document.getElementById("display");
+        const statusText = document.getElementById("status-text");
+        const terminal = document.getElementById("terminal");
+        const keypad = document.getElementById("keypad");
+
+        function updateDisplay() {
+            displayEl.textContent = currentInput || "_";
+        }
+
+        function pressKey(num) {
+            if (currentInput.length < 4) {
+                currentInput += num;
+                updateDisplay();
+            }
+        }
+
+        function clearDisplay() {
+            currentInput = "";
+            updateDisplay();
+        }
+
+        function checkCode() {
+            if (currentInput === SECRET_CODE) {
+                // Code correct
+                document.body.classList.add("success-mode");
+                statusText.textContent = "STATUT : STABILISÉ";
+                displayEl.textContent = "ACCÈS AUTORISÉ";
+                keypad.style.pointerEvents = "none"; // Désactive les boutons
+                keypad.style.opacity = "0.5";
+            } else {
+                // Code incorrect
+                displayEl.style.color = "#f00";
+                displayEl.textContent = "ERREUR";
+                
+                // Secousse visuelle
+                terminal.style.transform = "translateX(-10px)";
+                setTimeout(() => terminal.style.transform = "translateX(10px)", 50);
+                setTimeout(() => terminal.style.transform = "translateX(-10px)", 100);
+                setTimeout(() => terminal.style.transform = "translateX(10px)", 150);
+                setTimeout(() => terminal.style.transform = "translateX(0)", 200);
+
+                setTimeout(() => {
+                    displayEl.style.color = "#0ff";
+                    clearDisplay();
+                }, 1000);
+            }
+        }
+    </script>
+
+</body>
+</html>

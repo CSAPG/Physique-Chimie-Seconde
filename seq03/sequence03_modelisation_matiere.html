@@ -153,6 +153,15 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 .dropdown-qcm{margin-bottom:18px}
 .dropdown-qcm .dq-question{font-size:.90rem;font-weight:700;color:var(--texte);margin-bottom:8px;padding-left:8px;border-left:3px solid var(--vert);line-height:1.5}
 .qcm-opts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.qcm-opts::before {
+    content: "👉 Choisis ta réponse :";
+    display: block;
+    width: 100%;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--texte-léger);
+    margin-bottom: 4px;
+}
 .qcm-opt{background:#fff;border:1.5px solid var(--gris-bord);border-radius:7px;padding:7px 13px;font-size:.82rem;font-weight:600;font-family:'Nunito',sans-serif;color:var(--texte);cursor:pointer;transition:all .15s}
 .qcm-opt:hover{border-color:var(--bleu-moyen);background:var(--bleu-clair)}
 .qcm-opt.correct{background:var(--vert-clair);border-color:var(--vert);color:var(--vert)}
@@ -164,8 +173,8 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
 .btn-reveal{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 16px;background:var(--texte-leger);color:#fff;border:none;border-radius:7px;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s,transform .1s}
 .btn-reveal:hover{opacity:.85;transform:translateY(-1px)}
 .btn-reveal:active{transform:translateY(0)}
-.btn-reveal{background:var(--orange);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
-.btn-reveal:hover{background:#c8602a}
+.btn-reveal{background:var(--texte-léger);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer}
+.btn-reveal:hover{background:#444}
 .reveal-body{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1.5px solid var(--vert);border-radius:8px;font-size:.86rem;line-height:1.6}
 .reveal-body.open{display:block;animation:fadeIn .2s}
 .reveal-body strong{color:var(--vert)}
@@ -719,9 +728,9 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
   font-family:'Nunito',sans-serif;
   font-size:0.88rem;
   font-weight:700;
-  background:var(--gris-fond);
-  color:var(--texte-leger);
-  border:1.5px solid var(--gris-bord);
+  background:var(--texte-leger);
+  color:#fff;
+  border:none;
   border-radius:8px;
   padding:9px 20px;
   cursor:pointer;
@@ -732,7 +741,7 @@ table.groupes td{padding:12px;border:1px solid var(--gris-bord);text-align:cente
   gap:7px;
   transition:background 0.2s;
 }
-.reset-btn:hover{background:var(--gris-bord);}
+.reset-btn:hover{background:#465666;}
 .correction{
   display:none;
   background:var(--accent2-light);
@@ -1368,22 +1377,15 @@ button.cap-toggle:hover { background: #1e4466; }
 <li><b>A</b> : nombre de nucléons ou nombre de masse (neutrons + protons), placé <b>en haut</b></li>
 <li><b>Z</b> : numéro atomique (nombre de protons dans le noyau), placé <b>en bas</b></li>
 </ul>
-<p>Comment trouver le nombre de neutrons dans un noyau ?</p>
-<div class="exo-box" data-clear-selector=".neutron-formula">
-<div class="quiz-options">
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=A+Z"/> N = A + Z</label>
-<label><input class="neutron-formula" data-correct="true" name="neutron-formula" type="radio" value="N=A-Z"/> N = A − Z</label>
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=Z-A"/> N = Z − A</label>
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=A*Z"/> N = A × Z</label>
+<div class="dropdown-qcm">
+<div class="dq-question">Comment trouver le nombre de neutrons dans un noyau ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-neutron-formula-1')">N = A + Z</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-neutron-formula-1')">N = A − Z</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-neutron-formula-1')">N = Z − A</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-neutron-formula-1')">N = A × Z</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="neutron-formula">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">
-        Le nombre de neutrons N se calcule par différence : <b>N = A − Z</b> (nombre de nucléons − nombre de protons).
-      </div>
+<div class="dq-feedback" id="fb-neutron-formula-1"></div>
 </div>
 <p><b>Exemple 1 :</b> Un atome de phosphore (symbole P) possède 31 nucléons et 15 protons. Écrire la représentation symbolique de son noyau :</p>
 <div class="exo-box" data-clear-selector=".ex1-select">
@@ -1417,39 +1419,39 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 </div>
 <p><b>Exemple 2 :</b> Le noyau d'un atome d'aluminium a pour notation symbolique <span class="nuc-notation"><span class="nuc-az"><span>27</span><span>13</span></span><span class="nuc-sym">Al</span></span>. Écrire la composition de cet atome :</p>
-<div class="exo-box" data-clear-selector=".ex2-select">
-<p>Nombre de protons :
-        <select class="exo-select ex2-select" data-answers="13">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<p>Nombre d'électrons :
-        <select class="exo-select ex2-select" data-answers="13">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<p>Nombre de neutrons :
-        <select class="exo-select ex2-select" data-answers="14">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".ex2-select">Vérifier mes réponses</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-al-compo-wrap">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre de protons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'13','fb-al-protons-1')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'14','fb-al-protons-1')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-protons-1')">27</div>
 </div>
-<div class="correction">
-        Z = 13 → 13 protons et 13 électrons (atome neutre). N = A − Z = 27 − 13 = 14 neutrons.
-      </div>
+<div class="dq-feedback" id="fb-al-protons-1"></div>
+</div>
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre d'électrons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'13','fb-al-electrons-1')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'14','fb-al-electrons-1')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-electrons-1')">27</div>
+</div>
+<div class="dq-feedback" id="fb-al-electrons-1"></div>
+</div>
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre de neutrons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'13','fb-al-neutrons-1')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'14','fb-al-neutrons-1')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-neutrons-1')">27</div>
+</div>
+<div class="dq-feedback" id="fb-al-neutrons-1"></div>
+</div>
+</div>
+<div style="text-align:center;margin-top:0;">
+<button class="btn-reveal" onclick="recommencer('qcm-al-compo-wrap')">↺ Recommencer</button>
+</div>
 </div>
 <h3>Élément chimique et isotopes</h3>
 <div class="def">
@@ -1611,14 +1613,16 @@ button.cap-toggle:hover { background: #1e4466; }
 <option value="1.67e-27b">≈ 1,67 × 10⁻²⁷ kg</option>
 </select>
 <p style="margin-top:8px;">Conclusion :</p>
-<div class="quiz-options">
-<label><input class="fr-conclusion" data-correct="false" name="fr-conclusion" type="radio" value="a"/> Les deux résultats sont très différents : la masse de l'atome dépend surtout des électrons</label>
-<label><input class="fr-conclusion" data-correct="true" name="fr-conclusion" type="radio" value="b"/> Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau</label>
-<label><input class="fr-conclusion" data-correct="false" name="fr-conclusion" type="radio" value="c"/> Les deux résultats sont incompatibles, l'une des formules est fausse</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-fr-conclusion-1')">Les deux résultats sont très différents : la masse de l'atome dépend surtout des électrons</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-fr-conclusion-1')">Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-fr-conclusion-1')">Les deux résultats sont incompatibles, l'une des formules est fausse</div>
+</div>
+<div class="dq-feedback" id="fb-fr-conclusion-1"></div>
 </div>
 <div class="exo-actions">
 <button class="check-btn" data-check-selector=".ex-fr-select">Vérifier mes réponses</button>
-<button class="check-radio-btn" data-radio-name="fr-conclusion">Vérifier la conclusion</button>
 <button class="toggle-btn">▶ Voir la correction</button>
 <button class="reset-btn">↺ Recommencer</button>
 </div>
@@ -1750,115 +1754,86 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 </div>
 <h3>Exemple guidé : configuration électronique du carbone (Z = 6)</h3>
-<div class="exo-box" data-clear-selector=".carbone-select">
-<p>Configuration électronique :
-        <select class="exo-select carbone-select" data-answers="1s2 2s2 2p2">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p2">1s² 2s² 2p²</option>
-<option value="1s2 2s2 2p4">1s² 2s² 2p⁴</option>
-<option value="1s2 2s4">1s² 2s⁴</option>
-<option value="1s6">1s⁶</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".carbone-select">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-carbone-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Configuration électronique du carbone (Z = 6) :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-carbone')">1s² 2s² 2p²</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-carbone')">1s² 2s² 2p⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-carbone')">1s² 2s⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-carbone')">1s⁶</div>
 </div>
-<div class="correction">
-        Le carbone a Z = 6, donc 6 électrons. On remplit dans l'ordre : 1s (2 électrons max), puis 2s (2 électrons max), puis 2p. Configuration : <b>1s² 2s² 2p²</b>.
-      </div>
+<div class="dq-feedback" id="fb-carbone"></div>
+</div>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-carbone-wrap')">↺ Recommencer</button>
+</div>
 </div>
 <h3>Questions (aide-toi de l'outil et de l'activité p78)</h3>
-<p>Que dit-on d'une couche contenant son nombre maximal d'électrons ?</p>
-<div class="exo-box" data-clear-selector=".q-saturee">
-<div class="quiz-options">
-<label><input class="q-saturee" data-correct="false" name="q-saturee" type="radio" value="a"/> Elle est instable</label>
-<label><input class="q-saturee" data-correct="true" name="q-saturee" type="radio" value="b"/> Elle est saturée (ou complète)</label>
-<label><input class="q-saturee" data-correct="false" name="q-saturee" type="radio" value="c"/> Elle est ionisée</label>
-<label><input class="q-saturee" data-correct="false" name="q-saturee" type="radio" value="d"/> Elle est de valence</label>
+<div id="qcm-cours-2b-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Que dit-on d'une couche contenant son nombre maximal d'électrons ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-saturee')">Elle est instable</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-saturee')">Elle est saturée (ou complète)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-saturee')">Elle est ionisée</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-saturee')">Elle est de valence</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-saturee">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dq-feedback" id="fb-q-saturee"></div>
 </div>
-<div class="correction">On dit que la couche est <b>saturée</b> (ou complète).</div>
+<div class="dropdown-qcm">
+<div class="dq-question">À quelle condition un électron peut-il être placé sur une couche ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-condition')">Si l'atome possède un numéro atomique Z impair</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-condition')">Si la (ou les) couche(s) inférieure(s) sont déjà saturées</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-condition')">Si l'atome a perdu un électron au préalable</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-condition')">Aucune condition particulière</div>
 </div>
-<p>À quelle condition un électron peut-il être placé sur une couche ?</p>
-<div class="exo-box" data-clear-selector=".q-condition">
-<div class="quiz-options">
-<label><input class="q-condition" data-correct="false" name="q-condition" type="radio" value="a"/> Si l'atome possède un numéro atomique Z impair</label>
-<label><input class="q-condition" data-correct="true" name="q-condition" type="radio" value="b"/> Si la (ou les) couche(s) inférieure(s) sont déjà saturées</label>
-<label><input class="q-condition" data-correct="false" name="q-condition" type="radio" value="c"/> Si l'atome a perdu un électron au préalable</label>
-<label><input class="q-condition" data-correct="false" name="q-condition" type="radio" value="d"/> Aucune condition particulière</label>
+<div class="dq-feedback" id="fb-q-condition"></div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-condition">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dropdown-qcm">
+<div class="dq-question">Qu'appelle-t-on électron de valence ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-valence')">Un électron situé dans le noyau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-q-valence')">Le premier électron de l'atome</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'c','fb-q-valence')">Un électron de la couche externe (dernière couche occupée)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-valence')">Un électron qui a été perdu par l'atome</div>
 </div>
-<div class="correction">Un électron ne peut occuper une couche que si la (ou les) couche(s) inférieure(s) sont déjà saturées (règle de remplissage par énergie croissante).</div>
+<div class="dq-feedback" id="fb-q-valence"></div>
 </div>
-<p>Qu'appelle-t-on électron de valence ?</p>
-<div class="exo-box" data-clear-selector=".q-valence">
-<div class="quiz-options">
-<label><input class="q-valence" data-correct="false" name="q-valence" type="radio" value="a"/> Un électron situé dans le noyau</label>
-<label><input class="q-valence" data-correct="false" name="q-valence" type="radio" value="b"/> Le premier électron de l'atome</label>
-<label><input class="q-valence" data-correct="true" name="q-valence" type="radio" value="c"/> Un électron de la couche externe (dernière couche occupée)</label>
-<label><input class="q-valence" data-correct="false" name="q-valence" type="radio" value="d"/> Un électron qui a été perdu par l'atome</label>
+<div class="dropdown-qcm">
+<div class="dq-question">Quel est le point commun entre les atomes des éléments situés sur une même ligne (période) du tableau périodique ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-periode')">Ils ont le même nombre d'électrons de valence</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-periode')">Ils ont le même nombre de couches électroniques occupées</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-periode')">Ils ont la même masse atomique</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-periode')">Ils forment tous des ions de même charge</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-valence">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dq-feedback" id="fb-q-periode"></div>
 </div>
-<div class="correction">Un électron de valence est un électron de la <b>couche externe</b> (la dernière couche occupée) de l'atome : ce sont ces électrons qui interviennent dans les liaisons chimiques.</div>
+<div class="dropdown-qcm">
+<div class="dq-question">Où sont situés les éléments dont les atomes ont le même nombre d'électrons de valence ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-colonne')">Sur la même ligne (période)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-colonne')">Dans la même colonne</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-colonne')">N'importe où, cela ne dépend pas de leur position</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-colonne')">Uniquement dans le bloc s</div>
 </div>
-<p>Quel est le point commun entre les atomes des éléments situés sur une même ligne (période) du tableau périodique ?</p>
-<div class="exo-box" data-clear-selector=".q-periode">
-<div class="quiz-options">
-<label><input class="q-periode" data-correct="false" name="q-periode" type="radio" value="a"/> Ils ont le même nombre d'électrons de valence</label>
-<label><input class="q-periode" data-correct="true" name="q-periode" type="radio" value="b"/> Ils ont le même nombre de couches électroniques occupées</label>
-<label><input class="q-periode" data-correct="false" name="q-periode" type="radio" value="c"/> Ils ont la même masse atomique</label>
-<label><input class="q-periode" data-correct="false" name="q-periode" type="radio" value="d"/> Ils forment tous des ions de même charge</label>
+<div class="dq-feedback" id="fb-q-colonne"></div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-periode">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dropdown-qcm">
+<div class="dq-question">Qu'ont en commun les éléments d'une même colonne ? Que constituent-ils ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-famille')">Le même nombre de neutrons ; ils constituent des isotopes</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-famille')">Le même nombre d'électrons de valence ; ils constituent une famille chimique</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-famille')">La même masse atomique ; ils constituent un élément chimique</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-famille')">Le même numéro atomique Z ; ils constituent une période</div>
 </div>
-<div class="correction">Ils ont le <b>même nombre de couches électroniques occupées</b>.</div>
+<div class="dq-feedback" id="fb-q-famille"></div>
 </div>
-<p>Où sont situés les éléments dont les atomes ont le même nombre d'électrons de valence ?</p>
-<div class="exo-box" data-clear-selector=".q-colonne">
-<div class="quiz-options">
-<label><input class="q-colonne" data-correct="false" name="q-colonne" type="radio" value="a"/> Sur la même ligne (période)</label>
-<label><input class="q-colonne" data-correct="true" name="q-colonne" type="radio" value="b"/> Dans la même colonne</label>
-<label><input class="q-colonne" data-correct="false" name="q-colonne" type="radio" value="c"/> N'importe où, cela ne dépend pas de leur position</label>
-<label><input class="q-colonne" data-correct="false" name="q-colonne" type="radio" value="d"/> Uniquement dans le bloc s</label>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-cours-2b-wrap')">↺ Recommencer</button>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-colonne">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Ils sont situés dans la <b>même colonne</b> du tableau périodique.</div>
-</div>
-<p>Qu'ont en commun les éléments d'une même colonne ? Que constituent-ils ?</p>
-<div class="exo-box" data-clear-selector=".q-famille">
-<div class="quiz-options">
-<label><input class="q-famille" data-correct="false" name="q-famille" type="radio" value="a"/> Le même nombre de neutrons ; ils constituent des isotopes</label>
-<label><input class="q-famille" data-correct="true" name="q-famille" type="radio" value="b"/> Le même nombre d'électrons de valence ; ils constituent une famille chimique</label>
-<label><input class="q-famille" data-correct="false" name="q-famille" type="radio" value="c"/> La même masse atomique ; ils constituent un élément chimique</label>
-<label><input class="q-famille" data-correct="false" name="q-famille" type="radio" value="d"/> Le même numéro atomique Z ; ils constituent une période</label>
-</div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-famille">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Ils ont le même nombre d'électrons de valence, donc des propriétés chimiques similaires. Ils constituent une <b>famille chimique</b> (ex : alcalins, halogènes, gaz nobles...).</div>
 </div>
 <div class="activite" style="margin-top:14px;">Exercices</div>
 <span class="exo-tag">p86 n°25</span>
@@ -1884,22 +1859,20 @@ button.cap-toggle:hover { background: #1e4466; }
 <h2>3.a / 3.b — Gaz nobles et ions monoatomiques</h2>
 <div class="activite">Activité 5 : Des ions dans les eaux minérales — p80</div>
 <h3>a. Les gaz nobles</h3>
-<p>Pourquoi sont-ils chimiquement stables ?</p>
-<div class="exo-box" data-clear-selector=".q-gaznoble">
-<div class="quiz-options">
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="a"/> Parce qu'ils n'ont pas de noyau</label>
-<label><input class="q-gaznoble" data-correct="true" name="q-gaznoble" type="radio" value="b"/> Parce que leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium)</label>
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="c"/> Parce qu'ils possèdent un seul électron de valence</label>
-<label><input class="q-gaznoble" data-correct="false" name="q-gaznoble" type="radio" value="d"/> Parce qu'ils sont radioactifs</label>
+<div id="qcm-gaznoble-cours-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Pourquoi sont-ils chimiquement stables ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-q-gaznoble-cours')">Parce qu'ils n'ont pas de noyau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-q-gaznoble-cours')">Parce que leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-q-gaznoble-cours')">Parce qu'ils possèdent un seul électron de valence</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-q-gaznoble-cours')">Parce qu'ils sont radioactifs</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="q-gaznoble">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div class="dq-feedback" id="fb-q-gaznoble-cours"></div>
 </div>
-<div class="correction">
-        Les gaz nobles possèdent une <b>couche de valence saturée</b> (8 électrons, ou 2 pour l'hélium). Cette configuration électronique très stable explique leur faible réactivité chimique : ils ne cherchent ni à gagner ni à perdre d'électrons.
-      </div>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-gaznoble-cours-wrap')">↺ Recommencer</button>
+</div>
 </div>
 <div style="display:flex;justify-content:center;">
 <div class="mini-atom-card-v2">
@@ -1936,24 +1909,20 @@ button.cap-toggle:hover { background: #1e4466; }
       Les atomes ayant <b>1 ou 2 électrons de valence</b> tendent à <b>perdre</b> ces électrons pour adopter la configuration électronique du <b>gaz noble qui les précède</b> dans le tableau périodique.
     </div>
 <p><b>Exemple :</b> donner la configuration électronique de l'ion sodium Na⁺ :</p>
-<div class="exo-box" data-clear-selector=".naplus-select">
-<p>Configuration électronique de Na⁺ :
-        <select class="exo-select naplus-select" data-answers="1s2 2s2 2p6">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
-<option value="1s2 2s2 2p6">1s² 2s² 2p⁶</option>
-<option value="1s2 2s2 2p6 3s2">1s² 2s² 2p⁶ 3s²</option>
-<option value="1s2 2s2 2p5">1s² 2s² 2p⁵</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".naplus-select">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-naplus-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Configuration électronique de Na⁺ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-naplus')">1s² 2s² 2p⁶ 3s¹</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-naplus')">1s² 2s² 2p⁶</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-naplus')">1s² 2s² 2p⁶ 3s²</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-naplus')">1s² 2s² 2p⁵</div>
 </div>
-<div class="correction">
-        Le sodium (Z=11) a pour configuration 1s² 2s² 2p⁶ 3s¹. En perdant son électron de valence, Na⁺ a pour configuration <b>1s² 2s² 2p⁶</b> : il adopte la configuration du néon (gaz noble qui le précède).
-      </div>
+<div class="dq-feedback" id="fb-naplus"></div>
+</div>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-naplus-wrap')">↺ Recommencer</button>
+</div>
 </div>
 <div style="display:flex;justify-content:center;">
 <div class="mini-atom-card-v2 wide">
@@ -1998,24 +1967,20 @@ button.cap-toggle:hover { background: #1e4466; }
       Les atomes ayant <b>7 électrons de valence</b> tendent à <b>gagner 1 électron</b> pour adopter la configuration électronique du <b>gaz noble qui les suit</b> dans le tableau périodique.
     </div>
 <p><b>Exemple :</b> donner la configuration électronique de l'ion chlorure Cl⁻ :</p>
-<div class="exo-box" data-clear-selector=".clmoins-select">
-<p>Configuration électronique de Cl⁻ :
-        <select class="exo-select clmoins-select" data-answers="1s2 2s2 2p6 3s2 3p6">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p6 3s2 3p5">1s² 2s² 2p⁶ 3s² 3p⁵</option>
-<option value="1s2 2s2 2p6 3s2 3p6">1s² 2s² 2p⁶ 3s² 3p⁶</option>
-<option value="1s2 2s2 2p6 3s2 3p4">1s² 2s² 2p⁶ 3s² 3p⁴</option>
-<option value="1s2 2s2 2p6 3s1">1s² 2s² 2p⁶ 3s¹</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".clmoins-select">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-clmoins-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Configuration électronique de Cl⁻ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-clmoins')">1s² 2s² 2p⁶ 3s² 3p⁵</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-clmoins')">1s² 2s² 2p⁶ 3s² 3p⁶</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-clmoins')">1s² 2s² 2p⁶ 3s² 3p⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-clmoins')">1s² 2s² 2p⁶ 3s¹</div>
 </div>
-<div class="correction">
-        Le chlore (Z=17) a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁵. En gagnant 1 électron, Cl⁻ a pour configuration <b>1s² 2s² 2p⁶ 3s² 3p⁶</b> : il adopte la configuration de l'argon (gaz noble qui le suit).
-      </div>
+<div class="dq-feedback" id="fb-clmoins"></div>
+</div>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-clmoins-wrap')">↺ Recommencer</button>
+</div>
 </div>
 <div style="display:flex;justify-content:center;">
 <div class="mini-atom-card-v2 wide">
@@ -2245,15 +2210,16 @@ button.cap-toggle:hover { background: #1e4466; }
 <p>Pour chaque molécule, donne l'<b>expression littérale</b> de l'énergie totale de liaison, puis sa <b>valeur numérique</b> :</p>
 <div class="exo-box" data-clear-selector=".energie-select">
 <p><b>CH₄</b> (4 liaisons C–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="4xCH">
-<option value="">— choisir —</option>
-<option value="4xCH">4 × E(C–H)</option>
-<option value="2xCH_plus_2xOH">2 × E(C–H) + 2 × E(O–H)</option>
-<option value="CH_plus_3xCO">E(C–H) + 3 × E(C–O)</option>
-<option value="4xOH">4 × E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de CH₄ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-ch4')">4 × E(C–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-ch4')">2 × E(C–H) + 2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-ch4')">E(C–H) + 3 × E(C–O)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-ch4')">4 × E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-ch4"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="1660">
 <option value="">— choisir —</option>
@@ -2264,15 +2230,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </p>
 <p style="margin-top:14px;"><b>H₂O</b> (2 liaisons O–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="2xOH">
-<option value="">— choisir —</option>
-<option value="2xOH">2 × E(O–H)</option>
-<option value="2xCH">2 × E(C–H)</option>
-<option value="OH_plus_CO">E(O–H) + E(C–O)</option>
-<option value="1xOH">1 × E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de H₂O :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-h2o')">2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-h2o')">2 × E(C–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-h2o')">E(O–H) + E(C–O)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-h2o')">1 × E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-h2o"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="926">
 <option value="">— choisir —</option>
@@ -2283,15 +2250,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </p>
 <p style="margin-top:14px;"><b>CH₃OH</b> (3 liaisons C–H, 1 liaison C–O, 1 liaison O–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="3xCH_plus_CO_plus_OH">
-<option value="">— choisir —</option>
-<option value="3xCH_plus_CO_plus_OH">3 × E(C–H) + E(C–O) + E(O–H)</option>
-<option value="4xCH_plus_OH">4 × E(C–H) + E(O–H)</option>
-<option value="3xCH_plus_2xOH">3 × E(C–H) + 2 × E(O–H)</option>
-<option value="CH_plus_CO_plus_OH">E(C–H) + E(C–O) + E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de CH₃OH :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-ch3oh')">3 × E(C–H) + E(C–O) + E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-ch3oh')">4 × E(C–H) + E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-ch3oh')">3 × E(C–H) + 2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-ch3oh')">E(C–H) + E(C–O) + E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-ch3oh"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="2066">
 <option value="">— choisir —</option>
@@ -2536,22 +2504,15 @@ button.cap-toggle:hover { background: #1e4466; }
 <b>Électron</b> : m<sub>électron</sub> = 9,109 × 10⁻³¹ kg, q = −e
       </div>
 </div>
-<p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Comment trouver le nombre de neutrons dans un noyau ?</p>
-<div class="exo-box" data-clear-selector=".neutron-formula">
-<div class="quiz-options">
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=A+Z"/> N = A + Z</label>
-<label><input class="neutron-formula" data-correct="true" name="neutron-formula" type="radio" value="N=A-Z"/> N = A − Z</label>
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=Z-A"/> N = Z − A</label>
-<label><input class="neutron-formula" data-correct="false" name="neutron-formula" type="radio" value="N=A*Z"/> N = A × Z</label>
+<div class="dropdown-qcm">
+<div class="dq-question">Comment trouver le nombre de neutrons dans un noyau ?</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-neutron-formula-2')">N = A + Z</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-neutron-formula-2')">N = A − Z</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-neutron-formula-2')">N = Z − A</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-neutron-formula-2')">N = A × Z</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="neutron-formula">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">
-        Le nombre de neutrons N se calcule par différence : <b>N = A − Z</b> (nombre de nucléons − nombre de protons).
-      </div>
+<div class="dq-feedback" id="fb-neutron-formula-2"></div>
 </div>
 </div>
 </div>
@@ -2591,39 +2552,39 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 </div>
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;"><b>Exemple 2 :</b> le noyau d'un atome d'aluminium a pour notation <span class="nuc-notation"><span class="nuc-az"><span>27</span><span>13</span></span><span class="nuc-sym">Al</span></span>. Écris la composition de cet atome :</p>
-<div class="exo-box" data-clear-selector=".ex2-select">
-<p>Nombre de protons :
-        <select class="exo-select ex2-select" data-answers="13">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<p>Nombre d'électrons :
-        <select class="exo-select ex2-select" data-answers="13">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<p>Nombre de neutrons :
-        <select class="exo-select ex2-select" data-answers="14">
-<option value="">— choisir —</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="27">27</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".ex2-select">Vérifier mes réponses</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-al-compo-wrap-2">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre de protons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'13','fb-al-protons-2')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'14','fb-al-protons-2')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-protons-2')">27</div>
 </div>
-<div class="correction">
-        Z = 13 → 13 protons et 13 électrons (atome neutre). N = A − Z = 27 − 13 = 14 neutrons.
-      </div>
+<div class="dq-feedback" id="fb-al-protons-2"></div>
+</div>
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre d'électrons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'13','fb-al-electrons-2')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'14','fb-al-electrons-2')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-electrons-2')">27</div>
+</div>
+<div class="dq-feedback" id="fb-al-electrons-2"></div>
+</div>
+<div class="dropdown-qcm" style="margin-bottom:0">
+<div class="dq-question">Nombre de neutrons :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'13','fb-al-neutrons-2')">13</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'14','fb-al-neutrons-2')">14</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'27','fb-al-neutrons-2')">27</div>
+</div>
+<div class="dq-feedback" id="fb-al-neutrons-2"></div>
+</div>
+</div>
+<div style="text-align:center;margin-top:0;">
+<button class="btn-reveal" onclick="recommencer('qcm-al-compo-wrap-2')">↺ Recommencer</button>
+</div>
 </div>
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;"><b>Application :</b> donne les compositions chimiques des ions phosphore (P⁻) et aluminium (Al³⁺) :</p>
 <div class="exo-box" data-clear-selector=".ex3-select">
@@ -2772,14 +2733,16 @@ button.cap-toggle:hover { background: #1e4466; }
 <option value="1.67e-27b">≈ 1,67 × 10⁻²⁷ kg</option>
 </select>
 <p style="margin-top:8px;">Conclusion :</p>
-<div class="quiz-options">
-<label><input class="fr-conclusion" data-correct="false" name="fr-conclusion" type="radio" value="a"/> Les deux résultats sont très différents : la masse de l'atome dépend surtout des électrons</label>
-<label><input class="fr-conclusion" data-correct="true" name="fr-conclusion" type="radio" value="b"/> Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau</label>
-<label><input class="fr-conclusion" data-correct="false" name="fr-conclusion" type="radio" value="c"/> Les deux résultats sont incompatibles, l'une des formules est fausse</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-fr-conclusion-2')">Les deux résultats sont très différents : la masse de l'atome dépend surtout des électrons</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-fr-conclusion-2')">Les deux résultats sont quasi identiques : la masse de l'atome est bien concentrée dans le noyau</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-fr-conclusion-2')">Les deux résultats sont incompatibles, l'une des formules est fausse</div>
+</div>
+<div class="dq-feedback" id="fb-fr-conclusion-2"></div>
 </div>
 <div class="exo-actions">
 <button class="check-btn" data-check-selector=".ex-fr-select">Vérifier mes réponses</button>
-<button class="check-radio-btn" data-radio-name="fr-conclusion">Vérifier la conclusion</button>
 <button class="toggle-btn">▶ Voir la correction</button>
 <button class="reset-btn">↺ Recommencer</button>
 </div>
@@ -3074,15 +3037,16 @@ button.cap-toggle:hover { background: #1e4466; }
 <tr><td>H–H</td><td>436</td></tr>
 </table><div class="exo-box" data-clear-selector=".energie-select">
 <p><b>CH₄</b> (4 liaisons C–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="4xCH">
-<option value="">— choisir —</option>
-<option value="4xCH">4 × E(C–H)</option>
-<option value="2xCH_plus_2xOH">2 × E(C–H) + 2 × E(O–H)</option>
-<option value="CH_plus_3xCO">E(C–H) + 3 × E(C–O)</option>
-<option value="4xOH">4 × E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de CH₄ :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-ch4-2')">4 × E(C–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-ch4-2')">2 × E(C–H) + 2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-ch4-2')">E(C–H) + 3 × E(C–O)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-ch4-2')">4 × E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-ch4-2"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="1660">
 <option value="">— choisir —</option>
@@ -3093,15 +3057,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </p>
 <p style="margin-top:14px;"><b>H₂O</b> (2 liaisons O–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="2xOH">
-<option value="">— choisir —</option>
-<option value="2xOH">2 × E(O–H)</option>
-<option value="2xCH">2 × E(C–H)</option>
-<option value="OH_plus_CO">E(O–H) + E(C–O)</option>
-<option value="1xOH">1 × E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de H₂O :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-h2o-2')">2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-h2o-2')">2 × E(C–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-h2o-2')">E(O–H) + E(C–O)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-h2o-2')">1 × E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-h2o-2"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="926">
 <option value="">— choisir —</option>
@@ -3112,15 +3077,16 @@ button.cap-toggle:hover { background: #1e4466; }
 </select>
 </p>
 <p style="margin-top:14px;"><b>CH₃OH</b> (3 liaisons C–H, 1 liaison C–O, 1 liaison O–H) :</p>
-<p>Expression littérale :
-        <select class="exo-select energie-select" data-answers="3xCH_plus_CO_plus_OH">
-<option value="">— choisir —</option>
-<option value="3xCH_plus_CO_plus_OH">3 × E(C–H) + E(C–O) + E(O–H)</option>
-<option value="4xCH_plus_OH">4 × E(C–H) + E(O–H)</option>
-<option value="3xCH_plus_2xOH">3 × E(C–H) + 2 × E(O–H)</option>
-<option value="CH_plus_CO_plus_OH">E(C–H) + E(C–O) + E(O–H)</option>
-</select>
-</p>
+<div class="dropdown-qcm">
+<div class="dq-question">Expression littérale de l'énergie totale de liaison de CH₃OH :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-energie-ch3oh-2')">3 × E(C–H) + E(C–O) + E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-energie-ch3oh-2')">4 × E(C–H) + E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-energie-ch3oh-2')">3 × E(C–H) + 2 × E(O–H)</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-energie-ch3oh-2')">E(C–H) + E(C–O) + E(O–H)</div>
+</div>
+<div class="dq-feedback" id="fb-energie-ch3oh-2"></div>
+</div>
 <p>Valeur numérique :
         <select class="exo-select energie-select" data-answers="2066">
 <option value="">— choisir —</option>
@@ -3217,6 +3183,7 @@ button.cap-toggle:hover { background: #1e4466; }
 </div>
 </div>
 </div>
+</div>
 <div class="panel" id="tab-exercices">
 <div class="intro-box">Retrouve ici les exercices du manuel à faire en autonomie, classés par niveau de difficulté, ainsi qu'un escape game pour réviser toute la séquence en t'amusant. La correction est disponible en classe ou sur demande.</div>
 <div class="sub-tabs-nav">
@@ -3241,37 +3208,27 @@ button.cap-toggle:hover { background: #1e4466; }
 <div class="exo-tabs-nav"><button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-atome')" type="button">Qu'est-ce qu'un atome ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-identifier-entite')" type="button">Identifier une entité <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-espece-entite')" type="button">Espèce chimique ou entité chimique ? <span class="exo-tab-stars">★☆☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-mg-composition')" type="button">Composition du magnésium <span class="exo-tab-stars">★★☆</span></button><button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-fluor-valence')" type="button">Électrons de valence du fluor <span class="exo-tab-stars">★★☆</span></button></div><div class="exo-item-content active" id="exoitem-atome"><div class="card" id="exo-atome" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 1 — Qu'est-ce qu'un atome ?</div>
-<div class="exo-box" data-clear-selector=".nx-f1">
-<div class="quiz-options">
-<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="a"/> Une entité chargée électriquement</label>
-<label><input class="nx-f1" data-correct="true" name="nx-f1" type="radio" value="b"/> Une entité électriquement neutre, constituée d'un noyau et d'électrons</label>
-<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="c"/> Un assemblage de plusieurs atomes</label>
-<label><input class="nx-f1" data-correct="false" name="nx-f1" type="radio" value="d"/> Un ensemble d'ions</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-nx-f1')">Une entité chargée électriquement</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-nx-f1')">Une entité électriquement neutre, constituée d'un noyau et d'électrons</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-nx-f1')">Un assemblage de plusieurs atomes</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-nx-f1')">Un ensemble d'ions</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-f1">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Un atome est une entité <b>électriquement neutre</b>, constituée d'un noyau (protons + neutrons) et d'un cortège électronique (électrons) : autant de charges + que de charges −.</div>
+<div class="dq-feedback" id="fb-nx-f1"></div>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-identifier-entite"><div class="card" id="exo-identifier-entite" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 2 — Identifier une entité</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'espèce chimique notée Cl⁻ est :</p>
-<div class="exo-box" data-clear-selector=".nx-f3">
-<div class="quiz-options">
-<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="a"/> Un atome</label>
-<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="b"/> Un cation</label>
-<label><input class="nx-f3" data-correct="true" name="nx-f3" type="radio" value="c"/> Un anion</label>
-<label><input class="nx-f3" data-correct="false" name="nx-f3" type="radio" value="d"/> Une molécule</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-nx-f3')">Un atome</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-nx-f3')">Un cation</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'c','fb-nx-f3')">Un anion</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-nx-f3')">Une molécule</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-f3">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Cl⁻ porte une charge négative : c'est un <b>anion</b> (ion chargé négativement, ici issu du gain d'un électron par l'atome de chlore).</div>
+<div class="dq-feedback" id="fb-nx-f3"></div>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-espece-entite"><div class="card" id="exo-espece-entite" style="border-left:4px solid var(--vert);">
 <span class="comp-badge app">S'APPROPRIER</span>
@@ -3336,19 +3293,14 @@ comme un atome, un ion ou une molécule.
 <span class="comp-badge ana">ANALYSER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 5 — Électrons de valence du fluor</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'atome de fluor (Z = 9) a pour configuration électronique 1s² 2s² 2p⁵. Combien possède-t-il d'électrons de valence ?</p>
-<div class="exo-box" data-clear-selector=".nx-f5">
-<div class="quiz-options">
-<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="a"/> 2</label>
-<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="b"/> 5</label>
-<label><input class="nx-f5" data-correct="true" name="nx-f5" type="radio" value="c"/> 7</label>
-<label><input class="nx-f5" data-correct="false" name="nx-f5" type="radio" value="d"/> 9</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'2','fb-nx-f5')">2</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'5','fb-nx-f5')">5</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'7','fb-nx-f5')">7</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'9','fb-nx-f5')">9</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-f5">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Les électrons de valence sont ceux de la couche externe (dernière couche occupée) : ici la couche 2, avec 2 (2s) + 5 (2p) = <b>7 électrons de valence</b>.</div>
+<div class="dq-feedback" id="fb-nx-f5"></div>
 </div>
 </div></div><div class="card">
 <div class="card-title">🔗 Exercices interactifs auto-corrigés — Hatier</div>
@@ -3410,19 +3362,14 @@ comme un atome, un ion ou une molécule.
 <span class="comp-badge ana">ANALYSER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 2 — Isotopes du carbone</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Les noyaux <span class="nuc-notation"><span class="nuc-az"><span>12</span><span>6</span></span><span class="nuc-sym">C</span></span> et <span class="nuc-notation"><span class="nuc-az"><span>14</span><span>6</span></span><span class="nuc-sym">C</span></span> sont :</p>
-<div class="exo-box" data-clear-selector=".nx-i3">
-<div class="quiz-options">
-<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="a"/> Le même atome</label>
-<label><input class="nx-i3" data-correct="true" name="nx-i3" type="radio" value="b"/> Des isotopes</label>
-<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="c"/> Des ions</label>
-<label><input class="nx-i3" data-correct="false" name="nx-i3" type="radio" value="d"/> Des éléments chimiques différents</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-nx-i3')">Le même atome</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-nx-i3')">Des isotopes</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-nx-i3')">Des ions</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-nx-i3')">Des éléments chimiques différents</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-i3">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (6 puis 8) : ce sont des <b>isotopes</b> du carbone.</div>
+<div class="dq-feedback" id="fb-nx-i3"></div>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-ca-notation"><div class="card" id="exo-ca-notation" style="border-left:4px solid var(--orange);">
 <span class="comp-badge rea">RÉALISER</span>
@@ -3454,22 +3401,20 @@ comme un atome, un ion ou une molécule.
 <span class="comp-badge rea">RÉALISER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 4 — Configuration électronique du silicium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">Établis la configuration électronique de l'atome de silicium (Z = 14) :</p>
-<div class="exo-box" data-clear-selector=".nx-i2">
-<p>Configuration électronique :
-<select class="exo-select nx-i2" data-answers="1s2 2s2 2p6 3s2 3p2">
-<option value="">— choisir —</option>
-<option value="1s2 2s2 2p6 3s2 3p2">1s² 2s² 2p⁶ 3s² 3p²</option>
-<option value="1s2 2s2 2p6 3s2 3p4">1s² 2s² 2p⁶ 3s² 3p⁴</option>
-<option value="1s2 2s2 2p6 3s4">1s² 2s² 2p⁶ 3s⁴</option>
-<option value="1s2 2s2 2p10">1s² 2s² 2p¹⁰</option>
-</select>
-</p>
-<div class="exo-actions">
-<button class="check-btn" data-check-selector=".nx-i2">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
+<div id="qcm-nxi2-wrap">
+<div class="dropdown-qcm">
+<div class="dq-question">Configuration électronique du silicium (Z = 14) :</div>
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'a','fb-nxi2')">1s² 2s² 2p⁶ 3s² 3p²</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'b','fb-nxi2')">1s² 2s² 2p⁶ 3s² 3p⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-nxi2')">1s² 2s² 2p⁶ 3s⁴</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-nxi2')">1s² 2s² 2p¹⁰</div>
 </div>
-<div class="correction">Avec 14 électrons, on remplit dans l'ordre : 1s (2), 2s (2), 2p (6), 3s (2), 3p (2) : <b>1s² 2s² 2p⁶ 3s² 3p²</b>.</div>
+<div class="dq-feedback" id="fb-nxi2"></div>
+</div>
+<div style="text-align:center;margin-top:8px;">
+<button class="btn-reveal" onclick="recommencer('qcm-nxi2-wrap')">↺ Recommencer</button>
+</div>
 </div>
 </div></div><div class="exo-item-content" id="exoitem-k-famille"><div class="card" id="exo-k-famille" style="border-left:4px solid var(--orange);">
 <span class="comp-badge ana">ANALYSER</span>
@@ -3525,19 +3470,14 @@ comme un atome, un ion ou une molécule.
 <span class="comp-badge val">VALIDER</span>
 <div class="card-title" style="margin-top:6px;">Exercice 1 — L'ion stable du magnésium</div>
 <p style="font-size:.9rem;line-height:1.6;margin:8px 0;">L'atome de magnésium (Z = 12, configuration 1s² 2s² 2p⁶ 3s²) forme un ion stable. Lequel ?</p>
-<div class="exo-box" data-clear-selector=".nx-d1">
-<div class="quiz-options">
-<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="a"/> Mg⁺</label>
-<label><input class="nx-d1" data-correct="true" name="nx-d1" type="radio" value="b"/> Mg²⁺</label>
-<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="c"/> Mg²⁻</label>
-<label><input class="nx-d1" data-correct="false" name="nx-d1" type="radio" value="d"/> Mg⁻</label>
+<div class="dropdown-qcm">
+<div class="qcm-opts">
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'a','fb-nx-d1')">Mg⁺</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,true,'b','fb-nx-d1')">Mg²⁺</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'c','fb-nx-d1')">Mg²⁻</div>
+<div class="qcm-opt" onclick="qcmOptCheck(this,false,'d','fb-nx-d1')">Mg⁻</div>
 </div>
-<div class="exo-actions">
-<button class="check-radio-btn" data-radio-name="nx-d1">Vérifier ma réponse</button>
-<button class="toggle-btn">▶ Voir la correction</button>
-<button class="reset-btn">↺ Recommencer</button>
-</div>
-<div class="correction">Avec 2 électrons de valence, le magnésium perd ces 2 électrons pour adopter la configuration du néon (gaz noble qui le précède) : il forme l'ion <b>Mg²⁺</b>.</div>
+<div class="dq-feedback" id="fb-nx-d1"></div>
 </div>
 <p style="font-size:.9rem;line-height:1.6;margin:14px 0 8px;">Justifie ta réponse en utilisant la notion de configuration électronique du gaz noble le plus proche :</p>
 <div class="exo-box">
@@ -3687,14 +3627,11 @@ comme un atome, un ion ou une molécule.
 <div class="esc-step-card" id="escStep1">
 <div class="esc-step-title"><span class="esc-step-badge">Étape 1</span> 🔎 L'élément mystère</div>
 <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Cet atome mystérieux possède <b>17 protons</b> et sa configuration électronique est <b>1s² 2s² 2p⁶ 3s² 3p⁵</b>. Quel est cet élément ?</p>
-<div class="quiz-options" id="escQ1">
-<label><input data-correct="false" name="escq1" type="radio" value="a"/> Soufre (S)</label>
-<label><input data-correct="true" name="escq1" type="radio" value="b"/> Chlore (Cl)</label>
-<label><input data-correct="false" name="escq1" type="radio" value="c"/> Argon (Ar)</label>
-<label><input data-correct="false" name="escq1" type="radio" value="d"/> Phosphore (P)</label>
-</div>
-<div class="exo-btn-row" style="margin-top:10px;">
-<button class="exo-btn" onclick="escCheck1()">Valider</button>
+<div class="qcm-opts" id="escQ1">
+<div class="qcm-opt" onclick="escQcmCheck(this,false,1)">Soufre (S)</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,true,1)">Chlore (Cl)</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,false,1)">Argon (Ar)</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,false,1)">Phosphore (P)</div>
 </div>
 <div class="esc-tooltip" id="escTooltip1">Indice : le numéro atomique Z correspond au nombre de protons. Regarde sa position dans le tableau périodique.</div>
 <div class="esc-success" id="escSuccess1">✅ <strong>Exact !</strong> Avec Z = 17, c'est le <b>chlore</b>. Premier indice trouvé : <b>Z = 17</b>. L'étape 2 est débloquée.</div>
@@ -3729,14 +3666,11 @@ comme un atome, un ion ou une molécule.
 <div class="esc-step-card locked" id="escStep3">
 <div class="esc-step-title"><span class="esc-step-badge">Étape 3</span> 🧲 L'ion stable</div>
 <p style="font-size:.88rem;line-height:1.6;margin:8px 0">Le chlore a 7 électrons de valence. Quel ion stable forme-t-il, en adoptant la configuration du gaz noble le plus proche ?</p>
-<div class="quiz-options" id="escQ3">
-<label><input data-correct="false" name="escq3" type="radio" value="a"/> Cl⁺</label>
-<label><input data-correct="true" name="escq3" type="radio" value="b"/> Cl⁻</label>
-<label><input data-correct="false" name="escq3" type="radio" value="c"/> Cl²⁻</label>
-<label><input data-correct="false" name="escq3" type="radio" value="d"/> Le chlore ne forme pas d'ion</label>
-</div>
-<div class="exo-btn-row" style="margin-top:10px;">
-<button class="exo-btn" onclick="escCheck3()">Valider</button>
+<div class="qcm-opts" id="escQ3">
+<div class="qcm-opt" onclick="escQcmCheck(this,false,3)">Cl⁺</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,true,3)">Cl⁻</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,false,3)">Cl²⁻</div>
+<div class="qcm-opt" onclick="escQcmCheck(this,false,3)">Le chlore ne forme pas d'ion</div>
 </div>
 <div class="esc-tooltip" id="escTooltip3">Indice : avec 7 électrons de valence, l'atome tend à gagner 1 électron pour saturer sa couche externe (configuration de l'argon).</div>
 <div class="esc-success" id="escSuccess3">✅ <strong>Parfait !</strong> En gagnant 1 électron, le chlore forme l'ion <b>Cl⁻</b>. Troisième indice trouvé : <b>charge −1</b>. L'étape 4 est débloquée.</div>
@@ -3822,17 +3756,18 @@ comme un atome, un ion ou une molécule.
 <div class="section-title"><span class="icon">📖</span> Glossaire</div>
 <input class="gloss-search" id="glossSearch" oninput="glossFilter()" placeholder="🔎 Rechercher un mot du glossaire…" type="text">
 <dl class="gloss-grid" id="glossGrid">
-<div class="gloss-item" data-term="atome neutralite electrique"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique. La neutralité électrique impose autant d'électrons que de protons.</dd></div>
-<div class="gloss-item" data-term="anion"><dt>Anion</dt><dd>Ion portant une charge électrique négative, résultant du gain d'un ou plusieurs électrons par un atome (ex: Cl⁻).</dd></div>
 <div class="gloss-item" data-term="alcalino-terreux famille"><dt>Alcalino-terreux</dt><dd>Famille chimique regroupant les éléments de la colonne 2. Ils possèdent 2 électrons de valence.</dd></div>
 <div class="gloss-item" data-term="alcalins famille"><dt>Alcalins</dt><dd>Famille chimique regroupant les éléments de la colonne 1 (sauf l'hydrogène). Ils possèdent 1 électron de valence et sont très réactifs.</dd></div>
+<div class="gloss-item" data-term="anion"><dt>Anion</dt><dd>Ion portant une charge électrique négative, résultant du gain d'un ou plusieurs électrons par un atome (ex: Cl⁻).</dd></div>
+<div class="gloss-item" data-term="atome neutralite electrique"><dt>Atome</dt><dd>Entité électriquement neutre, constituée d'un noyau (protons, neutrons) et d'un cortège électronique. La neutralité électrique impose autant d'électrons que de protons.</dd></div>
 <div class="gloss-item" data-term="cation"><dt>Cation</dt><dd>Ion portant une charge électrique positive, résultant de la perte d'un ou plusieurs électrons par un atome (ex: Na⁺).</dd></div>
 <div class="gloss-item" data-term="charge elementaire e"><dt>Charge élémentaire (e)</dt><dd>Charge électrique de référence, e ≈ 1,602 × 10⁻¹⁹ C ; le proton porte la charge +e, l'électron la charge −e.</dd></div>
 <div class="gloss-item" data-term="compose ionique"><dt>Composé ionique</dt><dd>Assemblage compact et ordonné d'ions positifs et négatifs dont les charges se compensent (électroneutralité).</dd></div>
 <div class="gloss-item" data-term="configuration electronique"><dt>Configuration électronique</dt><dd>Répartition des électrons d'un atome dans les sous-couches, dans l'ordre de remplissage : 1s, puis 2s, 2p, puis 3s, 3p… (pour Z ≤ 18).</dd></div>
 <div class="gloss-item" data-term="cortege electronique couche sous-couche"><dt>Cortège électronique</dt><dd>Ensemble des électrons de l'atome, répartis en couches numérotées (1, 2, 3…) puis en sous-couches (s, p…), chacune avec un nombre maximal d'électrons (2 pour s, 6 pour p).</dd></div>
-<div class="gloss-item" data-term="couche saturee complete"><dt>Couche saturée</dt><dd>Couche électronique contenant son nombre maximal d'électrons (2 pour la couche 1s, 8 pour les couches externes suivantes étudiées en Seconde).</dd></div>
 <div class="gloss-item" data-term="couche valence electronique"><dt>Couche de valence</dt><dd>Dernière couche électronique occupée d'un atome ; elle détermine sa réactivité chimique et sa position dans le tableau périodique.</dd></div>
+<div class="gloss-item" data-term="couche saturee complete"><dt>Couche saturée</dt><dd>Couche électronique contenant son nombre maximal d'électrons (2 pour la couche 1s, 8 pour les couches externes suivantes étudiées en Seconde).</dd></div>
+<div class="gloss-item" data-term="doublet liant"><dt>Doublet liant</dt><dd>Paire d'électrons de valence mise en commun entre deux atomes lors d'une liaison covalente (représentée par un trait entre les deux atomes dans le schéma de Lewis).</dd></div>
 <div class="gloss-item" data-term="doublet non liant"><dt>Doublet non liant</dt><dd>Paire d'électrons de valence d'un atome qui ne participe à aucune liaison, et reste propre à cet atome (représentée par un trait sur le symbole dans le schéma de Lewis).</dd></div>
 <div class="gloss-item" data-term="electron"><dt>Électron</dt><dd>Particule du cortège électronique, chargée négativement (−e), de masse très faible (≈ 1836 fois plus légère qu'un nucléon), souvent négligée dans le calcul de la masse d'un atome.</dd></div>
 <div class="gloss-item" data-term="electron valence"><dt>Électron de valence</dt><dd>Électron de la dernière couche occupée (couche de valence) ; son nombre détermine la réactivité chimique et la position de l'atome dans le tableau périodique.</dd></div>
@@ -3841,11 +3776,10 @@ comme un atome, un ion ou une molécule.
 <div class="gloss-item" data-term="entite chimique"><dt>Entité chimique</dt><dd>À l'échelle microscopique : un atome, un ion, une molécule ou un composé ionique.</dd></div>
 <div class="gloss-item" data-term="espece chimique"><dt>Espèce chimique</dt><dd>À l'échelle macroscopique, collection d'un très grand nombre d'entités chimiques identiques.</dd></div>
 <div class="gloss-item" data-term="famille chimique alcalins alcalino-terreux halogenes"><dt>Famille chimique</dt><dd>Ensemble des éléments d'une même colonne du tableau périodique, ayant le même nombre d'électrons de valence et des propriétés chimiques similaires : alcalins (col. 1, 1 e⁻ de valence), alcalino-terreux (col. 2, 2 e⁻), halogènes (col. 17, 7 e⁻), gaz nobles (col. 18, 8 e⁻ ou 2 pour l'hélium).</dd></div>
-<div class="gloss-item" data-term="gaz noble stabilite"><dt>Stabilité des gaz nobles</dt><dd>Les gaz nobles sont chimiquement stables car leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium) : ils ne cherchent ni à gagner ni à perdre d'électrons.</dd></div>
 <div class="gloss-item" data-term="halogenes famille"><dt>Halogènes</dt><dd>Famille chimique regroupant les éléments de la colonne 17. Ils possèdent 7 électrons de valence et sont très réactifs.</dd></div>
 <div class="gloss-item" data-term="ion cation anion"><dt>Ion</dt><dd>Entité chargée positivement (cation) ou négativement (anion), issue de la perte ou du gain d'électrons par un atome.</dd></div>
 <div class="gloss-item" data-term="isotopes"><dt>Isotopes</dt><dd>Atomes ayant le même numéro atomique Z (même élément chimique) mais un nombre de neutrons différent, donc un nombre de masse A différent.</dd></div>
-<div class="gloss-item" data-term="liaison covalente doublet liant"><dt>Liaison covalente (doublet liant)</dt><dd>Mise en commun de deux électrons de valence entre deux atomes (notée A—B), permettant à chacun d'acquérir une configuration électronique proche de celle d'un gaz noble.</dd></div>
+<div class="gloss-item" data-term="liaison covalente doublet liant"><dt>Liaison covalente</dt><dd>Mise en commun de deux électrons de valence entre deux atomes (notée A—B), permettant à chacun d'acquérir une configuration électronique proche de celle d'un gaz noble.</dd></div>
 <div class="gloss-item" data-term="masse atome"><dt>Masse de l'atome</dt><dd>m(atome) ≈ A × m(nucléon) : la masse de l'atome est pratiquement égale à celle de son noyau, la masse des électrons étant négligeable.</dd></div>
 <div class="gloss-item" data-term="molecule"><dt>Molécule</dt><dd>Assemblage d'un nombre limité d'atomes qui mettent en commun des électrons afin de gagner en stabilité.</dd></div>
 <div class="gloss-item" data-term="neutron"><dt>Neutron</dt><dd>Nucléon de charge électrique nulle, présent dans le noyau aux côtés des protons ; sa masse est très proche de celle du proton.</dd></div>
@@ -3853,10 +3787,12 @@ comme un atome, un ion ou une molécule.
 <div class="gloss-item" data-term="notation symbolique noyau"><dt>Notation symbolique d'un noyau</dt><dd>Écriture où X est le symbole de l'atome, A (nombre de masse) est placé en haut à gauche, et Z (numéro atomique) en bas à gauche.</dd></div>
 <div class="gloss-item" data-term="nucleon"><dt>Nucléon</dt><dd>Nom générique désignant les constituants du noyau : proton et neutron. Proton et neutron ont des masses très proches (≈ 1,67 × 10⁻²⁷ kg).</dd></div>
 <div class="gloss-item" data-term="numero atomique Z"><dt>Numéro atomique Z</dt><dd>Nombre de protons dans le noyau d'un atome ; placé en bas dans la notation symbolique.</dd></div>
-<div class="gloss-item" data-term="periode ligne"><dt>Période (ou ligne)</dt><dd>Ensemble des éléments chimiques situés sur une même ligne du tableau périodique. Leurs atomes ont le même nombre de couches électroniques occupées.</dd></div><div class="gloss-item" data-term="proprietes physiques"><dt>Propriétés physiques</dt><dd>Caractéristiques mesurables d'une espèce chimique (masse volumique, température de changement d'état, couleur, etc.), sans transformation de la matière.</dd></div>
+<div class="gloss-item" data-term="periode ligne"><dt>Période (ou ligne)</dt><dd>Ensemble des éléments chimiques situés sur une même ligne du tableau périodique. Leurs atomes ont le même nombre de couches électroniques occupées.</dd></div>
 <div class="gloss-item" data-term="proprietes chimiques"><dt>Propriétés chimiques</dt><dd>Comportement d'une espèce chimique lors d'une transformation (réactivité, formation de liaisons, etc.), lié en particulier au nombre d'électrons de valence.</dd></div>
+<div class="gloss-item" data-term="proprietes physiques"><dt>Propriétés physiques</dt><dd>Caractéristiques mesurables d'une espèce chimique (masse volumique, température de changement d'état, couleur, etc.), sans transformation de la matière.</dd></div>
 <div class="gloss-item" data-term="proton"><dt>Proton</dt><dd>Nucléon chargé positivement (+e), présent dans le noyau ; son nombre définit le numéro atomique Z.</dd></div>
 <div class="gloss-item" data-term="schema de lewis"><dt>Schéma de Lewis</dt><dd>Représentation d'une molécule faisant apparaître tous les doublets liants (liaisons covalentes) et doublets non liants de chaque atome.</dd></div>
+<div class="gloss-item" data-term="gaz noble stabilite"><dt>Stabilité des gaz nobles</dt><dd>Les gaz nobles sont chimiquement stables car leur couche de valence est saturée (8 électrons, ou 2 pour l'hélium) : ils ne cherchent ni à gagner ni à perdre d'électrons.</dd></div>
 <div class="gloss-item" data-term="structure lacunaire matiere"><dt>Structure lacunaire</dt><dd>La matière est essentiellement constituée de vide : le noyau (≈ 10⁻¹⁵ m) est environ 100 000 fois plus petit que l'atome (≈ 10⁻¹⁰ m), qui concentre pourtant la quasi-totalité de sa masse.</dd></div>
 </dl>
 </input></div>
@@ -4463,8 +4399,130 @@ function buildPtable(containerId){
 
 buildPtable('ptable');
 
-/* ══════ ACTIVITÉS 4 et 6 : QCM à correction immédiate (même mécanique que séq. Seconde, activité 2) ══════ */
-const ATOM_FEEDBACK = {
+/* ══════ QCM à correction immédiate (même mécanique que séq. Seconde, activité 2) ══════ */
+const QCM_FEEDBACK = {
+  'fb-al-protons-1': {
+    correct: "✓ Exact ! Le numéro atomique Z = 13 indique directement le nombre de protons.",
+    wrong: {
+      '14': "✗ Non — 14 est le nombre de neutrons (N = A − Z = 27 − 13), pas le nombre de protons. Le nombre de protons est donné directement par Z = 13.",
+      '27': "✗ Non — 27 est le nombre de masse A (protons + neutrons), pas le nombre de protons seul. Le nombre de protons est donné par Z = 13."
+    }
+  },
+  'fb-al-electrons-1': {
+    correct: "✓ Exact ! Un atome est électriquement neutre : il a donc autant d'électrons que de protons, soit 13.",
+    wrong: {
+      '14': "✗ Non — 14 est le nombre de neutrons. Un atome neutre a autant d'électrons que de protons (Z = 13), pas que de neutrons.",
+      '27': "✗ Non — 27 est le nombre de masse A. Le nombre d'électrons d'un atome neutre est égal à Z = 13."
+    }
+  },
+  'fb-al-neutrons-1': {
+    correct: "✓ Exact ! N = A − Z = 27 − 13 = 14 neutrons.",
+    wrong: {
+      '13': "✗ Non — 13 est le nombre de protons (Z), pas de neutrons. Il faut calculer N = A − Z = 27 − 13 = 14.",
+      '27': "✗ Non — 27 est le nombre de masse A (protons + neutrons), pas le nombre de neutrons seul. Il faut soustraire : N = A − Z = 27 − 13 = 14."
+    }
+  },
+  'fb-al-protons-2': {
+    correct: "✓ Exact ! Le numéro atomique Z = 13 indique directement le nombre de protons.",
+    wrong: {
+      '14': "✗ Non — 14 est le nombre de neutrons (N = A − Z = 27 − 13), pas le nombre de protons. Le nombre de protons est donné directement par Z = 13.",
+      '27': "✗ Non — 27 est le nombre de masse A (protons + neutrons), pas le nombre de protons seul. Le nombre de protons est donné par Z = 13."
+    }
+  },
+  'fb-al-electrons-2': {
+    correct: "✓ Exact ! Un atome est électriquement neutre : il a donc autant d'électrons que de protons, soit 13.",
+    wrong: {
+      '14': "✗ Non — 14 est le nombre de neutrons. Un atome neutre a autant d'électrons que de protons (Z = 13), pas que de neutrons.",
+      '27': "✗ Non — 27 est le nombre de masse A. Le nombre d'électrons d'un atome neutre est égal à Z = 13."
+    }
+  },
+  'fb-al-neutrons-2': {
+    correct: "✓ Exact ! N = A − Z = 27 − 13 = 14 neutrons.",
+    wrong: {
+      '13': "✗ Non — 13 est le nombre de protons (Z), pas de neutrons. Il faut calculer N = A − Z = 27 − 13 = 14.",
+      '27': "✗ Non — 27 est le nombre de masse A (protons + neutrons), pas le nombre de neutrons seul. Il faut soustraire : N = A − Z = 27 − 13 = 14."
+    }
+  },
+  'fb-carbone': {
+    correct: "✓ Exact ! Le carbone (Z = 6) a 6 électrons à répartir : 1s (2) + 2s (2) + 2p (2) = 1s² 2s² 2p².",
+    wrong: {
+      b: "✗ Non — 1s² 2s² 2p⁴ correspondrait à 8 électrons (Z = 8, oxygène), pas 6.",
+      c: "✗ Non — la sous-couche 2s ne peut contenir que 2 électrons maximum, pas 4 : 2s⁴ est impossible.",
+      d: "✗ Non — la sous-couche 1s ne peut contenir que 2 électrons maximum, pas 6 : 1s⁶ est impossible."
+    }
+  },
+  'fb-naplus': {
+    correct: "✓ Exact ! Le sodium (Z=11) a pour configuration 1s² 2s² 2p⁶ 3s¹. En perdant son électron de valence, Na⁺ a pour configuration 1s² 2s² 2p⁶ : il adopte la configuration du néon (gaz noble qui le précède).",
+    wrong: {
+      a: "✗ C'est la configuration de l'atome de sodium neutre, pas de l'ion Na⁺. En formant l'ion, le sodium perd justement son électron 3s¹.",
+      c: "✗ Cette configuration correspondrait à un ion ayant gagné un électron (3s²), alors que Na⁺ en a perdu un.",
+      d: "✗ Cette configuration correspond à la perte de 3 électrons (jusqu'en 2p⁵), alors que Na⁺ ne perd qu'un seul électron."
+    }
+  },
+  'fb-clmoins': {
+    correct: "✓ Exact ! Le chlore (Z=17) a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁵. En gagnant 1 électron, Cl⁻ a pour configuration 1s² 2s² 2p⁶ 3s² 3p⁶ : il adopte la configuration de l'argon (gaz noble qui le suit).",
+    wrong: {
+      a: "✗ C'est la configuration de l'atome de chlore neutre, pas de l'ion Cl⁻. En formant l'ion, le chlore gagne justement un électron supplémentaire.",
+      c: "✗ Cette configuration correspondrait à une perte d'électron (3p⁴), alors que Cl⁻ en gagne un.",
+      d: "✗ Cette configuration ne correspond à aucun ion réaliste du chlore : elle perd beaucoup trop d'électrons par rapport à l'atome neutre."
+    }
+  },
+  'fb-nxi2': {
+    correct: "✓ Exact ! Avec 14 électrons (Z = 14), on remplit dans l'ordre : 1s (2), 2s (2), 2p (6), 3s (2), 3p (2) : 1s² 2s² 2p⁶ 3s² 3p².",
+    wrong: {
+      b: "✗ Non — 1s² 2s² 2p⁶ 3s² 3p⁴ correspond à 16 électrons (Z = 16, soufre), pas 14.",
+      c: "✗ Non — la sous-couche 3s ne peut contenir que 2 électrons maximum, pas 4 : 3s⁴ est impossible.",
+      d: "✗ Non — la sous-couche 2p ne peut contenir que 6 électrons maximum, pas 10 : 2p¹⁰ est impossible."
+    }
+  },
+  'fb-energie-ch4': {
+    correct: "✓ Exact ! CH₄ possède 4 liaisons C–H identiques : l'énergie totale est donc 4 × E(C–H).",
+    wrong: {
+      b: "✗ Non — CH₄ ne contient pas de liaison O–H : ses 4 liaisons sont toutes des liaisons C–H.",
+      c: "✗ Non — CH₄ ne contient pas de liaison C–O : ses 4 liaisons sont toutes des liaisons C–H.",
+      d: "✗ Non — CH₄ ne contient aucune liaison O–H : ses 4 liaisons sont des liaisons C–H."
+    }
+  },
+  'fb-energie-ch4-2': {
+    correct: "✓ Exact ! CH₄ possède 4 liaisons C–H identiques : l'énergie totale est donc 4 × E(C–H).",
+    wrong: {
+      b: "✗ Non — CH₄ ne contient pas de liaison O–H : ses 4 liaisons sont toutes des liaisons C–H.",
+      c: "✗ Non — CH₄ ne contient pas de liaison C–O : ses 4 liaisons sont toutes des liaisons C–H.",
+      d: "✗ Non — CH₄ ne contient aucune liaison O–H : ses 4 liaisons sont des liaisons C–H."
+    }
+  },
+  'fb-energie-h2o': {
+    correct: "✓ Exact ! H₂O possède 2 liaisons O–H identiques : l'énergie totale est donc 2 × E(O–H).",
+    wrong: {
+      b: "✗ Non — H₂O ne contient pas de liaison C–H : ses 2 liaisons sont des liaisons O–H.",
+      c: "✗ Non — H₂O ne contient pas de liaison C–O : ses 2 liaisons sont toutes des liaisons O–H.",
+      d: "✗ Non — H₂O possède 2 liaisons O–H, pas une seule : il faut compter les 2."
+    }
+  },
+  'fb-energie-h2o-2': {
+    correct: "✓ Exact ! H₂O possède 2 liaisons O–H identiques : l'énergie totale est donc 2 × E(O–H).",
+    wrong: {
+      b: "✗ Non — H₂O ne contient pas de liaison C–H : ses 2 liaisons sont des liaisons O–H.",
+      c: "✗ Non — H₂O ne contient pas de liaison C–O : ses 2 liaisons sont toutes des liaisons O–H.",
+      d: "✗ Non — H₂O possède 2 liaisons O–H, pas une seule : il faut compter les 2."
+    }
+  },
+  'fb-energie-ch3oh': {
+    correct: "✓ Exact ! CH₃OH possède 3 liaisons C–H, 1 liaison C–O et 1 liaison O–H : l'énergie totale est 3 × E(C–H) + E(C–O) + E(O–H).",
+    wrong: {
+      b: "✗ Non — CH₃OH ne possède que 3 liaisons C–H (pas 4), plus une liaison C–O à ne pas oublier.",
+      c: "✗ Non — CH₃OH ne possède qu'une seule liaison O–H (pas 2), et il manque la liaison C–O.",
+      d: "✗ Non — CH₃OH possède 3 liaisons C–H (pas 1) : il ne faut pas oublier d'en compter 3."
+    }
+  },
+  'fb-energie-ch3oh-2': {
+    correct: "✓ Exact ! CH₃OH possède 3 liaisons C–H, 1 liaison C–O et 1 liaison O–H : l'énergie totale est 3 × E(C–H) + E(C–O) + E(O–H).",
+    wrong: {
+      b: "✗ Non — CH₃OH ne possède que 3 liaisons C–H (pas 4), plus une liaison C–O à ne pas oublier.",
+      c: "✗ Non — CH₃OH ne possède qu'une seule liaison O–H (pas 2), et il manque la liaison C–O.",
+      d: "✗ Non — CH₃OH possède 3 liaisons C–H (pas 1) : il ne faut pas oublier d'en compter 3."
+    }
+  },
   'fb-ions-q1': {
     correct: "✓ Exact ! Les gaz nobles possèdent une couche de valence saturée (8 électrons, ou 2 pour l'hélium) : cette configuration très stable explique leur faible réactivité chimique.",
     wrong: {
@@ -4520,15 +4578,153 @@ const ATOM_FEEDBACK = {
       c: "✗ Non — l'élément chimique est déterminé par le numéro atomique Z (nombre de protons), qui n'a pas changé ici (toujours 6) : c'est donc toujours du carbone.",
       d: "✗ Non — une molécule est un assemblage d'atomes liés entre eux. Ici, on modifie un seul atome (ajout d'un neutron) : ce n'est pas une molécule."
     }
+  },
+  'fb-neutron-formula-1': {
+    correct: "✓ Exact ! Le nombre de neutrons se calcule par différence : N = A − Z (nombre de nucléons moins nombre de protons).",
+    wrong: {
+      a: "✗ Non — N = A + Z donnerait un nombre de neutrons supérieur au nombre de nucléons A, ce qui est impossible : les neutrons ne peuvent excéder A.",
+      c: "✗ Non — Z est le numéro atomique (nombre de protons) et n'a pas de sens à soustraire de lui-même diminué de A dans cet ordre : c'est N = A − Z, pas Z − A.",
+      d: "✗ Non — A × Z n'a aucun sens physique ici : A et Z ne se multiplient pas, ils s'additionnent (A = Z + N) ou se soustraient (N = A − Z)."
+    }
+  },
+  'fb-neutron-formula-2': {
+    correct: "✓ Exact ! Le nombre de neutrons se calcule par différence : N = A − Z (nombre de nucléons moins nombre de protons).",
+    wrong: {
+      a: "✗ Non — N = A + Z donnerait un nombre de neutrons supérieur au nombre de nucléons A, ce qui est impossible : les neutrons ne peuvent excéder A.",
+      c: "✗ Non — Z est le numéro atomique (nombre de protons) et n'a pas de sens à soustraire de lui-même diminué de A dans cet ordre : c'est N = A − Z, pas Z − A.",
+      d: "✗ Non — A × Z n'a aucun sens physique ici : A et Z ne se multiplient pas, ils s'additionnent (A = Z + N) ou se soustraient (N = A − Z)."
+    }
+  },
+  'fb-fr-conclusion-1': {
+    correct: "✓ Exact ! Le calcul détaillé (avec électrons) et le calcul simplifié (électrons négligés) donnent le même résultat à l'échelle de précision considérée : la masse de l'atome est donc essentiellement concentrée dans son noyau.",
+    wrong: {
+      a: "✗ Non — c'est l'inverse : les deux résultats sont quasiment identiques. Les électrons, environ 2000 fois moins massifs qu'un nucléon, ont une contribution négligeable à la masse totale.",
+      c: "✗ Non — les deux formules sont correctes et cohérentes entre elles : ce n'est pas une incompatibilité, mais bien la preuve que la masse des électrons est négligeable devant celle du noyau."
+    }
+  },
+  'fb-fr-conclusion-2': {
+    correct: "✓ Exact ! Le calcul détaillé (avec électrons) et le calcul simplifié (électrons négligés) donnent le même résultat à l'échelle de précision considérée : la masse de l'atome est donc essentiellement concentrée dans son noyau.",
+    wrong: {
+      a: "✗ Non — c'est l'inverse : les deux résultats sont quasiment identiques. Les électrons, environ 2000 fois moins massifs qu'un nucléon, ont une contribution négligeable à la masse totale.",
+      c: "✗ Non — les deux formules sont correctes et cohérentes entre elles : ce n'est pas une incompatibilité, mais bien la preuve que la masse des électrons est négligeable devant celle du noyau."
+    }
+  },
+  'fb-q-saturee': {
+    correct: "✓ Exact ! Une couche contenant son nombre maximal d'électrons est dite saturée (ou complète).",
+    wrong: {
+      a: "✗ Non — c'est l'inverse : une couche saturée est une configuration très stable, pas instable.",
+      c: "✗ Non — une couche saturée n'a rien à voir avec l'ionisation : ioniser un atome, c'est lui retirer ou ajouter un électron, ce qui ne concerne pas le remplissage maximal d'une couche.",
+      d: "✗ Non — « de valence » désigne la couche externe (la dernière occupée), pas une couche saturée : une couche de valence peut très bien être incomplète."
+    }
+  },
+  'fb-q-condition': {
+    correct: "✓ Exact ! Un électron ne peut occuper une couche que si la (ou les) couche(s) inférieure(s) sont déjà saturées : c'est la règle de remplissage par énergie croissante.",
+    wrong: {
+      a: "✗ Non — la parité du numéro atomique Z n'a aucune influence sur l'ordre de remplissage des couches électroniques.",
+      c: "✗ Non — la perte préalable d'un électron n'est pas une condition pour remplir une couche : c'est l'état de saturation des couches inférieures qui compte.",
+      d: "✗ Non — il existe bien une condition : les couches se remplissent dans l'ordre croissant d'énergie, une couche ne pouvant être occupée que si les précédentes sont saturées."
+    }
+  },
+  'fb-q-valence': {
+    correct: "✓ Exact ! Un électron de valence est un électron de la couche externe (la dernière couche occupée) de l'atome : ce sont ces électrons qui interviennent dans les liaisons chimiques.",
+    wrong: {
+      a: "✗ Non — les électrons ne se situent jamais dans le noyau : le noyau ne contient que protons et neutrons. Les électrons de valence sont sur la couche externe du cortège électronique.",
+      b: "✗ Non — ce n'est pas une question d'ordre d'apparition : les électrons de valence sont ceux de la dernière couche occupée, quelle que soit leur position dans le remplissage.",
+      d: "✗ Non — un électron perdu par l'atome n'est plus un électron de l'atome ; l'électron de valence est un électron encore présent, situé sur la couche externe."
+    }
+  },
+  'fb-q-periode': {
+    correct: "✓ Exact ! Les atomes d'une même période (ligne) du tableau périodique ont le même nombre de couches électroniques occupées.",
+    wrong: {
+      a: "✗ Non — c'est le nombre d'électrons de valence qui définit une colonne (famille chimique), pas une période.",
+      c: "✗ Non — la masse atomique varie fortement le long d'une période : ce n'est pas un point commun entre ses éléments.",
+      d: "✗ Non — les éléments d'une même période ne forment pas tous des ions de même charge : leur nombre d'électrons de valence, donc la charge des ions qu'ils forment, change au fil de la période."
+    }
+  },
+  'fb-q-colonne': {
+    correct: "✓ Exact ! Les éléments ayant le même nombre d'électrons de valence sont situés dans la même colonne du tableau périodique.",
+    wrong: {
+      a: "✗ Non — sur une même ligne (période), le nombre d'électrons de valence varie : ce sont les éléments d'une même colonne qui en partagent le même nombre.",
+      c: "✗ Non — la position dans le tableau périodique n'est pas arbitraire : elle reflète directement la structure électronique des atomes.",
+      d: "✗ Non — cette propriété concerne toutes les colonnes du tableau périodique (alcalins, halogènes, gaz nobles...), pas seulement le bloc s."
+    }
+  },
+  'fb-q-famille': {
+    correct: "✓ Exact ! Les éléments d'une même colonne ont le même nombre d'électrons de valence, donc des propriétés chimiques similaires : ils constituent une famille chimique (ex : alcalins, halogènes, gaz nobles...).",
+    wrong: {
+      a: "✗ Non — le nombre de neutrons n'est pas lié à la position dans une colonne : des isotopes partagent le même numéro atomique Z, pas la même colonne.",
+      c: "✗ Non — la masse atomique n'est pas constante dans une colonne ; par ailleurs, un même élément chimique correspond à un seul numéro atomique Z, pas à une colonne entière.",
+      d: "✗ Non — c'est l'inverse : un même numéro atomique Z caractérise un seul élément chimique, alors qu'une période regroupe des éléments ayant le même nombre de couches occupées."
+    }
+  },
+  'fb-q-gaznoble-cours': {
+    correct: "✓ Exact ! Les gaz nobles possèdent une couche de valence saturée (8 électrons, ou 2 pour l'hélium) : cette configuration très stable explique leur faible réactivité chimique.",
+    wrong: {
+      a: "✗ Non — tous les atomes, y compris les gaz nobles, possèdent un noyau. Ce n'est pas l'absence de noyau qui explique leur stabilité.",
+      c: "✗ Non — c'est l'inverse : un seul électron de valence rend un atome très réactif (il cherche à le perdre). Les gaz nobles ont au contraire une couche de valence saturée.",
+      d: "✗ Non — la stabilité chimique des gaz nobles n'a rien à voir avec la radioactivité (un phénomène nucléaire) : elle s'explique par leur configuration électronique saturée."
+    }
+  },
+  'fb-nx-f1': {
+    correct: "✓ Exact ! Un atome est une entité électriquement neutre, constituée d'un noyau (protons + neutrons) et d'un cortège électronique (électrons) : autant de charges + que de charges −.",
+    wrong: {
+      a: "✗ Non — un atome est électriquement neutre : il possède autant de charges positives (protons) que de charges négatives (électrons). Une entité chargée serait un ion.",
+      c: "✗ Non — un assemblage de plusieurs atomes liés entre eux est une molécule, pas un atome.",
+      d: "✗ Non — un ensemble d'ions ne correspond pas à la définition d'un atome, qui est une entité neutre unique."
+    }
+  },
+  'fb-nx-f3': {
+    correct: "✓ Exact ! Cl⁻ porte une charge négative : c'est un anion (ion chargé négativement, ici issu du gain d'un électron par l'atome de chlore).",
+    wrong: {
+      a: "✗ Non — un atome est électriquement neutre, alors que Cl⁻ porte une charge négative : ce n'est donc pas un atome, mais un ion.",
+      b: "✗ Non — un cation est un ion chargé positivement (charge notée avec un +). Ici, la charge de Cl⁻ est négative : c'est donc un anion, pas un cation.",
+      d: "✗ Non — une molécule est un assemblage neutre de plusieurs atomes liés entre eux, ce qui n'est pas le cas de Cl⁻, qui est une entité chargée issue d'un seul atome."
+    }
+  },
+  'fb-nx-f5': {
+    correct: "✓ Exact ! Les électrons de valence sont ceux de la couche externe (dernière couche occupée) : ici la couche 2, avec 2 (2s) + 5 (2p) = 7 électrons de valence.",
+    wrong: {
+      '2': "✗ Non — 2 est le nombre d'électrons de la sous-couche 2s seule ; il faut ajouter les électrons de la sous-couche 2p pour obtenir le nombre total d'électrons de valence.",
+      '5': "✗ Non — 5 est le nombre d'électrons de la sous-couche 2p seule ; il faut aussi compter les électrons de la sous-couche 2s de la même couche externe.",
+      '9': "✗ Non — 9 correspond au nombre total d'électrons de l'atome (Z = 9), pas au nombre d'électrons de valence : seuls ceux de la couche externe (couche 2) comptent."
+    }
+  },
+  'fb-nx-i3': {
+    correct: "✓ Exact ! Même numéro atomique Z = 6 (même élément), mais nombre de neutrons différent (6 puis 8) : ce sont des isotopes du carbone.",
+    wrong: {
+      a: "✗ Non — deux noyaux ayant un nombre de neutrons différent ne sont pas le même atome au sens strict, même s'il s'agit du même élément chimique.",
+      c: "✗ Non — un ion se forme en changeant le nombre d'électrons (donc la charge), pas le nombre de neutrons du noyau.",
+      d: "✗ Non — l'élément chimique est déterminé par le numéro atomique Z, identique ici (Z = 6 pour les deux noyaux) : ce sont donc des isotopes d'un même élément, pas des éléments différents."
+    }
+  },
+  'fb-nx-d1': {
+    correct: "✓ Exact ! Avec 2 électrons de valence, le magnésium perd ces 2 électrons pour adopter la configuration du néon (gaz noble qui le précède) : il forme l'ion Mg²⁺.",
+    wrong: {
+      a: "✗ Non — Mg⁺ correspondrait à la perte d'un seul électron, mais le magnésium a 2 électrons de valence à perdre pour atteindre une configuration stable.",
+      c: "✗ Non — Mg²⁻ correspondrait à un gain de 2 électrons, mais le magnésium, avec seulement 2 électrons de valence, tend à les perdre (et non à en gagner 6) pour se stabiliser.",
+      d: "✗ Non — Mg⁻ correspondrait à un gain d'un électron, ce qui éloignerait le magnésium d'une configuration stable plutôt que de l'en rapprocher."
+    }
   }
 };
+// ── Mélange aléatoire de l'ordre des réponses des QCM ──
+function shuffleQcmOptions() {
+  document.querySelectorAll('.qcm-opts').forEach(container => {
+    const options = Array.from(container.children); // les .qcm-opt
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    options.forEach(opt => container.appendChild(opt));
+  });
+}
+document.addEventListener('DOMContentLoaded', shuffleQcmOptions);
 
 function qcmOptCheck(el, isCorrect, val, feedbackId) {
   const group = el.parentElement;
   group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
   el.classList.add(isCorrect ? 'correct' : 'incorrect');
   const fb = document.getElementById(feedbackId);
-  const data = ATOM_FEEDBACK[feedbackId];
+  const data = QCM_FEEDBACK[feedbackId];
   if (fb && data) {
     fb.textContent = isCorrect ? data.correct : ((data.wrong && data.wrong[val]) || '✗ Incorrect — réessaie !');
     fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
@@ -4657,6 +4853,8 @@ document.querySelectorAll('.exo-box').forEach(box=>{
         correction.classList.remove('show');
         if(toggleBtn) toggleBtn.textContent = 'Voir la correction';
       }
+      box.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct','incorrect'));
+      box.querySelectorAll('.dq-feedback').forEach(fb => { fb.textContent=''; fb.className='dq-feedback'; });
       if(textarea) textarea.focus();
     });
   }
@@ -4719,16 +4917,17 @@ function escUnlock(stepId, progressN){
   escSetProgress(progressN);
   document.getElementById(stepId).scrollIntoView({behavior:'smooth', block:'center'});
 }
-function escCheck1(){
-  var checked = document.querySelector('input[name="escq1"]:checked');
-  var tip = document.getElementById('escTooltip1');
-  if(!checked){ tip.textContent = "Choisis une réponse avant de valider."; tip.classList.add('show'); return; }
-  if(checked.value === 'b'){
+function escQcmCheck(el, isCorrect, step){
+  var group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(function(o){ o.classList.remove('correct','incorrect'); });
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  var tip = document.getElementById('escTooltip'+step);
+  if(isCorrect){
     tip.classList.remove('show');
-    document.getElementById('escSuccess1').classList.add('show');
-    escUnlock('escStep2', 2);
+    document.getElementById('escSuccess'+step).classList.add('show');
+    if(step === 1) escUnlock('escStep2', 2);
+    if(step === 3) escUnlock('escStep4', 4);
   } else {
-    tip.textContent = "Ce n'est pas le bon élément : recompte les protons (Z) à partir de la configuration électronique donnée.";
     tip.classList.add('show');
   }
 }
@@ -4742,19 +4941,6 @@ function escCheck2(){
     escUnlock('escStep3', 3);
   } else {
     tip.textContent = "Rappel : A = Z + N = 17 + 18.";
-    tip.classList.add('show');
-  }
-}
-function escCheck3(){
-  var checked = document.querySelector('input[name="escq3"]:checked');
-  var tip = document.getElementById('escTooltip3');
-  if(!checked){ tip.textContent = "Choisis une réponse avant de valider."; tip.classList.add('show'); return; }
-  if(checked.value === 'b'){
-    tip.classList.remove('show');
-    document.getElementById('escSuccess3').classList.add('show');
-    escUnlock('escStep4', 4);
-  } else {
-    tip.textContent = "Avec 7 électrons de valence, l'atome gagne (et non perd) un électron pour se stabiliser.";
     tip.classList.add('show');
   }
 }

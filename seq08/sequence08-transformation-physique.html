@@ -29,6 +29,22 @@
     --violet-clair: #F3EDF9;
     --rose: #C2508A;
     --rose-clair: #FBEAF2;
+    /* Couleurs par auteur/site (Bilan & Ressources uniquement) */
+    --auteur-hatier:#C0392B;
+    --auteur-ostralo:#2D5F8A;
+    --auteur-pccl-fonce:#2f034e;
+    --auteur-phet-fonce:#ff7300;
+    --auteur-paulolivier:#058616;
+    --auteur-stella:#eeb90a;
+    --auteur-eprofs:#40E0D0;
+    --auteur-bonsprofs:#FFD700;
+    --auteur-florenceraffin:#c90f63;
+    --auteur-gerardmoreau-clair:#76fab2d8;
+    --auteur-autres:#808080;
+    --auteur-sujetbac:#fa7186;
+    --indice: #C98A00;
+    --indice-clair: #FFF6E0;
+    --img-max-width: 50%;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,7 +75,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 0;
   }
   .header-left {
     display: flex;
@@ -107,9 +123,10 @@
   .cap-panel.open { display: block; }
   .cap-panel ul { margin: 0; padding-left: 1.3rem; }
   .cap-panel li { margin-bottom: 5px; line-height: 1.6; }
+  .header-titles { flex: 1; min-width: 180px; }
   .header-titles h1 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: var(--bleu);
     line-height: 1.2;
@@ -151,11 +168,11 @@
     position: relative;
     bottom: -3px;
   }
-  .tab-btn:hover { color: var(--bleu); }
+  .tab-btn:hover { color: var(--orange); }
   .tab-btn.active {
-    color: var(--bleu);
-    border-bottom-color: var(--bleu);
-    background: var(--bleu-clair);
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+    background: var(--orange-clair);
     border-radius: 6px 6px 0 0;
   }
   .tab-num {
@@ -170,14 +187,14 @@
     flex-shrink: 0;
   }
   .tab-btn.active .tab-num {
-    background: var(--bleu);
+    background: var(--orange);
     color: white;
   }
 
   /* ── CONTENU ── */
-  .main { max-width: 1300px; margin: 0 auto; padding: 28px 20px 60px; }
+  .main { max-width: 1300px; margin: 0 auto; padding: 0 0 60px; }
 
-  .tab-content { display: none; }
+  .tab-content { display: none; background: var(--blanc); border: 1.5px solid var(--gris-bord); border-radius: 12px; padding: 20px; }
   .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -212,7 +229,7 @@
     letter-spacing: 0.04em;
   }
   .def-card p, .def-card ul {
-    font-size: 0.92rem;
+    font-size: 1rem;
     line-height: 1.65;
     color: var(--texte);
   }
@@ -291,6 +308,10 @@
     border-bottom: 2px solid var(--bleu-clair);
   }
   .section-title .icon { font-size: 1.3rem; }
+  .card{background:var(--blanc);border:1.5px solid var(--gris-bord);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  .sub-tab-content .card:first-child{margin-top:0}
+  .card h2{font-size:1.25rem;margin-top:0;color:var(--bleu);border-bottom:2px solid var(--bleu-clair);padding-bottom:8px}
+  .card h3{font-size:1.05rem;color:var(--orange);margin:18px 0 8px}
 
   .intro-box {
     background: #FFFBF7;
@@ -348,6 +369,8 @@
   /* ── EXERCICES INTERACTIFS ── */
   .exo-header { display: flex; align-items: center; gap: 10px; margin: 6px 0 10px; }
   .exo-header h3 { font-family: 'Outfit', sans-serif; font-size: 1.0rem; font-weight: 700; color: var(--vert); }
+  #exo-inter .exo-header h3 { color: var(--orange); }
+  #exo-difficiles .exo-header h3 { color: var(--rouge); }
   .exo-pill { font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; background: var(--vert); color: white; }
   .exo-pill.activite { background: var(--bleu-moyen); color: white; }
 
@@ -428,8 +451,12 @@
   }
 
   /* ── CHOIX DE RÉPONSES (Applications) ── */
-  .choice-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .choice-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 4px; align-items: stretch; }
   .choice-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: 8px 16px;
     border: 1.5px solid var(--vert-exo-bord);
     border-radius: 9px;
@@ -440,7 +467,6 @@
     color: var(--texte);
     cursor: pointer;
     transition: all 0.15s;
-    text-align: left;
   }
   .choice-btn:hover { border-color: var(--vert); background: var(--vert-exo); }
   .choice-btn.selected { border-color: var(--bleu); background: var(--bleu-clair); color: var(--bleu); font-weight: 700; }
@@ -449,6 +475,16 @@
   .choice-btn:disabled { cursor: default; }
 
   .exo-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+  .exo-actions .btn-verifier,
+  .exo-actions .btn-correction,
+  .exo-actions .btn-recommencer {
+    flex: 1 1 170px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 0;
+  }
   .btn-verifier {
     padding: 9px 20px;
     background: var(--bleu);
@@ -464,17 +500,17 @@
   .btn-verifier:hover { background: #1E4466; transform: translateY(-1px); }
   .btn-recommencer {
     padding: 9px 20px;
-    background: var(--blanc);
-    color: var(--texte);
-    border: 1.5px solid var(--gris-bord);
+    background: #888;
+    color: white;
+    border: none;
     border-radius: 8px;
     font-family: 'Nunito', sans-serif;
     font-size: 0.88rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: background 0.2s, transform 0.1s;
   }
-  .btn-recommencer:hover { border-color: var(--bleu); color: var(--bleu); }
+  .btn-recommencer:hover { background: #707070; transform: translateY(-1px); }
   .exo-feedback {
     font-size: 0.86rem;
     font-weight: 700;
@@ -530,6 +566,121 @@
   .qcm-btn.wrong { background: var(--rouge); color: white; border-color: var(--rouge); }
   .qcm-feedback { font-size: 0.80rem; margin-top: 4px; min-height: 14px; color: var(--vert); font-weight: 600; width: 100%; }
   .qcm-feedback.wrong { color: var(--rouge); }
+
+  /* ── QCM À RÉPONSES CLIQUABLES — design "Activité 2" (feedback immédiat) ── */
+  .dropdown-qcm { margin-bottom: 18px; }
+  .dropdown-qcm:last-child { margin-bottom: 0; }
+  .dropdown-qcm .dq-question {
+    font-size: 0.90rem;
+    font-weight: 700;
+    color: var(--texte);
+    margin-bottom: 8px;
+    padding-left: 8px;
+    border-left: 3px solid var(--bleu-moyen);
+    line-height: 1.5;
+  }
+  .qcm-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .qcm-opt {
+    background: #fff;
+    border: 1.5px solid var(--gris-bord);
+    border-radius: 7px;
+    padding: 7px 13px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texte);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .qcm-opt:hover { border-color: var(--bleu-moyen); background: var(--bleu-clair); }
+  .qcm-opt.correct { background: var(--vert-clair); border-color: var(--vert); color: var(--vert); }
+  .qcm-opt.incorrect { background: var(--rouge-clair); border-color: var(--rouge); color: var(--rouge); }
+  .dq-feedback {
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-height: 18px;
+    color: var(--vert);
+    margin-top: 5px;
+  }
+  .dq-feedback.wrong { color: var(--rouge); }
+
+  .btn-reveal {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 6px;
+    padding: 8px 16px;
+    background: var(--texte-léger);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-reveal:hover { background: #46545f; transform: translateY(-1px); }
+  .btn-reveal:active { transform: translateY(0); }
+
+  /* ── INDICE (ambre) ── */
+  .dq-question-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .dq-question-row .dq-question { margin-bottom: 0; flex: 1; }
+  .btn-indice {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    margin-top: 0;
+    padding: 7px 14px;
+    background: var(--indice-clair);
+    color: var(--indice);
+    border: 1.5px solid var(--indice);
+    border-radius: 7px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-indice:hover { background: var(--indice); color: #fff; }
+  .indice-box {
+    display: none;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    background: var(--indice-clair);
+    border-left: 3px solid var(--indice);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--texte);
+  }
+  .indice-box.visible { display: block; }
+
+  /* ── Réponse libre (activités) ── */
+  .rep-zone-activite {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--bleu-activite-bord);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.88rem;
+    background: var(--blanc);
+    color: var(--texte);
+    resize: vertical;
+    transition: border-color 0.2s;
+    margin-top: 8px;
+    display: block;
+  }
+  .rep-zone-activite:focus { outline: none; border-color: var(--bleu-moyen); }
 
   /* ── TABLEAU L ── */
   table.l-table {
@@ -649,10 +800,43 @@
   .ke-list li:last-child { border-bottom: none; }
   .ke-list li::before { content: "✓"; position: absolute; left: 8px; color: var(--vert); font-weight: 800; font-size: 0.90rem; }
   .sub-tabs-nav { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: nowrap; overflow-x: auto; }
-  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: var(--bleu-clair); color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
-  .sub-tab-btn.active { background: var(--bleu); color: #fff; }
+  .sub-tab-btn { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border: none; background: #b8cfe0; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.84rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; white-space: nowrap; }
+  .sub-tab-btn:hover { background: var(--bleu); color: #fff; }
+  .sub-tab-btn.active { background: #1e4466; color: #fff; }
   .sub-tab-content { display: none; }
   .sub-tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+
+  /* ── Sous-onglets niveau 3 (exercices individuels au sein d'une catégorie) ── */
+  .exo-tabs-nav { display: flex; gap: 8px; margin: 8px 0 20px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .exo-tab-btn { flex-shrink: 0; white-space: nowrap; display: flex; align-items: center; gap: 7px; padding: 8px 16px; border: 1.5px solid var(--gris-bord); background: #fff; color: var(--bleu); font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; border-radius: 999px; transition: all 0.2s; }
+  .exo-tab-btn:hover { border-color: var(--bleu); }
+  .exo-tab-btn.active { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+  .exo-tab-btn .exo-tab-stars { font-size: 0.76rem; color: var(--orange); font-weight: 400; }
+  .exo-tab-btn.active .exo-tab-stars { color: #FFD9B3; }
+  .exo-item-content { display: none; }
+  .exo-item-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* ── FORMAT FCR (Formule / Calcul / Résultat) ── */
+  .fcr-block { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .fcr-row { display: flex; align-items: flex-start; gap: 10px; }
+  .fcr-label {
+    flex-shrink: 0;
+    width: 74px;
+    padding-top: 9px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--orange);
+  }
+  .fcr-input { flex: 1; min-height: 38px !important; }
+
+  /* ── Tableau de données ── */
+  .ions-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin: 10px 0; }
+  .ions-table th, .ions-table td { border: 1px solid var(--gris-bord); padding: 8px 10px; text-align: center; }
+  .ions-table th { background: var(--orange-clair); color: var(--orange); font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.78rem; }
+  .ions-table td { background: var(--blanc); color: var(--texte); }
   .gloss-search { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gris-bord); border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 0.88rem; margin-bottom: 16px; }
   .gloss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; list-style: none; padding: 0; }
   @media (max-width: 600px) { .gloss-grid { grid-template-columns: 1fr; } }
@@ -699,7 +883,7 @@
     margin: 14px 0;
     text-align: center;
   }
-  .doc-image-wrap img { max-width: 100%; border-radius: 8px; display: block; margin: 0 auto; }
+  .doc-image-wrap img { max-width: var(--img-max-width); border-radius: 8px; display: block; margin: 0 auto; }
   .doc-image-wrap .doc-caption { font-size: 0.78rem; color: var(--texte-léger); margin-top: 8px; font-style: italic; }
 
   /* ── SIGNE Q : cartes endo / exo ── */
@@ -913,11 +1097,11 @@
   sup { font-size: 0.65em; }
   sub { font-size: 0.65em; }
 
-  @media (max-width: 600px) {
+  @media (max-width: 680px) {
     .header { padding: 12px 16px 10px; }
     .header-titles h1 { font-size: 1.05rem; }
     .tab-btn { padding: 8px 12px 10px; font-size: 0.80rem; }
-    .main { padding: 18px 12px 50px; }
+    .main { padding: 18px 0 50px; }
     .ice-melt-wrap { width: 30px; height: 58px; }
     body { padding: 6px; }
   }
@@ -928,7 +1112,7 @@
 <div class="header">
   <div class="header-top">
     <div class="header-left">
-      <div class="header-badge">2<sup>nde</sup> – Fiche n°08</div>
+      <div class="header-badge">2<sup>nde</sup> – Séq. 08</div>
       <button class="cap-toggle" id="capToggle">📋 Capacités exigibles</button>
     </div>
     <div class="header-titles">
@@ -944,24 +1128,10 @@
     </div>
   </div>
   <nav class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab(0)">
-      <span class="tab-num">1</span> Changements d'état
-    </button>
-    <button class="tab-btn" onclick="switchTab(1)">
-      <span class="tab-num">2</span> Fusion vs dissolution
-    </button>
-    <button class="tab-btn" onclick="switchTab(2)">
-      <span class="tab-num">3</span> Corps pur & palier
-    </button>
-    <button class="tab-btn" onclick="switchTab(3)">
-      <span class="tab-num">4</span> Transfert thermique
-    </button>
-    <button class="tab-btn" onclick="switchTab(4)">
-      <span class="tab-num">5</span> Énergie massique
-    </button>
-    <button class="tab-btn" onclick="switchTab(5)">
-      <span class="tab-num">6</span> Bilan &amp; Ressources
-    </button>
+    <button class="tab-btn active" onclick="showTab(this,'cours')">📘 Cours</button>
+    <button class="tab-btn" onclick="showTab(this,'activites')">📚 Activités</button>
+    <button class="tab-btn" onclick="showTab(this,'exercices')">✏️ Exercices</button>
+    <button class="tab-btn" onclick="showTab(this,'bilan')">🗂️ Bilan &amp; Ressources</button>
   </nav>
   <div class="cap-panel" id="capPanel">
     <ul>
@@ -977,18 +1147,27 @@
 
 <main class="main">
 
-<div class="tab-content active" id="tab-0">
-  <div class="section-title">
-    <span class="icon">🔄</span>
-    <h2>Qu'est-ce qu'un changement d'état ?</h2>
+<!-- ══════════════════ TAB — COURS ══════════════════ -->
+<div class="tab-content active" id="tab-cours">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'cours-I')">1. Changements d'état</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-II')">2. Fusion vs dissolution</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-III')">3. Corps pur & palier</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-IV')">4. Transfert thermique</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'cours-V')">5. Énergie massique</button>
   </div>
+
+  <div class="sub-tab-content active" id="cours-I">
+<div class="card">
+  <h2>1. Qu'est-ce qu'un changement d'état ?</h2>
 
   <div class="intro-box">
     Vidéo débat — Qu'est-ce qui distingue les transformations subies par les deux cuillères (l'une en métal qui fond dans un four, l'autre en sucre qui se dissout dans le café) ?
   </div>
 
   <div class="def-card">
-    <h3>Transformation physique</h3>
+    <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Transformation physique</h3>
     <p>Une <strong>transformation physique</strong> a lieu quand une espèce chimique passe d'un état physique (solide, liquide ou gaz) à un autre, <strong>sans changer de nature</strong> : seules les interactions entre les entités (molécules, atomes, ions) sont modifiées.</p>
     <p style="margin-top:8px;">Un changement d'état est modélisé par une <strong>équation de changement d'état</strong>, écriture symbolique à l'échelle macroscopique :</p>
     <div class="exemple-box"><strong>Exemple :</strong> H₂O(s) → H₂O(ℓ) &nbsp;(fusion de la glace)</div>
@@ -1138,37 +1317,30 @@
     </div>
   </div><!-- fin activite-card triangle -->
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 1</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app1-wrap">
+    <h3>Application 1</h3>
     <div class="exo-enonce">La fusion de sels de chlorure de sodium (NaCl) est réalisée dans certaines centrales solaires thermiques. Quelle équation modélise ce changement d'état ?</div>
-    <div class="question-block">
-      <div class="choice-group" id="choices-app1-q1" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app1-q1')">NaCl(s) → NaCl(aq)</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app1-q1')">NaCl(s) → NaCl(ℓ)</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app1-q1')">NaCl(ℓ) → NaCl(s)</button>
+    <div class="dropdown-qcm">
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app1-q1','✗ NaCl(s) → NaCl(aq) décrit une dissolution (passage à l\'état aqueux), pas une fusion.')">NaCl(s) → NaCl(aq)</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app1-q1','✓ Le solide (s) devient liquide (ℓ) : c\'est bien une fusion, modélisée par cette équation de changement d\'état.')">NaCl(s) → NaCl(ℓ)</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app1-q1','✗ NaCl(ℓ) → NaCl(s) décrit la transformation inverse : une solidification.')">NaCl(ℓ) → NaCl(s)</button>
       </div>
+      <div class="dq-feedback" id="fb-app1-q1"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app1',['choices-app1-q1'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app1',['choices-app1-q1'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app1')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app1"></div>
-    <div class="correction" id="corr-app1">
-      <strong>Correction :</strong> NaCl(s) → NaCl(ℓ)
-      <p style="margin-top:6px;">Le solide (s) devient liquide (ℓ) : c'est bien une fusion, modélisée par cette équation de changement d'état. La réponse A décrit une dissolution (passage à l'état aqueux) et la réponse C décrit la transformation inverse (solidification).</p>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app1-wrap')">↺ Recommencer</button>
     </div>
   </div>
-</div><!-- fin tab-0 -->
 
-<div class="tab-content" id="tab-1">
-  <div class="section-title">
-    <span class="icon">🧪</span>
-    <h2>Distinguer fusion et dissolution</h2>
-  </div>
+</div></div><!-- fin cours-I -->
+
+  <div class="sub-tab-content" id="cours-II">
+<div class="card">
+  <h2>2. Distinguer fusion et dissolution</h2>
 
   <div class="def-card">
-    <h3>Deux transformations physiques à ne pas confondre</h3>
+    <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Deux transformations physiques à ne pas confondre</h3>
     <ul>
       <li><strong>Fusion</strong> : changement d'état solide → liquide (S → L). L'espèce reste seule, ses entités se réorganisent simplement sous l'effet de la température.</li>
       <li><strong>Dissolution</strong> : transformation physique solide → aqueux (S → aq), où les entités de l'espèce dissoute se dispersent et s'entourent de molécules d'eau (elles ne changent pas d'état au sens strict, elles se mélangent à l'eau).</li>
@@ -1176,7 +1348,7 @@
   </div>
 
   <div class="doc-image-wrap">
-    <img src="doc4-p117.png" alt="Modélisation microscopique de la fusion et de la dissolution">
+    <img src="doc4-p117.png" alt="Modélisation microscopique de la fusion et de la dissolution" style="max-width:50%;">
     <div class="doc-caption">Doc. 4 p.117 — Modélisation à l'échelle microscopique de la fusion et de la dissolution.</div>
   </div>
 
@@ -1184,81 +1356,80 @@
     <strong>Fusion :</strong> Ga(s) → Ga(ℓ) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Dissolution :</strong> C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq)
   </div>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 2</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app2-wrap">
+    <h3>Application 2</h3>
     <div class="exo-enonce">Quelle proposition décrit correctement le phénomène de fusion du point de vue moléculaire ?</div>
-    <div class="question-block">
-      <div class="choice-group" id="choices-app2-q1" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app2-q1')">Les entités passent d'un arrangement compact et ordonné, où elles vibrent sur place, à un arrangement désordonné où elles peuvent se déplacer librement les unes par rapport aux autres.</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app2-q1')">Les entités s'éloignent fortement les unes des autres et se dispersent dans tout l'espace disponible.</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app2-q1')">Les entités s'entourent de molécules d'eau et se dispersent dans la solution.</button>
+    <div class="dropdown-qcm">
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app2-q1','✓ À l\'état solide, les entités sont compactes et ordonnées, elles ne font que vibrer sur place. Lors de la fusion, l\'agitation augmente : les entités s\'écartent et perdent leur organisation ordonnée, elles deviennent désordonnées et mobiles — c\'est l\'état liquide.')">Les entités passent d'un arrangement compact et ordonné, où elles vibrent sur place, à un arrangement désordonné où elles peuvent se déplacer librement les unes par rapport aux autres.</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app2-q1','✗ Cette description correspond plutôt à une vaporisation (les entités s\'éloignent fortement et se dispersent dans tout l\'espace disponible), pas à une fusion.')">Les entités s'éloignent fortement les unes des autres et se dispersent dans tout l'espace disponible.</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app2-q1','✗ Cette description correspond à une dissolution (les entités s\'entourent de molécules d\'eau), un cas différent de la fusion.')">Les entités s'entourent de molécules d'eau et se dispersent dans la solution.</button>
       </div>
+      <div class="dq-feedback" id="fb-app2-q1"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app2',['choices-app2-q1'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app2',['choices-app2-q1'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app2')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app2"></div>
-    <div class="correction" id="corr-app2">
-      <strong>Correction :</strong>
-      <p style="margin-top:6px;">À l'état solide, les entités sont compactes et ordonnées, elles ne font que vibrer sur place. Lors de la fusion, l'agitation augmente avec la température : les entités gagnent en énergie, s'écartent légèrement les unes des autres et perdent leur organisation ordonnée. Elles deviennent désordonnées et mobiles : c'est l'état liquide. La réponse B décrit plutôt une vaporisation, et la réponse C décrit une dissolution (cas différent de la fusion).</p>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app2-wrap')">↺ Recommencer</button>
     </div>
   </div>
 
-  <div class="activite-card">
-    <h3>Fusion ou dissolution ?</h3>
+  <div class="activite-card" id="app3-wrap">
+    <h3>Application 3: Fusion ou dissolution ?</h3>
     <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:10px;">Pour chaque situation, indique s'il s'agit d'une fusion ou d'une dissolution.</p>
-    <div class="qcm-grid">
-      <div class="qcm-item" id="fd1">
-        <span class="substance">Un glaçon qui fond dans un verre</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('fd1','Fusion','Fusion','La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ).','fb-fd1')">Fusion</button>
-          <button class="qcm-btn" onclick="repondreQCM('fd1','Fusion','Dissolution','La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ).','fb-fd1')">Dissolution</button>
-        </div>
-        <div class="qcm-feedback" id="fb-fd1"></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Un glaçon qui fond dans un verre</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-fd1','✓ La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ).')">Fusion</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-fd1','✗ La glace passe de l\'état solide à liquide : c\'est la même espèce, H₂O(s) → H₂O(ℓ), c\'est donc une fusion.')">Dissolution</button>
       </div>
-      <div class="qcm-item" id="fd2">
-        <span class="substance">Du sucre versé dans un café chaud qui disparaît</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('fd2','Dissolution','Fusion','Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq).','fb-fd2')">Fusion</button>
-          <button class="qcm-btn" onclick="repondreQCM('fd2','Dissolution','Dissolution','Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq).','fb-fd2')">Dissolution</button>
-        </div>
-        <div class="qcm-feedback" id="fb-fd2"></div>
+      <div class="dq-feedback" id="fb-fd1"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Du sucre versé dans un café chaud qui disparaît</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-fd2','✗ Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq), c\'est donc une dissolution.')">Fusion</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-fd2','✓ Le sucre s\'entoure de molécules d\'eau et se disperse : C₁₂H₂₂O₁₁(s) → C₁₂H₂₂O₁₁(aq).')">Dissolution</button>
       </div>
-      <div class="qcm-item" id="fd3">
-        <span class="substance">Du beurre qui fond dans une poêle</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('fd3','Fusion','Fusion','Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est une fusion.','fb-fd3')">Fusion</button>
-          <button class="qcm-btn" onclick="repondreQCM('fd3','Fusion','Dissolution','Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est une fusion.','fb-fd3')">Dissolution</button>
-        </div>
-        <div class="qcm-feedback" id="fb-fd3"></div>
+      <div class="dq-feedback" id="fb-fd2"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Du beurre qui fond dans une poêle</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-fd3','✓ Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est une fusion.')">Fusion</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-fd3','✗ Le beurre, solide à froid, passe à l\'état liquide sous l\'effet de la chaleur : c\'est donc une fusion.')">Dissolution</button>
       </div>
-      <div class="qcm-item" id="fd4">
-        <span class="substance">Du sel de cuisine qui disparaît dans l'eau d'une casserole</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('fd4','Dissolution','Fusion','Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq).','fb-fd4')">Fusion</button>
-          <button class="qcm-btn" onclick="repondreQCM('fd4','Dissolution','Dissolution','Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq).','fb-fd4')">Dissolution</button>
-        </div>
-        <div class="qcm-feedback" id="fb-fd4"></div>
+      <div class="dq-feedback" id="fb-fd3"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Du sel de cuisine qui disparaît dans l'eau d'une casserole</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-fd4','✗ Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq), c\'est donc une dissolution.')">Fusion</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-fd4','✓ Le sel se disperse et s\'entoure de molécules d\'eau, sans changer d\'état au sens propre : NaCl(s) → NaCl(aq).')">Dissolution</button>
       </div>
+      <div class="dq-feedback" id="fb-fd4"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app3-wrap')">↺ Recommencer</button>
     </div>
   </div>
-</div><!-- fin tab-1 -->
 
-<div class="tab-content" id="tab-2">
-  <div class="section-title">
-    <span class="icon">🌡️</span>
-    <h2>Corps pur et palier de température</h2>
-  </div>
+</div></div><!-- fin cours-II -->
+
+  <div class="sub-tab-content" id="cours-III">
+<div class="card">
+  <h2>3. Corps pur et palier de température</h2>
 
   <div class="def-card">
-    <h3>Changement d'état d'un corps pur</h3>
+    <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Changement d'état d'un corps pur</h3>
     <p>Les changements d'état d'un <strong>corps pur</strong> s'effectuent à <strong>température constante</strong>, sous une pression donnée. Les deux états coexistent pendant tout le changement d'état.</p>
   </div>
 
   <div class="doc-image-wrap">
-    <img src="docp116-doc2.png" alt="Évolution de la température d'un corps pur lors d'un transfert thermique">
+    <img src="docp116-doc2.png" alt="Évolution de la température d'un corps pur lors d'un transfert thermique" style="max-width:50%;">
     <div class="doc-caption">Doc. 2 p.116 — Évolution de la température d'un corps pur lorsqu'on lui apporte régulièrement de l'énergie par transfert thermique à pression constante.</div>
   </div>
 
@@ -1266,51 +1437,44 @@
     <strong>🔑 Critère de pureté :</strong> Un corps pur présente des changements d'état à température <em>constante</em> (palier horizontal sur la courbe température = f(temps)). Un mélange, lui, change d'état sur un <em>intervalle</em> de températures.
   </div>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 3</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app4-wrap">
+    <h3>Application 4</h3>
     <div class="exo-enonce">Sous pression atmosphérique normale et à la température de 25 °C, l'éthane est gazeux alors que l'éthanol est liquide.</div>
-    <div class="question-block">
-      <div class="question-label">1. Quel est le composé le plus désordonné à 25 °C ?</div>
-      <div class="choice-group" id="choices-app3-q1" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app3-q1')">L'éthane</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app3-q1')">L'éthanol</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app3-q1')">Les deux sont également désordonnés</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. Quel est le composé le plus désordonné à 25 °C ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app4-q1','✓ À 25 °C, l\'éthane est à l\'état gazeux : ses entités sont éloignées, désordonnées et libres de se déplacer dans tout l\'espace disponible. C\'est donc l\'éthane le plus désordonné.')">L'éthane</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app4-q1','✗ L\'éthanol, liquide à 25 °C, a des entités proches et plus ordonnées que celles d\'un gaz.')">L'éthanol</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app4-q1','✗ Les deux états ne présentent pas le même désordre : l\'état gazeux est toujours plus désordonné que l\'état liquide.')">Les deux sont également désordonnés</button>
       </div>
+      <div class="dq-feedback" id="fb-app4-q1"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">2. Dans quel composé les liaisons intermoléculaires sont-elles plus fortes à 25 °C ?</div>
-      <div class="choice-group" id="choices-app3-q2" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app3-q2')">L'éthane</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app3-q2')">L'éthanol</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app3-q2')">Impossible à déterminer</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">2. Dans quel composé les liaisons intermoléculaires sont-elles plus fortes à 25 °C ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app4-q2','✗ Les liaisons de l\'éthane sont trop faibles pour le maintenir à l\'état liquide à 25 °C : il est déjà gazeux.')">L'éthane</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app4-q2','✓ Les liaisons intermoléculaires sont plus fortes dans l\'éthanol : à 25 °C, il reste liquide (entités proches et liées), alors que l\'éthane, aux liaisons plus faibles, est déjà passé à l\'état gazeux.')">L'éthanol</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app4-q2','✗ On peut le déterminer : l\'état physique à 25 °C renseigne directement sur l\'intensité des liaisons intermoléculaires.')">Impossible à déterminer</button>
       </div>
+      <div class="dq-feedback" id="fb-app4-q2"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app3',['choices-app3-q1','choices-app3-q2'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app3',['choices-app3-q1','choices-app3-q2'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app3')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app3"></div>
-    <div class="correction" id="corr-app3">
-      <strong>1.</strong> À 25 °C, l'éthane est à l'état gazeux : ses entités sont éloignées, désordonnées et libres de se déplacer dans tout l'espace disponible. C'est donc l'éthane qui est le plus désordonné.
-      <div class="calc-step">Éthane (gaz) plus désordonné que l'éthanol (liquide)</div>
-      <strong style="margin-top:8px;display:block;">2.</strong> Les liaisons intermoléculaires sont plus fortes dans l'éthanol, car il faut davantage d'énergie pour séparer ses entités les unes des autres : à 25 °C, l'éthanol reste à l'état liquide (entités proches et liées) tandis que l'éthane, dont les liaisons sont plus faibles, est déjà passé à l'état gazeux (entités libres).
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app4-wrap')">↺ Recommencer</button>
     </div>
   </div>
-</div><!-- fin tab-2 -->
 
-<div class="tab-content" id="tab-3">
-  <div class="section-title">
-    <span class="icon">🔥</span>
-    <h2>Transfert thermique : endothermique ou exothermique ?</h2>
-  </div>
+</div></div><!-- fin cours-III -->
+
+  <div class="sub-tab-content" id="cours-IV">
+<div class="card">
+  <h2>4. Transfert thermique : endothermique ou exothermique ?</h2>
 
   <div class="intro-box">
     TD — Fonctionnement d'une pompe à chaleur : comment un fluide peut-il capter de l'énergie à l'extérieur en hiver pour chauffer une maison ?
   </div>
 
   <div class="def-card">
-    <h3>Le transfert thermique Q</h3>
+    <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. Le transfert thermique Q</h3>
     <p>Le <strong>transfert thermique</strong> Q est l'énergie échangée sous forme de chaleur par une espèce chimique. Il s'exprime en <strong>joule (J)</strong>.</p>
     <ul style="margin-top:8px;">
       <li>Si l'espèce <strong>reçoit</strong> de l'énergie par transfert thermique : Q&nbsp;&gt;&nbsp;0, le milieu extérieur se refroidit (son énergie diminue) → transformation <strong>endothermique</strong>.</li>
@@ -1341,107 +1505,121 @@
     </div>
   </div>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 4</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app5-wrap">
+    <h3>Application 5</h3>
     <div class="exo-enonce">On observe de l'eau qui bout dans une casserole, puis de la vapeur d'eau qui se dépose en gouttelettes sur une assiette froide placée au-dessus.</div>
-    <div class="question-block">
-      <div class="question-label">1. L'eau bouillante dans la casserole capte-t-elle de l'énergie ?</div>
-      <div class="choice-group" id="choices-app4-q1" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q1')">Oui, elle capte de l'énergie</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q1')">Non, elle libère de l'énergie</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q1')">Elle n'échange aucune énergie</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. L'eau bouillante dans la casserole capte-t-elle de l'énergie ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app5-q1','✓ Oui : l\'eau capte de l\'énergie par transfert thermique pour passer de l\'état liquide à l\'état gazeux (vaporisation).')">Oui, elle capte de l'énergie</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q1','✗ Au contraire, l\'eau qui bout capte de l\'énergie pour se vaporiser.')">Non, elle libère de l'énergie</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q1','✗ L\'ébullition est justement un échange d\'énergie par transfert thermique.')">Elle n'échange aucune énergie</button>
       </div>
+      <div class="dq-feedback" id="fb-app5-q1"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">2. La transformation subie par l'eau (liquide → vapeur) est-elle :</div>
-      <div class="choice-group" id="choices-app4-q2" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q2')">Endothermique</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q2')">Exothermique</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q2')">Ni l'une ni l'autre</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">2. La transformation subie par l'eau (liquide → vapeur) est-elle :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app5-q2','✓ La transformation est endothermique (Q &gt; 0) : c\'est une vaporisation.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q2','✗ La vaporisation capte de l\'énergie, elle est donc endothermique.')">Exothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q2','✗ Un changement d\'état échange toujours de l\'énergie par transfert thermique.')">Ni l'une ni l'autre</button>
       </div>
+      <div class="dq-feedback" id="fb-app5-q2"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">3. La vapeur d'eau au contact de l'assiette froide :</div>
-      <div class="choice-group" id="choices-app4-q3" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q3')">Capte de l'énergie</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q3')">Libère de l'énergie</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q3')">N'échange pas d'énergie</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">3. La vapeur d'eau au contact de l'assiette froide :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q3','✗ Au contact du froid, la vapeur d\'eau se refroidit : elle libère de l\'énergie, elle n\'en capte pas.')">Capte de l'énergie</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app5-q3','✓ La vapeur d\'eau, en se refroidissant au contact de l\'assiette froide, libère de l\'énergie.')">Libère de l'énergie</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q3','✗ Le changement d\'état liquéfaction s\'accompagne nécessairement d\'un échange d\'énergie.')">N'échange pas d'énergie</button>
       </div>
+      <div class="dq-feedback" id="fb-app5-q3"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">4. La transformation subie par la vapeur d'eau (gaz → liquide) est-elle :</div>
-      <div class="choice-group" id="choices-app4-q4" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app4-q4')">Endothermique</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app4-q4')">Exothermique</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app4-q4')">Ni l'une ni l'autre</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">4. La transformation subie par la vapeur d'eau (gaz → liquide) est-elle :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q4','✗ Une transformation endothermique capte de l\'énergie ; ici la vapeur en libère.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app5-q4','✓ La transformation est exothermique (Q &lt; 0) : c\'est une liquéfaction.')">Exothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app5-q4','✗ La liquéfaction échange bien de l\'énergie par transfert thermique.')">Ni l'une ni l'autre</button>
       </div>
+      <div class="dq-feedback" id="fb-app5-q4"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app4',['choices-app4-q1','choices-app4-q2','choices-app4-q3','choices-app4-q4'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app4',['choices-app4-q1','choices-app4-q2','choices-app4-q3','choices-app4-q4'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app4')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app4"></div>
-    <div class="correction" id="corr-app4">
-      <div class="calc-step">1. Oui : l'eau capte de l'énergie par transfert thermique pour passer de l'état liquide à l'état gazeux (vaporisation).</div>
-      <div class="calc-step">2. La transformation est <strong>endothermique</strong> (Q &gt; 0) : c'est une vaporisation.</div>
-      <div class="calc-step">3. La vapeur d'eau, en se refroidissant au contact de l'assiette froide, <strong>libère</strong> de l'énergie.</div>
-      <div class="calc-step">4. La transformation est <strong>exothermique</strong> (Q &lt; 0) : c'est une liquéfaction.</div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app5-wrap')">↺ Recommencer</button>
     </div>
   </div>
 
-  <div class="activite-card">
-    <h3>Endothermique ou exothermique ?</h3>
+  <div class="activite-card" id="app6-wrap">
+    <h3>Application 6: Endothermique ou exothermique ?</h3>
     <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:10px;">Classe chacun des 6 changements d'état.</p>
-    <div class="qcm-grid">
-      <div class="qcm-item" id="ee1"><span class="substance">Fusion</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee1','Endothermique','Endothermique','La fusion (S→L) capte de l\'énergie : Q &gt; 0.','fb-ee1')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee1','Endothermique','Exothermique','La fusion (S→L) capte de l\'énergie : Q &gt; 0.','fb-ee1')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee1"></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Fusion</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee1','✓ La fusion (S→L) capte de l\'énergie : Q &gt; 0.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee1','✗ La fusion (S→L) capte de l\'énergie : Q &gt; 0, elle est donc endothermique.')">Exothermique</button>
       </div>
-      <div class="qcm-item" id="ee2"><span class="substance">Solidification</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee2','Exothermique','Endothermique','La solidification (L→S) libère de l\'énergie : Q &lt; 0.','fb-ee2')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee2','Exothermique','Exothermique','La solidification (L→S) libère de l\'énergie : Q &lt; 0.','fb-ee2')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee2"></div>
+      <div class="dq-feedback" id="fb-ee1"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Solidification</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee2','✗ La solidification (L→S) libère de l\'énergie : Q &lt; 0, elle est donc exothermique.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee2','✓ La solidification (L→S) libère de l\'énergie : Q &lt; 0.')">Exothermique</button>
       </div>
-      <div class="qcm-item" id="ee3"><span class="substance">Vaporisation</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee3','Endothermique','Endothermique','La vaporisation (L→G) capte de l\'énergie : Q &gt; 0.','fb-ee3')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee3','Endothermique','Exothermique','La vaporisation (L→G) capte de l\'énergie : Q &gt; 0.','fb-ee3')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee3"></div>
+      <div class="dq-feedback" id="fb-ee2"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Vaporisation</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee3','✓ La vaporisation (L→G) capte de l\'énergie : Q &gt; 0.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee3','✗ La vaporisation (L→G) capte de l\'énergie : Q &gt; 0, elle est donc endothermique.')">Exothermique</button>
       </div>
-      <div class="qcm-item" id="ee4"><span class="substance">Liquéfaction</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee4','Exothermique','Endothermique','La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0.','fb-ee4')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee4','Exothermique','Exothermique','La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0.','fb-ee4')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee4"></div>
+      <div class="dq-feedback" id="fb-ee3"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Liquéfaction</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee4','✗ La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0, elle est donc exothermique.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee4','✓ La liquéfaction (G→L) libère de l\'énergie : Q &lt; 0.')">Exothermique</button>
       </div>
-      <div class="qcm-item" id="ee5"><span class="substance">Sublimation</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee5','Endothermique','Endothermique','La sublimation (S→G) capte de l\'énergie : Q &gt; 0.','fb-ee5')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee5','Endothermique','Exothermique','La sublimation (S→G) capte de l\'énergie : Q &gt; 0.','fb-ee5')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee5"></div>
+      <div class="dq-feedback" id="fb-ee4"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Sublimation</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee5','✓ La sublimation (S→G) capte de l\'énergie : Q &gt; 0.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee5','✗ La sublimation (S→G) capte de l\'énergie : Q &gt; 0, elle est donc endothermique.')">Exothermique</button>
       </div>
-      <div class="qcm-item" id="ee6"><span class="substance">Condensation</span>
-        <div class="qcm-choices">
-          <button class="qcm-btn" onclick="repondreQCM('ee6','Exothermique','Endothermique','La condensation (G→S) libère de l\'énergie : Q &lt; 0.','fb-ee6')">Endothermique</button>
-          <button class="qcm-btn" onclick="repondreQCM('ee6','Exothermique','Exothermique','La condensation (G→S) libère de l\'énergie : Q &lt; 0.','fb-ee6')">Exothermique</button>
-        </div><div class="qcm-feedback" id="fb-ee6"></div>
+      <div class="dq-feedback" id="fb-ee5"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question">Condensation</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-ee6','✗ La condensation (G→S) libère de l\'énergie : Q &lt; 0, elle est donc exothermique.')">Endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-ee6','✓ La condensation (G→S) libère de l\'énergie : Q &lt; 0.')">Exothermique</button>
       </div>
+      <div class="dq-feedback" id="fb-ee6"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app6-wrap')">↺ Recommencer</button>
     </div>
   </div>
-</div><!-- fin tab-3 -->
 
-<div class="tab-content" id="tab-4">
-  <div class="section-title">
-    <span class="icon">⚡</span>
-    <h2>Énergie massique de changement d'état</h2>
-  </div>
+</div></div><!-- fin cours-IV -->
+
+  <div class="sub-tab-content" id="cours-V">
+<div class="card">
+  <h2>5. Énergie massique de changement d'état</h2>
 
   <div class="def-card">
-    <h3>La relation Q = m × L</h3>
+    <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">a. La relation Q = m × L</h3>
     <p>Le transfert thermique Q mis en jeu lors d'un changement d'état est lié à la masse m de l'espèce chimique qui change d'état et à l'<strong>énergie massique de changement d'état</strong> L (aussi appelée chaleur latente) de l'espèce considérée.</p>
     <div class="formule-box">
       Q = m × L
@@ -1465,71 +1643,59 @@
     </tbody>
   </table>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Exercice guidé</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="qml-wrap">
+    <h3>Exercice guidé</h3>
     <div class="exo-enonce">On souhaite transformer m = 0,5 kg d'eau liquide en vapeur d'eau, à 100 °C sous pression normale. On cherche l'énergie Q nécessaire à cette vaporisation (utilise le tableau ci-dessus pour la valeur de L).</div>
-    <div class="question-block">
-      <div class="question-label">1. Quelle formule permet de calculer Q ?</div>
-      <div class="choice-group" id="choices-qml-q1" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q1')">Q = m × L</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q1')">Q = L / m</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q1')">Q = m + L</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. Quelle formule permet de calculer Q ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-qml-q1','✓ Q = m × L (m en kg, L en J·kg⁻¹, Q en J).')">Q = m × L</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q1','✗ Ce n\'est pas la bonne relation : Q est proportionnel à m, pas L divisé par m.')">Q = L / m</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q1','✗ Q est un produit m × L, pas une somme.')">Q = m + L</button>
       </div>
+      <div class="dq-feedback" id="fb-qml-q1"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">2. Quelle application numérique utilise la bonne valeur de L pour cette transformation ?</div>
-      <div class="choice-group" id="choices-qml-q2" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 2,3×10⁶</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 3,3×10⁵</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q2')">Q = 0,5 × 8,6×10⁵</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">2. Quelle application numérique utilise la bonne valeur de L pour cette transformation ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-qml-q2','✓ La transformation est une vaporisation de l\'eau : on utilise L_vap(eau) = 2,3 × 10⁶ J·kg⁻¹ (L dépend à la fois de l\'espèce chimique et du changement d\'état considéré).')">Q = 0,5 × 2,3×10⁶</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q2','✗ 3,3×10⁵ J·kg⁻¹ est la valeur de L_fus(eau), pas L_vap(eau) : ce n\'est pas ce changement d\'état ici.')">Q = 0,5 × 3,3×10⁵</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q2','✗ 8,6×10⁵ J·kg⁻¹ est la valeur de L_vap pour l\'éthanol, pas pour l\'eau.')">Q = 0,5 × 8,6×10⁵</button>
       </div>
+      <div class="dq-feedback" id="fb-qml-q2"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">3. Quel est le résultat (en arrondissant) ?</div>
-      <div class="choice-group" id="choices-qml-q3" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-qml-q3')">1,15 × 10⁶ J</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-qml-q3')">1,15 × 10⁵ J</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-qml-q3')">4,6 × 10⁶ J</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">3. Quel est le résultat (en arrondissant) ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-qml-q3','✓ Q = 0,5 × 2,3×10⁶ = 1,15 × 10⁶ J (la vaporisation étant endothermique, Q &gt; 0).')">1,15 × 10⁶ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q3','✗ Attention à la puissance de 10 : 0,5 × 2,3×10⁶ = 1,15×10⁶ J, pas 1,15×10⁵ J.')">1,15 × 10⁵ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-qml-q3','✗ 4,6×10⁶ J correspondrait à 0,5 × 9,2×10⁶ : vérifie ton calcul avec L_vap(eau) = 2,3×10⁶ J·kg⁻¹.')">4,6 × 10⁶ J</button>
       </div>
+      <div class="dq-feedback" id="fb-qml-q3"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('qml',['choices-qml-q1','choices-qml-q2','choices-qml-q3'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('qml',['choices-qml-q1','choices-qml-q2','choices-qml-q3'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-qml')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-qml"></div>
-    <div class="correction" id="corr-qml">
-      <div class="calc-step">1. Q = m × L (m en kg, L en J·kg⁻¹, Q en J).</div>
-      <div class="calc-step">2. La transformation est une <strong>vaporisation de l'eau</strong> : on utilise donc L<sub>vap</sub>(eau) = 2,3 × 10⁶ J·kg⁻¹ (et non L<sub>fus</sub>(eau), ni la valeur d'une autre espèce comme l'éthanol — L dépend à la fois de l'espèce chimique <em>et</em> du changement d'état considéré).</div>
-      <div class="calc-step">3. Q = 0,5 × 2,3×10⁶ = <strong>1,15 × 10⁶ J</strong> (la vaporisation étant endothermique, Q &gt; 0).</div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('qml-wrap')">↺ Recommencer</button>
     </div>
   </div>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 5</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app7-wrap">
+    <h3>Application 7</h3>
     <div class="exo-enonce">On réalise la fusion de 10 kg de chlorure de sodium. Quelle est l'énergie nécessaire ?<br><strong>Donnée :</strong> L<sub>fusion</sub>(NaCl) = 481 × 10³ J·kg⁻¹.</div>
-    <div class="question-block">
-      <div class="choice-group" id="choices-app5-q1" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10³ J</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10⁶ J</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app5-q1')">4,81 × 10⁹ J</button>
+    <div class="dropdown-qcm">
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app7-q1','✗ Attention à la puissance de 10 : 10 kg × 481×10³ J·kg⁻¹ = 4,81×10⁶ J, et non 10³.')">4,81 × 10³ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app7-q1','✓ Q = m × L = 10 kg × 481×10³ J·kg⁻¹ = 4,81 × 10⁶ J = 4 810 kJ. La fusion étant endothermique, Q &gt; 0 : le sel capte cette énergie pour passer de l\'état solide à l\'état liquide.')">4,81 × 10⁶ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app7-q1','✗ Attention à la puissance de 10 : 10 kg × 481×10³ J·kg⁻¹ = 4,81×10⁶ J, et non 10⁹.')">4,81 × 10⁹ J</button>
       </div>
+      <div class="dq-feedback" id="fb-app7-q1"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app5',['choices-app5-q1'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app5',['choices-app5-q1'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app5')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app5"></div>
-    <div class="correction" id="corr-app5">
-      <div class="calc-step">Q = m × L = 10 kg × 481×10³ J·kg⁻¹</div>
-      <div class="calc-step">Q = <strong>4,81 × 10⁶ J</strong> = 4 810 kJ</div>
-      <p style="margin-top:6px;">La fusion étant endothermique, Q &gt; 0 : le sel capte cette énergie pour passer de l'état solide à l'état liquide. Attention aux puissances de 10 : 10 kg × 481×10³ J·kg⁻¹ = 4,81×10⁶ J, et non 10³ ou 10⁹.</p>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app7-wrap')">↺ Recommencer</button>
     </div>
   </div>
 
-  <div class="exo-card">
-    <div class="exo-header"><h3>Application 6</h3><span class="exo-pill">Exercice</span></div>
+  <div class="activite-card" id="app8-wrap">
+    <h3>Application 8</h3>
     <div class="exo-enonce">
       Le vinaigre contient de l'acide acétique dilué. Les températures de changement d'état de l'acide acétique pur sont θ<sub>fusion</sub> = 17 °C et θ<sub>vaporisation</sub> = 118 °C.<br><br>
       <strong>Données :</strong><br>
@@ -1537,55 +1703,1434 @@
       • L<sub>solidification</sub>(acide acétique) = −195,5 kJ·kg⁻¹<br>
       • Masse volumique de l'acide acétique : ρ = 1,049 g·mL⁻¹
     </div>
-    <div class="question-block">
-      <div class="question-label">1. Quel est l'état physique de l'acide acétique à température ambiante (≈ 20 °C) ?</div>
-      <div class="choice-group" id="choices-app6-q1" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q1')">Solide</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q1')">Liquide</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q1')">Gazeux</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">1. Quel est l'état physique de l'acide acétique à température ambiante (≈ 20 °C) ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q1','✗ À 20 °C, on est au-dessus de θ_fusion (17 °C) : l\'acide acétique a déjà fondu.')">Solide</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app8-q1','✓ À température ambiante (≈ 20 °C), on a θ_fusion (17 °C) &lt; 20 °C &lt; θ_vaporisation (118 °C) : l\'acide acétique est donc liquide.')">Liquide</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q1','✗ À 20 °C, on est bien en-dessous de θ_vaporisation (118 °C) : l\'acide acétique n\'est pas encore gazeux.')">Gazeux</button>
       </div>
+      <div class="dq-feedback" id="fb-app8-q1"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">2. Énergie transférée pour la vaporisation de 250 mL d'acide acétique à 118 °C :</div>
-      <div class="choice-group" id="choices-app6-q2" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q2')">≈ 1,04 × 10⁵ J</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q2')">≈ 1,04 × 10⁸ J</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q2')">≈ 395 J</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">2. Énergie transférée pour la vaporisation de 250 mL d'acide acétique à 118 °C :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app8-q2','✓ m = ρ×V = 1,049 g·mL⁻¹ × 250 mL = 262,25 g = 0,26225 kg. Q_vap = m × L_vap = 0,26225 × 395×10³ ≈ 1,04 × 10⁵ J (≈ 103,6 kJ).')">≈ 1,04 × 10⁵ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q2','✗ Attention à la puissance de 10 dans le calcul de la masse et de l\'énergie : le résultat correct est ≈ 1,04 × 10⁵ J.')">≈ 1,04 × 10⁸ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q2','✗ 395 J oublie la masse : il faut multiplier L_vap par la masse m, pas utiliser L_vap seul.')">≈ 395 J</button>
       </div>
+      <div class="dq-feedback" id="fb-app8-q2"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">3. Énergie transférée pour la solidification de 250 mL d'acide acétique à 17 °C :</div>
-      <div class="choice-group" id="choices-app6-q3" data-correct="A">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q3')">≈ −5,13 × 10⁴ J</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q3')">≈ +5,13 × 10⁴ J</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q3')">≈ −1,955 × 10⁵ J</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">3. Énergie transférée pour la solidification de 250 mL d'acide acétique à 17 °C :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app8-q3','✓ Q_solid = m × L_solidification = 0,26225 kg × (−195,5×10³ J·kg⁻¹) ≈ −5,13 × 10⁴ J (≈ −51,3 kJ).')">≈ −5,13 × 10⁴ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q3','✗ La solidification est exothermique : Q doit être négatif, pas positif.')">≈ +5,13 × 10⁴ J</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q3','✗ −1,955 × 10⁵ J correspond à L_solidification seul, sans le multiplier par la masse m = 0,26225 kg.')">≈ −1,955 × 10⁵ J</button>
       </div>
+      <div class="dq-feedback" id="fb-app8-q3"></div>
     </div>
-    <div class="question-block">
-      <div class="question-label">4. Ces deux transformations sont :</div>
-      <div class="choice-group" id="choices-app6-q4" data-correct="B">
-        <button class="choice-btn" data-value="A" onclick="selectChoice(this,'choices-app6-q4')">Vaporisation exothermique, solidification endothermique</button>
-        <button class="choice-btn" data-value="B" onclick="selectChoice(this,'choices-app6-q4')">Vaporisation endothermique, solidification exothermique</button>
-        <button class="choice-btn" data-value="C" onclick="selectChoice(this,'choices-app6-q4')">Toutes deux exothermiques</button>
+    <div class="dropdown-qcm">
+      <div class="dq-question">4. Ces deux transformations sont :</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q4','✗ C\'est l\'inverse : la vaporisation capte de l\'énergie (Q &gt; 0), la solidification en libère (Q &lt; 0).')">Vaporisation exothermique, solidification endothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-app8-q4','✓ La vaporisation a lieu avec Q &gt; 0 : elle est endothermique. La solidification a lieu avec Q &lt; 0 : elle est exothermique.')">Vaporisation endothermique, solidification exothermique</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-app8-q4','✗ La vaporisation capte de l\'énergie (Q &gt; 0) : elle est endothermique, pas exothermique.')">Toutes deux exothermiques</button>
       </div>
+      <div class="dq-feedback" id="fb-app8-q4"></div>
     </div>
-    <div class="exo-actions">
-      <button class="btn-verifier" onclick="verifierExo('app6',['choices-app6-q1','choices-app6-q2','choices-app6-q3','choices-app6-q4'])">✓ Vérifier</button>
-      <button class="btn-recommencer" onclick="recommencerExo('app6',['choices-app6-q1','choices-app6-q2','choices-app6-q3','choices-app6-q4'])">↺ Recommencer</button>
-      <button class="btn-correction" onclick="toggleCorr('corr-app6')">▶ Voir la correction</button>
-    </div>
-    <div class="exo-feedback" id="feedback-app6"></div>
-    <div class="correction" id="corr-app6">
-      <div class="calc-step">1. À température ambiante (≈ 20 °C), on a θ<sub>fusion</sub> (17 °C) &lt; 20 °C &lt; θ<sub>vaporisation</sub> (118 °C) : l'acide acétique est donc <strong>liquide</strong>.</div>
-      <div class="calc-step">Masse : m = ρ × V = 1,049 g·mL⁻¹ × 250 mL = 262,25 g = 0,26225 kg</div>
-      <div class="calc-step">2. Q<sub>vap</sub> = m × L<sub>vap</sub> = 0,26225 kg × 395×10³ J·kg⁻¹ ≈ <strong>1,04 × 10⁵ J</strong> (≈ 103,6 kJ)</div>
-      <div class="calc-step">3. Q<sub>solid</sub> = m × L<sub>solidification</sub> = 0,26225 kg × (−195,5×10³ J·kg⁻¹) ≈ <strong>−5,13 × 10⁴ J</strong> (≈ −51,3 kJ)</div>
-      <div class="calc-step">4. La vaporisation a lieu avec Q &gt; 0 : elle est <strong>endothermique</strong>. La solidification a lieu avec Q &lt; 0 : elle est <strong>exothermique</strong>.</div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('app8-wrap')">↺ Recommencer</button>
     </div>
   </div>
-</div><!-- fin tab-4 -->
 
-<div class="tab-content" id="tab-5">
+</div></div><!-- fin cours-V -->
+
+</div>
+<!-- /tab-cours -->
+
+<!-- ══════════════════ TAB — ACTIVITÉS ══════════════════ -->
+<div class="tab-content" id="tab-activites">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'activites-1')">1. Activité 1</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activites-2')">2. Activité 2</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activites-3')">3. Activité 3</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'activites-4')">4. Activité 4</button>
+  </div>
+
+  <div class="sub-tab-content active" id="activites-1">
+
+  <div class="activite-card" id="activite1-wrap">
+    <h3>Activité 1 — Les changements d'état sont partout</h3>
+    <div class="exo-enonce">
+      Tous les jours dans notre environnement, nous rencontrons la matière sous ses trois états physiques (solide, liquide ou gazeux). De nombreux processus font intervenir des changements d'état physique.<br><br>
+      <strong>Quels changements d'état ont lieu dans la vie courante ?</strong>
+    </div>
+
+    <div class="doc-image-wrap">
+      <img src="p112-1.png" alt="Quatre situations de la vie courante impliquant des changements d'état : séchage du linge, aliments lyophilisés, buée, coulée de lave se jetant dans l'océan" style="max-width:50%;">
+      <div class="doc-caption">Doc. 1 à 4 p.112 — Quatre situations de la vie courante impliquant des changements d'état.</div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🔍</span> 1. S'approprier</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. Préciser l'état physique de l'eau avant puis après la transformation évoquée dans chacun des Doc. 1 à 4.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-1a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-1a">Pour chaque document, repère ce qui « disparaît » (état de départ de l'eau) et ce qui « apparaît » (état d'arrivée). Un changement d'état porte toujours un nom précis selon le sens de la transformation (ex. solide → liquide, gaz → liquide…).</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. Dans le Doc. 4, identifier une autre matière qui change d'état.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-1b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-1b">Observe bien la zone de contact entre la lave et l'océan : une autre substance très abondante change elle aussi d'état à cet endroit, et forme un panache blanc bien visible.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🧠</span> 2. Analyser-raisonner</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. Les Doc. 1 et 4 illustrent un même changement d'état de l'eau. Selon vous, à quelle température se produit cette transformation dans le Doc. 1, puis dans le Doc. 4 ?</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-2a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-2a">Identifie d'abord le sens du changement d'état commun aux deux documents (liquide → gaz ou gaz → liquide ?). Une même transformation peut se produire à des températures très différentes selon les conditions extérieures : pense à la phrase « Le linge peut sécher même par temps froid ».</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. La matière existe sous trois états physiques ; on peut envisager six transformations physiques. Préciser lesquelles et proposer un nom pour chacune d'elles.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-2b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-2b">Place les trois états (solide, liquide, gaz) aux sommets d'un triangle et trace une flèche pour chaque sens possible entre deux états : tu dois obtenir 6 flèches, donc 6 transformations à nommer.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:90px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">c. Proposer un exemple de la vie courante ou de l'environnement pour les deux transformations non évoquées dans les Doc. 1 à 4.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-2c')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-2c">Repère d'abord, parmi les 6 transformations de la question b, lesquelles sont déjà illustrées par les Doc. 1 à 4. Il en reste deux : à toi de trouver un exemple pour chacune.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🎤</span> 3. Communiquer <span style="font-weight:400;font-size:0.8em;">(oral)</span></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">Préparer une présentation orale avec un support visuel afin de mettre en évidence le fait que les changements d'état sont réalisés dans la vie courante et dans l'environnement. Utiliser le cas de l'eau, mais aussi d'autres échantillons de matière.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-3')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-3">Choisis des exemples variés (pas seulement l'eau) et, pour chacun, nomme précisément le changement d'état en indiquant l'état de départ et l'état d'arrivée.</div>
+      <textarea class="rep-zone-activite" placeholder="Note ici le plan de ta présentation…" style="min-height:90px;"></textarea>
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /sub-tab-content activites-1 -->
+
+  <div class="sub-tab-content" id="activites-2">
+
+  <div class="activite-card" id="activite2-wrap">
+    <h3>Activité 2 — Le dioxygène dans tous ses états</h3>
+    <div class="exo-enonce">
+      Dans l'industrie, le dioxygène est une espèce chimique très fréquemment utilisée, sous ses formes liquide et gazeuse : propulsion des engins spatiaux, fabrication de produits pharmaceutiques, dépollution des eaux, découpage de haute précision, etc. Il se dissout également dans l'eau.<br><br>
+      <strong>Comment représenter, à l'échelle microscopique, les trois états physiques de cette espèce chimique, ainsi qu'une solution aqueuse la contenant ?</strong>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;">
+      <div class="doc-image-wrap" style="margin:0;">
+        <img src="p113-1.png" alt="Données : masse, masse volumique, volume disponible par entité et distance entre molécules du dioxygène dans les trois états, et données sur l'eau" style="max-width:75%;">
+        <div class="doc-caption">Données — Le dioxygène et l'eau.</div>
+      </div>
+
+      <div class="doc-image-wrap" style="margin:0;">
+        <img src="p113-2.png" alt="Document : modélisation microscopique de O2, taille d'une molécule, volume disponible et formules du volume disponible par entité" style="max-width:70%;">
+        <div class="doc-caption">Document — Modélisation microscopique de O₂.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🛠️</span> 1. Réaliser</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. Schématiser un échantillon de matière de dioxygène (modélisé par une boule), contenant neuf molécules, à l'état solide puis à l'état liquide, en respectant l'échelle de 10 cm sur votre schéma pour 3 nm dans la réalité.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-1a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-1a">Utilise les distances ℓ données dans le tableau (état solide : ℓ = 0,33 nm ; état liquide : ℓ = 0,36 nm). Calcule d'abord l'échelle (10 cm ↔ 3 nm, donc combien de cm pour 1 nm ?) avant de placer tes 9 molécules en réseau régulier, par exemple 3 × 3.</div>
+      <textarea class="rep-zone-activite" placeholder="Décris ou note ici les éléments de ton schéma (fait sur papier)…"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. Calculer le volume moyen disponible, en nm³, pour chaque entité à l'état gazeux.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-1b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-1b">Utilise la formule du document : V<sub>dis/entité</sub> = m<sub>entité</sub> / ρ, avec la masse volumique du gaz donnée dans le tableau. Attention aux unités : convertis ton résultat de m³ en nm³ (1 m³ = 10²⁷ nm³).</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">c. En déduire la distance entre deux molécules voisines à l'état gazeux.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-1c')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-1c">D'après le document, le volume disponible par entité correspond à un cube de côté ℓ : V<sub>dis/entité</sub> = ℓ³. Il suffit donc d'extraire la racine cubique du volume trouvé à la question précédente (en nm³, pour obtenir directement ℓ en nm).</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">d. Schématiser, comme à la question 1.a, neuf molécules voisines de dioxygène à l'état gazeux.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-1d')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-1d">La distance ℓ trouvée à la question 1.c est bien plus grande que pour les états solide et liquide : les molécules doivent donc apparaître beaucoup plus espacées sur ton schéma, toujours à la même échelle (10 cm pour 3 nm).</div>
+      <textarea class="rep-zone-activite" placeholder="Décris ou note ici les éléments de ton schéma (fait sur papier)…"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">e. Modéliser la vaporisation du dioxygène par une équation de réaction, en indiquant par une lettre l'état de l'espèce chimique avant et après la transformation.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-1e')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-1e">Utilise les notations d'état physique entre parenthèses : (s) solide, (ℓ) liquide, (g) gazeux. La vaporisation correspond au passage de l'état liquide à l'état gazeux.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🛠️</span> 2. Réaliser</div>
+
+    <div class="exo-enonce" style="margin-bottom:12px;">On s'intéresse à une solution aqueuse de dioxygène dont la concentration en masse est maximale à 20 °C, soit c<sub>m,max</sub> = 9,0 × 10⁻³ kg·m⁻³.</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. Écrire l'équation de dissolution du dioxygène gazeux dans l'eau.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-2a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-2a">La dissolution transforme une espèce à l'état gazeux (g) en une espèce à l'état aqueux (aq).</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. Déterminer la distance d entre deux molécules voisines de dioxygène dans cette solution.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-2b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-2b">Utilise la formule du document pour une espèce dissoute : V<sub>dis/entité</sub> = m<sub>entité</sub> / c<sub>m</sub>, avec c<sub>m,max</sub> donnée dans l'énoncé. Comme précédemment, ce volume correspond à un cube de côté d : d = (V<sub>dis/entité</sub>)<sup>1/3</sup>. N'oublie pas de convertir en nm.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">c. Représenter microscopiquement cette solution (échelle de 5 cm pour un cube de 20 nm à l'échelle microscopique) en utilisant un fond bleu pour modéliser le solvant.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-2c')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-2c">Place quelques molécules de dioxygène (boules rouges) espacées de la distance d calculée à la question 2.b, sur un fond bleu représentant l'eau (solvant). Respecte l'échelle indiquée (5 cm pour 20 nm).</div>
+      <textarea class="rep-zone-activite" placeholder="Décris ou note ici les éléments de ton schéma (fait sur papier)…"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🎤</span> 3. Communiquer <span style="font-weight:400;font-size:0.8em;">(oral)</span></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">Préparer une présentation orale avec un support visuel schématisant à l'échelle microscopique la fusion du dioxygène, ainsi que sa dissolution dans l'eau. Expliquer clairement la différence entre ces deux transformations.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind2-3')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind2-3">Compare bien les deux transformations : la fusion change l'état physique du dioxygène lui-même (S → L), alors que la dissolution disperse les molécules de dioxygène gazeux au sein du solvant (eau), sans que le dioxygène ne change à proprement parler d'état physique. Appuie-toi sur les deux schémas microscopiques que tu as réalisés.</div>
+      <textarea class="rep-zone-activite" placeholder="Note ici le plan de ta présentation…" style="min-height:90px;"></textarea>
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /sub-tab-content activites-2 -->
+
+  <div class="sub-tab-content" id="activites-3">
+
+  <div class="activite-card" id="activite3-wrap">
+    <h3>Activité 3 — Fonctionnement d'une pompe à chaleur</h3>
+    <div class="exo-enonce">
+      Pour des raisons économiques et écologiques, de nombreuses habitations récentes sont équipées d'une pompe à chaleur (PAC) qui fournit de l'eau chaude ou de l'air chaud selon les dispositifs.<br><br>
+      <strong>Quels changements d'état interviennent dans le fonctionnement d'une pompe à chaleur ?</strong>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:14px 0;">
+      <div class="doc-image-wrap" style="margin:0;">
+        <img src="p115-1.png" alt="Document : installation air/air fonctionnant en hiver, circuit du fluide R134A à travers compresseur, liquéfacteur, détendeur et évaporateur" style="max-width:100%;">
+        <div class="doc-caption">Document — Installation air/air fonctionnant en hiver.</div>
+      </div>
+
+      <div class="doc-image-wrap" style="margin:0;">
+        <img src="p115-2.png" alt="Données 1 : définitions et étymologie des transformations endothermique et exothermique" style="max-width:100%;">
+        <div class="doc-caption">Données 1 — Définitions et étymologie.</div>
+      </div>
+
+      <div class="doc-image-wrap" style="margin:0;">
+        <img src="p115-3.png" alt="Données 2 : influence de la pression p sur les températures de vaporisation et de liquéfaction du fluide R134A" style="max-width:100%;">
+        <div class="doc-caption">Données 2 — Influence de la pression p sur les températures de vaporisation θ<sub>vap</sub> et de liquéfaction θ<sub>liq</sub> du fluide R134A.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🔍</span> 1. S'approprier</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. Préciser de quelle grandeur dépend la température de vaporisation ou de liquéfaction du fluide R134A.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-1a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-1a">Regarde le tableau des Données 2 : quelle grandeur varie d'une colonne à l'autre, et comment évolue θ<sub>vap</sub> = θ<sub>liq</sub> lorsque cette grandeur change ?</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. Nommer le changement d'état que subit le fluide R134A :<br>– dans le liquéfacteur ;<br>– dans l'évaporateur.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-1b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-1b">Regarde le Document : dans quel état (liquide ou gaz) le fluide R134A entre-t-il et sort-il de chaque dispositif ? Le nom du changement d'état dépend du sens de la transformation (ex. gaz → liquide ou liquide → gaz).</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🧠</span> 2. Analyser-raisonner</div>
+
+    <div class="exo-enonce" style="margin-bottom:12px;">Dans le liquéfacteur, le fluide R134A échange de l'énergie avec l'air intérieur, qui est réchauffé.</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">a. En déduire si le transfert thermique Q<sub>int</sub> est reçu ou cédé par le fluide R134A lorsqu'il est dans le liquéfacteur.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-2a')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-2a">Si l'air intérieur est réchauffé, c'est qu'il reçoit de l'énergie. Cette énergie vient forcément de quelque part : par conservation de l'énergie, ce que l'air intérieur reçoit, le fluide R134A le cède.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">b. Déterminer de même si le transfert thermique Q<sub>ext</sub> est reçu ou cédé par le fluide R134A lorsqu'il est dans l'évaporateur.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-2b')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-2b">Regarde le Document : l'installation refroidit l'air extérieur en hiver. Applique le même raisonnement qu'en 2.a pour en déduire le sens du transfert thermique côté évaporateur.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">c. En déduire :<br>– si la vaporisation du fluide R134A est une transformation endothermique ou exothermique ;<br>– si la liquéfaction du fluide R134A est une transformation endothermique ou exothermique.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-2c')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-2c">Repère dans quel dispositif a lieu chaque changement d'état (question 1.b), puis reporte-toi aux définitions des Données 1 : une transformation qui reçoit de l'énergie est endothermique, une transformation qui en cède est exothermique.</div>
+      <textarea class="rep-zone-activite" placeholder="Ta réponse…"></textarea>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🎤</span> 3. Communiquer <span style="font-weight:400;font-size:0.8em;">(oral)</span></div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">En été, la circulation du fluide R134A est inversée et permet ainsi de rafraîchir l'intérieur de la maison. Préparer une communication orale avec un support visuel pour expliquer le fonctionnement de la pompe à chaleur en été.</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind3-3')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind3-3">Si la circulation est inversée, les rôles du liquéfacteur et de l'évaporateur sont échangés. Reprends le raisonnement des questions 1 et 2 dispositif par dispositif, mais en sens inverse.</div>
+      <textarea class="rep-zone-activite" placeholder="Note ici le plan de ta présentation…" style="min-height:90px;"></textarea>
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /sub-tab-content activites-3 -->
+
+  <div class="sub-tab-content" id="activites-4">
+
+  <div class="activite-card" id="activite4-wrap">
+    <h3>Activité 4 — Modéliser les états de la matière avec PhET</h3>
+    <div class="exo-enonce">
+      La simulation PhET « États de la matière » permet de visualiser, à l'échelle microscopique, le comportement des entités (atomes ou molécules) dans les trois états physiques, ainsi que l'effet de la température et du volume sur les changements d'état.<br><br>
+      <strong>Comment le comportement des entités à l'échelle microscopique permet-il d'expliquer les propriétés de chaque état de la matière ?</strong>
+    </div>
+
+    <div class="resource-card">
+      <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:10px;">Simulation interactive PhET — <a href="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_all.html?locale=fr" target="_blank" rel="noopener" style="color:var(--bleu);font-weight:700;">ouvrir en plein écran ↗</a></p>
+      <div class="resource-frame-wrap">
+        <iframe src="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_all.html?locale=fr" allowfullscreen loading="lazy" title="Simulation PhET — États de la matière"></iframe>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">🧭</span> Utilisation proposée</div>
+    <ol style="padding-left:20px;font-size:0.9rem;line-height:1.75;color:var(--texte);">
+      <li>Dans l'onglet <em>États</em>, choisir une espèce chimique (néon, argon, eau ou une molécule modélisée).</li>
+      <li>Placer le réglage de température au minimum et observer la disposition et le mouvement des entités.</li>
+      <li>Augmenter progressivement la température : noter, pour chaque état rencontré (solide → liquide → gaz), comment évoluent la disposition et la mobilité des entités.</li>
+      <li>À température fixée, réduire le volume disponible (compression) et observer l'effet sur l'état de la matière.</li>
+      <li>Répondre au QCM ci-dessous à partir de tes observations.</li>
+    </ol>
+
+    <div class="section-title" style="margin-top:18px;"><span class="icon">📝</span> QCM — Vérifie ta compréhension</div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">1. Dans la simulation, à basse température, les entités sont…</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-act4-q1')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-act4-q1">Reviens à l'état observé au tout début, réglage de température au minimum : dans quel état physique se trouve alors la matière ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q1','✗ À basse température, les entités sont au contraire très rapprochées, pas espacées.')">Immobiles et très espacées</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-act4-q1','✓ À basse température, la matière est à l\'état solide : les entités sont compactes, ordonnées, et ne font que vibrer sur place.')">Compactes, ordonnées et peu mobiles</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q1','✗ Cette description correspond à l\'état gazeux (haute température), pas à basse température.')">Désordonnées et très mobiles</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q1','✗ Cette description correspond à l\'état gazeux (haute température), pas à basse température.')">Éloignées et libres</button>
+      </div>
+      <div class="dq-feedback" id="fb-act4-q1"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">2. Lorsque la température augmente progressivement, dans quel ordre les états se succèdent-ils ?</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-act4-q2')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-act4-q2">Une élévation de température augmente l'agitation des entités : dans quel sens les entités passent-elles d'un état compact et ordonné à un état dispersé et désordonné ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q2','✗ C\'est l\'ordre inverse : une élévation de température va du solide vers le gaz, pas l\'inverse.')">Gaz → Liquide → Solide</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-act4-q2','✓ L\'élévation de température augmente l\'agitation des entités, qui passent d\'un état compact à un état de plus en plus dispersé.')">Solide → Liquide → Gaz</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q2','✗ Cet ordre n\'est pas cohérent avec une élévation progressive de température.')">Liquide → Solide → Gaz</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q2','✗ Cet ordre n\'est pas cohérent avec une élévation progressive de température.')">Gaz → Solide → Liquide</button>
+      </div>
+      <div class="dq-feedback" id="fb-act4-q2"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">3. Dans l'état gazeux, le mouvement des entités est…</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-act4-q3')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-act4-q3">Observe la vitesse et l'étendue des déplacements des entités lorsque tu chauffes fortement l'échantillon dans la simulation.</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q3','✗ Cela correspond à l\'état solide, pas à l\'état gazeux.')">Une simple vibration sur place</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q3','✗ Cela correspond à l\'état liquide, pas à l\'état gazeux.')">Un glissement les unes sur les autres</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-act4-q3','✓ C\'est la caractéristique du désordre et de la grande mobilité des entités à l\'état gazeux.')">Un déplacement libre et rapide dans tout l'espace disponible</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q3','✗ Les entités sont au contraire très agitées à l\'état gazeux.')">Un mouvement nul</button>
+      </div>
+      <div class="dq-feedback" id="fb-act4-q3"></div>
+    </div>
+
+    <div class="dropdown-qcm">
+      <div class="dq-question-row">
+        <div class="dq-question">4. À température constante, réduire le volume disponible (compression) permet de…</div>
+        <button class="btn-indice" onclick="toggleIndice(this,'ind-act4-q4')">💡 Indice</button>
+      </div>
+      <div class="indice-box" id="ind-act4-q4">Utilise le bouton de compression du volume dans la simulation sur un échantillon à l'état gazeux : que se passe-t-il si tu réduis suffisamment le volume disponible ?</div>
+      <div class="qcm-opts">
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q4','✗ Au contraire, réduire le volume peut provoquer un changement d\'état.')">Empêcher tout changement d'état</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-act4-q4','✓ Rapprocher les entités en réduisant le volume disponible facilite leur passage à un état plus ordonné.')">Favoriser le passage à un état plus condensé (ex. gaz → liquide)</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q4','✗ C\'est l\'inverse : réduire le volume rapproche les entités, cela ne les disperse pas.')">Favoriser le passage à un état plus dispersé</button>
+        <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-act4-q4','✗ La compression seule ne modifie pas directement la température ; elle change surtout la disposition des entités.')">Augmenter la température du système</button>
+      </div>
+      <div class="dq-feedback" id="fb-act4-q4"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn-reveal" onclick="recommencerActivite('activite4-wrap')">↺ Recommencer</button>
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /sub-tab-content activites-4 -->
+
+</div>
+
+<!-- ══════════════════ TAB — EXERCICES ══════════════════ -->
+<div class="tab-content" id="tab-exercices">
+
+  <div class="sub-tabs-nav">
+    <button class="sub-tab-btn active" onclick="showSub(this,'exo-faciles')">🟢 Faciles</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-inter')">🟠 Intermédiaires</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-difficiles')">🔴 Difficiles</button>
+    <button class="sub-tab-btn" onclick="showSub(this,'exo-escape')">🔓 Escape Game</button>
+  </div>
+
+  <div class="sub-tab-content active" id="exo-faciles">
+
+    <div class="exo-tabs-nav">
+      <button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-nuage')" type="button">Identifier un changement d'état <span class="exo-tab-stars">★★★</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-buee')" type="button">Caractériser un changement d'état <span class="exo-tab-stars">★☆☆</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-bouillotte')" type="button">Caractériser un transfert thermique <span class="exo-tab-stars">★★☆</span></button>
+    </div>
+
+    <div class="exo-item-content active" id="exoitem-nuage">
+    <div class="card" id="exo19-wrap" style="border-left:4px solid var(--vert);">
+      <div class="exo-header">
+        <h3>19. Identifier un changement d'état</h3>
+        <span class="exo-pill">📝 QCM</span>
+      </div>
+
+      <div class="exo-enonce">
+        En fonction des conditions de température, de pression et d'humidité de l'air, la formation de nuages d'eau liquide dans le ciel est plus ou moins visible.
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">a. Nommer le changement d'état ayant lieu lors de la formation d'un nuage.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo19a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo19a">Un nuage est constitué de fines gouttelettes d'eau liquide. Avant sa formation, l'eau était sous forme de vapeur (gaz) dans l'air. Quel est le nom du changement d'état gaz → liquide ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19a','✗ La fusion est un changement d\'état solide → liquide, ce n\'est pas le cas ici.')">Fusion</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo19a','✓ Un nuage est constitué de gouttelettes d\'eau liquide provenant de la vapeur d\'eau (gaz) présente dans l\'air : c\'est un changement d\'état gaz → liquide, la liquéfaction.')">Liquéfaction</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19a','✗ La vaporisation est le changement d\'état inverse (liquide → gaz).')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19a','✗ La sublimation est un changement d\'état solide → gaz, ce n\'est pas le cas ici.')">Sublimation</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo19a"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Écrire l'équation de changement d'état modélisant la formation d'un nuage.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo19b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo19b">Utilise les notations d'état physique entre parenthèses : (g) pour gazeux, (ℓ) pour liquide. L'équation s'écrit dans le même sens que le changement d'état identifié à la question a.</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo19b','✓ H₂O(g) → H₂O(ℓ) : la vapeur d\'eau (gaz) devient liquide, c\'est la liquéfaction.')">H₂O(g) → H₂O(ℓ)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19b','✗ Cette équation correspond à la vaporisation (liquide → gaz), le sens inverse de la formation d\'un nuage.')">H₂O(ℓ) → H₂O(g)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19b','✗ Cette équation correspond à la solidification (liquide → solide), pas à la formation d\'un nuage.')">H₂O(ℓ) → H₂O(s)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19b','✗ Cette équation correspond à la condensation (gaz → solide), pas à la formation d\'un nuage.')">H₂O(g) → H₂O(s)</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo19b"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c. Citer un autre exemple de ce changement d'état.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo19c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo19c">Cherche une situation où de la vapeur d'eau présente dans l'air se transforme en fines gouttelettes liquides au contact d'une surface froide.</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo19c','✓ La buée provient de la vapeur d\'eau de l\'air qui se liquéfie au contact d\'une surface froide : c\'est bien une liquéfaction.')">Formation de buée sur une vitre froide</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19c','✗ Le séchage du linge correspond à une vaporisation (liquide → gaz), pas à une liquéfaction.')">Séchage du linge étendu dehors</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19c','✗ La fabrication de glaçons correspond à une solidification (liquide → solide), pas à une liquéfaction.')">Fabrication de glaçons dans un congélateur</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo19c','✗ La fonte de la neige correspond à une fusion (solide → liquide), pas à une liquéfaction.')">Fonte de la neige au printemps</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo19c"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn-reveal" onclick="recommencerActivite('exo19-wrap')">↺ Recommencer</button>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-nuage -->
+
+    <div class="exo-item-content" id="exoitem-buee">
+    <div class="card" id="exo26-wrap" style="border-left:4px solid var(--vert);">
+      <div class="exo-header">
+        <h3>26. Caractériser un changement d'état</h3>
+        <span class="exo-pill">📝 QCM</span>
+      </div>
+
+      <div class="exo-enonce">
+        Par temps froid, la buée se forme parfois sur l'intérieur des surfaces vitrées en contact avec l'extérieur, par exemple sur les vitres d'une salle de classe ou sur celles d'une voiture.
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">a. Déterminer l'espèce chimique qui change d'état lors de la formation de buée.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo26a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo26a">Repère quelle espèce chimique est présente sous forme de vapeur dans l'air ambiant d'une pièce ou d'une voiture, et qui peut se condenser au contact d'une surface froide.</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26a','✗ Le dioxygène ne se condense pas dans ces conditions de température.')">Dioxygène</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo26a','✓ La vapeur d\'eau présente dans l\'air intérieur (plus chaud et humide) se condense au contact de la surface vitrée froide.')">Eau</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26a','✗ Le dioxyde de carbone ne se condense pas dans ces conditions de température.')">Dioxyde de carbone</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26a','✗ Le diazote ne se condense pas dans ces conditions de température.')">Diazote</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo26a"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Écrire l'équation de ce changement d'état.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo26b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo26b">Utilise les notations d'état physique entre parenthèses : (g) pour gazeux, (ℓ) pour liquide. Le sens de l'équation doit correspondre à l'espèce identifiée en a et à la formation de gouttelettes liquides à partir de vapeur.</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo26b','✓ H₂O(g) → H₂O(ℓ) : la vapeur d\'eau se condense en gouttelettes liquides, c\'est la liquéfaction.')">H₂O(g) → H₂O(ℓ)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26b','✗ Cette équation correspond à la vaporisation, le sens inverse de la formation de buée.')">H₂O(ℓ) → H₂O(g)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26b','✗ Cette équation correspond à la solidification, pas à la formation de buée.')">H₂O(ℓ) → H₂O(s)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26b','✗ Cette équation correspond à la condensation (gaz → solide), pas à la formation de buée.')">H₂O(g) → H₂O(s)</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo26b"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c. Préciser le caractère endothermique ou exothermique de ce changement d'état.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo26c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo26c">La vitre froide reçoit de l'énergie thermique de la vapeur d'eau qui se condense à son contact. Si la vitre reçoit de l'énergie, qu'en est-il de l'eau qui se transforme : cède-t-elle ou reçoit-elle de l'énergie ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26c','✗ Au contraire, l\'eau cède de l\'énergie en se liquéfiant : la transformation est exothermique.')">Endothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo26c','✓ En se liquéfiant, l\'eau cède de l\'énergie thermique à la vitre froide : la transformation est exothermique.')">Exothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo26c','✗ Un transfert thermique a bien lieu ici, entre la vapeur d\'eau et la vitre froide.')">Ni l'un ni l'autre</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo26c"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn-reveal" onclick="recommencerActivite('exo26-wrap')">↺ Recommencer</button>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-buee -->
+
+    <div class="exo-item-content" id="exoitem-bouillotte">
+    <div class="card" id="exo27-wrap" style="border-left:4px solid var(--vert);">
+      <div class="exo-header">
+        <h3>27. Caractériser un transfert thermique</h3>
+        <span class="exo-pill">📝 QCM</span>
+      </div>
+
+      <div class="doc-image-wrap">
+        <video controls preload="metadata" poster="ex27-nathan.png" style="width:100%;max-width:var(--img-max-width);border-radius:8px;display:block;margin:0 auto;">
+          <source src="ex27-nathan-1.mp4" type="video/mp4">
+          Votre navigateur ne prend pas en charge la lecture de vidéo.
+        </video>
+        <div class="doc-caption">Vidéo — Pochette chauffante à l'éthanoate de sodium (Nathan).</div>
+      </div>
+
+      <div class="exo-enonce">
+        Visionner la vidéo ci-dessus présentant une pochette contenant essentiellement de l'éthanoate de sodium C₂H₃NaO₂. Lors de la transformation réalisée, la température de la pochette et de son contenu augmente, ce qui permet de se réchauffer les mains.
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">a. Nommer le changement d'état subi par l'éthanoate de sodium.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo27a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo27a">Le contenu de la pochette est initialement liquide. La température augmente, donc le contenu libère de la chaleur en se transformant. Quel changement d'état correspond au passage de l'état liquide à l'état solide ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27a','✗ La fusion est le changement d\'état inverse (solide → liquide).')">Fusion</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27a','✗ La vaporisation est un changement d\'état liquide → gaz, ce n\'est pas le cas ici.')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo27a','✓ Le contenu de la pochette, initialement liquide (solution surfondue), se solidifie brutalement (cristallisation).')">Solidification</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27a','✗ La sublimation est un changement d\'état solide → gaz, ce n\'est pas le cas ici.')">Sublimation</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo27a"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Écrire l'équation de réaction modélisant ce changement d'état.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo27b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo27b">Utilise les notations d'état physique entre parenthèses : (ℓ) liquide, (s) solide. Le sens de l'équation doit correspondre au changement d'état identifié à la question a.</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo27b','✓ C₂H₃NaO₂(ℓ) → C₂H₃NaO₂(s) : le liquide surfondu se transforme en solide, c\'est la solidification.')">C₂H₃NaO₂(ℓ) → C₂H₃NaO₂(s)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27b','✗ Cette équation correspond à la fusion, le sens inverse de la transformation observée.')">C₂H₃NaO₂(s) → C₂H₃NaO₂(ℓ)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27b','✗ Cette équation correspond à une vaporisation, ce n\'est pas le cas ici.')">C₂H₃NaO₂(ℓ) → C₂H₃NaO₂(g)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27b','✗ Cette équation correspond à une condensation, ce n\'est pas le cas ici.')">C₂H₃NaO₂(g) → C₂H₃NaO₂(s)</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo27b"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c. Préciser si ce changement d'état est endothermique ou exothermique.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo27c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo27c">Si la température de la pochette augmente, c'est que son contenu cède de l'énergie thermique au milieu extérieur (dont la main). Un système qui cède de l'énergie lors de sa transformation est-il endothermique ou exothermique ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27c','✗ Au contraire, la transformation libère de l\'énergie : elle est exothermique.')">Endothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo27c','✓ La transformation libère de l\'énergie thermique, ce qui explique l\'augmentation de température ressentie au contact de la pochette.')">Exothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo27c','✗ Un transfert thermique a bien lieu ici : la température de la pochette augmente.')">Ni l'un ni l'autre</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo27c"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:10px;">
+        <button class="btn-reveal" onclick="recommencerActivite('exo27-wrap')">↺ Recommencer</button>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-bouillotte -->
+
+  </div>
+  <div class="sub-tab-content" id="exo-inter">
+
+    <div class="exo-tabs-nav">
+      <button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-glaciers')" type="button">Fonte des glaciers <span class="exo-tab-stars">★★☆</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-bloc-op')" type="button">Asepsie d'un bloc opératoire <span class="exo-tab-stars">★★☆</span></button>
+    </div>
+
+    <div class="exo-item-content active" id="exoitem-glaciers">
+    <div class="card" id="exo39-wrap" style="border-left:4px solid var(--orange);">
+      <div class="exo-header">
+        <h3>39. Fonte des glaciers</h3>
+        <span class="exo-pill">🧮 Calcul</span>
+      </div>
+
+      <div class="exo-enonce">
+        Depuis 1911, la superficie du glacier d'Ossoue (Pyrénées) est passée de 90 à 40 ha (soit une diminution de 55 %) et son épaisseur moyenne a diminué de 75 m, pour atteindre environ 50 m actuellement.<br><br>
+        <strong>Données :</strong> 1 ha = 1 hectare = 10⁴ m² ; énergie massique de fusion de la glace : L<sub>fus</sub> = 334 kJ·kg⁻¹ ; masse volumique de la glace ρ<sub>glace</sub> = 9,2 × 10² kg·m⁻³.
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">1. Calculer le volume perdu par le glacier d'Ossoue depuis 1911.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo39-1')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo39-1">Convertis d'abord les hectares en m² (1 ha = 10⁴ m²). Pour estimer le volume perdu, utilise la surface moyenne du glacier entre 1911 et aujourd'hui, multipliée par la diminution d'épaisseur : V = S<sub>moyenne</sub> × Δh.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">2. En déduire la masse m de glace qui a changé d'état entre 1911 et 2011.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo39-2')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo39-2">Utilise la relation entre volume, masse et masse volumique : m = ρ<sub>glace</sub> × V, avec le volume V trouvé à la question 1.</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta démarche…"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">3. Calculer l'énergie Q échangée par transfert thermique lors de la fonte de ce glacier.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo39-3')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo39-3">Utilise la formule Q = m × L<sub>fus</sub>, avec la masse m trouvée à la question 2 et l'énergie massique de fusion donnée dans les données.</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta démarche…"></textarea>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo39')">▶ Voir la correction</button>
+      <button class="btn-recommencer" onclick="recommencerCalc('exo39-wrap','corr-exo39')" style="margin-left:10px;">↺ Recommencer</button>
+
+      <div class="correction" id="corr-exo39">
+        <strong>1.</strong> Volume perdu :
+        <div class="calc-step">S<sub>moyenne</sub> = (90 + 40) / 2 = 65 ha = 65 × 10⁴ m² = 6,5 × 10⁵ m²</div>
+        <div class="calc-step">Δh = 75 m</div>
+        <div class="calc-step">V = S<sub>moyenne</sub> × Δh = 6,5 × 10⁵ × 75 ≈ <strong>4,9 × 10⁷ m³</strong></div>
+        <strong>2.</strong> Masse de glace fondue :
+        <div class="calc-step">m = ρ<sub>glace</sub> × V = 9,2 × 10² × 4,9 × 10⁷ ≈ <strong>4,5 × 10¹⁰ kg</strong></div>
+        <strong>3.</strong> Énergie échangée :
+        <div class="calc-step">Q = m × L<sub>fus</sub> = 4,5 × 10¹⁰ × 334 × 10³ ≈ <strong>1,5 × 10¹⁶ J</strong></div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-glaciers -->
+
+    <div class="exo-item-content" id="exoitem-bloc-op">
+    <div class="card" id="exo40-wrap" style="border-left:4px solid var(--orange);">
+      <div class="exo-header">
+        <h3>40. Asepsie d'un bloc opératoire</h3>
+        <span class="exo-pill">🧮 Calcul</span>
+      </div>
+
+      <div class="exo-enonce">
+        Les blocs opératoires nécessitent un nettoyage très efficace. Pour cela, de la vapeur d'eau est utilisée à haute température (150 °C) et sous haute pression (5 bars) : dans ces conditions, la vapeur désinfecte surfaces et instruments sans laisser de trace résiduelle de produit chimique.<br><br>
+        Les bionettoyeurs vapeur couramment utilisés dans les hôpitaux ont une puissance 𝒫 = 2 800 W, c'est-à-dire qu'ils convertissent une énergie Q = 2 800 joules chaque seconde.<br><br>
+        <strong>Données pour l'eau :</strong>
+      </div>
+
+      <table class="ions-table" style="margin-bottom:14px;">
+        <thead>
+          <tr><th>Pression (bar)</th><th>Température de vaporisation (°C)</th><th>Énergie massique de vaporisation (kJ·kg⁻¹)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>99,6</td><td>2 267</td></tr>
+          <tr><td>3</td><td>134</td><td>2 162</td></tr>
+          <tr><td>5</td><td>152</td><td>2 107</td></tr>
+          <tr><td>7</td><td>165</td><td>2 065</td></tr>
+          <tr><td>10</td><td>180</td><td>2 015</td></tr>
+        </tbody>
+      </table>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">a. Retrouver la relation entre la puissance 𝒫 et l'énergie Q échangée pendant une durée Δt.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo40-a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo40-a">Rappelle-toi la définition d'une puissance : c'est une énergie transférée par unité de temps. Comment exprimer cela sous forme d'une relation mathématique entre 𝒫, Q et Δt ?</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…" style="min-height:44px;"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Exprimer puis calculer la masse d'eau vaporisée par minute par un bionettoyeur standard.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo40-b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo40-b">Utilise la pression de fonctionnement mentionnée dans l'énoncé (5 bars) pour choisir la bonne valeur d'énergie massique de vaporisation dans le tableau. Calcule d'abord l'énergie Q échangée en une minute (Δt = 60 s) grâce à la relation trouvée en a, puis utilise Q = m × L<sub>vap</sub> pour en déduire la masse m.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris les formules utilisées…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo40')">▶ Voir la correction</button>
+      <button class="btn-recommencer" onclick="recommencerCalc('exo40-wrap','corr-exo40')" style="margin-left:10px;">↺ Recommencer</button>
+
+      <div class="correction" id="corr-exo40">
+        <strong>a.</strong> Relation puissance-énergie :
+        <div class="calc-step">𝒫 = Q / Δt &nbsp;&nbsp;(ou Q = 𝒫 × Δt)</div>
+        <strong>b.</strong> Masse d'eau vaporisée par minute (pression 5 bar → L<sub>vap</sub> = 2 107 kJ·kg⁻¹) :
+        <div class="calc-step">Δt = 1 min = 60 s</div>
+        <div class="calc-step">Q = 𝒫 × Δt = 2 800 × 60 = 168 000 J = 168 kJ</div>
+        <div class="calc-step">Q = m × L<sub>vap</sub> ⟹ m = Q / L<sub>vap</sub> = 168 / 2 107 ≈ <strong>0,080 kg ≈ 80 g par minute</strong></div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-bloc-op -->
+
+  </div>
+  <div class="sub-tab-content" id="exo-difficiles">
+
+    <div class="exo-tabs-nav">
+      <button class="exo-tab-btn active" onclick="showExoItem(this,'exoitem-boisson')" type="button">Rafraîchir une boisson <span class="exo-tab-stars">★★☆</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-degivrage')" type="button">Dégivrage <span class="exo-tab-stars">★☆☆</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-patinoire')" type="button">Performance énergétique d'une patinoire <span class="exo-tab-stars">★★★</span></button>
+      <button class="exo-tab-btn" onclick="showExoItem(this,'exoitem-tp-vaporisation')" type="button">Énergie massique de vaporisation de l'eau <span class="exo-tab-stars">★★★</span></button>
+    </div>
+
+    <div class="exo-item-content active" id="exoitem-boisson">
+    <div class="card" id="exo43-wrap" style="border-left:4px solid var(--rouge);">
+      <div class="exo-header">
+        <h3>43. Rafraîchir une boisson</h3>
+        <span class="exo-pill">🧮 Calcul</span>
+      </div>
+
+      <div class="exo-enonce">
+        Pour rafraîchir une boisson, des glaçons de masse totale m<sub>G</sub>, provenant d'un congélateur à −10 °C, sont plongés dans un verre contenant un échantillon d'eau à 25 °C et de masse m<sub>E</sub>.
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">1.a. Décrire l'évolution au cours du temps de la température des glaçons.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-1a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-1a">Distingue plusieurs phases : le réchauffement du solide, puis un palier lors du changement d'état, puis éventuellement le réchauffement du liquide obtenu.</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…"></textarea>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Nommer le changement d'état qui va avoir lieu entre les glaçons et l'eau liquide.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-1b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-1b">Les glaçons, initialement solides, se réchauffent au contact de l'eau plus chaude : quel changement d'état solide → liquide en résulte ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo43-1b','✓ Les glaçons (solides) deviennent liquides au contact de l\'eau plus chaude : c\'est une fusion.')">Fusion</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo43-1b','✗ La solidification est le changement d\'état inverse (liquide → solide).')">Solidification</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo43-1b','✗ La vaporisation est un changement d\'état liquide → gaz, ce n\'est pas le cas ici.')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo43-1b','✗ La sublimation est un changement d\'état solide → gaz, ce n\'est pas le cas ici.')">Sublimation</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo43-1b"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c. Déterminer le sens du transfert thermique ayant lieu entre les glaçons et l'eau liquide.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-1c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-1c">Un transfert thermique spontané va toujours du corps le plus chaud vers le corps le plus froid. Lequel des deux, entre les glaçons et l'eau, est initialement le plus chaud ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo43-1c','✓ L\'eau (25°C) est plus chaude que les glaçons (−10°C) : elle cède de l\'énergie thermique, que les glaçons reçoivent.')">Les glaçons reçoivent, l'eau cède</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo43-1c','✗ C\'est l\'inverse : l\'eau, plus chaude, cède de l\'énergie aux glaçons, plus froids.')">Les glaçons cèdent, l'eau reçoit</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo43-1c','✗ Un transfert thermique a bien lieu, puisque les glaçons et l\'eau sont à des températures différentes.')">Aucun transfert n'a lieu</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo43-1c"></div>
+      </div>
+
+      <div class="def-card" style="margin-bottom:16px;">
+        <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">Données</h3>
+        <p>On note θ<sub>f</sub> la température finale de l'eau dans le verre. Un modèle simplifié permet d'établir la relation entre l'énergie reçue par transfert thermique par les glaçons, notée Q<sub>G</sub> (en kJ), et la masse m<sub>G</sub> (en kg) de la manière suivante :</p>
+        <ul style="margin-top:8px;">
+          <li>si θ<sub>f</sub> &lt; 0 °C et qu'il reste des glaçons, alors : Q<sub>G</sub> = 2,10 × m<sub>G</sub> × (θ<sub>f</sub> + 10) ;</li>
+          <li>si θ<sub>f</sub> = 0 °C et que les glaçons sont totalement fondus, alors : Q<sub>G</sub> = m<sub>G</sub> × 355 ;</li>
+          <li>si θ<sub>f</sub> &gt; 0 °C, alors : Q<sub>G</sub> = m<sub>G</sub> × (355 + 4,18 × θ<sub>f</sub>).</li>
+        </ul>
+        <p style="margin-top:10px;">De la même manière, l'énergie notée Q<sub>E</sub> (en kJ), cédée par l'eau liquide par transfert thermique, s'exprime ainsi dans le cas où m<sub>E</sub> = 200 g :</p>
+        <ul style="margin-top:8px;">
+          <li>si θ<sub>f</sub> &gt; 0 °C, alors : Q<sub>E</sub> = 20,9 − 0,837 × θ<sub>f</sub>.</li>
+        </ul>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">2.a. Expliquer le fait que plusieurs cas sont distingués pour l'énergie reçue par les glaçons en fonction de θ<sub>f</sub>.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-2a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-2a">Repère les 3 états successifs des glaçons au cours de la transformation : solide qui se réchauffe, solide qui fond (palier), puis liquide qui se réchauffe. Chaque étape obéit à une loi physique différente.</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Vérifier que l'expression de Q<sub>E</sub> donnée pour θ<sub>f</sub> &gt; 0 °C traduit le fait que l'énergie Q<sub>E</sub> cédée par l'eau liquide par transfert thermique diminue lorsque la température finale θ<sub>f</sub> augmente. Est-ce surprenant ?</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-2b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-2b">Regarde le signe du coefficient devant θ<sub>f</sub> dans l'expression de Q<sub>E</sub>. Que signifie physiquement une température finale plus proche de la température initiale de l'eau (25 °C) ?</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">c. Effectuer une analyse similaire pour l'énergie Q<sub>G</sub> reçue par les glaçons.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-2c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-2c">Regarde le signe du coefficient devant θ<sub>f</sub> dans l'expression de Q<sub>G</sub> (cas θ<sub>f</sub> &gt; 0 °C). Le sens de variation est-il le même que pour Q<sub>E</sub>, ou l'inverse ?</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…"></textarea>
+      </div>
+
+      <div class="doc-image-wrap">
+        <img src="ex43.png" alt="Graphique représentant les variations de Q_E et Q_G en fonction de la température finale, pour différentes valeurs de m_G (10 g, 20 g, 30 g et 40 g)" style="max-width:50%;">
+        <div class="doc-caption">Représentations graphiques des variations de Q<sub>E</sub> et Q<sub>G</sub> en fonction de la température finale θ<sub>f</sub>, pour différentes valeurs de m<sub>G</sub> (10 g, 20 g, 30 g et 40 g).</div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">3.a. Identifier chaque courbe en justifiant.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-3a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-3a">Repère d'abord la seule courbe décroissante : à quelle grandeur correspond-elle, d'après le signe de son coefficient ? Pour les autres courbes, compare leur valeur à θ<sub>f</sub> = 0 °C aux valeurs de Q<sub>G</sub>(0) = 355 × m<sub>G</sub> calculées pour chaque masse.</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…" style="min-height:70px;"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Déterminer graphiquement la température finale de la boisson lorsqu'on ajoute m<sub>G</sub> = 20 g de glaçons dans l'eau liquide.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-3b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-3b">La température finale d'équilibre correspond à l'abscisse du point d'intersection entre la courbe de Q<sub>E</sub> et la courbe de Q<sub>G</sub> associée à m<sub>G</sub> = 20 g.</div>
+        <textarea class="rep-zone-activite" placeholder="Ta réponse…" style="min-height:44px;"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">c. Déterminer la masse de glaçons pour obtenir θ<sub>f</sub> = 19,5 °C.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo43-3c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo43-3c">Lis d'abord graphiquement la valeur de Q<sub>E</sub> à θ<sub>f</sub> = 19,5 °C. Puis calcule la masse m<sub>G</sub> qui donnerait cette même valeur de Q<sub>G</sub> à cette température, à l'aide de la formule Q<sub>G</sub> = m<sub>G</sub> × (355 + 4,18 × θ<sub>f</sub>).</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo43')">▶ Voir la correction</button>
+      <button class="btn-recommencer" onclick="recommencerActivite('exo43-wrap'); recommencerCalc('exo43-wrap','corr-exo43')" style="margin-left:10px;">↺ Tout recommencer</button>
+
+      <div class="correction" id="corr-exo43">
+        <strong>1.a.</strong> La température des glaçons augmente progressivement : d'abord le solide se réchauffe (de −10 °C jusqu'à 0 °C), puis la température reste stable à 0 °C pendant toute la fusion, puis — si le mélange final est à une température positive — l'eau issue de la fonte continue de se réchauffer jusqu'à θ<sub>f</sub>.<br><br>
+        <strong>b.</strong> Fusion (passage de l'état solide à l'état liquide).<br><br>
+        <strong>c.</strong> Les glaçons reçoivent de l'énergie thermique, l'eau liquide en cède : le transfert va spontanément du corps le plus chaud (l'eau) vers le corps le plus froid (les glaçons).<br><br>
+
+        <strong>2.a.</strong> Trois cas sont distingués car l'état physique des glaçons évolue au cours du processus : solide qui se réchauffe (θ<sub>f</sub>&lt;0°C), palier de fusion (θ<sub>f</sub>=0°C), puis liquide issu de la fonte qui se réchauffe (θ<sub>f</sub>&gt;0°C). Chaque étape suit une loi physique différente, d'où des expressions différentes de Q<sub>G</sub>.<br><br>
+        <strong>b.</strong> Le coefficient devant θ<sub>f</sub> dans Q<sub>E</sub> = 20,9 − 0,837×θ<sub>f</sub> est négatif (−0,837), donc Q<sub>E</sub> est bien une fonction décroissante de θ<sub>f</sub>. Ce n'est pas surprenant : plus θ<sub>f</sub> est proche de la température initiale de l'eau (25 °C), moins l'eau s'est refroidie, donc moins elle a cédé d'énergie.<br><br>
+        <strong>c.</strong> Le coefficient devant θ<sub>f</sub> dans Q<sub>G</sub> = m<sub>G</sub>×(355+4,18×θ<sub>f</sub>) est positif, donc Q<sub>G</sub> est une fonction croissante de θ<sub>f</sub> — sens inverse de Q<sub>E</sub>. Logique : plus θ<sub>f</sub> est élevé, plus l'eau issue de la fonte des glaçons a dû être réchauffée, donc plus les glaçons ont reçu d'énergie.<br><br>
+
+        <strong>3.a.</strong> Courbe 5 : Q<sub>E</sub> (seule courbe décroissante, cohérente avec le coefficient négatif ; elle part de 20,9 kJ et s'annule vers 25 °C). Courbes 1 à 4 : Q<sub>G</sub>, croissantes, classées par valeur à θ<sub>f</sub>=0°C = 355×m<sub>G</sub> : courbe 1 = 40 g (14,2 kJ), courbe 2 = 30 g (10,65 kJ), courbe 3 = 20 g (7,1 kJ), courbe 4 = 10 g (3,55 kJ).<br><br>
+        <div class="calc-step">b. Pour m<sub>G</sub> = 20 g (courbe 3), l'intersection avec la courbe de Q<sub>E</sub> se lit graphiquement vers θ<sub>f</sub> ≈ 15 °C.</div>
+        <div class="calc-step">c. Q<sub>E</sub>(19,5 °C) = 20,9 − 0,837 × 19,5 ≈ 4,58 kJ</div>
+        <div class="calc-step">m<sub>G</sub> = Q<sub>E</sub>(19,5) / (355 + 4,18 × 19,5) = 4,58 / 436,5 ≈ 0,0105 kg ≈ <strong>10,5 g</strong></div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-boisson -->
+
+    <div class="exo-item-content" id="exoitem-degivrage">
+    <div class="card" id="exo41-wrap" style="border-left:4px solid var(--rouge);">
+      <div class="exo-header">
+        <h3>41. Dégivrage</h3>
+        <span class="exo-pill">🧮 Calcul</span>
+      </div>
+
+      <div class="exo-enonce">
+        La résistance de dégivrage sur la lunette arrière d'une voiture est un fil conducteur fin et de couleur noire ou rouge. Il serpente le long de la vitre, de façon à couvrir un maximum de stries parallèles sans gêner la visibilité du conducteur.<br><br>
+        Ce fil est un conducteur ohmique : il convertit intégralement l'énergie électrique qu'il reçoit en transfert thermique d'énergie. Pour un dipôle, l'intensité du courant I qui le traverse, la résistance R et la tension U à ses bornes sont liées par la loi d'Ohm : U = R × I.<br><br>
+        <strong>Données :</strong>
+      </div>
+
+      <ul style="font-size:0.88rem;line-height:1.8;color:var(--texte);margin-bottom:16px;padding-left:20px;">
+        <li>pour un véhicule familial standard : R = 1,5 Ω et U = 12 V ;</li>
+        <li>pendant une durée notée Δt, l'énergie électrique consommée par le fil est 𝓔 = U × I × Δt, avec U la tension à ses bornes et I l'intensité du courant qui le traverse ;</li>
+        <li>énergie massique de fusion de l'eau : L<sub>fus</sub> = 334 kJ·kg⁻¹ ;</li>
+        <li>masse volumique de la glace : ρ<sub>glace</sub> = 9,2 × 10² kg·m⁻³ ;</li>
+        <li>aire de la lunette arrière : A = 1,0 m² ;</li>
+        <li>épaisseur d'une couche de givre : e = 2,0 mm.</li>
+      </ul>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">a. Montrer que 𝓔 = U² / R × Δt.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-a">Remplace l'intensité I dans l'expression 𝓔 = U × I × Δt en utilisant la loi d'Ohm U = R × I (donc I = U/R).</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta démonstration…" style="min-height:44px;"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Exprimer puis calculer la masse de la couche de givre d'épaisseur e = 2,0 mm qui couvrirait toute la vitre arrière.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-b">Calcule d'abord le volume de la couche de givre : V = A × e (attention aux unités, convertis e en mètres). Utilise ensuite m = ρ<sub>glace</sub> × V.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris les formules utilisées…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c1. Nommer le changement d'état permettant d'éliminer ce givre.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-c1')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-c1">Le givre, initialement solide (glace), disparaît en devenant liquide (eau) : quel changement d'état correspond à cette transformation ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo41-c1','✓ Le givre (solide) devient liquide : c\'est une fusion.')">Fusion</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c1','✗ La sublimation est un changement d\'état solide → gaz, ce n\'est pas le cas ici.')">Sublimation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c1','✗ La vaporisation est un changement d\'état liquide → gaz, ce n\'est pas le cas ici.')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c1','✗ La solidification est le changement d\'état inverse (liquide → solide).')">Solidification</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo41-c1"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c2. Préciser son caractère endothermique ou exothermique.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-c2')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-c2">Le givre doit recevoir de l'énergie pour fondre : quel est le caractère de cette transformation ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo41-c2','✓ Le givre reçoit de l\'énergie pour fondre : Q &gt; 0, la fusion est endothermique.')">Endothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c2','✗ Le givre reçoit de l\'énergie (il ne cède rien) : la fusion est endothermique, pas exothermique.')">Exothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c2','✗ Un changement d\'état échange toujours de l\'énergie par transfert thermique.')">Ni l'un ni l'autre</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo41-c2"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c3. Déterminer le sens du transfert thermique entre le conducteur ohmique et le givre.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-c3')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-c3">Le conducteur ohmique chauffe grâce à l'énergie électrique qu'il reçoit. Qui, du conducteur ou du givre, cède de l'énergie thermique à l'autre ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo41-c3','✓ Le conducteur chauffe (il reçoit de l\'énergie électrique) et cède cette chaleur au givre, qui la reçoit et fond.')">Le conducteur cède, le givre reçoit</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c3','✗ C\'est l\'inverse : le conducteur chauffe et cède de l\'énergie thermique au givre.')">Le givre cède, le conducteur reçoit</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo41-c3','✗ Un transfert thermique a bien lieu, puisque le givre fond au contact du conducteur chaud.')">Aucun transfert n'a lieu</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo41-c3"></div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">d. Exprimer puis calculer l'énergie transférée Q pour faire disparaître le givre.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-d')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-d">Utilise la relation Q = m × L<sub>fus</sub>, avec la masse calculée à la question b.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">e. Exprimer puis calculer la durée Δt de fonctionnement du dispositif électrique de dégivrage pour faire disparaître la couche de givre.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo41-e')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo41-e">Le fil conducteur convertit intégralement l'énergie électrique 𝓔 en énergie thermique Q : on peut donc considérer 𝓔 = Q. Utilise la relation établie à la question a (𝓔 = U²/R × Δt) pour isoler puis calculer Δt.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo41')">▶ Voir la correction</button>
+      <button class="btn-recommencer" onclick="recommencerActivite('exo41-wrap'); recommencerCalc('exo41-wrap','corr-exo41')" style="margin-left:10px;">↺ Tout recommencer</button>
+
+      <div class="correction" id="corr-exo41">
+        <strong>a.</strong> D'après la loi d'Ohm, U = R × I, donc I = U/R. En remplaçant dans 𝓔 = U × I × Δt :
+        <div class="calc-step">𝓔 = U × (U/R) × Δt = U²/R × Δt</div>
+        <strong>b.</strong> Masse de givre :
+        <div class="calc-step">V = A × e = 1,0 × 2,0×10⁻³ = 2,0×10⁻³ m³</div>
+        <div class="calc-step">m = ρ<sub>glace</sub> × V = 9,2×10² × 2,0×10⁻³ = <strong>1,84 kg</strong></div>
+        <strong>c1.</strong> Fusion.<br>
+        <strong>c2.</strong> Endothermique (le givre reçoit de l'énergie pour fondre).<br>
+        <strong>c3.</strong> Le conducteur ohmique cède de l'énergie thermique, le givre en reçoit.<br><br>
+        <strong>d.</strong> Énergie pour faire fondre le givre :
+        <div class="calc-step">Q = m × L<sub>fus</sub> = 1,84 × 334×10³ ≈ <strong>6,15×10⁵ J</strong> (≈ 615 kJ)</div>
+        <strong>e.</strong> Durée de fonctionnement (𝓔 = Q, toute l'énergie électrique est convertie en chaleur) :
+        <div class="calc-step">Δt = 𝓔 × R / U² = Q × R / U² = 6,15×10⁵ × 1,5 / 12² ≈ 6,4×10³ s</div>
+        <div class="calc-step">Soit environ <strong>1 h 47 min</strong> (106,7 min) — ordre de grandeur cohérent avec les valeurs simplifiées de l'énoncé, même si en pratique le dégivrage réel est bien plus rapide (couche de givre irrégulière et non uniforme sur toute la vitre).</div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-degivrage -->
+
+    <div class="exo-item-content" id="exoitem-patinoire">
+    <div class="card" id="exo45-wrap" style="border-left:4px solid var(--rouge);">
+      <div class="exo-header">
+        <h3>45. Performance énergétique d'une patinoire</h3>
+        <span class="exo-pill">🧮 Calcul</span>
+      </div>
+
+      <div class="exo-enonce">
+        Aren'ice est une patinoire inaugurée en 2016 et située à Cergy (Val-d'Oise). Elle est le centre d'entraînement de l'équipe de France de hockey sur glace. Ce complexe sportif comporte deux pistes de dimensions internationales (30 × 60 m).<br><br>
+        Le système de réfrigération de la patinoire contient un fluide frigorigène, l'ammoniac (NH₃), qui circule en circuit fermé et subit plusieurs changements d'état. Grâce à ce système, une partie de l'énergie échangée par transfert thermique pour maintenir la couche de glace à la température adéquate est récupérée pour assurer le chauffage de l'enceinte et de l'eau sanitaire.
+      </div>
+
+      <div class="doc-image-wrap">
+        <img src="ex45-1.png" alt="Schéma de principe du système de réfrigération de la patinoire : évaporateur au contact de la glace, compresseur, liquéfacteur au contact de l'eau sanitaire, détendeur" style="max-width:50%;">
+        <div class="doc-caption">Document — Schéma de principe du système de réfrigération de la patinoire.</div>
+      </div>
+
+      <div class="def-card" style="margin-bottom:16px;">
+        <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">Données</h3>
+        <p><strong>Coefficient de performance (COP)</strong> : pour évaluer l'efficacité d'un système de réfrigération, on utilise le coefficient de performance (COP), défini comme le rapport entre l'énergie utile Q et l'énergie (essentiellement électrique) W<sub>e</sub> consommée :</p>
+        <div class="formule-box" style="margin:10px 0;">COP = Q / W<sub>e</sub></div>
+        <ul style="margin-top:8px;">
+          <li>Masse volumique de la glace : ρ<sub>glace</sub> = 9,2 × 10² kg·m⁻³.</li>
+          <li>Énergie massique de changement d'état : ℓ = 334 kJ·kg⁻¹.</li>
+          <li>L'énergie 𝓔 échangée pendant une durée Δt est reliée à la puissance 𝒫 par l'expression : 𝓔 = 𝒫 × Δt (avec 𝒫 en W ; 𝓔 en J ; Δt en s).</li>
+        </ul>
+      </div>
+
+      <div class="section-title" style="margin-top:6px;"><span class="icon">1️⃣</span> Au niveau de l'évaporateur</div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">a. Nommer le changement d'état subi par l'ammoniac au niveau de l'évaporateur.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-1a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-1a">Le fluide frigorigène liquide s'évapore au contact de la glace, en captant de la chaleur pour passer à l'état gazeux : quel changement d'état cela représente-t-il ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-1a','✓ Le fluide passe de l\'état liquide à l\'état gazeux en captant de la chaleur : c\'est une vaporisation.')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1a','✗ La liquéfaction est le changement d\'état inverse (gaz → liquide).')">Liquéfaction</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1a','✗ La fusion est un changement d\'état solide → liquide, ce n\'est pas le cas ici.')">Fusion</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1a','✗ La solidification est un changement d\'état liquide → solide, ce n\'est pas le cas ici.')">Solidification</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-1a"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Préciser si ce changement d'état est endothermique ou exothermique.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-1b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-1b">Ce changement d'état nécessite un apport d'énergie pour le fluide : quel est son caractère ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-1b','✓ Le fluide reçoit de l\'énergie pour s\'évaporer : Q &gt; 0, la vaporisation est endothermique.')">Endothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1b','✗ Le fluide reçoit de l\'énergie (il ne cède rien) : la vaporisation est endothermique, pas exothermique.')">Exothermique</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-1b"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">c. Identifier le système échangeant de l'énergie avec l'ammoniac.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-1c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-1c">Regarde le schéma : quel élément du système échange de l'énergie avec l'ammoniac au niveau de l'évaporateur ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-1c','✓ D\'après le schéma, l\'évaporateur est au contact direct de la glace de la patinoire.')">La glace de la patinoire</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1c','✗ L\'eau sanitaire est au contact du liquéfacteur, pas de l\'évaporateur.')">L'eau sanitaire</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1c','✗ Le compresseur ne fait que comprimer le fluide, il n\'échange pas d\'énergie avec l\'extérieur ici.')">Le compresseur</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-1c"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">d. Préciser le sens du transfert thermique étudié ici.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-1d')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-1d">Un transfert thermique va toujours du corps chaud vers le corps froid. Qui, de la glace ou de l'ammoniac, cède de l'énergie ici ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-1d','✓ La glace cède de l\'énergie thermique à l\'ammoniac, ce qui permet de la refroidir et de la maintenir gelée.')">La glace cède, l'ammoniac reçoit</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-1d','✗ C\'est l\'inverse : la glace cède de l\'énergie à l\'ammoniac, plus froid.')">L'ammoniac cède, la glace reçoit</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-1d"></div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px;"><span class="icon">2️⃣</span> Au niveau du liquéfacteur</div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">a. Nommer le changement d'état subi par l'ammoniac au niveau du liquéfacteur.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-2a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-2a">Au niveau du liquéfacteur, le fluide passe de l'état gazeux à l'état liquide : quel est le nom de ce changement d'état ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-2a','✓ Le fluide passe de l\'état gazeux à l\'état liquide : c\'est une liquéfaction.')">Liquéfaction</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-2a','✗ La vaporisation est le changement d\'état inverse (liquide → gaz).')">Vaporisation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-2a','✗ La sublimation est un changement d\'état solide → gaz, ce n\'est pas le cas ici.')">Sublimation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-2a','✗ La condensation est un changement d\'état gaz → solide, ce n\'est pas le cas ici.')">Condensation</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-2a"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question-row">
+          <div class="dq-question">b. Préciser si ce changement d'état est endothermique ou exothermique.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-2b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-2b">Ce changement d'état libère de l'énergie : quel est son caractère ?</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-exo45-2b','✗ Le fluide cède de l\'énergie (il n\'en reçoit pas) : la liquéfaction est exothermique, pas endothermique.')">Endothermique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-exo45-2b','✓ Le fluide cède de l\'énergie en se liquéfiant : Q &lt; 0, la liquéfaction est exothermique.')">Exothermique</button>
+        </div>
+        <div class="dq-feedback" id="fb-exo45-2b"></div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">c. Déterminer l'intérêt du transfert thermique qui a lieu ici.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-2c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-2c">Regarde le schéma : à quoi sert l'énergie cédée par l'ammoniac au niveau du liquéfacteur (voir le lien avec « eau sanitaire ») ?</div>
+        <textarea class="rep-zone-activite" placeholder="Rédige ta réponse…" style="min-height:44px;"></textarea>
+      </div>
+
+      <div class="section-title" style="margin-top:18px;"><span class="icon">3️⃣</span> Bilan énergétique de la patinoire</div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">a. L'épaisseur de la glace sur les deux pistes est e = 4,0 cm. Exprimer puis calculer le volume V et la masse m de glace à produire.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-3a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-3a">Calcule d'abord l'aire totale des deux pistes (30 × 60 m chacune), puis utilise V = A × e (attention aux unités : convertis e en mètres). Utilise ensuite m = ρ<sub>glace</sub> × V.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris les formules utilisées…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Exprimer puis calculer l'énergie Q échangée par transfert thermique pour réaliser la solidification de l'eau sur les pistes de la patinoire.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-3b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-3b">Utilise la relation Q = m × ℓ, avec la masse calculée à la question a.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">c. La puissance de réfrigération de l'installation est 𝒫 = 1 050 kW. Exprimer puis calculer la durée Δt nécessaire pour réaliser ce changement d'état.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-3c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-3c">Utilise la relation 𝓔 = 𝒫 × Δt (avec ici 𝓔 = Q, l'énergie calculée à la question b), et isole Δt.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">d. Le coefficient de performance du système de réfrigération est COP = 2,2. En déduire l'énergie électrique W<sub>e</sub> consommée par l'installation lors de la solidification de l'eau sur les pistes.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo45-3d')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo45-3d">Utilise la définition du COP donnée dans les données : COP = Q/W<sub>e</sub>. Isole W<sub>e</sub>.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par les valeurs numériques…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo45')">▶ Voir la correction</button>
+      <button class="btn-recommencer" onclick="recommencerActivite('exo45-wrap'); recommencerCalc('exo45-wrap','corr-exo45')" style="margin-left:10px;">↺ Tout recommencer</button>
+
+      <div class="correction" id="corr-exo45">
+        <strong>1.a.</strong> Vaporisation.<br>
+        <strong>b.</strong> Endothermique.<br>
+        <strong>c.</strong> La glace de la patinoire.<br>
+        <strong>d.</strong> La glace cède de l'énergie thermique, l'ammoniac en reçoit — c'est ce qui permet de refroidir et de maintenir la glace.<br><br>
+        <strong>2.a.</strong> Liquéfaction.<br>
+        <strong>b.</strong> Exothermique.<br>
+        <strong>c.</strong> L'énergie cédée par l'ammoniac lors de sa liquéfaction est récupérée pour chauffer l'eau sanitaire (et l'enceinte) : c'est une valorisation énergétique qui évite de gaspiller cette chaleur.<br><br>
+        <strong>3.a.</strong> Volume et masse de glace :
+        <div class="calc-step">A = 2 × (30 × 60) = 3 600 m²</div>
+        <div class="calc-step">V = A × e = 3 600 × 0,040 = 144 m³</div>
+        <div class="calc-step">m = ρ<sub>glace</sub> × V = 9,2×10² × 144 ≈ <strong>1,32×10⁵ kg</strong> (132 480 kg)</div>
+        <strong>b.</strong> Énergie de solidification :
+        <div class="calc-step">Q = m × ℓ = 132 480 × 334×10³ ≈ <strong>4,42×10¹⁰ J</strong> (≈ 44,2 GJ)</div>
+        <strong>c.</strong> Durée nécessaire :
+        <div class="calc-step">Δt = Q / 𝒫 = 4,42×10¹⁰ / 1,050×10⁶ ≈ 4,21×10⁴ s</div>
+        <div class="calc-step">Soit environ <strong>11 h 42 min</strong></div>
+        <strong>d.</strong> Énergie électrique consommée :
+        <div class="calc-step">W<sub>e</sub> = Q / COP = 4,42×10¹⁰ / 2,2 ≈ <strong>2,01×10¹⁰ J</strong> (≈ 20,1 GJ, soit environ 5 590 kWh)</div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-patinoire -->
+
+    <div class="exo-item-content" id="exoitem-tp-vaporisation">
+    <div class="card" id="exo46-wrap" style="border-left:4px solid var(--rouge);">
+      <div class="exo-header">
+        <h3>46. Détermination de l'énergie massique de vaporisation de l'eau</h3>
+        <span class="exo-pill">🧪 TP</span>
+      </div>
+
+      <div class="exo-enonce">
+        Un chauffe-ballon vaporise progressivement l'eau d'un ballon. Une analyse de l'énergie fournie par le chauffe-ballon permet de déterminer l'énergie massique de vaporisation de l'eau.
+      </div>
+
+      <div class="doc-image-wrap">
+        <img src="ex46-1.png" alt="Montage expérimental : chauffe-ballon avec thermomètre, réfrigérant à eau, éprouvette graduée et balance pour recueillir le distillat" style="max-width:50%;">
+        <div class="doc-caption">Document — Montage expérimental.</div>
+      </div>
+
+      <div class="def-card" style="margin-bottom:16px;">
+        <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">Protocole</h3>
+        <ul>
+          <li>Introduire dans le ballon m<sub>eau</sub> = 100 g d'eau distillée et deux grains de pierre ponce. Mettre en place le dispositif expérimental.</li>
+          <li>Allumer le chauffe-ballon en maintenant une puissance de chauffage constante.</li>
+          <li>Tarer la balance.</li>
+          <li>Déclencher le système d'acquisition et suivre l'évolution de la température dans le ballon au cours du temps.</li>
+          <li>Lorsque les premières gouttes de distillat arrivent dans l'éprouvette graduée, déclencher le chronomètre et mesurer la masse d'eau recueillie toutes les minutes pendant 10 min. Arrêter ensuite le chauffage et l'acquisition.</li>
+        </ul>
+      </div>
+
+      <div class="def-card" style="margin-bottom:16px;">
+        <h3 style="color:var(--orange); text-transform:none; letter-spacing:normal;">Données</h3>
+        <p><strong>Puissance du système de chauffage</strong> : la puissance 𝒫 du système de chauffage est déterminée en mesurant la variation de température Δθ de l'eau de masse m<sub>eau</sub> pendant une durée Δt :</p>
+        <div class="formule-box" style="margin:10px 0;">
+          𝒫 = 4 180 × m<sub>eau</sub> × Δθ / Δt
+          <div class="legend">Unités SI : 𝒫 en W ; m<sub>eau</sub> en kg ; Δθ en °C ; Δt en s.</div>
+        </div>
+        <p style="margin-top:10px;"><strong>Énergie reçue par l'eau lors de la vaporisation</strong> : pour un système de chauffage de puissance 𝒫, l'énergie Q reçue par l'eau pendant une durée Δt est :</p>
+        <div class="formule-box" style="margin:10px 0;">
+          Q = 𝒫 × Δt
+          <div class="legend">Unités SI : Q en J ; 𝒫 en W ; Δt en s.</div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:6px;"><span class="icon">1️⃣</span> Montée en température de l'eau</div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">a. Réaliser le protocole et enregistrer la courbe donnant l'évolution de la température de l'eau dans le ballon en fonction du temps.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo46-1a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo46-1a">Suis le protocole donné : installe le montage, allume le chauffe-ballon à puissance constante, et enregistre θ(t) grâce au système d'acquisition relié au thermomètre.</div>
+        <textarea class="rep-zone-activite" placeholder="Note tes observations, ou colle/décris ta courbe θ(t)…" style="min-height:60px;"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Déterminer la durée Δt nécessaire pour faire passer la température de l'eau de 70 °C à 90 °C.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo46-1b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo46-1b">Lis directement sur ta courbe θ(t) les instants où la température atteint 70 °C puis 90 °C ; la durée Δt est la différence entre ces deux instants.</div>
+        <textarea class="rep-zone-activite" placeholder="Ta réponse (à partir de ta courbe expérimentale)…" style="min-height:44px;"></textarea>
+      </div>
+
+      <div style="text-align:center;margin:10px 0 16px;">
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--bleu-clair);color:var(--bleu);border:1.5px solid var(--bleu);border-radius:999px;padding:6px 16px;font-size:0.82rem;font-weight:700;font-family:'Outfit',sans-serif;">📞 Appel n°1 — Présenter votre résultat au professeur ou en cas de difficultés</span>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">c. Exprimer puis calculer la puissance 𝒫 du système de chauffage.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo46-1c')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo46-1c">Utilise la formule donnée dans les données : 𝒫 = 4 180 × m<sub>eau</sub> × (Δθ/Δt), avec m<sub>eau</sub> en kg, Δθ = 90 − 70 = 20 °C, et le Δt trouvé à la question précédente (converti en secondes).</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par tes valeurs expérimentales…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité…"></textarea></div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:18px;"><span class="icon">2️⃣</span> Vaporisation de l'eau</div>
+      <p style="font-size:0.86rem;color:var(--texte-léger);margin-bottom:12px;">On note m la masse d'eau qui a changé d'état pendant Δt.</p>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">a. Construire un tableau de données indiquant les valeurs de m et de Q chaque minute. Tracer les points expérimentaux en plaçant m en abscisse et Q en ordonnée.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo46-2a')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo46-2a">Pour chaque minute, relève la masse m d'eau recueillie dans l'éprouvette. Calcule ensuite l'énergie Q reçue depuis le début de la vaporisation avec Q = 𝒫 × Δt (Δt = durée écoulée en secondes depuis le début de cette phase). Place chaque point (m ; Q) sur un graphique.</div>
+        <textarea class="rep-zone-activite" placeholder="Ton tableau de données, ou description de ton graphique…" style="min-height:60px;"></textarea>
+      </div>
+
+      <div style="text-align:center;margin:10px 0 16px;">
+        <span style="display:inline-flex;align-items:center;gap:7px;background:var(--bleu-clair);color:var(--bleu);border:1.5px solid var(--bleu);border-radius:999px;padding:6px 16px;font-size:0.82rem;font-weight:700;font-family:'Outfit',sans-serif;">📞 Appel n°2 — Présenter votre graphique au professeur ou en cas de difficultés</span>
+      </div>
+
+      <div class="question-block">
+        <div class="dq-question-row">
+          <div class="question-label">b. Déterminer la valeur expérimentale de l'énergie massique de vaporisation de l'eau ℓ<sub>exp</sub>. Comparer votre résultat à la valeur de référence : ℓ<sub>réf</sub> = 2 257 kJ·kg⁻¹.</div>
+          <button class="btn-indice" onclick="toggleIndice(this,'ind-exo46-2b')">💡 Indice</button>
+        </div>
+        <div class="indice-box" id="ind-exo46-2b">Le graphique Q en fonction de m doit être une droite passant par l'origine (Q = ℓ × m) : le coefficient directeur (la pente) de cette droite donne directement ℓ<sub>exp</sub>. Compare-la à ℓ<sub>réf</sub> en calculant l'écart relatif : (|ℓ<sub>exp</sub> − ℓ<sub>réf</sub>| / ℓ<sub>réf</sub>) × 100.</div>
+        <div class="fcr-block">
+          <div class="fcr-row"><span class="fcr-label">Formule</span><textarea class="rep-zone-activite fcr-input" placeholder="Écris la formule utilisée…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Calcul</span><textarea class="rep-zone-activite fcr-input" placeholder="Remplace par tes valeurs expérimentales…"></textarea></div>
+          <div class="fcr-row"><span class="fcr-label">Résultat</span><textarea class="rep-zone-activite fcr-input" placeholder="Résultat, avec unité, et comparaison à la valeur de référence…"></textarea></div>
+        </div>
+      </div>
+
+      <button class="btn-correction" onclick="toggleCorr('corr-exo46')">▶ Voir la méthode de correction</button>
+      <button class="btn-recommencer" onclick="recommencerCalc('exo46-wrap','corr-exo46')" style="margin-left:10px;">↺ Recommencer</button>
+
+      <div class="correction" id="corr-exo46">
+        <p style="font-size:0.82rem;color:var(--texte-léger);font-style:italic;margin-bottom:10px;">Ce TP repose sur des mesures expérimentales : il n'existe pas de valeur numérique unique attendue. La correction ci-dessous détaille la <strong>méthode</strong> à suivre pour chaque question.</p>
+        <strong>1.a.</strong> La courbe θ(t) doit montrer une montée en température quasi linéaire (l'eau se réchauffe), puis un palier à 100 °C (température de vaporisation de l'eau à pression atmosphérique) pendant toute la durée de la vaporisation.<br><br>
+        <strong>b.</strong> Lire sur la courbe l'instant t₁ où θ = 70 °C et l'instant t₂ où θ = 90 °C, puis calculer Δt = t₂ − t₁.<br><br>
+        <strong>c.</strong> 𝒫 = 4 180 × m<sub>eau</sub> × Δθ/Δt, avec m<sub>eau</sub> = 0,100 kg, Δθ = 20 °C, et le Δt (en s) mesuré à la question b. La valeur numérique de 𝒫 dépend directement de votre Δt expérimental.<br><br>
+        <strong>2.a.</strong> Pour chaque minute, noter la masse m d'eau recueillie dans l'éprouvette, et calculer l'énergie Q reçue depuis le début de la vaporisation avec Q = 𝒫 × Δt (Δt = durée écoulée en secondes depuis le début de cette phase). Le graphique Q = f(m) doit faire apparaître des points globalement alignés sur une droite passant par l'origine.<br><br>
+        <strong>b.</strong> Le coefficient directeur de la droite Q = f(m) donne ℓ<sub>exp</sub> (car Q = ℓ × m). Calculer ensuite l'écart relatif avec la valeur de référence :
+        <div class="calc-step">Écart relatif = |ℓ<sub>exp</sub> − ℓ<sub>réf</sub>| / ℓ<sub>réf</sub> × 100, avec ℓ<sub>réf</sub> = 2 257 kJ·kg⁻¹</div>
+        <div class="calc-step">Un écart de quelques % est généralement considéré comme satisfaisant pour ce type de manipulation (pertes thermiques du montage non négligeables).</div>
+      </div>
+
+    </div>
+    </div>
+    <!-- /exo-item-content exoitem-tp-vaporisation -->
+
+  </div>
+  <div class="sub-tab-content" id="exo-escape">
+    <div class="resource-card">
+      <p style="font-size:0.88rem;color:var(--texte-léger);margin-bottom:10px;">🔓 Escape Game — Transformations physiques : la centrale thermique en crise — <a href="sequence08-escape_game_centrale_thermique.html" target="_blank" rel="noopener" style="color:var(--bleu);font-weight:700;">ouvrir en plein écran ↗</a></p>
+      <div class="resource-frame-wrap">
+        <iframe src="sequence08-escape_game_centrale_thermique.html" loading="lazy" title="Escape Game — Transformations physiques" style="height:920px;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TAB — BILAN & RESSOURCES ══════════════════ -->
+<div class="tab-content" id="tab-bilan">
   <div class="section-title">
     <span class="icon">📚</span>
     <h2>Bilan &amp; Ressources</h2>
@@ -1822,17 +3367,18 @@
     <div class="section-title"><span class="icon">📖</span> Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
-      <div class="gloss-item" data-term="transformation physique"><dt>Transformation physique</dt><dd>Change l'état d'une espèce chimique (solide, liquide, gaz) sans changer sa nature : fusion, vaporisation, sublimation et leurs transformations inverses.</dd></div>
+      <div class="gloss-item" data-term="agitation thermique"><dt>Agitation thermique</dt><dd>Mouvement (vibration, déplacement) des entités d'un système, d'autant plus important que la température est élevée.</dd></div>
+      <div class="gloss-item" data-term="chaleur"><dt>Chaleur</dt><dd>Terme courant désignant le transfert thermique Q, énergie échangée entre deux systèmes de températures différentes (en J). À ne pas confondre avec la température.</dd></div>
+      <div class="gloss-item" data-term="chaleur latente"><dt>Chaleur latente</dt><dd>Autre nom de l'énergie massique de changement d'état L (en J·kg⁻¹) : quantité d'énergie à apporter ou à retirer, par kg de matière, pour un changement d'état donné.</dd></div>
+      <div class="gloss-item" data-term="corps pur"><dt>Corps pur</dt><dd>Espèce chimique constituée d'une seule sorte d'entités (atomes, molécules ou ions), sans mélange avec d'autres espèces. Un corps pur change d'état à température constante, à pression donnée.</dd></div>
+      <div class="gloss-item" data-term="endothermique exothermique"><dt>Endothermique / exothermique</dt><dd>Une transformation endothermique capte de l'énergie (transfert thermique Q > 0) ; une transformation exothermique en libère (Q < 0).</dd></div>
+      <div class="gloss-item" data-term="energie liberee captee"><dt>Énergie libérée / captée</dt><dd>Lors d'une transformation exothermique, le système libère de l'énergie vers l'extérieur (Q &lt; 0) ; lors d'une transformation endothermique, il capte de l'énergie (Q &gt; 0).</dd></div>
+      <div class="gloss-item" data-term="energie thermique transfert Q m L"><dt>Énergie thermique de changement d'état</dt><dd>Notée Q, formule : <strong>Q = m × L</strong>. Q : transfert thermique lors du changement d'état (en J) ; m : masse de l'espèce (en kg) ; L : énergie massique de changement d'état (en J·kg⁻¹).</dd></div>
       <div class="gloss-item" data-term="equation changement etat"><dt>Équation de changement d'état</dt><dd>Écriture symbolique d'un changement d'état, précisant l'état initial et l'état final entre parenthèses : ex. NaCl(s) → NaCl(ℓ) pour une fusion.</dd></div>
       <div class="gloss-item" data-term="fusion dissolution"><dt>Fusion vs dissolution</dt><dd>La fusion est un changement d'état physique de l'espèce elle-même. La dissolution est différente : l'espèce se disperse dans un solvant sans changer d'état.</dd></div>
       <div class="gloss-item" data-term="palier temperature"><dt>Palier de changement d'état</dt><dd>Un corps pur change d'état à température constante : sa température reste stable tant que le changement d'état n'est pas terminé.</dd></div>
-      <div class="gloss-item" data-term="endothermique exothermique"><dt>Endothermique / exothermique</dt><dd>Une transformation endothermique capte de l'énergie (transfert thermique Q > 0) ; une transformation exothermique en libère (Q < 0).</dd></div>
-      <div class="gloss-item" data-term="energie thermique transfert Q m L"><dt>Énergie thermique de changement d'état</dt><dd>Notée Q, formule : <strong>Q = m × L</strong>. Q : transfert thermique lors du changement d'état (en J) ; m : masse de l'espèce (en kg) ; L : énergie massique de changement d'état (en J·kg⁻¹).</dd></div>
-      <div class="gloss-item" data-term="chaleur latente"><dt>Chaleur latente</dt><dd>Autre nom de l'énergie massique de changement d'état L (en J·kg⁻¹) : quantité d'énergie à apporter ou à retirer, par kg de matière, pour un changement d'état donné.</dd></div>
-      <div class="gloss-item" data-term="chaleur"><dt>Chaleur</dt><dd>Terme courant désignant le transfert thermique Q, énergie échangée entre deux systèmes de températures différentes (en J). À ne pas confondre avec la température.</dd></div>
       <div class="gloss-item" data-term="temperature agitation"><dt>Température</dt><dd>Grandeur liée à l'agitation des entités d'un système (plus l'agitation est grande, plus la température est élevée) ; se mesure en °C ou K, à ne pas confondre avec la chaleur (Q, en J).</dd></div>
-      <div class="gloss-item" data-term="energie liberee captee"><dt>Énergie libérée / captée</dt><dd>Lors d'une transformation exothermique, le système libère de l'énergie vers l'extérieur (Q &lt; 0) ; lors d'une transformation endothermique, il capte de l'énergie (Q &gt; 0).</dd></div>
-      <div class="gloss-item" data-term="agitation thermique"><dt>Agitation thermique</dt><dd>Mouvement (vibration, déplacement) des entités d'un système, d'autant plus important que la température est élevée.</dd></div>
+      <div class="gloss-item" data-term="transformation physique"><dt>Transformation physique</dt><dd>Change l'état d'une espèce chimique (solide, liquide, gaz) sans changer sa nature : fusion, vaporisation, sublimation et leurs transformations inverses.</dd></div>
     </dl>
   </div>
   <!-- /bilan-sub-1 -->
@@ -1844,15 +3390,15 @@
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
     <a href="https://www.pearltrees.com/private/id104964693/item809869654?paccess=47dfa6f8e48.3045a156.505b7f54b2c469597122a34e1a889d3b" target="_blank" rel="noopener" style="text-decoration:none;">
-      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--vert);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
-        <h4 style="color:var(--vert);">🎬 Changement d'état et énergie (exothermique, endothermique)</h4>
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-paulolivier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(58,138,110,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-paulolivier);">🎬 Changement d'état et énergie (exothermique, endothermique)</h4>
         <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Paul Olivier · 4 min 52</p>
       </div>
     </a>
 
     <a href="https://www.pearltrees.com/private/id104964693/item809869717?paccess=47dfa7259ed.3045a195.a54b0a1aa128f1baeba81452f62db7b4" target="_blank" rel="noopener" style="text-decoration:none;">
-      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--rose);" onmouseover="this.style.boxShadow='0 4px 16px rgba(194,80,138,0.18)'" onmouseout="this.style.boxShadow=''">
-        <h4 style="color:var(--rose);">🎬 Transformations endothermiques et exothermiques</h4>
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-florenceraffin);" onmouseover="this.style.boxShadow='0 4px 16px rgba(194,80,138,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-florenceraffin);">🎬 Transformations endothermiques et exothermiques</h4>
         <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Florence Raffin · 4 min 19</p>
       </div>
     </a>
@@ -1862,10 +3408,29 @@
   <div class="section-title"><span class="icon">🔬</span> Simulations &amp; applications</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
 
-    <a href="https://phet.colorado.edu/sims/html/energy-forms-and-changes/latest/energy-forms-and-changes_all.html" target="_blank" rel="noopener" style="text-decoration:none;">
-      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--bleu);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
-        <h4 style="color:var(--bleu);">🔬 PhET — Transferts d'énergie thermique</h4>
+    <a href="https://phet.colorado.edu/sims/html/states-of-matter-basics/latest/states-of-matter-basics_all.html?locale=fr" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-phet-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-phet-fonce);">🔬 PhET — États de la matière</h4>
         <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Simulation interactive, en français.</p>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="section-title"><span class="icon">📝</span> QCM</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+
+    <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_diagnostic_chap_06/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-hatier);">📝 QCM diagnostic</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · Chapitre 6</p>
+      </div>
+    </a>
+
+    <a href="https://www.hatier-clic.fr/miniliens/mie/9782401020658/pc-2_faire-le-point_chap_06/index.html" target="_blank" rel="noopener" style="text-decoration:none;">
+      <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-hatier);" onmouseover="this.style.boxShadow='0 4px 16px rgba(192,57,43,0.18)'" onmouseout="this.style.boxShadow=''">
+        <h4 style="color:var(--auteur-hatier);">📝 QCM de maîtrise des notions</h4>
+        <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Hatier · Chapitre 6</p>
       </div>
     </a>
 
@@ -1875,7 +3440,7 @@
 </div><!-- fin tab-5 -->
 
 <div class="footer-note">
-  2<sup>nde</sup> – Thème : Constitution et transformations de la matière – Fiche de cours n°08 – C. Poirault-Gauvin
+  2<sup>nde</sup> – Thème : Constitution et transformations de la matière – 2A – Fiche de cours n°08 – C. Poirault-Gauvin
 </div>
 
 </main>
@@ -1898,6 +3463,28 @@ function showSub(btn, id) {
   btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
+
+// ── Sous-onglets niveau 3 (ex. exercices individuels au sein d'une catégorie) ──
+function showExoItem(btn, id) {
+  const panel = btn.closest('.sub-tab-content');
+  if (!panel) return;
+  panel.querySelectorAll('.exo-tab-btn').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.exo-item-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ── Recommencer un exercice de calcul libre (zones de réponse + correction) ──
+function recommencerCalc(cardId, corrId) {
+  const card = document.getElementById(cardId);
+  if (card) card.querySelectorAll('textarea').forEach(t => t.value = '');
+  const corr = document.getElementById(corrId);
+  if (corr) {
+    corr.classList.remove('visible');
+    const btn = corr.previousElementSibling;
+    if (btn && btn.classList.contains('btn-correction')) btn.textContent = '▶ Voir la correction';
+  }
+}
 function glossFilter() {
   const q = document.getElementById('glossSearch').value.trim().toLowerCase();
   document.querySelectorAll('#glossGrid .gloss-item').forEach(item => {
@@ -1907,9 +3494,11 @@ function glossFilter() {
 }
 
 // ── Navigation onglets ──
-function switchTab(n) {
-  document.querySelectorAll('.tab-content').forEach((t,i) => t.classList.toggle('active', i === n));
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i === n));
+function showTab(el,id){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -1943,6 +3532,37 @@ function repondreQCM(id, correct, choix, explication, fbId) {
     else if (b.textContent === choix && !ok) b.classList.add('wrong');
   });
   item.style.borderColor = ok ? 'var(--vert)' : 'var(--rouge)';
+}
+
+// ── QCM à réponses cliquables, feedback immédiat (design "Activité 2") ──
+function qcmOptCheck(el, isCorrect, feedbackId, msg) {
+  const group = el.parentElement;
+  group.querySelectorAll('.qcm-opt').forEach(o => o.classList.remove('correct', 'incorrect'));
+  el.classList.add(isCorrect ? 'correct' : 'incorrect');
+  const fb = document.getElementById(feedbackId);
+  if (fb) {
+    fb.textContent = msg;
+    fb.className = 'dq-feedback' + (isCorrect ? '' : ' wrong');
+  }
+}
+
+// ── Recommencer une activité (carte activite-card) ──
+function recommencerActivite(cardId) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.querySelectorAll('.qcm-opt').forEach(b => b.classList.remove('correct', 'incorrect'));
+  card.querySelectorAll('.dq-feedback').forEach(fb => {
+    fb.textContent = '';
+    fb.className = 'dq-feedback';
+  });
+}
+
+// ── Indice (bouton ambre, toggle) ──
+function toggleIndice(btn, id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('visible');
+  btn.textContent = el.classList.contains('visible') ? '💡 Masquer l\'indice' : '💡 Indice';
 }
 
 // ── Accordéon ──
@@ -2201,22 +3821,34 @@ function injectMolecules() {
   function fillBox(boxId, count, mode) {
     const box = document.getElementById(boxId);
     if (!box) return;
+    box.innerHTML = '';
     const w = box.clientWidth || 250, h = box.clientHeight || 110;
+    const placed = [];
+    function tooClose(x, y, minDist) {
+      return placed.some(p => Math.hypot(p.x - x, p.y - y) < minDist);
+    }
     for (let i = 0; i < count; i++) {
       const mol = document.createElement('div');
       mol.className = 'molecule';
       let size, x, y, anim, dur, delay;
       if (mode === 'solide') {
         size = 13;
-        const cols = 5, rows = 3;
+        const cols = 8, rows = 5;
+        const marginX = size / 2 + 2, marginY = size / 2 + 2;
         const col = i % cols, row = Math.floor(i / cols);
-        x = 16 + col * ((w - 32) / (cols - 1));
-        y = 14 + row * ((h - 28) / (rows - 1));
+        x = marginX + col * ((w - 2 * marginX) / (cols - 1));
+        y = marginY + row * ((h - 2 * marginY) / (rows - 1));
         anim = 'vibre'; dur = (0.5 + Math.random()*0.3).toFixed(2) + 's'; delay = (Math.random()*0.5).toFixed(2) + 's';
       } else if (mode === 'liquide') {
         size = 13;
-        x = 18 + Math.random() * (w - 36);
-        y = 14 + Math.random() * (h - 28);
+        const marginX = size / 2 + 2, marginY = size / 2 + 2;
+        let tries = 0;
+        do {
+          x = marginX + Math.random() * (w - 2 * marginX);
+          y = marginY + Math.random() * (h - 2 * marginY);
+          tries++;
+        } while (tooClose(x, y, size * 0.9) && tries < 25);
+        placed.push({ x, y });
         anim = 'derive'; dur = (2.4 + Math.random()*1.4).toFixed(2) + 's'; delay = (Math.random()*1.5).toFixed(2) + 's';
       } else {
         size = 10;
@@ -2233,8 +3865,8 @@ function injectMolecules() {
       box.appendChild(mol);
     }
   }
-  fillBox('mol-solide', 15, 'solide');
-  fillBox('mol-liquide', 11, 'liquide');
+  fillBox('mol-solide', 40, 'solide');
+  fillBox('mol-liquide', 30, 'liquide');
   fillBox('mol-gaz', 7, 'gaz');
 }
 
@@ -2275,6 +3907,7 @@ document.addEventListener('click', function(e) {
   }
 });
 
+// ── Redimensionnement des images dans l'onglet Cours ──
 document.addEventListener('DOMContentLoaded', function() {
   buildEtiquettes();
   injectMolecules();

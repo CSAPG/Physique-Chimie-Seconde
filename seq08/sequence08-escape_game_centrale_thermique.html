@@ -1,5 +1,22 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escape Game — Transformations physiques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+:root {
+  --font-sans: 'Nunito', sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #F5F7FA;
+  font-family: var(--font-sans);
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 .game-outer {
@@ -10,20 +27,18 @@
 }
 
 .bg-scene {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
+  display: none;
 }
 
 .overlay-dark {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(10, 4, 2, 0.72);
+  background: transparent;
   z-index: 1;
 }
 
 .overlay-dark.drama {
-  background: rgba(6, 2, 0, 0.78);
+  background: transparent;
 }
 
 .flicker { animation: flk 2.8s infinite alternate; }
@@ -112,13 +127,13 @@
 .mode-title {
   font-size: 26px;
   font-weight: 500;
-  color: #fff;
+  color: #1E2A38;
   margin-bottom: 6px;
   text-shadow: 0 0 30px rgba(239,159,39,0.5);
 }
 .mode-sub {
   font-size: 13px;
-  color: #888780;
+  color: #6B6A63;
   margin-bottom: 28px;
   line-height: 1.6;
 }
@@ -126,10 +141,11 @@
   display: flex;
   gap: 14px;
   justify-content: center;
+  align-items: stretch;
   flex-wrap: wrap;
 }
 .mode-card {
-  background: rgba(12,8,4,0.8);
+  background: #FFFFFF;
   border: 1px solid rgba(239,159,39,0.3);
   border-radius: 12px;
   padding: 1.4rem 1.2rem;
@@ -139,11 +155,15 @@
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 10px rgba(30,42,56,0.06);
 }
 .mode-card:hover {
   border-color: #EF9F27;
-  background: rgba(20,12,4,0.9);
+  background: #FFFBF3;
   transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30,42,56,0.1);
 }
 .mode-card.drama-card {
   border-color: rgba(226,75,74,0.4);
@@ -157,6 +177,9 @@
   text-transform: uppercase;
   font-weight: 500;
   margin-bottom: 8px;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
 }
 .mode-badge.standard { color: #EF9F27; }
 .mode-badge.advanced { color: #E24B4A; }
@@ -167,10 +190,10 @@
   margin-bottom: 4px;
 }
 .mode-time.standard { color: #EF9F27; }
-.mode-time.advanced { color: #F09595; }
-.mode-label { font-size: 12px; color: #888780; margin-bottom: 10px; }
-.mode-desc { font-size: 12px; color: #B4B2A9; line-height: 1.55; margin-bottom: 14px; }
-.mode-enigmes { font-size: 11px; color: rgba(255,255,255,0.35); border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 8px; }
+.mode-time.advanced { color: #C0392B; }
+.mode-label { font-size: 12px; color: #6B6A63; margin-bottom: 10px; }
+.mode-desc { font-size: 12px; color: #5C5A52; line-height: 1.55; margin-bottom: 14px; }
+.mode-enigmes { font-size: 11px; color: rgba(30,42,56,0.35); border-top: 0.5px solid rgba(30,42,56,0.08); padding-top: 8px; }
 .mode-btn {
   display: block;
   width: 100%;
@@ -181,18 +204,19 @@
   cursor: pointer;
   font-family: var(--font-sans);
   border: none;
-  margin-top: 12px;
+  margin-top: auto;
+  padding-top: 9px;
   transition: background 0.15s;
 }
 .mode-btn.standard {
   background: rgba(239,159,39,0.2);
-  color: #FAC775;
+  color: #B8720A;
   border: 0.5px solid #EF9F27;
 }
 .mode-btn.standard:hover { background: rgba(239,159,39,0.35); }
 .mode-btn.advanced {
   background: rgba(226,75,74,0.18);
-  color: #F09595;
+  color: #C0392B;
   border: 0.5px solid #E24B4A;
 }
 .mode-btn.advanced:hover { background: rgba(226,75,74,0.32); }
@@ -208,7 +232,7 @@
   padding: 7px 14px;
   font-size: 12px;
   font-weight: 500;
-  color: #FAC775;
+  color: #B8720A;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   text-align: center;
@@ -217,75 +241,76 @@
 .alert-banner.critical {
   background: rgba(226,75,74,0.2);
   border-color: #E24B4A;
-  color: #F09595;
+  color: #C0392B;
   animation: pred 0.9s infinite;
 }
 
 .header { text-align: center; margin-bottom: 14px; }
-.header h1 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 4px; text-shadow: 0 0 20px rgba(239,159,39,0.5); }
-.header .scenario { font-size: 12px; color: #FAC775; background: rgba(186,117,23,0.15); border: 0.5px solid rgba(186,117,23,0.4); border-radius: 20px; display: inline-block; padding: 3px 12px; margin-bottom: 8px; }
-.header .scenario.red { color: #F09595; background: rgba(226,75,74,0.12); border-color: rgba(226,75,74,0.3); }
-.header .intro { font-size: 13px; color: #B4B2A9; max-width: 540px; margin: 0 auto; line-height: 1.6; }
+.header h1 { font-size: 22px; font-weight: 500; color: #1E2A38; margin-bottom: 4px; text-shadow: 0 0 20px rgba(239,159,39,0.5); }
+.header .scenario { font-size: 12px; color: #B8720A; background: rgba(186,117,23,0.15); border: 0.5px solid rgba(186,117,23,0.4); border-radius: 20px; display: inline-block; padding: 3px 12px; margin-bottom: 8px; }
+.header .scenario.red { color: #C0392B; background: rgba(226,75,74,0.12); border-color: rgba(226,75,74,0.3); }
+.header .intro { font-size: 13px; color: #5C5A52; max-width: 540px; margin: 0 auto; line-height: 1.6; }
 
 .timer-bar { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
 .timer-display { font-size: 30px; font-weight: 500; color: #EF9F27; font-family: var(--font-mono); letter-spacing: 3px; }
-.timer-display.urgent { color: #F09595; animation: pred 0.8s infinite; }
+.timer-display.urgent { color: #C0392B; animation: pred 0.8s infinite; }
 
-.btn { border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #fff; border-radius: 6px; padding: 7px 18px; font-size: 13px; cursor: pointer; font-family: var(--font-sans); transition: background 0.15s; }
-.btn:hover { background: rgba(255,255,255,0.16); }
-.btn-start { background: rgba(29,158,117,0.25); color: #9FE1CB; border-color: #1D9E75; font-weight: 500; }
+.btn { border: 0.5px solid rgba(30,42,56,0.2); background: rgba(30,42,56,0.08); color: #1E2A38; border-radius: 6px; padding: 7px 18px; font-size: 13px; cursor: pointer; font-family: var(--font-sans); transition: background 0.15s; }
+.btn:hover { background: rgba(30,42,56,0.16); }
+.btn-start { background: rgba(29,158,117,0.25); color: #157A5C; border-color: #1D9E75; font-weight: 500; }
 .btn-start:hover { background: rgba(29,158,117,0.45); }
-.btn-danger { background: rgba(226,75,74,0.2); color: #F09595; border-color: #E24B4A; font-weight: 500; }
+.btn-danger { background: rgba(226,75,74,0.2); color: #C0392B; border-color: #E24B4A; font-weight: 500; }
 .btn-danger:hover { background: rgba(226,75,74,0.38); }
 
 .progress-track { display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-.prog-step { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(255,255,255,0.4); transition: all 0.3s; }
-.prog-step.active { background: rgba(186,117,23,0.3); border-color: #EF9F27; color: #FAC775; font-weight: 500; }
-.prog-step.done { background: rgba(29,158,117,0.4); border-color: #1D9E75; color: #9FE1CB; }
-.prog-line { width: 24px; height: 0.5px; background: rgba(255,255,255,0.12); }
+.prog-step { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid rgba(30,42,56,0.2); background: rgba(30,42,56,0.06); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(30,42,56,0.4); transition: all 0.3s; }
+.prog-step.active { background: rgba(186,117,23,0.3); border-color: #EF9F27; color: #B8720A; font-weight: 500; }
+.prog-step.done { background: rgba(29,158,117,0.4); border-color: #1D9E75; color: #157A5C; }
+.prog-line { width: 24px; height: 0.5px; background: rgba(30,42,56,0.12); }
 .prog-line.done { background: #1D9E75; }
 
 .enigma-card {
-  background: rgba(12,8,4,0.75);
+  background: #FFFFFF;
   border: 0.5px solid rgba(239,159,39,0.3);
   border-radius: 10px;
   padding: 1.2rem;
   margin-bottom: 1rem;
   display: none;
+  box-shadow: 0 2px 10px rgba(30,42,56,0.06);
 }
 .enigma-card.active { display: block; }
 .enigma-num { font-size: 10px; font-weight: 500; color: #EF9F27; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
-.enigma-title { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 7px; }
-.enigma-desc { font-size: 13px; color: #B4B2A9; line-height: 1.6; margin-bottom: 14px; }
+.enigma-title { font-size: 18px; font-weight: 500; color: #1E2A38; margin-bottom: 7px; }
+.enigma-desc { font-size: 13px; color: #5C5A52; line-height: 1.6; margin-bottom: 14px; }
 
 .triangle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
-.state-btn { border: 0.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #D3D1C7; border-radius: 6px; padding: 8px 4px; font-size: 12px; cursor: pointer; font-family: var(--font-sans); text-align: center; transition: all 0.2s; }
-.state-btn:hover { background: rgba(239,159,39,0.12); border-color: #EF9F27; color: #FAC775; }
-.state-btn.selected { background: rgba(29,158,117,0.25); border-color: #1D9E75; color: #9FE1CB; }
-.state-btn.wrong { background: rgba(226,75,74,0.2); border-color: #E24B4A; color: #F09595; animation: shake 0.4s; }
+.state-btn { border: 0.5px solid rgba(30,42,56,0.15); background: rgba(30,42,56,0.05); color: #3A3530; border-radius: 6px; padding: 8px 4px; font-size: 12px; cursor: pointer; font-family: var(--font-sans); text-align: center; transition: all 0.2s; }
+.state-btn:hover { background: rgba(239,159,39,0.12); border-color: #EF9F27; color: #B8720A; }
+.state-btn.selected { background: rgba(29,158,117,0.25); border-color: #1D9E75; color: #157A5C; }
+.state-btn.wrong { background: rgba(226,75,74,0.2); border-color: #E24B4A; color: #C0392B; animation: shake 0.4s; }
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
 
-.hint-box { background: rgba(186,117,23,0.1); border-radius: 6px; border-left: 2px solid #EF9F27; padding: 9px 12px; font-size: 12px; color: #FAC775; margin-bottom: 10px; display: none; line-height:1.55; }
+.hint-box { background: rgba(186,117,23,0.1); border-radius: 6px; border-left: 2px solid #EF9F27; padding: 9px 12px; font-size: 12px; color: #B8720A; margin-bottom: 10px; display: none; line-height:1.55; }
 
 .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
-.input-row input { flex: 1; padding: 8px 12px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 6px; font-size: 15px; font-family: var(--font-mono); background: rgba(0,0,0,0.4); color: #EF9F27; }
+.input-row input { flex: 1; padding: 8px 12px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 6px; font-size: 15px; font-family: var(--font-mono); background: #FFFFFF; color: #EF9F27; }
 .input-row input::placeholder { color: rgba(239,159,39,0.3); }
 .input-row input:focus { outline: none; border-color: #EF9F27; }
 
 .feedback { font-size: 12px; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; display: none; line-height:1.5; }
-.feedback.success { background: rgba(29,158,117,0.15); color: #9FE1CB; border: 0.5px solid rgba(29,158,117,0.4); }
-.feedback.error { background: rgba(226,75,74,0.12); color: #F09595; border: 0.5px solid rgba(226,75,74,0.3); }
+.feedback.success { background: rgba(29,158,117,0.15); color: #157A5C; border: 0.5px solid rgba(29,158,117,0.4); }
+.feedback.error { background: rgba(226,75,74,0.12); color: #C0392B; border: 0.5px solid rgba(226,75,74,0.3); }
 
 .code-reveal { display: flex; gap: 6px; justify-content: center; margin: 12px 0; flex-wrap: wrap; }
-.code-char { width: 34px; height: 42px; border: 0.5px solid rgba(239,159,39,0.3); border-radius: 6px; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; font-family: var(--font-mono); color: rgba(255,255,255,0.25); transition: all 0.4s; }
-.code-char.revealed { background: rgba(29,158,117,0.3); border-color: #1D9E75; color: #9FE1CB; }
+.code-char { width: 34px; height: 42px; border: 0.5px solid rgba(239,159,39,0.3); border-radius: 6px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 500; font-family: var(--font-mono); color: rgba(30,42,56,0.25); transition: all 0.4s; }
+.code-char.revealed { background: rgba(29,158,117,0.3); border-color: #1D9E75; color: #157A5C; }
 
-.affirmation-item { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
-.affirmation-text { font-size: 13px; color: #D3D1C7; margin-bottom: 8px; line-height: 1.5; }
+.affirmation-item { background: rgba(30,42,56,0.04); border: 0.5px solid rgba(30,42,56,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+.affirmation-text { font-size: 13px; color: #3A3530; margin-bottom: 8px; line-height: 1.5; }
 .vf-btns { display: flex; gap: 6px; }
-.vf-btn { flex: 1; padding: 5px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 5px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); cursor: pointer; font-size: 12px; font-family: var(--font-sans); transition: all 0.2s; }
-.vf-btn.selected-V { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #9FE1CB; font-weight: 500; }
-.vf-btn.selected-F { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #F09595; font-weight: 500; }
+.vf-btn { flex: 1; padding: 5px; border: 0.5px solid rgba(30,42,56,0.12); border-radius: 5px; background: rgba(30,42,56,0.04); color: rgba(30,42,56,0.4); cursor: pointer; font-size: 12px; font-family: var(--font-sans); transition: all 0.2s; }
+.vf-btn.selected-V { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #157A5C; font-weight: 500; }
+.vf-btn.selected-F { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #C0392B; font-weight: 500; }
 
 .binary-display { text-align: center; font-family: var(--font-mono); font-size: 22px; color: #EF9F27; margin: 8px 0; letter-spacing: 6px; }
 
@@ -293,55 +318,58 @@
 .btn-hint { font-size: 11px; color: rgba(239,159,39,0.7); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; font-family: var(--font-sans); }
 .btn-hint:hover { color: #EF9F27; }
 
-.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); margin-right: 4px; margin-bottom: 6px; }
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 100px; background: rgba(30,42,56,0.06); border: 0.5px solid rgba(30,42,56,0.12); color: rgba(30,42,56,0.4); margin-right: 4px; margin-bottom: 6px; }
 
-.calc-block { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
-.calc-block p { font-size: 12px; color: #888780; margin-bottom: 6px; }
+.calc-block { background: rgba(30,42,56,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+.calc-block p { font-size: 12px; color: #6B6A63; margin-bottom: 6px; }
 .slider-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
-.slider-row label { font-size: 12px; color: #888780; min-width: 100px; }
+.slider-row label { font-size: 12px; color: #6B6A63; min-width: 100px; }
 .slider-row input[type=range] { flex: 1; accent-color: #EF9F27; }
-.slider-val { font-size: 12px; font-weight: 500; color: #FAC775; min-width: 70px; text-align: right; font-family: var(--font-mono); }
-.calc-result { font-size: 24px; font-weight: 500; color: #EF9F27; font-family: var(--font-mono); text-align: center; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 0.5px solid rgba(239,159,39,0.3); margin-top: 8px; }
+.slider-val { font-size: 12px; font-weight: 500; color: #B8720A; min-width: 70px; text-align: right; font-family: var(--font-mono); }
+.calc-result { font-size: 24px; font-weight: 500; color: #EF9F27; font-family: var(--font-mono); text-align: center; padding: 10px; background: #FFFFFF; border-radius: 6px; border: 0.5px solid rgba(239,159,39,0.3); margin-top: 8px; }
 
 /* Enigme 4 - courbe */
-.graph-zone { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
-.graph-question { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
-.graph-q-text { font-size: 13px; color: #D3D1C7; margin-bottom: 8px; line-height: 1.5; }
+.graph-zone { background: #FFFFFF; border: 1px solid rgba(30,42,56,0.12); border-radius: 8px; padding: 10px; margin-bottom: 12px; }
+.graph-question { background: rgba(30,42,56,0.04); border: 0.5px solid rgba(30,42,56,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
+.graph-q-text { font-size: 13px; color: #3A3530; margin-bottom: 8px; line-height: 1.5; }
 .graph-opts { display: flex; gap: 6px; flex-wrap: wrap; }
-.graph-opt { padding: 5px 12px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 5px; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); cursor: pointer; font-size: 12px; font-family: var(--font-mono); transition: all 0.2s; }
-.graph-opt:hover { border-color: #EF9F27; color: #FAC775; background: rgba(239,159,39,0.08); }
-.graph-opt.selected { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #9FE1CB; font-weight: 500; }
-.graph-opt.wrong { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #F09595; animation: shake 0.4s; }
+.graph-opt { padding: 5px 12px; border: 0.5px solid rgba(30,42,56,0.12); border-radius: 5px; background: rgba(30,42,56,0.04); color: rgba(30,42,56,0.5); cursor: pointer; font-size: 12px; font-family: var(--font-mono); transition: all 0.2s; }
+.graph-opt:hover { border-color: #EF9F27; color: #B8720A; background: rgba(239,159,39,0.08); }
+.graph-opt.selected { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #157A5C; font-weight: 500; }
+.graph-opt.wrong { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #C0392B; animation: shake 0.4s; }
 
 /* Enigme 5 - dissolution */
-.dissolution-eq { background: rgba(0,0,0,0.4); border-radius: 8px; padding: 14px; margin-bottom: 12px; text-align: center; }
-.eq-line { font-size: 16px; font-family: var(--font-mono); color: #D3D1C7; line-height: 2.2; letter-spacing: 1px; }
+.dissolution-eq { background: #FFFFFF; border-radius: 8px; padding: 14px; margin-bottom: 12px; text-align: center; }
+.eq-line { font-size: 16px; font-family: var(--font-mono); color: #3A3530; line-height: 2.2; letter-spacing: 1px; }
 .eq-blank { display: inline-block; min-width: 80px; border-bottom: 1.5px solid rgba(239,159,39,0.6); color: #EF9F27; font-weight: 500; vertical-align: bottom; text-align: center; padding: 0 4px; cursor: pointer; position: relative; }
 .eq-blank:after { content: '?'; color: rgba(239,159,39,0.3); }
 .eq-blank.filled:after { content: ''; }
-.eq-blank.filled { color: #9FE1CB; border-bottom-color: #1D9E75; }
+.eq-blank.filled { color: #157A5C; border-bottom-color: #1D9E75; }
 .ions-palette { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; justify-content: center; }
-.ion-chip { padding: 5px 14px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 20px; background: rgba(239,159,39,0.08); color: #FAC775; cursor: pointer; font-size: 13px; font-family: var(--font-mono); transition: all 0.2s; }
+.ion-chip { padding: 5px 14px; border: 0.5px solid rgba(239,159,39,0.4); border-radius: 20px; background: rgba(239,159,39,0.08); color: #B8720A; cursor: pointer; font-size: 13px; font-family: var(--font-mono); transition: all 0.2s; }
 .ion-chip:hover { background: rgba(239,159,39,0.18); }
 .ion-chip.used { opacity: 0.35; cursor: default; }
 .ion-chip.selected-ion { background: rgba(239,159,39,0.25); border-color: #EF9F27; box-shadow: 0 0 8px rgba(239,159,39,0.3); }
 
-.dh-block { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
-.dh-formula { font-size: 14px; font-family: var(--font-mono); color: #888780; text-align: center; margin-bottom: 8px; }
+.dh-block { background: rgba(30,42,56,0.04); border-radius: 6px; padding: 12px; margin-bottom: 12px; }
+.dh-formula { font-size: 14px; font-family: var(--font-mono); color: #6B6A63; text-align: center; margin-bottom: 8px; }
 .dh-formula span { color: #EF9F27; }
 
 .victory-screen { display: none; text-align: center; padding: 2rem 1rem; }
 .victory-screen.show { display: block; }
-.victory-code { font-size: 28px; font-family: var(--font-mono); font-weight: 500; letter-spacing: 4px; color: #9FE1CB; background: rgba(29,158,117,0.15); border-radius: 10px; padding: 14px 20px; display: inline-block; margin: 14px 0; border: 1px solid rgba(29,158,117,0.4); word-break: break-all; }
-.victory-title { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 8px; }
-.victory-sub { font-size: 13px; color: #888780; margin-bottom: 18px; line-height: 1.55; }
+.victory-code { font-size: 28px; font-family: var(--font-mono); font-weight: 500; letter-spacing: 4px; color: #157A5C; background: rgba(29,158,117,0.15); border-radius: 10px; padding: 14px 20px; display: inline-block; margin: 14px 0; border: 1px solid rgba(29,158,117,0.4); word-break: break-all; }
+.victory-title { font-size: 22px; font-weight: 500; color: #1E2A38; margin-bottom: 8px; }
+.victory-sub { font-size: 13px; color: #6B6A63; margin-bottom: 18px; line-height: 1.55; }
 
 .section-divider { display: flex; align-items: center; gap: 8px; margin: 12px 0 10px; }
-.section-divider span { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
-.section-divider:before, .section-divider:after { content:''; flex:1; height:0.5px; background: rgba(255,255,255,0.08); }
+.section-divider span { font-size: 10px; color: rgba(30,42,56,0.25); letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap; }
+.section-divider:before, .section-divider:after { content:''; flex:1; height:0.5px; background: rgba(30,42,56,0.08); }
 
-.info-box { background: rgba(56,130,198,0.08); border-left: 2px solid #378ADD; border-radius: 6px; padding: 9px 12px; font-size: 12px; color: #85B7EB; margin-bottom: 10px; line-height: 1.55; }
+.info-box { background: rgba(56,130,198,0.08); border-left: 2px solid #378ADD; border-radius: 6px; padding: 9px 12px; font-size: 12px; color: #1D6FBD; margin-bottom: 10px; line-height: 1.55; }
+
 </style>
+</head>
+<body>
 
 <!-- =================== SVG FOND VERSION 15 MIN =================== -->
 <div class="game-outer" id="gameOuter">
@@ -602,9 +630,13 @@
 <!-- =================== ÉCRAN MODE SELECT =================== -->
 <div id="screenMode" class="game-screen active">
   <div class="mode-select">
+    <img src="escape-game/escape3.png" alt="Alerte : temps restant 50:00, la salle de contrôle est hors ligne, réaction en chaîne à l'état incontrôlable" style="max-width:100%;border-radius:12px;margin-bottom:18px;box-shadow:0 4px 20px rgba(30,42,56,0.15);">
     <div class="mode-logo">⚡ Escape Game — Physique Chimie</div>
     <div class="mode-title">La Centrale Thermique</div>
     <p class="mode-sub">Choisissez votre mission. Le compte à rebours commence dès que vous démarrez.</p>
+    <p style="margin-bottom:20px;">
+      <a href="escape-game/centrale-thermique.png" target="_blank" rel="noopener" style="font-size:12px;color:#1D6FBD;text-decoration:underline;">📄 Voir le schéma de principe d'une centrale thermique</a>
+    </p>
 
     <div class="mode-cards">
       <!-- CARTE 15 MIN -->
@@ -668,34 +700,12 @@
   <!-- E1 15min -->
   <div class="enigma-card" id="a_enigme1">
     <div class="enigma-num">Énigme 1 / 3 · ~5 min</div>
-    <div class="enigma-title">Le triangle des états</div>
-    <div class="enigma-desc">Placez correctement les 6 changements d'état. Chaque bonne réponse révèle une lettre du code.</div>
-    <span class="tag">solide</span><span class="tag">liquide</span><span class="tag">gazeux</span>
-    <svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto 12px;">
-      <polygon points="170,18 28,188 312,188" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.6"/>
-      <circle cx="170" cy="18" r="18" fill="#1a0800" stroke="#EF9F27" stroke-width="1"/>
-      <text x="170" y="23" text-anchor="middle" font-size="10" fill="#FAC775" font-weight="500" font-family="sans-serif">GAZ</text>
-      <circle cx="28" cy="188" r="18" fill="#001020" stroke="#378ADD" stroke-width="1"/>
-      <text x="28" y="193" text-anchor="middle" font-size="10" fill="#85B7EB" font-weight="500" font-family="sans-serif">SOL.</text>
-      <circle cx="312" cy="188" r="18" fill="#001810" stroke="#1D9E75" stroke-width="1"/>
-      <text x="312" y="193" text-anchor="middle" font-size="10" fill="#9FE1CB" font-weight="500" font-family="sans-serif">LIQ.</text>
-      <text x="82" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → gaz</text>
-      <text x="258" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → liq</text>
-      <text x="170" y="202" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → sol</text>
-      <text x="84" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → sol</text>
-      <text x="250" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → gaz</text>
-      <text x="170" y="182" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → liq</text>
-    </svg>
-    <div id="a_q1Container"></div>
-    <div class="hint-box" id="a_hint1">La sublimation : passage direct solide → gaz (ex : glace carbonique). La condensation solide : gaz → solide directement.</div>
-    <div class="code-reveal" id="a_code1">
-      <div class="code-char" id="a_c1_1">_</div>
-      <div class="code-char" id="a_c1_2">_</div>
-      <div class="code-char revealed" id="a_c1_3">A</div>
-      <div class="code-char" id="a_c1_4">_</div>
-      <div class="code-char" id="a_c1_5">_</div>
-      <div class="code-char" id="a_c1_6">_</div>
+    <div class="enigma-title">Rétablir l'alimentation en eau</div>
+    <div class="enigma-desc">La chaudière n'est plus alimentée en eau. Entrez le code de sécurité (température d'ébullition de l'eau, en °C, sous pression atmosphérique) pour déverrouiller les pompes, puis activez-les dans le bon ordre pour restaurer le débit.</div>
+    <div class="resource-frame-wrap" style="border-radius:10px;overflow:hidden;border:1px solid rgba(30,42,56,0.15);margin-bottom:12px;">
+      <iframe src="escape-game/control_panel_interface.html" style="width:100%;height:560px;border:none;display:block;" loading="lazy" title="Panneau de contrôle — Alimentation en eau"></iframe>
     </div>
+    <div class="hint-box" id="a_hint1">La température de vaporisation (ébullition) de l'eau à pression atmosphérique est bien connue : c'est une valeur à 3 chiffres, en °C.</div>
     <div class="nav-row">
       <button class="btn-hint" onclick="toggleHint('a_hint1')">Indice</button>
       <button class="btn btn-start" id="a_next1" onclick="goEnigme15(2)" style="display:none">Énigme suivante →</button>
@@ -778,6 +788,14 @@
     <div class="scenario red">Mission critique : Éviter la catastrophe</div>
     <h1>Escape Game — Centrale en danger</h1>
     <p class="intro">La salle de contrôle est hors ligne. La pression dans les circuits primaires atteint le seuil critique. Les systèmes de refroidissement sont défaillants. Vous êtes la dernière équipe d'ingénieurs capable d'intervenir. Résolvez les 6 énigmes pour éviter l'irréparable.</p>
+  </div>
+
+  <div style="max-width:700px;margin:0 auto 20px;">
+    <img src="escape-game/escape2.png" alt="Alerte surchauffe du réacteur, injection d'eau d'urgence, transformation physique de vaporisation de l'eau, système stabilisé" style="max-width:100%;border-radius:10px;display:block;margin:0 auto 10px;box-shadow:0 4px 16px rgba(30,42,56,0.12);">
+    <video controls preload="metadata" style="width:100%;border-radius:10px;display:block;">
+      <source src="escape-game/escape2video.mp4" type="video/mp4">
+      Votre navigateur ne prend pas en charge la lecture de vidéo.
+    </video>
   </div>
   <div class="timer-bar">
     <span style="font-size:12px;color:#888780">Temps restant :</span>
@@ -1066,6 +1084,16 @@
     </div>
   </div>
 
+  <!-- TERMINAL CODE FINAL 50min -->
+  <div class="enigma-card" id="b_codeGate">
+    <div class="enigma-num">Étape finale</div>
+    <div class="enigma-title">Verrouillage de sécurité</div>
+    <div class="enigma-desc">Toutes les valves sont réglées. Il reste à entrer le code de contournement pour stabiliser définitivement la centrale : la masse d'eau (en grammes) calculée à l'énigme 6.</div>
+    <div class="resource-frame-wrap" style="border-radius:10px;overflow:hidden;border:1px solid rgba(30,42,56,0.15);">
+      <iframe src="escape-game/rentrer-le-code.html" style="width:100%;height:480px;border:none;display:block;" loading="lazy" title="Terminal de secours — Saisie du code"></iframe>
+    </div>
+  </div>
+
   <!-- VICTOIRE 50min -->
   <div class="victory-screen" id="b_victory">
     <div style="font-size:44px;margin-bottom:8px;">🛡️</div>
@@ -1081,6 +1109,7 @@
 
 </div><!-- fin content-layer -->
 </div><!-- fin game-outer -->
+
 
 <script>
 // ===================== DONNÉES =====================
@@ -1207,7 +1236,7 @@ function resetGame(mode) {
     document.getElementById('a_victory').classList.remove('show');
     resetProgSteps(15);
     ['a_c1_1','a_c1_2','a_c1_3','a_c1_4','a_c1_5','a_c1_6'].forEach((id,i)=>{
-      const el=document.getElementById(id); el.textContent=i===2?'A':'_';
+      const el=document.getElementById(id); if(!el) return; el.textContent=i===2?'A':'_';
       if(i!==2) el.classList.remove('revealed');
     });
     ['a_c2_1','a_c2_2','a_c2_3'].forEach(id=>{const el=document.getElementById(id);el.textContent='_';el.classList.remove('revealed');});
@@ -1223,6 +1252,7 @@ function resetGame(mode) {
     document.getElementById('startBtn50').style.display='inline-block';
     document.getElementById('resetBtn50').style.display='none';
     for(let i=1;i<=6;i++) document.getElementById('b_enigme'+i).classList.remove('active');
+    document.getElementById('b_codeGate').classList.remove('active');
     document.getElementById('b_victory').classList.remove('show');
     resetProgSteps(50);
     resetCodeChars50();
@@ -1285,7 +1315,7 @@ function goEnigme50(n) {
 
 // ===================== ENIGME 1 — Triangle =====================
 function buildE1_15() {
-  const c=document.getElementById('a_q1Container'); c.innerHTML='';
+  const c=document.getElementById('a_q1Container'); if(!c) return; c.innerHTML='';
   QUESTIONS_E1.forEach((q,qi)=>{
     const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
     div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
@@ -1495,8 +1525,7 @@ function updateCalc50v() {
   document.getElementById('b_valLv5').textContent=lv+' kJ/kg';
   const qkj=(m*lv).toFixed(0);
   const qmj=Math.round(m*lv/1000);
-  document.getElementById('b_calcResult5').textContent=qkj+' kJ = '+qmj+' MJ';
-  document.getElementById('b_calcMJ5').textContent=qmj;
+  document.getElementById('b_calcResult5').innerHTML=qkj+' kJ = <span id="b_calcMJ5">'+qmj+'</span> MJ';
 }
 function checkE5_50() {
   const val=parseInt(document.getElementById('b_ans5').value);
@@ -1589,9 +1618,9 @@ function checkE6_50() {
   const val=parseFloat(document.getElementById('b_ans6').value);
   if(Math.abs(val-7.8)<0.2||Math.round(val)===8){
     fb.className='feedback success';
-    fb.textContent='PARFAIT ! ΔH = 2 × 3,9 = +7,8 kJ. Dissolution endothermique confirmée. Code final validé — tous les circuits sont rétablis !';
+    fb.textContent='PARFAIT ! ΔH = 2 × 3,9 = +7,8 kJ. Dissolution endothermique confirmée. Entrez ce code dans le terminal de secours ci-dessous pour stabiliser la centrale.';
     st50.dhDone=true;
-    setTimeout(()=>showVictory50(),800);
+    setTimeout(()=>{ document.getElementById('b_codeGate').classList.add('active'); }, 800);
   } else {
     fb.className='feedback error';
     fb.textContent='Incorrect. ΔH = n × ΔH°diss = 2 × 3,9 = 7,8 kJ. Entrez 7.8 ou 8 (arrondi).';
@@ -1619,6 +1648,7 @@ function showVictory50() {
   clearInterval(timerInterval);
   setTimeout(()=>{
     for(let i=1;i<=6;i++) document.getElementById('b_enigme'+i).classList.remove('active');
+    document.getElementById('b_codeGate').classList.remove('active');
     for(let i=1;i<=6;i++){const el=document.getElementById('b_ps'+i);el.className='prog-step done';el.innerHTML='✓';}
     for(let i=1;i<=6;i++) document.getElementById('b_pl'+i).className='prog-line done';
     const ps7=document.getElementById('b_ps7'); ps7.className='prog-step done'; ps7.innerHTML='🔓';
@@ -1631,8 +1661,27 @@ function showVictory50() {
   },700);
 }
 
+// ===================== PUZZLES EN IFRAME (postMessage) =====================
+window.addEventListener('message', function(e) {
+  if (!e.data || !e.data.type) return;
+
+  if (e.data.type === 'panel-complete') {
+    // Panneau de contrôle (Énigme 1, Mission standard) résolu
+    const nextBtn = document.getElementById('a_next1');
+    if (nextBtn) nextBtn.style.display = 'inline-block';
+  }
+
+  if (e.data.type === 'final-code-accepted') {
+    // Terminal de secours (étape finale, Mission critique) déverrouillé
+    showVictory50();
+  }
+});
+
 // ===================== INIT =====================
 // Init SVG cachés au départ
 document.getElementById('bgScene15').style.display='none';
 document.getElementById('bgScene50').style.display='none';
+
 </script>
+</body>
+</html>

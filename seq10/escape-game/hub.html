@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Académie des Savants de la Lumière — Escape Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  html, body { height:100%; }
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: #0a0806;
+    color: #f3e9d2;
+    overflow: hidden;
+  }
+
+  /* ═══════ HEADER ═══════ */
+  #hubHeader {
+    position: fixed; top:0; left:0; right:0; height: 66px;
+    background: linear-gradient(180deg, rgba(10,8,6,0.97), rgba(10,8,6,0.9));
+    border-bottom: 2px solid rgba(212,175,55,0.35);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+    z-index: 40;
+  }
+  .hub-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    color: #ffe6b0;
+    letter-spacing: 0.03em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hub-title .room-name { color: #d4af37; font-size: 0.8rem; opacity:0.9; }
+  .hub-stats { display: flex; align-items: center; gap: 18px; }
+  .stopwatch {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.05rem;
+    color: #ffd27d;
+    background: rgba(212,175,55,0.08);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+  }
+  .dots { display:flex; gap:7px; }
+  .dot { width:11px; height:11px; border-radius:50%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); transition: 0.25s; }
+  .dot.done { background:#d4af37; border-color:#d4af37; box-shadow:0 0 8px rgba(212,175,55,0.7); }
+  .dot.active { background:#e8783a; border-color:#e8783a; transform: scale(1.25); }
+
+  /* ═══════ IFRAME AREA ═══════ */
+  #roomFrame {
+    position: fixed; top: 66px; left:0; right:0; bottom:0;
+    width: 100%; height: calc(100% - 66px);
+    border: none; background: #0d0d0d;
+  }
+
+  /* ═══════ OVERLAYS (narrative / timeout / cutscene / victory) ═══════ */
+  .overlay-full {
+    display: none;
+    position: fixed; inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(30,22,14,0.97), rgba(6,5,4,0.99));
+    z-index: 60;
+    align-items: center; justify-content: center;
+    padding: 30px;
+    text-align: center;
+  }
+  .story-card {
+    max-width: 620px;
+    width: 100%;
+    background: linear-gradient(160deg, rgba(35,26,18,0.95), rgba(15,11,7,0.97));
+    border: 2px solid rgba(212,175,55,0.4);
+    border-radius: 16px;
+    padding: 34px 32px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  }
+  .story-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #a08a63;
+    margin-bottom: 14px;
+  }
+  .story-icon { font-size: 2.6rem; margin-bottom: 10px; }
+  .story-card h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #ffe6b0;
+    margin-bottom: 10px;
+  }
+  .story-scientist {
+    font-size: 0.85rem;
+    color: #d4af37;
+    margin-bottom: 14px;
+    font-family: 'Cinzel', serif;
+  }
+  .story-quote {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #ecdfc2;
+    line-height: 1.6;
+    margin-bottom: 22px;
+    border-left: 3px solid #d4af37;
+    padding-left: 14px;
+    text-align: left;
+  }
+  .fragment-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .fragment-badge {
+    min-width: 42px; height: 42px; padding: 0 10px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace; font-weight: 700; font-size: 1.05rem;
+    background: rgba(212,175,55,0.12);
+    border: 2px solid #d4af37;
+    color: #ffd27d;
+  }
+  .fragment-badge.empty {
+    background: rgba(255,255,255,0.04);
+    border: 2px dashed rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.25);
+  }
+  .story-btn {
+    background: linear-gradient(145deg,#d4af37,#a9821f);
+    color: #1c1207;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: filter 0.2s;
+  }
+  .story-btn:hover { filter: brightness(1.12); }
+  .story-btn.ghost {
+    background: transparent;
+    border: 2px solid rgba(212,175,55,0.4);
+    color: #d4af37;
+    margin-left: 10px;
+  }
+
+  /* Cutscene */
+  #cutsceneOverlay video {
+    width: 100%;
+    max-width: 780px;
+    border-radius: 10px;
+    border: 2px solid rgba(212,175,55,0.4);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  }
+  .cutscene-skip {
+    margin-top: 18px;
+  }
+
+  /* Victory */
+  .victory-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.7rem;
+    color: #ffd27d;
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.35);
+    border-radius: 12px;
+    padding: 14px 26px;
+    display: inline-block;
+    margin: 18px 0;
+  }
+  .victory-list {
+    text-align: left;
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 18px 0 24px;
+  }
+  .victory-list li { list-style:none; font-size: 0.92rem; padding: 5px 0; color: #e8dcc0; }
+</style>
+</head>
+<body>
+
+<div id="hubHeader">
+  <div class="hub-title">🔭 L'Académie des Savants de la Lumière <span class="room-name" id="roomNameLabel"></span></div>
+  <div class="hub-stats">
+    <div class="dots" id="dotsRow"></div>
+    <div class="stopwatch" id="stopwatch">00:00</div>
+  </div>
+</div>
+
+<iframe id="roomFrame" title="Salle d'énigmes" src="about:blank"></iframe>
+
+<!-- Écran narratif entre les salles -->
+<div class="overlay-full" id="storyOverlay">
+  <div class="story-card">
+    <div class="story-eyebrow" id="storyEyebrow">Salle 1 / 3</div>
+    <div class="story-icon" id="storyIcon">🍎</div>
+    <h2 id="storyTitle">Le Laboratoire de Newton</h2>
+    <div class="story-scientist" id="storyScientist">Isaac Newton (1643–1727)</div>
+    <div class="story-quote" id="storyQuote">« La lumière du soleil est composée de toutes les couleurs de l'arc-en-ciel, cachées à l'intérieur. »</div>
+    <div class="fragment-row" id="fragmentRow"></div>
+    <button class="story-btn" id="storyEnterBtn" onclick="enterRoom()">Entrer dans la salle →</button>
+  </div>
+</div>
+
+<!-- Écran "temps écoulé" -->
+<div class="overlay-full" id="timeoutOverlay">
+  <div class="story-card">
+    <div class="story-icon">⏳</div>
+    <h2>Temps écoulé pour cette salle</h2>
+    <p style="color:#d8c9a8; margin: 14px 0 22px; line-height:1.6;">Pas de panique : votre progression dans les salles précédentes est conservée. Retentez celle-ci pour continuer l'aventure.</p>
+    <button class="story-btn" onclick="retryRoom()">↺ Retenter la salle</button>
+  </div>
+</div>
+
+<!-- Cinématique avant le terminal final -->
+<div class="overlay-full" id="cutsceneOverlay">
+  <div>
+    <video id="cutsceneVideo" src="enigme1videofin.mp4" controls autoplay></video>
+    <div class="cutscene-skip">
+      <button class="story-btn ghost" onclick="goToFinale()">Passer →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Écran de victoire finale -->
+<div class="overlay-full" id="finalVictoryOverlay">
+  <div class="story-card">
+    <div class="story-icon">🏆</div>
+    <h2>L'Académie est déverrouillée !</h2>
+    <div class="victory-time" id="finalTime">⏱ 00:00</div>
+    <ul class="victory-list" id="finalRecap"></ul>
+    <button class="story-btn" onclick="window.location.href='intro.html'">↺ Nouvelle mission</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   CONFIGURATION DES SALLES
+══════════════════════════════════════ */
+const ROOM_LIBRARY = {
+  1: { file: 'salle1.html', title: "Le Laboratoire de Newton", scientist: "Isaac Newton (1643–1727)",
+       quote: "« La lumière du soleil est composée de toutes les couleurs de l'arc-en-ciel, cachées à l'intérieur. »", icon: "🍎", time: 300 },
+  2: { file: 'salle2.html', title: "Le Cabinet de Snell & Descartes", scientist: "Snell (1580–1626) & Descartes (1596–1650)",
+       quote: "« La lumière obéit à une loi mathématique parfaite lorsqu'elle change de milieu. »", icon: "📐", time: 300 },
+  3: { file: 'salle3.html', title: "La Salle du Spectre", scientist: "Newton & Thomas Young (1773–1829)",
+       quote: "« Le blanc n'est pas une couleur simple — c'est la synthèse de toutes les couleurs du spectre. »", icon: "🌈", time: 300 },
+  4: { file: 'salle4.html', title: "L'Atelier des Lentilles Minces", scientist: "Hermann von Helmholtz (1821–1894)",
+       quote: "« L'œil est le plus parfait des instruments optiques — une lentille convergente merveilleusement adaptable. »", icon: "🔬", time: null },
+  5: { file: 'salle5.html', title: "Le Sanctuaire de l'Œil Humain", scientist: "D'après les travaux de Helmholtz",
+       quote: "« Une lentille vivante, capable de s'adapter à chaque instant à la distance de ce qu'elle observe. »", icon: "👁️", time: null },
+};
+
+const MODES = {
+  court: [1, 2, 3],
+  long: [1, 2, 3, 4, 5],
+};
+
+/* ══════════════════════════════════════
+   ÉTAT
+══════════════════════════════════════ */
+const params = new URLSearchParams(window.location.search);
+const mode = (params.get('mode') === 'long') ? 'long' : 'court';
+const roomIds = MODES[mode];
+let currentIndex = 0; // index dans roomIds
+let fragments = [];
+let startTime = null;
+let stopwatchInterval = null;
+let finalCodeOverride = null; // clé calculée dans la Salle de Synthèse (mode long)
+
+function fmtTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function startStopwatch() {
+  startTime = Date.now();
+  stopwatchInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById('stopwatch').innerText = fmtTime(elapsed);
+  }, 1000);
+}
+
+function buildDots() {
+  const cont = document.getElementById('dotsRow');
+  cont.innerHTML = '';
+  roomIds.forEach((id, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.id = 'dot-' + i;
+    cont.appendChild(d);
+  });
+}
+
+function updateDots() {
+  roomIds.forEach((id, i) => {
+    const d = document.getElementById('dot-' + i);
+    if (!d) return;
+    d.className = 'dot';
+    if (i < currentIndex) d.classList.add('done');
+    else if (i === currentIndex) d.classList.add('active');
+  });
+}
+
+function buildFragmentRow() {
+  const row = document.getElementById('fragmentRow');
+  row.innerHTML = '';
+  roomIds.forEach((id, i) => {
+    const badge = document.createElement('div');
+    if (i < fragments.length) {
+      badge.className = 'fragment-badge';
+      badge.textContent = fragments[i];
+    } else {
+      badge.className = 'fragment-badge empty';
+      badge.textContent = '?';
+    }
+    row.appendChild(badge);
+  });
+}
+
+function showStoryFor(index) {
+  const id = roomIds[index];
+  const cfg = ROOM_LIBRARY[id];
+  document.getElementById('storyEyebrow').textContent = `Salle ${index + 1} / ${roomIds.length}`;
+  document.getElementById('storyIcon').textContent = cfg.icon;
+  document.getElementById('storyTitle').textContent = cfg.title;
+  document.getElementById('storyScientist').textContent = cfg.scientist;
+  document.getElementById('storyQuote').textContent = cfg.quote;
+  buildFragmentRow();
+  document.getElementById('roomNameLabel').textContent = '— ' + cfg.title;
+  document.getElementById('storyOverlay').style.display = 'flex';
+}
+
+function enterRoom() {
+  document.getElementById('storyOverlay').style.display = 'none';
+  const id = roomIds[currentIndex];
+  const cfg = ROOM_LIBRARY[id];
+  const bust = Date.now();
+  let src = cfg.file + '?v=' + bust;
+  if (cfg.time) src += '&t=' + cfg.time;
+  document.getElementById('roomFrame').src = src;
+  document.getElementById('roomFrame').style.display = 'block';
+  updateDots();
+}
+
+function retryRoom() {
+  document.getElementById('timeoutOverlay').style.display = 'none';
+  enterRoom();
+}
+
+/* ══════════════════════════════════════
+   RÉCEPTION DES MESSAGES DES SALLES
+══════════════════════════════════════ */
+window.addEventListener('message', (event) => {
+  const data = event.data;
+  if (!data || data.source !== 'escape-game') return;
+
+  if (data.type === 'room-timeout') {
+    document.getElementById('roomFrame').style.display = 'none';
+    document.getElementById('timeoutOverlay').style.display = 'flex';
+  }
+
+  if (data.type === 'room-complete') {
+    fragments.push(data.digit);
+    currentIndex++;
+    document.getElementById('roomFrame').style.display = 'none';
+
+    if (currentIndex < roomIds.length) {
+      updateDots();
+      setTimeout(() => showStoryFor(currentIndex), 500);
+    } else {
+      updateDots();
+      if (mode === 'long') {
+        setTimeout(() => showSyntheseIntro(), 500);
+      } else {
+        setTimeout(() => {
+          document.getElementById('cutsceneOverlay').style.display = 'flex';
+        }, 500);
+      }
+    }
+  }
+
+  if (data.type === 'synthese-complete') {
+    finalCodeOverride = data.code;
+  }
+
+  if (data.type === 'synthese-continue') {
+    document.getElementById('roomFrame').style.display = 'none';
+    document.getElementById('cutsceneOverlay').style.display = 'flex';
+  }
+
+  if (data.type === 'game-complete') {
+    clearInterval(stopwatchInterval);
+    showFinalVictory();
+  }
+
+  if (data.type === 'restart') {
+    window.location.href = 'intro.html';
+  }
+});
+
+/* ══════════════════════════════════════
+   SALLE DE SYNTHÈSE (mode long uniquement)
+══════════════════════════════════════ */
+function showSyntheseIntro() {
+  document.getElementById('storyEyebrow').textContent = 'Après les 5 laboratoires';
+  document.getElementById('storyIcon').textContent = '🧮';
+  document.getElementById('storyTitle').textContent = 'Le Codex du Gardien';
+  document.getElementById('storyScientist').textContent = 'Synthèse des 5 laboratoires';
+  document.getElementById('storyQuote').textContent = "« Toute la lumière de l'Académie converge ici. Combinez ce que vous avez appris pour forger la clé finale. »";
+  buildFragmentRow();
+  document.getElementById('roomNameLabel').textContent = '— Salle de Synthèse';
+  document.getElementById('storyEnterBtn').onclick = enterSynthese;
+  document.getElementById('storyOverlay').style.display = 'flex';
+}
+
+function enterSynthese() {
+  document.getElementById('storyOverlay').style.display = 'none';
+  document.getElementById('roomFrame').src = 'synthese.html?v=' + Date.now();
+  document.getElementById('roomFrame').style.display = 'block';
+}
+
+function goToFinale() {
+  document.getElementById('cutsceneOverlay').style.display = 'none';
+  const code = finalCodeOverride || fragments.join('');
+  document.getElementById('roomFrame').src = 'finale.html?code=' + encodeURIComponent(code);
+  document.getElementById('roomFrame').style.display = 'block';
+  document.getElementById('roomNameLabel').textContent = '— Terminal Final';
+}
+
+function showFinalVictory() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  document.getElementById('finalTime').textContent = '⏱ ' + fmtTime(elapsed);
+  const recap = document.getElementById('finalRecap');
+  recap.innerHTML = '';
+  roomIds.forEach((id, i) => {
+    const cfg = ROOM_LIBRARY[id];
+    const li = document.createElement('li');
+    li.innerHTML = `✅ <strong>${cfg.title}</strong> — fragment « ${fragments[i] || '?'} »`;
+    recap.appendChild(li);
+  });
+  if (finalCodeOverride) {
+    const liSynth = document.createElement('li');
+    liSynth.innerHTML = `🧮 <strong>Clé de synthèse calculée :</strong> (5 × 10) − 8 + 1 = ${finalCodeOverride}`;
+    recap.appendChild(liSynth);
+  } else {
+    const liCode = document.createElement('li');
+    liCode.innerHTML = `🔑 <strong>Code final :</strong> ${fragments.join('')}`;
+    recap.appendChild(liCode);
+  }
+  document.getElementById('roomFrame').style.display = 'none';
+  document.getElementById('finalVictoryOverlay').style.display = 'flex';
+}
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+buildDots();
+startStopwatch();
+showStoryFor(0);
+</script>
+
+</body>
+</html>

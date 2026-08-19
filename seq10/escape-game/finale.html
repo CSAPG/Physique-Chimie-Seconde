@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Déverrouillage Optique - Terminal Final</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+      user-select: none;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      background: radial-gradient(circle, #1a1612 0%, #080706 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #ffd27d;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #fireworks-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .panel {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(145deg, #3d2b1f, #221810);
+      border: 6px solid #8b5a2b;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,0,0,0.6);
+      padding: 25px;
+      width: 380px;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .panel h2 {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      color: #e6b87d;
+      text-shadow: 0 0 8px rgba(230, 184, 125, 0.4);
+      text-transform: uppercase;
+    }
+
+    .panel-sub {
+      font-size: 0.72rem;
+      color: #b8926a;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .screen-container {
+      background: #0f0c08;
+      border: 3px solid #5a3d1e;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.9);
+    }
+
+    .display {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #ffb834;
+      text-shadow: 0 0 12px #ff9800;
+      letter-spacing: 10px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      word-break: break-all;
+    }
+
+    .status-msg {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    button.btn {
+      background: linear-gradient(145deg, #2e261f, #1a1510);
+      border: 2px solid #6e4823;
+      border-radius: 8px;
+      color: #ffd993;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 14px 0;
+      cursor: pointer;
+      box-shadow: 0 4px #0f0a05;
+      transition: all 0.08s ease-in-out;
+    }
+
+    button.btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px #0f0a05;
+      background: #4a3622;
+    }
+
+    button.btn-clear {
+      background: linear-gradient(145deg, #4a1f1f, #2c0f0f);
+      border-color: #8c3b3b;
+      color: #ff8e8e;
+      font-size: 1rem;
+    }
+
+    button.btn-enter {
+      background: linear-gradient(145deg, #1f4a25, #0f2c15);
+      border-color: #3b8c4c;
+      color: #8effa3;
+      font-size: 1rem;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .success-box {
+      background: #1e1610;
+      border: 4px solid #4caf50;
+      border-radius: 12px;
+      padding: 34px;
+      text-align: center;
+      color: #8effa3;
+      box-shadow: 0 0 40px rgba(76, 175, 80, 0.7);
+      animation: pop 0.4s ease-out;
+      max-width: 90%;
+    }
+
+    .success-box h1 {
+      font-size: 1.9rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px #4caf50;
+    }
+
+    .success-box .replay {
+      margin-top: 20px;
+      background: #4caf50;
+      color: #08170a;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="fireworks-canvas"></canvas>
+
+  <div class="panel">
+    <h2>Saisie Optique</h2>
+    <div class="panel-sub" id="panel-sub">Assemblez les fragments récoltés dans chaque salle</div>
+
+    <div class="screen-container">
+      <div class="display" id="display">_ _ _</div>
+      <div class="status-msg" id="status">Entrez le code cible</div>
+    </div>
+
+    <div class="keypad">
+      <button class="btn" onclick="pressNum('1')">1</button>
+      <button class="btn" onclick="pressNum('2')">2</button>
+      <button class="btn" onclick="pressNum('3')">3</button>
+
+      <button class="btn" onclick="pressNum('4')">4</button>
+      <button class="btn" onclick="pressNum('5')">5</button>
+      <button class="btn" onclick="pressNum('6')">6</button>
+
+      <button class="btn" onclick="pressNum('7')">7</button>
+      <button class="btn" onclick="pressNum('8')">8</button>
+      <button class="btn" onclick="pressNum('9')">9</button>
+
+      <button class="btn btn-clear" onclick="clearCode()">EFFACER</button>
+      <button class="btn" onclick="pressNum('0')">0</button>
+      <button class="btn btn-enter" onclick="validateCode()">VALIDER</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="victoryModal">
+    <div class="success-box">
+      <h1 id="victory-title">🔓 CODE VALIDÉ</h1>
+      <p style="color: #ffd27d; margin-top: 10px;">
+        Le faisceau optique est parfaitement focalisé.<br><br>
+        <strong>Félicitations, vous avez terminé l'Escape Game !</strong>
+      </p>
+      <button class="replay" onclick="window.parent && window.parent.postMessage({source:'escape-game', type:'restart'}, '*')">↺ Rejouer</button>
+    </div>
+  </div>
+
+  <script>
+    // Le code attendu est fourni par le hub via l'URL : finale.html?code=315
+    const params = new URLSearchParams(window.location.search);
+    const SECRET_CODE = params.get('code') || "315";
+    let currentInput = "";
+
+    const displayEl = document.getElementById("display");
+    const statusEl = document.getElementById("status");
+    const modalEl = document.getElementById("victoryModal");
+
+    document.getElementById('status').innerText = `Entrez les ${SECRET_CODE.length} chiffres cibles`;
+
+    function notifyParent(type, extra) {
+      try {
+        window.parent.postMessage(Object.assign({ source: 'escape-game', type }, extra || {}), '*');
+      } catch (e) {}
+    }
+
+    function updateDisplay() {
+      if (currentInput.length === 0) {
+        displayEl.innerText = "_".repeat(SECRET_CODE.length).split("").join(" ");
+      } else {
+        displayEl.innerText = currentInput.split("").join(" ");
+      }
+    }
+    updateDisplay();
+
+    function pressNum(num) {
+      if (currentInput.length < SECRET_CODE.length) {
+        currentInput += num;
+        updateDisplay();
+        statusEl.innerText = "Saisie en cours...";
+        statusEl.style.color = "#aaa";
+      }
+    }
+
+    function clearCode() {
+      currentInput = "";
+      updateDisplay();
+      statusEl.innerText = "Code effacé";
+      statusEl.style.color = "#aaa";
+    }
+
+    function validateCode() {
+      if (currentInput.length < SECRET_CODE.length) {
+        statusEl.innerText = `Entrez ${SECRET_CODE.length} chiffres`;
+        statusEl.style.color = "#ff8e8e";
+        return;
+      }
+
+      if (currentInput === SECRET_CODE) {
+        statusEl.innerText = "Accès autorisé !";
+        statusEl.style.color = "#8effa3";
+        setTimeout(() => {
+          modalEl.style.display = "flex";
+          launchFireworksShow();
+          notifyParent('game-complete', { code: SECRET_CODE });
+        }, 300);
+      } else {
+        statusEl.innerText = "Code incorrect, réessayez !";
+        statusEl.style.color = "#ff4d4d";
+        currentInput = "";
+        setTimeout(updateDisplay, 600);
+      }
+    }
+
+    /* ═══════════ FEU D'ARTIFICE (canvas) ═══════════ */
+    const canvas = document.getElementById('fireworks-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let particles = [];
+    const COLORS = ['#ffb834', '#ff6b6b', '#6bffb8', '#6bc7ff', '#d66bff', '#ffffff', '#ffe66b'];
+
+    function spawnFirework(x, y) {
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const count = 60 + Math.floor(Math.random() * 40);
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.2;
+        const speed = 2 + Math.random() * 4.5;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          decay: 0.008 + Math.random() * 0.012,
+          color,
+          size: 1.5 + Math.random() * 2
+        });
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = 'rgba(8,7,6,0.18)';
+      ctx.fillRect(0, 0, W, H);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.045; // gravité
+        p.vx *= 0.99;
+        p.life -= p.decay;
+      });
+      particles = particles.filter(p => p.life > 0);
+
+      particles.forEach(p => {
+        ctx.globalAlpha = Math.max(p.life, 0);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    let fireworksInterval = null;
+    function launchFireworksShow() {
+      let bursts = 0;
+      fireworksInterval = setInterval(() => {
+        spawnFirework(
+          W * (0.15 + Math.random() * 0.7),
+          H * (0.15 + Math.random() * 0.45)
+        );
+        bursts++;
+        if (bursts > 22) {
+          clearInterval(fireworksInterval);
+        }
+      }, 260);
+      // Une salve immédiate pour l'effet "waouh"
+      spawnFirework(W * 0.5, H * 0.35);
+    }
+  </script>
+</body>
+</html>

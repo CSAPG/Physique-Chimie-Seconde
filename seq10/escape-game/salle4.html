@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salle 4 : L'Atelier des Lentilles Minces</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+  <style>
+    :root{
+      --bleu: #2D5F8A;
+      --bleu-clair: #E4EEF6;
+      --bleu-fonce: #1E4466;
+      --vert: #3A8A6E;
+      --vert-clair: #E5F3EE;
+      --orange: #E8783A;
+      --orange-clair: #FDEBE0;
+      --rouge: #C0392B;
+      --rouge-clair: #FBEAE8;
+      --indice: #C98A00;
+      --indice-clair: #FFF6E0;
+      --texte: #223344;
+      --texte-leger: #64748b;
+      --gris-bord: #dbe3ea;
+      --fond: #f6f9fc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background: var(--fond);
+      color: var(--texte);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+    .room-card {
+      background: #ffffff;
+      border: 1px solid var(--gris-bord);
+      border-radius: 14px;
+      max-width: 860px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 4px 24px rgba(45, 95, 138, 0.08);
+    }
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      color: var(--bleu-fonce);
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+    }
+    .chrono {
+      background: var(--bleu-fonce);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .intro {
+      margin: 12px 0 25px;
+      color: var(--texte-leger);
+      line-height: 1.5;
+    }
+    .section-title {
+      color: var(--bleu);
+      font-size: 1.05rem;
+      font-weight: bold;
+      border-left: 4px solid var(--bleu);
+      padding-left: 10px;
+      margin: 28px 0 14px;
+    }
+    .anim-box {
+      background: var(--bleu-clair);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .anim-box iframe {
+      width: 100%;
+      height: 480px;
+      border: 1px solid var(--gris-bord);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .anim-fallback-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--bleu);
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 0.92rem;
+    }
+    .anim-fallback-link:hover { text-decoration: underline; }
+    .anim-note {
+      font-size: 0.8rem;
+      color: var(--texte-leger);
+      margin-top: 8px;
+    }
+
+    .btn-indice {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: var(--indice-clair);
+      color: var(--indice);
+      border: 1px solid var(--indice);
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-bottom: 6px;
+      transition: 0.15s;
+    }
+    .btn-indice:hover { background: var(--indice); color: #fff; }
+    .indice-box {
+      background: var(--indice-clair);
+      border-radius: 0 0 8px 8px;
+      padding: 12px 16px;
+      margin: -6px 0 12px;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: #5a4200;
+    }
+
+    .config-table { margin-bottom: 16px; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      border: 1px solid var(--gris-bord);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 0.93rem;
+    }
+    th { background: var(--bleu-clair); color: var(--bleu-fonce); }
+
+    .enigma-box {
+      background: var(--fond);
+      border-left: 4px solid var(--bleu);
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .input-section {
+      background: var(--bleu-clair);
+      border: 1px solid var(--gris-bord);
+      border-radius: 10px;
+      padding: 22px;
+      margin-top: 28px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-weight: bold;
+      color: var(--bleu-fonce);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .field input[type="text"] {
+      background: #fff;
+      border: 2px solid var(--bleu);
+      color: var(--bleu-fonce);
+      font-size: 1.2rem;
+      text-align: center;
+      width: 120px;
+      border-radius: 6px;
+      padding: 6px;
+      outline: none;
+    }
+    .qcm-options { display: flex; gap: 10px; flex-wrap: wrap; }
+    .qcm-opt {
+      background: #fff;
+      border: 2px solid var(--bleu);
+      color: var(--bleu-fonce);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .qcm-opt:hover { background: var(--bleu-clair); }
+    .qcm-opt.selected { background: var(--bleu); color: #fff; }
+
+    .btn-recommencer {
+      background: #eef1f4;
+      color: #555;
+      border: 1px solid #888;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: 0.15s;
+    }
+    .btn-recommencer:hover { background: #888; color: #fff; }
+
+    .btn-valider {
+      background: var(--bleu);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 12px 30px;
+      cursor: pointer;
+      display: block;
+      margin: 10px auto 0;
+      transition: 0.2s;
+    }
+    .btn-valider:hover { background: var(--bleu-fonce); }
+
+    #result-msg {
+      margin-top: 14px;
+      font-weight: bold;
+      font-size: 1.02rem;
+      text-align: center;
+      min-height: 24px;
+    }
+    .msg-ok { color: var(--vert); }
+    .msg-ko { color: var(--rouge); }
+  </style>
+</head>
+<body>
+
+  <div class="room-card">
+    <div class="header-row">
+      <h1>🔬 Salle 4 : L'Atelier des Lentilles Minces</h1>
+      <div class="chrono" id="chrono">⏱ 00:00</div>
+    </div>
+    <p class="intro">Utilisez l'animation interactive pour explorer le comportement d'une lentille convergente, puis répondez aux 5 questions pour déverrouiller la porte.</p>
+
+    <div class="section-title">Partie A — Repérage des points caractéristiques</div>
+
+    <div class="anim-box">
+      <iframe src="https://phyanim.sciences.univ-nantes.fr/optiqueGeo/lentilles/lentille_mince.php" title="Animation lentille mince convergente"></iframe>
+      <br>
+      <a class="anim-fallback-link" href="https://phyanim.sciences.univ-nantes.fr/optiqueGeo/lentilles/lentille_mince.php" target="_blank" rel="noopener">↗ Ouvrir l'animation dans un nouvel onglet</a>
+      <div class="anim-note">Si l'animation ne s'affiche pas ci-dessus, utilisez le lien pour l'ouvrir dans un nouvel onglet.</div>
+    </div>
+
+    <button class="btn-indice" onclick="toggleIndice('ind1')">💡 Indice 1 : Prise en main de l'animation</button>
+    <div class="indice-box" id="ind1" style="display:none">
+      <p>Déplacez l'objet $AB$ le long de l'axe optique et observez la position de l'écran qui donne une image nette. Repérez le centre optique $O$ de la lentille, ainsi que les deux foyers $F$ (foyer objet, à gauche) et $F'$ (foyer image, à droite).</p>
+    </div>
+
+    <button class="btn-indice" onclick="toggleIndice('ind2')">💡 Indice 2 : Le rôle de O, F et F'</button>
+    <div class="indice-box" id="ind2" style="display:none">
+      <p>
+        Trois rayons permettent de construire l'image :<br>
+        1. Le rayon passant par <strong>O</strong> n'est pas dévié.<br>
+        2. Le rayon parallèle à l'axe optique émerge en passant par <strong>F'</strong>.<br>
+        3. Le rayon passant par <strong>F</strong> émerge parallèle à l'axe optique.<br>
+        La distance $\overline{OF'} = f'$ est la distance focale de la lentille.
+      </p>
+    </div>
+
+    <div class="section-title">Partie B — Étude qualitative : deux configurations</div>
+
+    <div class="config-table">
+      <table>
+        <tr><th>Position de l'objet</th><th>À observer sur l'animation</th></tr>
+        <tr><td>Entre <strong>O</strong> et <strong>F</strong></td><td>Peut-on former une image sur un écran ? Que voit-on en regardant à travers la lentille ?</td></tr>
+        <tr><td>Au-delà de <strong>F</strong></td><td>Une image se forme-t-elle sur l'écran ? Dans quel sens, par rapport à l'objet ?</td></tr>
+      </table>
+    </div>
+
+    <button class="btn-indice" onclick="toggleIndice('ind3')">💡 Indice 3 : Image réelle ou virtuelle ?</button>
+    <div class="indice-box" id="ind3" style="display:none">
+      <p>Une image est <strong>réelle</strong> si elle peut être recueillie sur un écran (les rayons lumineux se croisent réellement). Elle est <strong>virtuelle</strong> si aucun écran ne permet de la voir : seul l'œil, en regardant à travers la lentille, peut la percevoir (effet loupe). Placez l'objet de sorte que $A$ soit entre $O$ et $F$ sur l'animation ($O$, $A$, $F$ et $F'$ sont alignés sur l'axe optique) : essayez de trouver une position d'écran qui donne une image nette.</p>
+    </div>
+
+    <button class="btn-indice" onclick="toggleIndice('ind4')">💡 Indice 4 : Le signe du grandissement</button>
+    <div class="indice-box" id="ind4" style="display:none">
+      <p>
+        Le grandissement transversal $\gamma = \dfrac{\overline{OA'}}{\overline{OA}} = \dfrac{\overline{A'B'}}{\overline{AB}}$ renseigne sur le sens de l'image :<br>
+        • $\gamma > 0$ : image <strong>droite</strong> (même sens que l'objet)<br>
+        • $\gamma < 0$ : image <strong>renversée</strong><br>
+        Le signe de $\overline{OA'}$ indique quant à lui la nature : positif si l'image se forme après la lentille (réelle, côté écran), négatif sinon (virtuelle).
+      </p>
+    </div>
+
+    <div class="section-title">Partie C — Résolution quantitative</div>
+
+    <div class="enigma-box">
+      <strong>Énigme finale du banc d'optique :</strong><br>
+      Un objet lumineux $AB$ de taille $AB = 5\text{ cm}$ est placé à $\overline{OA} = -15\text{ cm}$ d'une lentille convergente de distance focale $f' = 10\text{ cm}$.<br><br>
+      👉 Utilisez l'animation pour retrouver la position de l'écran donnant une image nette, puis vérifiez votre lecture par le calcul (relation de conjugaison de Descartes et grandissement).
+    </div>
+
+    <button class="btn-indice" onclick="toggleIndice('ind5')">💡 Indice 5 : Relation de conjugaison</button>
+    <div class="indice-box" id="ind5" style="display:none">
+      <p>
+        Relation de conjugaison : $\dfrac{1}{\overline{OA'}} - \dfrac{1}{\overline{OA}} = \dfrac{1}{f'}$<br>
+        Avec $\overline{OA} = -15\text{ cm}$ et $f' = 10\text{ cm}$, calculez $\overline{OA'}$, puis $\gamma = \dfrac{\overline{OA'}}{\overline{OA}}$, et enfin $|\overline{A'B'}| = |\gamma| \times AB$.
+      </p>
+    </div>
+
+    <button class="btn-recommencer" onclick="recommencer('taille', 'natureC')">↺ Recommencer (Partie C)</button>
+
+    <div class="section-title">Partie D — Résolution quantitative ($A$ entre $O$ et $F$)</div>
+
+    <div class="enigma-box">
+      <strong>Énigme du cas rapproché :</strong><br>
+      Le même objet $AB = 5\text{ cm}$ est maintenant placé entre $O$ et $F$, à $\overline{OA} = -6\text{ cm}$ de la lentille (toujours $f' = 10\text{ cm}$).<br><br>
+      👉 Retrouvez sur l'animation ce qui se passe dans cette configuration (pas d'écran possible !), puis calculez la taille de l'image et déterminez sa nature et son sens.
+    </div>
+
+    <div class="indice-box">
+      <p>Réutilisez la relation de conjugaison et le grandissement comme en Partie C (voir Indice 5). Attention : avec $\overline{OA} = -6\text{ cm}$ et $f' = 10\text{ cm}$, le résultat de $\overline{OA'}$ change de signe par rapport au cas précédent — que cela signifie-t-il sur la nature de l'image ?</p>
+    </div>
+
+    <button class="btn-recommencer" onclick="recommencer('tailleD', 'natureD')">↺ Recommencer (Partie D)</button>
+
+    <div class="input-section">
+      <div class="field">
+        <label>Taille de l'image $|\overline{A'B'}|$ (en cm) :</label>
+        <input type="text" id="taille" maxlength="4" placeholder="?">
+      </div>
+
+      <div class="field">
+        <label>Nature de l'image — Partie B ($A$ entre $O$ et $F$) :</label>
+        <div class="qcm-options" data-group="natureB">
+          <button class="qcm-opt" data-value="reelle">Réelle</button>
+          <button class="qcm-opt" data-value="virtuelle">Virtuelle</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nature et sens de l'image — Partie C (cas final) :</label>
+        <div class="qcm-options" data-group="natureC">
+          <button class="qcm-opt" data-value="reelle-renversee">Réelle et renversée</button>
+          <button class="qcm-opt" data-value="virtuelle-droite">Virtuelle et droite</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Taille de l'image $|\overline{A'B'}|$ — Partie D (en cm) :</label>
+        <input type="text" id="tailleD" maxlength="5" placeholder="?">
+      </div>
+
+      <div class="field">
+        <label>Nature et sens de l'image — Partie D :</label>
+        <div class="qcm-options" data-group="natureD">
+          <button class="qcm-opt" data-value="reelle-renversee">Réelle et renversée</button>
+          <button class="qcm-opt" data-value="virtuelle-droite">Virtuelle et droite</button>
+        </div>
+      </div>
+
+      <button class="btn-valider" onclick="verifierCode()">VALIDER</button>
+      <div id="result-msg"></div>
+    </div>
+  </div>
+
+  <script>
+    function notifyParent(type, extra) {
+      try {
+        window.parent.postMessage(Object.assign({ source: 'escape-game', room: 4, type }, extra || {}), '*');
+      } catch (e) {}
+    }
+
+    // Chronomètre
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      document.getElementById('chrono').innerText = `⏱ ${m}:${s}`;
+    }, 1000);
+
+    // Indices
+    function toggleIndice(id) {
+      const box = document.getElementById(id);
+      box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+    }
+
+    // Sélection QCM
+    document.querySelectorAll('.qcm-options').forEach(group => {
+      group.querySelectorAll('.qcm-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          group.querySelectorAll('.qcm-opt').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    });
+
+    function getSelected(groupName) {
+      const group = document.querySelector(`.qcm-options[data-group="${groupName}"]`);
+      const sel = group.querySelector('.qcm-opt.selected');
+      return sel ? sel.dataset.value : null;
+    }
+
+    function recommencer(inputId, groupName) {
+      if (inputId) {
+        const input = document.getElementById(inputId);
+        if (input) input.value = '';
+      }
+      if (groupName) {
+        const group = document.querySelector(`.qcm-options[data-group="${groupName}"]`);
+        if (group) group.querySelectorAll('.qcm-opt').forEach(b => b.classList.remove('selected'));
+      }
+      document.getElementById('result-msg').innerText = '';
+    }
+
+    function normaliserNombre(str) {
+      return str.trim().replace(',', '.');
+    }
+
+    function verifierCode() {
+      const taille = normaliserNombre(document.getElementById('taille').value);
+      const tailleD = normaliserNombre(document.getElementById('tailleD').value);
+      const natureB = getSelected('natureB');
+      const natureC = getSelected('natureC');
+      const natureD = getSelected('natureD');
+      const msg = document.getElementById('result-msg');
+
+      if (!taille || !tailleD || !natureB || !natureC || !natureD) {
+        msg.innerText = "⚠️ Merci de compléter les 5 réponses avant de valider.";
+        msg.className = 'msg-ko';
+        return;
+      }
+
+      const tailleOk = parseFloat(taille) === 10;
+      const tailleDOk = parseFloat(tailleD) === 12.5;
+
+      if (tailleOk && tailleDOk && natureB === "virtuelle" && natureC === "reelle-renversee" && natureD === "virtuelle-droite") {
+        msg.innerText = "✅ CODE CORRECT ! La porte de la Salle 4 est déverrouillée (Chiffre : 10).";
+        msg.className = 'msg-ok';
+        notifyParent('room-complete', { digit: '10', elapsed: seconds });
+      } else {
+        msg.innerText = "❌ Une ou plusieurs réponses sont incorrectes. Relisez les indices et vérifiez vos calculs.";
+        msg.className = 'msg-ko';
+      }
+    }
+  </script>
+</body>
+</html>

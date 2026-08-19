@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Game - Salle 3 : La Salle du Spectre</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Georgia', serif; }
+        html, body { height: 100%; }
+        body {
+            background-color: #0d0d0d; color: #f0e6d2;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 20px;
+        }
+
+        .game-container {
+            position: relative; width: 100%; max-width: 1100px; aspect-ratio: 16 / 9;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); border: 4px solid #4a3728;
+            border-radius: 8px; overflow: hidden;
+            background-image: url('fond_spectre.jpg'), linear-gradient(135deg,#1a140d,#0d0d0d);
+            background-size: cover; background-position: center;
+        }
+
+        .header-bar {
+            position: absolute; top: 15px; left: 20px; right: 20px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
+        }
+
+        .progress-bar, .timer-box {
+            background: rgba(20, 15, 10, 0.85); border: 1px solid #d4af37;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.95rem; color: #d4af37;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .timer-box { font-weight: bold; font-size: 1.1rem; color: #e74c3c; }
+
+        .hotspot {
+            position: absolute; width: 60px; height: 60px; border-radius: 50%;
+            background: transparent; cursor: pointer; z-index: 5; transition: all 0.3s ease;
+        }
+        .hotspot.solved {
+            background: rgba(46, 204, 113, 0.65) !important;
+            border: 2px solid #2ecc71 !important; box-shadow: 0 0 15px #2ecc71;
+        }
+
+        #hs-hydrogene { top: 48%; left: 25%; }
+        #hs-sodium    { top: 70%; left: 65%; }
+        #hs-young     { top: 15%; left: 95%; }
+
+        #hs-porte {
+            position: absolute; top: 39%; left: 52%; width: 40px; height: 50px;
+            border-radius: 8px; background:transparent; cursor: pointer; z-index: 5;
+        }
+
+        .modal {
+            display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85);
+            z-index: 20; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .modal-content {
+            background: #1c1612; border: 2px solid #d4af37; border-radius: 8px;
+            padding: 25px; max-width: 580px; width: 100%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8); color: #f0e6d2; position: relative;
+        }
+
+        .modal-content h3 {
+            color: #d4af37; margin-bottom: 12px; font-size: 1.3rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 6px;
+        }
+
+        .modal-content p { margin-bottom: 15px; font-size: 0.95rem; line-height: 1.4; }
+
+        .options-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+
+        .btn-option {
+            background: #2a211b; border: 1px solid #7a5c3e; color: #f0e6d2;
+            padding: 10px; border-radius: 4px; text-align: left; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-option:hover { background: #d4af37; color: #1c1612; font-weight: bold; }
+
+        .code-container { display: flex; gap: 10px; margin-top: 15px; }
+
+        .code-input {
+            padding: 10px; font-size: 1.2rem; border: 1px solid #d4af37;
+            background: #0d0d0d; color: #fff; border-radius: 4px; width: 100px; text-align: center;
+        }
+
+        .btn-submit {
+            background: #d4af37; color: #1c1612; border: none; padding: 10px 20px;
+            font-weight: bold; border-radius: 4px; cursor: pointer;
+        }
+
+        .close-btn {
+            position: absolute; top: 10px; right: 15px; background: none; border: none;
+            color: #aaa; font-size: 1.4rem; cursor: pointer;
+        }
+
+        .feedback { margin-top: 10px; font-size: 0.9rem; font-weight: bold; }
+        .feedback.correct { color: #2ecc71; }
+        .feedback.incorrect { color: #e74c3c; }
+
+        .end-screen {
+            display: none; position: absolute; inset: 0; background: rgba(10, 8, 5, 0.95);
+            z-index: 30; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 20px;
+        }
+
+        .digit-reveal {
+            font-size: 6rem; font-weight: bold; color: #d4af37;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.9); margin: 15px 0;
+        }
+
+        #room-clue-banner, #porte-locked-msg {
+            display: none; position: absolute; bottom: 15px; left: 20px; right: 20px; z-index: 10;
+            background: rgba(20, 15, 10, 0.9); border: 1px solid #d4af37; border-radius: 8px;
+            padding: 10px 16px; font-size: 0.9rem; color: #d4af37; text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        #porte-locked-msg { border-color: #e74c3c; color: #e88; }
+
+        /* Halo d'aide : n'apparaît qu'après 4 minutes si la porte n'a toujours pas été trouvée */
+        .hint-glow {
+            animation: doorHint 1.6s ease-in-out infinite;
+        }
+        @keyframes doorHint {
+            0%, 100% { box-shadow: 0 0 8px 3px rgba(212, 175, 55, 0.25); }
+            50% { box-shadow: 0 0 22px 9px rgba(212, 175, 55, 0.85); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="header-bar">
+        <div class="progress-bar">
+            Indices trouvés : <span id="solved-count">0</span> / 3
+        </div>
+        <div class="timer-box" id="timer">5:00</div>
+    </div>
+
+    <div class="hotspot" id="hs-hydrogene" onclick="openModal('modal-hydrogene')"></div>
+    <div class="hotspot" id="hs-sodium" onclick="openModal('modal-sodium')"></div>
+    <div class="hotspot" id="hs-young" onclick="openModal('modal-young')"></div>
+    <div class="hotspot" id="hs-porte" onclick="tryOpenPorte()"></div>
+    <div id="room-clue-banner">
+        🔓 Analyses terminées ! Regardez la longueur d'onde de la lampe au Sodium (589 nm) : le premier chiffre est le code de la porte. Reste à trouver la porte de sortie...
+    </div>
+    <div id="porte-locked-msg">
+        🔒 Rien ici. Résolvez d'abord les trois énigmes du spectre.
+    </div>
+    <div class="modal" id="modal-hydrogene">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-hydrogene')">&times;</button>
+            <h3>1. Le Spectre de l'Hydrogène</h3>
+            <p>Observez le tube à décharge de l'hydrogène. Combien de raies colorées distinctes appartiennent au domaine du <strong>visible</strong> (série de Balmer) ?</p>
+            <div class="options-list">
+                <button class="btn-option" onclick="checkAnswer('hydrogene', false, 'Incorrect.')">3 raies</button>
+                <button class="btn-option" onclick="checkAnswer('hydrogene', true, 'Exact ! 4 raies visibles : Rouge (656 nm), Cyan (486 nm), Bleu (434 nm) et Violet (410 nm).')">4 raies (Rouge, Cyan, Bleu, Violet)</button>
+                <button class="btn-option" onclick="checkAnswer('hydrogene', false, 'Non, ce n\'est pas un spectre continu.')">Une infinité (spectre continu)</button>
+            </div>
+            <div class="feedback" id="fb-hydrogene"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-sodium">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-sodium')">&times;</button>
+            <h3>2. La Raie du Sodium</h3>
+            <p>La lampe au sodium émet une lumière jaune caractéristique. À quelle longueur d'onde approximative se situe son doublet d'émission le plus intense ?</p>
+            <div class="options-list">
+                <button class="btn-option" onclick="checkAnswer('sodium', false, 'Incorrect (domaine du violet).')">400 nm</button>
+                <button class="btn-option" onclick="checkAnswer('sodium', true, 'Parfait ! Le doublet du sodium se situe à environ 589 nm.')">589 nm</button>
+                <button class="btn-option" onclick="checkAnswer('sodium', false, 'Incorrect (domaine du rouge).')">750 nm</button>
+            </div>
+            <div class="feedback" id="fb-sodium"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-young">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-young')">&times;</button>
+            <h3>3. La Synthèse Additive (Thomas Young)</h3>
+            <p>Selon la théorie de Thomas Young, l'œil humain possède trois types de récepteurs (Rouge, Vert, Bleu). Quelle couleur perçoit-on lors de la superposition d'un faisceau <strong>Rouge</strong> et d'un faisceau <strong>Vert</strong> ?</p>
+            <div class="options-list">
+                <button class="btn-option" onclick="checkAnswer('young', false, 'Incorrect (Rouge + Bleu = Magenta).')">Magenta</button>
+                <button class="btn-option" onclick="checkAnswer('young', false, 'Incorrect (Vert + Bleu = Cyan).')">Cyan</button>
+                <button class="btn-option" onclick="checkAnswer('young', true, 'Exact ! La superposition du Rouge et du Vert donne du Jaune.')">Jaune</button>
+            </div>
+            <div class="feedback" id="fb-young"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-porte">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-porte')">&times;</button>
+            <h3>Porte de la Salle du Spectre</h3>
+            <p style="color: #d4af37; font-style: italic;">Porte de sortie trouvée mais à n'utiliser que si tu as le code.</p>
+            <p>Saisissez le chiffre débloqué :</p>
+            <div class="code-container">
+                <input type="text" id="door-code" class="code-input" maxlength="1" placeholder="Code">
+                <button class="btn-submit" onclick="submitCode()">Déverrouiller</button>
+            </div>
+            <div class="feedback" id="fb-door"></div>
+        </div>
+    </div>
+
+    <div class="end-screen" id="victory-screen">
+        <h3 style="color: #2ecc71; font-size: 2rem;">Salle 3 Validée !</h3>
+        <p>Vous avez maîtrisé la spectroscopie et la synthèse des couleurs.</p>
+        <div class="digit-reveal">5</div>
+        <p>Troisième fragment débloqué : <strong>5</strong></p>
+    </div>
+
+    <div class="end-screen" id="defeat-screen">
+        <h3 style="color: #e74c3c; font-size: 2rem;">Temps Écoulé !</h3>
+        <p>La lumière s'est éteinte dans la salle du spectre...</p>
+    </div>
+</div>
+
+<script>
+    let solvedState = { hydrogene: false, sodium: false, young: false };
+    let timeLeft = 300;
+    let timerInterval;
+    let doorFound = false;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('t')) timeLeft = parseInt(params.get('t'), 10) || timeLeft;
+
+    const totalTime = timeLeft;
+    const HINT_DELAY = 240; // 4 minutes avant l'apparition du halo d'aide
+
+    function notifyParent(type, extra) {
+        try {
+            window.parent.postMessage(Object.assign({ source: 'escape-game', room: 3, type }, extra || {}), '*');
+        } catch (e) {}
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('timer').innerText =
+                `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            const elapsed = totalTime - timeLeft;
+            if (!doorFound && elapsed >= HINT_DELAY) {
+                document.getElementById('hs-porte').classList.add('hint-glow');
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('defeat-screen').style.display = 'flex';
+                notifyParent('room-timeout');
+            }
+        }, 1000);
+    }
+
+    startTimer();
+
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // La porte reste invisible : c'est à l'élève de la localiser en cliquant dans le décor.
+    function tryOpenPorte() {
+        const count = Object.values(solvedState).filter(Boolean).length;
+        if (count < 3) {
+            const msg = document.getElementById('porte-locked-msg');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 2200);
+            return;
+        }
+        doorFound = true;
+        document.getElementById('hs-porte').classList.remove('hint-glow');
+        openModal('modal-porte');
+    }
+
+    function checkAnswer(key, isCorrect, feedbackMessage) {
+        const fbText = document.getElementById(`fb-${key}`);
+        if (isCorrect) {
+            fbText.className = "feedback correct";
+            fbText.innerText = feedbackMessage;
+
+            if (!solvedState[key]) {
+                solvedState[key] = true;
+                document.getElementById(`hs-${key}`).classList.add('solved');
+                updateProgress();
+            }
+
+            setTimeout(() => {
+                closeModal(`modal-${key}`);
+            }, 1400);
+
+        } else {
+            fbText.className = "feedback incorrect";
+            fbText.innerText = feedbackMessage;
+        }
+    }
+
+    function submitCode() {
+        const val = document.getElementById('door-code').value.trim();
+        const fbDoor = document.getElementById('fb-door');
+
+        if (val === "5") {
+            clearInterval(timerInterval);
+            closeModal('modal-porte');
+            document.getElementById('victory-screen').style.display = 'flex';
+            notifyParent('room-complete', { digit: '5', elapsed: 600 - timeLeft });
+        } else {
+            fbDoor.className = "feedback incorrect";
+            fbDoor.innerText = "Code incorrect ! Résolvez les 3 énigmes de la salle.";
+        }
+    }
+
+    function updateProgress() {
+        const count = Object.values(solvedState).filter(Boolean).length;
+        document.getElementById('solved-count').innerText = count;
+        notifyParent('room-progress', { solved: count, total: 3 });
+        if (count === 3) {
+            document.getElementById('room-clue-banner').style.display = 'block';
+            // Pas d'ouverture automatique : c'est à l'élève de cliquer la porte lui-même.
+        }
+    }
+</script>
+
+</body>
+</html>

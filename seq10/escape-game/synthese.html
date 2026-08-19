@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salle de Synthèse — Le Codex du Gardien</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; font-family: 'Crimson Pro', Georgia, serif; }
+  html, body { height:100%; }
+  body {
+    background: radial-gradient(circle at 50% 0%, #1a140d 0%, #0a0806 70%);
+    color: #f3e9d2;
+    min-height: 100vh;
+    padding: 30px 18px 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { max-width: 780px; width: 100%; }
+
+  .head {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .head .eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #a08a63;
+    margin-bottom: 10px;
+  }
+  .head h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.7rem;
+    color: #ffe6b0;
+    text-shadow: 0 0 20px rgba(212,175,55,0.25);
+    margin-bottom: 12px;
+  }
+  .head p {
+    color: #d8c9a8;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .step {
+    background: linear-gradient(160deg, rgba(35,26,18,0.9), rgba(15,11,7,0.94));
+    border: 2px solid rgba(212,175,55,0.3);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.5);
+    transition: opacity 0.3s, filter 0.3s;
+  }
+  .step.locked { opacity: 0.4; filter: grayscale(0.6); pointer-events: none; }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid #d4af37;
+    color: #ffd27d;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  .step h2 {
+    display: flex;
+    align-items: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    color: #ffe6b0;
+    margin-bottom: 4px;
+  }
+  .step .from {
+    font-size: 0.72rem;
+    color: #a08a63;
+    margin: 0 0 12px 38px;
+    letter-spacing: 0.04em;
+  }
+  .step .data-box {
+    background: rgba(0,0,0,0.28);
+    border-left: 3px solid #d4af37;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    margin: 0 0 14px 38px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: #ecdfc2;
+  }
+  .step .formula {
+    font-family: 'DM Mono', monospace;
+    color: #ffd27d;
+    background: rgba(212,175,55,0.08);
+    border: 1px solid rgba(212,175,55,0.25);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin: 0 0 14px 38px;
+    font-size: 0.95rem;
+  }
+  .step-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 38px;
+    flex-wrap: wrap;
+  }
+  .step-input-row input {
+    background: #0d0d0d;
+    border: 2px solid #d4af37;
+    color: #ffd27d;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.05rem;
+    text-align: center;
+    width: 110px;
+    border-radius: 6px;
+    padding: 8px;
+    outline: none;
+  }
+  .step-input-row .unit { color: #a08a63; font-size: 0.85rem; }
+  .btn {
+    background: linear-gradient(145deg,#d4af37,#a9821f);
+    color: #1c1207;
+    border: none;
+    border-radius: 7px;
+    padding: 9px 18px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .btn:hover { filter: brightness(1.1); }
+  .fb {
+    margin: 10px 0 0 38px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-height: 18px;
+  }
+  .fb.ok { color: #6be89b; }
+  .fb.ko { color: #ff8e8e; }
+  .step.done .step-num { background: #2ecc71; border-color: #2ecc71; color: #06170c; }
+  .step.done h2 { color: #a8e6c1; }
+  .result-pill {
+    display: inline-block;
+    margin-left: 38px;
+    background: rgba(46,204,113,0.12);
+    border: 1px solid #2ecc71;
+    color: #6be89b;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+  }
+
+  .final-card {
+    background: linear-gradient(160deg, rgba(45,32,20,0.95), rgba(18,13,8,0.97));
+    border: 2px solid #d4af37;
+    border-radius: 14px;
+    padding: 26px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(212,175,55,0.15);
+  }
+  .final-card h2 {
+    font-family: 'Cinzel', serif;
+    color: #ffe6b0;
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+  }
+  .final-formula {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.15rem;
+    color: #ffd27d;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 18px;
+    line-height: 1.7;
+  }
+  .final-formula .ph { color: #6be89b; font-weight: 700; }
+  .final-input {
+    background: #0d0d0d;
+    border: 2px solid #d4af37;
+    color: #ffd27d;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    text-align: center;
+    width: 130px;
+    border-radius: 8px;
+    padding: 10px;
+    outline: none;
+    margin-right: 10px;
+  }
+  #synthese-fb { margin-top: 14px; font-size: 0.92rem; font-weight: 600; min-height: 20px; }
+  #continueBtn { display:none; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Après les 5 laboratoires</div>
+    <h1>🧮 Le Codex du Gardien — Salle de Synthèse</h1>
+    <p>Le Gardien n'a pas caché la clé finale dans une seule salle : il l'a répartie dans les découvertes que vous avez validées. Reprenez vos résultats et enchaînez les calculs pour la reconstituer.</p>
+  </div>
+
+  <div class="step" id="step1">
+    <h2><span class="step-num">1</span>Fréquence de la raie du sodium</h2>
+    <div class="from">Combine Salle 1 (Newton) et Salle 3 (Spectre)</div>
+    <div class="data-box">
+      Vitesse de la lumière mesurée en Salle 1 : <strong>c = 3,00 × 10⁸ m·s⁻¹</strong><br>
+      Longueur d'onde de la raie du sodium repérée en Salle 3 : <strong>λ = 589 nm</strong>
+    </div>
+    <div class="formula">ν = c / λ</div>
+    <div class="step-input-row">
+      <label>ν ≈</label>
+      <input type="text" id="input-A" placeholder="?">
+      <span class="unit">× 10¹⁴ Hz (arrondi à l'unité)</span>
+      <button class="btn" onclick="checkStep(1)">Valider</button>
+    </div>
+    <div class="fb" id="fb1"></div>
+  </div>
+
+  <div class="step locked" id="step2">
+    <h2><span class="step-num">2</span>Vergence de la lentille</h2>
+    <div class="from">Reprend la Salle 4 (Atelier des Lentilles)</div>
+    <div class="data-box">
+      Distance focale trouvée en Salle 4 : <strong>f' = 10 cm</strong>
+    </div>
+    <div class="formula">D = 1 / f' (f' en mètres)</div>
+    <div class="step-input-row">
+      <label>D =</label>
+      <input type="text" id="input-B" placeholder="?">
+      <span class="unit">δ (dioptries)</span>
+      <button class="btn" onclick="checkStep(2)">Valider</button>
+    </div>
+    <div class="fb" id="fb2"></div>
+  </div>
+
+  <div class="step locked" id="step3">
+    <h2><span class="step-num">3</span>Le nombre de la rétine</h2>
+    <div class="from">Rappel de la Salle 5 (Sanctuaire de l'Œil)</div>
+    <div class="data-box">
+      Vous aviez calculé : n°(Fovéa) − n°(Cristallin) = <strong>17 − 9</strong>
+    </div>
+    <div class="step-input-row">
+      <label>C =</label>
+      <input type="text" id="input-C" placeholder="?">
+      <button class="btn" onclick="checkStep(3)">Valider</button>
+    </div>
+    <div class="fb" id="fb3"></div>
+  </div>
+
+  <div class="step locked" id="step4">
+    <h2><span class="step-num">4</span>Indice de réfraction de l'air</h2>
+    <div class="from">Rappel de la Salle 2 (Snell &amp; Descartes)</div>
+    <div class="data-box">
+      Rappelez-vous : dans les lois de Snell-Descartes vues en Salle 2, quel est l'indice de réfraction de l'<strong>air</strong> (assimilé à celui du vide) ?
+    </div>
+    <div class="step-input-row">
+      <label>D' =</label>
+      <input type="text" id="input-D" placeholder="?">
+      <span class="unit">(indice arrondi à l'entier)</span>
+      <button class="btn" onclick="checkStep(4)">Valider</button>
+    </div>
+    <div class="fb" id="fb4"></div>
+  </div>
+
+  <div class="step locked" id="step5">
+    <div class="final-card">
+      <h2>🔑 Formule du Gardien</h2>
+      <div class="final-formula">
+        Code = (A × B) − C + D'<br>
+        Code = (<span class="ph" id="rec-A">?</span> × <span class="ph" id="rec-B">?</span>) − <span class="ph" id="rec-C">?</span> + <span class="ph" id="rec-D">?</span>
+      </div>
+      <input type="text" class="final-input" id="finalCodeInput" maxlength="4" placeholder="Code">
+      <button class="btn" onclick="checkFinal()">Forger la clé</button>
+      <div id="synthese-fb"></div>
+      <button class="btn" id="continueBtn" onclick="continueToNext()">Continuer vers le Terminal Final →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const values = { A: null, B: null, C: null, D: null };
+
+  function notifyParent(type, extra) {
+    try {
+      window.parent.postMessage(Object.assign({ source: 'escape-game', type }, extra || {}), '*');
+    } catch (e) {}
+  }
+
+  function unlock(stepId) {
+    const el = document.getElementById(stepId);
+    el.classList.remove('locked');
+  }
+
+  function markDone(stepId) {
+    document.getElementById(stepId).classList.add('done');
+  }
+
+  function checkStep(n) {
+    if (n === 1) {
+      const v = parseFloat(document.getElementById('input-A').value.replace(',', '.'));
+      const fb = document.getElementById('fb1');
+      if (v === 5) {
+        fb.className = 'fb ok';
+        fb.innerText = '✅ Exact ! ν = c/λ = 3,00×10⁸ / 589×10⁻⁹ ≈ 5,09×10¹⁴ Hz, soit environ 5 × 10¹⁴ Hz.';
+        values.A = 5;
+        markDone('step1');
+        unlock('step2');
+      } else {
+        fb.className = 'fb ko';
+        fb.innerText = '❌ Recalculez : ν = c / λ, en veillant aux unités (λ en mètres), puis exprimez en 10¹⁴ Hz.';
+      }
+    }
+    if (n === 2) {
+      const v = parseFloat(document.getElementById('input-B').value.replace(',', '.'));
+      const fb = document.getElementById('fb2');
+      if (v === 10) {
+        fb.className = 'fb ok';
+        fb.innerText = "✅ Exact ! D = 1/f' = 1/0,10 = 10 δ.";
+        values.B = 10;
+        markDone('step2');
+        unlock('step3');
+      } else {
+        fb.className = 'fb ko';
+        fb.innerText = "❌ Attention aux unités : f' doit être exprimée en mètres avant de calculer D = 1/f'.";
+      }
+    }
+    if (n === 3) {
+      const v = parseFloat(document.getElementById('input-C').value.replace(',', '.'));
+      const fb = document.getElementById('fb3');
+      if (v === 8) {
+        fb.className = 'fb ok';
+        fb.innerText = '✅ Exact ! C = 8.';
+        values.C = 8;
+        markDone('step3');
+        unlock('step4');
+      } else {
+        fb.className = 'fb ko';
+        fb.innerText = '❌ Reprenez le résultat noté en Salle 5 : 17 − 9.';
+      }
+    }
+    if (n === 4) {
+      const v = parseFloat(document.getElementById('input-D').value.replace(',', '.'));
+      const fb = document.getElementById('fb4');
+      if (v === 1) {
+        fb.className = 'fb ok';
+        fb.innerText = "✅ Exact ! L'indice de l'air, arrondi, vaut 1.";
+        values.D = 1;
+        markDone('step4');
+        unlock('step5');
+        document.getElementById('rec-A').textContent = values.A;
+        document.getElementById('rec-B').textContent = values.B;
+        document.getElementById('rec-C').textContent = values.C;
+        document.getElementById('rec-D').textContent = values.D;
+      } else {
+        fb.className = 'fb ko';
+        fb.innerText = "❌ L'air a un indice de réfraction très proche de celui du vide.";
+      }
+    }
+  }
+
+  function computeCode() {
+    return (values.A * values.B) - values.C + values.D;
+  }
+
+  function checkFinal() {
+    const input = document.getElementById('finalCodeInput').value.trim();
+    const fb = document.getElementById('synthese-fb');
+    const expected = computeCode();
+    if (parseInt(input, 10) === expected) {
+      fb.style.color = '#6be89b';
+      fb.innerText = `✅ Clé forgée avec succès : ${expected} = (${values.A} × ${values.B}) − ${values.C} + ${values.D}. Le Codex du Gardien est déchiffré !`;
+      document.getElementById('continueBtn').style.display = 'inline-block';
+      notifyParent('synthese-complete', { code: String(expected) });
+    } else {
+      fb.style.color = '#ff8e8e';
+      fb.innerText = '❌ Reprenez le calcul : respectez la priorité de la multiplication avant la soustraction et l\'addition.';
+    }
+  }
+
+  function continueToNext() {
+    notifyParent('synthese-continue');
+  }
+</script>
+</body>
+</html>

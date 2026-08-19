@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Game - Le Cabinet de Snell & Descartes</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Georgia', serif; }
+        html, body { height: 100%; }
+        body {
+            background-color: #0d0d0d; color: #f0e6d2;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 10px;
+        }
+
+        .game-container {
+            position: relative; width: 100%; max-width: 1100px; aspect-ratio: 16 / 9;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); border: 4px solid #4a3728;
+            border-radius: 8px; overflow: hidden;
+            background-image: url('fond_descartes.png'), linear-gradient(135deg,#1a140d,#0d0d0d);
+            background-size: cover; background-position: center;
+        }
+
+        .header-bar {
+            position: absolute; top: 15px; left: 20px; right: 20px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
+        }
+
+        .progress-bar, .timer-box {
+            background: rgba(20, 15, 10, 0.85); border: 1px solid #d4af37;
+            padding: 8px 16px; border-radius: 20px; font-size: 0.95rem; color: #d4af37;
+        }
+        .timer-box { font-weight: bold; font-size: 1.1rem; color: #e74c3c; }
+
+        .dropzone {
+            position: absolute; width: 90px; height: 90px;
+            background: rgba(255, 255, 255, 0.1); border: 2px dashed rgba(212, 175, 55, 0.5);
+            border-radius: 10px; z-index: 5;
+        }
+        .dropzone.solved { border: 2px solid #2ecc71; background: rgba(46, 204, 113, 0.3); }
+
+        #zone-plan { top: 40%; left: 25%; }
+        #zone-reflexion { top: 60%; left: 45%; }
+        #zone-refraction { top: 65%; left: 75%; }
+
+        #porte-sortie {
+            position: absolute; top: 10%; left: 5%; width: 150px; height: 250px;
+            cursor: pointer; z-index: 6; background: transparent;
+        }
+
+        .inventory {
+            display: flex; gap: 20px; margin-top: 15px; padding: 15px;
+            background: #1c1612; border: 2px solid #4a3728; border-radius: 8px; width: 100%; max-width: 1100px;
+            justify-content: center;
+        }
+
+        .draggable-item {
+            padding: 10px 20px; background: #2a211b; border: 1px solid #d4af37;
+            color: #d4af37; border-radius: 5px; cursor: grab; font-weight: bold;
+            user-select: none;
+        }
+        .draggable-item:active { cursor: grabbing; }
+
+        .modal {
+            display: none; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.85);
+            z-index: 20; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background: #1c1612; border: 2px solid #d4af37; border-radius: 8px;
+            padding: 25px; max-width: 600px; width: 100%; color: #f0e6d2; position: relative;
+        }
+        .modal-content h3 { color: #d4af37; margin-bottom: 12px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 6px; }
+        .modal-content p { margin-bottom: 15px; line-height: 1.4; }
+        .options-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .btn-option {
+            background: #2a211b; border: 1px solid #7a5c3e; color: #f0e6d2;
+            padding: 10px; border-radius: 4px; text-align: left; cursor: pointer; transition: 0.2s;
+        }
+        .btn-option:hover { background: #d4af37; color: #1c1612; font-weight: bold; }
+
+        .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .input-calc { padding: 8px; border: 1px solid #d4af37; background: #0d0d0d; color: #fff; width: 120px; text-align: center; font-size: 1.1rem; }
+        .btn-submit { background: #d4af37; color: #1c1612; border: none; padding: 8px 15px; font-weight: bold; cursor: pointer; }
+
+        .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; color: #aaa; font-size: 1.4rem; cursor: pointer; }
+        .feedback { font-size: 0.95rem; font-weight: bold; margin-top: 10px; }
+        .feedback.correct { color: #2ecc71; }
+        .feedback.incorrect { color: #e74c3c; }
+
+        .end-screen {
+            display: none; position: absolute; inset: 0; background: rgba(10, 8, 5, 0.95);
+            z-index: 30; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        .digit-reveal { font-size: 6rem; font-weight: bold; color: #d4af37; text-shadow: 0 0 25px rgba(255, 215, 0, 0.9); margin: 15px 0; }
+        .btn-continue {
+            margin-top: 18px; background: #2ecc71; color: #0d1a12; border: none;
+            padding: 12px 26px; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer;
+        }
+
+        #room-clue-banner, #porte-locked-msg, #dragHint {
+            display: none;
+            position: absolute;
+            bottom: 15px;
+            left: 20px;
+            right: 20px;
+            z-index: 10;
+            background: rgba(20, 15, 10, 0.9);
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            color: #d4af37;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        #porte-locked-msg { border-color: #e74c3c; color: #e88; }
+
+        /* Halo d'aide : n'apparaît qu'après 4 minutes si la porte n'a toujours pas été trouvée */
+        .hint-glow {
+            animation: doorHint 1.6s ease-in-out infinite;
+        }
+        @keyframes doorHint {
+            0%, 100% { box-shadow: 0 0 8px 3px rgba(212, 175, 55, 0.25); }
+            50% { box-shadow: 0 0 22px 9px rgba(212, 175, 55, 0.85); }
+        }
+        #dragHint {
+            top: 68px; bottom: auto; left: 50%; right: auto; transform: translateX(-50%);
+            width: 90%; max-width: 620px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        #dragHint button {
+            background: transparent; border: 1px solid #d4af37; color: #d4af37;
+            border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 0.8rem; flex-shrink: 0;
+        }
+        #dragHint button:hover { background: #d4af37; color: #1c1612; }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="header-bar">
+        <div class="progress-bar">Lois validées : <span id="solved-count">0</span> / 3</div>
+        <div class="timer-box" id="timer">5:00</div>
+    </div>
+
+    <div class="dropzone" id="zone-plan" ondrop="drop(event, 'plan')" ondragover="allowDrop(event)"></div>
+    <div class="dropzone" id="zone-reflexion" ondrop="drop(event, 'reflexion')" ondragover="allowDrop(event)"></div>
+    <div class="dropzone" id="zone-refraction" ondrop="drop(event, 'refraction')" ondragover="allowDrop(event)"></div>
+
+    <div id="porte-sortie" onclick="tryOpenPorte()"></div>
+
+    <div id="dragHint">
+        <span>🖱️ <strong>Glissez</strong> chaque objet de l'inventaire (en bas) vers la zone correspondante dans le cabinet pour ouvrir chaque énigme.</span>
+        <button onclick="document.getElementById('dragHint').style.display='none'">J'ai compris</button>
+    </div>
+
+    <div id="room-clue-banner">
+        🔓 Les trois lois sont validées. Il reste à trouver la porte de sortie, dissimulée quelque part dans le cabinet.
+    </div>
+
+    <div id="porte-locked-msg">
+        🔒 Rien ici. Résolvez d'abord les trois lois du cabinet.
+    </div>
+
+    <div class="modal" id="modal-plan">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-plan')">&times;</button>
+            <h3>Première Loi de Snell-Descartes</h3>
+            <p>Le rayon incident et la normale à la surface de séparation définissent un plan. Où se trouvent le rayon réfléchi et le rayon réfracté ?</p>
+            <div class="options-list">
+                <button class="btn-option" onclick="checkAnswer('plan', false, 'Faux. Repensez à la définition géométrique.')">Dans un plan perpendiculaire</button>
+                <button class="btn-option" onclick="checkAnswer('plan', true, 'Exact ! Ils appartiennent tous au plan d\'incidence.')">Dans le même plan (le plan d'incidence)</button>
+                <button class="btn-option" onclick="checkAnswer('plan', false, 'Faux.')">Ils sont parallèles à la surface</button>
+            </div>
+            <div class="feedback" id="fb-plan"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-reflexion">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-reflexion')">&times;</button>
+            <h3>Deuxième Loi (Réflexion)</h3>
+            <p>Observez le rayon qui rebondit sur la surface de l'eau. Quelle relation lie l'angle d'incidence (i) et l'angle de réflexion (r) ?</p>
+            <div class="options-list">
+                <button class="btn-option" onclick="checkAnswer('reflexion', false, 'Faux.')">L'angle de réflexion est la moitié de l'angle d'incidence (r = i/2)</button>
+                <button class="btn-option" onclick="checkAnswer('reflexion', true, 'Correct. L\'angle de réflexion est égal à l\'angle d\'incidence (r = i).')">L'angle de réflexion est égal à l'angle d'incidence (r = i)</button>
+                <button class="btn-option" onclick="checkAnswer('reflexion', false, 'Faux.')">L'angle d'incidence et de réflexion sont complémentaires (i + r = 90°)</button>
+            </div>
+            <div class="feedback" id="fb-reflexion"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-refraction">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal('modal-refraction')">&times;</button>
+            <h3>Troisième Loi (Réfraction)</h3>
+            <p>Le manuscrit indique la formule : <strong>n₁ · sin(i₁) = n₂ · sin(i₂)</strong>.<br>
+            Le rayon passe de l'air (n₁ = 1,00) à l'eau (n₂ = 1,33) avec un angle d'incidence i₁ = 60,0°.</p>
+            <p>Calculez l'angle de réfraction i₂ (arrondi au dixième) :</p>
+            <div class="input-group">
+                <input type="number" id="calc-i2" class="input-calc" step="0.1" placeholder="Ex: 45.2">
+                <button class="btn-submit" onclick="checkRefraction()">Valider</button>
+            </div>
+            <div class="feedback" id="fb-refraction"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-porte">
+        <div class="modal-content" style="text-align: center;">
+            <h3>Porte Secrète du Cabinet</h3>
+            <p>Les trois lois sont confirmées. La porte révèle un fragment des archives.</p>
+            <div class="digit-reveal">1</div>
+            <p style="color: #2ecc71;">Notez ce chiffre. L'accès à la salle suivante est ouvert.</p>
+            <button class="btn-continue" onclick="validerSalle()">Continuer →</button>
+        </div>
+    </div>
+
+    <div class="end-screen" id="defeat-screen">
+        <h3 style="color: #e74c3c; font-size: 2rem;">Temps Écoulé !</h3>
+        <p>Le cabinet de Descartes est scellé.</p>
+    </div>
+</div>
+
+<div class="inventory">
+    <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="item-plan">Laser (Plan)</div>
+    <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="item-reflexion">Miroir (Réflexion)</div>
+    <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="item-refraction">Calculatrice (Réfraction)</div>
+</div>
+
+<script>
+    let solvedState = { plan: false, reflexion: false, refraction: false };
+    let timeLeft = 300;
+    let timerInterval;
+    let doorFound = false;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('t')) timeLeft = parseInt(params.get('t'), 10) || timeLeft;
+
+    const totalTime = timeLeft;
+    const HINT_DELAY = 240; // 4 minutes avant l'apparition du halo d'aide
+
+    function notifyParent(type, extra) {
+        try {
+            window.parent.postMessage(Object.assign({ source: 'escape-game', room: 2, type }, extra || {}), '*');
+        } catch (e) {}
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timer').innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+
+            const elapsed = totalTime - timeLeft;
+            if (!doorFound && elapsed >= HINT_DELAY) {
+                document.getElementById('porte-sortie').classList.add('hint-glow');
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('defeat-screen').style.display = 'flex';
+                notifyParent('room-timeout');
+            }
+        }, 1000);
+    }
+    startTimer();
+
+    function allowDrop(ev) { ev.preventDefault(); }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev, zoneId) {
+        ev.preventDefault();
+        let data = ev.dataTransfer.getData("text");
+        if (data.includes(zoneId)) {
+            openModal(`modal-${zoneId}`);
+        }
+    }
+
+    function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+
+    // La porte reste invisible : c'est à l'élève de la localiser en cliquant dans le décor.
+    function tryOpenPorte() {
+        const count = Object.values(solvedState).filter(Boolean).length;
+        if (count < 3) {
+            const msg = document.getElementById('porte-locked-msg');
+            msg.style.display = 'block';
+            setTimeout(() => { msg.style.display = 'none'; }, 2200);
+            return;
+        }
+        doorFound = true;
+        document.getElementById('porte-sortie').classList.remove('hint-glow');
+        openModal('modal-porte');
+    }
+
+    function checkAnswer(loi, isCorrect, msg) {
+        const fb = document.getElementById(`fb-${loi}`);
+        if (isCorrect) {
+            fb.className = "feedback correct"; fb.innerText = msg;
+            validateLoi(loi);
+        } else {
+            fb.className = "feedback incorrect"; fb.innerText = msg;
+        }
+    }
+
+    function checkRefraction() {
+        const val = parseFloat(document.getElementById('calc-i2').value);
+        const fb = document.getElementById('fb-refraction');
+        if (val >= 40.5 && val <= 40.7) {
+            fb.className = "feedback correct"; fb.innerText = "Exact ! i₂ = 40,6°.";
+            validateLoi('refraction');
+        } else {
+            fb.className = "feedback incorrect"; fb.innerText = "Faux. Vérifiez votre calcul et l'utilisation du sinus.";
+        }
+    }
+
+    function validateLoi(loi) {
+        if (!solvedState[loi]) {
+            solvedState[loi] = true;
+            document.getElementById(`zone-${loi}`).classList.add('solved');
+            document.getElementById(`item-${loi}`).style.display = 'none';
+            updateProgress();
+        }
+        setTimeout(() => { closeModal(`modal-${loi}`); }, 1500);
+    }
+
+    function updateProgress() {
+        const count = Object.values(solvedState).filter(Boolean).length;
+        document.getElementById('solved-count').innerText = count;
+        notifyParent('room-progress', { solved: count, total: 3 });
+        if (count === 3) {
+            document.getElementById('room-clue-banner').style.display = 'block';
+            // La porte reste invisible : pas de contour, pas d'ouverture automatique.
+        }
+    }
+
+    function validerSalle() {
+        clearInterval(timerInterval);
+        closeModal('modal-porte');
+        notifyParent('room-complete', { digit: '1', elapsed: 600 - timeLeft });
+    }
+</script>
+
+</body>
+</html>

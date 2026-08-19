@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salle 5 : Le Sanctuaire de l'Œil Humain</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .room-card {
+      background: #1e293b;
+      border: 2px solid #ef4444;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
+    }
+
+    h1 {
+      color: #f87171;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .schema-box {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .schema-box img {
+      max-width: 100%;
+      max-height: 200px;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .schema-box video {
+      max-width: 100%;
+      max-height: 250px;
+      width: auto;
+      height: auto;
+      border-radius: 4px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .table-container {
+      margin: 15px 0;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #0f172a;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      border: 1px solid #334155;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .enigma-box {
+      background: #0f172a;
+      border-left: 4px solid #ef4444;
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    details {
+      background: #334155;
+      border-radius: 6px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    summary {
+      font-weight: bold;
+      color: #fbbf24;
+    }
+
+    details p {
+      margin-top: 10px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .input-section {
+      background: #0b1120;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    input[type="text"] {
+      background: #1e293b;
+      border: 2px solid #ef4444;
+      color: #f87171;
+      font-size: 1.5rem;
+      text-align: center;
+      width: 100px;
+      border-radius: 6px;
+      padding: 5px;
+      outline: none;
+    }
+
+    button {
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 10px 25px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #dc2626;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+    }
+
+    #result-msg {
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      min-height: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="room-card">
+    <h1>👁️ Salle 5 : Le Sanctuaire de l'Œil Humain</h1>
+    <p>Associez les structures biologiques à leur rôle optique pour déverrouiller la salle.</p>
+
+    <div class="schema-box">
+      <video src="oeil.mp4" controls>
+        Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+      </video>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Composant Biologique</th>
+            <th>Équivalent Optique (Modèle Réduit)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Iris</strong></td>
+            <td>Diaphragme (contrôle du flux lumineux)</td>
+          </tr>
+          <tr>
+            <td><strong>Pupille</strong></td>
+            <td>Ouverture variable du diaphragme</td>
+          </tr>
+          <tr>
+            <td><strong>Cornée</strong></td>
+            <td>Dioptre convergent fixe</td>
+          </tr>
+          <tr>
+            <td><strong>Cristallin</strong></td>
+            <td>Lentille mince convergente déformable</td>
+          </tr>
+          <tr>
+            <td><strong>Fovéa</strong></td>
+            <td>Zone de vision nette (haute densité de cônes)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="enigma-box">
+      <strong>Énigme du Système Visuel :</strong><br>
+      Le tableau ci-dessus ne donne aucun chiffre. Il faut identifier <strong>deux</strong> composants précis, puis retrouver leurs numéros sur la planche anatomique légendée ci-dessus (mettez la vidéo en pause pour lire la légende).<br><br>
+      • <strong>Composant A</strong> : c'est la zone de la rétine où l'image doit impérativement se former nette, car elle concentre la plus forte densité de cônes (responsable de l'acuité visuelle maximale).<br>
+      • <strong>Composant B</strong> : c'est l'unique élément vivant et déformable du système, capable de faire varier sa vergence par accommodation pour ajuster la mise au point selon la distance de l'objet observé.<br><br>
+      👉 <strong>Calculez : n°(A) − n°(B). Entrez le résultat pour valider la salle.</strong>
+    </div>
+
+    <details>
+      <summary>💡 Indice 1 : Identifier le Composant A</summary>
+      <p>
+        La rétine n'est pas uniformément sensible. En son centre se trouve une petite dépression riche en <strong>cônes</strong> (photorécepteurs de la vision colorée et de l'acuité fine), quasiment dépourvue de bâtonnets.<br>
+        C'est cette zone précise que l'œil aligne avec l'axe optique pour la vision de détail (lecture, reconnaissance des visages...).
+      </p>
+    </details>
+
+    <details>
+      <summary>💡 Indice 2 : Identifier le Composant B</summary>
+      <p>
+        Parmi les dioptres de l'œil, la cornée est fixe et assure l'essentiel de la convergence, mais elle ne peut pas s'adapter à la distance de l'objet.<br>
+        Un seul élément, situé derrière l'iris, peut se bomber ou s'aplatir grâce aux muscles ciliaires : c'est lui qui permet l'<strong>accommodation</strong> (variation de vergence) pour la vision de près comme de loin.
+      </p>
+    </details>
+
+    <details>
+      <summary>💡 Indice 3 : Méthode de calcul</summary>
+      <p>
+        Une fois A et B identifiés, mettez la vidéo en pause et repérez leurs numéros dans la légende « Bulbe de l'œil » (colonne de droite). Le code de la salle s'obtient par une simple soustraction : <strong>n°(A) − n°(B)</strong>.
+      </p>
+    </details>
+
+    <div class="input-section">
+      <label for="roomCode"><strong>ENTRER LE CHIFFRE DE LA SALLE 5 :</strong></label>
+      <div class="input-group">
+        <input type="text" id="roomCode" maxlength="2" placeholder="?">
+        <button onclick="verifierCode()">VALIDER</button>
+      </div>
+      <div id="result-msg"></div>
+    </div>
+  </div>
+
+  <script>
+    function notifyParent(type, extra) {
+      try {
+        window.parent.postMessage(Object.assign({ source: 'escape-game', room: 5, type }, extra || {}), '*');
+      } catch (e) {}
+    }
+
+    function verifierCode() {
+      const code = document.getElementById("roomCode").value.trim();
+      const msg = document.getElementById("result-msg");
+
+      if (code === "8") {
+        msg.innerText = "✅ CODE CORRECT ! Fovéa (17) − Cristallin (9) = 8. Salle 5 validée !";
+        msg.style.color = "#4ade80";
+        notifyParent('room-complete', { digit: '8' });
+      } else {
+        msg.innerText = "❌ Code erroné. Identifiez d'abord les composants A et B, puis calculez leur différence.";
+        msg.style.color = "#f87171";
+      }
+    }
+  </script>
+</body>
+</html>

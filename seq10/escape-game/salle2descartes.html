@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Cabinet de Descartes — Escape Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Cinzel:wght@600;700&family=Outfit:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* couleurs fonctionnelles (standard exercices — inchangées) */
+  --bleu:#2D5F8A;
+  --bleu-clair:#b8cfe0;
+  --bleu-fonce:#1e4466;
+  --orange:#E8783A;
+  --orange-clair:#f6c9a8;
+  --vert:#3A8A6E;
+  --indice:#C98A00;
+  --indice-clair:#FFF6E0;
+  --gris-bord:#e2e2e2;
+  --texte:#2b2b2b;
+  --texte-léger:#767676;
+  --rouge:#c0392b;
+  /* habillage "cabinet de curiosités" XVIIe */
+  --parchemin:#f6efdd;
+  --parchemin-fonce:#ecdfb8;
+  --parchemin-bord:#d8c48f;
+  --encre:#2e2417;
+  --encre-clair:#5c4a34;
+  --or:#a9822f;
+  --or-clair:#c9a24d;
+  --cire:#7c2d2d;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at top, #fffdf7 0%, var(--parchemin) 55%, var(--parchemin-fonce) 100%);
+  color:var(--encre);
+  font-family:'Nunito',sans-serif;
+  line-height:1.55;
+}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:700;margin:0 0 .4em;color:var(--encre);letter-spacing:.2px;}
+h2{font-size:1.9rem;}
+h3{font-size:1.5rem;}
+.top-bar{
+  background:var(--parchemin);
+  border-bottom:1px solid var(--parchemin-bord);
+  padding:22px 24px 16px;
+  text-align:center;
+  position:relative;
+}
+.top-bar h1{
+  font-size:2.1rem;color:var(--encre);margin-bottom:2px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.top-bar h1 .seal{
+  width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--or-clair), var(--or) 70%);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;color:#fff8e8;box-shadow:0 2px 4px rgba(0,0,0,.25) inset, 0 1px 3px rgba(0,0,0,.3);
+}
+.top-bar p{
+  margin:4px 0 10px;color:var(--encre-clair);
+  font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:1.5px;font-size:.72rem;
+}
+.top-bar .flourish{width:180px;height:14px;margin:0 auto;opacity:.6;}
+.timer-badge{
+  position:absolute;top:20px;right:22px;
+  background:var(--encre);color:#fff8e8;
+  font-family:'DM Mono','Cinzel',monospace;font-weight:700;font-size:1.05rem;
+  padding:7px 16px;border-radius:20px;letter-spacing:1px;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+.timer-badge.warn{background:var(--rouge);}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+
+/* ---------- ÉCRANS ---------- */
+.screen{display:none;padding:30px 0 10px;}
+.screen.active{display:block;}
+
+/* Intro */
+.intro-box{
+  max-width:720px;margin:34px auto;text-align:center;
+  background:#fffdf8;
+  border:1px solid var(--parchemin-bord);
+  border-radius:4px;
+  padding:34px 36px;
+  box-shadow:0 1px 2px rgba(122,96,40,.15), 0 10px 30px rgba(60,44,10,.12);
+  position:relative;
+}
+.intro-box::before{
+  content:"";position:absolute;inset:8px;border:1px solid var(--parchemin-bord);
+  border-radius:2px;pointer-events:none;
+}
+.intro-box video{
+  width:100%;max-width:600px;border-radius:6px;
+  border:1px solid var(--parchemin-bord);background:#000;
+}
+.intro-box p{text-align:left;margin-top:16px;font-size:1.02rem;color:var(--encre-clair);}
+.badge-mission{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;color:var(--cire);
+  border:1px solid var(--cire);border-radius:20px;padding:3px 14px;
+  font-family:'Cinzel',serif;font-weight:600;font-size:.68rem;
+  letter-spacing:1.8px;text-transform:uppercase;margin-bottom:12px;
+}
+.btn-start{
+  margin-top:20px;border:none;border-radius:6px;padding:13px 28px;
+  background:linear-gradient(180deg,var(--or-clair),var(--or));
+  color:#fff8e8;font-family:'Cinzel',serif;
+  font-weight:600;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:.15s;box-shadow:0 2px 6px rgba(122,96,40,.35);
+}
+.btn-start:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(122,96,40,.4);}
+
+/* Desk scene */
+.desk-scene{
+  position:relative;width:100%;border-radius:16px;overflow:hidden;
+  border:1px solid var(--gris-bord);box-shadow:0 4px 18px rgba(0,0,0,.08);
+  background:#000;
+}
+.desk-scene img{display:block;width:100%;height:auto;}
+.hotspot{
+  position:absolute;transform:translate(-50%,-50%);
+  width:52px;height:52px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--or-clair), var(--or) 75%);
+  border:2px solid #fff8e8;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  animation:pulse 2.2s infinite;
+  transition:.15s;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+.hotspot:hover{filter:brightness(1.1);}
+.hotspot.solved{
+  background:radial-gradient(circle at 35% 30%, #6fbfa0, var(--vert) 75%);
+  animation:none;
+}
+.hotspot span{font-size:1.3rem;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));}
+@keyframes pulse{
+  0%{box-shadow:0 2px 6px rgba(0,0,0,.35), 0 0 0 0 rgba(169,130,47,.5);}
+  70%{box-shadow:0 2px 6px rgba(0,0,0,.35), 0 0 0 14px rgba(169,130,47,0);}
+  100%{box-shadow:0 2px 6px rgba(0,0,0,.35), 0 0 0 0 rgba(169,130,47,0);}
+}
+
+/* Progress tracker */
+.progress-panel{
+  margin-top:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
+}
+.progress-item{
+  flex:1 1 180px;max-width:220px;background:#fffdf8;border:1px solid var(--parchemin-bord);
+  border-radius:6px;padding:14px;text-align:center;font-family:'Cinzel',serif;
+  font-size:.72rem;letter-spacing:.5px;text-transform:uppercase;color:var(--encre-clair);
+}
+.progress-item.done{border-color:var(--vert);background:#f2faf6;}
+.progress-item .num{
+  width:32px;height:32px;border-radius:50%;background:var(--parchemin-fonce);
+  color:var(--encre-clair);font-weight:700;display:flex;align-items:center;
+  justify-content:center;margin:0 auto 8px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+}
+.progress-item.done .num{background:var(--vert);color:#fff;}
+.progress-item .digit{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;color:var(--vert);}
+.progress-item .digit.hidden-digit{color:var(--texte-léger);font-size:1.3rem;}
+
+/* Coffre final */
+.coffre-box{
+  margin:36px auto 10px;max-width:540px;text-align:center;
+  background:linear-gradient(180deg,#e9d9ac,#d8c48f);
+  border:1px solid var(--parchemin-bord);
+  border-radius:8px;padding:28px;
+  box-shadow:0 6px 18px rgba(90,68,20,.18);
+}
+.coffre-box h3{color:var(--encre);}
+.coffre-box > p{color:var(--encre-clair);}
+.code-input-row{display:flex;gap:10px;justify-content:center;margin:16px 0;}
+.code-input-row input{
+  width:50px;height:58px;text-align:center;font-size:1.6rem;
+  font-family:'Outfit',sans-serif;font-weight:800;border:2px solid var(--or);
+  border-radius:6px;background:#fffdf8;color:var(--encre);
+}
+.btn-open{
+  border:none;border-radius:6px;padding:12px 26px;
+  background:linear-gradient(180deg,#3fa080,var(--vert));
+  color:#fff;font-family:'Cinzel',serif;font-weight:600;letter-spacing:.8px;
+  text-transform:uppercase;font-size:.82rem;cursor:pointer;
+}
+.btn-open:disabled{background:#a9c2b7;cursor:not-allowed;}
+.coffre-msg{margin-top:10px;font-weight:700;min-height:1.2em;}
+.coffre-msg.err{color:var(--rouge);}
+.coffre-msg.ok{color:var(--vert);}
+
+/* Success screen */
+#screen-success .desk-scene img{filter:none;}
+.success-card{
+  max-width:680px;margin:24px auto;background:#fffdf8;border:1px solid var(--parchemin-bord);
+  border-radius:6px;padding:30px;text-align:center;
+  box-shadow:0 10px 30px rgba(60,44,10,.1);
+}
+.success-card h2{color:var(--encre);}
+.recap{text-align:left;background:var(--parchemin);border-radius:6px;padding:18px 22px;margin-top:18px;border:1px solid var(--parchemin-bord);}
+.recap li{margin-bottom:8px;}
+
+/* Defeat screen */
+.defeat-card{
+  max-width:640px;margin:60px auto;background:#fffdf8;border:1px solid var(--parchemin-bord);
+  border-radius:6px;padding:34px;text-align:center;
+  box-shadow:0 10px 30px rgba(60,44,10,.1);
+}
+.defeat-card h2{color:var(--rouge);}
+.defeat-card p{color:var(--encre-clair);}
+
+/* Modal */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(46,36,23,.6);
+  align-items:center;justify-content:center;z-index:50;padding:16px;
+}
+.modal-overlay.active{display:flex;}
+.modal-box{
+  background:#fffdf8;border-radius:8px;max-width:640px;width:100%;
+  max-height:88vh;overflow-y:auto;padding:28px 28px 24px;position:relative;
+  box-shadow:0 10px 40px rgba(0,0,0,.35);border:1px solid var(--parchemin-bord);
+}
+.modal-close{
+  position:absolute;top:14px;right:16px;border:none;background:none;
+  font-size:1.4rem;cursor:pointer;color:var(--texte-léger);
+}
+.modal-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;color:var(--cire);
+  border:1px solid var(--cire);border-radius:16px;
+  font-family:'Cinzel',serif;font-weight:600;font-size:.65rem;
+  text-transform:uppercase;letter-spacing:1.5px;
+  padding:3px 12px;margin-bottom:12px;
+}
+.modal-box h3{margin-top:0;}
+.enigme-context{background:var(--parchemin);border-radius:8px;padding:12px 16px;font-size:.95rem;margin-bottom:14px;border-left:3px solid var(--or);color:var(--encre-clair);}
+.formule-box{
+  background:#faf5e8;border:1px dashed var(--or-clair);border-radius:8px;
+  padding:10px 14px;text-align:center;font-family:'Outfit',sans-serif;
+  font-weight:700;margin:12px 0;color:var(--encre);
+}
+.sim-wrap{
+  border:1px solid var(--gris-bord);border-radius:10px;overflow:hidden;
+  margin:14px 0;background:#fafafa;
+}
+.sim-wrap iframe{width:100%;height:420px;border:none;display:block;}
+.sim-fallback{font-size:.85rem;text-align:center;padding:8px;color:var(--texte-léger);}
+.sim-fallback a{color:var(--bleu);}
+
+.answer-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0;}
+.answer-row input[type=number]{
+  width:90px;padding:8px 10px;border:1px solid var(--gris-bord);
+  border-radius:8px;font-size:1.05rem;font-family:'Outfit',sans-serif;
+}
+.answer-row label{font-weight:700;}
+
+.btn{
+  border:none;border-radius:8px;padding:10px 18px;font-family:'Outfit',sans-serif;
+  font-weight:700;cursor:pointer;font-size:.92rem;transition:.15s;
+}
+.btn:hover{filter:brightness(0.94);}
+.btn-verifier{background:var(--bleu);color:#fff;}
+.btn-indice{background:var(--indice-clair);color:var(--indice);border:1.5px solid var(--indice);}
+.btn-recommencer{background:#888;color:#fff;}
+
+.indice-box{
+  display:none;background:var(--indice-clair);border-left:4px solid var(--indice);
+  border-radius:8px;padding:10px 14px;margin-top:10px;font-size:.9rem;color:#6b4c00;
+}
+.indice-box.active{display:block;}
+
+.feedback-box{margin-top:14px;border-radius:10px;padding:12px 16px;font-weight:700;display:none;}
+.feedback-box.ok{display:block;background:#eaf6ef;color:var(--vert);border:1px solid var(--vert);}
+.feedback-box.err{display:block;background:#fdecea;color:var(--rouge);border:1px solid #f3b6ae;}
+
+.digit-reveal{
+  margin-top:14px;text-align:center;padding:12px;border-radius:10px;
+  background:#eaf6ef;border:1px solid var(--vert);
+}
+.digit-reveal .big{font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;color:var(--vert);}
+
+.qcm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+@media(max-width:520px){.qcm-grid{grid-template-columns:1fr;}}
+.qcm-opt{
+  border:2px solid var(--gris-bord);border-radius:10px;padding:10px;
+  cursor:pointer;background:#fff;text-align:center;transition:.15s;
+}
+.qcm-opt:hover{border-color:var(--bleu);}
+.qcm-opt svg{width:100%;height:90px;}
+.qcm-opt.correct{border-color:var(--vert);background:#eaf6ef;}
+.qcm-opt.incorrect{border-color:var(--rouge);background:#fdecea;}
+.qcm-opt .lettre{font-family:'Outfit',sans-serif;font-weight:800;margin-top:4px;color:var(--bleu-fonce);}
+
+.footer-note{
+  text-align:center;font-size:.78rem;color:var(--texte-léger);
+  padding:20px;border-top:1px solid var(--gris-bord);margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1><span class="seal">✒</span> Le Cabinet de Descartes</h1>
+  <p>Escape game · Lois de Snell-Descartes · Seconde</p>
+  <div class="timer-badge" id="timerBadge">08:00</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ ÉCRAN 1 : INTRO ============ -->
+  <section id="screen-intro" class="screen active">
+    <div class="intro-box">
+      <span class="badge-mission">⚜ Mission</span>
+      <h2>Amsterdam, 1637</h2>
+      <video controls poster="">
+        <source src="10-Descartes.mp4" type="video/mp4">
+        Votre navigateur ne prend pas en charge la vidéo.
+      </video>
+      <p>
+        Descartes a caché la loi qu'il vient de découvrir dans un coffre verrouillé par un code à 4 chiffres.
+      </p>
+      <p>
+        Trouvez <strong>4 indices</strong> sur son bureau, résolvez chaque énigme, reconstituez le code.
+        <strong>Le chronomètre démarre dès votre entrée dans le cabinet.</strong>
+      </p>
+      <button class="btn-start" onclick="goToDesk()">Entrer dans le cabinet →</button>
+    </div>
+  </section>
+
+  <!-- ============ ÉCRAN 2 : BUREAU ============ -->
+  <section id="screen-desk" class="screen">
+    <h2 style="text-align:center;">Le bureau de Descartes</h2>
+    <p style="text-align:center;color:var(--encre-clair);margin-top:-8px;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:1px;text-transform:uppercase;">
+      Cliquez sur les objets qui brillent
+    </p>
+
+    <div class="desk-scene">
+      <img src="bureau-descartes.jpg" alt="Bureau de Descartes">
+      <div class="hotspot" id="hs1" style="left:45.5%;top:52%;" onclick="openModal('e1')"><span>🔺</span></div>
+      <div class="hotspot" id="hs2" style="left:38%;top:66%;" onclick="openModal('e2')"><span>📖</span></div>
+      <div class="hotspot" id="hs3" style="left:68.5%;top:65%;" onclick="openModal('e3')"><span>🔭</span></div>
+      <div class="hotspot" id="hs4" style="left:83%;top:41%;" onclick="openModal('e4')"><span>👁️</span></div>
+    </div>
+
+    <div class="progress-panel">
+      <div class="progress-item" id="pi1"><div class="num">1</div>Réflexion<br><span class="digit hidden-digit" id="pd1">?</span></div>
+      <div class="progress-item" id="pi2"><div class="num">2</div>Réfraction<br><span class="digit hidden-digit" id="pd2">?</span></div>
+      <div class="progress-item" id="pi3"><div class="num">3</div>Réflexion totale<br><span class="digit hidden-digit" id="pd3">?</span></div>
+      <div class="progress-item" id="pi4"><div class="num">4</div>Synthèse<br><span class="digit hidden-digit" id="pd4">?</span></div>
+    </div>
+
+    <div class="coffre-box">
+      <h3>🔒 Le coffre de Descartes</h3>
+      <p style="margin-top:0;font-size:.92rem;">Reportez les 4 chiffres trouvés, dans l'ordre des énigmes.</p>
+      <div class="code-input-row">
+        <input type="text" maxlength="1" inputmode="numeric" id="code1">
+        <input type="text" maxlength="1" inputmode="numeric" id="code2">
+        <input type="text" maxlength="1" inputmode="numeric" id="code3">
+        <input type="text" maxlength="1" inputmode="numeric" id="code4">
+      </div>
+      <button class="btn-open" id="btnOuvrir" onclick="checkFinalCode()">Ouvrir le coffre</button>
+      <div class="coffre-msg" id="coffreMsg"></div>
+    </div>
+  </section>
+
+  <!-- ============ ÉCRAN 3 : SUCCÈS ============ -->
+  <section id="screen-success" class="screen">
+    <div class="desk-scene">
+      <img src="bureau-descartes-vide.jpg" alt="Bureau de Descartes, énigme résolue">
+    </div>
+    <div class="success-card">
+      <h2>🎉 Coffre ouvert !</h2>
+      <p>Vous avez reconstitué les lois de Snell-Descartes.</p>
+      <div class="recap">
+        <strong>Ce que vous avez démontré :</strong>
+        <ul>
+          <li><strong>Loi de la réflexion :</strong> l'angle d'incidence est égal à l'angle de réflexion (i₁ = i_réfléchi), mesurés par rapport à la normale.</li>
+          <li><strong>Loi de la réfraction :</strong> n₁ · sin(i₁) = n₂ · sin(i₂), avec n l'indice de réfraction de chaque milieu.</li>
+          <li><strong>Réflexion totale :</strong> lorsque la lumière passe d'un milieu plus réfringent vers un milieu moins réfringent, il existe un angle limite au-delà duquel il n'y a plus de rayon réfracté.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ÉCRAN 4 : TEMPS ÉCOULÉ ============ -->
+  <section id="screen-defeat" class="screen">
+    <div class="defeat-card">
+      <h2>⏳ Temps écoulé !</h2>
+      <p>Le cabinet de Descartes s'est refermé avant que vous n'ayez pu ouvrir le coffre.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer-note">2<sup>nde</sup> – Thème : Vision et images – Lois de Snell-Descartes – Escape game – Séquence 10 – C. Poirault-Gauvin</div>
+
+<!-- ============ MODALS ============ -->
+
+<!-- Énigme 1 : Réflexion -->
+<div class="modal-overlay" id="modal-e1">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('e1')">✕</button>
+    <span class="modal-eyebrow">Énigme 1 — Le prisme</span>
+    <h3>La loi de la réflexion</h3>
+    <div class="enigme-context">
+      Un rayon se réfléchit sur une surface. Angle d'incidence et angle de réflexion se mesurent
+      par rapport à la <strong>normale</strong>.
+    </div>
+    <div class="sim-wrap">
+      <iframe src="https://physique.ostralo.net/descartes/" loading="lazy" title="Simulation réflexion-réfraction Ostralo"></iframe>
+    </div>
+    <p class="sim-fallback">La simulation ne s'affiche pas ? <a href="https://physique.ostralo.net/descartes/" target="_blank" rel="noopener">Ouvrez-la dans un nouvel onglet</a>.</p>
+    <p>Dans la simulation, déplacez la <strong>source</strong> pour régler l'angle d'incidence sur <strong>55°</strong>, puis lisez la valeur de l'angle réfléchi affichée.</p>
+    <div class="answer-row">
+      <label for="rep-e1">Angle réfléchi :</label>
+      <input type="number" id="rep-e1" step="0.1"> °
+      <button class="btn btn-verifier" onclick="checkE1()">✓ Vérifier</button>
+      <button class="btn btn-indice" onclick="toggleIndice('e1')">💡 Indice</button>
+    </div>
+    <div class="indice-box" id="indice-e1">La loi de la réflexion s'écrit i₁ = i_réfléchi. Elle ne dépend pas des indices des milieux.</div>
+    <div class="feedback-box" id="fb-e1"></div>
+    <div class="digit-reveal" id="digit-e1" style="display:none;">
+      Chiffre du coffre n°1 : <span class="big" id="digit-e1-val"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Énigme 2 : Réfraction -->
+<div class="modal-overlay" id="modal-e2">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('e2')">✕</button>
+    <span class="modal-eyebrow">Énigme 2 — Les carnets ouverts</span>
+    <h3>La loi de la réfraction</h3>
+    <div class="enigme-context">
+      En changeant de milieu, la lumière est déviée. La relation dépend des indices des deux milieux.
+    </div>
+    <div class="formule-box">n<sub>A</sub> × sin(i₁) = n<sub>B</sub> × sin(i₂)</div>
+    <div class="sim-wrap">
+      <iframe src="https://physique.ostralo.net/descartes/" loading="lazy" title="Simulation réflexion-réfraction Ostralo"></iframe>
+    </div>
+    <p class="sim-fallback">La simulation ne s'affiche pas ? <a href="https://physique.ostralo.net/descartes/" target="_blank" rel="noopener">Ouvrez-la dans un nouvel onglet</a>.</p>
+    <p>Réglez <strong>n<sub>A</sub> = 1,0</strong> (air) et <strong>n<sub>B</sub> = 1,5</strong> (verre), puis positionnez un rayon incident à <strong>30°</strong>. Lisez l'angle réfracté affiché (arrondissez à l'unité).</p>
+    <div class="answer-row">
+      <label for="rep-e2">Angle réfracté :</label>
+      <input type="number" id="rep-e2" step="1"> °
+      <button class="btn btn-verifier" onclick="checkE2()">✓ Vérifier</button>
+      <button class="btn btn-indice" onclick="toggleIndice('e2')">💡 Indice</button>
+    </div>
+    <div class="indice-box" id="indice-e2">sin(i₂) = (n<sub>A</sub> × sin(i₁)) / n<sub>B</sub> = (1,0 × sin 30°) / 1,5 ≈ 0,33. Puis i₂ = arcsin(0,33).</div>
+    <div class="feedback-box" id="fb-e2"></div>
+    <div class="digit-reveal" id="digit-e2" style="display:none;">
+      Chiffre du coffre n°2 : <span class="big" id="digit-e2-val"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Énigme 3 : Réflexion totale -->
+<div class="modal-overlay" id="modal-e3">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('e3')">✕</button>
+    <span class="modal-eyebrow">Énigme 3 — La longue-vue</span>
+    <h3>L'angle limite de réflexion totale</h3>
+    <div class="enigme-context">
+      Au-delà d'un certain angle, la lumière qui sort du verre vers l'air ne se réfracte plus : elle se réfléchit entièrement.
+    </div>
+    <div class="sim-wrap">
+      <iframe src="https://physique.ostralo.net/descartes/" loading="lazy" title="Simulation réflexion-réfraction Ostralo"></iframe>
+    </div>
+    <p class="sim-fallback">La simulation ne s'affiche pas ? <a href="https://physique.ostralo.net/descartes/" target="_blank" rel="noopener">Ouvrez-la dans un nouvel onglet</a>.</p>
+    <p>Réglez cette fois <strong>n<sub>A</sub> = 1,5</strong> (verre) et <strong>n<sub>B</sub> = 1,0</strong> (air). Augmentez progressivement l'angle d'incidence jusqu'à ce que le rayon réfracté disparaisse. Notez cet angle limite (arrondi à l'unité).</p>
+    <div class="answer-row">
+      <label for="rep-e3">Angle limite :</label>
+      <input type="number" id="rep-e3" step="1"> °
+      <button class="btn btn-verifier" onclick="checkE3()">✓ Vérifier</button>
+      <button class="btn btn-indice" onclick="toggleIndice('e3')">💡 Indice</button>
+    </div>
+    <div class="indice-box" id="indice-e3">À l'angle limite, l'angle réfracté vaut 90°. Donc sin(θ<sub>limite</sub>) = n<sub>B</sub> / n<sub>A</sub> = 1,0 / 1,5.</div>
+    <div class="feedback-box" id="fb-e3"></div>
+    <div class="digit-reveal" id="digit-e3" style="display:none;">
+      Chiffre du coffre n°3 : <span class="big" id="digit-e3-val"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Énigme 4 : Synthèse -->
+<div class="modal-overlay" id="modal-e4">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('e4')">✕</button>
+    <span class="modal-eyebrow">Énigme 4 — Le croquis sur le chevalet</span>
+    <h3>Synthèse : bien schématiser un rayon réfracté</h3>
+    <div class="enigme-context">
+      Un rayon passe de l'air (n = 1,0) vers le verre (n = 1,5). Quel schéma est correct ?
+    </div>
+    <div class="qcm-grid" id="qcm-e4">
+      <div class="qcm-opt" data-val="A" onclick="checkQcmE4(this,false)">
+        <svg viewBox="0 0 120 90"><line x1="60" y1="5" x2="60" y2="85" stroke="#999" stroke-dasharray="3,3"/><line x1="0" y1="85" x2="120" y2="85" stroke="#333" stroke-width="2"/><line x1="15" y1="15" x2="60" y2="45" stroke="#c0392b" stroke-width="2"/><line x1="60" y1="45" x2="105" y2="15" stroke="#c0392b" stroke-width="2"/></svg>
+        <div class="lettre">A — s'éloigne de la normale</div>
+      </div>
+      <div class="qcm-opt" data-val="B" onclick="checkQcmE4(this,false)">
+        <svg viewBox="0 0 120 90"><line x1="60" y1="5" x2="60" y2="85" stroke="#999" stroke-dasharray="3,3"/><line x1="0" y1="45" x2="120" y2="45" stroke="#333" stroke-width="2"/><line x1="15" y1="15" x2="60" y2="45" stroke="#c0392b" stroke-width="2"/><line x1="60" y1="45" x2="105" y2="80" stroke="#c0392b" stroke-width="2"/></svg>
+        <div class="lettre">B — angle inchangé</div>
+      </div>
+      <div class="qcm-opt" data-val="C" onclick="checkQcmE4(this,true)">
+        <svg viewBox="0 0 120 90"><line x1="60" y1="5" x2="60" y2="85" stroke="#999" stroke-dasharray="3,3"/><line x1="0" y1="45" x2="120" y2="45" stroke="#333" stroke-width="2"/><line x1="15" y1="15" x2="60" y2="45" stroke="#c0392b" stroke-width="2"/><line x1="60" y1="45" x2="75" y2="80" stroke="#c0392b" stroke-width="2"/></svg>
+        <div class="lettre">C — se rapproche de la normale</div>
+      </div>
+      <div class="qcm-opt" data-val="D" onclick="checkQcmE4(this,false)">
+        <svg viewBox="0 0 120 90"><line x1="60" y1="5" x2="60" y2="85" stroke="#999" stroke-dasharray="3,3"/><line x1="0" y1="45" x2="120" y2="45" stroke="#333" stroke-width="2"/><line x1="15" y1="15" x2="60" y2="45" stroke="#c0392b" stroke-width="2"/><line x1="20" y1="80" x2="60" y2="45" stroke="#c0392b" stroke-width="2"/></svg>
+        <div class="lettre">D — rayon rebrousse chemin</div>
+      </div>
+    </div>
+    <button class="btn btn-indice" onclick="toggleIndice('e4')">💡 Indice</button>
+    <div class="indice-box" id="indice-e4">Le verre est plus réfringent que l'air (n plus grand). Le rayon est-il dévié en s'approchant ou en s'éloignant de la normale ?</div>
+    <div class="feedback-box" id="fb-e4"></div>
+    <div class="digit-reveal" id="digit-e4" style="display:none;">
+      Chiffre du coffre n°4 : <span class="big" id="digit-e4-val"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+const solved = {e1:false, e2:false, e3:false, e4:false};
+const digits = {e1:'5', e2:'9', e3:'2', e4:'3'};
+
+// ── Intégration au hub (seq10/escape-game) ──
+let timeLeft = 480; // 8 minutes
+let totalTime = timeLeft;
+let timerInterval = null;
+let timerStarted = false;
+let roomDone = false;
+
+const hubParams = new URLSearchParams(window.location.search);
+if (hubParams.get('t')) { timeLeft = parseInt(hubParams.get('t'), 10) || timeLeft; totalTime = timeLeft; }
+
+function notifyParent(type, extra) {
+  try {
+    window.parent.postMessage(Object.assign({ source: 'escape-game', room: 6, type }, extra || {}), '*');
+  } catch (e) { /* jeu autonome, hors hub */ }
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  const el = document.getElementById('timerBadge');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('warn', timeLeft <= 60);
+}
+
+function startTimer() {
+  if (timerStarted) return;
+  timerStarted = true;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if (!roomDone) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-defeat').classList.add('active');
+        window.scrollTo({top:0, behavior:'smooth'});
+        notifyParent('room-timeout');
+      }
+    }
+  }, 1000);
+}
+
+function openModal(id){document.getElementById('modal-'+id).classList.add('active');}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('active');}
+function goToDesk(){
+  document.getElementById('screen-intro').classList.remove('active');
+  document.getElementById('screen-desk').classList.add('active');
+  startTimer();
+}
+function toggleIndice(id){
+  document.getElementById('indice-'+id).classList.toggle('active');
+}
+
+function markSolved(id){
+  solved[id]=true;
+  document.getElementById('hs'+id.slice(1)).classList.add('solved');
+  document.getElementById('pi'+id.slice(1)).classList.add('done');
+  document.getElementById('pd'+id.slice(1)).textContent = digits[id];
+  document.getElementById('pd'+id.slice(1)).classList.remove('hidden-digit');
+  document.getElementById('digit-e'+id.slice(1)+'-val') && (document.getElementById('digit-e'+id.slice(1)+'-val').textContent = digits[id]);
+  document.getElementById('digit-'+id).style.display='block';
+
+  const count = Object.values(solved).filter(Boolean).length;
+  notifyParent('room-progress', { solved: count, total: 4 });
+}
+
+function showFeedback(id, ok, msgOk, msgErr){
+  const fb = document.getElementById('fb-'+id);
+  fb.className = 'feedback-box ' + (ok ? 'ok' : 'err');
+  fb.textContent = ok ? msgOk : msgErr;
+}
+
+function checkE1(){
+  const v = parseFloat(document.getElementById('rep-e1').value);
+  if(isNaN(v)){showFeedback('e1',false,'','Entrez une valeur.');return;}
+  if(Math.abs(v-55) <= 1){
+    showFeedback('e1',true,'Exact ! i₁ = i_réfléchi = 55°.','');
+    markSolved('e1');
+  } else {
+    showFeedback('e1',false,'',"Ce n'est pas la bonne valeur. Relisez la simulation, ou utilisez l'indice.");
+  }
+}
+function checkE2(){
+  const v = parseFloat(document.getElementById('rep-e2').value);
+  if(isNaN(v)){showFeedback('e2',false,'','Entrez une valeur.');return;}
+  if(Math.abs(v-19) <= 1){
+    showFeedback('e2',true,'Exact ! i₂ ≈ 19° (sin i₂ = (1,0×sin30°)/1,5 ≈ 0,33).','');
+    markSolved('e2');
+  } else {
+    showFeedback('e2',false,'',"Ce n'est pas la bonne valeur. Vérifiez vos réglages dans la simulation.");
+  }
+}
+function checkE3(){
+  const v = parseFloat(document.getElementById('rep-e3').value);
+  if(isNaN(v)){showFeedback('e3',false,'','Entrez une valeur.');return;}
+  if(Math.abs(v-42) <= 1){
+    showFeedback('e3',true,"Exact ! L'angle limite vaut environ 42° (sin θ = 1,0/1,5).",'');
+    markSolved('e3');
+  } else {
+    showFeedback('e3',false,'',"Ce n'est pas la bonne valeur. Augmentez encore l'angle jusqu'à disparition du rayon réfracté.");
+  }
+}
+function checkQcmE4(el, correct){
+  document.querySelectorAll('#qcm-e4 .qcm-opt').forEach(o=>o.classList.remove('correct','incorrect'));
+  if(correct){
+    el.classList.add('correct');
+    showFeedback('e4',true,'Exact ! En entrant dans un milieu plus réfringent, le rayon se rapproche de la normale.','');
+    markSolved('e4');
+  } else {
+    el.classList.add('incorrect');
+    showFeedback('e4',false,'',"Ce n'est pas la bonne réponse. Le verre est plus réfringent que l'air : le rayon se rapproche ou s'éloigne de la normale ?");
+  }
+}
+
+function checkFinalCode(){
+  const code = ['code1','code2','code3','code4'].map(id=>document.getElementById(id).value).join('');
+  const target = digits.e1+digits.e2+digits.e3+digits.e4;
+  const msg = document.getElementById('coffreMsg');
+  if(!solved.e1 || !solved.e2 || !solved.e3 || !solved.e4){
+    msg.className='coffre-msg err';
+    msg.textContent='Il vous reste des énigmes à résoudre avant de tenter le coffre.';
+    return;
+  }
+  if(code === target){
+    msg.className='coffre-msg ok';
+    msg.textContent='Coffre ouvert !';
+    roomDone = true;
+    clearInterval(timerInterval);
+    setTimeout(()=>{
+      document.getElementById('screen-desk').classList.remove('active');
+      document.getElementById('screen-success').classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+      // Fragment transmis au hub : "1" (compatible avec la Salle de Synthèse existante)
+      notifyParent('room-complete', { digit: '1', elapsed: totalTime - timeLeft });
+    }, 600);
+  } else {
+    msg.className='coffre-msg err';
+    msg.textContent='Code incorrect. Revérifiez les 4 chiffres trouvés.';
+  }
+}
+
+// auto-avance entre les cases du code
+document.addEventListener('DOMContentLoaded', ()=>{
+  const ids=['code1','code2','code3','code4'];
+  ids.forEach((id,i)=>{
+    document.getElementById(id).addEventListener('input', function(){
+      this.value = this.value.replace(/[^0-9]/g,'');
+      if(this.value && i<ids.length-1){document.getElementById(ids[i+1]).focus();}
+    });
+  });
+});
+</script>
+</body>
+</html>

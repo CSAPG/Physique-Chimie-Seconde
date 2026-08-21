@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulation — intensité et ampèremètre</title>
+<style>
+  :root{
+    --bleu:#2D5F8A; --bleu-clair:#E8F1F8;
+    --orange:#E8783A; --orange-clair:#FDF0E8;
+    --vert:#3A8A6E; --vert-clair:#E8F5F0;
+    --texte:#1A2A3A; --texte-léger:#5A6B7A;
+    --gris-fond:#F5F7FA; --gris-bord:#DDE3EC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:14px;
+    font-family:'Nunito', sans-serif;
+    background:#fff;
+    color:var(--texte);
+  }
+  .sim-title{
+    text-align:center; font-size:0.85rem; color:var(--texte-léger); margin-bottom:10px;
+  }
+  .sim-title strong{
+    font-family:'Outfit', sans-serif; color:var(--bleu); font-size:0.95rem;
+  }
+  .sim-frame{
+    max-width:640px; margin:0 auto;
+    background:var(--gris-fond);
+    border:1.5px solid var(--gris-bord);
+    border-radius:12px;
+    padding:16px;
+  }
+  svg{ display:block; margin:0 auto; max-width:100%; height:auto; }
+
+  .wire{ fill:none; stroke:var(--texte); stroke-width:3; }
+  .comp-box{ fill:#fff; stroke:var(--texte); stroke-width:2; }
+  .ammeter-circle{ fill:#fff; stroke:var(--bleu); stroke-width:2.5; }
+  .ammeter-label{ font-family:'Outfit',sans-serif; font-weight:800; fill:var(--bleu); font-size:15px; }
+
+  .flow-dot{ fill:var(--orange); }
+
+  .terminal-dot{ fill:var(--texte); }
+  .terminal-label{ font-family:'Outfit',sans-serif; font-weight:800; font-size:11px; fill:var(--bleu); text-anchor:middle; }
+  .current-arrow{ fill:none; stroke:var(--orange); stroke-width:2.2; }
+  .current-i-label{ font-family:'Outfit',sans-serif; font-weight:800; font-size:14px; fill:var(--orange); text-anchor:middle; }
+
+  .controls{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    margin-top:14px;
+  }
+  .controls label{
+    font-weight:700; color:var(--bleu); font-size:0.85rem;
+  }
+  input[type=range]{
+    width:260px; accent-color:var(--bleu);
+  }
+  .readout{
+    font-family:'Outfit', sans-serif; font-weight:800; font-size:1.15rem;
+    color:var(--orange);
+    background:var(--orange-clair);
+    border-radius:8px; padding:6px 18px;
+    min-width:120px; text-align:center;
+  }
+  .hint{
+    text-align:center; font-size:0.78rem; color:var(--texte-léger); margin-top:10px; line-height:1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="sim-title"><strong>Simulateur — intensité du courant</strong><br>Déplace le curseur : observe le sens du courant et sa valeur affichée.</div>
+
+<div class="sim-frame">
+  <svg id="circuitSvg" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="var(--orange)"/>
+      </marker>
+    </defs>
+
+    <!-- Boucle du circuit -->
+    <path class="wire" d="M 80 60 H 260 M 340 60 H 480 V 200 H 80 V 148 M 80 112 V 60" />
+
+    <!-- Flèche indiquant le sens du courant I -->
+    <line class="current-arrow" x1="150" y1="60" x2="195" y2="60" marker-end="url(#arrowhead)"/>
+    <text class="current-i-label" x="172" y="48">I</text>
+
+    <!-- Générateur (au milieu de la branche gauche) -->
+    <g>
+      <circle cx="80" cy="130" r="18" fill="#fff" stroke="var(--texte)" stroke-width="2.5"/>
+      <text x="80" y="122" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="13" fill="var(--texte)">+</text>
+      <text x="80" y="143" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="13" fill="var(--texte)">−</text>
+      <text x="80" y="172" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" fill="var(--texte-léger)">Générateur</text>
+    </g>
+
+    <!-- Ampèremètre (en série) -->
+    <g>
+      <circle class="ammeter-circle" cx="300" cy="60" r="30"/>
+      <text class="ammeter-label" x="300" y="66" text-anchor="middle">A</text>
+      <text x="300" y="18" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" fill="var(--texte-léger)">Ampèremètre (série)</text>
+      <!-- Bornes de branchement -->
+      <circle class="terminal-dot" cx="270" cy="60" r="3.5"/>
+      <text class="terminal-label" x="270" y="90">A</text>
+      <circle class="terminal-dot" cx="330" cy="60" r="3.5"/>
+      <text class="terminal-label" x="330" y="90">COM</text>
+    </g>
+
+    <!-- Conducteur ohmique -->
+    <g>
+      <rect class="comp-box" x="255" y="185" width="90" height="30" rx="4"/>
+      <text x="300" y="235" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="800" font-size="13" fill="var(--texte-léger)">R</text>
+    </g>
+
+    <!-- Points animés représentant le courant -->
+    <g id="flowDots"></g>
+
+  </svg>
+
+  <div class="controls">
+    <label for="currentSlider">Intensité I</label>
+    <input type="range" id="currentSlider" min="0" max="2" step="0.1" value="0.6">
+    <div class="readout" id="readout">I = 0,6 A</div>
+  </div>
+
+  <div class="hint">
+    L'ampèremètre est inséré <strong>en série</strong> : le courant entre par la borne <strong>A</strong> et ressort par la borne <strong>COM</strong>.<br>
+    Plus I est grand, plus le flux (points oranges) est dense et rapide.
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('currentSlider');
+  const readout = document.getElementById('readout');
+  const flowGroup = document.getElementById('flowDots');
+
+  const IMIN = 0, IMAX = 2;
+
+  // points de flux le long de la boucle (chemin approximatif)
+  const pathPoints = [
+    [80,60],[260,60], // segment haut gauche (avant ampèremètre)
+    [340,60],[480,60], // segment haut droit (après ampèremètre)
+    [480,200],[80,200] // retour bas
+  ];
+  const NUM_DOTS = 10;
+  const dots = [];
+  for (let i = 0; i < NUM_DOTS; i++) {
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('class','flow-dot');
+    dot.setAttribute('r', 3.5);
+    flowGroup.appendChild(dot);
+    dots.push(dot);
+  }
+
+  // longueur totale du trajet (boucle simplifiée, hors zone ampèremètre/résistance)
+  const segments = [
+    {x1:480,y1:200,x2:80,y2:200},
+    {x1:80,y1:200,x2:80,y2:148},
+    {x1:80,y1:112,x2:80,y2:60},
+    {x1:80,y1:60,x2:260,y2:60},
+    {x1:340,y1:60,x2:480,y2:60},
+    {x1:480,y1:60,x2:480,y2:200}
+  ];
+  const segLengths = segments.map(s => Math.hypot(s.x2-s.x1, s.y2-s.y1));
+  const totalLength = segLengths.reduce((a,b)=>a+b,0);
+
+  function pointAt(dist) {
+    let d = dist % totalLength;
+    if (d < 0) d += totalLength;
+    for (let i = 0; i < segments.length; i++) {
+      if (d <= segLengths[i]) {
+        const s = segments[i];
+        const t = segLengths[i] === 0 ? 0 : d / segLengths[i];
+        return { x: s.x1 + (s.x2-s.x1)*t, y: s.y1 + (s.y2-s.y1)*t };
+      }
+      d -= segLengths[i];
+    }
+    return { x: segments[0].x1, y: segments[0].y1 };
+  }
+
+  let phase = 0;
+  let currentI = parseFloat(slider.value);
+
+  function update() {
+    currentI = parseFloat(slider.value);
+    readout.textContent = 'I = ' + currentI.toFixed(1).replace('.', ',') + ' A';
+  }
+
+  slider.addEventListener('input', update);
+  update();
+
+  function animate() {
+    phase += 0.6 + currentI * 1.6; // vitesse ∝ I (illustratif, qualitatif)
+    const spacing = totalLength / NUM_DOTS;
+    dots.forEach((dot, i) => {
+      const p = pointAt(phase + i * spacing);
+      dot.setAttribute('cx', p.x);
+      dot.setAttribute('cy', p.y);
+      dot.setAttribute('opacity', currentI <= 0 ? 0 : Math.min(1, 0.35 + currentI * 0.4));
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+
+</body>
+</html>

@@ -655,48 +655,27 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
   <div class="sub3-tab-content active" id="cours1-a">
 
     <h3>1. La tension électrique</h3>
+<div class="exo-side-layout"> 
+    <div class="exo-side-text">   
     <div class="def">
       La <b>tension électrique</b> (ou différence de potentiel) entre deux points A et B d'un circuit est notée <b>U<sub>AB</sub></b>.<br>
-      Elle se mesure avec un <b>voltmètre</b> branché <b>en dérivation</b> (en parallèle) entre ces deux points.<br>
-      Unité : le <b>volt (V)</b>.
-    </div>
+      <p>Elle est symbolisée par une flèche qui pointe vers l'entrée A du dipôle correspondant à la borne V du <b>voltmètre</b> branché en <b>dérivation</b> (en parallèle) entre ces deux points.</p><br>
+      Unité : le <b>volt (V)</b>.<br>
+     </div>
+     </div>
+    <div class="exo-side-img">
+      <div style="text-align:center;margin:0px 0 0px;">
+       <img src="cours-tension.png" alt="Voltmètre relié à un dipole." style="max-width:300px;width:100%;border-radius:6px;">
+      </div>
+     </div>
+ </div>
+ 
+<div style="text-align:center;margin:0px 0 0px;">
 
-    <div class="circuit-wrap">
-      <svg viewBox="0 0 460 160" width="100%" style="max-width:460px;font-family:'Nunito',sans-serif;">
-        <!-- Fil horizontal haut -->
-        <line x1="40" y1="40" x2="420" y2="40" stroke="#1f2a24" stroke-width="2"/>
-        <!-- Fil horizontal bas -->
-        <line x1="40" y1="120" x2="420" y2="120" stroke="#1f2a24" stroke-width="2"/>
-        <!-- Générateur à gauche -->
-        <line x1="40" y1="40" x2="40" y2="120" stroke="#1f2a24" stroke-width="2"/>
-        <circle cx="40" cy="80" r="18" fill="#fff" stroke="#2D5F8A" stroke-width="2"/>
-        <text x="40" y="77" text-anchor="middle" font-size="11" fill="#2D5F8A" font-weight="bold">+</text>
-        <text x="40" y="90" text-anchor="middle" font-size="11" fill="#c0392b">−</text>
-        <text x="40" y="140" text-anchor="middle" font-size="10" fill="#2D5F8A">Géné</text>
-        <!-- Résistance (dipôle) -->
-        <rect x="180" y="28" width="100" height="24" rx="5" fill="#fbe9e0" stroke="#c9622a" stroke-width="2"/>
-        <text x="230" y="44" text-anchor="middle" font-size="11" fill="#c9622a" font-weight="bold">Dipôle</text>
-        <!-- Voltmètre en dérivation -->
-        <line x1="180" y1="40" x2="180" y2="75" stroke="#8e6bbf" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <line x1="280" y1="40" x2="280" y2="75" stroke="#8e6bbf" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <rect x="195" y="75" width="70" height="26" rx="5" fill="#f8f5ff" stroke="#8e6bbf" stroke-width="1.5"/>
-        <text x="230" y="91" text-anchor="middle" font-size="11" fill="#8e6bbf" font-weight="bold">V</text>
-        <text x="230" y="116" text-anchor="middle" font-size="10" fill="#8e6bbf">Voltmètre (dérivation)</text>
-        <!-- Points A et B -->
-        <circle cx="180" cy="40" r="4" fill="#c9622a"/>
-        <text x="175" y="30" font-size="10" fill="#c9622a" font-weight="bold">A</text>
-        <circle cx="280" cy="40" r="4" fill="#c9622a"/>
-        <text x="278" y="30" font-size="10" fill="#c9622a" font-weight="bold">B</text>
-        <!-- Flèche tension -->
-        <line x1="185" y1="18" x2="275" y2="18" stroke="#8e6bbf" stroke-width="1.5" marker-end="url(#arr)"/>
-        <defs>
-          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L8,3 z" fill="#8e6bbf"/>
-          </marker>
-        </defs>
-        <text x="230" y="14" text-anchor="middle" font-size="10" fill="#8e6bbf" font-weight="bold">U_AB</text>
-      </svg>
-    </div>
+</div>
+<div class="circuit-wrap" style="max-width:920px;margin:0 auto;">
+  <iframe src="simulation-voltmetre-2nde.html" title="Simulation — tension et voltmètre" style="width:100%;min-height:680px;border:2px solid var(--gris-bord,#DDE3EC);border-radius:12px;" loading="lazy"></iframe>
+</div>
 
     <div class="exo-box" id="s0q1-box">
       <div class="activite">comprendre — voltmètre</div>
@@ -728,7 +707,9 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
     <div class="warn">
       ⚠️ L'ampèremètre doit toujours être branché en <strong>série</strong> — jamais en parallèle, au risque de court-circuit.
     </div>
-
+<div class="circuit-wrap" style="max-width:920px;margin:0 auto;">
+  <iframe src="simulation-amperemetre-2nde.html" title="Simulation — intensité et ampèremètre" style="width:100%;min-height:680px;border:2px solid var(--gris-bord,#DDE3EC);border-radius:12px;" loading="lazy"></iframe>
+</div>
     <div class="exo-box" id="s0q2-box">
       <div class="activite">comprendre — ampèremètre</div>
       <div class="dropdown-qcm">
@@ -750,15 +731,31 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 
   <div class="sub3-tab-content" id="cours1-c">
 
-    <h3>3. Lois des circuits électriques</h3>
+    <h3>1c. Lois des circuits électriques</h3>
+<div class="exo-side-layout"> 
+    <div class="exo-side-img">  
+        <div style="text-align:center;margin:0px 0 0px;">
+         <img src="cours-loi-des-mailles.png" alt="Voltmètre relié à un dipole." style="max-width:400px;width:100%;border-radius:6px;">
+         </div>
+      </div>
+        <div class="exo-side-img">  
+         <div style="text-align:center;margin:0px 0 0px;">
+           <img src="cours-loi-des-noeuds.png" alt="Voltmètre relié à un dipole." style="max-width:400px;width:100%;border-radius:6px;">
+         </div>
+       </div>
+
+</div>
 
     <div class="def">
       <b>Loi des mailles</b> : dans une maille orientée, la somme algébrique des tensions est nulle.<br>
-      <em>Exemple : U<sub>AB</sub> + U<sub>BC</sub> + U<sub>CA</sub> = 0</em>
+      <p>Dans le document 1, la flèche bleue représente le sens de la maille. 
+        Additionnez les tensions de la maille : comptez-les positivement si leur flèche est dans le même sens que le parcours, 
+        et négativement dans le sens contraire.</p>
+        <em>Exemple :   U<sub>AD</sub> - U<sub>AB</sub> -  U<sub>BC</sub> = 0 soit U<sub>AD</sub> = U<sub>AB</sub> + U<sub>BC</sub> </em>
     </div>
     <div class="def">
       <b>Loi des nœuds</b> : la somme des intensités qui arrivent à un nœud est égale à la somme des intensités qui en repartent.<br>
-      <em>Exemple : I = I<sub>1</sub> + I<sub>2</sub></em>
+      <em>Exemple : I<sub>1</sub> = I<sub>2</sub> + I<sub>3</sub></em>
     </div>
 
     <div class="exo-box">
@@ -804,20 +801,80 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       💡 <strong>En dérivation</strong> : les dipôles sont soumis à la <em>même tension</em> — ils sont reliés par des nœuds.
     </div>
 
+    <!-- GUIDE AVANT SIMULATION -->
+    <div style="background:var(--bleu-clair);border:1px solid #B8D4EC;border-radius:10px;padding:14px 18px;margin:18px 0 4px;">
+      <p style="font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:700;color:var(--bleu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">🔬 Simulation — PhET Circuit Construction Kit: DC</p>
+      <p style="margin:0 0 10px;font-size:.92rem;">Cette simulation permet de construire librement un circuit (générateur, lampes, résistances, ampèremètres, voltmètres) et d'observer <strong>en temps réel</strong> les valeurs de courant et de tension à chaque endroit du circuit.</p>
+      <p style="margin:0 0 4px;font-size:.85rem;font-weight:700;color:var(--bleu);">📋 Guide d'utilisation — avant de commencer :</p>
+      <ol style="margin:6px 0 0;padding-left:20px;font-size:.88rem;line-height:1.7;">
+        <li>Ouvre la simulation ci-dessous, puis fais glisser un <strong>générateur (pile)</strong> et <strong>deux lampes</strong> dans la zone de travail.</li>
+        <li><strong>Étape 1 — montage en série :</strong> relie le générateur aux deux lampes à la suite l'une de l'autre, de façon à former une seule boucle (une seule maille).</li>
+        <li>Ajoute un <strong>ampèremètre</strong> (icône 🔵A) à différents endroits du circuit série : avant la première lampe, entre les deux lampes, après la seconde. Note les valeurs affichées.</li>
+        <li>Ajoute un <strong>voltmètre</strong> (icône 🔵V) aux bornes de chaque lampe séparément. Note les valeurs affichées.</li>
+        <li><strong>Étape 2 — montage en dérivation :</strong> reconstruis le circuit en plaçant cette fois les deux lampes « côte à côte », branchées entre les deux mêmes nœuds.</li>
+        <li>Recommence les mêmes mesures d'intensité (sur le fil principal et sur chaque branche) et de tension (aux bornes de chaque lampe) que pour le montage série.</li>
+        <li>Active si besoin l'affichage des valeurs (bouton « Show Values » / « Afficher les valeurs ») pour lire directement les nombres sans approximation.</li>
+      </ol>
+    </div>
+
+    <div style="margin:14px 0;">
+      <iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html?locale=fr" title="Simulation — PhET Circuit Construction Kit DC" style="width:100%;min-height:680px;border:2px solid var(--gris-bord,#DDE3EC);border-radius:12px;" loading="lazy" allowfullscreen></iframe>
+      <div style="text-align:center;margin-top:8px;">
+        <a href="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html?locale=fr" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:var(--auteur-phet-fonce);color:#fff;font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;text-decoration:none;">⚡ Ouvrir la simulation PhET en plein écran</a>
+      </div>
+    </div>
+
+    <!-- QCM STANDARDISÉ (après simulation) -->
+    <div class="questions-title" style="margin-top:18px;">Questions — à partir de la simulation</div>
+
     <div class="exo-box" id="s0q3-box">
       <div class="activite">comprendre — série ou dérivation</div>
+
       <div class="dropdown-qcm">
-        <div class="dq-question">Deux lampes sont branchées côte à côte entre deux nœuds du circuit. Comment sont-elles montées ?</div>
+        <div class="dq-question">1. Dans ton montage en série, que remarques-tu en comparant les valeurs affichées par l'ampèremètre avant la première lampe, entre les deux lampes, et après la seconde ?</div>
         <div class="qcm-choose-label">Choisis ta réponse :</div>
         <div class="qcm-opts">
-          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s0q3','✗ Des dipôles en série ne partagent pas les mêmes deux nœuds : ici les lampes sont entre les mêmes nœuds, donc en dérivation.')">En série</button>
-          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-s0q3','✓ Des dipôles branchés entre les mêmes nœuds sont en dérivation. Ils reçoivent la même tension mais le courant se répartit entre eux.')">En dérivation</button>
-          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s0q3','✗ Le montage en opposition n\'est pas décrit ici : deux dipôles entre les mêmes nœuds sont en dérivation.')">En opposition</button>
-          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s0q3','✗ La position (mêmes nœuds) suffit à déterminer le montage : c\'est une dérivation.')">Impossible à déterminer</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-1d-q1','✓ En série, il n\'y a qu\'une seule maille : le courant est donc identique en tout point du circuit, quel que soit l\'endroit où l\'on place l\'ampèremètre.')">L'intensité est la même partout</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q1','✗ C\'est justement l\'inverse : en série, l\'intensité mesurée est identique en tout point, car il n\'existe qu\'un seul chemin possible pour le courant.')">L'intensité diminue après chaque lampe</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q1','✗ La simulation ne montre aucune valeur aléatoire : en série, l\'intensité mesurée est la même à chaque endroit du circuit.')">Les valeurs sont différentes et sans lien entre elles</button>
         </div>
-        <div class="dq-feedback" id="fb-s0q3"></div>
+        <div class="dq-feedback" id="fb-1d-q1"></div>
       </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">2. Dans ton montage en dérivation, comment se répartit l'intensité totale délivrée par le générateur entre les deux branches contenant les lampes ?</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q2','✗ Si chaque branche recevait l\'intensité totale, la loi des nœuds ne serait pas respectée : l\'intensité se partage entre les branches.')">Chaque branche reçoit l'intensité totale</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-1d-q2','✓ D\'après la loi des nœuds, l\'intensité totale se répartit entre les branches : I = I₁ + I₂, ce que tu peux vérifier directement avec les ampèremètres de la simulation.')">Elle se répartit entre les branches (I = I₁ + I₂)</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q2','✗ Sauf si les deux lampes sont rigoureusement identiques, l\'intensité ne se partage pas forcément en deux parts égales : elle dépend de la résistance de chaque branche.')">Elle est nécessairement divisée par deux dans chaque branche</button>
+        </div>
+        <div class="dq-feedback" id="fb-1d-q2"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">3. Deux lampes sont branchées côte à côte entre deux nœuds du circuit. Comment sont-elles montées ?</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q3','✗ Des dipôles en série ne partagent pas les mêmes deux nœuds : ici les lampes sont entre les mêmes nœuds, donc en dérivation.')">En série</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-1d-q3','✓ Des dipôles branchés entre les mêmes nœuds sont en dérivation. Ils reçoivent la même tension mais le courant se répartit entre eux.')">En dérivation</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q3','✗ Le montage en opposition n\'est pas décrit ici : deux dipôles entre les mêmes nœuds sont en dérivation.')">En opposition</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-1d-q3','✗ La position (mêmes nœuds) suffit à déterminer le montage : c\'est une dérivation.')">Impossible à déterminer</button>
+        </div>
+        <div class="dq-feedback" id="fb-1d-q3"></div>
+      </div>
+
       <button class="btn-reveal" onclick="recommencerActivite('s0q3-box')">↺ Recommencer</button>
+    </div>
+
+    <!-- GUIDE APRÈS SIMULATION -->
+    <div class="info" style="margin-top:14px;">
+      ✅ <strong>Ce qu'il faut retenir de la simulation :</strong>
+      <ul style="margin:8px 0 0;padding-left:20px;font-size:.9rem;line-height:1.7;">
+        <li>En <strong>série</strong>, l'ampèremètre affiche <strong>la même valeur</strong> partout où on le place : I est unique dans tout le circuit.</li>
+        <li>En <strong>dérivation</strong>, le voltmètre affiche <strong>la même valeur</strong> aux bornes de chaque lampe : U<sub>G</sub> = U₁ = U₂, mais l'intensité totale se répartit entre les branches (I = I₁ + I₂).</li>
+        <li>Si tu obtiens des mesures qui ne collent pas avec ces deux règles, vérifie sur la simulation que ton câblage correspond bien au montage demandé (série ou dérivation) avant de recommencer les relevés.</li>
+      </ul>
     </div>
 
   </div>
@@ -864,8 +921,82 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       </div>
     </div>
 
+    <style>
+      .conv-anim-wrap{position:relative;}
+      .conv-anim-caption{font-family:'Nunito',sans-serif;font-size:.82rem;text-align:center;margin-top:6px;font-weight:700;}
+    </style>
+
+    <div style="display:flex;flex-wrap:wrap;gap:14px;margin:4px 0 12px;">
+
+      <!-- ANIMATION 1 — CONVENTION GÉNÉRATEUR -->
+      <div style="flex:1;min-width:280px;background:#fff;border:1.5px solid #2D5F8A;border-radius:10px;padding:10px 12px;">
+        <svg viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+          <!-- fil du circuit (boucle) -->
+          <path d="M 70,150 L 70,117 M 70,73 L 70,40 L 270,40 L 270,75 M 270,115 L 270,150 L 70,150" fill="none" stroke="#8AA0B4" stroke-width="3"/>
+          <!-- symbole générateur (cercle G, surligné) -->
+          <circle cx="70" cy="95" r="22" fill="#fff" stroke="#2D5F8A" stroke-width="3"/>
+          <text x="70" y="101" font-size="17" font-weight="800" fill="#2D5F8A" text-anchor="middle" font-family="Nunito, sans-serif">G</text>
+          <text x="60" y="72" font-size="16" font-weight="800" fill="#2D5F8A" text-anchor="end">+</text>
+          <!-- symbole conducteur ohmique (droite, estompé) -->
+          <rect x="255" y="75" width="30" height="40" fill="none" stroke="#B9C4CE" stroke-width="3"/>
+          <text x="293" y="99" font-size="13" fill="#B9C4CE" font-family="Nunito, sans-serif" text-anchor="start">R</text>
+          <!-- flèche I : tête de flèche seule, en rouge, sur le fil sortant côté + du générateur -->
+          <path d="M 63,60 L 70,47 L 77,60 Z" fill="#DC2626"/>
+          <text x="47" y="58" font-size="14" font-weight="800" fill="#DC2626">I</text>
+          <!-- flèche U (aux bornes du générateur, − vers +, même sens que I) — en vert -->
+          <line x1="105" y1="122" x2="105" y2="78" stroke="var(--vert)" stroke-width="2.5" marker-end="url(#arrowGenU)"/>
+          <text x="112" y="103" font-size="14" font-weight="800" fill="var(--vert)">U</text>
+          <defs>
+            <marker id="arrowGenU" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--vert)"/></marker>
+          </defs>
+        </svg>
+        <p class="conv-anim-caption" style="color:#2D5F8A;">⚡ Convention générateur : le courant (flèche rouge) sort par la borne + du générateur → I et U pointent dans le <u>même sens</u>.</p>
+      </div>
+
+      <!-- ANIMATION 2 — CONVENTION RÉCEPTEUR -->
+      <div style="flex:1;min-width:280px;background:#fff;border:1.5px solid var(--accent2);border-radius:10px;padding:10px 12px;">
+        <svg viewBox="0 0 350 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+          <path d="M 70,150 L 70,117 M 70,73 L 70,40 L 270,40 L 270,75 M 270,115 L 270,150 L 70,150" fill="none" stroke="#8AA0B4" stroke-width="3"/>
+          <!-- symbole générateur (cercle G, estompé) -->
+          <circle cx="70" cy="95" r="22" fill="#fff" stroke="#C9C2AE" stroke-width="3"/>
+          <text x="70" y="101" font-size="17" font-weight="800" fill="#C9C2AE" text-anchor="middle" font-family="Nunito, sans-serif">G</text>
+          <!-- symbole conducteur ohmique (droite, surligné) -->
+          <rect x="255" y="75" width="30" height="40" fill="none" stroke="var(--accent2)" stroke-width="3"/>
+          <text x="293" y="99" font-size="14" fill="var(--accent2)" font-family="Nunito, sans-serif" font-weight="700" text-anchor="start">R</text>
+          <!-- flèche I : même tête de flèche rouge, toujours sur le fil sortant côté + du générateur (même courant physique) -->
+          <path d="M 63,60 L 70,47 L 77,60 Z" fill="#DC2626"/>
+          <text x="47" y="58" font-size="14" font-weight="800" fill="#DC2626">I</text>
+          <!-- flèche U (aux bornes du conducteur ohmique, toujours orientée − vers +, donc vers le haut : sens opposé à I) — en vert, décalée à droite du symbole R -->
+          <line x1="315" y1="122" x2="315" y2="78" stroke="var(--vert)" stroke-width="2.5" marker-end="url(#arrowRecU)"/>
+          <text x="322" y="103" font-size="14" font-weight="800" fill="var(--vert)">U</text>
+          <defs>
+            <marker id="arrowRecU" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--vert)"/></marker>
+          </defs>
+        </svg>
+        <p class="conv-anim-caption" style="color:var(--accent2);">🔧 Convention récepteur : le même courant (flèche rouge, borne + du générateur) traverse le conducteur ohmique en entrant par sa borne + → I et U pointent dans des <u>sens opposés</u>.</p>
+      </div>
+
+    </div>
+
+    <div class="info" style="margin:0 0 14px;">
+      Dans les deux schémas, il s'agit du <strong>même circuit série</strong> (un générateur et un conducteur ohmique) parcouru par <strong>un seul et même courant I</strong> (flèche rouge, fixée une fois pour toutes en sortie de la borne + du générateur). Seule la façon de <strong>choisir et dessiner la flèche U</strong> (en vert) sur chaque dipôle change : le générateur impose le sens du courant dans tout le circuit (U et I dans le même sens), tandis que le récepteur « subit » ce même courant (U et I dans des sens opposés).
+    </div>
+
     <div class="exo-box" id="s1q1-box">
       <div class="activite">comprendre — conventions</div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">Dans un circuit, pour un <strong>générateur</strong>, par quelle borne le courant sort-il, et comment sont alors orientés U et I ?</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-s1q0','✓ En convention générateur, le courant sort par la borne + : U et I sont orientés dans le même sens.')">Le courant sort par la borne + ; U et I dans le même sens</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1q0','✗ C\'est l\'inverse : pour un générateur, le courant sort par la borne +, pas par la borne −.')">Le courant sort par la borne − ; U et I dans le même sens</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1q0','✗ Le courant sort bien par la borne + pour un générateur, mais U et I sont alors orientés dans le même sens, pas dans des sens opposés (c\'est le cas du récepteur).')">Le courant sort par la borne + ; U et I dans des sens opposés</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1q0','✗ Le sens de sortie du courant définit justement la convention à utiliser : ce n\'est pas indifférent.')">Cela dépend uniquement du sens choisi par l'élève, sans lien avec le dipôle</button>
+        </div>
+        <div class="dq-feedback" id="fb-s1q0"></div>
+      </div>
+
       <div class="dropdown-qcm">
         <div class="dq-question">Dans un circuit, pour un <strong>récepteur</strong>, comment sont orientés U et I ?</div>
         <div class="qcm-choose-label">Choisis ta réponse :</div>
@@ -877,6 +1008,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
         </div>
         <div class="dq-feedback" id="fb-s1q1"></div>
       </div>
+
       <button class="btn-reveal" onclick="recommencerActivite('s1q1-box')">↺ Recommencer</button>
     </div>
 
@@ -919,6 +1051,79 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
       <div id="caract-info" style="text-align:center;margin-top:8px;font-family:'Nunito',sans-serif;font-size:0.85rem;color:var(--accent);font-weight:700;"></div>
     </div>
 
+    <div id="ohm-explication">
+      <div class="def" style="margin-top:16px;">
+        Pour un <b>conducteur ohmique</b>, la caractéristique U = f(I) affichée ci-dessus (courbe bleue) est une <b>droite passant par l'origine (fonction linéaire)</b> : U et I sont donc des grandeurs <b>proportionnelles</b>. Le coefficient de proportionnalité correspond au <b>coefficient directeur</b> de cette droite, qui n'est autre que la résistance R du dipôle.
+      </div>
+
+      <div class="info">
+        📐 <strong>Méthode pour déterminer R à partir du graphique (au lieu de le lire directement) :</strong>
+        <ol style="margin:8px 0 0;padding-left:20px;font-size:.88rem;line-height:1.7;">
+          <li>Sur la droite tracée, choisir un point de fonctionnement <strong>le plus éloigné possible de l'origine</strong> (pour limiter l'erreur de lecture), et faire descendre/partir de ce point deux pointillés jusqu'aux axes (comme sur le graphique ci-dessus).</li>
+          <li>Lire <strong>I sur l'axe horizontal</strong> (abscisses), là où le pointillé vertical rejoint l'axe des I — <u>attention à convertir en ampères si l'axe est gradué en mA</u> (diviser par 1000).</li>
+          <li>Lire <strong>U sur l'axe vertical</strong> (ordonnées), là où le pointillé horizontal rejoint l'axe des U — directement en volts.</li>
+          <li>Calculer le coefficient directeur de la droite, c'est-à-dire la résistance, en <strong>divisant la valeur lue sur l'axe vertical (U) par la valeur lue sur l'axe horizontal (I)</strong> : R = ΔU / ΔI = (U − 0) / (I − 0) = U / I.</li>
+        </ol>
+      </div>
+
+      <div class="formula-box">
+        <strong>Exemple d'application sur la courbe ci-dessus</strong> (point rouge, avec ses pointillés) :
+        <ul style="margin:6px 0;padding-left:20px;font-size:.88rem;line-height:1.6;">
+          <li>Sur l'<strong>axe horizontal</strong> (I, en mA) : on lit I = 200 mA, soit I = 0,200 A une fois converti.</li>
+          <li>Sur l'<strong>axe vertical</strong> (U, en V) : on lit U ≈ 9,4 V.</li>
+        </ul>
+        On divise la valeur lue en ordonnée (U) par celle lue en abscisse (I) :<br>
+        R = U / I = 9,4 / 0,200 = <strong>47 Ω</strong>
+        <div class="formula-legend">Le coefficient directeur de la droite U = f(I) est bien égal à R, la résistance du conducteur ohmique — ce n'est pas une valeur donnée « au hasard », mais le résultat d'un calcul à partir des coordonnées d'un point de la caractéristique (l'axe vertical donnant U, l'axe horizontal donnant I).</div>
+      </div>
+    </div>
+
+    <div id="non-ohm-explication" style="display:none;">
+      <div class="def" style="margin-top:16px;" id="non-ohm-def">
+        Pour ce dipôle, la caractéristique U = f(I) n'est <b>pas une droite passant par l'origine</b> : ce n'est donc <b>pas une fonction linéaire</b>. U et I <b>ne sont plus proportionnels</b> : on ne peut donc pas définir de coefficient directeur constant, ni parler de « résistance » au sens de la loi d'Ohm. Le rapport U/I varie selon le point de fonctionnement choisi sur la courbe : ce dipôle n'est <b>pas un conducteur ohmique</b>.
+      </div>
+    </div>
+
+
+    <div class="exo-box" id="s1qb-box">
+      <div class="activite">comprendre — proportionnalité et coefficient directeur</div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">1. La caractéristique U = f(I) d'un conducteur ohmique est une droite passant par l'origine. Qu'en déduit-on pour U et I ?</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-s1qb1','✓ Une droite passant par l\'origine traduit une relation de proportionnalité : U et I sont proportionnels.')">U et I sont proportionnels</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb1','✗ Une droite qui ne passe pas par l\'origine traduirait une relation affine (U = aI + b avec b ≠ 0), pas une proportionnalité.')">U et I sont liés par une relation affine avec une ordonnée à l'origine non nulle</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb1','✗ Au contraire, une droite par l\'origine signifie que U et I sont liés de façon très simple : par proportionnalité.')">U et I ne sont pas liés par une relation simple</button>
+        </div>
+        <div class="dq-feedback" id="fb-s1qb1"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">2. Le coefficient directeur de la droite U = f(I) d'un conducteur ohmique correspond à...</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb2','✗ Ce n\'est pas l\'intensité maximale : le coefficient directeur d\'une droite U = f(I) a une autre signification physique.')">L'intensité maximale supportée par le dipôle</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-s1qb2','✓ Le coefficient directeur de la droite U = f(I) est le rapport U/I, c\'est-à-dire la résistance R du conducteur ohmique.')">La résistance R du conducteur ohmique</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb2','✗ C\'est l\'inverse : le coefficient directeur vaut U/I = R, pas I/U.')">L'inverse de la résistance, I/U</button>
+        </div>
+        <div class="dq-feedback" id="fb-s1qb2"></div>
+      </div>
+
+      <div class="dropdown-qcm">
+        <div class="dq-question">3. Sur une caractéristique U = f(I), un point de fonctionnement est repéré à I = 100 mA et U = 4,7 V. Quelle est la valeur de R (coefficient directeur) ?</div>
+        <div class="qcm-choose-label">Choisis ta réponse :</div>
+        <div class="qcm-opts">
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb3','✗ Attention aux unités : il faut convertir I en ampères (0,100 A) avant de calculer R = U/I.')">R = 4,7 / 100 = 0,047 Ω</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,true,'fb-s1qb3','✓ En convertissant I = 100 mA = 0,100 A, on obtient R = U/I = 4,7 / 0,100 = 47 Ω.')">R = 4,7 / 0,100 = 47 Ω</button>
+          <button class="qcm-opt" onclick="qcmOptCheck(this,false,'fb-s1qb3','✗ Ce résultat correspond à I/U et non à U/I : revérifie la formule R = U/I.')">R = 100 / 4,7 ≈ 21,3 Ω</button>
+        </div>
+        <div class="dq-feedback" id="fb-s1qb3"></div>
+      </div>
+
+      <button class="btn-reveal" onclick="recommencerActivite('s1qb-box')">↺ Recommencer</button>
+    </div>
+
   </div>
   <!-- /cours2-b -->
 
@@ -931,6 +1136,26 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
     </div>
     <div class="warn">
       ⚠️ On lit les valeurs maximales directement sur la caractéristique ou sur la notice du composant. Ne jamais dépasser U<sub>max</sub> et I<sub>max</sub>.
+    </div>
+
+    <!-- Simulateur : dépassement des limites de fonctionnement -->
+    <div class="signal-wrap">
+      <div style="font-family:'Nunito',sans-serif;font-size:0.85rem;color:#5A6B7A;margin-bottom:10px;text-align:center;">
+        <strong>Simulateur — respecter le domaine de fonctionnement</strong><br>
+        <span style="font-size:0.78rem;">Déplace le curseur pour imposer un courant I dans une diode dont I<sub>max</sub> = 50 mA</span>
+      </div>
+      <div class="signal-controls" style="justify-content:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;max-width:400px;">
+          <label for="sl-Ilim">I imposé (mA)</label>
+          <input type="range" id="sl-Ilim" min="0" max="100" value="20" step="1" style="width:100%;accent-color:var(--accent2);" oninput="updateLimites()">
+          <span id="Ilim-val" style="color:var(--accent2);font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;">I = 20 mA</span>
+        </div>
+      </div>
+      <canvas id="cvLimites" width="560" height="90" style="width:100%;max-width:560px;display:block;margin:10px auto 0;background:#fff;border:1px solid var(--line);border-radius:8px;"></canvas>
+      <div style="display:flex;justify-content:center;margin-top:14px;">
+        <div id="diode-icon" style="font-size:2.6rem;transition:all .2s;">💡</div>
+      </div>
+      <div id="limites-info" style="text-align:center;margin-top:8px;font-family:'Nunito',sans-serif;font-size:0.92rem;font-weight:700;"></div>
     </div>
 
     <div class="exo-box" id="s1q2-box">
@@ -972,7 +1197,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 
     <h3>1. Qu'est-ce qu'un conducteur ohmique ?</h3>
     <div class="def">
-      Un <b>conducteur ohmique</b> (ou résistance) est un dipôle dont la caractéristique U = f(I) est une <b>droite passant par l'origine</b>.<br>
+      Un <b>conducteur ohmique</b> (ou résistance) est un dipôle dont la caractéristique U = f(I) est une <b>droite passant par l'origine (fonction linéaire)</b>.<br>
       La tension U et l'intensité I sont <b>proportionnelles</b>.
     </div>
 
@@ -1192,10 +1417,21 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
   <div class="sub3-tab-content" id="cours4-b">
 
     <h3>2. La thermistance (CTN)</h3>
+    <div class="exo-side-layout"> 
+    <div class="exo-side-img">  
     <div class="def">
       La <b>thermistance à coefficient de température négatif (CTN)</b> est un capteur dont la résistance <b>diminue</b> quand la température <b>augmente</b>.<br>
       Elle est utilisée pour mesurer la température.
     </div>
+    </div>
+            <div class="exo-side-img">  
+         <div style="text-align:center;margin:0px 0 0px;">
+           <img src="cours-thermistance.png" alt="thermistance" style="max-width:400px;width:100%;border-radius:6px;">
+         </div>
+       </div>
+
+</div>
+
 
     <!-- Simulation CTN -->
     <div class="signal-wrap">
@@ -1233,11 +1469,21 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
 
   <div class="sub3-tab-content" id="cours4-c">
 
-    <h3>3. La photorésistance (LDR)</h3>
-    <div class="def">
+    <h3>c. La photorésistance (LDR)</h3>
+<div class="exo-side-layout"> 
+    <div class="exo-side-text">  
+       <div class="def">
       La <b>photorésistance (LDR — Light Dependent Resistor)</b> est un capteur dont la résistance <b>diminue</b> quand l'<b>éclairement augmente</b>.<br>
       Elle est utilisée pour détecter la lumière (détecteurs crépusculaires, alarmes…).
+       </div>
     </div>
+         <div class="exo-side-img">  
+         <div style="text-align:center;margin:0px 0 0px;">
+           <img src="cours-photoresistance.png" alt="photorésistance" style="max-width:200px;width:100%;border-radius:6px;">
+         </div>
+       </div>
+
+</div>
 
     <!-- Simulation LDR -->
     <div class="signal-wrap">
@@ -1342,7 +1588,7 @@ table.data tr:nth-child(even) td{background:#f9f8f4;}
     </div>
 
     <div class="def">
-      <b>Conducteur ohmique</b> : dipôle dont la caractéristique U = f(I) est une <b>droite passant par l'origine</b> — U et I lui sont <b>proportionnels</b>.<br>
+      <b>Conducteur ohmique</b> : dipôle dont la caractéristique U = f(I) est une <b>droite passant par l'origine (fonction linéaire)</b> — U et I lui sont <b>proportionnels</b>.<br>
       <b>Point de fonctionnement</b> : couple de valeurs (I ; U) mesuré pour un réglage donné du circuit.
     </div>
     <div class="formula-box">
@@ -3783,13 +4029,17 @@ plt.show()                      # Affiche la figure
     <div class="section-title"><span class="icon">📖</span>Glossaire</div>
     <input type="text" class="gloss-search" id="glossSearch" placeholder="🔎 Rechercher un mot du glossaire…" oninput="glossFilter()">
     <dl class="gloss-grid" id="glossGrid">
+
       <div class="gloss-item" data-term="amperemetre serie"><dt>Ampèremètre</dt><dd>Appareil de mesure de l'intensité, branché <strong>en série</strong> dans le circuit (jamais en parallèle, au risque de court-circuit). Sa résistance interne très faible ne modifie pas le circuit.</dd></div>
       <div class="gloss-item" data-term="capteur resistif"><dt>Capteur résistif</dt><dd>Dispositif dont la résistance varie en fonction d'une grandeur physique (température, éclairement…), convertissant ainsi cette grandeur en une variation de résistance électrique mesurable.</dd></div>
       <div class="gloss-item" data-term="caracteristique U f I point fonctionnement"><dt>Caractéristique U = f(I)</dt><dd>Courbe représentant la tension U<sub>AB</sub> en fonction de l'intensité I<sub>AB</sub> d'un dipôle. Chaque couple mesuré (I ; U) est un point de fonctionnement.</dd></div>
-      <div class="gloss-item" data-term="conducteur ohmique"><dt>Conducteur ohmique</dt><dd>Dipôle dont la caractéristique U = f(I) est une droite passant par l'origine : U et I sont proportionnels.</dd></div>
+      <div class="gloss-item" data-term="coefficient directeur pente droite"><dt>Coefficient directeur</dt><dd>Pente d'une droite U = f(I). Pour un conducteur ohmique, il correspond à la résistance R = ΔU / ΔI.</dd></div>
+      <div class="gloss-item" data-term="conducteur ohmique"><dt>Conducteur ohmique</dt><dd>Dipôle dont la caractéristique U = f(I) est une droite passant par l'origine (fonction linéaire) : U et I sont proportionnels.</dd></div>
       <div class="gloss-item" data-term="convention generateur"><dt>Convention générateur</dt><dd>Le courant sort par la borne + du dipôle : U et I sont orientés dans le même sens.</dd></div>
       <div class="gloss-item" data-term="convention recepteur"><dt>Convention récepteur</dt><dd>Le courant entre par la borne + du dipôle : U et I sont orientés dans des sens opposés.</dd></div>
       <div class="gloss-item" data-term="diode dipole non ohmique non lineaire"><dt>Diode</dt><dd>Dipôle non ohmique dont la caractéristique U = f(I) n'est pas une droite passant par l'origine : c'est l'exemple type de dipôle à caractéristique non linéaire.</dd></div>
+      <div class="gloss-item" data-term="dipole deux bornes composant"><dt>Dipôle</dt><dd>Composant électrique possédant deux bornes, traversé par un courant I et soumis à une tension U à ses bornes (générateur, conducteur ohmique, diode, lampe…).</dd></div>
+      <div class="gloss-item" data-term="etalonnage courbe capteur"><dt>Étalonnage (courbe d'étalonnage)</dt><dd>Courbe U = f(grandeur mesurée) tracée à partir de mesures expérimentales, qui permet de relier la tension délivrée par un capteur à la valeur de la grandeur physique qu'il mesure.</dd></div>
       <div class="gloss-item" data-term="grandeur algebrique signe orientation"><dt>Grandeur algébrique</dt><dd>Grandeur (comme U ou I) qui peut être positive ou négative selon le sens choisi pour l'orienter (convention générateur ou récepteur).</dd></div>
       <div class="gloss-item" data-term="intensite courant I ampere"><dt>Intensité du courant électrique</dt><dd>Notée I. Unité : l'ampère (A).</dd></div>
       <div class="gloss-item" data-term="jauge de contrainte deformation pression"><dt>Jauge de contrainte</dt><dd>Capteur résistif dont la résistance augmente avec l'étirement (la déformation). Utilisée pour mesurer une force ou une pression (balances, capteurs de pression).</dd></div>
@@ -3802,10 +4052,11 @@ plt.show()                      # Affiche la figure
       <div class="gloss-item" data-term="photoresistance LDR"><dt>Photorésistance (LDR)</dt><dd>Capteur résistif (Light Dependent Resistor) dont la résistance diminue quand l'éclairement augmente. Utilisée pour détecter la lumière (détecteurs crépusculaires, alarmes…).</dd></div>
       <div class="gloss-item" data-term="point de fonctionnement couple I U"><dt>Point de fonctionnement</dt><dd>Couple de valeurs (I ; U) mesuré expérimentalement, représenté par un point sur la caractéristique du dipôle.</dd></div>
       <div class="gloss-item" data-term="resistance electrique R ohm"><dt>Résistance électrique (R)</dt><dd>Grandeur (en ohms, Ω) qui caractérise l'opposition d'un conducteur ohmique au passage du courant. Correspond à la pente de la caractéristique : R = U / I.</dd></div>
+      <div class="gloss-item" data-term="tension de seuil diode conduction"><dt>Tension de seuil</dt><dd>Valeur de tension en dessous de laquelle une diode ne conduit quasiment pas de courant (caractéristique non linéaire).</dd></div>
       <div class="gloss-item" data-term="tension electrique U volt"><dt>Tension électrique</dt><dd>Notée U<sub>AB</sub> entre deux points A et B d'un circuit (différence de potentiel). Unité : le volt (V).</dd></div>
       <div class="gloss-item" data-term="thermistance CTN"><dt>Thermistance (CTN)</dt><dd>Capteur résistif à coefficient de température négatif : sa résistance diminue quand la température augmente. Utilisée pour mesurer la température.</dd></div>
       <div class="gloss-item" data-term="voltmetre derivation"><dt>Voltmètre</dt><dd>Appareil de mesure de la tension, branché en <strong>dérivation</strong> (en parallèle) aux bornes du dipôle à mesurer. Sa résistance interne très grande le rend non perturbateur pour le circuit.</dd></div>
-    </dl>
+</dl>
   </div>
   <!-- /bilan-sub-1 -->
 
@@ -3865,6 +4116,34 @@ plt.show()                      # Affiche la figure
         <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-phet-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(45,95,138,0.18)'" onmouseout="this.style.boxShadow=''">
           <h4 style="color:var(--auteur-phet-fonce);">🔬 PhET — Circuits électriques</h4>
           <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Construis un circuit, place un voltmètre et un ampèremètre, vérifie la loi d'Ohm.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/electricite/multimetre_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(47,3,78,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔧 PCCL — Fonctionnement du multimètre</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive sur le réglage et l'utilisation du multimètre (voltmètre/ampèremètre).</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/electricite/loi_tensions_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(47,3,78,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">⚡ PCCL — Loi des tensions</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive pour vérifier la loi d'additivité des tensions dans un circuit série.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/electricite/lois_intensites_flash.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(47,3,78,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">🔀 PCCL — Loi des intensités</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive pour vérifier la loi des nœuds et la conservation de l'intensité.</p>
+        </div>
+      </a>
+
+      <a href="https://www.pccl.fr/physique_chimie_college_lycee/quatrieme/electricite/caracteristiques.htm" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="bilan-card" style="cursor:pointer;transition:box-shadow 0.2s;border-left:4px solid var(--auteur-pccl-fonce);" onmouseover="this.style.boxShadow='0 4px 16px rgba(47,3,78,0.18)'" onmouseout="this.style.boxShadow=''">
+          <h4 style="color:var(--auteur-pccl-fonce);">📈 PCCL — Caractéristique d'un dipôle</h4>
+          <p style="font-size:0.82rem;color:var(--texte-léger);margin-top:4px;line-height:1.5;">Animation interactive pour tracer la caractéristique U = f(I) d'un conducteur ohmique.</p>
         </div>
       </a>
 
@@ -4139,6 +4418,26 @@ function setDipole(type){
       b.style.color=t===type?'#fff':'#2D5F8A';
     }
   });
+  // Bascule des encadrés : explication "conducteur ohmique" vs explication "pas de proportionnalité"
+  const ohmBox=document.getElementById('ohm-explication');
+  const nonOhmBox=document.getElementById('non-ohm-explication');
+  const nonOhmDef=document.getElementById('non-ohm-def');
+  if(ohmBox && nonOhmBox){
+    if(type==='ohm'){
+      ohmBox.style.display='';
+      nonOhmBox.style.display='none';
+    } else {
+      ohmBox.style.display='none';
+      nonOhmBox.style.display='';
+      if(nonOhmDef){
+        if(type==='diode'){
+          nonOhmDef.innerHTML='Pour la <b>diode</b>, la caractéristique U = f(I) n\'est <b>pas une droite passant par l\'origine</b> : ce n\'est donc <b>pas une fonction linéaire</b>. U et I <b>ne sont plus proportionnels</b> : le rapport U/I varie selon le point de fonctionnement choisi sur la courbe (la diode ne conduit quasiment pas en dessous de sa tension de seuil, puis conduit fortement au-delà). On ne peut donc pas définir de coefficient directeur constant, ni parler de « résistance » au sens de la loi d\'Ohm : la diode <b>n\'est pas un conducteur ohmique</b>.';
+        } else if(type==='lampe'){
+          nonOhmDef.innerHTML='Pour la <b>lampe à incandescence</b>, la caractéristique U = f(I) n\'est <b>pas une droite passant par l\'origine</b> : ce n\'est donc <b>pas une fonction linéaire</b>. U et I <b>ne sont plus proportionnels</b> : le rapport U/I augmente avec I, car la résistance du filament croît avec sa température. On ne peut donc pas définir de coefficient directeur constant, ni parler de « résistance » au sens de la loi d\'Ohm : la lampe à incandescence <b>n\'est pas un conducteur ohmique</b>.';
+        }
+      }
+    }
+  }
   drawCaract();
 }
 function drawCaract(){
@@ -4196,7 +4495,32 @@ function drawCaract(){
     const yEnd=oy-(uEnd/maxU)*(oy-20);
     ctx.lineTo(xEnd,yEnd);
     ctx.stroke();
-    document.getElementById('caract-info').textContent='Conducteur ohmique : droite passant par l\'origine — pente R = 47 Ω';
+
+    // --- Repères visuels du point de lecture utilisé dans l'exemple (I = 200 mA ; U = 9,4 V) ---
+    const iRead=200, uRead=9.4;
+    const xRead=ox+(iRead/maxI)*(W-ox-20);
+    const yRead=oy-(uRead/maxU)*(oy-20);
+    ctx.save();
+    ctx.setLineDash([5,4]);
+    ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.5;
+    // pointillé vertical : du point de la droite jusqu'à l'axe des I (abscisses)
+    ctx.beginPath(); ctx.moveTo(xRead,yRead); ctx.lineTo(xRead,oy); ctx.stroke();
+    // pointillé horizontal : du point de la droite jusqu'à l'axe des U (ordonnées)
+    ctx.beginPath(); ctx.moveTo(xRead,yRead); ctx.lineTo(ox,yRead); ctx.stroke();
+    ctx.restore();
+    // point de fonctionnement
+    ctx.fillStyle='#c0392b';
+    ctx.beginPath(); ctx.arc(xRead,yRead,4,0,2*Math.PI); ctx.fill();
+    // étiquette sur l'axe I (abscisses) : valeur de I lue
+    ctx.fillStyle='#c0392b'; ctx.font='bold 11px "Nunito",sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('I = 200 mA',xRead,oy+28);
+    // étiquette sur l'axe U (ordonnées) : valeur de U lue
+    ctx.save();
+    ctx.textAlign='right';
+    ctx.fillText('U ≈ 9,4 V',ox-8,yRead-6);
+    ctx.restore();
+    document.getElementById('caract-info').textContent='Conducteur ohmique : droite passant par l\'origine — pente R = 47 Ω (point de lecture en rouge : I sur l\'axe horizontal, U sur l\'axe vertical)';
   } else if(dipoleType==='diode'){
     ctx.strokeStyle='#c9622a';
     // Tracé exponentiel approché d'une diode
@@ -4224,6 +4548,78 @@ function drawCaract(){
     document.getElementById('caract-info').textContent='Lampe à incandescence : courbe non linéaire — résistance croît avec la température du filament';
   }
 }
+
+/* ============== SIMULATEUR LIMITES DE FONCTIONNEMENT ============== */
+const IMAX_LIM=50; // mA
+function drawLimites(iVal){
+  const cv=document.getElementById('cvLimites');
+  if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H);
+  const marginL=20, marginR=20, barY=40, barH=18;
+  const barW=W-marginL-marginR;
+  const maxScale=100; // mA affichés sur la jauge
+  const xForI=(i)=>marginL+(i/maxScale)*barW;
+  // zone verte (domaine de fonctionnement autorisé)
+  ctx.fillStyle='#DCEFE6';
+  ctx.fillRect(marginL,barY,xForI(IMAX_LIM)-marginL,barH);
+  // zone rouge hachurée (zone interdite, au-delà de Imax)
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(xForI(IMAX_LIM),barY,W-marginR-xForI(IMAX_LIM),barH);
+  ctx.clip();
+  ctx.fillStyle='#fbe6e4';
+  ctx.fillRect(xForI(IMAX_LIM),barY,W-marginR-xForI(IMAX_LIM),barH);
+  ctx.strokeStyle='#c0392b'; ctx.lineWidth=1;
+  for(let x=xForI(IMAX_LIM)-20;x<W-marginR+20;x+=10){
+    ctx.beginPath(); ctx.moveTo(x,barY); ctx.lineTo(x+barH,barY+barH); ctx.stroke();
+  }
+  ctx.restore();
+  // contour de la jauge
+  ctx.strokeStyle='#888'; ctx.lineWidth=1.5;
+  ctx.strokeRect(marginL,barY,barW,barH);
+  // trait Imax
+  ctx.strokeStyle='#c0392b'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(xForI(IMAX_LIM),barY-6); ctx.lineTo(xForI(IMAX_LIM),barY+barH+6); ctx.stroke();
+  ctx.fillStyle='#c0392b'; ctx.font='bold 11px "Nunito",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('Imax = 50 mA',xForI(IMAX_LIM),barY-10);
+  // graduations
+  ctx.fillStyle='#888'; ctx.font='10px "Nunito",sans-serif'; ctx.textAlign='center';
+  for(let i=0;i<=maxScale;i+=20){
+    const x=xForI(i);
+    ctx.beginPath(); ctx.strokeStyle='#aaa'; ctx.lineWidth=1;
+    ctx.moveTo(x,barY+barH); ctx.lineTo(x,barY+barH+4); ctx.stroke();
+    ctx.fillText(i,x,barY+barH+16);
+  }
+  // curseur représentant le courant imposé I
+  const xCur=xForI(iVal);
+  const enDanger=iVal>IMAX_LIM;
+  ctx.fillStyle=enDanger?'#c0392b':'#2f6f5e';
+  ctx.beginPath(); ctx.moveTo(xCur,barY-2); ctx.lineTo(xCur-7,barY-14); ctx.lineTo(xCur+7,barY-14); ctx.closePath(); ctx.fill();
+  ctx.fillStyle=enDanger?'#c0392b':'#2f6f5e'; ctx.font='bold 12px "Nunito",sans-serif'; ctx.textAlign='center';
+  ctx.fillText('I imposé',xCur, barY+barH+30);
+}
+function updateLimites(){
+  const sl=document.getElementById('sl-Ilim');
+  if(!sl) return;
+  const iVal=parseInt(sl.value,10);
+  document.getElementById('Ilim-val').textContent='I = '+iVal+' mA';
+  drawLimites(iVal);
+  const icon=document.getElementById('diode-icon');
+  const info=document.getElementById('limites-info');
+  if(iVal>IMAX_LIM){
+    icon.textContent='🔥';
+    info.innerHTML='<span style="color:#c0392b;">⚠️ DANGER : I = '+iVal+' mA > I<sub>max</sub> = 50 mA — le domaine de fonctionnement est dépassé, la diode risque d\'être détruite (surchauffe) !</span>';
+  } else {
+    icon.textContent='💡';
+    info.innerHTML='<span style="color:#2f6f5e;">✓ I = '+iVal+' mA ≤ I<sub>max</sub> = 50 mA — on reste dans le domaine de fonctionnement, la diode fonctionne normalement.</span>';
+  }
+}
+document.addEventListener('DOMContentLoaded',function(){
+  if(document.getElementById('cvLimites')) updateLimites();
+});
 
 /* ============== SIMULATEUR LOI D'OHM ============== */
 function drawOhm(){

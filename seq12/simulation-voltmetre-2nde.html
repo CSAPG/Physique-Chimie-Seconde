@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulation — La tension et le voltmètre</title>
+<style>
+  :root{
+    --bg:#fbf9f4;
+    --paper:#ffffff;
+    --ink:#1f2a24;
+    --accent:#2f6f5e;
+    --accent-light:#e6f1ee;
+    --accent2:#c9622a;
+    --accent2-light:#fbe9e0;
+    --line:#d9d3c6;
+    --blue:#2D5F8A;
+    --blue-light:#E8F1F8;
+    --violet:#7B4FA6;
+    --violet-light:#F3EDF9;
+    --rouge:#C0392B;
+    --rouge-light:#FDEDEC;
+    --texte-leger:#5A6B7A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Nunito','Segoe UI',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:20px;
+  }
+  .wrap{max-width:920px;margin:0 auto;}
+  h1{
+    font-size:1.35rem;
+    margin:0 0 4px;
+    color:var(--blue);
+  }
+  .sub{
+    color:var(--texte-leger);
+    font-size:.92rem;
+    margin:0 0 20px;
+    line-height:1.5;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .card h2{
+    font-size:1rem;
+    margin:0 0 10px;
+    color:var(--ink);
+  }
+  svg{width:100%;height:auto;display:block;}
+  .controls{margin-top:14px;}
+  .row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  .row label{font-size:.85rem;font-weight:700;min-width:150px;}
+  input[type="range"]{flex:1;accent-color:var(--blue);min-width:120px;}
+  .valbox{
+    font-variant-numeric:tabular-nums;
+    font-weight:800;
+    color:var(--blue);
+    min-width:52px;
+    text-align:right;
+  }
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+  button{
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+    padding:8px 12px;
+    border-radius:8px;
+    font-size:.83rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:.15s;
+  }
+  button:hover{border-color:var(--blue);color:var(--blue);}
+  button.switch-btn.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+  button.switch-btn.off{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge);}
+  button.btn-reset{background:#f5f3ee;border-color:#888;color:#555;}
+  button.btn-reset:hover{border-color:#555;color:#333;}
+  .display{
+    background:#1f2a24;
+    border-radius:10px;
+    padding:16px;
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .display .lbl{color:#a9c9bd;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;}
+  .display .num{
+    font-family:'Courier New',monospace;
+    font-size:2.1rem;
+    font-weight:800;
+    color:#7CE7B8;
+    letter-spacing:.02em;
+  }
+  .status{
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:.86rem;
+    line-height:1.5;
+    border:1.5px solid;
+  }
+  .status.neutral{background:var(--blue-light);border-color:var(--blue);color:var(--blue);}
+  .status.ok{background:var(--accent-light);border-color:var(--accent);color:#1f4d3f;}
+  .status.warn{background:#FFF6E0;border-color:#C98A00;color:#8a6300;}
+  .status.err{background:var(--rouge-light);border-color:var(--rouge);color:var(--rouge);}
+  .mini{font-size:.78rem;color:var(--texte-leger);margin-top:10px;line-height:1.5;min-height:1.2em;}
+  .legend{
+    display:flex;
+    gap:14px;
+    font-size:.75rem;
+    color:var(--texte-leger);
+    margin-top:8px;
+    flex-wrap:wrap;
+  }
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+  /* --- drag & drop --- */
+  .zone-ghost{opacity:0;transition:opacity .15s, stroke-width .15s;}
+  svg#circuit.dragging .zone-ghost{opacity:.28;}
+  svg#circuit.dragging .zone-ghost.near{opacity:.95;stroke-width:3.5;}
+  .volt-icon{cursor:grab;touch-action:none;}
+  .volt-icon:active{cursor:grabbing;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>⚡ Comprendre la tension et le voltmètre</h1>
+  <p class="sub">Fais glisser le voltmètre (rond violet) directement sur le circuit. Il existe 6 emplacements possibles : aux bornes du générateur, aux bornes de la lampe, ou sur un simple fil — chacun en dérivation (correct) ou en série (à éviter). Observe ce qui se passe à chaque fois, pour la lampe et pour la mesure.</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Circuit</h2>
+      <svg id="circuit" viewBox="0 0 500 330"></svg>
+
+      <div class="controls">
+        <div class="row">
+          <label for="tension">Tension du générateur</label>
+          <input type="range" id="tension" min="2" max="12" step="1" value="6">
+          <span class="valbox"><span id="tensionVal">6</span> V</span>
+        </div>
+        <div class="btns">
+          <button id="btnSwitch" class="switch-btn" onclick="toggleSwitch()">Interrupteur K</button>
+          <button class="btn-reset" onclick="resetVoltmeter()">↺ Retirer le voltmètre</button>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span><span class="dot" style="background:#2D5F8A"></span>Fil du circuit principal</span>
+        <span><span class="dot" style="background:#7B4FA6"></span>Voltmètre</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Voltmètre</h2>
+      <div class="display">
+        <div class="lbl">Tension affichée</div>
+        <div class="num" id="reading">– – –</div>
+      </div>
+      <div class="status neutral" id="status">
+        Fais glisser le voltmètre (rond violet) sur le circuit pour choisir un point de mesure.
+      </div>
+      <div class="mini" id="extra"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const R_LAMP = 40;        // résistance interne modélisée de la lampe (Ω)
+const R_V    = 2_000_000; // résistance interne du voltmètre (Ω) : très grande
+
+// emplacements d'accroche : x/y = position du CENTRE du voltmètre une fois posé
+const ZONES = [
+  {id:'gen-der',   emplacement:'generateur', branchement:'derivation', x:25,  y:130},
+  {id:'gen-ser',   emplacement:'generateur', branchement:'serie',      x:70,  y:80},
+  {id:'lampe-der', emplacement:'lampe',      branchement:'derivation', x:475, y:130},
+  {id:'lampe-ser', emplacement:'lampe',      branchement:'serie',      x:430, y:80},
+  {id:'fil-der',   emplacement:'fil',        branchement:'derivation', x:250, y:90},
+];
+const SNAP_RADIUS = 34;
+const HOME = {x:250, y:290};
+
+let state = {
+  E: 6,
+  closed: true,
+  snapped: null,           // {emplacement, branchement} ou null
+  dragging: false,
+  pos: {...HOME},          // position courante (affichage) du voltmètre
+  nearestZoneWhileDragging: null,
+};
+
+document.getElementById('tension').addEventListener('input', e=>{
+  state.E = Number(e.target.value);
+  document.getElementById('tensionVal').textContent = state.E;
+  render();
+});
+
+function toggleSwitch(){
+  state.closed = !state.closed;
+  render();
+}
+
+function resetVoltmeter(){
+  state.snapped = null;
+  state.pos = {...HOME};
+  render();
+}
+
+function fmtCurrent(I){
+  const mA = I*1000;
+  if(mA >= 1) return mA.toFixed(mA<10?1:0)+' mA';
+  const uA = I*1e6;
+  if(uA >= 1) return uA.toFixed(1)+' µA';
+  return (I*1e9).toFixed(1)+' nA';
+}
+
+function compute(){
+  const {E, closed, snapped} = state;
+  if(!closed){
+    let U = null;
+    if(snapped){
+      if(snapped.branchement === 'serie') U = 0;
+      else if(snapped.emplacement === 'generateur') U = E;
+      else U = 0;
+    }
+    return {I_lamp: 0, U, connected: !!snapped};
+  }
+  if(!snapped) return {I_lamp: E/R_LAMP, U:null, connected:false};
+  const {emplacement, branchement} = snapped;
+  if(branchement === 'serie'){
+    const I = E/(R_LAMP+R_V);
+    return {I_lamp: I, U: I*R_V, connected:true};
+  }
+  if(emplacement === 'generateur') return {I_lamp: E/R_LAMP, U: E, connected:true};
+  if(emplacement === 'lampe')      return {I_lamp: E/R_LAMP, U: E, connected:true};
+  return {I_lamp: E/R_LAMP, U: 0, connected:true}; // fil
+}
+
+function render(){
+  const r = compute();
+
+  document.getElementById('reading').textContent = r.connected ? r.U.toFixed(2)+' V' : '– – –';
+
+  const statusEl = document.getElementById('status');
+  const extraEl  = document.getElementById('extra');
+  let cls='neutral', msg='';
+
+  if(!r.connected){
+    msg = 'Fais glisser le voltmètre (rond violet) sur le circuit pour choisir un point de mesure.';
+  } else {
+    const {emplacement, branchement} = state.snapped;
+    const K = state.closed;
+    if(branchement === 'serie'){
+      cls = 'err';
+      if(K){
+        const loc = emplacement==='generateur' ? 'juste à la sortie du générateur'
+                                                : 'juste avant la lampe';
+        msg = `❌ Branchement incorrect : le voltmètre est inséré <b>en série</b>, ${loc}. Il remplace ce tronçon et devient traversé par tout le courant — mais sa résistance interne est énorme : elle bloque presque totalement le circuit. La lampe s'éteint, et l'appareil affiche presque toute la tension du générateur sur lui-même, quel que soit l'endroit où il est inséré dans cette boucle unique.`;
+      } else {
+        cls = 'warn';
+        msg = `⚠️ Interrupteur K ouvert : aucun courant ne circule dans la boucle, donc pas non plus dans le voltmètre. Il affiche 0 V, même en série.`;
+      }
+    } else if(emplacement === 'generateur'){
+      cls = 'ok';
+      msg = `✅ Voltmètre branché en <b>dérivation aux bornes du générateur</b>. Il mesure U = E, la tension délivrée par le générateur — ici idéal, donc constante, y compris interrupteur ouvert (aucun courant ne circule, mais le générateur impose quand même cette tension à ses propres bornes).`;
+    } else if(emplacement === 'lampe'){
+      if(K){
+        cls = 'ok';
+        msg = `✅ Voltmètre branché en <b>dérivation aux bornes de la lampe</b>. Sa résistance interne très grande ne perturbe pas le circuit : la lampe brille normalement et l'appareil affiche U, la tension à ses bornes.`;
+      } else {
+        cls = 'warn';
+        msg = `⚠️ Interrupteur K ouvert : aucun courant ne circule. La tension aux bornes de la lampe, non parcourue par aucun courant, est donc nulle : U = 0 V.`;
+      }
+    } else { // fil
+      cls = 'ok';
+      msg = `✅ Voltmètre branché en <b>dérivation sur un simple fil</b> (aucun composant entre ses deux bornes). Comme le fil est idéal (résistance nulle), la tension à ses bornes est <b>toujours nulle</b> : U = 0 V, que le circuit soit ouvert ou fermé. C'est une propriété à retenir : la tension aux bornes d'un fil de connexion est nulle.`;
+    }
+  }
+
+  statusEl.className = 'status '+cls;
+  statusEl.innerHTML = msg;
+  extraEl.textContent = state.closed ? ('Intensité dans la lampe : '+fmtCurrent(r.I_lamp)+'.') : '';
+
+  drawCircuit(r);
+}
+
+function drawCircuit(r){
+  const svg = document.getElementById('circuit');
+  const s = state.snapped;
+  const closed = state.closed;
+  const brightness = closed ? Math.max(0, Math.min(1, r.I_lamp/0.3)) : 0;
+
+  const lampGlow = closed && brightness>0.02
+    ? `fill:rgba(255,210,90,${0.25+0.55*brightness});filter:drop-shadow(0 0 ${6+10*brightness}px rgba(255,190,60,${0.5*brightness}))`
+    : 'fill:#f2efe8';
+
+  const switchLine = closed
+    ? `<line x1="340" y1="220" x2="390" y2="220" stroke="#1f2a24" stroke-width="3"/>`
+    : `<line x1="340" y1="220" x2="382" y2="196" stroke="#1f2a24" stroke-width="3"/>`;
+
+  const cutLeft  = s && s.emplacement==='generateur' && s.branchement==='serie';
+  const cutRight = s && s.emplacement==='lampe'      && s.branchement==='serie';
+
+  const leftWire = cutLeft
+    ? `<line x1="70" y1="40" x2="70" y2="65" stroke="#2D5F8A" stroke-width="3"/>
+       <line x1="70" y1="95" x2="70" y2="220" stroke="#2D5F8A" stroke-width="3"/>`
+    : `<line x1="70" y1="40" x2="70" y2="220" stroke="#2D5F8A" stroke-width="3"/>`;
+
+  const rightWire = cutRight
+    ? `<line x1="430" y1="40" x2="430" y2="65" stroke="#2D5F8A" stroke-width="3"/>
+       <line x1="430" y1="95" x2="430" y2="220" stroke="#2D5F8A" stroke-width="3"/>`
+    : `<line x1="430" y1="40" x2="430" y2="220" stroke="#2D5F8A" stroke-width="3"/>`;
+
+  const topWire = `<line x1="70" y1="40" x2="430" y2="40" stroke="#2D5F8A" stroke-width="3"/>`;
+
+  const bottomWire = `<line x1="70" y1="220" x2="430" y2="220" stroke="#2D5F8A" stroke-width="3"/>`;
+
+  // boucles de dérivation (uniquement pour la zone active si c'est une dérivation)
+  let derivationSVG = '';
+  if(s && s.branchement==='derivation'){
+    if(s.emplacement==='generateur'){
+      derivationSVG = `
+        <line x1="70" y1="75"  x2="45" y2="75"  stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="45" y1="75"  x2="45" y2="130" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="70" y1="185" x2="45" y2="185" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="45" y1="185" x2="45" y2="130" stroke="#7B4FA6" stroke-width="2.5"/>
+      `;
+    } else if(s.emplacement==='lampe'){
+      derivationSVG = `
+        <line x1="430" y1="75"  x2="455" y2="75"  stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="455" y1="75"  x2="455" y2="130" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="430" y1="185" x2="455" y2="185" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="455" y1="185" x2="455" y2="130" stroke="#7B4FA6" stroke-width="2.5"/>
+      `;
+    } else if(s.emplacement==='fil'){
+      derivationSVG = `
+        <line x1="200" y1="40" x2="200" y2="70" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="200" y1="70" x2="230" y2="70" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="300" y1="40" x2="300" y2="70" stroke="#7B4FA6" stroke-width="2.5"/>
+        <line x1="300" y1="70" x2="270" y2="70" stroke="#7B4FA6" stroke-width="2.5"/>
+      `;
+    }
+  }
+
+  const ghosts = ZONES.map(z =>
+    `<circle id="ghost-${z.id}" class="zone-ghost" cx="${z.x}" cy="${z.y}" r="26" fill="none" stroke="#7B4FA6" stroke-width="2" stroke-dasharray="4,4"/>`
+  ).join('');
+
+  const homeSlot = `<circle cx="${HOME.x}" cy="${HOME.y}" r="24" fill="none" stroke="#c9c2b0" stroke-width="1.5" stroke-dasharray="3,3"/>`;
+
+  const voltIcon = `
+    <g id="voltIcon" class="volt-icon" transform="translate(${state.pos.x},${state.pos.y})">
+      <circle r="20" fill="#F3EDF9" stroke="#7B4FA6" stroke-width="2.5"/>
+      <text x="0" y="7" text-anchor="middle" font-size="17" font-weight="800" fill="#7B4FA6">V</text>
+    </g>
+  `;
+
+  svg.innerHTML = `
+    ${homeSlot}
+    <text x="${HOME.x}" y="${HOME.y+38}" text-anchor="middle" font-size="10" fill="#9a927f">zone de rangement</text>
+
+    ${bottomWire}
+    ${topWire}
+    ${leftWire}
+    ${rightWire}
+
+    <circle cx="330" cy="220" r="3" fill="#1f2a24"/>
+    <circle cx="390" cy="220" r="3" fill="#1f2a24"/>
+    ${switchLine}
+    <text x="365" y="242" text-anchor="middle" font-size="11" fill="#1f2a24" font-weight="700">K</text>
+
+    <circle cx="70" cy="130" r="20" fill="#fff" stroke="#2D5F8A" stroke-width="2.5"/>
+    <text x="70" y="120" text-anchor="middle" font-size="12" font-weight="800" fill="#2D5F8A">+</text>
+    <text x="70" y="145" text-anchor="middle" font-size="12" font-weight="800" fill="#C0392B">−</text>
+    <text x="70" y="180" text-anchor="middle" font-size="11" fill="#2D5F8A" font-weight="700">Générateur</text>
+
+    <circle cx="430" cy="130" r="26" style="${lampGlow}" stroke="#c9622a" stroke-width="2.5"/>
+    <line x1="412" y1="112" x2="448" y2="148" stroke="#c9622a" stroke-width="2"/>
+    <line x1="412" y1="148" x2="448" y2="112" stroke="#c9622a" stroke-width="2"/>
+    <text x="430" y="176" text-anchor="middle" font-size="11" fill="#c9622a" font-weight="700">Lampe</text>
+
+    ${derivationSVG}
+    ${ghosts}
+    ${voltIcon}
+  `;
+
+  attachDrag();
+}
+
+/* ---------- glisser-déposer ---------- */
+
+function attachDrag(){
+  const icon = document.getElementById('voltIcon');
+  if(icon) icon.addEventListener('pointerdown', onPointerDown);
+}
+
+function svgPoint(evt){
+  const svg = document.getElementById('circuit');
+  const pt = svg.createSVGPoint();
+  pt.x = evt.clientX; pt.y = evt.clientY;
+  const ctm = svg.getScreenCTM().inverse();
+  const loc = pt.matrixTransform(ctm);
+  return {x: loc.x, y: loc.y};
+}
+
+function onPointerDown(evt){
+  evt.preventDefault();
+  state.dragging = true;
+  document.getElementById('circuit').classList.add('dragging');
+  const icon = evt.currentTarget;
+  icon.setPointerCapture(evt.pointerId);
+  icon.addEventListener('pointermove', onPointerMove);
+  icon.addEventListener('pointerup', onPointerUp);
+  icon.addEventListener('pointercancel', onPointerUp);
+}
+
+function onPointerMove(evt){
+  if(!state.dragging) return;
+  const p = svgPoint(evt);
+  state.pos = p;
+  const icon = document.getElementById('voltIcon');
+  icon.setAttribute('transform', `translate(${p.x},${p.y})`);
+
+  let nearest=null, nearestDist=Infinity;
+  for(const z of ZONES){
+    const d = Math.hypot(z.x-p.x, z.y-p.y);
+    if(d<nearestDist){ nearestDist=d; nearest=z; }
+  }
+  const activeZone = nearestDist<=SNAP_RADIUS ? nearest : null;
+
+  document.querySelectorAll('.zone-ghost').forEach(g=>g.classList.remove('near'));
+  if(activeZone){
+    const g = document.getElementById('ghost-'+activeZone.id);
+    if(g) g.classList.add('near');
+  }
+  state.nearestZoneWhileDragging = activeZone;
+}
+
+function onPointerUp(evt){
+  if(!state.dragging) return;
+  state.dragging = false;
+  document.getElementById('circuit').classList.remove('dragging');
+  const icon = evt.currentTarget;
+  icon.removeEventListener('pointermove', onPointerMove);
+  icon.removeEventListener('pointerup', onPointerUp);
+  icon.removeEventListener('pointercancel', onPointerUp);
+
+  const zone = state.nearestZoneWhileDragging;
+  if(zone){
+    state.snapped = {emplacement: zone.emplacement, branchement: zone.branchement};
+    state.pos = {x: zone.x, y: zone.y};
+  } else {
+    state.snapped = null;
+    state.pos = {...HOME};
+  }
+  state.nearestZoneWhileDragging = null;
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

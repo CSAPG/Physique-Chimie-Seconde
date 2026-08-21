@@ -10,6 +10,13 @@
 :root {
   --font-sans: 'Nunito', sans-serif;
   --font-mono: 'DM Mono', 'Courier New', monospace;
+  --bleu: #2D5F8A;
+  --orange: #E8783A;
+  --vert: #3A8A6E;
+  --gris-fond: #F5F7FA;
+  --gris-bord: #DDE3EC;
+  --texte: #1A2A3A;
+  --texte-léger: #5A6B7A;
 }
 html, body {
   margin: 0;
@@ -734,11 +741,11 @@ html, body {
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : L = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
     <div class="input-row">
-      <input type="number" id="a_ans2" placeholder="Ex : 1002">
+      <input type="number" id="a_ans2" placeholder="En kJ">
       <button class="btn btn-start" onclick="checkE2_15()">Valider</button>
     </div>
     <div class="feedback" id="a_fb2"></div>
-    <div class="hint-box" id="a_hint2">Q = 3 × 334 = 1002 kJ → les 3 premiers chiffres → 100</div>
+    <div class="hint-box" id="a_hint2">Utilise Q = m × Lf avec les valeurs données ci-dessus. Le code = les 3 premiers chiffres de Q (sans unité).</div>
     <div class="code-reveal">
       <div class="code-char" id="a_c2_1">_</div>
       <div class="code-char" id="a_c2_2">_</div>
@@ -824,24 +831,115 @@ html, body {
   <div class="enigma-card" id="b_enigme1">
     <div class="enigma-num">Énigme 1 / 6 · ~8 min — Circuit A</div>
     <div class="enigma-title">Le triangle des états</div>
-    <div class="enigma-desc">Les capteurs d'état de la matière sont en panne. Identifiez les 6 changements d'état pour restaurer le circuit A. Chaque bonne réponse révèle une lettre du code d'accès.</div>
+    <div class="enigma-desc">Les capteurs d'état de la matière sont en panne. Glisse chaque étiquette sur la flèche correspondante pour identifier les 6 changements d'état et restaurer le circuit A.</div>
     <span class="tag">solide</span><span class="tag">liquide</span><span class="tag">gazeux</span>
-    <svg viewBox="0 0 340 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:320px;display:block;margin:0 auto 12px;">
-      <polygon points="170,18 28,188 312,188" fill="none" stroke="#EF9F27" stroke-width="1" opacity="0.6"/>
-      <circle cx="170" cy="18" r="18" fill="#1a0800" stroke="#EF9F27" stroke-width="1"/>
-      <text x="170" y="23" text-anchor="middle" font-size="10" fill="#FAC775" font-weight="500" font-family="sans-serif">GAZ</text>
-      <circle cx="28" cy="188" r="18" fill="#001020" stroke="#378ADD" stroke-width="1"/>
-      <text x="28" y="193" text-anchor="middle" font-size="10" fill="#85B7EB" font-weight="500" font-family="sans-serif">SOL.</text>
-      <circle cx="312" cy="188" r="18" fill="#001810" stroke="#1D9E75" stroke-width="1"/>
-      <text x="312" y="193" text-anchor="middle" font-size="10" fill="#9FE1CB" font-weight="500" font-family="sans-serif">LIQ.</text>
-      <text x="82" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → gaz</text>
-      <text x="258" y="98" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → liq</text>
-      <text x="170" y="202" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → sol</text>
-      <text x="84" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">gaz → sol</text>
-      <text x="250" y="126" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">liq → gaz</text>
-      <text x="170" y="182" text-anchor="middle" font-size="9" fill="#888780" font-family="sans-serif">sol → liq</text>
-    </svg>
-    <div id="b_q1Container"></div>
+
+    <p id="tri-consigne" style="text-align:center;font-size:0.82rem;color:var(--orange);font-weight:600;margin-bottom:12px;">Glisse chaque étiquette sur la flèche correspondante ✦</p>
+    <div id="tri-score" style="display:none;text-align:center;margin-bottom:10px;font-size:0.88rem;font-weight:700;color:var(--bleu);"></div>
+
+    <div style="position:relative;width:100%;max-width:520px;margin:0 auto;">
+      <svg id="tri-svg" viewBox="0 0 560 420" style="width:100%;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr-or"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-vt"  markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#3A8A6E"/></marker>
+          <marker id="arr-bl2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+          <marker id="arr-or2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#E8783A"/></marker>
+          <marker id="arr-bl3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2D5F8A"/></marker>
+        </defs>
+
+        <polygon points="280,55 60,365 500,365" fill="#F8F9FB" stroke="#DDE3EC" stroke-width="1"/>
+
+        <line x1="108" y1="358" x2="452" y2="358" stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-vt)"/>
+        <line x1="452" y1="372" x2="108" y2="372" stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl3)"/>
+
+        <text id="txt-fusion" x="280" y="350" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#3A8A6E" opacity="0">Fusion</text>
+        <text id="txt-solidification" x="280" y="385" text-anchor="middle" dominant-baseline="auto"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0">Solidification</text>
+
+        <rect id="zone-fusion"         x="185" y="340" width="190" height="20" rx="3" fill="none" stroke="#3A8A6E" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+        <rect id="zone-solidification" x="185" y="372" width="190" height="18" rx="3" fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"/>
+
+        <line x1="74"  y1="321" x2="262" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or)"
+              transform="translate(-7,0)"/>
+        <line x1="262" y1="75"  x2="74"  y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl)"
+              transform="translate(7,0)"/>
+
+        <text id="txt-sublimation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="-28">Sublimation</tspan>
+        </text>
+        <text id="txt-condensation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(170,210) rotate(-55)">
+          <tspan dy="18">Condensation</tspan>
+        </text>
+
+        <rect id="zone-sublimation"
+          x="-90" y="-40" width="180" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+        <rect id="zone-condensation"
+          x="-100" y="8" width="200" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(170,210) rotate(-55)"/>
+
+        <line x1="486" y1="321" x2="294" y2="75"
+              stroke="#E8783A" stroke-width="2.5" marker-end="url(#arr-or2)"
+              transform="translate(7,0)"/>
+        <line x1="294" y1="75"  x2="486" y2="321"
+              stroke="#2D5F8A" stroke-width="2.5" marker-end="url(#arr-bl2)"
+              transform="translate(-7,0)"/>
+
+        <text id="txt-vaporisation"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#E8783A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="-28">Vaporisation</tspan>
+        </text>
+        <text id="txt-liquefaction"
+          font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2D5F8A" opacity="0"
+          text-anchor="middle" dominant-baseline="auto"
+          transform="translate(390,210) rotate(55)">
+          <tspan dy="18">Liquéfaction</tspan>
+        </text>
+
+        <rect id="zone-vaporisation"
+          x="-85" y="-40" width="170" height="22" rx="3"
+          fill="none" stroke="#E8783A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+        <rect id="zone-liquefaction"
+          x="-80" y="8" width="160" height="22" rx="3"
+          fill="none" stroke="#2D5F8A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.5"
+          transform="translate(390,210) rotate(55)"/>
+
+        <circle cx="280" cy="55"  r="46" fill="#FEF3E2" stroke="#E8783A" stroke-width="2.5"/>
+        <text x="280" y="49"  text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#8A4A10">GAZEUX</text>
+        <text x="280" y="65"  text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#C07030">ex : vapeur d'eau</text>
+
+        <circle cx="60"  cy="365" r="46" fill="#E3EDF7" stroke="#2D5F8A" stroke-width="2.5"/>
+        <text x="60"  y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#1E4A72">SOLIDE</text>
+        <text x="60"  y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A6090">ex : glace</text>
+
+        <circle cx="500" cy="365" r="46" fill="#E8F5F0" stroke="#3A8A6E" stroke-width="2.5"/>
+        <text x="500" y="359" text-anchor="middle" font-family="Outfit,sans-serif" font-size="13" font-weight="700" fill="#2A6B52">LIQUIDE</text>
+        <text x="500" y="375" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#3A8A6E">ex : eau</text>
+      </svg>
+    </div>
+
+    <div id="etiquettes-pool" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px;min-height:44px;padding:10px;background:var(--gris-fond);border-radius:10px;border:1.5px dashed var(--gris-bord);"></div>
+
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+      <button onclick="verifierTriangleB()" style="padding:8px 20px;background:var(--bleu);color:white;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;">Vérifier</button>
+      <button onclick="reinitTriangleB()" style="padding:8px 20px;background:var(--gris-fond);color:var(--texte);border:1.5px solid var(--gris-bord);border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;">Recommencer</button>
+    </div>
+
     <div class="hint-box" id="b_hint1">La sublimation : passage direct solide → gaz (ex : glace carbonique). La condensation solide : gaz → solide directement.</div>
     <div class="code-reveal">
       <div class="code-char" id="b_c1_1">_</div>
@@ -879,11 +977,11 @@ html, body {
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : Lf = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
     <div class="input-row">
-      <input type="number" id="b_ans2" placeholder="Ex : 1002">
+      <input type="number" id="b_ans2" placeholder="En kJ">
       <button class="btn btn-danger" onclick="checkE2_50()">Valider</button>
     </div>
     <div class="feedback" id="b_fb2"></div>
-    <div class="hint-box" id="b_hint2">Q = 3 × 334 = 1002 kJ → les 3 premiers chiffres → 100</div>
+    <div class="hint-box" id="b_hint2">Utilise Q = m × Lf avec les valeurs données ci-dessus. Le code = les 3 premiers chiffres de Q (sans unité).</div>
     <div class="code-reveal">
       <div class="code-char" id="b_c2_1">_</div>
       <div class="code-char" id="b_c2_2">_</div>
@@ -1008,7 +1106,7 @@ html, body {
       <button class="btn btn-danger" onclick="checkE5_50()">Valider</button>
     </div>
     <div class="feedback" id="b_fb5"></div>
-    <div class="hint-box" id="b_hint5">Q = 2 × 2260 = 4520 kJ. Conversion : 4520 kJ ÷ 1000 = 4,52 MJ ≈ 5 MJ (arrondi). Le code est 5.</div>
+    <div class="hint-box" id="b_hint5">Utilise Q = m × Lv avec les valeurs données ci-dessus, puis convertis le résultat en MJ (1 MJ = 1000 kJ) et arrondis à l'entier.</div>
     <div class="code-reveal">
       <div class="code-char" id="b_c5_1">_</div>
     </div>
@@ -1074,11 +1172,11 @@ html, body {
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Avec n = 2 mol et ΔH°diss = +3,9 kJ/mol : ΔH = ? kJ. Le code final = cette valeur sans décimale (arrondi à 0.1 → entrez 7.8 → code = <strong style="color:#EF9F27">8</strong> arrondi à l'entier).</p>
     <div class="input-row">
-      <input type="number" id="b_ans6" placeholder="Ex : 8" step="0.1">
+      <input type="number" id="b_ans6" placeholder="En kJ" step="0.1">
       <button class="btn btn-danger" onclick="checkE6_50()">Code final →</button>
     </div>
     <div class="feedback" id="b_fb6"></div>
-    <div class="hint-box" id="b_hint6">ΔH = 2 × 3,9 = 7,8 kJ. Le signe positif confirme que la dissolution est endothermique. Code = 8 (arrondi à l'entier).</div>
+    <div class="hint-box" id="b_hint6">ΔH = n × ΔH°diss, avec n la quantité de matière (mol) calculée en Partie A. Un ΔH positif signifie une transformation endothermique.</div>
     <div class="nav-row">
       <button class="btn-hint" onclick="toggleHint('b_hint6')">Indice</button>
     </div>
@@ -1188,7 +1286,7 @@ function chooseMode(m) {
     document.getElementById('bgScene15').style.display='none';
     document.getElementById('bgScene50').style.display='block';
     document.getElementById('overlayDark').className='overlay-dark drama';
-    buildE1_50(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
+    reinitTriangleB(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
   }
   currentMode = m;
 }
@@ -1267,7 +1365,7 @@ function resetGame(mode) {
     resetCodeChars50();
     ['b_next1','b_next2','b_next3','b_next4','b_next5'].forEach(id=>document.getElementById(id).style.display='none');
     ['b_fb2','b_fb3','b_fb5','b_fb6','b_fbEq','b_fbEndoExo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-    buildE1_50(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
+    reinitTriangleB(); buildE3_50(); updateCalc50(); updateCalc50v(); updateCalcDH();
     buildGraphQs();
   }
 }
@@ -1358,38 +1456,191 @@ function revealChar15_E1(qi) {
   const el=document.getElementById(ids[qi]); el.textContent=CODE_E1[qi]; el.classList.add('revealed');
 }
 
-function buildE1_50() {
-  const c=document.getElementById('b_q1Container'); c.innerHTML='';
-  const order = shuffleArray(QUESTIONS_E1.map((_,i)=>i));
-  order.forEach(qi=>{
-    const q=QUESTIONS_E1[qi];
-    const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
-    div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
-    const grid=document.createElement('div'); grid.className='triangle-grid';
-    shuffleArray(q.opts).forEach(opt=>{
-      const btn=document.createElement('button'); btn.className='state-btn'; btn.textContent=opt;
-      if(st50.e1Ans[qi]===opt) btn.classList.add(opt===q.ans?'selected':'wrong');
-      btn.onclick=()=>selectE1_50(qi,opt,btn);
-      grid.appendChild(btn);
-    });
-    div.appendChild(grid); c.appendChild(div);
+const TRI_LABELS = [
+  { id: 'fusion',         text: 'Fusion',         color: '#3A8A6E' },
+  { id: 'solidification', text: 'Solidification', color: '#2D5F8A' },
+  { id: 'vaporisation',   text: 'Vaporisation',   color: '#E8783A' },
+  { id: 'liquefaction',   text: 'Liquéfaction',   color: '#2D5F8A' },
+  { id: 'sublimation',    text: 'Sublimation',    color: '#E8783A' },
+  { id: 'condensation',   text: 'Condensation',   color: '#2D5F8A' }
+];
+const CODE_MAP_TRI_B = {
+  fusion:         { id: 'b_c1_1', letter: 'F' },
+  vaporisation:   { id: 'b_c1_2', letter: 'U' },
+  sublimation:    { id: 'b_c1_3', letter: 'A' },
+  liquefaction:   { id: 'b_c1_4', letter: 'G' },
+  solidification: { id: 'b_c1_5', letter: 'S' },
+  condensation:   { id: 'b_c1_6', letter: 'C' }
+};
+let triStateB = {};
+
+function buildEtiquettesB() {
+  const pool = document.getElementById('etiquettes-pool');
+  if (!pool) return;
+  pool.innerHTML = '';
+  const shuffled = shuffleArray(TRI_LABELS);
+  shuffled.forEach(lab => {
+    if (triStateB[lab.id] === lab.id) return; // déjà correctement placée
+    const btn = document.createElement('button');
+    btn.id = 'etiq-' + lab.id;
+    btn.textContent = lab.text;
+    btn.dataset.labelId = lab.id;
+    btn.style.cssText = `
+      padding:6px 14px;
+      background:${lab.color}18;
+      border:2px solid ${lab.color};
+      border-radius:20px;
+      font-family:'Outfit',sans-serif;
+      font-size:0.84rem;
+      font-weight:700;
+      color:${lab.color};
+      cursor:grab;
+      touch-action:none;
+      user-select:none;
+    `;
+    btn.addEventListener('mousedown', startDragB);
+    btn.addEventListener('touchstart', startDragB, {passive:false});
+    pool.appendChild(btn);
   });
-}
-function selectE1_50(qi,chosen,btn) {
-  if(st50.e1Ans[qi]) return;
-  st50.e1Ans[qi]=chosen;
-  if(chosen===QUESTIONS_E1[qi].ans){
-    btn.classList.add('selected');
-    revealChar50_E1(qi); st50.e1Score++;
-    if(st50.e1Score===6) setTimeout(()=>document.getElementById('b_next1').style.display='inline-block',300);
-  } else {
-    btn.classList.add('wrong');
-    setTimeout(()=>{btn.classList.remove('wrong');st50.e1Ans[qi]=null;},500);
+  if (pool.children.length === 0) {
+    pool.innerHTML = '<span style="font-size:0.82rem;color:var(--texte-léger);font-style:italic;">Toutes les étiquettes sont placées !</span>';
   }
 }
-function revealChar50_E1(qi) {
-  const ids=['b_c1_1','b_c1_2','b_c1_3','b_c1_4','b_c1_5','b_c1_6'];
-  const el=document.getElementById(ids[qi]); el.textContent=CODE_E1[qi]; el.classList.add('revealed');
+
+let dragElB = null, dragIdB = null, ghostElB = null;
+
+function startDragB(e) {
+  e.preventDefault();
+  const btn = e.currentTarget;
+  dragIdB = btn.dataset.labelId;
+  const lab = TRI_LABELS.find(l => l.id === dragIdB);
+  ghostElB = document.createElement('div');
+  ghostElB.textContent = btn.textContent;
+  ghostElB.style.cssText = `
+    position:fixed;pointer-events:none;z-index:9999;
+    padding:6px 14px;
+    background:${lab.color};
+    border-radius:20px;
+    font-family:'Outfit',sans-serif;font-size:0.84rem;font-weight:700;
+    color:white;opacity:0.92;
+    transform:translate(-50%,-50%);
+  `;
+  document.body.appendChild(ghostElB);
+  moveGhostB(e);
+  document.addEventListener('mousemove', moveGhostB);
+  document.addEventListener('mouseup', endDragB);
+  document.addEventListener('touchmove', moveGhostB, {passive:false});
+  document.addEventListener('touchend', endDragB);
+}
+
+function moveGhostB(e) {
+  if (!ghostElB) return;
+  const pt = e.touches ? e.touches[0] : e;
+  ghostElB.style.left = pt.clientX + 'px';
+  ghostElB.style.top = pt.clientY + 'px';
+}
+
+function endDragB(e) {
+  document.removeEventListener('mousemove', moveGhostB);
+  document.removeEventListener('mouseup', endDragB);
+  document.removeEventListener('touchmove', moveGhostB);
+  document.removeEventListener('touchend', endDragB);
+
+  if (ghostElB) { ghostElB.remove(); ghostElB = null; }
+  if (!dragIdB) return;
+
+  const pt = e.changedTouches ? e.changedTouches[0] : e;
+  const svg = document.getElementById('tri-svg');
+  const rect = svg.getBoundingClientRect();
+  const scaleX = 560 / rect.width;
+  const scaleY = 420 / rect.height;
+  const svgX = (pt.clientX - rect.left) * scaleX;
+  const svgY = (pt.clientY - rect.top) * scaleY;
+
+  let dropped = detectZoneB(svgX, svgY);
+  if (dropped) {
+    triStateB[dragIdB] = dropped;
+    afficherEtiquetteB(dragIdB, dragIdB === dropped);
+    buildEtiquettesB();
+  }
+  dragIdB = null;
+}
+
+function toLocalCoordsB(px, py, cx, cy, forwardAngleDeg) {
+  const rad = -forwardAngleDeg * Math.PI / 180;
+  const dx = px - cx, dy = py - cy;
+  const cos = Math.cos(rad), sin = Math.sin(rad);
+  return { x: dx * cos - dy * sin, y: dx * sin + dy * cos };
+}
+
+function detectZoneB(x, y) {
+  if (x >= 185 && x <= 375) {
+    if (y >= 340 && y <= 360) return 'fusion';
+    if (y >= 372 && y <= 390) return 'solidification';
+  }
+  const left = toLocalCoordsB(x, y, 170, 210, -55);
+  if (left.x >= -90 && left.x <= 90 && left.y >= -40 && left.y <= -18) return 'sublimation';
+  if (left.x >= -100 && left.x <= 100 && left.y >= 8 && left.y <= 30) return 'condensation';
+  const right = toLocalCoordsB(x, y, 390, 210, 55);
+  if (right.x >= -85 && right.x <= 85 && right.y >= -40 && right.y <= -18) return 'vaporisation';
+  if (right.x >= -80 && right.x <= 80 && right.y >= 8 && right.y <= 30) return 'liquefaction';
+  return null;
+}
+
+function afficherEtiquetteB(labelId, estCorrect) {
+  const txtEl = document.getElementById('txt-' + labelId);
+  if (!txtEl) return;
+  const correct = (estCorrect === undefined) ? true : estCorrect;
+  txtEl.setAttribute('opacity', '1');
+  txtEl.setAttribute('fill', correct ? TRI_LABELS.find(l=>l.id===labelId).color : '#C0392B');
+}
+
+function verifierTriangleB() {
+  let bon = 0, total = Object.keys(triStateB).length;
+  if (total === 0) {
+    document.getElementById('tri-score').textContent = 'Place au moins une étiquette !';
+    document.getElementById('tri-score').style.display = 'block';
+    return;
+  }
+  Object.entries(triStateB).forEach(([placed, zone]) => {
+    const ok = placed === zone;
+    const txtEl = document.getElementById('txt-' + placed);
+    if (txtEl) {
+      txtEl.setAttribute('fill', ok ? TRI_LABELS.find(l=>l.id===placed).color : '#C0392B');
+      txtEl.setAttribute('opacity', '1');
+    }
+    if (ok) {
+      bon++;
+      const codeInfo = CODE_MAP_TRI_B[placed];
+      const el = document.getElementById(codeInfo.id);
+      if (el && !el.classList.contains('revealed')) {
+        el.textContent = codeInfo.letter;
+        el.classList.add('revealed');
+      }
+    }
+  });
+  const scoreEl = document.getElementById('tri-score');
+  scoreEl.style.display = 'block';
+  if (bon === 6) {
+    scoreEl.style.color = 'var(--vert)';
+    scoreEl.textContent = "✓ Parfait ! Les 6 changements d'état sont correctement placés.";
+    document.getElementById('tri-consigne').textContent = '✓ Circuit A restauré !';
+    setTimeout(()=>document.getElementById('b_next1').style.display='inline-block',300);
+  } else {
+    scoreEl.style.color = 'var(--orange)';
+    scoreEl.textContent = bon + '/6 correct' + (bon > 1 ? 's' : '') + ' — les étiquettes en rouge sont à corriger.';
+  }
+}
+
+function reinitTriangleB() {
+  triStateB = {};
+  TRI_LABELS.forEach(lab => {
+    const el = document.getElementById('txt-' + lab.id);
+    if (el) el.setAttribute('opacity', '0');
+  });
+  document.getElementById('tri-score').style.display = 'none';
+  document.getElementById('tri-consigne').textContent = 'Glisse chaque étiquette sur la flèche correspondante ✦';
+  buildEtiquettesB();
 }
 
 // ===================== ENIGME 2 — Q=mL =====================

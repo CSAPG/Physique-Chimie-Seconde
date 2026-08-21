@@ -308,7 +308,7 @@ html, body {
 .affirmation-item { background: rgba(30,42,56,0.04); border: 0.5px solid rgba(30,42,56,0.1); border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; }
 .affirmation-text { font-size: 13px; color: #3A3530; margin-bottom: 8px; line-height: 1.5; }
 .vf-btns { display: flex; gap: 6px; }
-.vf-btn { flex: 1; padding: 5px; border: 0.5px solid rgba(30,42,56,0.12); border-radius: 5px; background: rgba(30,42,56,0.04); color: rgba(30,42,56,0.4); cursor: pointer; font-size: 12px; font-family: var(--font-sans); transition: all 0.2s; }
+.vf-btn { flex: 1; padding: 5px; border: 0.5px solid rgba(30,42,56,0.12); border-radius: 5px; background: rgba(30,42,56,0.04); color: #4A4A45; font-weight: 500; cursor: pointer; font-size: 12px; font-family: var(--font-sans); transition: all 0.2s; }
 .vf-btn.selected-V { background: rgba(29,158,117,0.2); border-color: #1D9E75; color: #157A5C; font-weight: 500; }
 .vf-btn.selected-F { background: rgba(226,75,74,0.15); border-color: #E24B4A; color: #C0392B; font-weight: 500; }
 
@@ -703,7 +703,7 @@ html, body {
     <div class="enigma-title">Rétablir l'alimentation en eau</div>
     <div class="enigma-desc">La chaudière n'est plus alimentée en eau. Entrez le code de sécurité (température d'ébullition de l'eau, en °C, sous pression atmosphérique) pour déverrouiller les pompes, puis activez-les dans le bon ordre pour restaurer le débit.</div>
     <div class="resource-frame-wrap" style="border-radius:10px;overflow:hidden;border:1px solid rgba(30,42,56,0.15);margin-bottom:12px;">
-      <iframe src="escape-game/control_panel_interface.html" style="width:100%;height:560px;border:none;display:block;" loading="lazy" title="Panneau de contrôle — Alimentation en eau"></iframe>
+      <iframe src="escape-game/control_panel_interface.html" style="width:100%;height:900px;border:none;display:block;" loading="lazy" title="Panneau de contrôle — Alimentation en eau"></iframe>
     </div>
     <div class="hint-box" id="a_hint1">La température de vaporisation (ébullition) de l'eau à pression atmosphérique est bien connue : c'est une valeur à 3 chiffres, en °C.</div>
     <div class="nav-row">
@@ -722,15 +722,15 @@ html, body {
       <p>Ajustez les curseurs pour explorer :</p>
       <div class="slider-row">
         <label>Masse m (kg)</label>
-        <input type="range" min="1" max="10" step="1" value="3" id="a_slMasse" oninput="updateCalc15()">
-        <span class="slider-val" id="a_valMasse">3 kg</span>
+        <input type="range" min="1" max="10" step="1" value="5" id="a_slMasse" oninput="updateCalc15()">
+        <span class="slider-val" id="a_valMasse">5 kg</span>
       </div>
       <div class="slider-row">
         <label>Lf (kJ/kg)</label>
-        <input type="range" min="100" max="500" step="50" value="334" id="a_slLf" oninput="updateCalc15()">
-        <span class="slider-val" id="a_valLf">334 kJ/kg</span>
+        <input type="range" min="100" max="500" step="1" value="200" id="a_slLf" oninput="updateCalc15()">
+        <span class="slider-val" id="a_valLf">200 kJ/kg</span>
       </div>
-      <div class="calc-result" id="a_calcResult">1002 kJ</div>
+      <div class="calc-result" id="a_calcResult">1000 kJ</div>
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : L = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
     <div class="input-row">
@@ -867,15 +867,15 @@ html, body {
       <p>Simulateur de fusion — ajustez et observez :</p>
       <div class="slider-row">
         <label>Masse m (kg)</label>
-        <input type="range" min="1" max="10" step="1" value="3" id="b_slMasse" oninput="updateCalc50()">
-        <span class="slider-val" id="b_valMasse">3 kg</span>
+        <input type="range" min="1" max="10" step="1" value="5" id="b_slMasse" oninput="updateCalc50()">
+        <span class="slider-val" id="b_valMasse">5 kg</span>
       </div>
       <div class="slider-row">
         <label>Lf (kJ/kg)</label>
-        <input type="range" min="100" max="500" step="50" value="334" id="b_slLf" oninput="updateCalc50()">
-        <span class="slider-val" id="b_valLf">334 kJ/kg</span>
+        <input type="range" min="100" max="500" step="1" value="200" id="b_slLf" oninput="updateCalc50()">
+        <span class="slider-val" id="b_valLf">200 kJ/kg</span>
       </div>
-      <div class="calc-result" id="b_calcResult">1002 kJ</div>
+      <div class="calc-result" id="b_calcResult">1000 kJ</div>
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Pour la glace : Lf = 334 kJ/kg, m = 3 kg. Le code = les 3 premiers chiffres de Q.</p>
     <div class="input-row">
@@ -992,15 +992,15 @@ html, body {
       <p>Simulateur — explorez les valeurs :</p>
       <div class="slider-row">
         <label>Masse m (kg)</label>
-        <input type="range" min="1" max="8" step="0.5" value="2" id="b_slMasse5" oninput="updateCalc50v()">
-        <span class="slider-val" id="b_valMasse5">2 kg</span>
+        <input type="range" min="1" max="8" step="0.5" value="4" id="b_slMasse5" oninput="updateCalc50v()">
+        <span class="slider-val" id="b_valMasse5">4 kg</span>
       </div>
       <div class="slider-row">
         <label>Lv (kJ/kg)</label>
-        <input type="range" min="1800" max="2700" step="100" value="2260" id="b_slLv5" oninput="updateCalc50v()">
-        <span class="slider-val" id="b_valLv5">2260 kJ/kg</span>
+        <input type="range" min="1800" max="2700" step="10" value="2000" id="b_slLv5" oninput="updateCalc50v()">
+        <span class="slider-val" id="b_valLv5">2000 kJ/kg</span>
       </div>
-      <div class="calc-result" id="b_calcResult5">4520 kJ = <span id="b_calcMJ5">5</span> MJ</div>
+      <div class="calc-result" id="b_calcResult5">8000 kJ = <span id="b_calcMJ5">8</span> MJ</div>
     </div>
     <p style="font-size:12px;color:#888780;margin-bottom:10px;">Avec m = 2 kg et Lv = 2 260 kJ/kg : Q = ? kJ = ? MJ. Le code = la valeur entière en MJ.</p>
     <div class="input-row">
@@ -1123,10 +1123,19 @@ const QUESTIONS_E1 = [
 ];
 const CODE_E1 = ["F","U","A","G","S","C"];
 
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 const AFFIRMATIONS = [
   { text:"La fusion est une transformation endothermique (le solide absorbe de l'énergie pour fondre).", ans:true },
   { text:"Lors d'un changement d'état à pression constante, la température varie durant la transformation.", ans:false },
-  { text:"La vaporisation nécessite un apport d'énergie thermique.", ans:true },
+  { text:"La vaporisation est un phénomène exothermique (elle libère de l'énergie).", ans:false },
   { text:"La solidification libère de l'énergie dans le milieu extérieur (exothermique).", ans:true }
 ];
 
@@ -1316,11 +1325,13 @@ function goEnigme50(n) {
 // ===================== ENIGME 1 — Triangle =====================
 function buildE1_15() {
   const c=document.getElementById('a_q1Container'); if(!c) return; c.innerHTML='';
-  QUESTIONS_E1.forEach((q,qi)=>{
+  const order = shuffleArray(QUESTIONS_E1.map((_,i)=>i));
+  order.forEach(qi=>{
+    const q=QUESTIONS_E1[qi];
     const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
     div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
     const grid=document.createElement('div'); grid.className='triangle-grid';
-    q.opts.forEach(opt=>{
+    shuffleArray(q.opts).forEach(opt=>{
       const btn=document.createElement('button'); btn.className='state-btn'; btn.textContent=opt;
       if(st15.e1Ans[qi]===opt) btn.classList.add(opt===q.ans?'selected':'wrong');
       btn.onclick=()=>selectE1_15(qi,opt,btn);
@@ -1349,11 +1360,13 @@ function revealChar15_E1(qi) {
 
 function buildE1_50() {
   const c=document.getElementById('b_q1Container'); c.innerHTML='';
-  QUESTIONS_E1.forEach((q,qi)=>{
+  const order = shuffleArray(QUESTIONS_E1.map((_,i)=>i));
+  order.forEach(qi=>{
+    const q=QUESTIONS_E1[qi];
     const div=document.createElement('div'); div.style.cssText='margin-bottom:10px;';
     div.innerHTML='<p style="font-size:12px;color:#888780;margin-bottom:5px;"><strong style="color:#D3D1C7">'+q.q+'</strong> → ?</p>';
     const grid=document.createElement('div'); grid.className='triangle-grid';
-    q.opts.forEach(opt=>{
+    shuffleArray(q.opts).forEach(opt=>{
       const btn=document.createElement('button'); btn.className='state-btn'; btn.textContent=opt;
       if(st50.e1Ans[qi]===opt) btn.classList.add(opt===q.ans?'selected':'wrong');
       btn.onclick=()=>selectE1_50(qi,opt,btn);

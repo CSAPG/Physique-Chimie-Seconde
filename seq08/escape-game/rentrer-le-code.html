@@ -192,6 +192,8 @@
                 displayEl.textContent = "ACCÈS AUTORISÉ";
                 keypad.style.pointerEvents = "none"; // Désactive les boutons
                 keypad.style.opacity = "0.5";
+                // Prévient la page parente (escape game) que le code final est validé
+                window.parent.postMessage({ type: 'final-code-accepted' }, '*');
             } else {
                 // Code incorrect
                 displayEl.style.color = "#f00";

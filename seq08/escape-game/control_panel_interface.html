@@ -27,9 +27,9 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
-            overflow: hidden; /* Prevent scrolling for app-like feel */
+            overflow-y: auto; /* Permet de faire défiler si le contenu dépasse la hauteur de l'iframe */
         }
 
         .dashboard {
@@ -435,6 +435,7 @@
 
             <div class="control-group">
                 <h3>CONTRÔLE POMPES</h3>
+                <p style="font-size: 0.78rem; color: var(--accent-yellow); margin-top:0;">⚠ Activez P1 en premier, puis P2 — un mauvais ordre déclenche une erreur.</p>
                 <div class="switch-container">
                     <span>Pompe Primaire (P1)</span>
                     <label class="toggle-switch">
@@ -524,6 +525,7 @@
                 logMessage("Code de sécurité accepté.", "success");
                 logMessage("Vannes de sécurité déverrouillées.", "info");
                 logMessage("Autorisation de démarrage des pompes accordée.", "warn");
+                logMessage("⚠ Activez d'abord la Pompe Primaire (P1), puis la Pompe Secondaire (P2).", "warn");
                 
                 // Remove overlay and enable switches
                 overlay.style.display = "none";
@@ -621,6 +623,8 @@
                 // Show a final message to the students
                 setTimeout(() => {
                     alert("Félicitations ! L'alimentation en eau est rétablie.\nLa chaudière peut redémarrer. La production d'électricité va reprendre.\n\nCode validé pour la suite du jeu !");
+                    // Prévient la page parente (escape game) que ce panneau est résolu
+                    window.parent.postMessage({ type: 'panel-complete' }, '*');
                 }, 1000);
             } else {
                 logMessage("Pompes à l'arrêt. Aucun débit.", "info");
